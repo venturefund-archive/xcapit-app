@@ -17,6 +17,7 @@ import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fi
 import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 import { StorageAsset } from '../../interfaces/storage-asset.interface';
 import { Mnemonic } from 'ethers/lib/utils';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('WalletMaintenanceService', () => {
   let service: WalletMaintenanceService;
@@ -28,6 +29,7 @@ describe('WalletMaintenanceService', () => {
   let ethersServiceSpy: jasmine.SpyObj<EthersService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   const testMnemonic: Mnemonic = {
     locale: 'en',
@@ -195,6 +197,10 @@ describe('WalletMaintenanceService', () => {
         createFrom: Promise.resolve(),
       }),
     });
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(true),
+      set: Promise.resolve(),
+    });
     TestBed.configureTestingModule({
       imports: [],
       declarations: [],
@@ -207,6 +213,7 @@ describe('WalletMaintenanceService', () => {
         { provide: EthersService, useValue: ethersServiceSpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
     });
     service = TestBed.inject(WalletMaintenanceService);
@@ -344,9 +351,26 @@ describe('WalletMaintenanceService', () => {
   });
   
   it('should migrate tokens structure if user has a wallet with old structure', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
     service.encryptedWallet = JSON.parse(JSON.stringify(testOldEncryptedWallet));
     walletEncryptionServiceSpy.getEncryptedWallet.and.resolveTo(testOldEncryptedWallet);
     await service.checkTokensStructure();
     expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(testEncryptedWallet);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('tokens_structure_migrated',true);
+  });
+  
+  it('should not migrate tokens structure if already was migrated', async () => {
+    await service.checkTokensStructure();
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledTimes(0);
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledOnceWith('tokens_structure_migrated');
+  });
+  
+  it('should not migrate tokens structure if is a new wallet', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
+    walletEncryptionServiceSpy.getEncryptedWallet.and.resolveTo(testEncryptedWallet);
+    await service.checkTokensStructure();
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledTimes(0);
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledOnceWith('tokens_structure_migrated');
   });
 });
