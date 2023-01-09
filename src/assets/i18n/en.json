@@ -1823,7 +1823,8 @@
       },
       "transaction_in_progress": {
         "badge": "In progress",
-        "swap_title": "Swap"
+        "swap_title": "Swap",
+        "send_title": "Send"
       }
     },
     "select_coin": {

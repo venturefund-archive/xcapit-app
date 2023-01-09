@@ -122,8 +122,9 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
         >
         </app-backup-information-card>
       </div>
-      <div class="wt__transaction-in-progress" *ngIf="this.swapInProgress">
+      <div class="wt__transaction-in-progress" *ngIf="this.hasOperationsInProgress">
         <app-transaction-in-progress-card transactionType="swap"></app-transaction-in-progress-card>
+        <app-transaction-in-progress-card transactionType="send"></app-transaction-in-progress-card>
       </div>
       <div class="wt">
         <div class="wt__segments">
@@ -223,7 +224,7 @@ export class HomeWalletPage implements OnInit {
   newTokens: NewToken[];
   connected: boolean;
   allLoaded = false;
-  swapInProgress = false;
+  hasOperationsInProgress = false;
   private subscription$: Subscription;
 
   constructor(
@@ -278,8 +279,9 @@ export class HomeWalletPage implements OnInit {
   }
 
   async suscribeToSwapInProgress() {
+    // TODO: Replicate this for send
     this.subscription$ = this.swapInProgressService.inProgress().subscribe((inProgress) => {
-      this.swapInProgress = inProgress;
+      this.hasOperationsInProgress = inProgress;
     });
   }
 
