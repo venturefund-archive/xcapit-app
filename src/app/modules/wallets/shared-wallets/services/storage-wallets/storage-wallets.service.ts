@@ -60,7 +60,7 @@ export class StorageService {
     return wallets.addresses;
   }
 
-  async getAssestsSelected(): Promise<Coin[]> {
+  async getAssetsSelected(): Promise<Coin[]> {
     this.coins = this.apiWalletService.getCoins();
     const wallets = await this.getWalletFromStorage();
     let userCoins = [];

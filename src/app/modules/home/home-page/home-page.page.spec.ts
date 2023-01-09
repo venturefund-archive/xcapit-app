@@ -104,7 +104,7 @@ describe('HomePage', () => {
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getNetworks: ['MATIC'] });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getAssestsSelected: Promise.resolve([rawETHData, rawMATICData]),
+      getAssetsSelected: Promise.resolve([rawETHData, rawMATICData]),
       getWalletsAddresses: Promise.resolve('0x00001'),
     });
 
@@ -194,7 +194,7 @@ describe('HomePage', () => {
     await fixture.whenStable();
     component.ionViewDidLeave();
     expect(walletServiceSpy.walletExist).toHaveBeenCalledTimes(1);
-    expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
+    expect(storageServiceSpy.getAssetsSelected).toHaveBeenCalledTimes(1);
     expect(component.balance).toEqual(10);
     expect(balanceCacheServiceSpy.total).toHaveBeenCalledTimes(1);
     expect(balanceCacheServiceSpy.updateTotal).toHaveBeenCalledTimes(1);

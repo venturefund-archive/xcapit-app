@@ -56,7 +56,7 @@ describe('ReceiveSelectCurrencyPage', () => {
     navControllerSpy = fakeNavController.createSpy();
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getAssestsSelected: Promise.resolve(coins),
+      getAssetsSelected: Promise.resolve(coins),
     });
     TestBed.configureTestingModule({
       declarations: [ReceiveSelectCurrencyPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
@@ -109,7 +109,7 @@ describe('ReceiveSelectCurrencyPage', () => {
   it('should show no-active-tokens-card component when storage has no coins', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve([]));
+    storageServiceSpy.getAssetsSelected.and.returnValue(Promise.resolve([]));
     await fixture.whenStable();
 
     const cardEl = fixture.debugElement.query(By.css('app-no-active-tokens-card'))

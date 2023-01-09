@@ -129,7 +129,7 @@ export class LoginNewPage {
     private notificationsService: NotificationsService,
     private authService: AuthService,
     private walletConnectService: WalletConnectService,
-    private appSession: AppSessionInjectable
+    private appSession: AppSessionInjectable,
   ) {}
 
   async ionViewWillEnter() {

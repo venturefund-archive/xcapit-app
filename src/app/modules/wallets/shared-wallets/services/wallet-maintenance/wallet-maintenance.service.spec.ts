@@ -17,6 +17,7 @@ import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fi
 import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 import { StorageAsset } from '../../interfaces/storage-asset.interface';
 import { Mnemonic } from 'ethers/lib/utils';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('WalletMaintenanceService', () => {
   let service: WalletMaintenanceService;
@@ -28,6 +29,7 @@ describe('WalletMaintenanceService', () => {
   let ethersServiceSpy: jasmine.SpyObj<EthersService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   const testMnemonic: Mnemonic = {
     locale: 'en',
@@ -70,7 +72,19 @@ describe('WalletMaintenanceService', () => {
       { value: 'ETH', network: 'ERC20' },
       { value: 'USDT', network: 'ERC20' },
     ],
-  }
+  };
+
+  const testOldEncryptedWallet = {
+    alias: 'test',
+    createdAt: '11-11-11',
+    updatedAt: '11-11-11',
+    network: 'testnet',
+    addresses: {
+      ERC20: 'testAddress',
+      RSK: 'testAddress',
+    },
+    assets: { ETH: true, DAI: false, USDT: true },
+  };
 
   const updateResultWallet: StorageWallet = {
     alias: 'test',
@@ -87,7 +101,7 @@ describe('WalletMaintenanceService', () => {
       { value: 'RBTC', network: 'RSK' },
       { value: 'RSK', network: 'RSK' },
     ],
-  }
+  };
 
   const testCoins: Coin[] = [
     {
@@ -99,6 +113,16 @@ describe('WalletMaintenanceService', () => {
       chainId: 42,
       rpc: 'http://testrpc.test/',
       native: true,
+    },
+    {
+      id: 3,
+      name: 'USDT - Tether',
+      logoRoute: 'assets/img/coins/USDT.svg',
+      value: 'USDT',
+      network: 'ERC20',
+      chainId: 42,
+      rpc: 'http://testrpc.test/',
+      decimals: 6,
     },
     {
       id: 6,
@@ -120,6 +144,18 @@ describe('WalletMaintenanceService', () => {
       rpc: 'http://testrpc.text/',
       decimals: 18,
       native: true,
+    },
+    {
+      id: 26,
+      name: 'DAI - DAI',
+      logoRoute: 'assets/img/coins/DAI.png',
+      value: 'DAI',
+      network: 'MATIC',
+      chainId: 80001,
+      rpc: 'http://testrpc.text/',
+      decimals: 18,
+      symbol: 'USDTDAI',
+      canInvest: true,
     },
   ];
 
@@ -143,7 +179,7 @@ describe('WalletMaintenanceService', () => {
     });
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       saveWalletToStorage: Promise.resolve(),
-      getAssestsSelected: Promise.resolve([testCoins[0]]),
+      getAssetsSelected: Promise.resolve([testCoins[0]]),
     });
     walletServiceSpy = jasmine.createSpyObj('WalletService', {
       createForDerivedPath: { address: 'testResultAddress' },
@@ -161,6 +197,10 @@ describe('WalletMaintenanceService', () => {
         createFrom: Promise.resolve(),
       }),
     });
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(true),
+      set: Promise.resolve(),
+    });
     TestBed.configureTestingModule({
       imports: [],
       declarations: [],
@@ -173,6 +213,7 @@ describe('WalletMaintenanceService', () => {
         { provide: EthersService, useValue: ethersServiceSpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
     });
     service = TestBed.inject(WalletMaintenanceService);
@@ -189,7 +230,7 @@ describe('WalletMaintenanceService', () => {
   });
 
   it('should call getWalletNewNetworks and set newNetworks on getNewNetworks', () => {
-    service.encryptedWallet = jasmine.createSpyObj('Wallet', {}, { addresses: {}});
+    service.encryptedWallet = jasmine.createSpyObj('Wallet', {}, { addresses: {} });
     service.getNewNetworks();
     expect(apiWalletServiceSpy.getWalletNewNetworks).toHaveBeenCalledTimes(1);
     expect(service.newNetworks).toEqual(['ERC20']);
@@ -224,7 +265,7 @@ describe('WalletMaintenanceService', () => {
   it('should get wallet assets from local storage on getUserAssests', async () => {
     const coins = await service.getUserAssets();
     expect(coins).toEqual([testCoins[0]]);
-    expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
+    expect(storageServiceSpy.getAssetsSelected).toHaveBeenCalledTimes(1);
   });
 
   it('should return true if user has coin on userHasCoin', () => {
@@ -307,5 +348,29 @@ describe('WalletMaintenanceService', () => {
     walletEncryptionServiceSpy.getEncryptedWallet.and.resolveTo(testWallet);
     await service.updateTokensStorage(testTokens);
     expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(testWallet);
+  });
+  
+  it('should migrate tokens structure if user has a wallet with old structure', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    service.encryptedWallet = JSON.parse(JSON.stringify(testOldEncryptedWallet));
+    walletEncryptionServiceSpy.getEncryptedWallet.and.resolveTo(testOldEncryptedWallet);
+    await service.checkTokensStructure();
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(testEncryptedWallet);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('tokens_structure_migrated',true);
+  });
+  
+  it('should not migrate tokens structure if already was migrated', async () => {
+    await service.checkTokensStructure();
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledTimes(0);
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledOnceWith('tokens_structure_migrated');
+  });
+  
+  it('should not migrate tokens structure if is a new wallet', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
+    walletEncryptionServiceSpy.getEncryptedWallet.and.resolveTo(testEncryptedWallet);
+    await service.checkTokensStructure();
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledTimes(0);
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledOnceWith('tokens_structure_migrated');
   });
 });

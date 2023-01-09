@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Wallet } from 'ethers';
-import moment from 'moment';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageAsset } from '../../interfaces/storage-asset.interface';
 import { StorageWallet } from '../../interfaces/storage-wallet.interface';
@@ -30,13 +29,11 @@ export class WalletMaintenanceService {
   }
 
   constructor(
-    private walletMnemonicService: WalletMnemonicService,
     private apiWalletService: ApiWalletService,
     private walletEncryptionService: WalletEncryptionService,
     private storageService: StorageService,
     private ethersService: EthersService,
-    private walletsFactory: WalletsFactory,
-    private blockchainsFactory: BlockchainsFactory
+    private ionicStorageService: IonicStorageService
   ) {}
 
   async getEncryptedWalletFromStorage(): Promise<void> {
@@ -89,6 +86,28 @@ export class WalletMaintenanceService {
     this.wipeDataFromService();
   }
 
+  async checkTokensStructure(): Promise<void> {
+    const alreadyMigrated = await this.ionicStorageService.get('tokens_structure_migrated')
+    if(!alreadyMigrated){
+      await this.getEncryptedWalletFromStorage();
+      if (this.encryptedWallet && !Array.isArray(this.encryptedWallet?.assets)) {
+        const selectedAssets = Object.keys(this.encryptedWallet.assets).filter(
+          (asset) => this.encryptedWallet.assets[asset]
+        );
+        const coins = this.apiWalletService.getCoins();
+        this.encryptedWallet.assets = [];
+        for (const asset of selectedAssets) {
+          const { value, network } = coins.find((c) => c.value === asset);
+          this.addCoinLocally({ value, network });
+        }
+        await this.ionicStorageService.set('tokens_structure_migrated', true);
+        return this.saveWalletToStorage();
+      }else{
+        await this.ionicStorageService.set('tokens_structure_migrated', true);
+      }
+    }
+  }
+
   wipeDataFromService() {
     this._wallet = undefined;
     this.encryptedWallet = undefined;
@@ -97,7 +116,7 @@ export class WalletMaintenanceService {
   }
 
   async getUserAssets(): Promise<Coin[]> {
-    return this.storageService.getAssestsSelected();
+    return this.storageService.getAssetsSelected();
   }
 
   userHasCoin(coin: Coin | StorageAsset): boolean {

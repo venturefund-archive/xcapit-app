@@ -432,7 +432,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   private async setUserTokens(): Promise<void> {
-    this.userTokens = await this.storageService.getAssestsSelected();
+    this.userTokens = await this.storageService.getAssetsSelected();
   }
 
   async isProtectedWallet() {
