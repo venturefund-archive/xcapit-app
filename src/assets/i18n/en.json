@@ -1652,23 +1652,23 @@
       "header": "Receive",
       "title": "Select the currency you want to receive"
     },
-    "experimental_onboarding":{
-      "titile":"Welcome to {{username}} 🚀",
-      "init_wallet":"Init wallet",
+    "experimental_onboarding": {
+      "titile": "Welcome to {{username}} 🚀",
+      "init_wallet": "Init wallet",
       "complete_steps": "1 of 2 steps complete",
-      "next_step":"next step",
+      "next_step": "next step",
       "progress": "Your progress",
       "completed": "completado",
-      "steps":{
-        "step_one":{
+      "steps": {
+        "step_one": {
           "title": "buy tokens",
           "subtitle": "USDC at the best price."
         },
-        "step_two":{
+        "step_two": {
           "title": "Or, deposit",
           "subtitle": "Add USDC from other wallet."
         },
-        "step_three":{
+        "step_three": {
           "title": "Creación de wallet"
         }
       }
@@ -2019,7 +2019,6 @@
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"
       },
-
       "address_input_card": {
         "scan_error": "Error scanning QR code",
         "placeholder": "Press and hold to paste",
@@ -2030,7 +2029,8 @@
         "title": "Enter your password",
         "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
         "submit_button_text": "Accept",
-        "input_label": "Password"
+        "input_label": "Password",
+        "biometric_auth_button": "Use biometric data"
       },
       "wallet_password_small": {
         "title": "For security",
