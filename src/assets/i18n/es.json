@@ -691,7 +691,7 @@
     "biometric_auth": {
       "header": "Datos biométricos",
       "toggle_text": "Datos biométricos",
-      "toggle_description": "Actívalos para ingresar rápidamente.",
+      "toggle_description": "Actívalos para ingresar a tu wallet y aprobar tus transacciones.",
       "password_title": "Tu seguridad nos importa",
       "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
       "password_button": "Confirmar",
@@ -1645,23 +1645,23 @@
       "header": "Recibir",
       "title": "Selecciona la moneda que quieres recibir"
     },
-    "experimental_onboarding":{
-      "title":"Bienvenido {{username}} 🚀",
-      "init_wallet":"Iniciar wallet",
+    "experimental_onboarding": {
+      "title": "Bienvenido {{username}} 🚀",
+      "init_wallet": "Iniciar wallet",
       "complete_steps": "1 de 2 pasos completos",
-      "next_step":"Proximo paso",
+      "next_step": "Proximo paso",
       "progress": "Tu progreso",
       "completed": "completed",
-      "steps":{
-        "step_one":{
+      "steps": {
+        "step_one": {
           "title": "Comprar tokens",
           "subtitle": "USDC al mejor precio."
         },
-        "step_two":{
+        "step_two": {
           "title": "O, deposita",
           "subtitle": "Añade USDC desde otra wallet."
         },
-        "step_three":{
+        "step_three": {
           "title": "Creación de wallet"
         }
       }

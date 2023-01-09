@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -90,7 +90,7 @@ export class SecurityConfigurationPage {
     private biometricAuthInjectable: BiometricAuthInjectable,
     private formBuilder: UntypedFormBuilder,
     private toastService: ToastService,
-    private loginBiometricActivationService: LoginBiometricActivationModalService,
+    private loginBiometricActivationService: LoginBiometricActivationModalService
   ) {}
 
   async ionViewDidEnter() {
@@ -100,16 +100,16 @@ export class SecurityConfigurationPage {
   }
 
   ionViewDidLeave() {
-    this.valueChangesSubscription$.unsubscribe()
+    this.valueChangesSubscription$.unsubscribe();
   }
-  
+
   private async setBiometricAuth() {
     this.form.patchValue({ biometric: await this.biometricAuthInjectable.create().enabled() });
   }
 
   private valueChanges() {
-    this.valueChangesSubscription$ = this.form.valueChanges.subscribe((value) =>  {
-      this.toggle(value.biometric)
+    this.valueChangesSubscription$ = this.form.valueChanges.subscribe((value) => {
+      this.toggle(value.biometric);
     });
   }
 
@@ -133,7 +133,7 @@ export class SecurityConfigurationPage {
   async toggle(value: boolean) {
     const biometricAuth = this.biometricAuthInjectable.create();
     biometricAuth.onNeedPass().subscribe(() => {
-      return this.requestPassword()
+      return this.requestPassword();
     });
     if (value) {
       await biometricAuth.on().catch((err) => {
