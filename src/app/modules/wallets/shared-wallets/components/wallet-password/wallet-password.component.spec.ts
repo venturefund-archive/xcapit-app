@@ -48,7 +48,6 @@ describe('WalletPasswordComponent', () => {
     fixture = TestBed.createComponent(WalletPasswordComponent);
     component = fixture.componentInstance;
     component.state = 'test_state';
-    // fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
