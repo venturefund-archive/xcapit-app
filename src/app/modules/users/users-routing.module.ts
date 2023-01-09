@@ -75,8 +75,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./account-recovery-info/account-recovery-info.module').then((m) => m.AccountRecoveryInfoPageModule),
       },
+      {
+        path: 'terms-and-conditions',
+        loadChildren: () => import('./terms-and-conditions/terms-and-conditions.module').then( m => m.TermsAndConditionsPageModule)
+      },
     ],
   },
+
 ];
 
 @NgModule({

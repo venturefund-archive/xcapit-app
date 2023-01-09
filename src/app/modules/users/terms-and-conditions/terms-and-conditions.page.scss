@@ -1,0 +1,34 @@
+:host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  .tac {
+    --padding-top: 24px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+
+    &__button-back {
+      ion-icon {
+        height: 24px;
+        width: 24px;
+      }
+    }
+
+    &__card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    &__providers {
+      ion-text {
+        color: var(--ion-color-primary);
+      }
+
+      margin-top: 24px;
+      margin-bottom: 4px;
+    }
+  }
+}

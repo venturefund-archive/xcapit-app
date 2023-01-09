@@ -626,6 +626,20 @@
       "category_help": "Help",
       "faq_help": "Frequently asked questions",
       "support_help": "Talk to support",
+      "terms_and_conditions": {
+        "providers": "Providers",
+        "tyc": "Terms and conditions",
+        "privacy_policy": "Privacy policy",
+        "kripton": {
+          "title": "Kripton Market"
+        },
+        "inch": {
+          "title": "Inch"
+        },
+        "2pi": {
+          "title": "2pi"
+        }
+      },
       "community": "Join our community",
       "category_security_account": "Security Xcapit account",
       "change_pass": "Password Change",
