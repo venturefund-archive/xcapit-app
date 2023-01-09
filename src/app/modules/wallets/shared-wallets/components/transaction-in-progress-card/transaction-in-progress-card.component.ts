@@ -16,6 +16,7 @@ import { Transaction } from '../../types/transaction.type';
           </div>
         </div>
       </div>
+      <!-- TODO: Add hour -->
     </ion-item>
   `,
   styleUrls: ['./transaction-in-progress-card.component.scss'],

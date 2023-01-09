@@ -247,7 +247,8 @@ describe('HomeWalletPage', () => {
     expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
   });
 
-  it('should unsubscribe on ionViewWillLeave ', async () => {
+  it('should unsubscribe on ionViewWillLeave', async () => {
+    // TODO: Add loop.
     const spy = spyOn(component, 'unsubscribe').and.callThrough();
     await component.ionViewWillEnter();
     await component.ionViewWillLeave();
@@ -435,4 +436,9 @@ describe('HomeWalletPage', () => {
     expect(iconEl).toBeTruthy();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/connection-detail');
   });
+
+  // TODO: Test this.
+  it('should render operations in progress if there is a swap and a send pending');
+
+  it('should not render operations in progress if there are no tx in progress');
 });
