@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync, discardPeriodicTasks } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TokenDetailPage } from './token-detail.page';
@@ -46,10 +46,10 @@ import { FakePrices } from '../shared-wallets/models/prices/fake-prices/fake-pri
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { SpyProperty } from 'src/testing/spy-property.spec';
-
+import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
+import { of } from 'rxjs';
 
 describe('TokenDetailPage', () => {
-
   let component: TokenDetailPage;
   let fixture: ComponentFixture<TokenDetailPage>;
 
@@ -71,6 +71,7 @@ describe('TokenDetailPage', () => {
   let tokenPricesFactorySpy: jasmine.SpyObj<TokenPricesController>;
   let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
+  let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(waitForAsync(() => {
@@ -150,7 +151,13 @@ describe('TokenDetailPage', () => {
         quoteSymbol: 'USD',
       }
     );
+
     tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailInjectable', { create: tokenDetailSpy });
+
+    refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
+      isAvailable: true,
+      lock: of(),
+    });
 
     TestBed.configureTestingModule({
       declarations: [TokenDetailPage, FormattedAmountPipe, SplitStringPipe, FormattedNetworkPipe],
@@ -170,6 +177,7 @@ describe('TokenDetailPage', () => {
         { provide: CovalentBalancesController, useValue: covalentBalancesFactorySpy },
         { provide: TokenPricesController, useValue: tokenPricesFactorySpy },
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
+        { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -257,4 +265,32 @@ describe('TokenDetailPage', () => {
       'invest',
     ]);
   });
+
+  it('should reload transfers when refresher is triggered', fakeAsync(() => {
+    const eventMock = { target: { complete: jasmine.createSpy('complete') } };
+    const spy = spyOn(component, 'getTransfers').and.callThrough();
+    component.ionViewWillEnter();
+    tick();
+    fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
+    tick(1000);
+    tick();
+
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
+    expect(refreshTimeoutServiceSpy.lock).toHaveBeenCalledTimes(1);
+    discardPeriodicTasks();
+  }));
+
+  it('should not reload transfers when refresher is not available', fakeAsync(() => {
+    refreshTimeoutServiceSpy.isAvailable.and.returnValue(false);
+    const eventMock = { target: { complete: jasmine.createSpy('complete') } };
+    const spy = spyOn(component, 'getTransfers');
+    tick();
+    fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
+    tick(1000);
+
+    expect(spy).not.toHaveBeenCalled();
+    expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
+    expect(refreshTimeoutServiceSpy.lock).not.toHaveBeenCalled();
+  }));
 });

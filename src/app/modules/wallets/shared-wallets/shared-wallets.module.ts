@@ -30,6 +30,7 @@ import { TransactionInProgressCardComponent } from './components/transaction-in-
 import { SwiperModule } from 'swiper/angular';
 import { HomeSlidesComponent } from './components/home-slides/home-slides.component';
 import { InitiationWalletStepCardComponent } from './components/initiation-wallet-step-card/initiation-wallet-step-card.component';
+import { WalletTransactionSkeletonCardComponent } from './components/wallet-transaction-card/wallet-transaction-skeleton-card/wallet-transaction-skeleton-card.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { InitiationWalletStepCardComponent } from './components/initiation-walle
     TransactionInProgressCardComponent,
     HomeSlidesComponent,
     InitiationWalletStepCardComponent,
+    WalletTransactionSkeletonCardComponent,
   ],
   imports: [SharedModule, SwiperModule],
   exports: [
@@ -95,6 +97,7 @@ import { InitiationWalletStepCardComponent } from './components/initiation-walle
     TransactionInProgressCardComponent,
     HomeSlidesComponent,
     InitiationWalletStepCardComponent,
+    WalletTransactionSkeletonCardComponent,
   ],
 })
 export class SharedWalletsModule {}
