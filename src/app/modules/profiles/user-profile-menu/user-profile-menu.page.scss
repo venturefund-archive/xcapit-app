@@ -62,4 +62,26 @@
       color: var(--ion-color-neutral90);
     }
   }
+
+  .version {
+    &__content {
+      display: flex;
+      justify-content: space-between;
+      margin: 30px 10px 0;
+
+      &__text {
+        color: var(--ion-color-neutral50);
+      }
+    }
+
+    &__update {
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 10px;
+
+      &__text {
+        text-decoration: none;
+      }
+    }
+  }
 }

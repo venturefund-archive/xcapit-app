@@ -645,6 +645,8 @@
       "category_contacts": "Wallets list",
       "delete_account_button": "Delete account",
       "delete_account_message": "I request the deletion of my account and associated data. Wallet: {{wallet}}",
+      "version": "Version",
+      "update": "Update",
       "profile_footer": {
         "investor_profile_button": "Investor profile"
       },
