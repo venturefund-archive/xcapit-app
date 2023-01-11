@@ -653,6 +653,8 @@
       "category_contacts": "Agenda de wallets",
       "delete_account_button": "Eliminar cuenta",
       "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma. Wallet: {{wallet}}",
+      "version": "Versión",
+      "update": "Actualizar",
       "profile_footer": {
         "investor_profile_button": "Perfil de inversor"
       },

@@ -20,6 +20,10 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { UpdateAppService } from 'src/app/shared/services/update-app/update-app.service';
+import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
+import { AppUpdate, AppUpdateAvailability } from '@capawesome/capacitor-app-update';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -101,6 +105,19 @@ import { takeUntil } from 'rxjs/operators';
           <ion-icon color="dangerdark" slot="start" name="ux-trash"></ion-icon>
         </ion-button>
       </div>
+      <div class="version" *ngIf="this.isNative">
+        <div class=" version__content">
+          <img class="version__content__img" src="assets/img/logo-xcapit-grey.svg" />
+          <ion-text class="version__content__text ux-font-text-xs" color="neutral50"
+            >{{ 'profiles.user_profile_menu.version' | translate }} {{ this.actualVersion }}</ion-text
+          >
+        </div>
+        <div class="version__update" *ngIf="this.showButton">
+          <ion-text name="Update" class="version__update__text ux-link-xs" (click)="updateApp()">{{
+            'profiles.user_profile_menu.update' | translate
+          }}</ion-text>
+        </div>
+      </div>
     </ion-content>
   `,
   styleUrls: ['./user-profile-menu.page.scss'],
@@ -116,6 +133,10 @@ export class UserProfileMenuPage {
   private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
   leave$ = new Subject<void>();
+  appUpdate = AppUpdate;
+  actualVersion: string;
+  showButton: boolean;
+  isNative: boolean;
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -132,7 +153,10 @@ export class UserProfileMenuPage {
     private biometricAuthInjectable: BiometricAuthInjectable,
     private remoteConfig: RemoteConfigService,
     private formBuilder: FormBuilder,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private appVersionService: AppVersionInjectable,
+    private updateAppService: UpdateAppService,
+    private platform: PlatformService
   ) {}
 
   async ionViewWillEnter() {
@@ -143,6 +167,11 @@ export class UserProfileMenuPage {
     await this.setPushNotifications();
     this.valueChanges();
     this.walletConnectStatus();
+    this.isNative = this.platform.isNative();
+    if (this.isNative) {
+      this.getActualVersion();
+      this.checkUpdate();
+    }
   }
 
   async setPushNotifications() {
@@ -295,6 +324,23 @@ export class UserProfileMenuPage {
 
   goToDeleteAccount() {
     this.navController.navigateForward('profiles/delete-account');
+  }
+
+  async getActualVersion() {
+    this.actualVersion = await this.appVersionService.create().current();
+  }
+
+  async checkUpdate() {
+    const updateAvailability = (await this.appUpdate.getAppUpdateInfo()).updateAvailability;
+    if (updateAvailability === AppUpdateAvailability.UPDATE_AVAILABLE) {
+      this.showButton = true;
+    } else {
+      this.showButton = false;
+    }
+  }
+
+  updateApp() {
+    this.updateAppService.update();
   }
 
   ionViewWillLeave() {
