@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
   onLangChange: Subscription = undefined;
   statusBar = StatusBar;
   session: AppSession;
-  expirationTime: number;
   app = App;
 
   constructor(
