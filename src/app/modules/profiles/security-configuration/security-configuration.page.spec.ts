@@ -1,7 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync, tick } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-
 import { SecurityConfigurationPage } from './security-configuration.page';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -15,6 +14,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { of } from 'rxjs';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
+import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
 
 fdescribe('SecurityConfigurationPage', () => {
   let component: SecurityConfigurationPage;
@@ -76,7 +76,7 @@ fdescribe('SecurityConfigurationPage', () => {
     fixture.detectChanges();
     component.biometricValueChangesSubscription$ = of({}).subscribe();
     component.inactivityValueChangesSubscription$ = of({}).subscribe();
-    passwordSpy = spyOn(component, 'checkPassword').and.resolveTo(true);
+    passwordSpy = spyOn(LoginToken.prototype, 'valid').and.resolveTo(true);
   }));
 
   it('should create', () => {
