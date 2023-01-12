@@ -29,10 +29,15 @@
       &__disclaimer {
         margin-left: 40px;
         margin-top: 8px;
+
+        ion-text {
+          color: var(--ion-color-neutral80);
+        }
       }
     }
 
     &__link {
+      padding-top: 4px;
       display: flex;
       justify-content: center;
       margin-bottom: 35px;
