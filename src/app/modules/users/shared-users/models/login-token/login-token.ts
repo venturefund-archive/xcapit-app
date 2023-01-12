@@ -10,6 +10,7 @@ export class LoginToken {
   ) {}
 
   public async valid(): Promise<boolean> {
+    console.log('login-token entered valid()')
     return (await this._storedHash()) === this._hash();
   }
 

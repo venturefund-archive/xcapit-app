@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
+import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
 import { LoginBiometricActivationModalService } from '../../users/shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
 import { WalletPasswordComponent } from '../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
 
@@ -44,7 +47,7 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
             slot="end"
           ></ion-toggle>
         </ion-item>
-        <ion-item lines="none" class="sco__inactivity ux-font-title-xs ion-no-padding" *ngIf="this.isInactivityEnabled">
+        <ion-item lines="none" class="sco__inactivity ux-font-title-xs ion-no-padding">
           <div class="sco__inactivity__labels">
             <ion-text class=" ux-font-text-lg">
               {{ 'profiles.security_configuration.inactivity.title' | translate }}
@@ -52,6 +55,34 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
             <ion-text class="ux-font-text-base">
               {{ 'profiles.security_configuration.inactivity.message' | translate }}
             </ion-text>
+            <div class="sco__inactivity__radio-group">
+              <ion-radio-group formControlName="inactivity">
+                <div class="container">
+                  <ion-item class="ux-font-text-base">
+                    <ion-label>{{ 'profiles.security_configuration.inactivity.option_1' | translate }}</ion-label>
+                    <ion-radio name="never" mode="md" slot="start" value="999999"></ion-radio>
+                  </ion-item>
+                </div>
+                <div class="container">
+                  <ion-item class="ux-font-text-base">
+                    <ion-label>{{ 'profiles.security_configuration.inactivity.option_2' | translate }}</ion-label>
+                    <ion-radio name="always" mode="md" slot="start" value="0"></ion-radio>
+                  </ion-item>
+                </div>
+                <div class="container">
+                  <ion-item class="ux-font-text-base">
+                    <ion-label>{{ 'profiles.security_configuration.inactivity.option_3' | translate }}</ion-label>
+                    <ion-radio name="2minutes" mode="md" slot="start" value="2"></ion-radio>
+                  </ion-item>
+                </div>
+                <div class="container">
+                  <ion-item class="ux-font-text-base">
+                    <ion-label>{{ 'profiles.security_configuration.inactivity.option_4' | translate }}</ion-label>
+                    <ion-radio name="5minutes" mode="md" slot="start" value="5"></ion-radio>
+                  </ion-item>
+                </div>
+              </ion-radio-group>
+            </div>
           </div>
         </ion-item>
         <ion-item lines="none" class="sco__password-change ux-font-title-xs ion-no-padding">
@@ -77,11 +108,12 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
 })
 export class SecurityConfigurationPage {
   isBioAuthEnabled = false;
-  isInactivityEnabled = false;
   valueChangesSubscription$: Subscription;
   form: UntypedFormGroup = this.formBuilder.group({
     biometric: [false, []],
+    inactivity: ['', []],
   });
+  previousInactivity: string;
   constructor(
     private modalController: ModalController,
     private translate: TranslateService,
@@ -90,10 +122,13 @@ export class SecurityConfigurationPage {
     private biometricAuthInjectable: BiometricAuthInjectable,
     private formBuilder: UntypedFormBuilder,
     private toastService: ToastService,
-    private loginBiometricActivationService: LoginBiometricActivationModalService
+    private loginBiometricActivationService: LoginBiometricActivationModalService,
+    private appExpirationTimeService: AppExpirationTimeService,
+    private storage: IonicStorageService
   ) {}
 
   async ionViewDidEnter() {
+    await this.getExpirationSessionTime();
     await this.setBiometricAuth();
     this.biometricAuthAvailable();
     this.valueChanges();
@@ -110,17 +145,41 @@ export class SecurityConfigurationPage {
   private valueChanges() {
     this.valueChangesSubscription$ = this.form.valueChanges.subscribe((value) => {
       this.toggle(value.biometric);
+      this.selectSessionExpirationTime(value.inactivity);
+      console.log('valueChanges triggered')
     });
   }
 
-  private async requestPassword() {
+  async selectSessionExpirationTime(mode) {
+    const password = await this.requestPassword('profiles.biometric_auth.alternative_password_description');
+    try {
+      console.log('checking radio status')
+      if (await this.checkPassword(password)) {
+        console.log('password is correct!')
+        this.appExpirationTimeService.set(parseInt(mode));
+      } else {
+        console.log('password is incorrect!')
+        this.showErrorToast();
+        this.form.patchValue({ inactivity: this.previousInactivity }, { emitEvent: false });
+      }
+    } catch (err) {
+      if (new PasswordErrorMsgs().isEmptyError(err)) {
+        this.form.patchValue({ inactivity: this.previousInactivity }, { emitEvent: false });
+        console.log('password is null!')
+      }
+    } finally {
+      this.previousInactivity = this.form.value.inactivity;
+    }    
+  }
+
+  private async requestPassword(description: string) {
     const modal = await this.modalController.create({
       component: WalletPasswordComponent,
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
         state: 'biometric',
         title: this.translate.instant('profiles.biometric_auth.password_title'),
-        description: this.translate.instant('profiles.biometric_auth.password_description'),
+        description: this.translate.instant(description),
         submitButtonText: this.translate.instant('profiles.biometric_auth.password_button'),
         disclaimer: '',
       },
@@ -131,9 +190,10 @@ export class SecurityConfigurationPage {
   }
 
   async toggle(value: boolean) {
+    console.log('checking toggle status')
     const biometricAuth = this.biometricAuthInjectable.create();
     biometricAuth.onNeedPass().subscribe(() => {
-      return this.requestPassword();
+      return this.requestPassword('profiles.biometric_auth.password_description');
     });
     if (value) {
       await biometricAuth.on().catch((err) => {
@@ -166,5 +226,20 @@ export class SecurityConfigurationPage {
     if (await this.biometricAuthInjectable.create().available()) {
       this.isBioAuthEnabled = this.remoteConfig.getFeatureFlag('ff_bioauth');
     }
+  }
+
+  async getExpirationSessionTime(): Promise<void> {
+    const expirationTime = await this.appExpirationTimeService.get();
+    this.form.patchValue({ inactivity: this._expirationValue(expirationTime) }, { emitEvent: false });
+    this.previousInactivity = this.form.value.inactivity;
+  }
+
+  private _expirationValue(storageValue: number) {
+    return storageValue.toString();
+  }
+
+  public checkPassword(password: Password): Promise<boolean> {
+    console.log('checkPassword triggered')
+    return new LoginToken(password, this.storage).valid()
   }
 }

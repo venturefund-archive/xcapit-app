@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   onLangChange: Subscription = undefined;
   statusBar = StatusBar;
   session: AppSession;
+  expirationTime: number;
   app = App;
 
   constructor(
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
     private storage: IonicStorageService,
     private trackedWalletAddressInjectable: TrackedWalletAddressInjectable,
     private capacitorAppInjectable: CapacitorAppInjectable,
-    private appSessionInjectable: AppSessionInjectable
+    private appSessionInjectable: AppSessionInjectable,
   ) {}
 
   ngOnInit() {
@@ -72,6 +73,7 @@ export class AppComponent implements OnInit {
   }
 
   private initializeApp() {
+    console.log('app initialization')
     this._setSession();
     this.checkForUpdate();
     this.walletBackupService.getBackupWarningWallet();
@@ -84,7 +86,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private _setSession() {
+  private async _setSession() {
     this.session = this.appSessionInjectable.create();
   }
 
@@ -104,9 +106,11 @@ export class AppComponent implements OnInit {
 
   setBackgroundActions() {
     const capacitorApp = this.capacitorAppInjectable.create();
+    //isActive: Chequea que la app este en primer plano
     capacitorApp.onStateChange(({ isActive }) => {
       if(isActive) this.isSessionValid();
     });
+    //onPause: onStateChange + isActive + Bajar la pestaña del celular es detectado por onPause
     capacitorApp.onPause( () => {
       this.session.save();
     });
