@@ -54,9 +54,10 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           {{ this.helpText }}
         </ion-label>
         <ion-button
+          *appFeatureFlag="'ff_address_list'"
           [ngStyle]="{ display: this.showContactsPicker ? 'block' : 'none' }"
           [disabled]="!this.hasContacts"
-          (click)="onContacts()"
+          (click)="this.onContacts()"
           class="ux-link-xl aic__content__contact-button"
           expand="block"
           appTrackClick

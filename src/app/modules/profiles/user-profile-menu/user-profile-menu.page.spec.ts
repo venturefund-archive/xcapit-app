@@ -267,6 +267,7 @@ describe('UserProfileMenuPage', () => {
     fixture = TestBed.createComponent(UserProfileMenuPage);
     component = fixture.componentInstance;
     component.appUpdate = appUpdateSpy;
+    component.itemMenu = itemMenu;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fixture.detectChanges();
   }));
@@ -322,7 +323,7 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should get data of users when ionViewWillEnter is called', async () => {
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     await fixture.whenStable();
     expect(component.profile).toEqual(profile);
   });
@@ -379,7 +380,6 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should render app-card-category-menu component', () => {
-    component.itemMenu = itemMenu;
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
@@ -399,14 +399,13 @@ describe('UserProfileMenuPage', () => {
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('profiles/delete-account');
   });
-  
+
   it('should set username on enter', async () => {
     await component.ionViewWillEnter();
     expect(component.username).toEqual('Xcapiter 0x012');
   });
 
   it('should show biometric auth item when bio auth is enabled', async () => {
-    component.itemMenu = itemMenu;
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
 
     await component.ionViewWillEnter();
@@ -419,7 +418,6 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should hide biometric auth item when bio auth is disabled', async () => {
-    component.itemMenu = itemMenu;
     await component.ionViewWillEnter();
 
     const biometricAuthItem = component.itemMenu
@@ -430,7 +428,6 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should navigate to support page when clicking ux_go_to_contact_support', () => {
-    component.itemMenu = JSON.parse(JSON.stringify(itemMenu));
     fixture.detectChanges();
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -445,24 +442,23 @@ describe('UserProfileMenuPage', () => {
     expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should show contacts category when contacts is enabled', async () => {
-    component.itemMenu = itemMenu;
+  it('should show address list category when feature flag is enabled', async () => {
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
 
     await component.ionViewWillEnter();
 
     const contactListItem = component.itemMenu.find((category) => category.id === 'contacts');
 
-    expect(contactListItem.showCategory).toBeFalse();
+    expect(contactListItem.showCategory).toBeTrue();
   });
 
-  it('should hide contacts category when contacts is not enabled', async () => {
-    component.itemMenu = itemMenu;
+  it('should hide address list category when feature flag is not enabled', async () => {
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
     await component.ionViewWillEnter();
 
     const contactListItem = component.itemMenu.find((category) => category.id === 'contacts');
 
-    expect(contactListItem.showCategory).toBeTrue();
+    expect(contactListItem.showCategory).toBeFalse();
   });
 
   it('should show button if update available', async () => {
@@ -485,12 +481,12 @@ describe('UserProfileMenuPage', () => {
     const button = fixture.debugElement.query(By.css('ion-text[name="Update"]'));
     expect(button).toBeFalsy();
   });
-  
+
   it('should get actaul version on init', async () => {
     await component.ionViewWillEnter();
     expect(appVersionInjectableSpy.create).toHaveBeenCalledTimes(1);
   });
-  
+
   it('should update app when button is available and is clicked', async () => {
     component.isNative = true;
     component.showButton = true;

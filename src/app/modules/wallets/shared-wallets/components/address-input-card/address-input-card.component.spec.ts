@@ -11,6 +11,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 import { FormattedNetworkPipe } from 'src/app/shared/pipes/formatted-network-name/formatted-network.pipe';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { FakeFeatureFlagDirective } from '../../../../../../testing/fakes/feature-flag-directive.fake.spec';
 
 describe('AddressInputCardComponent', () => {
   let component: AddressInputCardComponent;
@@ -49,7 +50,12 @@ describe('AddressInputCardComponent', () => {
       showToast: () => Promise.resolve(),
     };
     TestBed.configureTestingModule({
-      declarations: [AddressInputCardComponent, UxInputUnderlinedComponent, FormattedNetworkPipe],
+      declarations: [
+        AddressInputCardComponent,
+        UxInputUnderlinedComponent,
+        FormattedNetworkPipe,
+        FakeFeatureFlagDirective,
+      ],
       imports: [IonicModule, ReactiveFormsModule, TranslateModule.forRoot()],
       providers: [
         { provide: ToastService, useValue: toastServiceMock },
@@ -81,7 +87,7 @@ describe('AddressInputCardComponent', () => {
         role: 'success',
       }
     );
-    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened',null);
+    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened', null);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.form.value.address).toBe('testAddress');
@@ -90,7 +96,7 @@ describe('AddressInputCardComponent', () => {
   it('should not render address and show toast on qr code scanned error', async () => {
     const spy = spyOn(toastService, 'showToast').and.callThrough();
     fakeModalController.modifyReturns({}, { data: 'errorData', role: 'error' });
-    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened',null);
+    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened', null);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.form.value.address).toBe('');
@@ -106,7 +112,7 @@ describe('AddressInputCardComponent', () => {
         role: 'unauthorized',
       }
     );
-    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened',null);
+    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened', null);
     tick();
     fixture.detectChanges();
     expect(component.form.value.address).toBe('');
