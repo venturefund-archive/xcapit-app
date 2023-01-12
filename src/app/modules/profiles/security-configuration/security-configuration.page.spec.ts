@@ -16,7 +16,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
 import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
 
-fdescribe('SecurityConfigurationPage', () => {
+describe('SecurityConfigurationPage', () => {
   let component: SecurityConfigurationPage;
   let fixture: ComponentFixture<SecurityConfigurationPage>;
   let fakeNavController: FakeNavController;
