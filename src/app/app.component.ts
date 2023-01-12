@@ -21,6 +21,7 @@ import { AppSession } from './shared/models/app-session/app-session';
 import { CapacitorAppInjectable } from './shared/models/capacitor-app/injectable/capacitor-app.injectable';
 import { AppSessionInjectable } from './shared/models/app-session/injectable/app-session.injectable';
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
 
 @Component({
   selector: 'app-root',
@@ -57,7 +58,8 @@ export class AppComponent implements OnInit {
     private trackedWalletAddressInjectable: TrackedWalletAddressInjectable,
     private capacitorAppInjectable: CapacitorAppInjectable,
     private appSessionInjectable: AppSessionInjectable,
-    private walletMaintenanceService: WalletMaintenanceService
+    private walletMaintenanceService: WalletMaintenanceService,
+    private dynamicLinkInjectable: DynamicLinkInjectable
   ) {}
 
   ngOnInit() {
@@ -87,7 +89,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private async checkAssetsStructure(){
+  private async checkAssetsStructure() {
     this.walletMaintenanceService.checkTokensStructure();
   }
 
@@ -112,9 +114,9 @@ export class AppComponent implements OnInit {
   setBackgroundActions() {
     const capacitorApp = this.capacitorAppInjectable.create();
     capacitorApp.onStateChange(({ isActive }) => {
-      if(isActive) this.isSessionValid();
+      if (isActive) this.isSessionValid();
     });
-    capacitorApp.onPause( () => {
+    capacitorApp.onPause(() => {
       this.session.save();
     });
   }
@@ -131,21 +133,18 @@ export class AppComponent implements OnInit {
   }
 
   dynamicLinks(event) {
-    if (!event.url.includes('/links/wc')) {
-      const dynamicLinkURL = event.url.split('app.xcapit.com/').pop();
-      if (dynamicLinkURL) this.navController.navigateForward(dynamicLinkURL);
-    }
+    this.dynamicLinkInjectable.create(event.url).redirect();
   }
 
   async walletConnectDeepLinks(event) {
     let url = event.url.split('?uri=').pop();
 
     if (url) {
-      url = (url.includes('wc%3A') || url.includes('wc%3a')) ? decodeURIComponent(url) : url;
+      url = url.includes('wc%3A') || url.includes('wc%3a') ? decodeURIComponent(url) : url;
 
       if (url.includes('wc:')) {
         this.walletConnectService.setUri(url);
-        
+
         if (await new LoggedIn(this.storage).value()) {
           this.walletConnectService.checkDeeplinkUrl();
         }
