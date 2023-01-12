@@ -22,4 +22,8 @@ describe('FakeCapacitorApp', () => {
   it('on pause', () => {
     expect(fakeCapacitorApp.onPause(() => {})).toBeUndefined();
   });
+
+  it('on app url open', () => {
+    expect(fakeCapacitorApp.onAppUrlOpen(() => {})).toBeUndefined();
+  });
 });

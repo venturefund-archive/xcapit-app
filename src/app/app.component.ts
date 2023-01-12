@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@capacitor/status-bar';
 import { PlatformService } from './shared/services/platform/platform.service';
 import { CONFIG } from './config/app-constants.config';
-import { App, URLOpenListenerEvent } from '@capacitor/app';
+import { URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
@@ -22,6 +22,7 @@ import { CapacitorAppInjectable } from './shared/models/capacitor-app/injectable
 import { AppSessionInjectable } from './shared/models/app-session/injectable/app-session.injectable';
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
+import { CapacitorApp } from './shared/models/capacitor-app/capacitor-app.interface';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,7 @@ export class AppComponent implements OnInit {
   onLangChange: Subscription = undefined;
   statusBar = StatusBar;
   session: AppSession;
-  app = App;
+  app: CapacitorApp;
 
   constructor(
     private platform: Platform,
@@ -76,6 +77,7 @@ export class AppComponent implements OnInit {
   }
 
   private initializeApp() {
+    this.setCapacitorApp();
     this._setSession();
     this.checkAssetsStructure();
     this.checkForUpdate();
@@ -87,6 +89,10 @@ export class AppComponent implements OnInit {
       this.localNotificationsService.init();
       this.trackUserWalletAddress();
     });
+  }
+
+  private setCapacitorApp() {
+    this.app = this.capacitorAppInjectable.create();
   }
 
   private async checkAssetsStructure() {
@@ -102,7 +108,7 @@ export class AppComponent implements OnInit {
     await this.walletConnectService.retrieveWalletConnect();
 
     if (this.platformService.isNative()) {
-      this.app.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      this.app.onAppUrlOpen((event: URLOpenListenerEvent) => {
         this.zone.run(async () => {
           this.walletConnectDeepLinks(event);
           this.dynamicLinks(event);
@@ -112,11 +118,10 @@ export class AppComponent implements OnInit {
   }
 
   setBackgroundActions() {
-    const capacitorApp = this.capacitorAppInjectable.create();
-    capacitorApp.onStateChange(({ isActive }) => {
+    this.app.onStateChange(({ isActive }) => {
       if (isActive) this.isSessionValid();
     });
-    capacitorApp.onPause(() => {
+    this.app.onPause(() => {
       this.session.save();
     });
   }
