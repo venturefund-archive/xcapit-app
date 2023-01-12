@@ -183,11 +183,12 @@ describe('AppComponent', () => {
     expect(appSessionSpy.save).toHaveBeenCalledTimes(1);
   });
 
-  it('should validate session when state is active and session is valid', async () => {
+  it('should validate session when state is active and session is valid', fakeAsync( () => {
     component.ngOnInit();
-    await fixture.whenStable();
+    tick();
     expect(appSessionSpy.valid).toHaveBeenCalledTimes(1);
-  });
+    discardPeriodicTasks();
+  }));
 
   it('should validate session when state is active and session is invalid', fakeAsync(() => {
     appSessionSpy.valid.and.returnValue(Promise.resolve(false));

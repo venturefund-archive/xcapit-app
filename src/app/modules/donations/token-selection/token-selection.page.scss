@@ -4,14 +4,21 @@
     border-bottom-right-radius: 8px;
   }
 
-  .sdsd {
+  .dts {
     &__step_counter {
       margin-right: 13px;
       color: var(--ion-color-white);
     }
-  }
 
-  .ux_button {
-    margin-top: 24px;
+    &__button_back {
+      ion-icon {
+        height: 24px;
+        width: 24px;
+      }
+    }
+
+    &__title {
+      padding: 12px 17px 12px 0;
+    }
   }
 }

@@ -23,8 +23,10 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
               >{{ this.badge | translate }}
             </ion-badge>
           </div>
-          <div class="dc__content__card__information__icon-text" *ngIf="this.tokenLogo">
-            <img class="dc__content__card__image__img" [src]="this.tokenLogo" alt="Product Image" />
+          <div class="dc__content__card__information__receive">
+            <div class="dc__content__card__information__logos" *ngIf="this.tokenLogos">
+              <img *ngFor="let logo of this.tokenLogos" class="dc__content__card__image__img" [src]="this.logo" alt="Product Image" />
+            </div>
             <ion-text class="ux-font-text-xxs" color="neutral80">{{
               'donations.description_cause.info.receive' | translate
             }}</ion-text>
@@ -59,16 +61,19 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 export class CauseInfoComponent implements OnInit {
   @Input() data;
   badge: string;
-  tokenLogo: string;
+  tokenLogos = [];
   constructor(private browserService: BrowserService) {}
 
   ngOnInit() {
     this.setType();
-    this.setTokenLogo();
+    this.setTokenLogos();
   }
 
-  private setTokenLogo() {
-    this.tokenLogo = `assets/img/coins/donation/${this.data.token.value}.svg`;
+  private setTokenLogos() {
+    for (const address of this.data.addresses) {
+      const network = address.token.network === 'MATIC' ? 'POLYGON' : address.token.network;
+      this.tokenLogos.push(`assets/img/coins/${address.token.value}-${network}.svg`);
+    }
   }
 
   setType() {

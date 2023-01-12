@@ -10,7 +10,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'cause',
+    path: 'cause/:cause/value/:value/network/:network',
     component: SendDonationPage,
   },
 ];
