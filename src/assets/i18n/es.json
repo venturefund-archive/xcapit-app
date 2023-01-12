@@ -710,6 +710,7 @@
       "toggle_description": "Actívalos para ingresar a tu wallet y aprobar tus transacciones.",
       "password_title": "Tu seguridad nos importa",
       "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
+      "alternative_password_description": "Para modificar el tiempo de bloqueo por inactividad, ingresa la contraseña de tu wallet Xcapit.",
       "password_button": "Confirmar",
       "password_error": "La contraseña ingresada no es correcta.",
       "options": {
@@ -735,7 +736,11 @@
       "header": "Configuración",
       "inactivity": {
         "title": "Cierre de sesión por inactividad",
-        "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión."
+        "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión.",
+        "option_1": "No cerrar sesión nunca",
+        "option_2": "Cerrar sesión cada vez que la app se encuentre en segundo plano",
+        "option_3": "2 minutos",
+        "option_4": "5 minutos"
       },
       "password_change": {
         "title": "Constraseña",

@@ -5,7 +5,7 @@ describe('PasswordErrorMsgs', () => {
   let passErrorMsgs: PasswordErrorMsgs;
   const testRawData: RawPasswordErrorMsgs = {
     invalid: 'invalid',
-    empty: 'emtpy'
+    empty: 'empty'
   };
   const anInvalidPassError = new Error(testRawData.invalid);
   const aNotPassError = new Error('no a pass error');

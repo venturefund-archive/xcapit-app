@@ -717,6 +717,7 @@
       "toggle_description": "Activate to access your wallet and approve your transactions.",
       "password_title": "Your safety matters to us",
       "password_description": "To activate your biometric data, enter your Xcapit wallet's password.",
+      "alternative_password_description": "To change the inactivity logout time, enter your Xcapit wallet password.",
       "password_button": "Confirm",
       "password_error": "The password entered is not valid.",
       "options": {
@@ -742,7 +743,11 @@
       "header": "Configuration",
       "inactivity": {
         "title": "Inactivity logout",
-        "message": "Select the amount of time you want to allow for inactivity before you are logged out."
+        "message": "Select the amount of time you want to allow for inactivity before you are logged out.",
+        "option_1": "Never log out",
+        "option_2": "Log out every time the app is in the background",
+        "option_3": "2 minutes",
+        "option_4": "5 minutes"
       },
       "password_change": {
         "title": "Password",
