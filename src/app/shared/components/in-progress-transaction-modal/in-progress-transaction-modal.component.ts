@@ -47,7 +47,8 @@ import { IonicStorageService } from '../../services/ionic-storage/ionic-storage.
             </ion-button>
           </div>
           <div *ngIf="!this.alreadySavedAddress" class="ipt__footer__actions__secondary">
-          <ion-label
+            <ion-label
+              *appFeatureFlag="'ff_address_list'"
               name="ux_address_new_sent"
               class="ux-link-xl"
               (click)="this.goToSaveAddress()"
@@ -67,18 +68,22 @@ export class InProgressTransactionModalComponent implements OnInit {
   data;
   address;
   blockchain;
-  alreadySavedAddress:boolean;
-  _aKey = 'contact_list'
-  constructor(private modalController: ModalController, private navController: NavController, private ionicStorageService : IonicStorageService) {}
+  alreadySavedAddress: boolean;
+  _aKey = 'contact_list';
+  constructor(
+    private modalController: ModalController,
+    private navController: NavController,
+    private ionicStorageService: IonicStorageService
+  ) {}
 
   async ngOnInit() {
-    await this.isAlreadySavedAddress()
+    await this.isAlreadySavedAddress();
   }
 
-  async isAlreadySavedAddress(){
+  async isAlreadySavedAddress() {
     const contact_list = await this.ionicStorageService.get(this._aKey);
-    for (const contact of contact_list){
-      if(contact.address === this.address){
+    for (const contact of contact_list) {
+      if (contact.address === this.address) {
         this.alreadySavedAddress = true;
       }
     }
@@ -91,8 +96,15 @@ export class InProgressTransactionModalComponent implements OnInit {
     }
   }
 
-  goToSaveAddress(){
-    this.navController.navigateForward(['contacts/register','save', 'blockchain' ,this.blockchain._rawData.name, 'address', this.address]);
+  goToSaveAddress() {
+    this.navController.navigateForward([
+      'contacts/register',
+      'save',
+      'blockchain',
+      this.blockchain._rawData.name,
+      'address',
+      this.address,
+    ]);
     this.modalController.dismiss();
   }
 
