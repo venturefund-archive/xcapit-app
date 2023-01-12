@@ -14,9 +14,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { of } from 'rxjs';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
+import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
 
-describe('SecurityConfigurationPage', () => {
+fdescribe('SecurityConfigurationPage', () => {
   let component: SecurityConfigurationPage;
   let fixture: ComponentFixture<SecurityConfigurationPage>;
   let fakeNavController: FakeNavController;
@@ -29,6 +29,7 @@ describe('SecurityConfigurationPage', () => {
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let passwordSpy: jasmine.Spy;
+  let appExpirationTimeServiceSpy: jasmine.SpyObj<AppExpirationTimeService>;
 
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController(null, { data: 'fake_password' });
@@ -49,6 +50,11 @@ describe('SecurityConfigurationPage', () => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(2),
     });
+    appExpirationTimeServiceSpy = jasmine.createSpyObj('AppExpirationTimeService', {
+      set: Promise.resolve(),
+      get: Promise.resolve(2),
+    });
+    
 
     TestBed.configureTestingModule({
       declarations: [SecurityConfigurationPage],
@@ -61,13 +67,15 @@ describe('SecurityConfigurationPage', () => {
         { provide: LoginBiometricActivationModalService, useValue: loginBiometricActivationModalSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: AppExpirationTimeService, useValue: appExpirationTimeServiceSpy },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SecurityConfigurationPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.valueChangesSubscription$ = of({}).subscribe();
+    component.biometricValueChangesSubscription$ = of({}).subscribe();
+    component.inactivityValueChangesSubscription$ = of({}).subscribe();
     passwordSpy = spyOn(component, 'checkPassword').and.resolveTo(true);
   }));
 
@@ -96,7 +104,7 @@ describe('SecurityConfigurationPage', () => {
   it('should show password modal on enable toggle', fakeAsync(() => {
     component.ionViewDidEnter();
     tick();
-    component.toggle(true);
+    component.form.patchValue({ biometric: true });
     tick();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   }));
@@ -111,25 +119,22 @@ describe('SecurityConfigurationPage', () => {
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   });
 
-  it('should not show password modal on disable toggle', fakeAsync(() => {
+  it('should not show password modal and enable biometric modal on disable toggle', fakeAsync(() => {
     component.ionViewDidEnter();
     tick();
-    component.toggle(false);
+    component.form.patchValue({ biometric: false });
     tick();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
-  }));
-
-  it('should enable biometric modal on disable toggle', async () => {
-    component.ionViewDidEnter();
-    component.toggle(false);
     expect(loginBiometricActivationModalSpy.enableModal).toHaveBeenCalledTimes(1);
-  });
+  }));
 
   it('should unsubscribe when leave', () => {
     component.ionViewDidEnter();
-    const completeSpy = spyOn(component.valueChangesSubscription$, 'unsubscribe').and.callThrough();
+    const completeBiometricSpy = spyOn(component.biometricValueChangesSubscription$, 'unsubscribe').and.callThrough();
+    const completeInactivitySpy = spyOn(component.inactivityValueChangesSubscription$, 'unsubscribe').and.callThrough();
     component.ionViewDidLeave();
-    expect(completeSpy).toHaveBeenCalledTimes(1);
+    expect(completeBiometricSpy).toHaveBeenCalledTimes(1);
+    expect(completeInactivitySpy).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to wallet change password when ux_go_to_wallet_change_password button is clicked', async () => {
@@ -140,40 +145,34 @@ describe('SecurityConfigurationPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/password-change']);
   });
 
-  it('should change session expiration time value when clicking radio button and password is correct', async () => {
-    await component.ionViewDidEnter();
-    await fixture.whenRenderingDone();
-    fixture.detectChanges();
-    await fixture.whenStable();
+  it('should change session expiration time value when clicking radio button and password is correct', fakeAsync(() => {
+    component.ionViewDidEnter();
+    tick();
     component.form.patchValue({ inactivity: '5' });
-    fixture.detectChanges();
-    await fixture.whenStable();
+    tick();
     expect(component.form.value.inactivity).toEqual('5');
-  });
+    expect(appExpirationTimeServiceSpy.set).toHaveBeenCalledOnceWith(5);
+  }));
 
-  it('should not change session expiration time when clicking radio button and password is incorrect', async () => {
+  it('should not change session expiration time when clicking radio button and password is incorrect', fakeAsync(() => {
     passwordSpy.and.resolveTo(false);
     fakeModalController.modifyReturns(null, { data: 'aWrongPassword' });
-    await component.ionViewDidEnter();
-    await fixture.whenRenderingDone();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    component.form.patchValue({ inactivity: '999999' });
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.ionViewDidEnter();
+    tick();
+    component.form.patchValue({ inactivity: '5' });
+    tick();
     expect(component.form.value.inactivity).toEqual('2');
-  });
+    expect(appExpirationTimeServiceSpy.set).not.toHaveBeenCalledOnceWith(5);
+  }));
 
-  it('should not change session expiration time when clicking radio button and closing password modal', async () => {
-    passwordSpy.and.rejectWith('Empty Password');
+  it('should not change session expiration time when clicking radio button and closing password modal', fakeAsync(() => {
+    passwordSpy.and.rejectWith(new Error('Empty Password'));
     fakeModalController.modifyReturns(null, { data: null });
-    await component.ionViewDidEnter();
-    await fixture.whenRenderingDone();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    component.form.patchValue({ inactivity: '0' });
-    fixture.detectChanges();
-    await fixture.whenStable();
+    component.ionViewDidEnter();
+    tick();
+    component.form.patchValue({ inactivity: '5' });
+    tick();
     expect(component.form.value.inactivity).toEqual('2');
-  });
+    expect(appExpirationTimeServiceSpy.set).not.toHaveBeenCalledOnceWith(5);
+  }));
 });

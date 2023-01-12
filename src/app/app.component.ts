@@ -75,7 +75,6 @@ export class AppComponent implements OnInit {
   }
 
   private initializeApp() {
-    console.log('app initialization')
     this._setSession();
     this.checkAssetsStructure();
     this.checkForUpdate();

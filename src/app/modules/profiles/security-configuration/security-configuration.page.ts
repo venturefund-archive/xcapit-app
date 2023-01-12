@@ -108,7 +108,8 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
 })
 export class SecurityConfigurationPage {
   isBioAuthEnabled = false;
-  valueChangesSubscription$: Subscription;
+  inactivityValueChangesSubscription$: Subscription;
+  biometricValueChangesSubscription$: Subscription;
   form: UntypedFormGroup = this.formBuilder.group({
     biometric: [false, []],
     inactivity: ['', []],
@@ -135,7 +136,8 @@ export class SecurityConfigurationPage {
   }
 
   ionViewDidLeave() {
-    this.valueChangesSubscription$.unsubscribe();
+    this.biometricValueChangesSubscription$.unsubscribe();
+    this.inactivityValueChangesSubscription$.unsubscribe();
   }
 
   private async setBiometricAuth() {
@@ -143,33 +145,30 @@ export class SecurityConfigurationPage {
   }
 
   private valueChanges() {
-    this.valueChangesSubscription$ = this.form.valueChanges.subscribe((value) => {
-      this.toggle(value.biometric);
-      this.selectSessionExpirationTime(value.inactivity);
-      console.log('valueChanges triggered')
+    this.biometricValueChangesSubscription$ = this.form.get('biometric').valueChanges.subscribe((value) => {
+      this.toggle(value);
+    });
+    this.inactivityValueChangesSubscription$ = this.form.get('inactivity').valueChanges.subscribe((value) => {
+      this.selectSessionExpirationTime(value);
     });
   }
 
   async selectSessionExpirationTime(mode) {
     const password = await this.requestPassword('profiles.biometric_auth.alternative_password_description');
     try {
-      console.log('checking radio status')
       if (await this.checkPassword(password)) {
-        console.log('password is correct!')
         this.appExpirationTimeService.set(parseInt(mode));
       } else {
-        console.log('password is incorrect!')
         this.showErrorToast();
         this.form.patchValue({ inactivity: this.previousInactivity }, { emitEvent: false });
       }
     } catch (err) {
       if (new PasswordErrorMsgs().isEmptyError(err)) {
         this.form.patchValue({ inactivity: this.previousInactivity }, { emitEvent: false });
-        console.log('password is null!')
       }
     } finally {
       this.previousInactivity = this.form.value.inactivity;
-    }    
+    }
   }
 
   private async requestPassword(description: string) {
@@ -190,7 +189,6 @@ export class SecurityConfigurationPage {
   }
 
   async toggle(value: boolean) {
-    console.log('checking toggle status')
     const biometricAuth = this.biometricAuthInjectable.create();
     biometricAuth.onNeedPass().subscribe(() => {
       return this.requestPassword('profiles.biometric_auth.password_description');
@@ -230,7 +228,9 @@ export class SecurityConfigurationPage {
 
   async getExpirationSessionTime(): Promise<void> {
     const expirationTime = await this.appExpirationTimeService.get();
-    this.form.patchValue({ inactivity: this._expirationValue(expirationTime) }, { emitEvent: false });
+    if (expirationTime) {
+      this.form.patchValue({ inactivity: this._expirationValue(expirationTime) }, { emitEvent: false });
+    }
     this.previousInactivity = this.form.value.inactivity;
   }
 
@@ -239,7 +239,6 @@ export class SecurityConfigurationPage {
   }
 
   public checkPassword(password: Password): Promise<boolean> {
-    console.log('checkPassword triggered')
-    return new LoginToken(password, this.storage).valid()
+    return new LoginToken(password, this.storage).valid();
   }
 }
