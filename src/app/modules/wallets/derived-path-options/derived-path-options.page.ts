@@ -35,7 +35,14 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
             <div class="container">
               <ion-item class="ux-font-text-lg">
                 <ion-label>{{ 'wallets.derived_path_options.first_option.title' | translate }}</ion-label>
-                <ion-radio appTrackClick name="ux_create_default" mode="md" slot="start" value="default"></ion-radio>
+                <ion-radio
+                  appTrackClick
+                  name="ux_radio_default"
+                  [dataToTrack]="{ eventLabel: this.trackClickNameDefault }"
+                  mode="md"
+                  slot="start"
+                  value="default"
+                ></ion-radio>
               </ion-item>
               <div class="dpo__radio_group__description">
                 <ion-text class="ux-font-text-base">{{
@@ -46,7 +53,14 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
             <div class="container">
               <ion-item class="ux-font-text-lg">
                 <ion-label>{{ 'wallets.derived_path_options.second_option.title' | translate }}</ion-label>
-                <ion-radio appTrackClick name="ux_create_other" mode="md" slot="start" value="legacy"></ion-radio>
+                <ion-radio
+                  appTrackClick
+                  name="ux_radio_other"
+                  [dataToTrack]="{ eventLabel: this.trackClickNameother }"
+                  mode="md"
+                  slot="start"
+                  value="legacy"
+                ></ion-radio>
               </ion-item>
               <div class="dpo__radio_group__description">
                 <ion-text class="ux-font-text-base">{{
@@ -79,6 +93,8 @@ export class DerivedPathOptionsPage {
     method: ['', [Validators.required]],
   });
   mode: string;
+  trackClickNameDefault: string;
+  trackClickNameother: string;
   headerText: string;
   titleText: string;
   method: WalletCreationMethod;
@@ -91,12 +107,22 @@ export class DerivedPathOptionsPage {
 
   ionViewWillEnter() {
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.eventNames();
     this.form.valueChanges.subscribe((res) => {
       this.method = res.method;
     });
     this.form.patchValue({ method: this.walletEncryptionService.creationMethod });
   }
 
+  eventNames() {
+    if (this.mode === 'create') {
+      this.trackClickNameDefault = `ux_${this.mode}_default`;
+      this.trackClickNameother = `ux_${this.mode}_other`;
+    } else {
+      this.trackClickNameDefault = `ux_${this.mode}_default`;
+      this.trackClickNameother = `ux_${this.mode}_other`;
+    }
+  }
   setCreationMethod() {
     this.walletEncryptionService.creationMethod = this.method;
   }
