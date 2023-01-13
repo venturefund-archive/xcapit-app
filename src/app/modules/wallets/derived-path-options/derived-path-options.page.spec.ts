@@ -2,9 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
@@ -17,18 +18,22 @@ describe('DerivedPathOptionsPage', () => {
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
 
   beforeEach(waitForAsync(() => {
     fakeActivatedRoute = new FakeActivatedRoute();
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {}, { creationMethod: 'legacy' });
-
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
       declarations: [DerivedPathOptionsPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
       ],
     }).compileComponents();
 
@@ -86,5 +91,12 @@ describe('DerivedPathOptionsPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to faqs wallet page when links_faqs is clicked', () => {
+    component.ionViewWillEnter();
+    fixture.debugElement.query(By.css('ion-footer > ion-text')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/support/faqs/wallet');
   });
 });

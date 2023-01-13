@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 
@@ -69,7 +70,9 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
       </form>
     </ion-content>
     <ion-footer>
-      <ion-text class="dpo__link ux-link-xs">{{ 'wallets.derived_path_options.link' | translate }}</ion-text>
+      <ion-text class="dpo__link ux-link-xs" (click)="goToFaqs()">{{
+        'wallets.derived_path_options.link' | translate
+      }}</ion-text>
     </ion-footer>
   `,
   styleUrls: ['./derived-path-options.page.scss'],
@@ -86,7 +89,8 @@ export class DerivedPathOptionsPage {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
-    private walletEncryptionService: WalletEncryptionService
+    private walletEncryptionService: WalletEncryptionService,
+    private navController: NavController
   ) {}
 
   ionViewWillEnter() {
@@ -99,5 +103,9 @@ export class DerivedPathOptionsPage {
 
   setCreationMethod() {
     this.walletEncryptionService.creationMethod = this.method;
+  }
+
+  goToFaqs() {
+    this.navController.navigateForward('/support/faqs/wallet');
   }
 }
