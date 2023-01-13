@@ -101,7 +101,7 @@ export class RegisterPage implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
     networks: ['', [Validators.required]],
     address: [''],
-    name: ['', [Validators.required]],
+    name: ['', [Validators.required, Validators.maxLength(100)]],
   });
 
   constructor(
@@ -112,7 +112,7 @@ export class RegisterPage implements OnInit {
     private translate: TranslateService,
     private ionicStorageService: IonicStorageService,
     private navController: NavController,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {}
@@ -129,13 +129,15 @@ export class RegisterPage implements OnInit {
     this.isSaveMode();
   }
 
-  isSaveMode(){
-    if(this.route.snapshot.paramMap.get('mode') === 'save'){
-      const network = this.networksData.filter((network) => network.value === this.route.snapshot.paramMap.get('blockchain'));
-      const address = this.route.snapshot.paramMap.get('address') 
-      this.form.patchValue({networks : [network[0].value]})
+  isSaveMode() {
+    if (this.route.snapshot.paramMap.get('mode') === 'save') {
+      const network = this.networksData.filter(
+        (network) => network.value === this.route.snapshot.paramMap.get('blockchain')
+      );
+      const address = this.route.snapshot.paramMap.get('address');
+      this.form.patchValue({ networks: [network[0].value] });
       this.setAddressValidator([network[0].value]);
-      this.form.patchValue({address: address});
+      this.form.patchValue({ address: address });
     }
   }
 
@@ -204,7 +206,7 @@ export class RegisterPage implements OnInit {
   async nullStorage() {
     if ((await this.getAddressesList()) === null) {
       this.ionicStorageService.set(this._aKey, []);
-    } 
+    }
   }
 
   async getAddressesList() {
