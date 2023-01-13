@@ -634,6 +634,7 @@
       "export_private_key": "Chave privada",
       "security_phrase": "Frase de segurança",
       "category_preferences": "Preferências",
+      "security_configuration": "Configuração",
       "push_notifications": "Notificações via push",
       "language": "Linguagem",
       "logout": "Sair",
@@ -695,7 +696,7 @@
     "biometric_auth": {
       "header": "Dados biométricos",
       "toggle_text": "Dados biométricos",
-      "toggle_description": "Ative para entrar rapidamente.",
+      "toggle_description": "Ative-os para entrar em sua carteira e aprovar suas transações.",
       "password_title": "Sua segurança é importante para nós",
       "password_description": "Para ativar seus dados biométricos, digite a senha de sua carteira Xcapit..",
       "password_button": "confirme",
@@ -703,6 +704,17 @@
       "options": {
         "title": "Faça login com seus dados biométricos",
         "subtitle": "Coloque sua impressão digital no leitor de dados ou aponte a tela para o seu rosto, conforme apropriado em seu dispositivo."
+      }
+    },
+    "security_configuration": {
+      "header": "Configuração",
+      "inactivity": {
+        "title": "Sair devido à inatividade",
+        "message": "Selecione a quantidade de tempo que você deseja permitir a inatividade antes de sair da sessão."
+      },
+      "password_change": {
+        "title": "Senha",
+        "button": "Mudar"
       }
     },
     "shared": {

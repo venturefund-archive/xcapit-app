@@ -738,7 +738,7 @@
         "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión."
       },
       "password_change": {
-        "title": "Constraseña",
+        "title": "Contraseña",
         "button": "Cambiar"
       }
     },
