@@ -196,7 +196,7 @@ export class RegisterPage implements OnInit {
   }
 
   showSuccessToast() {
-    this.toastService.showSuccessToast({
+    this.toastService.showSuccessToastVerticalOffset({
       message: this.translate.instant('contacts.register.success_toast'),
     });
   }
