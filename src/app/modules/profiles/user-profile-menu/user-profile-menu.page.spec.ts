@@ -482,7 +482,7 @@ describe('UserProfileMenuPage', () => {
     expect(button).toBeFalsy();
   });
 
-  it('should get actaul version on init', async () => {
+  it('should get actual version on init', async () => {
     await component.ionViewWillEnter();
     expect(appVersionInjectableSpy.create).toHaveBeenCalledTimes(1);
   });

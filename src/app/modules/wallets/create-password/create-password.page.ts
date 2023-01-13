@@ -107,7 +107,9 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
               class="ux_button ion-no-margin ion-no-padding"
               fill="clear"
               color="info"
-              name="ux_create_edit"
+              name="ux_edit"
+              appTrackClick
+              [dataToTrack]="{ eventLabel: this.trackClickName }"
               (click)="goToDerivedPathOptions()"
               >{{ 'wallets.create_password.edit_derived_path_button' | translate }}</ion-button
             >
@@ -188,6 +190,7 @@ export class CreatePasswordPage implements OnInit {
     ...CONFIG.fieldErrors.repeatPassword,
     ...CONFIG.fieldErrors.createWalletPassword,
   ];
+  trackClickName: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -211,6 +214,7 @@ export class CreatePasswordPage implements OnInit {
     this.loadingService.enabled();
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.enablePushNotificationsByDefault();
+    this.trackClickName = `ux_${this.mode}_edit`;
   }
 
   async ionViewDidEnter() {
