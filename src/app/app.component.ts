@@ -21,6 +21,7 @@ import { AppSession } from './shared/models/app-session/app-session';
 import { CapacitorAppInjectable } from './shared/models/capacitor-app/injectable/capacitor-app.injectable';
 import { AppSessionInjectable } from './shared/models/app-session/injectable/app-session.injectable';
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -57,7 +58,8 @@ export class AppComponent implements OnInit {
     private trackedWalletAddressInjectable: TrackedWalletAddressInjectable,
     private capacitorAppInjectable: CapacitorAppInjectable,
     private appSessionInjectable: AppSessionInjectable,
-    private walletMaintenanceService: WalletMaintenanceService
+    private walletMaintenanceService: WalletMaintenanceService,
+    private notificationsService: NotificationsService
   ) {}
 
   ngOnInit() {
@@ -67,6 +69,16 @@ export class AppComponent implements OnInit {
     this.loadingService.enabled();
     this.trackService.startTracker();
     this.setBackgroundActions();
+    this.pushNotificationActionPerformed();
+  }
+
+  private pushNotificationActionPerformed() {
+    this.notificationsService.getInstance().pushNotificationActionPerformed((notification) => {
+      console.log('notification', notification);
+      console.log('action id', notification.actionId);
+      console.log('inputValue (only ios)', notification.inputValue);
+      console.log('notification.notification', notification.notification);
+    });
   }
 
   private checkForUpdate() {
@@ -87,7 +99,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private async checkAssetsStructure(){
+  private async checkAssetsStructure() {
     this.walletMaintenanceService.checkTokensStructure();
   }
 
@@ -112,9 +124,9 @@ export class AppComponent implements OnInit {
   setBackgroundActions() {
     const capacitorApp = this.capacitorAppInjectable.create();
     capacitorApp.onStateChange(({ isActive }) => {
-      if(isActive) this.isSessionValid();
+      if (isActive) this.isSessionValid();
     });
-    capacitorApp.onPause( () => {
+    capacitorApp.onPause(() => {
       this.session.save();
     });
   }
@@ -141,11 +153,11 @@ export class AppComponent implements OnInit {
     let url = event.url.split('?uri=').pop();
 
     if (url) {
-      url = (url.includes('wc%3A') || url.includes('wc%3a')) ? decodeURIComponent(url) : url;
+      url = url.includes('wc%3A') || url.includes('wc%3a') ? decodeURIComponent(url) : url;
 
       if (url.includes('wc:')) {
         this.walletConnectService.setUri(url);
-        
+
         if (await new LoggedIn(this.storage).value()) {
           this.walletConnectService.checkDeeplinkUrl();
         }
