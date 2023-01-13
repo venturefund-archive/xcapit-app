@@ -75,8 +75,9 @@ describe('DerivedPathOptionsPage', () => {
     expect(walletEncryptionServiceSpy.creationMethod).toEqual('legacy');
   });
 
-  it('should call trackEvent on trackService when ux_create_default Radio clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-radio', 'ux_create_default');
+  it('should call trackEvent on trackService when ion Radio clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-radio', 'ux_radio_default');
+
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -84,8 +85,8 @@ describe('DerivedPathOptionsPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when ux_create_other Radio clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-radio', 'ux_create_other');
+  it('should call trackEvent on trackService when ion Radio clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-radio', 'ux_radio_other');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
