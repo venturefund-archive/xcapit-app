@@ -376,15 +376,15 @@ describe('CreatePasswordPage', () => {
 
   it('should navigate to derived-path-options/import when mode is import', () => {
     component.ionViewWillEnter();
-    fixture.debugElement.query(By.css('ion-button[name="ux_create_edit"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_edit"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('wallets/derived-path-options/import');
   });
 
-  it('should navigate to derived-path-options/create when mode is import', () => {
+  it('should navigate to derived-path-options/create when mode is create', () => {
     fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
     component.ionViewWillEnter();
-    fixture.debugElement.query(By.css('ion-button[name="ux_create_edit"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_edit"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('wallets/derived-path-options/create');
   });
