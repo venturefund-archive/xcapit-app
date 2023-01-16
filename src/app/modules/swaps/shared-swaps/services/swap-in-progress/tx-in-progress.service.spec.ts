@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { of, Subscription } from 'rxjs';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { SwapInProgressService } from './swap-in-progress.service';
+import { TxInProgressService } from './tx-in-progress.service';
 
 describe('SwapInProgressService', () => {
-  let service: SwapInProgressService;
+  let service: TxInProgressService;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let subscription$: Subscription;
 
@@ -17,7 +17,7 @@ describe('SwapInProgressService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: IonicStorageService, useValue: storageSpy }],
     });
-    service = TestBed.inject(SwapInProgressService);
+    service = TestBed.inject(TxInProgressService);
   });
 
   afterEach(() => {

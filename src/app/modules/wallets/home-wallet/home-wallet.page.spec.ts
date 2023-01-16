@@ -44,7 +44,7 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
-import { SwapInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/swap-in-progress.service';
+import { TxInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/tx-in-progress.service';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 
 describe('HomeWalletPage', () => {
@@ -77,7 +77,7 @@ describe('HomeWalletPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
-  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>;
+  let swapInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
@@ -221,7 +221,7 @@ describe('HomeWalletPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
-        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy },
+        { provide: TxInProgressService, useValue: swapInProgressServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

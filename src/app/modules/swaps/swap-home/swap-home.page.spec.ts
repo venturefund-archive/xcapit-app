@@ -47,7 +47,7 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { of } from 'rxjs';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { Password } from '../shared-swaps/models/password/password';
-import { SwapInProgressService } from '../shared-swaps/services/swap-in-progress/swap-in-progress.service';
+import { TxInProgressService } from '../shared-swaps/services/swap-in-progress/tx-in-progress.service';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -74,7 +74,7 @@ describe('SwapHomePage', () => {
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let activatedRouteSpy: any;
-  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>;
+  let swapInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
   const aPassword = new Password('aPassword');
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
@@ -234,7 +234,7 @@ describe('SwapHomePage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: IonicStorageService, useValue: storageSpy },
-        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy },
+        { provide: TxInProgressService, useValue: swapInProgressServiceSpy },
       ],
     }).compileComponents();
 

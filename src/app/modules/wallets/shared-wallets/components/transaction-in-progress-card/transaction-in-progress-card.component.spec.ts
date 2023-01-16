@@ -28,7 +28,7 @@ describe('TransactionInProgressCardComponent', () => {
   });
 
   it('should show swap text and image', () => {
-    component.transactionType = 'swap';
+    component.transaction = 'swap';
     component.ngOnInit();
     fixture.detectChanges();
     const textEl = fixture.debugElement.query(By.css('.tipc__container__content > ion-text')).nativeElement;
@@ -38,7 +38,7 @@ describe('TransactionInProgressCardComponent', () => {
   });
 
   it('should show send text and image', () => {
-    component.transactionType = 'send';
+    component.transaction = 'send';
     component.ngOnInit();
     fixture.detectChanges();
     const textEl = fixture.debugElement.query(By.css('.tipc__container__content > ion-text')).nativeElement;
