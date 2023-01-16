@@ -320,9 +320,7 @@ export class CreatePasswordPage implements OnInit {
     const remoteConfig = this.remoteConfig.getFeatureFlag('ff_experimentOnboarding');
     let url = '/wallets/recovery/success';
     if (this.mode !== 'import') {
-      // url = remoteConfig ? 'wallets/experimental-onboarding' : '/wallets/recovery/success';
       url = remoteConfig ? 'wallets/experimental-onboarding' : '/wallets/success-creation';
-
     }
 
     return this.navController.navigateRoot([url]);
