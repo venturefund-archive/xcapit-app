@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress';
+import { CircleProgressComponent } from 'src/app/shared/components/circle-progress/circle-progress.component';
 import { Transaction } from '../../types/transaction.type';
 
 @Component({
@@ -15,19 +17,22 @@ import { Transaction } from '../../types/transaction.type';
             <ion-badge>{{ 'wallets.home.transaction_in_progress.badge' | translate }}</ion-badge>
           </div>
         </div>
+        <div class="tipc__container__timestamp">
+          <ion-text class="ux-font-titulo-xs">{{ this.transactionType.startTimestamp | date: 'HH:mm' }} {{ 'fiat_ramps.kripton_operation_detail.hours' | translate }}</ion-text>
+        </div>
       </div>
-      <!-- TODO: Add hour -->
     </ion-item>
   `,
   styleUrls: ['./transaction-in-progress-card.component.scss'],
 })
 export class TransactionInProgressCardComponent implements OnInit {
-  @Input() transactionType: Transaction;
+  @Input() transaction: TxInProgress;
   title: string;
   imgUrl: string;
 
   ngOnInit() {
-    this.title = `wallets.home.transaction_in_progress.${this.transactionType}_title`;
-    this.imgUrl = `assets/img/shared/transactions/${this.transactionType}.svg`;
+    console.log(this.transaction)
+    this.title = `wallets.home.transaction_in_progress.${this.transaction.type}_title`;
+    this.imgUrl = `assets/img/shared/transactions/${this.transaction.type}.svg`;
   }
 }

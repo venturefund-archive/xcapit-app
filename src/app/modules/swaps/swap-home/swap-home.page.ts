@@ -50,8 +50,9 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
 import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { SwapInProgressService } from '../shared-swaps/services/swap-in-progress/swap-in-progress.service';
+import { TxInProgressService } from '../shared-swaps/services/swap-in-progress/tx-in-progress.service';
 import { SwapError } from '../shared-swaps/models/swap-error/swap-error';
+import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-in-progress';
 
 @Component({
   selector: 'app-swap-home',
@@ -99,7 +100,7 @@ import { SwapError } from '../shared-swaps/models/swap-error/swap-error';
             <div class="sw__swap-card__from__detail__amount">
               <div class="sw__swap-card__from__detail__amount__USD-price">
                 <ion-text class="ux-font-text-xxs" color="neutral80"
-                  >= {{ this.fromTokenUSDAmount | formattedAmount: 10:2 }} USD</ion-text
+                  >= {{ this.fromTokenUSDAmount | formattedAmount : 10 : 2 }} USD</ion-text
                 >
               </div>
               <form [formGroup]="this.form">
@@ -168,7 +169,7 @@ import { SwapError } from '../shared-swaps/models/swap-error/swap-error';
               <div class="sw__swap-card__to__detail__amount__value">
                 <div class="sw__swap-card__to__detail__USD-price">
                   <ion-text class="ux-font-text-xxs" color="neutral80"
-                    >= {{ this.toTokenUSDAmount | formattedAmount: 10:2 }} USD</ion-text
+                    >= {{ this.toTokenUSDAmount | formattedAmount : 10 : 2 }} USD</ion-text
                   >
                 </div>
                 <ion-text class="ux-font-text-lg">
@@ -260,6 +261,7 @@ export class SwapHomePage {
   blockchainName: string;
   url: string;
   modalHref: string;
+  txInProgress: TxInProgress;
 
   constructor(
     private apiWalletService: ApiWalletService,
@@ -283,7 +285,7 @@ export class SwapHomePage {
     private oneInchBlockchainsOf: OneInchBlockchainsOfFactory,
     private dynamicPriceFactory: DynamicPriceFactory,
     private storage: IonicStorageService,
-    private swapInProgressService: SwapInProgressService
+    private swapInProgressService: TxInProgressService
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -509,7 +511,8 @@ export class SwapHomePage {
     const password = new Password(data);
     if (await this.validPassword(password)) {
       this.showSwapInProgressModal();
-      this.swapInProgressService.startSwap();
+      this.txInProgress = new TxInProgress('swap');
+      this.swapInProgressService.startTx(this.txInProgress);
     } else {
       throw new Error(new PasswordErrorMsgs().invalid());
     }
@@ -544,7 +547,7 @@ export class SwapHomePage {
         this.resetMainButton();
       })
       .finally(() => {
-        this.swapInProgressService.finishSwap();
+        this.swapInProgressService.finishTx(this.txInProgress);
       });
   }
 
