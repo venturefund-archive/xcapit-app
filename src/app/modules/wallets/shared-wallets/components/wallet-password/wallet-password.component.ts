@@ -63,7 +63,7 @@ import { ToastService } from '../../../../../shared/services/toast/toast.service
             fill="clear"
             size="small"
             (click)="this.openBiometric()"
-            *ngIf="true"
+            *ngIf="this.biometricEnabled"
           >
             {{ this.biometricAuthButton }}</ion-button
           >

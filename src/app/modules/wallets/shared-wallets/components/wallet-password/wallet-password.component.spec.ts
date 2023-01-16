@@ -134,4 +134,19 @@ describe('WalletPasswordComponent', () => {
     await component.ngOnInit();
     expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
   });
+
+  it('should not render use-biometric button when bio-auth is not enabled ', async () => {
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(
+        Promise.resolve(true),
+        Promise.resolve(false),
+      )
+    );
+    await component.ngOnInit();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Use Biometric Data Password Modal"]'));
+    expect(buttonEl).toBeFalsy();
+  });
+
 });
