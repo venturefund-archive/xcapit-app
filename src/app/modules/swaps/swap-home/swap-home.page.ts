@@ -260,7 +260,7 @@ export class SwapHomePage {
   blockchainName: string;
   url: string;
   modalHref: string;
-
+  modalOpened: boolean;
   constructor(
     private apiWalletService: ApiWalletService,
     private walletBalance: WalletBalanceService,
@@ -545,7 +545,7 @@ export class SwapHomePage {
       })
       .finally(() => {
         this.swapInProgressService.finishSwap();
-      }); 
+      });
   }
 
   private handleError(err: Error) {
@@ -669,14 +669,20 @@ export class SwapHomePage {
     const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
     const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
     const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
-    this.openModalBalance(this.activeBlockchain.nativeToken(), text, primaryButtonText, secondaryButtonText);
+    if (!this.modalOpened) {
+      this.modalOpened = true;
+      this.openModalBalance(this.activeBlockchain.nativeToken(), text, primaryButtonText, secondaryButtonText);
+    }
   }
 
   showInsufficientBalanceModal() {
     const text = 'swaps.home.balance_modal.insufficient_balance.text';
     const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
     const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
-    this.openModalBalance(this.fromToken, text, primaryButtonText, secondaryButtonText);
+    if (!this.modalOpened) {
+      this.modalOpened = true;
+      this.openModalBalance(this.fromToken, text, primaryButtonText, secondaryButtonText);
+    }
   }
 
   async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
@@ -690,6 +696,6 @@ export class SwapHomePage {
     if (window.location.href === this.modalHref) {
       await modal.present();
     }
-    await modal.onDidDismiss();
+    await modal.onDidDismiss().then(() => (this.modalOpened = false));
   }
 }
