@@ -1669,7 +1669,7 @@
       "complete_steps": "1 de 2 pasos completos",
       "next_step": "Proximo paso",
       "progress": "Tu progreso",
-      "completed": "completed",
+      "completed": "Completo",
       "steps": {
         "step_one": {
           "title": "Comprar tokens",

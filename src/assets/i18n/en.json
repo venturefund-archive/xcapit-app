@@ -1676,7 +1676,7 @@
       "complete_steps": "1 of 2 steps complete",
       "next_step": "next step",
       "progress": "Your progress",
-      "completed": "completado",
+      "completed": "Complete",
       "steps": {
         "step_one": {
           "title": "buy tokens",
