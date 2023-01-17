@@ -43,7 +43,7 @@
     "@capacitor/camera": "^4.0.0",
     "@capacitor/clipboard": "^4.0.0",
     "@capacitor/core": "^4.0.0",
-    "@capacitor/device": "^4.0.0",
+    "@capacitor/device": "^4.1.0",
     "@capacitor/filesystem": "^4.0.0",
     "@capacitor/haptics": "^4.0.0",
     "@capacitor/ios": "^4.0.0",
