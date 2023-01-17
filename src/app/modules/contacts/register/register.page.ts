@@ -102,7 +102,7 @@ export class RegisterPage implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
     networks: ['', [Validators.required]],
     address: [''],
-    name: ['', [Validators.required]],
+    name: ['', [Validators.required, Validators.maxLength(100)]],
   });
 
   constructor(

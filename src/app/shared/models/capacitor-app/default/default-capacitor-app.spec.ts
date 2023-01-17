@@ -1,7 +1,7 @@
 import { AppInfo, AppPlugin } from '@capacitor/app';
 import { DefaultCapacitorApp } from './default-capacitor-app';
 
-describe('App', () => {
+describe('DefaultCapacitorApp', () => {
   let defaultCapacitorApp: DefaultCapacitorApp;
   let appPluginSpy: jasmine.SpyObj<AppPlugin>;
   const getInfoData: AppInfo = { name: 'testApp', id: 'com.xcapit.app', build: '300', version: '3.0.0' };
@@ -30,6 +30,11 @@ describe('App', () => {
 
   it('on pause ', () => {
     defaultCapacitorApp.onPause(() => {});
+    expect(appPluginSpy.addListener).toHaveBeenCalledTimes(1);
+  });
+
+  it('on app url open ', () => {
+    defaultCapacitorApp.onAppUrlOpen(() => {});
     expect(appPluginSpy.addListener).toHaveBeenCalledTimes(1);
   });
 });

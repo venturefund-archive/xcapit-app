@@ -41,7 +41,6 @@ export class DescriptionCausePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
-    private walletService: WalletService
   ) {}
 
   ngOnInit() {
@@ -50,16 +49,11 @@ export class DescriptionCausePage implements OnInit {
   }
 
   async goToDonate() {
-    const walletExist = await this.walletService.walletExist();
-    if (walletExist) {
       const navigationExtras: NavigationExtras = {
         queryParams: {
           cause: this.cause,
         },
       };
-      this.navController.navigateForward(['/donations/send-donation'], navigationExtras);
-    } else {
-      this.navController.navigateForward(['/donations/no-wallet']);
-    }
+      this.navController.navigateForward(['/donations/token-selection'], navigationExtras);
   }
 }

@@ -7,7 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { DescriptionCausePage } from './description-cause.page';
 
 const testCause = {
@@ -28,7 +27,6 @@ describe('DescriptionCausePage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DescriptionCausePage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let activatedRouteSpy: any;
 
   beforeEach(
@@ -41,14 +39,12 @@ describe('DescriptionCausePage', () => {
           cause: 'unhcr',
         }),
       };
-      walletServiceSpy = jasmine.createSpyObj('WalletService', { walletExist: Promise.resolve(true) });
       TestBed.configureTestingModule({
         declarations: [DescriptionCausePage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletService, useValue: walletServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -87,14 +83,7 @@ describe('DescriptionCausePage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_donations_donate"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/donations/send-donation'], navigationExtras);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/donations/token-selection'], navigationExtras);
   });
 
-  it('should navigate to no wallet page when button ux_donations_donate is clicked and wallet no exist', async () => {
-    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
-    fixture.debugElement.query(By.css('ion-button[name="ux_donations_donate"]')).nativeElement.click();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/donations/no-wallet']);
-  });
 });
