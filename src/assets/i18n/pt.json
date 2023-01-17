@@ -600,7 +600,7 @@
     "user_profile": {
       "header": "Editar Perfil",
       "edit_photo": "Editar",
-      "save_button": "Salve ",
+      "save_button": "Salve",
       "edit_button": "Editar",
       "personal_data": "Dados pessoais",
       "show_personal_data": "DADOS PESSOAIS",
@@ -616,7 +616,7 @@
       "tipo_factura_placeholder": "Selecione..",
       "cuit": "CUIT",
       "direccion": "Endereço",
-      "submit_button": "Salve ",
+      "submit_button": "Salve",
       "success_text": "Dados salvos!",
       "country": "País",
       "country_placeholder": "Selecione um pais"
@@ -1387,7 +1387,7 @@
       "success_button": "Criar outro objetivo"
     },
     "result_objetive": {
-      "saving": "Salve ",
+      "saving": "Salve",
       "saving_description": "Dependendo de suas receitas e despesas mensais, você pode economizar {{saving}} USD por mês. Você atingiria seu objetivo em {{weeks}} semanas.",
       "invest": "Investir",
       "invest_description": "Se você investir mensalmente em DeFi, obterá retornos. Assim, você alcançaria seu objetivo em:",
