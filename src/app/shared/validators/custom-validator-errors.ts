@@ -4,7 +4,7 @@ export class CustomValidatorErrors {
   static notChecked = { notChecked: true };
 
   static hasCapitalCase = { hasCapitalCase: true };
-  
+
   static hasCapitalAndSmallCase = { hasCapitalAndSmallCase: true };
 
   static notAlphanumeric = { notAlphanumeric: true };
@@ -14,7 +14,7 @@ export class CustomValidatorErrors {
   static isNotInRange = { isNotInRange: true };
 
   static countWordsMatch = { countWordsMatch: true };
-  
+
   static isDate = { isDate: true };
 
   static noPasswordMatch = { noPasswordMatch: true };
@@ -37,9 +37,11 @@ export class CustomValidatorErrors {
 
   static spaceBetween = { spaceBetween: true };
 
-  static isAddress = {isAddress: true};
+  static isAddress = { isAddress: true };
 
-  static isAddressSolana = {isAddressSolana: true};
+  static isRepeatedAddress = { isRepeatedAddress: true };
 
-  static lowerThanEqualError = {lowerThanEqual: true}
+  static isAddressSolana = { isAddressSolana: true };
+
+  static lowerThanEqualError = { lowerThanEqual: true };
 }
