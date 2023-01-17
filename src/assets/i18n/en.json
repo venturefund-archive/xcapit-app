@@ -3213,7 +3213,8 @@
     },
     "shared_contacts": {
       "network_selector": {
-        "label": "Network"
+        "label": "Network",
+        "placeholder":"Select an option"
       },
       "network_selector_modal": {
         "title": "Select network"

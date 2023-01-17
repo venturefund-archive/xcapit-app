@@ -3377,7 +3377,8 @@
     },
     "shared_contacts": {
       "network_selector": {
-        "label": "Red"
+        "label": "Red",
+        "placeholder":"Selecciona una opción"
       },
       "network_selector_modal": {
         "title": "Seleccionar Red"
