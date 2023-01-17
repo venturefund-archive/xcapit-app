@@ -42,6 +42,7 @@ import { LocalNotification } from 'src/app/shared/models/local-notification/loca
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
 import { DefiInvestment } from '../../shared-defi-investments/interfaces/defi-investment.interface';
 import { DefiInvestmentsService } from '../../shared-defi-investments/services/defi-investments-service/defi-investments.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -180,7 +181,8 @@ export class InvestmentConfirmationPage {
     private gasStation: GasStationOfFactory,
     private blockchains: BlockchainsFactory,
     private navController: NavController,
-    private defiInvesmentService: DefiInvestmentsService
+    private defiInvesmentService: DefiInvestmentsService,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   async ionViewDidEnter() {
@@ -345,8 +347,10 @@ export class InvestmentConfirmationPage {
   }
 
   async fundWallet() {
-    if (this.isElegibleToFund) {
-      await this.defiInvesmentService.fundWallet().toPromise();
+    if (this.remoteConfig.getFeatureFlag('ff_fundFaucet')) {
+      if (this.isElegibleToFund) {
+        await this.defiInvesmentService.fundWallet().toPromise();
+      }
     }
   }
 

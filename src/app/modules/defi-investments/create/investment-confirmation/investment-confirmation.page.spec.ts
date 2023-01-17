@@ -40,6 +40,7 @@ import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/g
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { fixedGasPriceTo } from 'src/testing/fixed-gas-price.spec';
 import { DefiInvestmentsService } from '../../shared-defi-investments/services/defi-investments-service/defi-investments.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 describe('InvestmentConfirmationPage', () => {
   const weiGasPriceTestValue = '100000000000';
@@ -78,6 +79,7 @@ describe('InvestmentConfirmationPage', () => {
   let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let defiInvesmentServiceSpy: jasmine.SpyObj<DefiInvestmentsService>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(waitForAsync(() => {
     testLocalNotificationOk = {
@@ -174,6 +176,7 @@ describe('InvestmentConfirmationPage', () => {
 
     fakeActivatedRoute = new FakeActivatedRoute({ mode: 'invest' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
+    remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getFeatureFlag: true });
 
     TestBed.configureTestingModule({
       declarations: [InvestmentConfirmationPage, FormattedAmountPipe],
@@ -195,6 +198,7 @@ describe('InvestmentConfirmationPage', () => {
         { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: DefiInvestmentsService, useValue: defiInvesmentServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
