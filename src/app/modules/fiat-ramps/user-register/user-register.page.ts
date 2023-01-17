@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { USER_REGISTER_STEPS } from '../shared-ramps/constants/user-register-steps';
-import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 @Component({
@@ -33,7 +32,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
       </div>
       <app-user-register-content *ngIf="this.userStatus" [status]="this.userStatus"> </app-user-register-content>
       <div class="ur__container__card">
-        <app-user-register-step-card *ngFor="let step of this.steps" [status]="this.userStatus" [step]="step">
+        <app-user-register-step-card *ngFor="let step of this.tplSteps" [status]="this.userStatus" [step]="step">
         </app-user-register-step-card>
       </div>
       <div *ngIf="this.userStatus !== 'COMPLETE'" class="ur__container__disclaimer">
@@ -65,10 +64,10 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
 })
 export class UserRegisterPage {
   steps = USER_REGISTER_STEPS;
+  tplSteps: any;
   userStatus: string;
   constructor(
     private browser: BrowserService,
-    private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private trackService: TrackService,
     private kriptonStorage: KriptonStorageService
@@ -79,14 +78,27 @@ export class UserRegisterPage {
   }
 
   async userRegistrationStatus() {
-    const email = await this.kriptonStorage.get('email');
-    this.fiatRampsService.getOrCreateUser({ email }).subscribe((res) => {
-      this.userStatus = res.registration_status;
-      if (this.userStatus === 'COMPLETE') this.trackEvent();
-    });
+    this.userStatus = await this.kriptonStorage.get('user_status');
+    this.setStepsState();
+    if (this.userStatus === 'COMPLETE') this.trackEvent();
   }
 
-  trackEvent() {
+  setStepsState() {
+    this.tplSteps = structuredClone(this.steps);
+    const stepOne = this.tplSteps.find((step) => step.order === '1');
+    const stepTwo = this.tplSteps.find((step) => step.order === '2');
+    if (this.userStatus === 'USER_INFORMATION') stepTwo.disabled = true;
+    if (this.userStatus === 'USER_IMAGES') {
+      stepOne.completed = true;
+      stepOne.disabled = true;
+    }
+    if (this.userStatus === 'COMPLETE') {
+      stepOne.completed = stepTwo.completed = true;
+      stepOne.disabled = stepTwo.disabled = true;
+    }
+  }
+
+  trackEvent(): void {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,

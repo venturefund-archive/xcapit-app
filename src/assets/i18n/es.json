@@ -160,6 +160,7 @@
       "login_button_text": "Ingresar",
       "reset_password_link": "Olvidé mi contraseña",
       "help_link": "Ayuda",
+      "use_biometric": "Acceder con datos biométricos",
       "invalid_password_text": "La contraseña ingresada no es correcta. Por favor intente nuevamente.",
       "error_biometric_auth": "Se produjo un error al intentar leer tus datos biométricos. Ingresa tu contraseña para acceder."
     },
@@ -333,37 +334,37 @@
     }
   },
   "defi_investments": {
-    "notifications":{
-      "success":{
-        "title":"💰 Inversión exitosa. ¡Felicitaciones!",
+    "notifications": {
+      "success": {
+        "title": "💰 Inversión exitosa. ¡Felicitaciones!",
         "body": "Invertiste {{amount}} {{token}} el día {{date}}."
       },
-      "error":{
-        "title":"⚠️ Error en la inversión",
+      "error": {
+        "title": "⚠️ Error en la inversión",
         "body": "Se produjo un error en la inversión de {{amount}} {{token}} el día {{date}}."
       }
     },
-    "invest_in_progress":{
-      "text_primary":"¡Tu orden está en camino!",
-      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "button_text":"Volver a inversiones",
+    "invest_in_progress": {
+      "text_primary": "¡Tu orden está en camino!",
+      "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text": "Volver a inversiones",
       "text_title": "Inversión",
       "text_badge": "En progreso"
     },
-    "withdraw_notifications":{
-      "success":{
-        "title":"💸 Retiro exitoso",
+    "withdraw_notifications": {
+      "success": {
+        "title": "💸 Retiro exitoso",
         "body": "Retiraste {{amount}} {{token}} el día {{date}}."
       },
-      "error":{
-        "title":"🚨 Error en el retiro",
+      "error": {
+        "title": "🚨 Error en el retiro",
         "body": "Se produjo un error en el retiro de {{amount}} {{token}} el día {{date}}."
       }
     },
-    "withdraw_in_progress":{
-      "text_primary":"¡Tu orden está en camino!",
-      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "button_text":"Volver a inversiones",
+    "withdraw_in_progress": {
+      "text_primary": "¡Tu orden está en camino!",
+      "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text": "Volver a inversiones",
       "text_title": "Retiro",
       "text_badge": "En progreso"
     },
@@ -618,6 +619,20 @@
       "category_help": "Ayuda",
       "faq_help": "Preguntas frecuentes",
       "support_help": "Hablar con soporte",
+      "terms_and_conditions": {
+        "providers":"Proveedores",
+        "tyc": "Términos y condiciones",
+        "privacy_policy": "Política de privacidad",
+        "kripton": {
+          "title": "Kripton Market"
+        },
+        "inch": {
+          "title": "Inch"
+        },
+        "2pi": {
+          "title": "2pi"
+        }
+      },
       "community": "Únete a nuestra comunidad",
       "category_security_account": "Seguridad cuenta Xcapit",
       "change_pass": "Cambiar contraseña",
@@ -627,6 +642,7 @@
       "export_private_key": "Clave privada",
       "security_phrase": "Frase de seguridad",
       "category_preferences": "Preferencias",
+      "security_configuration": "Configuración",
       "push_notifications": "Notificaciones push",
       "language": "Idioma",
       "logout": "Cerrar Sesión",
@@ -634,8 +650,11 @@
       "category_walletconnect": "WalletConnect",
       "connected_walletconnect": "Conectado",
       "disconnected_walletconnect": "Desconectado",
+      "category_contacts": "Agenda de wallets",
       "delete_account_button": "Eliminar cuenta",
-      "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma",
+      "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma. Wallet: {{wallet}}",
+      "version": "Versión",
+      "update": "Actualizar",
       "profile_footer": {
         "investor_profile_button": "Perfil de inversor"
       },
@@ -688,14 +707,39 @@
     "biometric_auth": {
       "header": "Datos biométricos",
       "toggle_text": "Datos biométricos",
-      "toggle_description": "Actívalos para ingresar rápidamente.",
+      "toggle_description": "Actívalos para ingresar a tu wallet y aprobar tus transacciones.",
       "password_title": "Tu seguridad nos importa",
       "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
       "password_button": "Confirmar",
       "password_error": "La contraseña ingresada no es correcta.",
       "options": {
         "title": "Ingresa con tus datos biométricos",
-        "subtitle": "Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo."
+        "subtitle": "Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo.",
+        "negative_button_text": "Usar contraseña"
+      }
+    },
+    "delete_account": {
+      "header": "Eliminar cuenta",
+      "first_text": "Para iniciar el proceso de eliminación de tu cuenta y datos asociados, necesitamos que ingreses tu email.",
+      "second_text": "Xcapit lo utilizará únicamente para comunicar la resolución de tu solicitud.",
+      "email_label": "Ingresa tu email*",
+      "disclaimer": "Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla. Obten más información, visitando las",
+      "link": "Preguntas frecuentes sobre la wallet.",
+      "button": "Eliminar cuenta",
+      "success": {
+        "title": "Solicitud enviada exitosamente",
+        "message": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}"
+      }
+    },
+    "security_configuration": {
+      "header": "Configuración",
+      "inactivity": {
+        "title": "Cierre de sesión por inactividad",
+        "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión."
+      },
+      "password_change": {
+        "title": "Constraseña",
+        "button": "Cambiar"
       }
     },
     "shared": {
@@ -1141,6 +1185,11 @@
           "notOwner": "Estas API keys no te pertenecen."
         }
       }
+    },
+    "tickets": {
+      "create_ticket": {
+        "invalid_data": "Los datos ingresados no son válidos."
+      }
     }
   },
   "financial_education": {
@@ -1435,6 +1484,8 @@
       }
     },
     "send_donations": {
+      "alias": "Dirección o alias",
+      "destiny_wallet": "Billetera de destino",
       "header": "Donaciones",
       "title": "Datos de la operación",
       "currency": "Moneda",
@@ -1612,6 +1663,27 @@
       "header": "Recibir",
       "title": "Selecciona la moneda que quieres recibir"
     },
+    "experimental_onboarding": {
+      "title": "Bienvenido {{username}} 🚀",
+      "init_wallet": "Iniciar wallet",
+      "complete_steps": "1 de 2 pasos completos",
+      "next_step": "Proximo paso",
+      "progress": "Tu progreso",
+      "completed": "completed",
+      "steps": {
+        "step_one": {
+          "title": "Comprar tokens",
+          "subtitle": "USDC al mejor precio."
+        },
+        "step_two": {
+          "title": "O, deposita",
+          "subtitle": "Añade USDC desde otra wallet."
+        },
+        "step_three": {
+          "title": "Creación de wallet"
+        }
+      }
+    },
     "remove_success": {
       "title": "Tu wallet fue eliminada",
       "subtitle": "Puedes crear nuevamente una wallet o importar una existente cuando lo desees.",
@@ -1786,6 +1858,11 @@
       "write_password": "Escribe tu contraseña.",
       "password": "Contraseña",
       "repeat_password": "Repite tu contraseña.",
+      "creation_method": "Método de creación",
+      "import_method": "Método de importación",
+      "default_derived_path": "Por defecto (Recomendado)",
+      "blockchain_derived_path": "Siguiendo la ruta de cada blockchain",
+      "edit_derived_path_button": "Editar",
       "finish_button_create": "Crear wallet",
       "finish_button_import": "Importar wallet",
       "creating_button_state": "Creando wallet",
@@ -1829,7 +1906,7 @@
       "title": "Ingresar frase de recuperación",
       "subtitle": "Escribe tus palabras separadas por un espacio",
       "label": "Frase de recuperación",
-      "button": "Importar wallet",
+      "button": "Continuar",
       "next_button": "Siguiente"
     },
     "transactions": {
@@ -1837,18 +1914,18 @@
       "OUT": "Envío",
       "IN": "Recepción",
       "BUY": "Compra",
-      "swap": "Swap",
+      "swap": "Intercambiar",
       "confirmed": "Confirmado",
       "declined": "Rechazado"
     },
     "send": {
-      "send_notifications":{
-        "success":{
-          "title":"✅ Envío exitoso. ¡Así se hace!",
+      "send_notifications": {
+        "success": {
+          "title": "✅ Envío exitoso. ¡Así se hace!",
           "body": "Enviaste {{amount}} {{token}} el día {{date}}. "
         },
-        "error":{
-          "title":"❌ Error en el envío",
+        "error": {
+          "title": "❌ Error en el envío",
           "body": "Se produjo un error en el envío de {{amount}} {{token}} el día {{date}}. Más información aquí."
         }
       },
@@ -1860,12 +1937,13 @@
         "title": "Selecciona la moneda que deseas enviar",
         "suite": "Red {{suiteName}}"
       },
-      "send_in_progress":{
-        "text_primary":"¡Tu orden está en camino!",
-        "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-        "button_text":"Ir a wallet",
+      "send_in_progress": {
+        "text_primary": "¡Tu orden está en camino!",
+        "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+        "button_text": "Ir a wallet",
         "text_title": "Envío",
-        "text_badge": "En progreso"
+        "text_badge": "En progreso",
+        "text_save": "Agendar dirección"
       },
       "send_detail": {
         "header": "Enviar",
@@ -1877,6 +1955,7 @@
         "continue_button": "Continuar",
         "address_input": {
           "title": "Billetera de destino",
+          "subtitle": "Pega la dirección o escanea el código QR.",
           "help_text": "{{currency}} direccion o alias"
         },
         "alert": {
@@ -1956,7 +2035,8 @@
         "title": "Ingrese la contraseña",
         "disclaimer": "Por seguridad necesitamos que ingreses la contraseña de tu wallet para completar la transacción",
         "submit_button_text": "Aceptar",
-        "input_label": "Contraseña"
+        "input_label": "Contraseña",
+        "biometric_auth_button": "Usar datos biométricos"
       },
       "claim_nft_card": {
         "base": "Aquí podrás ver tus NFTs",
@@ -2203,6 +2283,27 @@
         "description_refused": "Tu transacción fue rechazada por la red. Obtén más detalle accediendo al scan.",
         "button_text": "Entendido"
       }
+    },
+    "derived_path_options": {
+      "header": {
+        "import": "Método de importación",
+        "create": "Método de creación"
+      },
+      "title": {
+        "import": "Selecciona el método con el que se importará tu wallet",
+        "create": "Selecciona el método con el que se creará tu wallet"
+      },
+      "first_option": {
+        "title": "Por defecto: Siguiendo la ruta de Ethereum",
+        "description": "Todas las redes tomarán la misma ruta de derivación que Ethereum (m/44'/60'/0'/0). Esto hará que todas las direcciones sean iguales. Este método utilizado en billeteras como Trezor o MetaMask."
+      },
+      "second_option": {
+        "title": "Siguiendo la ruta de cada blockchain",
+        "description1": "Se utilizará la ruta de derivación definida por cada blockchain, resultando en direcciones diferentes para cada red.",
+        "description2": "Rutas de derivación por red<br> ERC20: m/44'/60'/0'/0/0<br> RSK: m/44'/137'/0'/0/0<br> MATIC: m/44'/966'/0'/0/0<br> BSC_BEP20: m/44'/60'/0'/0/0<br> SOLANA: m/44'/501'/0'/0'"
+      },
+      "disclaimer": "*Estas rutas te servirán en caso de que desees exportar cada dirección de forma individual.",
+      "link": "¿Qué método debo elegir?"
     }
   },
   "tools": {
@@ -2371,7 +2472,7 @@
       "title": "¿Qué significa este estado?",
       "button": "Entendido",
       "incomplete": {
-        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. Esto no significa que se realizó la compra. Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
+        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. <b>Esto no significa que se realizó la compra.</b> Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
         "description2": "Tienes hasta 72hs para hacerlo, de lo contrario, se anulará tu pedido."
       },
       "in_progress": {
@@ -2501,7 +2602,7 @@
         "name": "Moonpay",
         "description": "Proveedor de terceros"
       },
-      "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
+      "disclaimer": "",
       "information": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
       "button_text": "Continuar",
       "moonpay_operations": "Las compras de Moonpay visualizalas en la web",
@@ -2642,10 +2743,10 @@
           "button_primary": "Confirmar y enviar",
           "button_secondary": "Cargar nuevamente"
         },
-        "kripton_account_info":{
+        "kripton_account_info": {
           "title": "Transfiere a la siguiente cuenta",
           "alias": "Alias",
-          "amount":"Monto",
+          "amount": "Monto",
           "cbu": "CBU",
           "owner": "Titular",
           "currency_type": {
@@ -2655,22 +2756,21 @@
             "colombia": "Pesos colombianos"
           }
         },
-        "kripton_purchase_info":{
-          "title":"Tu compra",
-          "quote":"Cotización",
-          "operation":"Operación"
+        "kripton_purchase_info": {
+          "title": "Tu compra",
+          "quote": "Cotización",
+          "operation": "Operación"
         }
-        
       },
-      "kripton_purchase_info":{
-        "title":"Tu compra",
-        "quote":"Cotización",
-        "operation":"Operación"
+      "kripton_purchase_info": {
+        "title": "Tu compra",
+        "quote": "Cotización",
+        "operation": "Operación"
       },
-      "kripton_account_info":{
+      "kripton_account_info": {
         "title": "Transfiere a la siguiente cuenta",
         "alias": "Alias",
-        "amount":"Monto",
+        "amount": "Monto",
         "cbu": "CBU",
         "owner": "Titular",
         "currency_type": {
@@ -2690,7 +2790,7 @@
       "button": "Continuar",
       "text_token": "Enviamos un código temporal de ingreso a tu email.\n Si no lo encuentras, revisa tu bandeja de spam.",
       "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones.",
-      "label_token":"Código de ingreso",
+      "label_token": "Código de ingreso",
       "toast_success": "Te reenviamos el código de ingreso a tu email.",
       "resend_email": {
         "title_not_sent": "¿No recibiste el código?",
@@ -2797,15 +2897,15 @@
         }
       }
     },
-    "purchase_order":{
+    "purchase_order": {
       "header": "Comprar cripto",
-      "clipboard_text":"¡{{type}} copiado con exito!",
+      "clipboard_text": "¡{{type}} copiado con exito!",
       "provider": "Proveedor: Kripton Market",
-      "step_1":"Transferir",
-      "step_2":"Cargar comprobante",
-      "button":"Continuar",
-      "send_button":"Enviar y finalizar",
-      "timer":"Te quedan {{ value }} para transferir",
+      "step_1": "Transferir",
+      "step_2": "Cargar comprobante",
+      "button": "Continuar",
+      "send_button": "Enviar y finalizar",
+      "timer": "Te quedan {{ value }} para transferir",
       "voucher_card": {
         "header": "Adjunta tu comprobante",
         "file_placeholder": "Comprobante.jpg",
@@ -2815,7 +2915,7 @@
         "error": "Se produjo un error. Carga tu comprobante nuevamente."
       }
     },
-    "kripton_operation_detail":{
+    "kripton_operation_detail": {
       "header": "Detalle de la operación",
       "title": "Compra",
       "state": "Estado",
@@ -2824,6 +2924,14 @@
         "incomplete2": "Completar datos",
         "nullified": "El proveedor anuló esta operación. Para más infomación, comunícate con soporte.",
         "cancelled": "El proveedor no recibió el comprobante del pago."
+      },
+      "scan_link": "Ver en",
+      "scans": {
+        "MATIC": "PolygonScan",
+        "RSK": "RSK Explorer",
+        "ERC20": "EtherScan",
+        "BSC_BEP20": "BscScan",
+        "SOLANA": "Solana Explorer"
       },
       "quotation": "Cotización",
       "address": "Dirección de destino (tu wallet)",
@@ -3024,18 +3132,20 @@
       "answer3": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Puedes acceder ágilmente a productos de inversión descentralizados.</li><li>Acceso al intercambio de tus NFTs favoritos.</li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
       "question4": "¿Cómo importar una wallet?",
       "answer4": "<b>1.</b> Dentro de la app, Se accede a la opción: “Importar wallet”.<br><b>2.</b> Ingresar las 12 palabras de la wallet que se desea importar.<br><b>3.</b> Seleccionar los tokens a visualizar.<br><b>4.</b> Crear nueva contraseña para la firma de transacciones con la nueva wallet.",
-      "question5": "¿Qué es la frase de recuperación?",
-      "answer5": "La frase de recuperación está compuesta por 12 palabras que necesitarás para acceder a la billetera posteriormente. Si la pierdes, no podrás acceder a tu wallet. <br> Es muy importante que no se pierda, ya que es el único medio para acceder a tu billetera digital en caso de extravío de la contraseña. La misma es propiedad exclusiva del usuario y solamente él puede acceder a su cuenta.",
-      "question6": "¿Por qué necesito una clave además de mi frase de recuperación?",
-      "answer6": "Si pierdes esta contraseña, podrás recuperarla con las 12 palabras. <br> La contraseña es para validar toda operación que demande la transferencia de dinero de la wallet.",
-      "question7": "¿Puedo hacer dos wallets con la misma cuenta?",
-      "answer7": "Sí. Desde la opción crear o importar. Ten en cuenta que si te has anotado para recibir tu NFT de regalo, el mismo se depositará en la última wallet creada.",
-      "question8": "¿Qué sucede si creo una cuenta nueva?",
-      "answer8": "Si estás en el mismo dispositivo y no eliminaste la Wallet anterior, seguirás viendo la misma Wallet con tu nueva cuenta. Sin embargo, no podrás realizar ninguna acción allí, ya que necesitarás una nueva frase semilla para poder operar. Esto permite que tus tokens permanezcan seguros. <br> Si quieres crear una nueva Wallet, deberás desinstalar la app y volver a instalarla en tu dispositivo móvil. En aplicaciones de escritorio o navegadores, podrás eliminar tu Wallet o borrar caché.",
-      "question9": "¿Qué sucede si inicio sesión con otra cuenta en un mismo dispositivo?",
-      "answer9": "Si inicias sesión con una cuenta diferente, verás la misma Wallet que está asociada a tu cuenta original y a tu dispositivo. Pero solo verás el saldo, no podrás operar. La cuenta que abras primero, quedará almacenada en tu dispositivo y la Wallet estará asociada a ella.<br> Si quieres crear una nueva Wallet, deberás desinstalar la app y volver a instalarla en tu dispositivo móvil. En aplicaciones de escritorio o navegadores, podrás eliminar tu Wallet o borrar caché.",
-      "question10": "¿Cómo puedo eliminar mi Wallet de Xcapit de este dispositivo?",
-      "answer10": "Podrás eliminar la Wallet de la cuenta de Xcapit desde el menú principal de la app: ve a tu Perfil y haz clic en “Eliminar Wallet”. <br> La Wallet no se elimina nunca de forma completa. Podrás acceder a ella con tu frase de recuperación, en cualquier momento."
+      "question5": "¿Qué es la “ruta de derivación” de la frase semilla (en inglés = ”Derivation path”)?",
+      "answer5": "Es el formato que utilizó la wallet con la que creaste tu wallet para generar tus address a partir de tu frase semilla. Si deseas migrar tus llaves privadas de una wallet a otra, es importante que verifiques cómo fueron creadas las mismas (ruta de derivación). Y utilices el mismo formato, de esta manera importarás las mismas address. Caso contrario, crearás una nueva address, resultando en dos o más address distintas. <br> Para info más técnica podrías usar este <a class='ux-link-xs' href='https://medium.com/mycrypto/wtf-is-a-derivation-path-c3493ca2eb52'>link</a>",
+      "question6": "¿Qué es la frase de recuperación?",
+      "answer6": "La frase de recuperación está compuesta por 12 palabras que necesitarás para acceder a la billetera posteriormente. Si la pierdes, no podrás acceder a tu wallet. <br> Es muy importante que no se pierda, ya que es el único medio para acceder a tu billetera digital en caso de extravío de la contraseña. La misma es propiedad exclusiva del usuario y solamente él puede acceder a su cuenta.",
+      "question7": "¿Por qué necesito una clave además de mi frase de recuperación?",
+      "answer7": "Si pierdes esta contraseña, podrás recuperarla con las 12 palabras. <br> La contraseña es para validar toda operación que demande la transferencia de dinero de la wallet.",
+      "question8": "¿Puedo hacer dos wallets con la misma cuenta?",
+      "answer8": "Sí. Desde la opción crear o importar. Ten en cuenta que si te has anotado para recibir tu NFT de regalo, el mismo se depositará en la última wallet creada.",
+      "question9": "¿Qué sucede si creo una cuenta nueva?",
+      "answer9": "Si estás en el mismo dispositivo y no eliminaste la Wallet anterior, seguirás viendo la misma Wallet con tu nueva cuenta. Sin embargo, no podrás realizar ninguna acción allí, ya que necesitarás una nueva frase semilla para poder operar. Esto permite que tus tokens permanezcan seguros. <br> Si quieres crear una nueva Wallet, deberás desinstalar la app y volver a instalarla en tu dispositivo móvil. En aplicaciones de escritorio o navegadores, podrás eliminar tu Wallet o borrar caché.",
+      "question10": "¿Qué sucede si inicio sesión con otra cuenta en un mismo dispositivo?",
+      "answer10": "Si inicias sesión con una cuenta diferente, verás la misma Wallet que está asociada a tu cuenta original y a tu dispositivo. Pero solo verás el saldo, no podrás operar. La cuenta que abras primero, quedará almacenada en tu dispositivo y la Wallet estará asociada a ella.<br> Si quieres crear una nueva Wallet, deberás desinstalar la app y volver a instalarla en tu dispositivo móvil. En aplicaciones de escritorio o navegadores, podrás eliminar tu Wallet o borrar caché.",
+      "question11": "¿Cómo puedo eliminar mi Wallet de Xcapit de este dispositivo?",
+      "answer11": "Podrás eliminar la Wallet de la cuenta de Xcapit desde el menú principal de la app: ve a tu Perfil y haz clic en “Eliminar Wallet”. <br> La Wallet no se elimina nunca de forma completa. Podrás acceder a ella con tu frase de recuperación, en cualquier momento."
     },
     "support_wallet_operations": {
       "header": "Ayuda",
@@ -3045,7 +3155,7 @@
       "question2": "¿Qué costo tienen los retiros del producto de inversión?",
       "answer2": "La tarifa es de 0,255% del monto que el usuario retira del producto de inversión. Este cobro se hace en la moneda en la cual se está ejecutando dicho producto de inversión.",
       "question3": "¿Por qué aparece un mensaje de “fondo insuficiente” para realizar el pago de comisiones si yo tengo cripto?",
-      "answer3": "Porque el pago de fee de las transacciones se hacen en la moneda nativa de la red.<br>A través de swap de la billetera de Xcapit podrás adquirir los tokens nativos para pagar las fee o comisiones.",
+      "answer3": "Porque el pago de fee de las transacciones se hacen en la moneda nativa de la red.<br>En la sección “Intercambiar” de tu wallet, podrás adquirir los tokens nativos para pagar las fee o comisiones.",
       "question4": "¿Cuánto tiempo demora en acreditarse una transferencia?",
       "answer4": "De la misma manera que el costo de la transferencia, el tiempo va a depender de la blockchain de la misma.",
       "question5": "¿Cómo recibo una transferencia en mi Wallet?",
@@ -3111,7 +3221,7 @@
       "question1": "¿Por qué la tarifa de transacción es variable?",
       "answer1": "La misma puede variar ligeramente por la volatilidad del mercado. Posee un tiempo de validez, luego caduca y se actualiza. Ocurre por diferentes motivos:<ul><li>Porque se modificó el tipo de cambio entre el momento en que se ingresaron los datos y cuando se desea confirmar la operación. Por lo que deberá volver a confirmarla para finalizar.</li><li>No posees suficientes criptos (MATIC, ETH, etc) para abonar las comisiones.</li><li>Las criptos que estás intentando intercambiar son altamente volátiles o hay poca liquidez en el grupo.</li></ul>",
       "question2": "¿Porqué debo confirmar aceptar los términos de 1inch si estoy operando con Xcapit?",
-      "answer2": "Debido a que Xcapit no posee un swap propio, sino que provee el servicio a través de 1inch."
+      "answer2": "Debido a que el proceso de intercambio se realiza a través de nuestro proveedor 1inch. Xcapit, no brinda este servicio propio."
     }
   },
   "wealth_managements": {
@@ -3165,7 +3275,7 @@
   },
   "swaps": {
     "home": {
-      "header": "Swap",
+      "header": "Intercambiar",
       "button": "Continuar",
       "loading_button_text": "Intercambiando",
       "from_token_title": "Desde",
@@ -3194,7 +3304,7 @@
       "invalid_password": "La contraseña ingresada no es correcta."
     },
     "select_token": {
-      "header": "Swap",
+      "header": "Intercambiar",
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
     },
@@ -3228,6 +3338,10 @@
       "swap_not_ok": {
         "title": "❌ Error en el intercambio",
         "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
+      },
+      "swap_not_ok_blockchain": {
+        "title": "❌ Error en el intercambio",
+        "body": "No pudo ser procesado por la blockchain. Intenta nuevamente más tarde."
       }
     }
   },
@@ -3237,5 +3351,42 @@
     "go_to_xcapit": "Ir a Xcapit",
     "dont_have_app": "¿Aún no la tienes?",
     "download": "Descargar"
+  },
+  "contacts": {
+    "home": {
+      "header": "Mi agenda",
+      "empty": {
+        "title": "Aún no posees wallets en tu agenda.",
+        "subtitle": "¡Comienza ahora!"
+      },
+      "button": "Agendar nueva wallet"
+    },
+    "register": {
+      "header": "Agendar wallet",
+      "title": "Ingresa los datos de la wallet que deseas agendar.",
+      "address_label": "Dirección",
+      "address_sublabel": "Pega la dirección o escanea el código QR.",
+      "address_placeholder": "Mantén presionado para pegar",
+      "name_label": "Nombre",
+      "name_placeholder": "Ej: Wallet de Laura",
+      "submit_text": "Agendar wallet",
+      "text_invalid": "La dirección de wallet es incorrecta",
+      "text_valid": "La dirección de wallet es correcta",
+      "loading": "Agendando",
+      "success_toast": "¡Excelente! Wallet agendada con éxito"
+    },
+    "shared_contacts": {
+      "network_selector": {
+        "label": "Red"
+      },
+      "network_selector_modal": {
+        "title": "Seleccionar Red"
+      }
+    },
+    "qr_scanner": {
+      "title": "Escanea el codigo QR de la dirección que deseas agendar",
+      "scan_error": "Error al escanear el código QR",
+      "scan_unauthorized": "No tienes permiso para escanear"
+    }
   }
 }

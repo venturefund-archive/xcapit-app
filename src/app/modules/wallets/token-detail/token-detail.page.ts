@@ -31,7 +31,7 @@ import { RawBlockchain } from '../../swaps/shared-swaps/models/blockchain-repo/b
 import { TokenByAddress } from '../../swaps/shared-swaps/models/token-by-address/token-by-address';
 import { Token } from '../../swaps/shared-swaps/models/token/token';
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
-
+import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 
 @Component({
   selector: 'app-asset-detail',
@@ -46,6 +46,27 @@ import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/inj
     </ion-header>
 
     <ion-content class="wad ion-padding">
+      <ion-refresher
+        (ionRefresh)="this.refresh($event)"
+        close-duration="1000ms"
+        slot="fixed"
+        pull-factor="0.6"
+        pull-min="50"
+        pull-max="60"
+      >
+        <ion-refresher-content class="refresher" refreshingSpinner="true" pullingIcon="false">
+          <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
+          <ion-text class="ux-font-text-xxs" color="neutral80" *ngIf="(this.isRefreshAvailable$ | async) === false">
+            {{
+              'app.main_menu.pull_to_refresh'
+                | translate
+                  : {
+                      seconds: (this.refreshRemainingTime$ | async)
+                    }
+            }}
+          </ion-text>
+        </ion-refresher-content>
+      </ion-refresher>
       <div class="ux_content">
         <ion-card class="wad__card">
           <div class="wad__title_and_image" *ngIf="this.tplToken">
@@ -92,13 +113,16 @@ import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/inj
           <app-wallet-subheader-buttons
             [asset]="this.tplToken.value"
             [network]="this.tplBlockchain.name"
-            [tokenAddress]='this.tplToken.contract'
+            [tokenAddress]="this.tplToken.contract"
             [enabledToBuy]="this.enabledToBuy"
             [enabledToOperate]="this.enabledToOperate"
           ></app-wallet-subheader-buttons>
         </div>
 
-        <div class="wad__transaction" *ngIf="!!this.transfers.length">
+        <div
+          class="wad__transaction"
+          *ngIf="(this.transfers !== undefined && this.transfers.length > 0) || this.transfers === undefined"
+        >
           <div class="wad__transaction__title">
             <ion-label class="ux-font-text-lg ">
               {{ 'wallets.asset_detail.wallet_transaction_title' | translate }}
@@ -106,9 +130,13 @@ import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/inj
           </div>
           <div class="wad__transaction__wallet-transaction-card">
             <app-wallet-transaction-card
+              *ngIf="this.transfers !== undefined"
               [transfers]="this.transfers"
               [network]="this.tplBlockchain.name"
             ></app-wallet-transaction-card>
+            <app-wallet-transaction-skeleton-card
+              *ngIf="this.transfers === undefined"
+            ></app-wallet-transaction-skeleton-card>
           </div>
         </div>
       </div>
@@ -118,7 +146,7 @@ import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/inj
 })
 export class TokenDetailPage {
   buttonName: string;
-  transfers: Transfer[] = [];
+  transfers: Transfer[];
   networkColors = NETWORK_COLORS;
   enabledToBuy: boolean;
   enabledToOperate: boolean;
@@ -129,6 +157,8 @@ export class TokenDetailPage {
   tokenDetail: TokenDetail;
   tplToken: RawToken;
   tplBlockchain: RawBlockchain;
+  isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
+  refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   private token: Token;
   private wallet: Wallet;
   private blockchain: Blockchain;
@@ -148,6 +178,7 @@ export class TokenDetailPage {
     private covalentBalancesFactory: CovalentBalancesController,
     private tokenPricesFactory: TokenPricesController,
     private tokenDetailInjectable: TokenDetailInjectable,
+    private refreshTimeoutService: RefreshTimeoutService
   ) {}
 
   async ionViewWillEnter() {
@@ -193,7 +224,7 @@ export class TokenDetailPage {
 
   async findProductToInvest() {
     this.allDefiProducts.find((product) => {
-      if (product.token().value === this.token.symbol()) {
+      if (product.token().value === this.token.symbol() && product.token().network === this.token.network()) {
         this.productToInvest = product;
       }
     });
@@ -242,6 +273,7 @@ export class TokenDetailPage {
 
   async getTransfers() {
     if (this.blockchain.name() !== 'SOLANA') {
+      this.transfers = undefined;
       this.transfers = await this.transfersFactory.create(this.token.json(), this.wallet.address()).all();
     }
   }
@@ -249,5 +281,13 @@ export class TokenDetailPage {
   private setAllowedOperations() {
     this.enabledToBuy = !!new ProviderTokensOf(this.providers.create(), [this.token.json()]).all().length;
     this.enabledToOperate = true;
+  }
+
+  async refresh(event: any): Promise<void> {
+    if (this.refreshTimeoutService.isAvailable()) {
+      await this.getTransfers();
+      this.refreshTimeoutService.lock();
+    }
+    setTimeout(() => event.target.complete(), 1000);
   }
 }

@@ -148,4 +148,10 @@ describe('FiatRampsService', () => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('should call get on http when getMoonpayLimitOfBuyQuote', () => {
+    fiatRampsService.getMoonpayLimitOfBuyQuote('eth', 'usd').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 });

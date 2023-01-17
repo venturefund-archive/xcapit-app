@@ -27,7 +27,11 @@ import { RemoteConfigService } from '../../../shared/services/remote-config/remo
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
+import { FakeAppVersion } from 'src/app/shared/models/app-version/fake/fake-app-version';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { AppUpdateAvailability } from '@capawesome/capacitor-app-update';
+import { UpdateAppService } from 'src/app/shared/services/update-app/update-app.service';
 
 describe('UserProfileMenuPage', () => {
   const itemMenu: MenuCategory[] = [
@@ -92,6 +96,13 @@ describe('UserProfileMenuPage', () => {
         },
       ],
     },
+    {
+      id: 'contacts',
+      showCategory: true,
+      category_title: '',
+      icon: '',
+      items: [],
+    },
   ];
 
   const profile = { email: 'test@mail.com' };
@@ -120,6 +131,11 @@ describe('UserProfileMenuPage', () => {
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
+  let fakeAppVersion: FakeAppVersion;
+  let appVersionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let appUpdateSpy: jasmine.SpyObj<any>;
+  let updateAppServiceSpy: jasmine.SpyObj<UpdateAppService>;
 
   beforeEach(waitForAsync(() => {
     logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
@@ -139,7 +155,7 @@ describe('UserProfileMenuPage', () => {
         isLoggedIn: new ReplaySubject<boolean>(1),
       }
     );
-    
+
     nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
       'init',
       'subscribeTo',
@@ -200,6 +216,27 @@ describe('UserProfileMenuPage', () => {
       getFeatureFlag: false,
     });
 
+    fakeAppVersion = new FakeAppVersion(Promise.resolve('3.0.1'));
+
+    appVersionInjectableSpy = jasmine.createSpyObj('AppVersionInjectable', {
+      create: fakeAppVersion,
+    });
+
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+      isNative: true,
+      platform: 'android',
+    });
+
+    appUpdateSpy = jasmine.createSpyObj('AppUpdate', {
+      getAppUpdateInfo: Promise.resolve({
+        updateAvailability: AppUpdateAvailability.UPDATE_AVAILABLE,
+      }),
+    });
+
+    updateAppServiceSpy = jasmine.createSpyObj('UpdateAppService', {
+      update: Promise.resolve(),
+    });
+
     TestBed.configureTestingModule({
       declarations: [UserProfileMenuPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -220,12 +257,17 @@ describe('UserProfileMenuPage', () => {
         { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
+        { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
+        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: UpdateAppService, useValue: updateAppServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserProfileMenuPage);
     component = fixture.componentInstance;
+    component.appUpdate = appUpdateSpy;
+    component.itemMenu = itemMenu;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fixture.detectChanges();
   }));
@@ -248,14 +290,14 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should subscribe to push notifications', async () => {
-    component.toggle(true)
+    component.toggle(true);
     fixture.detectChanges();
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
   });
 
   it('should unsubscribe to push notifications', async () => {
-    component.toggle(false)
+    component.toggle(false);
     fixture.detectChanges();
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
@@ -281,7 +323,7 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should get data of users when ionViewWillEnter is called', async () => {
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     await fixture.whenStable();
     expect(component.profile).toEqual(profile);
   });
@@ -337,38 +379,11 @@ describe('UserProfileMenuPage', () => {
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
   });
 
-  it('should show modal, delete storage data and logout when delete account button is clicked and user confirms it', async () => {
-    component.profile = profile;
-    fakeModalController.modifyReturns({}, { data: true });
-    const button = fixture.debugElement.query(By.css('ion-button[name="delete_account"]'));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(storageServiceSpy.removeWalletFromStorage).toHaveBeenCalledTimes(1);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', false);
-    expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
-    expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
-    expect(storageSpy.set).toHaveBeenCalledOnceWith('FINISHED_ONBOARDING', false);
-    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
-  });
-
-  it('should show modal but not delete anything when delete account button is clicked and user cancels it', async () => {
-    component.profile = profile;
-    fakeModalController.modifyReturns({}, { data: false });
-    const button = fixture.debugElement.query(By.css('ion-button[name="delete_account"]'));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(spyOn(component, 'deleteAccount')).toHaveBeenCalledTimes(0);
-    expect(spyOn(component, 'cleanStorage')).toHaveBeenCalledTimes(0);
-    expect(spyOn(component, 'logout')).toHaveBeenCalledTimes(0);
-  });
-
   it('should render app-card-category-menu component', () => {
-    component.itemMenu = itemMenu;
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
-    expect(menu.length).toBe(4);
+    expect(menu.length).toBe(5);
   });
 
   it('should back to home when back button is clicked', async () => {
@@ -378,14 +393,21 @@ describe('UserProfileMenuPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tabs/home');
   });
 
+  it('should navigate to delete account when delete_account button is clicked', async () => {
+    const button = fixture.debugElement.query(By.css('ion-button[name="delete_account"]'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('profiles/delete-account');
+  });
+
   it('should set username on enter', async () => {
     await component.ionViewWillEnter();
     expect(component.username).toEqual('Xcapiter 0x012');
   });
 
   it('should show biometric auth item when bio auth is enabled', async () => {
-    component.itemMenu = itemMenu;
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+
     await component.ionViewWillEnter();
 
     const biometricAuthItem = component.itemMenu
@@ -396,7 +418,6 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should hide biometric auth item when bio auth is disabled', async () => {
-    component.itemMenu = itemMenu;
     await component.ionViewWillEnter();
 
     const biometricAuthItem = component.itemMenu
@@ -407,7 +428,6 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should navigate to support page when clicking ux_go_to_contact_support', () => {
-    component.itemMenu = JSON.parse(JSON.stringify(itemMenu));
     fixture.detectChanges();
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -420,5 +440,59 @@ describe('UserProfileMenuPage', () => {
     component.ionViewWillLeave();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show address list category when feature flag is enabled', async () => {
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+
+    await component.ionViewWillEnter();
+
+    const contactListItem = component.itemMenu.find((category) => category.id === 'contacts');
+
+    expect(contactListItem.showCategory).toBeTrue();
+  });
+
+  it('should hide address list category when feature flag is not enabled', async () => {
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
+    await component.ionViewWillEnter();
+
+    const contactListItem = component.itemMenu.find((category) => category.id === 'contacts');
+
+    expect(contactListItem.showCategory).toBeFalse();
+  });
+
+  it('should show button if update available', async () => {
+    component.isNative = true;
+    component.showButton = true;
+    fixture.detectChanges();
+    await component.ionViewWillEnter();
+    const button = fixture.debugElement.query(By.css('ion-text[name="Update"]'));
+    expect(button).toBeTruthy();
+  });
+
+  it('should not show button if up to date', async () => {
+    component.isNative = true;
+    const availability = {
+      updateAvailability: AppUpdateAvailability.UPDATE_NOT_AVAILABLE,
+    };
+    fixture.detectChanges();
+    appUpdateSpy.getAppUpdateInfo.and.returnValue(availability);
+    await component.ionViewWillEnter();
+    const button = fixture.debugElement.query(By.css('ion-text[name="Update"]'));
+    expect(button).toBeFalsy();
+  });
+
+  it('should get actual version on init', async () => {
+    await component.ionViewWillEnter();
+    expect(appVersionInjectableSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should update app when button is available and is clicked', async () => {
+    component.isNative = true;
+    component.showButton = true;
+    fixture.detectChanges();
+    await component.ionViewWillEnter();
+    fixture.debugElement.query(By.css('ion-text[name="Update"]')).nativeElement.click();
+    expect(updateAppServiceSpy.update).toHaveBeenCalledTimes(1);
   });
 });

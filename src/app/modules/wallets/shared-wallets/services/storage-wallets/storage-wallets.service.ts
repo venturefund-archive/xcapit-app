@@ -4,6 +4,7 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
 import * as moment from 'moment';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { Coin } from '../../interfaces/coin.interface';
+import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 @Injectable({
   providedIn: 'root',
 })
@@ -33,15 +34,14 @@ export class StorageWalletsService {
   providedIn: 'root',
 })
 export class StorageService {
-  allCoins = [];
   coins: Coin[];
   constructor(private appStorageService: AppStorageService, private apiWalletService: ApiWalletService) {}
 
-  async getWalletFromStorage() {
+  async getWalletFromStorage(): Promise<StorageWallet> {
     return await this.appStorageService.get('enc_wallet');
   }
 
-  async saveWalletToStorage(wallet: any) {
+  async saveWalletToStorage(wallet: StorageWallet) {
     const walletData = await this.getWalletFromStorage() || {};
     return await this.appStorageService.set('enc_wallet', { ...walletData, ...wallet });
   }
@@ -60,61 +60,16 @@ export class StorageService {
     return wallets.addresses;
   }
 
-  async getAssestsSelected() {
+  async getAssetsSelected(): Promise<Coin[]> {
     this.coins = this.apiWalletService.getCoins();
     const wallets = await this.getWalletFromStorage();
     let userCoins = [];
-    this.allCoins = this.coins;
-
-    if (!!wallets && !!wallets.assets) {
-      userCoins = this.allCoins.filter((coin) => wallets.assets[coin.value]);
-    }
-    return userCoins;
-  }
-
-  async saveAssetSelected(asset: any) {
-    const wallets = await this.getWalletFromStorage();
-
-    if (!!wallets && !!wallets.assets[asset]) {
-      wallets.assets[asset] = !wallets.assets[asset];
-      wallets.updatedAt = moment().utc().format();
-
-      return await this.saveWalletToStorage(wallets);
-    }
-
-    return false;
-  }
-
-  async updateAssetsList() {
-    this.coins = this.apiWalletService.getCoins();
-    const wallets = await this.getWalletFromStorage();
-    let updated = false;
 
     if (wallets) {
-      if (wallets.assets) {
-        for (const coin of this.coins) {
-          if (wallets.assets[coin.value] === undefined) {
-            wallets.assets[coin.value] = false;
-            updated = true;
-          }
-        }
-      } else {
-        const selectedCoins = {};
-
-        for (const coin of this.coins) {
-          selectedCoins[coin.value] = true;
-        }
-
-        wallets.assets = selectedCoins;
-        updated = true;
-      }
-
-      if (updated) {
-        wallets.updatedAt = moment().utc().format();
-        return await this.saveWalletToStorage(wallets);
-      } else {
-        return false;
-      }
+      userCoins = this.coins.filter(coin => {
+        return wallets.assets.find(userCoin => coin.value === userCoin.value && coin.network === userCoin.network);
+      });
     }
+    return userCoins;
   }
 }

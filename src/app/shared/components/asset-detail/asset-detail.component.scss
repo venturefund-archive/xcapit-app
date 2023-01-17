@@ -1,0 +1,19 @@
+:host {
+  .ad {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    align-items: center;
+
+    &__title {
+      display: flex;
+      gap: 4px;
+      flex-direction: column;
+    }
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}

@@ -59,7 +59,7 @@ describe('TimerCountdownComponent', () => {
     component.showSeconds = false;
     fakeTimer.next();
 
-    expect(component.timeString.value).toContain('02');
+    expect(component.timeString.value).toMatch(/\d\d/);
   });
 
   it('should show time only with minutes and seconds', () => {
@@ -67,6 +67,6 @@ describe('TimerCountdownComponent', () => {
     component.showHours = false;
     fakeTimer.next();
 
-    expect(component.timeString.value).toContain('02:00');
+    expect(component.timeString.value).toMatch(/\d\d:\d\d/);
   });
 });

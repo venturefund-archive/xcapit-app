@@ -6,7 +6,6 @@ import { WalletBalanceCardItemComponent } from './components/wallet-balance-card
 import { WalletTransactionCardItemComponent } from './components/wallet-transaction-card-item/wallet-transaction-card-item.component';
 import { WalletTransactionCardComponent } from './components/wallet-transaction-card/wallet-transaction-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
-import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
 import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
 import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
 import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-buttons/wallet-subheader-buttons.component';
@@ -24,12 +23,13 @@ import { InfoPhraseModalComponent } from './components/info-phrase-modal/info-ph
 import { WarningBackupModalComponent } from './components/warning-backup-modal/warning-backup-modal.component';
 import { SwapInProgressModalComponent } from './components/swap-in-progress-modal/swap-in-progress-modal.component';
 import { ShareTransactionDetailComponent } from './components/share-transaction-detail/share-transaction-detail.component';
-import { AccordionTokensComponent} from './components/accordion-tokens/accordion-tokens.component';
+import { AccordionTokensComponent } from './components/accordion-tokens/accordion-tokens.component';
 import { NoActiveTokensCardComponent } from './components/no-active-tokens-card/no-active-tokens-card.component';
 import { TransactionInProgressCardComponent } from './components/transaction-in-progress-card/transaction-in-progress-card.component';
 import { SwiperModule } from 'swiper/angular';
 import { HomeSlidesComponent } from './components/home-slides/home-slides.component';
-
+import { InitiationWalletStepCardComponent } from './components/initiation-wallet-step-card/initiation-wallet-step-card.component';
+import { WalletTransactionSkeletonCardComponent } from './components/wallet-transaction-card/wallet-transaction-skeleton-card/wallet-transaction-skeleton-card.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,6 @@ import { HomeSlidesComponent } from './components/home-slides/home-slides.compon
     WalletBalanceCardItemComponent,
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
-    AddressInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
@@ -60,7 +59,9 @@ import { HomeSlidesComponent } from './components/home-slides/home-slides.compon
     AccordionTokensComponent,
     NoActiveTokensCardComponent,
     TransactionInProgressCardComponent,
-    HomeSlidesComponent
+    HomeSlidesComponent,
+    InitiationWalletStepCardComponent,
+    WalletTransactionSkeletonCardComponent,
   ],
   imports: [SharedModule, SwiperModule],
   exports: [
@@ -73,7 +74,6 @@ import { HomeSlidesComponent } from './components/home-slides/home-slides.compon
     WalletBalanceCardItemComponent,
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
-    AddressInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
@@ -92,7 +92,9 @@ import { HomeSlidesComponent } from './components/home-slides/home-slides.compon
     AccordionTokensComponent,
     NoActiveTokensCardComponent,
     TransactionInProgressCardComponent,
-    HomeSlidesComponent
+    HomeSlidesComponent,
+    InitiationWalletStepCardComponent,
+    WalletTransactionSkeletonCardComponent,
   ],
 })
 export class SharedWalletsModule {}

@@ -1,9 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { AddressInputCardComponent } from './address-input-card.component';
 import { By } from '@angular/platform-browser';
 import { UntypedFormControl, UntypedFormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
-import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { UxInputUnderlinedComponent } from '../../../../../shared/components/ux-input-underlined/ux-input-underlined.component';
@@ -11,11 +10,12 @@ import { FakeModalController } from '../../../../../../testing/fakes/modal-contr
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { FormattedNetworkPipe } from 'src/app/shared/pipes/formatted-network-name/formatted-network.pipe';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { FakeFeatureFlagDirective } from '../../../../../../testing/fakes/feature-flag-directive.fake.spec';
 
 describe('AddressInputCardComponent', () => {
   let component: AddressInputCardComponent;
   let fixture: ComponentFixture<AddressInputCardComponent>;
-  let clipboardServiceMock: any;
   let modalControllerSpy: any;
   let toastServiceMock: any;
   let toastService: ToastService;
@@ -23,11 +23,22 @@ describe('AddressInputCardComponent', () => {
   let formGroupDirectiveMock: FormGroupDirective;
   let fakeModalController: FakeModalController;
   let platformServiceSpy: any;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+
+  const contacts = [
+    {
+      address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+      name: 'TestWallet',
+      networks: ['ERC20', 'RSK'],
+    },
+  ];
 
   beforeEach(() => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
-
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(contacts),
+    });
     platformServiceSpy = jasmine.createSpyObj('PlatformService', ['isWeb']);
     platformServiceSpy.isWeb.and.returnValue(false);
     controlContainerMock = new UntypedFormGroup({
@@ -35,21 +46,23 @@ describe('AddressInputCardComponent', () => {
     });
     formGroupDirectiveMock = new FormGroupDirective([], []);
     formGroupDirectiveMock.form = controlContainerMock;
-    clipboardServiceMock = {
-      read: () => Promise.resolve({ value: 'test', type: 'text/plain' }),
-    };
     toastServiceMock = {
       showToast: () => Promise.resolve(),
     };
     TestBed.configureTestingModule({
-      declarations: [AddressInputCardComponent, UxInputUnderlinedComponent, FormattedNetworkPipe],
+      declarations: [
+        AddressInputCardComponent,
+        UxInputUnderlinedComponent,
+        FormattedNetworkPipe,
+        FakeFeatureFlagDirective,
+      ],
       imports: [IonicModule, ReactiveFormsModule, TranslateModule.forRoot()],
       providers: [
-        { provide: ClipboardService, useValue: clipboardServiceMock },
         { provide: ToastService, useValue: toastServiceMock },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
         { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -66,24 +79,6 @@ describe('AddressInputCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render qr code depending of enableQR', () => {
-    let scanQrEl = fixture.debugElement.query(By.css('ion-button[name="Scan QR"]'));
-    expect(scanQrEl).toBeTruthy();
-    component.enableQR = false;
-    fixture.detectChanges();
-    scanQrEl = fixture.debugElement.query(By.css('ion-button[name="Scan QR"]'));
-    expect(scanQrEl).toBeNull();
-  });
-
-  it('should render qr code depending of isPWA', () => {
-    let scanQrEl = fixture.debugElement.query(By.css('ion-button[name="Scan QR"]'));
-    expect(scanQrEl).toBeTruthy();
-    component.isPWA = true;
-    fixture.detectChanges();
-    scanQrEl = fixture.debugElement.query(By.css('ion-button[name="Scan QR"]'));
-    expect(scanQrEl).toBeNull();
-  });
-
   it('should render address on qr code scanned success', async () => {
     fakeModalController.modifyReturns(
       {},
@@ -92,7 +87,7 @@ describe('AddressInputCardComponent', () => {
         role: 'success',
       }
     );
-    fixture.debugElement.query(By.css('ion-button[name="Scan QR"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened', null);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.form.value.address).toBe('testAddress');
@@ -101,14 +96,14 @@ describe('AddressInputCardComponent', () => {
   it('should not render address and show toast on qr code scanned error', async () => {
     const spy = spyOn(toastService, 'showToast').and.callThrough();
     fakeModalController.modifyReturns({}, { data: 'errorData', role: 'error' });
-    fixture.debugElement.query(By.css('ion-button[name="Scan QR"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened', null);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.form.value.address).toBe('');
     expect(spy).toHaveBeenCalledWith({ message: 'wallets.shared_wallets.address_input_card.scan_error' });
   });
 
-  it('should not render address and show toast on qr code scanned unauthorized', async () => {
+  it('should not render address and show toast on qr code scanned unauthorized', fakeAsync(() => {
     const spy = spyOn(toastService, 'showToast').and.callThrough();
     fakeModalController.modifyReturns(
       {},
@@ -117,10 +112,34 @@ describe('AddressInputCardComponent', () => {
         role: 'unauthorized',
       }
     );
-    fixture.debugElement.query(By.css('ion-button[name="Scan QR"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened', null);
+    tick();
     fixture.detectChanges();
-    await fixture.whenStable();
     expect(component.form.value.address).toBe('');
     expect(spy).toHaveBeenCalledWith({ message: 'wallets.shared_wallets.address_input_card.scan_unauthorized' });
+  }));
+
+  it('should render contacts button disabled if there is not contacts on storage', () => {
+    ionicStorageServiceSpy.get.and.returnValue(null);
+    fixture.detectChanges();
+    const contactsButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_go_to_address_list"]'));
+    expect(contactsButtonEl.nativeElement.disabled).toBe(true);
+  });
+
+  it('should render contacts button enabled if there is contacts on storage and one or more matches with selected network', fakeAsync(() => {
+    component.hasContacts = true;
+    fixture.detectChanges();
+    const contactsButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_go_to_address_list"]'));
+    expect(contactsButtonEl.nativeElement.disabled).toBe(false);
+  }));
+
+  it('should emit event when ux_go_to_address_list button was clicked', () => {
+    const spy = spyOn(component.addFromContacts, 'emit');
+    const contactsButtonEl = fixture.debugElement.query(
+      By.css('ion-button[name="ux_go_to_address_list"]')
+    ).nativeElement;
+    const customEvent = new CustomEvent('click', {});
+    contactsButtonEl.dispatchEvent(customEvent);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

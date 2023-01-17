@@ -20,6 +20,8 @@ import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 import { ethers } from 'ethers';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-create-password',
@@ -41,7 +43,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
     </ion-header>
 
     <ion-content class="ion-padding">
-      <form [formGroup]="this.createPasswordForm" class="ux_main" (ngSubmit)="this.handleSubmit()">
+      <form [formGroup]="this.createPasswordForm" class="ux_main">
         <div class="ux_content">
           <div>
             <ion-text name="Title" class="ux-font-text-lg">{{ 'wallets.create_password.title' | translate }}</ion-text>
@@ -76,43 +78,79 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
           >
           </app-backup-information-card>
         </div>
-        <div name="Create Password Form Buttons" class="ux_footer">
-          <div class="button">
-            <ion-label *ngIf="this.loading" class="ux-loading-message ux-font-text-xxs" color="neutral80">
-              {{ 'wallets.create_password.wait_loading_message' | translate }}
-            </ion-label>
-            <ion-button
-              *ngIf="this.mode !== 'import'"
-              class="ux_button"
-              appTrackClick
-              [disabled]="!this.createPasswordForm.valid"
-              name="ux_create_submit_wallet_password"
-              type="submit"
-              color="secondary"
-              size="large"
-              [appLoading]="this.loading"
-              [loadingText]="'wallets.create_password.creating_button_state' | translate"
-            >
-              {{ 'wallets.create_password.finish_button_create' | translate }}
-            </ion-button>
-            <ion-button
-              *ngIf="this.mode === 'import'"
-              class="ux_button"
-              appTrackClick
-              [disabled]="!this.createPasswordForm.valid"
-              name="ux_import_submit_wallet_password"
-              type="submit"
-              color="secondary"
-              size="large"
-              [appLoading]="this.loading"
-              [loadingText]="'wallets.create_password.importing_button_state' | translate"
-            >
-              {{ 'wallets.create_password.finish_button_import' | translate }}
-            </ion-button>
-          </div>
-        </div>
       </form>
     </ion-content>
+
+    <ion-footer>
+      <div name="Create Password Form Buttons" class="ux_footer">
+        <div class="import_method">
+          <div class="texts">
+            <div class="title">
+              <ion-text *ngIf="this.mode !== 'import'" class="ux-font-text-lg">{{
+                'wallets.create_password.creation_method' | translate
+              }}</ion-text>
+              <ion-text *ngIf="this.mode === 'import'" class="ux-font-text-lg">{{
+                'wallets.create_password.import_method' | translate
+              }}</ion-text>
+            </div>
+            <div class="subtitle">
+              <ion-text class="ux-font-text-base" *ngIf="this.methohd === 'default'">{{
+                'wallets.create_password.default_derived_path' | translate
+              }}</ion-text>
+              <ion-text class="ux-font-text-base" *ngIf="this.methohd !== 'default'">{{
+                'wallets.create_password.blockchain_derived_path' | translate
+              }}</ion-text>
+            </div>
+          </div>
+          <div class="edit_button">
+            <ion-button
+              class="ux_button ion-no-margin ion-no-padding"
+              fill="clear"
+              color="info"
+              name="ux_edit"
+              appTrackClick
+              [dataToTrack]="{ eventLabel: this.trackClickName }"
+              (click)="goToDerivedPathOptions()"
+              >{{ 'wallets.create_password.edit_derived_path_button' | translate }}</ion-button
+            >
+          </div>
+        </div>
+        <div class="button">
+          <ion-button
+            *ngIf="this.mode !== 'import'"
+            class="ux_button ion-no-margin"
+            display="block"
+            appTrackClick
+            [disabled]="!this.createPasswordForm.valid"
+            name="ux_create_submit_wallet_password"
+            color="secondary"
+            size="large"
+            [appLoading]="this.loading"
+            [loadingText]="'wallets.create_password.creating_button_state' | translate"
+            (click)="this.handleSubmit()"
+          >
+            {{ 'wallets.create_password.finish_button_create' | translate }}
+          </ion-button>
+          <ion-button
+            *ngIf="this.mode === 'import'"
+            class="ux_button ion-no-margin"
+            appTrackClick
+            [disabled]="!this.createPasswordForm.valid"
+            name="ux_import_submit_wallet_password"
+            color="secondary"
+            size="large"
+            [appLoading]="this.loading"
+            [loadingText]="'wallets.create_password.importing_button_state' | translate"
+            (click)="this.handleSubmit()"
+          >
+            {{ 'wallets.create_password.finish_button_import' | translate }}
+          </ion-button>
+          <ion-label *ngIf="this.loading" class="ux-loading-message ux-font-text-xxs" color="neutral80">
+            {{ 'wallets.create_password.wait_loading_message' | translate }}
+          </ion-label>
+        </div>
+      </div>
+    </ion-footer>
   `,
   styleUrls: ['./create-password.page.scss'],
 })
@@ -121,6 +159,7 @@ export class CreatePasswordPage implements OnInit {
   private readonly _aKey = 'enabledPushNotifications';
   mode: string;
   loading: boolean;
+  methohd: WalletCreationMethod;
   createPasswordForm: UntypedFormGroup = this.formBuilder.group(
     {
       password: [
@@ -151,6 +190,7 @@ export class CreatePasswordPage implements OnInit {
     ...CONFIG.fieldErrors.repeatPassword,
     ...CONFIG.fieldErrors.createWalletPassword,
   ];
+  trackClickName: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -166,12 +206,15 @@ export class CreatePasswordPage implements OnInit {
     private blockchains: BlockchainsFactory,
     private xAuthService: XAuthService,
     private notificationsService: NotificationsService,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   ionViewWillEnter() {
+    this.methohd = this.walletEncryptionService.creationMethod;
     this.loadingService.enabled();
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.enablePushNotificationsByDefault();
+    this.trackClickName = `ux_${this.mode}_edit`;
   }
 
   async ionViewDidEnter() {
@@ -192,9 +235,7 @@ export class CreatePasswordPage implements OnInit {
   }
 
   private async saveWallets(): Promise<void> {
-    return this.apiWalletService
-      .saveWalletAddresses(await this.formattedWallets(await this.encryptedWallet()))
-      .toPromise();
+    return this.apiWalletService.saveWalletAddresses(this.formattedWallets(await this.encryptedWallet())).toPromise();
   }
 
   async handleSubmit() {
@@ -228,8 +269,8 @@ export class CreatePasswordPage implements OnInit {
     return this.notificationsService.getInstance();
   }
 
-  async enablePushNotificationsByDefault(){
-    if(await this.enabledPushNotifications() === null){
+  async enablePushNotificationsByDefault() {
+    if ((await this.enabledPushNotifications()) === null) {
       await this.ionicStorageService.set(this._aKey, true);
     }
   }
@@ -250,7 +291,11 @@ export class CreatePasswordPage implements OnInit {
 
   private async createXAuthToken(): Promise<void> {
     const blockchain = this.blockchains.create().oneByName('ERC20');
-    const wallet = ethers.Wallet.fromMnemonic(this.walletMnemonicService.mnemonic.phrase, blockchain.derivedPath(), ethers.wordlists.en);
+    const wallet = ethers.Wallet.fromMnemonic(
+      this.walletMnemonicService.mnemonic.phrase,
+      blockchain.derivedPath(),
+      ethers.wordlists.en
+    );
     const signedMsg = await wallet.signMessage(wallet.address);
     return this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
   }
@@ -264,17 +309,25 @@ export class CreatePasswordPage implements OnInit {
     }
   }
 
-  private formattedWallets(encryptedWallet: any): Promise<any> {
-    return Promise.resolve(
-      Object.keys(encryptedWallet.addresses).map((network) => ({
-        network,
-        address: encryptedWallet.addresses[network],
-      }))
-    );
+  private formattedWallets(encryptedWallet: any): any {
+    return Object.keys(encryptedWallet.addresses).map((network) => ({
+      network,
+      address: encryptedWallet.addresses[network],
+    }));
   }
 
   navigateByMode() {
-    const url = this.mode === 'import' ? '/wallets/recovery/success' : '/wallets/success-creation';
+    const remoteConfig = this.remoteConfig.getFeatureFlag('ff_experimentOnboarding');
+    let url = '/wallets/recovery/success';
+    if (this.mode !== 'import') {
+      url = remoteConfig ? 'wallets/experimental-onboarding' : '/wallets/recovery/success';
+    }
+
     return this.navController.navigateRoot([url]);
+  }
+
+  goToDerivedPathOptions() {
+    const url = this.mode === 'import' ? 'wallets/derived-path-options/import' : 'wallets/derived-path-options/create';
+    this.navController.navigateForward(url);
   }
 }

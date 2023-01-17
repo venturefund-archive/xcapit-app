@@ -42,7 +42,7 @@ export class SelectCurrencyPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.storageService.getAssestsSelected().then((coins) => {
+    this.storageService.getAssetsSelected().then((coins) => {
       this.coins = coins;
       this.hasAssets = this.coins.length > 0;
     });

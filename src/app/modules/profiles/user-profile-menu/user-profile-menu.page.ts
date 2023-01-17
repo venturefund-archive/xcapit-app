@@ -10,14 +10,8 @@ import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interf
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
-import { RemoveAccountModalComponent } from '../shared-profiles/components/remove-account-modal/remove-account-modal.component';
-import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
-import { TICKET_CATEGORIES } from '../../tickets/shared-tickets/constants/ticket-categories';
-import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { Storage } from '@ionic/storage';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
@@ -26,6 +20,10 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { UpdateAppService } from 'src/app/shared/services/update-app/update-app.service';
+import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
+import { AppUpdate, AppUpdateAvailability } from '@capawesome/capacitor-app-update';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -51,7 +49,7 @@ import { takeUntil } from 'rxjs/operators';
       <div>
         <div class="ux-card">
           <div class="card-title">
-            <img class="card-title__img" src="assets/ux-icons/ux-apikeys.svg" />
+            <img class="card-title__img" src="assets/ux-icons/ux-preferences-primary.svg" />
             <ion-text class="ux-font-header-titulo card-title__text">{{
               'profiles.user_profile_menu.category_preferences' | translate
             }}</ion-text>
@@ -70,7 +68,7 @@ import { takeUntil } from 'rxjs/operators';
               ></ion-toggle>
             </ion-item>
           </form>
-          <div>
+          <div class="language">
             <ion-button
               [disabled]="this.disable"
               class="ux-font-text-xs"
@@ -102,10 +100,23 @@ import { takeUntil } from 'rxjs/operators';
           color="dangerdark"
           fill="clear"
           appTrackClick
-          (click)="this.showDeleteAccountModal()"
+          (click)="this.goToDeleteAccount()"
           >{{ 'profiles.user_profile_menu.delete_account_button' | translate }}
           <ion-icon color="dangerdark" slot="start" name="ux-trash"></ion-icon>
         </ion-button>
+      </div>
+      <div class="version" *ngIf="this.isNative">
+        <div class=" version__content">
+          <img class="version__content__img" src="assets/img/logo-xcapit-grey.svg" />
+          <ion-text class="version__content__text ux-font-text-xs" color="neutral50"
+            >{{ 'profiles.user_profile_menu.version' | translate }} {{ this.actualVersion }}</ion-text
+          >
+        </div>
+        <div class="version__update" *ngIf="this.showButton">
+          <ion-text name="Update" class="version__update__text ux-link-xs" (click)="updateApp()">{{
+            'profiles.user_profile_menu.update' | translate
+          }}</ion-text>
+        </div>
       </div>
     </ion-content>
   `,
@@ -122,6 +133,10 @@ export class UserProfileMenuPage {
   private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
   leave$ = new Subject<void>();
+  appUpdate = AppUpdate;
+  actualVersion: string;
+  showButton: boolean;
+  isNative: boolean;
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -132,26 +147,31 @@ export class UserProfileMenuPage {
     private language: LanguageService,
     private walletService: WalletService,
     private logOutModalService: LogOutModalService,
-    private apiTicketsService: ApiTicketsService,
-    private storageService: StorageService,
     private ionicStorageService: IonicStorageService,
-    private walletBackupService: WalletBackupService,
     private walletConnectService: WalletConnectService,
-    private storage: Storage,
     private notificationsService: NotificationsService,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private remoteConfig: RemoteConfigService,
     private formBuilder: FormBuilder,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private appVersionService: AppVersionInjectable,
+    private updateAppService: UpdateAppService,
+    private platform: PlatformService
   ) {}
 
   async ionViewWillEnter() {
     this.getProfile();
     this.existWallet();
+    this.contactsListAvailable();
     this.biometricAuthAvailable();
     await this.setPushNotifications();
     this.valueChanges();
     this.walletConnectStatus();
+    this.isNative = this.platform.isNative();
+    if (this.isNative) {
+      this.getActualVersion();
+      this.checkUpdate();
+    }
   }
 
   async setPushNotifications() {
@@ -176,11 +196,11 @@ export class UserProfileMenuPage {
     });
   }
 
-  pushNotificationsService(){
+  pushNotificationsService() {
     return this.notificationsService.getInstance();
   }
 
-   toggle(value: boolean) {
+  toggle(value: boolean) {
     this.ionicStorageService.set(this._aKey, value);
     value
       ? this.pushNotificationsService().subscribeTo(this._aTopic)
@@ -206,6 +226,11 @@ export class UserProfileMenuPage {
         .items.find((item) => item.name === 'BiometricAuth');
       biometricAuthItem.hidden = !this.remoteConfig.getFeatureFlag('ff_bioauth');
     }
+  }
+
+  contactsListAvailable() {
+    const contactListItem = this.itemMenu.find((category) => category.id === 'contacts');
+    contactListItem.showCategory = this.remoteConfig.getFeatureFlag('ff_address_list');
   }
 
   back() {
@@ -274,7 +299,7 @@ export class UserProfileMenuPage {
         valueName: 'value',
         selected: await this.language.getSelectedLanguage(),
       },
-      cssClass: 'ux_modal_crm',
+      cssClass: 'modal',
     });
 
     await modal.present();
@@ -297,40 +322,25 @@ export class UserProfileMenuPage {
     this.username = `Xcapiter ${this.walletService.addresses['ERC20'].substring(0, 5)}`;
   }
 
-  async showDeleteAccountModal() {
-    this.disable = true;
-    const modal = await this.modalController.create({
-      component: RemoveAccountModalComponent,
-      cssClass: 'remove-account-modal',
-    });
+  goToDeleteAccount() {
+    this.navController.navigateForward('profiles/delete-account');
+  }
 
-    await modal.present();
-    const confirmDeleteAccount = (await modal.onDidDismiss()).data;
-    if (confirmDeleteAccount) {
-      this.deleteAccount();
-      await this.cleanStorage();
-      await this.logout();
+  async getActualVersion() {
+    this.actualVersion = await this.appVersionService.create().current();
+  }
+
+  async checkUpdate() {
+    const updateAvailability = (await this.appUpdate.getAppUpdateInfo()).updateAvailability;
+    if (updateAvailability === AppUpdateAvailability.UPDATE_AVAILABLE) {
+      this.showButton = true;
+    } else {
+      this.showButton = false;
     }
-    this.disable = false;
   }
 
-  async cleanStorage() {
-    this.storageService.removeWalletFromStorage();
-    this.ionicStorageService.set('protectedWallet', false);
-    this.walletBackupService.enableModal();
-    await this.walletConnectService.killSession();
-    this.storage.set('FINISHED_ONBOARDING', false);
-  }
-
-  deleteAccount() {
-    const category = TICKET_CATEGORIES.find((category) => category.name === 'Mi cuenta/Registro');
-    const data = {
-      email: this.profile.email,
-      category_code: category.name,
-      subject: this.translate.instant(category.value),
-      message: this.translate.instant('profiles.user_profile_menu.delete_account_message'),
-    };
-    this.apiTicketsService.crud.create(data).subscribe();
+  updateApp() {
+    this.updateAppService.update();
   }
 
   ionViewWillLeave() {

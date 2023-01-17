@@ -18,6 +18,7 @@ describe('BiometricVerifyOptions', () => {
       reason: 'test text',
       title: 'test text',
       subtitle: 'test text',
+      negativeButtonText: 'test text',
       maxAttempts: 3,
     });
   });

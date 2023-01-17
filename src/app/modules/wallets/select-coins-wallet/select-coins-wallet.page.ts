@@ -94,8 +94,14 @@ export class SelectCoinsWalletPage implements OnInit {
 
   async updateTokens() {
     this.setAllSelected();
-    const values = Object.values(this.form.value).reduce((prev: any, curr: any) => ({ ...prev, ...curr }));
-    await this.walletMaintenanceService.updateTokensStorage(values);
+    const userCoins = [];
+    Object.entries(this.form.value).forEach((network) => {
+      Object.entries(network[1]).forEach((coin) => {
+        if (coin[1])
+          userCoins.push({ value: coin[0], network: network[0] });
+      })
+    })
+    await this.walletMaintenanceService.updateTokensStorage(userCoins);
   }
 
   getCoinsFromNetwork(network: string) {

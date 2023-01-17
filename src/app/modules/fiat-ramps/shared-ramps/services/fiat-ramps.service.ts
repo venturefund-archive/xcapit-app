@@ -105,6 +105,15 @@ export class FiatRampsService {
     );
   }
 
+  getKriptonMinimumAmount(fiatCurrency: string, data: any): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/on_off_ramps/kripton/users/get_user_limits/${fiatCurrency}`,
+      data,
+      undefined,
+      false
+    )
+  }
+
   getLink(apikeyId: number): Observable<any> {
     return this.http.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
   }
@@ -157,6 +166,15 @@ export class FiatRampsService {
   getMoonpayBuyQuote(baseCurrencyAmount: number, currencyCode: string, fiatCode: string) {
     return this.http.get(
       `${environment.moonpayApiUrl}/currencies/${currencyCode}/buy_quote/?apiKey=${environment.moonpayPK}&baseCurrencyAmount=${baseCurrencyAmount}&extraFeePercentage=1&baseCurrencyCode=${fiatCode}&paymentMethod=credit_debit_card`,
+      undefined,
+      undefined,
+      false
+    );
+  }
+
+  getMoonpayLimitOfBuyQuote(currencyCode: string, baseCurrencyCode: string = 'usd') {
+    return this.http.get(
+      `${environment.moonpayApiUrl}/currencies/${currencyCode}/limits?apiKey=${environment.moonpayPK}&baseCurrencyCode=${baseCurrencyCode}&paymentMethod=credit_debit_card`,
       undefined,
       undefined,
       false

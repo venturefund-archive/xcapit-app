@@ -129,7 +129,8 @@ export class CustomValidators {
     error: ValidationErrors = CustomValidatorErrors.greaterOrEqualThanError
   ): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return control.value !== undefined && (isNaN(control.value) || control.value < min) ? error : null;
+      const controlValue = parseFloat(control.value);
+      return controlValue !== undefined && (isNaN(controlValue) || controlValue < min) ? error : null;
     };
   }
 

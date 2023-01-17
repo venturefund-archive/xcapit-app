@@ -99,7 +99,11 @@ describe('LoginNewPage', () => {
 
     loginMigrationServiceSpy = jasmine.createSpyObj('LoginMigrationService', { migrate: Promise.resolve() });
 
-    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init', 'subscribeTo', 'unsubscribeFrom']);
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
+      'init',
+      'subscribeTo',
+      'unsubscribeFrom',
+    ]);
 
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: nullNotificationServiceSpy,
@@ -158,7 +162,7 @@ describe('LoginNewPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets', { replaceUrl: true });
   }));
 
-  it('should enable push notifications by default', fakeAsync( () => {
+  it('should enable push notifications by default', fakeAsync(() => {
     ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(null);
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -166,7 +170,7 @@ describe('LoginNewPage', () => {
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('enabledPushNotifications', true);
   }));
 
-  it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync( () => {
+  it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync(() => {
     component.ionViewWillEnter();
     component.form.patchValue({ password: aPassword });
     component.handleSubmit(false);
@@ -177,7 +181,7 @@ describe('LoginNewPage', () => {
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
   }));
 
-  it('should init push notifications and unsubscribe to topic when password is ok and push notifications previously disabled', fakeAsync( () => {
+  it('should init push notifications and unsubscribe to topic when password is ok and push notifications previously disabled', fakeAsync(() => {
     component.ionViewWillEnter();
     ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(false);
     component.form.patchValue({ password: aPassword });
@@ -245,13 +249,13 @@ describe('LoginNewPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should track screenview event on init', () => {
-    component.ionViewWillEnter();
+  it('should track screenview event on init', async () => {
+    await component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
   it('should enable modal when no protected wallet', async () => {
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     ionicStorageServiceSpy.get.withArgs('protectedWallet').and.returnValue(Promise.resolve(false));
     component.form.patchValue({ password: aPassword });
 
@@ -278,7 +282,7 @@ describe('LoginNewPage', () => {
     biometricAuthInjectableSpy.create.and.returnValue(
       new FakeBiometricAuth(Promise.resolve(true), Promise.resolve(false), null, null, null)
     );
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     component.form.patchValue({ password: aPassword });
 
     await component.handleSubmit(false);
@@ -292,6 +296,7 @@ describe('LoginNewPage', () => {
       new FakeBiometricAuth(Promise.resolve(true), Promise.resolve(false), null, null, null)
     );
     component.ionViewWillEnter();
+    tick();
     const spy = spyOn(component.biometricAuth, 'on').and.callThrough();
     component.form.patchValue({ password: aPassword });
 
@@ -316,7 +321,7 @@ describe('LoginNewPage', () => {
 
   it('should migrate when login token does not exist', async () => {
     ionicStorageServiceSpy.get.withArgs('loginToken').and.returnValue(null);
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     component.form.patchValue({ password: aPassword });
 
     await component.handleSubmit(false);
@@ -328,7 +333,7 @@ describe('LoginNewPage', () => {
   it('should migrate when login token does not exist', async () => {
     loginMigrationServiceSpy.migrate.and.rejectWith({ message: new PasswordErrorMsgs().invalid() });
     ionicStorageServiceSpy.get.withArgs('loginToken').and.returnValue(null);
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
 
     await component.handleSubmit(false);
 
@@ -339,8 +344,8 @@ describe('LoginNewPage', () => {
     });
   });
 
-  it('should remove old jwt tokens on init', () => {
-    component.ionViewWillEnter();
+  it('should remove old jwt tokens on init', async () => {
+    await component.ionViewWillEnter();
     expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
   });
 

@@ -37,6 +37,21 @@ const routes: Routes = [
         path: 'biometric-auth',
         loadChildren: () => import('./biometric-auth/biometric-auth.module').then((m) => m.BiometricAuthPageModule),
       },
+      {
+        path: 'delete-account',
+        loadChildren: () => import('./delete-account/delete-account.module').then((m) => m.DeleteAccountPageModule),
+      },
+      {
+        path: 'success-delete-account',
+        loadChildren: () =>
+          import('./success-delete-account/success-delete-account.module').then(
+            (m) => m.SuccessDeleteAccountPageModule
+          ),
+      },
+      {
+        path: 'security-configuration',
+        loadChildren: () => import('../profiles/security-configuration/security-configuration.module').then((m) => m.SecurityConfigurationPageModule),
+      },
     ],
   },
 ];

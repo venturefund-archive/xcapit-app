@@ -18,7 +18,6 @@ const coins: Coin[] = [
     id: 1,
     name: 'BTC - Bitcoin',
     logoRoute: 'assets/img/coins/BTC.svg',
-    last: false,
     value: 'BTC',
     network: 'RSK',
     chainId: 42,
@@ -28,7 +27,6 @@ const coins: Coin[] = [
     id: 2,
     name: 'USDT - Tether',
     logoRoute: 'assets/img/coins/USDT.svg',
-    last: false,
     value: 'USDT',
     network: 'ERC20',
     chainId: 42,
@@ -40,7 +38,6 @@ const coinClicked = {
   id: 1,
   name: 'BTC - Bitcoin',
   logoRoute: 'assets/img/coins/BTC.svg',
-  last: false,
   value: 'BTC',
   network: 'RSK',
   chainId: 42,
@@ -59,7 +56,7 @@ describe('ReceiveSelectCurrencyPage', () => {
     navControllerSpy = fakeNavController.createSpy();
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getAssestsSelected: Promise.resolve(coins),
+      getAssetsSelected: Promise.resolve(coins),
     });
     TestBed.configureTestingModule({
       declarations: [ReceiveSelectCurrencyPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
@@ -112,7 +109,7 @@ describe('ReceiveSelectCurrencyPage', () => {
   it('should show no-active-tokens-card component when storage has no coins', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve([]));
+    storageServiceSpy.getAssetsSelected.and.returnValue(Promise.resolve([]));
     await fixture.whenStable();
 
     const cardEl = fixture.debugElement.query(By.css('app-no-active-tokens-card'))

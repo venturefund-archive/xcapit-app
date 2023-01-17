@@ -17,4 +17,8 @@ export class IonicStorageService {
   remove(key: string): Promise<any> {
     return this.storage.remove(key);
   }
+
+  clear(): Promise<any> {
+    return this.storage.clear();
+  }
 }

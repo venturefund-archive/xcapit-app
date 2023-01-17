@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonAccordionGroup, IonContent, NavController } from '@ionic/angular';
+import { IonAccordionGroup, IonContent, ModalController, NavController } from '@ionic/angular';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -111,8 +111,8 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
       <div class="wt__overlap_buttons">
         <app-wallet-subheader-buttons></app-wallet-subheader-buttons>
       </div>
-      <div>   
-        <app-home-slides *ngIf="this.slides.length > 0 "[slides]="this.slides"></app-home-slides>
+      <div>
+        <app-home-slides *ngIf="this.slides.length > 0" [slides]="this.slides"></app-home-slides>
       </div>
       <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
@@ -253,7 +253,7 @@ export class HomeWalletPage implements OnInit {
   ) {}
 
   ngOnInit() {}
-  
+
   ionViewWillEnter() {
     this.getSliderImages();
     this.subscribeOnHideFunds();
@@ -265,9 +265,9 @@ export class HomeWalletPage implements OnInit {
     this.suscribeToSwapInProgress();
   }
 
-  async getSliderImages(){
+  async getSliderImages() {
     const slides = await this.remoteConfig.getObject('appSlides');
-    for(const slide of slides){
+    for (const slide of slides) {
       slide.image = await (await this.base64ImageFactory.new(slide.image)).value();
     }
     this.slides = slides;
@@ -432,7 +432,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   private async setUserTokens(): Promise<void> {
-    this.userTokens = await this.storageService.getAssestsSelected();
+    this.userTokens = await this.storageService.getAssetsSelected();
   }
 
   async isProtectedWallet() {

@@ -14,6 +14,10 @@ import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { StorageWallet } from '../../interfaces/storage-wallet.interface';
+import { StorageAsset } from '../../interfaces/storage-asset.interface';
+import { Mnemonic } from 'ethers/lib/utils';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('WalletMaintenanceService', () => {
   let service: WalletMaintenanceService;
@@ -25,55 +29,78 @@ describe('WalletMaintenanceService', () => {
   let ethersServiceSpy: jasmine.SpyObj<EthersService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
-  const testMnemonic = {
+  const testMnemonic: Mnemonic = {
     locale: 'en',
     phrase: 'test mnemonic constant',
     path: '',
   };
 
-  const testToggleAssets = ['USDT', 'RBTC', 'RSK'];
+  const testToggleAssets = [
+    { value: 'ETH', network: 'ERC20' },
+    { value: 'RBTC', network: 'RSK' },
+    { value: 'RSK', network: 'RSK' },
+  ];
 
-  const walletResultToggleAssets = {
+  const walletResultToggleAssets: StorageWallet = {
+    alias: 'test',
+    createdAt: '11-11-11',
+    updatedAt: '11-11-11',
+    network: 'testnet',
     addresses: {
       ERC20: 'testAddress',
       RSK: 'testAddress',
     },
-    assets: {
-      ETH: true,
-      USDT: false,
-      RBTC: true,
-      RSK: true,
-    },
+    assets: [
+      { value: 'USDT', network: 'ERC20' },
+      { value: 'RBTC', network: 'RSK' },
+      { value: 'RSK', network: 'RSK' },
+    ],
   };
 
-  const testEncryptedWallet = {
+  const testEncryptedWallet: StorageWallet = {
+    alias: 'test',
+    createdAt: '11-11-11',
+    updatedAt: '11-11-11',
+    network: 'testnet',
     addresses: {
       ERC20: 'testAddress',
       RSK: 'testAddress',
     },
-    assets: {
-      ETH: true,
-      USDT: true,
-      RBTC: false,
-      RSK: false,
-    },
+    assets: [
+      { value: 'ETH', network: 'ERC20' },
+      { value: 'USDT', network: 'ERC20' },
+    ],
   };
 
-  const updateResultWallet = {
+  const testOldEncryptedWallet = {
+    alias: 'test',
+    createdAt: '11-11-11',
+    updatedAt: '11-11-11',
+    network: 'testnet',
+    addresses: {
+      ERC20: 'testAddress',
+      RSK: 'testAddress',
+    },
+    assets: { ETH: true, DAI: false, USDT: true },
+  };
+
+  const updateResultWallet: StorageWallet = {
+    alias: 'test',
+    createdAt: '11-11-11',
+    updatedAt: moment('2015-10-19').utc().format(),
+    network: 'testnet',
     addresses: {
       ERC20: 'testAddress',
       RSK: 'testAddress',
       MATIC: 'testAddress',
     },
-    updatedAt: moment('2015-10-19').utc().format(),
-    assets: {
-      ETH: true,
-      USDT: false,
-      RBTC: true,
-      RSK: true,
-      MATIC: false,
-    },
+    assets: [
+      { value: 'USDT', network: 'ERC20' },
+      { value: 'RBTC', network: 'RSK' },
+      { value: 'RSK', network: 'RSK' },
+    ],
   };
 
   const testCoins: Coin[] = [
@@ -81,7 +108,6 @@ describe('WalletMaintenanceService', () => {
       id: 1,
       name: 'ETH - Ethereum',
       logoRoute: 'assets/img/coins/ETH.svg',
-      last: false,
       value: 'ETH',
       network: 'ERC20',
       chainId: 42,
@@ -89,10 +115,19 @@ describe('WalletMaintenanceService', () => {
       native: true,
     },
     {
+      id: 3,
+      name: 'USDT - Tether',
+      logoRoute: 'assets/img/coins/USDT.svg',
+      value: 'USDT',
+      network: 'ERC20',
+      chainId: 42,
+      rpc: 'http://testrpc.test/',
+      decimals: 6,
+    },
+    {
       id: 6,
       name: 'RBTC - Smart Bitcoin',
       logoRoute: 'assets/img/coins/RBTC.png',
-      last: false,
       value: 'RBTC',
       network: 'RSK',
       chainId: 31,
@@ -103,7 +138,6 @@ describe('WalletMaintenanceService', () => {
       id: 8,
       name: 'MATIC - Polygon',
       logoRoute: 'assets/img/coins/MATIC.svg',
-      last: false,
       value: 'MATIC',
       network: 'MATIC',
       chainId: 80001,
@@ -111,14 +145,30 @@ describe('WalletMaintenanceService', () => {
       decimals: 18,
       native: true,
     },
+    {
+      id: 26,
+      name: 'DAI - DAI',
+      logoRoute: 'assets/img/coins/DAI.png',
+      value: 'DAI',
+      network: 'MATIC',
+      chainId: 80001,
+      rpc: 'http://testrpc.text/',
+      decimals: 18,
+      symbol: 'USDTDAI',
+      canInvest: true,
+    },
   ];
 
   beforeEach(() => {
-    walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {
-      getMnemonic: testMnemonic,
-    }, {
-      mnemonic: testMnemonic
-    });
+    walletMnemonicServiceSpy = jasmine.createSpyObj(
+      'WalletMnemonicService',
+      {
+        getMnemonic: testMnemonic,
+      },
+      {
+        mnemonic: testMnemonic,
+      }
+    );
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
       getEncryptedWallet: Promise.resolve(JSON.parse(JSON.stringify(testEncryptedWallet))),
     });
@@ -129,6 +179,7 @@ describe('WalletMaintenanceService', () => {
     });
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       saveWalletToStorage: Promise.resolve(),
+      getAssetsSelected: Promise.resolve([testCoins[0]]),
     });
     walletServiceSpy = jasmine.createSpyObj('WalletService', {
       createForDerivedPath: { address: 'testResultAddress' },
@@ -141,10 +192,14 @@ describe('WalletMaintenanceService', () => {
       create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
     });
     walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-      create: jasmine.createSpyObj(
-        'Wallets',
-        { oneBy: Promise.resolve({ address: () => 'testAddress' }), createFrom: Promise.resolve() }
-      ),
+      create: jasmine.createSpyObj('Wallets', {
+        oneBy: Promise.resolve({ address: () => 'testAddress' }),
+        createFrom: Promise.resolve(),
+      }),
+    });
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(true),
+      set: Promise.resolve(),
     });
     TestBed.configureTestingModule({
       imports: [],
@@ -158,6 +213,7 @@ describe('WalletMaintenanceService', () => {
         { provide: EthersService, useValue: ethersServiceSpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
     });
     service = TestBed.inject(WalletMaintenanceService);
@@ -174,7 +230,7 @@ describe('WalletMaintenanceService', () => {
   });
 
   it('should call getWalletNewNetworks and set newNetworks on getNewNetworks', () => {
-    service.encryptedWallet = {};
+    service.encryptedWallet = jasmine.createSpyObj('Wallet', {}, { addresses: {} });
     service.getNewNetworks();
     expect(apiWalletServiceSpy.getWalletNewNetworks).toHaveBeenCalledTimes(1);
     expect(service.newNetworks).toEqual(['ERC20']);
@@ -192,9 +248,9 @@ describe('WalletMaintenanceService', () => {
   });
 
   it('should save wallet with update date and reset values on saveWalletToStorage', async () => {
-    service.encryptedWallet = { test: 'test' };
+    service.encryptedWallet = jasmine.createSpyObj('Wallet', {}, walletResultToggleAssets);
     await service.saveWalletToStorage();
-    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith({ test: 'test' });
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(walletResultToggleAssets);
     expect(service.encryptedWallet).toBeUndefined();
     expect(service.newNetworks).toBeUndefined();
     expect(service.password).toBeUndefined();
@@ -209,32 +265,7 @@ describe('WalletMaintenanceService', () => {
   it('should get wallet assets from local storage on getUserAssests', async () => {
     const coins = await service.getUserAssets();
     expect(coins).toEqual([testCoins[0]]);
-    expect(walletEncryptionServiceSpy.getEncryptedWallet).toHaveBeenCalledTimes(1);
-    expect(service.encryptedWallet).toEqual(testEncryptedWallet);
-  });
-
-  it('should create new wallet addresses on updateWalletNetworks', async () => {
-    jasmine.clock().mockDate(moment('2015-10-19').toDate());
-    service.newNetworks = ['MATIC'];
-    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
-
-    await service.updateWalletNetworks(testToggleAssets);
-
-    expect(service.encryptedWallet).toEqual(updateResultWallet);
-  });
-
-  it('should create new wallet addresses and set new tokens on updateWalletNetworks', async () => {
-    jasmine.clock().mockDate(moment('2015-10-19').toDate());
-    service.newNetworks = ['MATIC'];
-    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
-    const toggleAssets = JSON.parse(JSON.stringify(testToggleAssets));
-    toggleAssets.push('MATIC');
-    const expectedResult = JSON.parse(JSON.stringify(updateResultWallet));
-    expectedResult.assets.MATIC = true;
-
-    await service.updateWalletNetworks(toggleAssets);
-
-    expect(service.encryptedWallet).toEqual(expectedResult);
+    expect(storageServiceSpy.getAssetsSelected).toHaveBeenCalledTimes(1);
   });
 
   it('should return true if user has coin on userHasCoin', () => {
@@ -252,11 +283,11 @@ describe('WalletMaintenanceService', () => {
   it('should not get wallet and not add coin to wallet if wallet is already getted and user has the coin on addCoinIfUserDoesNotHaveIt', async () => {
     const saveWalletSpy = spyOn(service, 'saveWalletToStorage').and.callThrough();
     const getWalletSpy = spyOn(service, 'getEncryptedWalletFromStorage').and.callThrough();
-    const toggleAssetsSpy = spyOn(service, 'toggleAssets');
+    const addCoinLocallySpy = spyOn(service, 'addCoinLocally');
     service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
     await service.addCoinIfUserDoesNotHaveIt(TEST_COINS[2]);
     expect(getWalletSpy).not.toHaveBeenCalled();
-    expect(toggleAssetsSpy).not.toHaveBeenCalledWith([TEST_COINS[2].value]);
+    expect(addCoinLocallySpy).not.toHaveBeenCalled();
     expect(saveWalletSpy).not.toHaveBeenCalled();
     expect(service.encryptedWallet).toBeUndefined();
   });
@@ -264,10 +295,10 @@ describe('WalletMaintenanceService', () => {
   it('should get wallet and not add coin to wallet if wallet is undefined and user has the coin on addCoinIfUserDoesNotHaveIt', async () => {
     const saveWalletSpy = spyOn(service, 'saveWalletToStorage').and.callThrough();
     const getWalletSpy = spyOn(service, 'getEncryptedWalletFromStorage').and.callThrough();
-    const toggleAssetsSpy = spyOn(service, 'toggleAssets');
+    const addCoinLocallySpy = spyOn(service, 'addCoinLocally');
     await service.addCoinIfUserDoesNotHaveIt(TEST_COINS[2]);
     expect(getWalletSpy).toHaveBeenCalledTimes(1);
-    expect(toggleAssetsSpy).not.toHaveBeenCalledWith([TEST_COINS[2].value]);
+    expect(addCoinLocallySpy).not.toHaveBeenCalled();
     expect(saveWalletSpy).not.toHaveBeenCalled();
     expect(service.encryptedWallet).toBeUndefined();
   });
@@ -275,11 +306,11 @@ describe('WalletMaintenanceService', () => {
   it('should not get wallet and add coin to wallet if wallet is already getted and user does not have coin on addCoinIfUserDoesNotHaveIt', async () => {
     const saveWalletSpy = spyOn(service, 'saveWalletToStorage').and.callThrough();
     const getWalletSpy = spyOn(service, 'getEncryptedWalletFromStorage').and.callThrough();
-    const toggleAssetsSpy = spyOn(service, 'toggleAssets');
+    const addCoinLocallySpy = spyOn(service, 'addCoinLocally');
     service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
     await service.addCoinIfUserDoesNotHaveIt(TEST_COINS[4]);
     expect(getWalletSpy).not.toHaveBeenCalled();
-    expect(toggleAssetsSpy).toHaveBeenCalledOnceWith([TEST_COINS[4].value]);
+    expect(addCoinLocallySpy).toHaveBeenCalledOnceWith(TEST_COINS[4]);
     expect(saveWalletSpy).toHaveBeenCalledTimes(1);
     expect(service.encryptedWallet).toBeUndefined();
   });
@@ -287,25 +318,59 @@ describe('WalletMaintenanceService', () => {
   it('should get wallet and add coin to wallet if wallet is undefined and user does not have coin on addCoinIfUserDoesNotHaveIt', async () => {
     const saveWalletSpy = spyOn(service, 'saveWalletToStorage').and.callThrough();
     const getWalletSpy = spyOn(service, 'getEncryptedWalletFromStorage').and.callThrough();
-    const toggleAssetsSpy = spyOn(service, 'toggleAssets');
+    const addCoinLocallySpy = spyOn(service, 'addCoinLocally');
     await service.addCoinIfUserDoesNotHaveIt(TEST_COINS[4]);
     expect(getWalletSpy).toHaveBeenCalledTimes(1);
-    expect(toggleAssetsSpy).toHaveBeenCalledOnceWith([TEST_COINS[4].value]);
+    expect(addCoinLocallySpy).toHaveBeenCalledOnceWith(TEST_COINS[4]);
     expect(saveWalletSpy).toHaveBeenCalledTimes(1);
     expect(service.encryptedWallet).toBeUndefined();
   });
 
-  it('should save wallet assets on updateTokensStorage', () => {
+  it('should save wallet assets on updateTokensStorage', async () => {
     service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
-    const testTokens = { ETH: true, BNB: true, MATIC: false };
-    const testWallet = {
+    const testTokens: StorageAsset[] = [
+      { value: 'ETH', network: 'ERC20' },
+      { value: 'BNB', network: 'BSC_BEP20' },
+      { value: 'MATIC', network: 'MATIC' },
+    ];
+    
+    const testWallet: StorageWallet = {
+      alias: 'test',
+      createdAt: '11-11-11',
+      updatedAt: '11-11-11',
+      network: 'testnet',
       addresses: {
         ERC20: 'testAddress',
         RSK: 'testAddress',
       },
       assets: testTokens,
     };
-    service.updateTokensStorage(testTokens);
-    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(testWallet)
+    walletEncryptionServiceSpy.getEncryptedWallet.and.resolveTo(testWallet);
+    await service.updateTokensStorage(testTokens);
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(testWallet);
+  });
+  
+  it('should migrate tokens structure if user has a wallet with old structure', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    service.encryptedWallet = JSON.parse(JSON.stringify(testOldEncryptedWallet));
+    walletEncryptionServiceSpy.getEncryptedWallet.and.resolveTo(testOldEncryptedWallet);
+    await service.checkTokensStructure();
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(testEncryptedWallet);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('tokens_structure_migrated',true);
+  });
+  
+  it('should not migrate tokens structure if already was migrated', async () => {
+    await service.checkTokensStructure();
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledTimes(0);
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledOnceWith('tokens_structure_migrated');
+  });
+  
+  it('should not migrate tokens structure if is a new wallet', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
+    walletEncryptionServiceSpy.getEncryptedWallet.and.resolveTo(testEncryptedWallet);
+    await service.checkTokensStructure();
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledTimes(0);
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledOnceWith('tokens_structure_migrated');
   });
 });

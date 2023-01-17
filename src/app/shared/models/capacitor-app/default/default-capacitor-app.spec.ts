@@ -9,6 +9,7 @@ describe('App', () => {
   beforeEach(() => {
     appPluginSpy = jasmine.createSpyObj('AppPlugin', {
       getInfo: Promise.resolve(getInfoData),
+      addListener: null,
     });
 
     defaultCapacitorApp = new DefaultCapacitorApp(appPluginSpy);
@@ -20,5 +21,15 @@ describe('App', () => {
 
   it('info', async () => {
     expect(await defaultCapacitorApp.info()).toEqual(getInfoData);
+  });
+
+  it('on state change ', () => {
+    defaultCapacitorApp.onStateChange(() => {});
+    expect(appPluginSpy.addListener).toHaveBeenCalledTimes(1);
+  });
+
+  it('on pause ', () => {
+    defaultCapacitorApp.onPause(() => {});
+    expect(appPluginSpy.addListener).toHaveBeenCalledTimes(1);
   });
 });

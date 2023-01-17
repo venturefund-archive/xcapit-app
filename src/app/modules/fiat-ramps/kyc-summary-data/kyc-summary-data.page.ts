@@ -156,6 +156,7 @@ export class KycSummaryDataPage {
       const politically_exposed = !this.form.value.not_politically_exposed;
       const kycData = Object.assign({ politically_exposed, email }, this.data);
       this.fiatRampsService.registerUserInfo(this._parsedValues(kycData)).subscribe(() => {
+        this.kriptonStorage.set('user_status', 'USER_IMAGES');
         this.navController.navigateForward('fiat-ramps/user-register');
       });
     }

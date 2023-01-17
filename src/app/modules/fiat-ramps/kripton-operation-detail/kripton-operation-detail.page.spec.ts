@@ -49,7 +49,7 @@ describe('KriptonOperationDetailPage', () => {
       status: 'request',
       currency_in: 'ARS',
       amount_in: 500.0,
-      currency_out: 'ETH',
+      currency_out: 'USDC',
       amount_out: 100.0,
       created_at: new Date('2021-02-27T10:02:49.719Z'),
       provider: '1',
@@ -85,7 +85,7 @@ describe('KriptonOperationDetailPage', () => {
     });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getCoin: TEST_COINS[0],
+      getCoin: TEST_COINS[7],
     });
 
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
@@ -95,6 +95,7 @@ describe('KriptonOperationDetailPage', () => {
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       setProvider: null,
       getUserSingleOperation: of([testOperation]),
+      getProvider: rawProvidersData[1],
     });
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
@@ -180,7 +181,7 @@ describe('KriptonOperationDetailPage', () => {
     expect(fiatAmount).toContain(testOperation.amount_in);
     expect(state).toBeTruthy();
     expect(toast).toBeTruthy();
-    expect(quotations).toContain('1 ETH = 5.00 ARS');
+    expect(quotations).toContain('1 USDC = 5.00 ARS');
     expect(address).toContain(testOperation.wallet_address);
     expect(operationNumber).toContain(testOperation.operation_id);
     expect(date).toContain('27/02/2021');
@@ -265,5 +266,15 @@ describe('KriptonOperationDetailPage', () => {
       animated: false,
     });
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
+  });
+
+  it('should hide information icon when operation is complete', async () => {
+    const completeOperation: FiatRampOperation = { ...testOperation, status: 'complete' };
+    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([completeOperation]));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const infoIcon = fixture.debugElement.query(By.css('ion-icon[name="information-circle"]'));
+    expect(infoIcon).toBeNull();
   });
 });

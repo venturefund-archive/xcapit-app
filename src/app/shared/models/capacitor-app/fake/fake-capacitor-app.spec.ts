@@ -14,4 +14,12 @@ describe('FakeCapacitorApp', () => {
   it('info', async () => {
     expect(await fakeCapacitorApp.info()).toEqual({});
   });
+
+  it('on state change', () => {
+    expect(fakeCapacitorApp.onStateChange(() => {})).toBeUndefined();
+  });
+
+  it('on pause', () => {
+    expect(fakeCapacitorApp.onPause(() => {})).toBeUndefined();
+  });
 });

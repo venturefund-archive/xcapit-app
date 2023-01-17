@@ -79,6 +79,14 @@ describe('BiometricAuthPage', () => {
     expect(component.form.value.biometric).toBeTrue();
   });
 
+  it('should unsubscribe when leave', () => {
+    const nextSpy = spyOn(component.leave$, 'next');
+    const completeSpy = spyOn(component.leave$, 'complete');
+    component.ionViewWillLeave();
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
   it('should show password modal on enable toggle', fakeAsync(() => {
     component.ionViewDidEnter();
     tick();

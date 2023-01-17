@@ -129,7 +129,7 @@ describe('HomeWalletPage', () => {
     });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getAssestsSelected: Promise.resolve([rawETHData, rawMATICData]),
+      getAssetsSelected: Promise.resolve([rawETHData, rawMATICData]),
       getWalletsAddresses: Promise.resolve('0x00001'),
       getWalletFromStorage: Promise.resolve({
         addresses: { MATIC: 'testAddressMatic' },
@@ -255,7 +255,7 @@ describe('HomeWalletPage', () => {
   });
 
   it('should initialize on view did enter without tokens', async () => {
-    storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve([]));
+    storageServiceSpy.getAssetsSelected.and.returnValue(Promise.resolve([]));
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();

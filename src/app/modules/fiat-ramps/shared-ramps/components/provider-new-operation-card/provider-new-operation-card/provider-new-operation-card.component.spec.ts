@@ -5,7 +5,7 @@ import { ProviderNewOperationCardComponent } from './provider-new-operation-card
 import { TranslateModule } from '@ngx-translate/core';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { By } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { rawProvidersData } from '../../../fixtures/raw-providers-data';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
@@ -156,5 +156,12 @@ describe('ProviderNewOperationCardComponent', () => {
       .nativeElement.click();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set minimum fiat amount on ngOnChanges', () => {
+    const change: SimpleChanges = { minimumFiatAmount: new SimpleChange('0', '2913', false)}
+    component.ngOnChanges(change);
+
+    expect(component.minimumFiatAmount).toEqual(2913);
   });
 });

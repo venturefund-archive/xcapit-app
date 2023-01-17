@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
 import { NavController, Platform } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
@@ -17,6 +17,12 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { IonicStorageService } from './shared/services/ionic-storage/ionic-storage.service';
 import { TrackedWalletAddress } from './shared/models/tracked-wallet-address/tracked-wallet-address';
 import { TrackedWalletAddressInjectable } from './shared/models/tracked-wallet-address/injectable/tracked-wallet-address.injectable';
+import { CapacitorAppInjectable } from './shared/models/capacitor-app/injectable/capacitor-app.injectable';
+import { FakeCapacitorApp } from './shared/models/capacitor-app/fake/fake-capacitor-app';
+import { CapacitorApp } from './shared/models/capacitor-app/capacitor-app.interface';
+import { AppSessionInjectable } from './shared/models/app-session/injectable/app-session.injectable';
+import { AppSession } from './shared/models/app-session/app-session';
+import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -38,6 +44,11 @@ describe('AppComponent', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let trackedWalletAddressSpy: jasmine.SpyObj<TrackedWalletAddress>;
   let trackedWalletAddressInjectableSpy: jasmine.SpyObj<TrackedWalletAddressInjectable>;
+  let capacitorAppInjectableSpy: jasmine.SpyObj<CapacitorAppInjectable>;
+  let fakeCapacitorApp: CapacitorApp;
+  let appSessionInjectableSpy: jasmine.SpyObj<AppSessionInjectable>;
+  let appSessionSpy: jasmine.SpyObj<AppSession>;
+  let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
 
   beforeEach(waitForAsync(() => {
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
@@ -61,8 +72,12 @@ describe('AppComponent', () => {
     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
       getBackupWarningWallet: Promise.resolve(),
     });
+    walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
+      checkTokensStructure: Promise.resolve(),
+    });
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
+      set: Promise.resolve(),
     });
     trackedWalletAddressSpy = jasmine.createSpyObj('TrackedWalletAddress', {
       value: null,
@@ -72,6 +87,20 @@ describe('AppComponent', () => {
       create: trackedWalletAddressSpy,
     });
 
+    fakeCapacitorApp = new FakeCapacitorApp();
+    spyOn(fakeCapacitorApp, 'onStateChange').and.callFake((callback) => {
+      callback({ isActive: true });
+    });
+    capacitorAppInjectableSpy = jasmine.createSpyObj('CapacitorAppInjectable', {
+      create: fakeCapacitorApp,
+    });
+    appSessionSpy = jasmine.createSpyObj('AppSession', {
+      save: null,
+      valid: Promise.resolve(true),
+    });
+    appSessionInjectableSpy = jasmine.createSpyObj('AppSessionInjectable', {
+      create: appSessionSpy,
+    });
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -90,6 +119,9 @@ describe('AppComponent', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: TrackedWalletAddressInjectable, useValue: trackedWalletAddressInjectableSpy },
+        { provide: CapacitorAppInjectable, useValue: capacitorAppInjectableSpy },
+        { provide: AppSessionInjectable, useValue: appSessionInjectableSpy },
+        { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
@@ -115,6 +147,7 @@ describe('AppComponent', () => {
     expect(statusBarSpy.setBackgroundColor).not.toHaveBeenCalled();
     expect(walletBackupServiceSpy.getBackupWarningWallet).toHaveBeenCalledTimes(1);
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(walletMaintenanceServiceSpy.checkTokensStructure).toHaveBeenCalledTimes(1);
   });
 
   it('should call set background if android platform', async () => {
@@ -145,4 +178,30 @@ describe('AppComponent', () => {
     await fixture.whenRenderingDone();
     expect(trackedWalletAddressSpy.value).toHaveBeenCalledTimes(0);
   });
+
+  it('should save session when go to background', async () => {
+    fakeCapacitorApp = new FakeCapacitorApp();
+    spyOn(fakeCapacitorApp, 'onPause').and.callFake((callback) => {
+      callback();
+    });
+    capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
+    component.ngOnInit();
+    await fixture.whenStable();
+    expect(appSessionSpy.save).toHaveBeenCalledTimes(1);
+  });
+
+  it('should validate session when state is active and session is valid', async () => {
+    component.ngOnInit();
+    await fixture.whenStable();
+    expect(appSessionSpy.valid).toHaveBeenCalledTimes(1);
+  });
+
+  it('should validate session when state is active and session is invalid', fakeAsync(() => {
+    appSessionSpy.valid.and.returnValue(Promise.resolve(false));
+    component.ngOnInit();
+    tick();
+    expect(appSessionSpy.valid).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['users/login-new']);
+    discardPeriodicTasks();
+  }));
 });

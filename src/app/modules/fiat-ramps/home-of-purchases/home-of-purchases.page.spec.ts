@@ -49,7 +49,7 @@ describe('HomeOfPurchasesPage', () => {
     });
 
     tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
-      tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
+      clean: null
     });
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
@@ -111,19 +111,12 @@ describe('HomeOfPurchasesPage', () => {
     expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(0);
   });
 
-  it('should navigate to select provider page when ux_buy_kripton_new is clicked and there is asset', () => {
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css("ion-button[name='ux_buy_kripton_new']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/select-provider');
-  });
-
-  it('should navigate to select token page when ux_buy_kripton_new is clicked and there isnt asset', () => {
-    tokenOperationDataServiceSpy.tokenOperationData = undefined;
+  it('should navigate to select provider page when ux_buy_kripton_new is clicked', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css("ion-button[name='ux_buy_kripton_new']")).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/token-selection');
+    expect(tokenOperationDataServiceSpy.clean).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to faqs when support link is clicked', () => {

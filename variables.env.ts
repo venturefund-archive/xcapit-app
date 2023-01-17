@@ -33,6 +33,7 @@ export const environment = {
   maticApiUrl: 'https://matic.url',
   bscApiUrl: 'https://bsc.url',
   binanceApiUrl: 'https://binance.url',
+  coinGeckoApiUrl:"https://coingecko.url",
   solanaApiUrl: 'https://solana.url',
   twoPiReferralAddress: '0x0001',
   derivedPaths: {

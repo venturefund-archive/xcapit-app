@@ -11,4 +11,8 @@ export class QuotesService {
   getAllQuotes() {
     return this.http.get(`${environment.binanceApiUrl}/api/v3/ticker/24hr`, undefined, undefined, false);
   }
+
+  getUsdcQuote(){
+    return this.http.get(`${environment.coinGeckoApiUrl}/api/v3/coins/usd-coin`);
+  }
 }

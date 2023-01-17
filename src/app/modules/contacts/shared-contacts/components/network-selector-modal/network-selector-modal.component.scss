@@ -1,0 +1,23 @@
+:host {
+  .nsm {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      padding-left: 16px;
+
+      &__text {
+        margin-top: 14px;
+      }
+
+      &__close {
+        margin-top: 11px;
+      }
+    }
+
+    &__content {
+      &__item {
+        --background: transparent;
+      }
+    }
+  }
+}

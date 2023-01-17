@@ -61,31 +61,19 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd">
-      <div class="sd__network-select-card ion-padding" *ngIf="this.tplBlockchain">
-        <div class="sd__network-select-card__title">
-          <ion-text class="ux-font-text-lg">{{ 'wallets.send.send_detail.network_select.title' | translate }}</ion-text>
-        </div>
-        <div class="sd__network-select-card__selected-coin">
-          <app-coin-selector
-            [selectedCoin]="this.token"
-            [enabled]="true"
-            (changeCurrency)="this.changeCurrency()"
-          ></app-coin-selector>
-        </div>
-        <div class="sd__network-select-card__networks">
-          <app-network-select-card
-            [title]="'wallets.send.send_detail.network_select.network' | translate"
-            [networks]="[this.tplBlockchain.name]"
-            [selectedNetwork]="this.tplBlockchain.name"
-          ></app-network-select-card>
-        </div>
-      </div>
       <form [formGroup]="this.form">
-        <div class="sd__address-input-card  ion-padding-start ion-padding-end" *ngIf="this.token && this.tplBlockchain">
+        <div class="sd__transaction-card ion-padding" *ngIf="this.token && this.tplBlockchain">
+          <app-asset-detail
+            [blockchain]="this.tplBlockchain.name"
+            [token]="this.token.value"
+            [tokenLogo]="this.token.logoRoute"
+          ></app-asset-detail>
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
+            [subtitle]="'wallets.send.send_detail.address_input.subtitle' | translate"
             [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
+            (addFromContacts)="navigateToContacts()"
           ></app-address-input-card>
         </div>
         <div class="sd__amount-input-card" *ngIf="this.token">
@@ -193,8 +181,15 @@ export class SendDetailPage {
     await this.setWallet();
     await this.setTokenDetail();
     await this.setAddressValidator();
+    if (this.route.snapshot.paramMap.get('address')) {
+      this.setFormData(this.route.snapshot.paramMap.get('address'), this.route.snapshot.paramMap.get('amount'));
+    }
     this.getPrices();
     await this.tokenBalances();
+  }
+
+  setFormData(address: string, amount: string) {
+    this.form.patchValue({ address, amount });
   }
 
   async setAddressValidator() {
@@ -355,14 +350,18 @@ export class SendDetailPage {
   }
 
   private async _estimatedSolanaFee(): Promise<number> {
-    return this.form.value.address ? await this.solanaFeeOf.create(
-      new SolanaNativeSendTx(
-        await this.walletsFactory.create().oneBy(this.blockchain),
-        this.form.value.address,
-        new WeiOf(this.form.value.amount, this.blockchain.nativeToken().json()).value().toNumber()
-      ),
-      this.blockchain
-    ).value() : 0;
+    return this.form.value.address
+      ? await this.solanaFeeOf
+          .create(
+            new SolanaNativeSendTx(
+              await this.walletsFactory.create().oneBy(this.blockchain),
+              this.form.value.address,
+              new WeiOf(this.form.value.amount, this.blockchain.nativeToken().json()).value().toNumber()
+            ),
+            this.blockchain
+          )
+          .value()
+      : 0;
   }
 
   private async _estimatedFee(): Promise<number> {
@@ -410,10 +409,6 @@ export class SendDetailPage {
     };
   }
 
-  changeCurrency() {
-    this.navController.navigateBack(['/wallets/send/select-currency']);
-  }
-
   private getDynamicPriceOf(token: Coin | RawToken): Observable<number> {
     return this.dynamicPriceFactory
       .new(this.priceRefreshInterval, token, this.apiWalletService)
@@ -449,5 +444,16 @@ export class SendDetailPage {
       await modal.present();
     }
     await modal.onDidDismiss();
+  }
+
+  navigateToContacts() {
+    return this.navController.navigateForward([
+      `contacts/home/select/blockchain`,
+      this.blockchain.name(),
+      'token',
+      this.token.contract,
+      'amount',
+      this.form.value.amount,
+    ]);
   }
 }

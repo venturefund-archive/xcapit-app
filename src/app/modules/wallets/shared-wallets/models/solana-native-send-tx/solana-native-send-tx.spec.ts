@@ -8,7 +8,7 @@ describe('SolanaNativeSendTx', () => {
 
   beforeEach(() => {
     transaction = new SolanaNativeSendTx(
-      new FakeWallet(Promise.resolve(false), '', testWalletAddress),
+      new FakeWallet(Promise.resolve(false), null, testWalletAddress),
       testToAddress,
       1
     );

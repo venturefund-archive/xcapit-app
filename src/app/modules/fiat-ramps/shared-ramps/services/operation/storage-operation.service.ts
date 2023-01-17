@@ -27,4 +27,8 @@ export class StorageOperationService {
   public updateVoucher(voucher: Photo) {
     this.voucher = voucher;
   }
+
+  public cleanVoucher(){
+    this.voucher = null;
+  }
 }

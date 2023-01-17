@@ -169,6 +169,7 @@
       "login_button_text": "Login",
       "reset_password_link": "I forgot my password",
       "help_link": "Help",
+      "use_biometric": "Access with biometric data",
       "invalid_password_text": "The password entered is incorrect. Please try again.",
       "error_biometric_auth": "An error occurred while trying to read your biometric data. Please enter your password to access."
     },
@@ -342,37 +343,37 @@
     }
   },
   "defi_investments": {
-    "notifications":{
-      "success":{
-        "title":"💰 Successful investment. Congratulations!",
+    "notifications": {
+      "success": {
+        "title": "💰 Successful investment. Congratulations!",
         "body": "You invested {{amount}} {{token}} on {{date}}."
       },
-      "error":{
-        "title":"⚠️ Investment error",
+      "error": {
+        "title": "⚠️ Investment error",
         "body": "An error occurred in the investment of {{amount}} {{token}} on {{date}}."
       }
     },
-    "invest_in_progress":{
-      "text_primary":"Your order is on its way!",
-      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
-      "button_text":"Return to investments",
+    "invest_in_progress": {
+      "text_primary": "Your order is on its way!",
+      "text_secondary": "The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text": "Return to investments",
       "text_title": "Investment",
       "text_badge": "In progress"
     },
-    "withdraw_notifications":{
-      "success":{
-        "title":"💸 Successful withdraw",
+    "withdraw_notifications": {
+      "success": {
+        "title": "💸 Successful withdraw",
         "body": "You withdrew {{amount}} {{token}} on {{date}}."
       },
-      "error":{
-        "title":"🚨 Withdraw error",
+      "error": {
+        "title": "🚨 Withdraw error",
         "body": "An error occurred in the withdrawal of {{amount}} {{token}} on {{date}}."
       }
     },
-    "withdraw_in_progress":{
-      "text_primary":"Your order is on its way!",
-      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
-      "button_text":"Return to investments",
+    "withdraw_in_progress": {
+      "text_primary": "Your order is on its way!",
+      "text_secondary": "The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text": "Return to investments",
       "text_title": "Withdraw",
       "text_badge": "In progress"
     },
@@ -625,6 +626,20 @@
       "category_help": "Help",
       "faq_help": "Frequently asked questions",
       "support_help": "Talk to support",
+      "terms_and_conditions": {
+        "providers": "Providers",
+        "tyc": "Terms and conditions",
+        "privacy_policy": "Privacy policy",
+        "kripton": {
+          "title": "Kripton Market"
+        },
+        "inch": {
+          "title": "Inch"
+        },
+        "2pi": {
+          "title": "2pi"
+        }
+      },
       "community": "Join our community",
       "category_security_account": "Security Xcapit account",
       "change_pass": "Password Change",
@@ -634,6 +649,7 @@
       "export_private_key": "Private key",
       "security_phrase": "Security phrase",
       "category_preferences": "Preferences",
+      "security_configuration": "Configuration",
       "push_notifications": "Push notifications",
       "language": "Language",
       "logout": "Log Out",
@@ -641,8 +657,11 @@
       "category_walletconnect": "WalletConnect",
       "connected_walletconnect": "Connected",
       "disconnected_walletconnect": "Disconnected",
+      "category_contacts": "Wallets list",
       "delete_account_button": "Delete account",
-      "delete_account_message": "I request the deletion of my account and associated data.",
+      "delete_account_message": "I request the deletion of my account and associated data. Wallet: {{wallet}}",
+      "version": "Version",
+      "update": "Update",
       "profile_footer": {
         "investor_profile_button": "Investor profile"
       },
@@ -695,14 +714,39 @@
     "biometric_auth": {
       "header": "Biometric data",
       "toggle_text": "Biometric data",
-      "toggle_description": "Activate to enter quickly.",
+      "toggle_description": "Activate to access your wallet and approve your transactions.",
       "password_title": "Your safety matters to us",
-      "password_description": "To activate your biometric data, enter your Xcapit wallet's password..",
+      "password_description": "To activate your biometric data, enter your Xcapit wallet's password.",
       "password_button": "Confirm",
       "password_error": "The password entered is not valid.",
       "options": {
         "title": "Log in with your biometric data",
-        "subtitle": "Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device."
+        "subtitle": "Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device.",
+        "negative_button_text": "Use password"
+      }
+    },
+    "delete_account": {
+      "header": "Delete account",
+      "first_text": "To start the process of deleting your account and associated data, we need you to enter your email address.",
+      "second_text": "Xcapit will use it only to communicate the resolution of your request.",
+      "email_label": "Enter your email*",
+      "disclaimer": "Remember that you can always recover your wallet with the seed phrase. Get more information by visiting the",
+      "link": "Frequently asked questions about the wallet.",
+      "button": "Delete account",
+      "success": {
+        "title": "Request successfully submitted",
+        "message": "Our team is already working on your case. We will be answering you as soon as possible to the email {{email}}"
+      }
+    },
+    "security_configuration": {
+      "header": "Configuration",
+      "inactivity": {
+        "title": "Inactivity logout",
+        "message": "Select the amount of time you want to allow for inactivity before you are logged out."
+      },
+      "password_change": {
+        "title": "Password",
+        "button": "Change"
       }
     },
     "shared": {
@@ -1148,6 +1192,11 @@
           "notOwner": "You do not own this API keys."
         }
       }
+    },
+    "tickets": {
+      "create_ticket": {
+        "invalid_data": "The data entered are not valid."
+      }
     }
   },
   "financial_education": {
@@ -1442,6 +1491,8 @@
       }
     },
     "send_donations": {
+      "alias": "Address or alias",
+      "destiny_wallet": "Destination wallet",
       "header": "Donations",
       "title": "Transaction data",
       "currency": "Currency",
@@ -1619,6 +1670,27 @@
       "header": "Receive",
       "title": "Select the currency you want to receive"
     },
+    "experimental_onboarding": {
+      "titile": "Welcome to {{username}} 🚀",
+      "init_wallet": "Init wallet",
+      "complete_steps": "1 of 2 steps complete",
+      "next_step": "next step",
+      "progress": "Your progress",
+      "completed": "completado",
+      "steps": {
+        "step_one": {
+          "title": "buy tokens",
+          "subtitle": "USDC at the best price."
+        },
+        "step_two": {
+          "title": "Or, deposit",
+          "subtitle": "Add USDC from other wallet."
+        },
+        "step_three": {
+          "title": "Creación de wallet"
+        }
+      }
+    },
     "remove_success": {
       "title": "Your wallet was removed",
       "subtitle": "You can create a new wallet or import an existing one whenever you wish.",
@@ -1793,6 +1865,11 @@
       "write_password": "Enter your password.",
       "password": "Password",
       "repeat_password": "Repeat your password",
+      "creation_method": "Creation method",
+      "import_method": "Import method",
+      "default_derived_path": "Default (Recommended)",
+      "blockchain_derived_path": "Using each blockchain's route",
+      "edit_derived_path_button": "Edit",
       "finish_button_create": "Create wallet",
       "finish_button_import": "Import wallet",
       "creating_button_state": "Creating wallet",
@@ -1836,7 +1913,7 @@
       "title": "Enter recovery phrase",
       "subtitle": "Write your words separated by a space",
       "label": "Recovery phrase",
-      "button": "Import Wallet",
+      "button": "Continue",
       "next_button": "Next"
     },
     "transactions": {
@@ -1849,13 +1926,13 @@
       "declined": "Declined"
     },
     "send": {
-      "send_notifications":{
-        "success":{
-          "title":"✅ Successful shipment. That's the way to do it!",
+      "send_notifications": {
+        "success": {
+          "title": "✅ Successful shipment. That's the way to do it!",
           "body": "You sent {{amount}} {{token}} on {{date}}. "
         },
-        "error":{
-          "title":"❌ Error in shipment",
+        "error": {
+          "title": "❌ Error in shipment",
           "body": "An error occurred in the sending of  {{amount}} {{token}} on {{date}}. More information here."
         }
       },
@@ -1867,12 +1944,13 @@
         "title": "Select the currency you want to send",
         "suite": "{{suiteName}} network"
       },
-      "send_in_progress":{
-        "text_primary":"Your order is on its way!",
-        "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
-        "button_text":"Go to wallet",
+      "send_in_progress": {
+        "text_primary": "Your order is on its way!",
+        "text_secondary": "The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+        "button_text": "Go to wallet",
         "text_title": "Send",
-        "text_badge": "In progress"
+        "text_badge": "In progress",
+        "text_save": "Save address"
       },
       "send_detail": {
         "header": "Send",
@@ -1884,6 +1962,7 @@
         "continue_button": "Continue",
         "address_input": {
           "title": "Target wallet",
+          "subtitle": "Paste the address or scan the QR code.",
           "help_text": "{{currency}} address or alias"
         },
         "alert": {
@@ -1959,7 +2038,6 @@
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"
       },
-
       "address_input_card": {
         "scan_error": "Error scanning QR code",
         "placeholder": "Press and hold to paste",
@@ -1970,7 +2048,8 @@
         "title": "Enter your password",
         "disclaimer": "For security we need you to enter your wallet password to complete the transaction",
         "submit_button_text": "Accept",
-        "input_label": "Password"
+        "input_label": "Password",
+        "biometric_auth_button": "Use biometric data"
       },
       "wallet_password_small": {
         "title": "For security",
@@ -2218,6 +2297,27 @@
         "description": "",
         "button_text": "Understood"
       }
+    },
+    "derived_path_options": {
+      "header": {
+        "import": "Import method",
+        "create": "Create method"
+      },
+      "title": {
+        "import": "Select the method by which your wallet will be imported",
+        "create": "Select the method by which your wallet will be created"
+      },
+      "first_option": {
+        "title": "Default: Following Ethereum's path.",
+        "description": "All networks will take the same derivation path as Ethereum (m/44'/60'/60'/0'/0). This will make all addresses the same. This method used in wallets such as Trezor or MetaMask."
+      },
+      "second_option": {
+        "title": "Following the path of each blockchain",
+        "description1": "The derivation path defined by each blockchain will be used, resulting in different addresses for each network.",
+        "description2": "Derived path by network<br> ERC20: m/44'/60'/0'/0/0<br> RSK: m/44'/137'/0'/0/0<br> MATIC: m/44'/966'/0'/0/0<br> BSC_BEP20: m/44'/60'/0'/0/0<br> SOLANA: m/44'/501'/0'/0'"
+      },
+      "disclaimer": "*These paths will be useful in case you want to export each address individually.",
+      "link": "What method should I choose?"
     }
   },
   "tools": {
@@ -2250,19 +2350,19 @@
   },
   "fiat_ramps": {
     "operation_km_in_progress": {
-      "text_primary":"Your order is on its way!",
-      "text_secondary":"We will be informing you about changes in the status of your purchase.",
-      "button_text":"Finish",
-      "text_title":"Buy",
-      "text_badge":"In progress",
+      "text_primary": "Your order is on its way!",
+      "text_secondary": "We will be informing you about changes in the status of your purchase.",
+      "button_text": "Finish",
+      "text_title": "Buy",
+      "text_badge": "In progress",
       "text_tertiary": "Do you need help?",
-      "text_help_link": "Write to Kripton Market support"      
+      "text_help_link": "Write to Kripton Market support"
     },
     "error_operation_km": {
-      "text_primary":"Error when loading the voucher",
-      "text_secondary":"👉 Verify that the format is jpg, png or pdf. And that its size does not exceed 200 kb.",
-      "button_primary":"Retry",
-      "button_secondary":"Return to my purchases"
+      "text_primary": "Error when loading the voucher",
+      "text_secondary": "👉 Verify that the format is jpg, png or pdf. And that its size does not exceed 200 kb.",
+      "button_primary": "Retry",
+      "button_secondary": "Return to my purchases"
     },
     "home_of_purchases": {
       "header": "My purchases",
@@ -2283,15 +2383,15 @@
       "button_primary": "Retry",
       "button_secondary": "Go to wallet"
     },
-    "purchase_order":{
+    "purchase_order": {
       "header": "Buy crypto",
-      "clipboard_text":"¡{{type}} successfully copied!",
+      "clipboard_text": "¡{{type}} successfully copied!",
       "provider": "Provider: Kripton Market",
-      "step_1":"Transfer",
-      "step_2":"Upload voucher",
-      "button":"Continue",
-      "send_button":"Send and finish",
-      "timer":"You have {{ value }} to transfer",
+      "step_1": "Transfer",
+      "step_2": "Upload voucher",
+      "button": "Continue",
+      "send_button": "Send and finish",
+      "timer": "You have {{ value }} to transfer",
       "voucher_card": {
         "header": "Attach your voucher",
         "file_placeholder": "Voucher.jpg",
@@ -2339,7 +2439,7 @@
       "no_provider": "At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
       "pay_in_usd": "Pay in USD",
-      "best_quote":"Best quote",
+      "best_quote": "Best quote",
       "pay_in_fiat": "Pay in local currency",
       "krypton_description": "Buy with bank transfer",
       "disclaimer": "* Quotes may vary slightly at the time of purchase.",
@@ -2380,8 +2480,8 @@
           "available_tokens_2": "USDC and MATIC"
         },
         "directa24": {
-          "description_1":"Cash purchase",
-          "description_2":"10 USD.",
+          "description_1": "Cash purchase",
+          "description_2": "10 USD.",
           "description_3": "Working days from 9 a.m. to 6 p.m. approx. The maximum accreditation time is 3 hours."
         }
       }
@@ -2408,7 +2508,7 @@
       "title": "What does this status mean?",
       "button": "Understood",
       "incomplete": {
-        "description": "Your purchase request has been successfully received by the provider. This does not mean that the purchase has been made. To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
+        "description": "Your purchase request has been successfully received by the provider. <b>This does not mean that the purchase has been made.</b> To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
         "description2": "You have up to 72 hours to do so, otherwise your order will be cancelled."
       },
       "in_progress": {
@@ -2531,7 +2631,7 @@
         "name": "Moonpay",
         "description": "Third-party provider"
       },
-      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
+      "disclaimer": "",
       "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
       "button_text": "Continue",
       "footer_description": "By clicking ”Continue”, you will be redirected to the external provider's site."
@@ -2608,21 +2708,21 @@
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
       },
-      "user_register_content":{
-        "user_information":{
-          "title":"Hello! You don't have an account yet, we will help you to register quickly.",
+      "user_register_content": {
+        "user_information": {
+          "title": "Hello! You don't have an account yet, we will help you to register quickly.",
           "subtitle": "😄 Don't worry. It will be just for this time."
         },
-        "user_images":{
-          "title":"Data, ready ✅",
+        "user_images": {
+          "title": "Data, ready ✅",
           "subtitle": "You are one step closer, don't give up!"
         },
-        "complete":{
-          "title":"Congratulations! 🎉 Registration completed",
+        "complete": {
+          "title": "Congratulations! 🎉 Registration completed",
           "subtitle": "⏱ Kripton Market is validating your account. This process can take up to 48 hours",
           "subtitle_2": "🛒 Once you have your account validated, you will be able to make your purchases with this supplier"
         }
-      },        
+      },
       "validation_content": {
         "header": "Verify identity",
         "provider": "Provider: Kripton Market",
@@ -2663,17 +2763,17 @@
           "button_secondary": "Reloading"
         },
         "dni_selfie": {
-          "title": "That's it! We finish 🎉" ,
+          "title": "That's it! We finish 🎉",
           "subtitle": "Verify that the following conditions are met:",
           "items": "<ul><li> The photo should be clear and sharp.</li><li>Do not wear glasses or hats that cover your face.</li></ul>",
           "button_primary": "Confirm and send",
           "button_secondary": "Reloading"
         },
-        "kripton_account_info":{
+        "kripton_account_info": {
           "title": "Transfer to the following account",
           "alias": "Alias",
           "cbu": "CBU",
-          "amount":"Amount",
+          "amount": "Amount",
           "owner": "Holder",
           "currency_type": {
             "argentina": "Argentine pesos",
@@ -2682,18 +2782,17 @@
             "colombia": "Colombian pesos"
           }
         },
-        "kripton_purchase_info":{
-  
-          "title":"Your purchase",
-          "quote":"Quote",
-          "operation":"Operation"
+        "kripton_purchase_info": {
+          "title": "Your purchase",
+          "quote": "Quote",
+          "operation": "Operation"
         }
       },
-      "kripton_account_info":{
+      "kripton_account_info": {
         "title": "Transfer to the following account",
         "alias": "Alias",
         "cbu": "CBU",
-        "amount":"Amount",
+        "amount": "Amount",
         "owner": "Holder",
         "currency_type": {
           "argentina": "Argentine pesos",
@@ -2702,15 +2801,15 @@
           "colombia": "Colombian pesos"
         }
       },
-      "kripton_purchase_info":{
-        "title":"Your purchase",
-        "quote":"Quote",
-        "operation":"Operation"
+      "kripton_purchase_info": {
+        "title": "Your purchase",
+        "quote": "Quote",
+        "operation": "Operation"
       }
     },
-    "kripton_operation_detail":{
+    "kripton_operation_detail": {
       "header": "Operation detail",
-      "title":"Buy",
+      "title": "Buy",
       "state": "Status",
       "state_toast": {
         "incomplete": "Transfer and send the transaction receipt.",
@@ -2718,9 +2817,17 @@
         "nullified": "The provider cancelled this operation. For more information, please contact support.",
         "cancelled": "The provider did not receive proof of payment."
       },
-      "quotation":"Quotation",
+      "scan_link": "View in",
+      "scans": {
+        "MATIC": "PolygonScan",
+        "RSK": "RSK Explorer",
+        "ERC20": "EtherScan",
+        "BSC_BEP20": "BscScan",
+        "SOLANA": "Solana Explorer"
+      },
+      "quotation": "Quotation",
       "address": "Destination address (your wallet)",
-      "provider":"Provider",
+      "provider": "Provider",
       "operation": "Operation",
       "date": "Date",
       "hours": "hrs",
@@ -2738,7 +2845,7 @@
       "button": "Continue",
       "text": "Make sure you have access to the email, you will use it to confirm your transactions.",
       "text_token": "We send a temporary login code to your email.\n If you can't find it, check your spam folder.",
-      "label_token":"Entry code",
+      "label_token": "Entry code",
       "toast_success": "We resent the login code to your email.",
       "resend_email": {
         "title_not_sent": "Did you not receive the code?",
@@ -2810,7 +2917,7 @@
         "label_phone": "Phone",
         "button": "Continue"
       },
-      "summary_data":{
+      "summary_data": {
         "header": "Load data",
         "title": "🎊 ¡This is how it's done! We finish",
         "subtitle": "Do you wish to make any changes?",
@@ -3061,12 +3168,16 @@
         "title": "View more"
       },
       "swap_ok": {
-        "title": "🚀 Successful exchange! ",
+        "title": "🚀 Successful swap! ",
         "body": "You sent {{fromAmount}} {{fromToken}} and received {{toAmount}} {{toToken}} ."
       },
       "swap_not_ok": {
-        "title": "❌ Error in the exchange",
+        "title": "❌ Error in the swap",
         "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
+      },
+      "swap_not_ok_blockchain": {
+        "title": "❌ Error in the swap",
+        "body": "It could not be processed by the blockchain. Try again late."
       }
     }
   },
@@ -3076,5 +3187,42 @@
     "go_to_xcapit": "Go to Xcapit",
     "dont_have_app": "Don't have Xcapit?",
     "download": "Download"
+  },
+  "contacts": {
+    "home": {
+      "header": "My contacts",
+      "empty": {
+        "title": "You do not yet have wallets in your address book.",
+        "subtitle": "Start now!"
+      },
+      "button": "Add new wallet"
+    },
+    "register": {
+      "header": "Save wallet",
+      "title": "Enter the details of the wallet you wish to save.",
+      "address_label": "Address",
+      "address_sublabel": "Paste the address or scan the QR code.",
+      "address_placeholder": "Press and hold to paste",
+      "name_label": "Name",
+      "submit_text": "Save wallet",
+      "name_placeholder": "Ex: Laura's Wallet",
+      "text_invalid": "The wallet address is incorrect",
+      "text_valid": "The wallet address is correct",
+      "loading": "Saving",
+      "success_toast": "Excellent! Wallet successfully saved"
+    },
+    "shared_contacts": {
+      "network_selector": {
+        "label": "Network"
+      },
+      "network_selector_modal": {
+        "title": "Select network"
+      }
+    },
+    "qr_scanner": {
+      "title": "Scan the QR code of the address you wish to save",
+      "scan_error": "Error scanning QR code",
+      "scan_unauthorized": "You do not have permission to scan"
+    }
   }
 }

@@ -1,4 +1,3 @@
-import { AppInfo } from '@capacitor/app';
 import { CapacitorApp } from '../capacitor-app.interface';
 
 export class FakeCapacitorApp implements CapacitorApp {
@@ -6,5 +5,13 @@ export class FakeCapacitorApp implements CapacitorApp {
 
   info(): Promise<any> {
     return this.infoResponse;
+  }
+
+  public onStateChange(callback: CallableFunction): void {
+    return;
+  }
+
+  public onPause(callback: CallableFunction): void {
+    return;
   }
 }

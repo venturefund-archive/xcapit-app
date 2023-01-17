@@ -95,6 +95,7 @@ export class QuotesCardComponent implements OnInit {
   waitingQuotes = true;
   firstQuotes: Quotes[];
   remainingQuotes: Quotes[];
+  usdcData;
 
   constructor(
     private quotesService: QuotesService,
@@ -107,6 +108,7 @@ export class QuotesCardComponent implements OnInit {
     this.accordionGroup.value = '';
     this.getAllQuotes();
     this.getCoins();
+    this.getUsdcQuote();
   }
 
   existWallet() {
@@ -121,7 +123,7 @@ export class QuotesCardComponent implements OnInit {
   }
 
   getUserCoinsQuotes() {
-    this.storageService.getAssestsSelected().then((coins) => {
+    this.storageService.getAssetsSelected().then((coins) => {
       const userCoins = coins;
       const filteredData = this.completeData?.filter((filteredCoin) => {
         for (const i in userCoins) {
@@ -134,10 +136,31 @@ export class QuotesCardComponent implements OnInit {
     });
   }
 
-  separateFilteredData(allQuotes: Quotes[]) {
-    this.firstQuotes = allQuotes?.slice(0, 3);
-    this.remainingQuotes = allQuotes?.slice(3, allQuotes.length);
+  async separateFilteredData(allQuotes: Quotes[]) {
+    const alreadySettedQuotes = await this.setUsdcPrice(allQuotes);
+    this.firstQuotes = alreadySettedQuotes?.slice(0, 3);
+    this.remainingQuotes = alreadySettedQuotes?.slice(3, allQuotes.length);
     this.waitingQuotes = false;
+  }
+
+  async getUsdcQuote(){
+    await this.quotesService.getUsdcQuote().subscribe((data) => {
+      this.usdcData = data;
+    })
+  }
+
+  async setUsdcPrice(allQuotes : Quotes[]){
+    const usdcQuote = allQuotes.find((quote) => quote.symbol === 'USDCUSDT');
+    if(usdcQuote){
+      if(this.usdcData !== undefined){
+        usdcQuote.lastPrice = this.usdcData.market_data.current_price.usd;
+        usdcQuote.priceChangePercent = this.usdcData.market_data.price_change_percentage_24h_in_currency.usd;
+      }else{
+        const index = allQuotes.indexOf(usdcQuote);
+        allQuotes.splice(index, 1);
+      }
+    }
+    return allQuotes;
   }
 
   getCoins() {

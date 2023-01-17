@@ -30,9 +30,7 @@ import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/g
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import {
-  rawBlockchainsData,
-} from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import {
@@ -46,7 +44,6 @@ import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/facto
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
-
 
 describe('SendDetailPage', () => {
   let component: SendDetailPage;
@@ -305,19 +302,6 @@ describe('SendDetailPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 
-  it('should let user change currency on selected currency click', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
-    await component.ionViewDidEnter();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    fixture.debugElement
-      .query(By.css('.sd__network-select-card__selected-coin > app-coin-selector'))
-      .triggerEventHandler('changeCurrency', {});
-
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/wallets/send/select-currency']);
-  });
-
   it('should unsubscribe when leave', () => {
     const nextSpy = spyOn(component.destroy$, 'next');
     const completeSpy = spyOn(component.destroy$, 'complete');
@@ -360,5 +344,39 @@ describe('SendDetailPage', () => {
     fixture.debugElement.query(By.css('app-amount-input-card')).triggerEventHandler('phraseAmountInfoClicked', null);
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  });
+
+  it('should navigate when addFromContacts event is emited', async () => {
+    await component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('app-address-input-card')).triggerEventHandler('addFromContacts', null);
+
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      'contacts/home/select/blockchain',
+      component.tplBlockchain.name,
+      'token',
+      component.token.contract,
+      'amount',
+      component.form.value.amount,
+    ]);
+  });
+
+  it('should set form data when address is present on URL', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      token: rawUSDTData.contract,
+      blockchain: rawUSDTData.network,
+      address: formData.valid.address,
+      amount: formData.valid.amount,
+    });
+    await component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(component.form.value.address).toEqual(formData.valid.address);
+    expect(component.form.value.amount).toEqual(formData.valid.amount);
   });
 });

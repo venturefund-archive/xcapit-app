@@ -146,20 +146,17 @@
 // Modal Pantalla Completa
 .full-screen-modal {
   &::part(content) {
-    margin-top: 120px;
-
     .ion-page {
       padding-bottom: 60px;
     }
   }
 }
 
-// Small wallet password modal
 .small-wallet-password-modal {
   &::part(content) {
-    position: absolute;
-    height: 330px !important;
-    top: calc(100% - (330px));
+    position: fixed;
+    height: auto;
+    bottom: 0;
   }
 }
 
@@ -295,14 +292,6 @@
 
   .ion-page {
     padding-bottom: calc(35vh / 2);
-  }
-}
-
-// Apikeys Modal swippeable
-.apikeys-modal {
-  ion-modal::part(content) {
-    margin-top: calc(100vh - 240px);
-    height: 256px;
   }
 }
 
