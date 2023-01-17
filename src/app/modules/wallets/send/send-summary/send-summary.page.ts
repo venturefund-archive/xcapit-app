@@ -27,7 +27,7 @@ import { LocalNotificationInjectable } from 'src/app/shared/models/local-notific
 import { LoginToken } from 'src/app/modules/users/shared-users/models/login-token/login-token';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress';
-import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/swap-in-progress/tx-in-progress.service';
+import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -96,7 +96,7 @@ export class SendSummaryPage implements OnInit {
     private walletsFactory: WalletsFactory,
     private localNotificationInjectable: LocalNotificationInjectable,
     private storage: IonicStorageService,
-    private txInProgressService: TxInProgressService,
+    private txInProgressService: TxInProgressService
   ) {}
 
   ngOnInit() {}
@@ -182,15 +182,12 @@ export class SendSummaryPage implements OnInit {
         this.summaryData.address,
         this.summaryData.currency
       );
-      // TODO: Response has tx hash
-      this.txInProgress = new TxInProgress('send', response.hash);
+      this.txInProgress = new TxInProgress('send', this.blockchain.name(), response.hash);
       this.txInProgressService.startTx(this.txInProgress);
-      console.log(response);
       this.notifyWhenTransactionMined(response);
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.onNeedPass().subscribe(() => new Password(password).value());
-      // TODO: Ver qué onda solana
       await wallet.sendTxs([
         new SolanaNativeSendTx(
           wallet,
@@ -299,7 +296,8 @@ export class SendSummaryPage implements OnInit {
           description: window.location.href,
           eventLabel: 'ux_send_notification_success',
         })
-      ).finally(() => this.txInProgressService.finishTx(this.txInProgress));
+      )
+      .finally(() => this.txInProgressService.finishTx(this.txInProgress));
   }
 
   private _sendSuccessNotification() {
@@ -325,9 +323,9 @@ export class SendSummaryPage implements OnInit {
       await this.handleInvalidPassword();
     } else if (this.isNotEnoughBalanceError(error)) {
       await this.handleNotEnoughBalance();
-    } else if (!(new PasswordErrorMsgs().isEmptyError(error))) {
+    } else if (!new PasswordErrorMsgs().isEmptyError(error)) {
       throw error;
-    } 
+    }
   }
 
   private isNotEnoughBalanceError(error) {

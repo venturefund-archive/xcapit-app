@@ -47,7 +47,7 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { of } from 'rxjs';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { Password } from '../shared-swaps/models/password/password';
-import { TxInProgressService } from '../shared-swaps/services/swap-in-progress/tx-in-progress.service';
+import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -75,7 +75,6 @@ describe('SwapHomePage', () => {
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let activatedRouteSpy: any;
   let swapInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
-  const aPassword = new Password('aPassword');
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
     id: 1,
@@ -137,8 +136,8 @@ describe('SwapHomePage', () => {
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService', {
-      startSwap: null,
-      finishSwap: null,
+      startTx: null,
+      finishTx: null,
     });
 
     walletBalanceSpy = jasmine.createSpyObj('WalletBalanceService', {
@@ -422,18 +421,18 @@ describe('SwapHomePage', () => {
 
     tick(2);
 
-    expect(swapInProgressServiceSpy.startSwap).toHaveBeenCalledTimes(1);
-    expect(swapInProgressServiceSpy.finishSwap).toHaveBeenCalledTimes(1);
+    expect(swapInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
+    expect(swapInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
   }));
 
-  it('password is invalid, it not start swap', fakeAsync(() => {
+  it('should not start swap if password is invalid', fakeAsync(() => {
     _setWalletToInvalidPassword();
     _setTokenAmountArrange(1);
     component.swapThem();
 
     tick(2);
 
-    expect(swapInProgressServiceSpy.startSwap).toHaveBeenCalledTimes(0);
+    expect(swapInProgressServiceSpy.startTx).toHaveBeenCalledTimes(0);
   }));
 
   it('password modal open on click swap button and password is invalid', fakeAsync(() => {

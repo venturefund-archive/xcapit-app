@@ -4,6 +4,7 @@
     padding-right: 16px;
 
     --inner-padding-start: 16px;
+    --inner-padding-end: 16px;
     --inner-padding-top: 8px;
     --inner-padding-bottom: 8px;
     --border-radius: 8px;
@@ -14,10 +15,19 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      width: 100%;
+
+      &__timestamp {
+        margin-left: auto;
+
+        ion-text {
+          color: var(--ion-color-neutral50);
+        }
+      }
 
       &__img {
-        width: 24px;
-        height: 24px;
+        width: 41px;
+        height: 41px;
       }
 
       &__content {

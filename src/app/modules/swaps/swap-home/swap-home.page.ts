@@ -50,7 +50,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
 import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { TxInProgressService } from '../shared-swaps/services/swap-in-progress/tx-in-progress.service';
+import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { SwapError } from '../shared-swaps/models/swap-error/swap-error';
 import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-in-progress';
 
