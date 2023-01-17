@@ -23,6 +23,8 @@ import { CapacitorApp } from './shared/models/capacitor-app/capacitor-app.interf
 import { AppSessionInjectable } from './shared/models/app-session/injectable/app-session.injectable';
 import { AppSession } from './shared/models/app-session/app-session';
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
+import { DynamicLink } from './shared/models/dynamic-link/dynamic-link';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -49,6 +51,8 @@ describe('AppComponent', () => {
   let appSessionInjectableSpy: jasmine.SpyObj<AppSessionInjectable>;
   let appSessionSpy: jasmine.SpyObj<AppSession>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
+  let dynamicLinkInjectableSpy: jasmine.SpyObj<DynamicLinkInjectable>;
+  let dynamicLinkSpy: jasmine.SpyObj<DynamicLink>;
 
   beforeEach(waitForAsync(() => {
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
@@ -101,6 +105,14 @@ describe('AppComponent', () => {
     appSessionInjectableSpy = jasmine.createSpyObj('AppSessionInjectable', {
       create: appSessionSpy,
     });
+
+    dynamicLinkSpy = jasmine.createSpyObj('DynamicLink', {
+      redirect: null,
+    });
+
+    dynamicLinkInjectableSpy = jasmine.createSpyObj('DynamicLinkInjectable', {
+      create: dynamicLinkSpy,
+    });
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -122,6 +134,7 @@ describe('AppComponent', () => {
         { provide: CapacitorAppInjectable, useValue: capacitorAppInjectableSpy },
         { provide: AppSessionInjectable, useValue: appSessionInjectableSpy },
         { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+        { provide: DynamicLinkInjectable, useValue: dynamicLinkInjectableSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
@@ -203,5 +216,19 @@ describe('AppComponent', () => {
     expect(appSessionSpy.valid).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['users/login-new']);
     discardPeriodicTasks();
+  }));
+
+  it('should check dynamic link redirections when an url is open with app', fakeAsync(() => {
+    fakeCapacitorApp = new FakeCapacitorApp();
+    spyOn(fakeCapacitorApp, 'onAppUrlOpen').and.callFake((callback) => {
+      callback({ url: 'testDynamicLink' });
+    });
+    capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
+
+    component.ngOnInit();
+    tick();
+
+    expect(dynamicLinkInjectableSpy.create).toHaveBeenCalledOnceWith('testDynamicLink');
+    expect(dynamicLinkSpy.redirect).toHaveBeenCalledTimes(1);
   }));
 });

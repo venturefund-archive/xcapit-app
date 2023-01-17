@@ -1,4 +1,4 @@
-import { App, AppInfo, AppPlugin } from '@capacitor/app';
+import { App, AppInfo, AppPlugin, URLOpenListenerEvent } from '@capacitor/app';
 import { CapacitorApp } from '../capacitor-app.interface';
 
 export class DefaultCapacitorApp implements CapacitorApp {
@@ -17,6 +17,12 @@ export class DefaultCapacitorApp implements CapacitorApp {
   public onPause(callback: CallableFunction): void {
     this.app.addListener('pause', () => {
       callback();
+    });
+  }
+
+  public onAppUrlOpen(callback: CallableFunction): void {
+    this.app.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      callback(event);
     });
   }
 }
