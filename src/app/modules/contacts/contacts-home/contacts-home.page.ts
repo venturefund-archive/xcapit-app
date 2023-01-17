@@ -31,6 +31,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
           class="ch__content__item"
           (click)="selectContact(contact.address)"
           lines="none"
+          appTrackClick
           *ngFor="let contact of this.contacts"
         >
           <div class="ch__content__item__wrapper">
@@ -117,7 +118,8 @@ export class ContactsHomePage implements OnInit {
 
   selectContact(address: string) {
     if (this.isSelecting) {
-      this.trackContactSelected()
+      this.trackContactSelected();
+      this.setEvent();
       this.navController.navigateBack([
         '/wallets/send/detail/blockchain',
         this.blockchain,
@@ -131,11 +133,17 @@ export class ContactsHomePage implements OnInit {
     }
   }
 
-  trackContactSelected(){
+  setEvent() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_address_select_wallet',
+    });
+  }
+
+  trackContactSelected() {
     this.trackService.trackEvent({
       eventAction: 'click',
       description: window.location.href,
-      eventLabel: 'ux_address_wallet'
+      eventLabel: 'ux_address_wallet',
     });
   }
 }
