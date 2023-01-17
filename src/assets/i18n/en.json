@@ -1495,6 +1495,10 @@
         }
       }
     },
+    "token_selection":{
+      "header":"Donations",
+      "title":"Select the currency you wish to donate"
+    },
     "send_donations": {
       "alias": "Address or alias",
       "destiny_wallet": "Destination wallet",

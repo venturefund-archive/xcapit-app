@@ -10,4 +10,5 @@ export interface SummaryData {
   balance?: number;
   fee?: string;
   referenceFee?: string;
+  cause?: string;
 }
