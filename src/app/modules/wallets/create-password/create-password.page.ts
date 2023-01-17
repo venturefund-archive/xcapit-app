@@ -106,7 +106,6 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
             <ion-button
               class="ux_button ion-no-margin ion-no-padding"
               fill="clear"
-              color="info"
               name="ux_edit"
               appTrackClick
               [dataToTrack]="{ eventLabel: this.trackClickName }"
