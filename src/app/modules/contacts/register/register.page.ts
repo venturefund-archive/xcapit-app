@@ -9,6 +9,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
+import { RepeatedAddressValidator } from '../shared-contacts/validators/repeated-address/repeated-address-validator';
 
 @Component({
   selector: 'app-register',
@@ -91,7 +92,7 @@ import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
 })
 export class RegisterPage implements OnInit {
   public isNativePlatform: boolean;
-  _aKey = 'contact_list';
+  private _aKey = 'contact_list';
   validatorText: string;
   networksData = structuredClone(NETWORKS_DATA);
   loading: boolean;
@@ -112,7 +113,8 @@ export class RegisterPage implements OnInit {
     private translate: TranslateService,
     private ionicStorageService: IonicStorageService,
     private navController: NavController,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private repeatAddressValidator: RepeatedAddressValidator
   ) {}
 
   ngOnInit() {}
@@ -143,9 +145,16 @@ export class RegisterPage implements OnInit {
 
   subscribeToStatusChanges() {
     this.form.get('address').statusChanges.subscribe((valid) => {
-      this.status = valid === 'VALID';
-      this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.text_invalid';
-      this.hideHelpText = true;
+      if (valid !== 'PENDING') {
+        this.status = valid === 'VALID';
+        const isRepeatAddressValidator = this.form.get('address').hasError('isRepeatedAddress');
+        if (isRepeatAddressValidator) {
+          this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.repeated_address';
+        } else {
+          this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.text_invalid';
+        }
+        this.hideHelpText = true;
+      }
     });
   }
 
@@ -173,6 +182,7 @@ export class RegisterPage implements OnInit {
     } else {
       this.form.get('address').addValidators(CustomValidators.isAddress());
     }
+    this.form.get('address').addAsyncValidators(this.repeatAddressValidator.validate);
     if (this.form.get('address').value) {
       this.form.get('address').updateValueAndValidity();
     }

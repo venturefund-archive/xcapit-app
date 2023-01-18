@@ -3381,6 +3381,7 @@
       "submit_text": "Agendar wallet",
       "text_invalid": "La dirección de wallet es incorrecta",
       "text_valid": "La dirección de wallet es correcta",
+      "repeated_address":"La dirección ya se encuentra agendada",
       "loading": "Agendando",
       "success_toast": "¡Excelente! Wallet agendada con éxito"
     },

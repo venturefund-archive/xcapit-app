@@ -3217,6 +3217,7 @@
       "name_placeholder": "Ex: Laura's Wallet",
       "text_invalid": "The wallet address is incorrect",
       "text_valid": "The wallet address is correct",
+      "repeated_address":"The address is already added",
       "loading": "Saving",
       "success_toast": "Excellent! Wallet successfully saved"
     },
