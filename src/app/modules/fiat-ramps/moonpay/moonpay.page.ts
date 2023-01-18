@@ -88,6 +88,7 @@ export class MoonpayPage {
   milliseconds = 15000;
   destroy$: Subject<void>;
   minimumFiatAmount: number;
+  minBuyAmount: number;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -113,11 +114,17 @@ export class MoonpayPage {
     this.cryptoPrice();
     this.getLimits();
     await this.initAssetsForm();
+    this.setInitValue();
     this.subscribeToFormChanges();
   }
 
   ionViewDidLeave() {
     this.walletMaintenance.wipeDataFromService();
+  }
+
+  setInitValue() {
+    this.form.patchValue({ fiatAmount: 0 });
+    this.form.patchValue({ cryptoAmount: 0 });
   }
 
   async initAssetsForm() {
@@ -129,9 +136,14 @@ export class MoonpayPage {
     this.fiatRampsService
       .getMoonpayLimitOfBuyQuote(this.tokenOperationDataService.tokenOperationData.asset.toLowerCase(), 'usd')
       .subscribe((res) => {
-        this.minimumFiatAmount = this.price * res.quoteCurrency.minBuyAmount;
+        this.minBuyAmount = res.quoteCurrency.minBuyAmount;
+        this.calculateMinimumFiatAmount(this.price);
         this.addGreaterThanValidator(this.minimumFiatAmount);
       });
+  }
+
+  calculateMinimumFiatAmount(price: number) {
+    this.minimumFiatAmount = price * this.minBuyAmount;
   }
 
   private addDefaultValidators() {
@@ -225,21 +237,13 @@ export class MoonpayPage {
     this.getFee();
   }
 
-  private updateAmounts(): void {
-    if (this.form.value.cryptoAmount && this.form.value.fiatAmount) {
-      this.form.patchValue(
-        { fiatAmount: new RoundedNumber(this.form.value.cryptoAmount * this.price).value() },
-        this.defaultPatchValueOptions()
-      );
-    }
-  }
   async getFee() {
     if (!this.form.value.fiatAmount) {
       this.form.value.fiatAmount = 1;
     }
     this.fiatRampsService
       .getMoonpayBuyQuote(
-        this.form.value.fiatAmount,
+        new RoundedNumber(Number(this.form.value.fiatAmount)).value(),
         this.selectedCurrency.moonpayCode,
         this.fiatCurrency.toLowerCase()
       )
@@ -263,8 +267,7 @@ export class MoonpayPage {
       .value()
       .subscribe((price: number) => {
         this.price = price;
-        this.updateAmounts();
-        this.getFee();
+        this.calculateMinimumFiatAmount(price);
       });
   }
 
