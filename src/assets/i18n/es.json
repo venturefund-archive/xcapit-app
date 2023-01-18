@@ -122,16 +122,16 @@
       "of": "de"
     },
     "update_news": {
-      "title": "Lo que estabas esperando, llegó \uD83D\uDE0E",
+      "title": "¡Buenas nuevas, Xcapiter!",
       "first": {
         "badge": "Nueva función",
-        "title": "\uD83D\uDE80 Datos biométricos",
-        "description": "Ingresa a tu wallet más rápido que nunca usando tus datos biométricos."
+        "title": "👁 Datos biométricos",
+        "description": "Ahora no sólo podrás ingresar con ellos a tu wallet, ¡además podrás aprobar tus transacciones!"
       },
       "second": {
         "badge": "Nueva función",
-        "title": "\uD83D\uDE0E Mejoras en la app",
-        "description": "Mejoras de performance en tus operaciones de inversión y envio. Corrección de bugs y mucho más."
+        "title": "😎 Mejoras en la experiencia",
+        "description": "Activación de proveedores, flujos más ágiles y mayor claridad en las operaciones principales."
       }
     },
     "transaction_fees": {

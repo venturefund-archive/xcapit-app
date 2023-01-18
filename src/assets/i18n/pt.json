@@ -131,16 +131,16 @@
       "of": "de"
     },
     "update_news": {
-      "title": "O que você estava esperando, chegou 😎",
+      "title": "Boas notícias, Xcapiter!",
       "first": {
         "badge": "Novo recurso",
-        "title": "🚀 Autenticação Biométrica",
-        "description": "Faça login em sua carteira mais rápido do que nunca usando seus dados biométricos."
+        "title": "👁 Autenticação Biométrica",
+        "description": "Agora não só pode entrar com eles na sua carteira, como também pode aprovar as suas transacções!"
       },
       "second": {
         "badge": "Novo recurso",
-        "title": "😎 Melhorias no aplicativo",
-        "description": "Melhorias de desempenho em suas operações de investimento e transferência. Correções de bugs e muito mais."
+        "title": "😎 Melhorias na experiência",
+        "description": "Activação de fornecedores, fluxos mais suaves e maior clareza nas operações centrais."
       }
     },
     "transaction_fees": {
