@@ -4,7 +4,7 @@ import {
   Investment,
   TwoPiInvestment,
 } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { InvestmentConfirmationPage } from './investment-confirmation.page';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
@@ -41,8 +41,10 @@ import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { fixedGasPriceTo } from 'src/testing/fixed-gas-price.spec';
 import { DefiInvestmentsService } from '../../shared-defi-investments/services/defi-investments-service/defi-investments.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
+import { TicketsModule } from 'src/app/modules/tickets/tickets.module';
 
-describe('InvestmentConfirmationPage', () => {
+fdescribe('InvestmentConfirmationPage', () => {
   const weiGasPriceTestValue = '100000000000';
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   let component: InvestmentConfirmationPage;
@@ -80,6 +82,7 @@ describe('InvestmentConfirmationPage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let defiInvesmentServiceSpy: jasmine.SpyObj<DefiInvestmentsService>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(waitForAsync(() => {
     testLocalNotificationOk = {
@@ -88,13 +91,14 @@ describe('InvestmentConfirmationPage', () => {
     };
 
     defiInvesmentServiceSpy = jasmine.createSpyObj('DefiInvesmentService', {
-      fundWallet: of({}),
+      fundWallet: of(),
     });
 
     testLocalNotificationNotOk = {
       title: 'defi_investments.notifications.error.title',
       body: 'defi_investments.notifications.error.body',
     };
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) });
 
     fakeModalController = new FakeModalController({ data: 'fake_password' });
     modalControllerSpy = fakeModalController.createSpy();
@@ -199,6 +203,7 @@ describe('InvestmentConfirmationPage', () => {
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: DefiInvestmentsService, useValue: defiInvesmentServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -402,5 +407,18 @@ describe('InvestmentConfirmationPage', () => {
     const componentEl = fixture.debugElement.queryAll(By.css('app-transaction-fee'));
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
+  });
+
+  it('should track event when executing request fund faucet', async () => {
+    walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.0));
+    defiInvesmentServiceSpy.fundWallet.and.returnValue(of(true));
+    await component.ionViewDidEnter();
+
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

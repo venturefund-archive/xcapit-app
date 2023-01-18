@@ -43,6 +43,7 @@ import { LocalNotificationInjectable } from 'src/app/shared/models/local-notific
 import { DefiInvestment } from '../../shared-defi-investments/interfaces/defi-investment.interface';
 import { DefiInvestmentsService } from '../../shared-defi-investments/services/defi-investments-service/defi-investments.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -182,7 +183,8 @@ export class InvestmentConfirmationPage {
     private blockchains: BlockchainsFactory,
     private navController: NavController,
     private defiInvesmentService: DefiInvestmentsService,
-    private remoteConfig: RemoteConfigService
+    private remoteConfig: RemoteConfigService,
+    private trackService: TrackService
   ) {}
 
   async ionViewDidEnter() {
@@ -350,8 +352,16 @@ export class InvestmentConfirmationPage {
     if (this.remoteConfig.getFeatureFlag('ff_fundFaucet')) {
       if (this.isElegibleToFund) {
         await this.defiInvesmentService.fundWallet().toPromise();
+
+        this.sendEvent();
       }
     }
+  }
+
+  sendEvent() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_faucet_request',
+    });
   }
 
   setIsElegibleToFund() {
