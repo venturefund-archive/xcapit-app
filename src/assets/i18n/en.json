@@ -131,16 +131,16 @@
       "of": "of"
     },
     "update_news": {
-      "title": "What you were waiting for, has arrived \uD83D\uDE0E",
+      "title": "Good news, Xcapiter!",
       "first": {
         "badge": "New feature",
-        "title": "\uD83D\uDE80 Biometric Auth",
-        "description": "Log in to your wallet faster than ever using your biometric data."
+        "title": "\ud83d\udc41\ufe0f Biometric Auth",
+        "description": "Now you will not only be able to log in to your wallet with them, but you will also be able to approve your transactions!"
       },
       "second": {
         "badge": "New feature",
-        "title": "\uD83D\uDE0E App improvements",
-        "description": "Performance improvements in your investment and transfer operations. Bug fixes and much more."
+        "title": "\ud83d\ude0e Experience enhancements",
+        "description": "Activation of suppliers, smoother flows and greater clarity in core operations."
       }
     },
     "transaction_fees": {
