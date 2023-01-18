@@ -6,7 +6,7 @@ import { AppSession } from '../app-session';
 export class AppSessionInjectable {
   constructor(private storage: IonicStorageService) {}
 
-  create(storage: IonicStorageService = this.storage, time: number = 2): AppSession {
+  create(storage: IonicStorageService = this.storage, time: number = 15): AppSession {
     return new AppSession(storage, time);
   }
 }
