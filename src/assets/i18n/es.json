@@ -125,12 +125,12 @@
       "title": "¡Buenas nuevas, Xcapiter!",
       "first": {
         "badge": "Nueva función",
-        "title": "👁 Datos biométricos",
+        "title": "\ud83d\udc41\ufe0f Datos biométricos",
         "description": "Ahora no sólo podrás ingresar con ellos a tu wallet, ¡además podrás aprobar tus transacciones!"
       },
       "second": {
         "badge": "Nueva función",
-        "title": "😎 Mejoras en la experiencia",
+        "title": "\ud83d\ude0e Mejoras en la experiencia",
         "description": "Activación de proveedores, flujos más ágiles y mayor claridad en las operaciones principales."
       }
     },

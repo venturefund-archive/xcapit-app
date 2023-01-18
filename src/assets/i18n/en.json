@@ -134,12 +134,12 @@
       "title": "Good news, Xcapiter!",
       "first": {
         "badge": "New feature",
-        "title": "👁 Biometric Auth",
+        "title": "\ud83d\udc41\ufe0f Biometric Auth",
         "description": "Now you will not only be able to log in to your wallet with them, but you will also be able to approve your transactions!"
       },
       "second": {
         "badge": "New feature",
-        "title": "😎 Experience enhancements",
+        "title": "\ud83d\ude0e Experience enhancements",
         "description": "Activation of suppliers, smoother flows and greater clarity in core operations."
       }
     },
