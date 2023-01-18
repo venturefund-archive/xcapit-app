@@ -222,10 +222,10 @@ export class DirectaPage implements OnInit {
   subscribeToFormChanges() {
     this.form
       .get('cryptoAmount')
-      .valueChanges.subscribe((value) => (value ? this.cryptoAmountChange(value) : this.resetInfo('fiatAmount')));
+      .valueChanges.subscribe((value) => (value > 0 ? this.cryptoAmountChange(value) : this.resetInfo('fiatAmount')));
     this.form
       .get('fiatAmount')
-      .valueChanges.subscribe((value) => (value ? this.fiatAmountChange(value) : this.resetInfo('cryptoAmount')));
+      .valueChanges.subscribe((value) => (value > 0 ? this.fiatAmountChange(value) : this.resetInfo('cryptoAmount')));
   }
 
   resetInfo(aField: string) {
@@ -241,7 +241,7 @@ export class DirectaPage implements OnInit {
   }
 
   private fiatAmountChange(value: number) {
-    const roundedValue = new RoundedNumber(value).value();
+    const roundedValue = new RoundedNumber(Number(value)).value();
     this.form.patchValue(
       { fiatAmount: roundedValue, cryptoAmount: roundedValue / this.price },
       this.defaultPatchValueOptions()
@@ -297,7 +297,10 @@ export class DirectaPage implements OnInit {
   }
 
   createDirectaPrice(currency = this.fiatCurrency): DynamicDirectaPrice {
-    return this.directaPrice.new(this.milliseconds, new DefaultDirectaPrice(currency, this.selectedCurrency, this.fiatRampsService));
+    return this.directaPrice.new(
+      this.milliseconds,
+      new DefaultDirectaPrice(currency, this.selectedCurrency, this.fiatRampsService)
+    );
   }
 
   loadingFee() {
