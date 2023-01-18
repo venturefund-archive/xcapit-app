@@ -669,33 +669,30 @@ export class SwapHomePage {
     const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
     const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
     const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
-    if (!this.modalOpened) {
-      this.modalOpened = true;
-      this.openModalBalance(this.activeBlockchain.nativeToken(), text, primaryButtonText, secondaryButtonText);
-    }
+    this.openModalBalance(this.activeBlockchain.nativeToken(), text, primaryButtonText, secondaryButtonText);
   }
 
   showInsufficientBalanceModal() {
     const text = 'swaps.home.balance_modal.insufficient_balance.text';
     const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
     const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
-    if (!this.modalOpened) {
-      this.modalOpened = true;
-      this.openModalBalance(this.fromToken, text, primaryButtonText, secondaryButtonText);
-    }
+    this.openModalBalance(this.fromToken, text, primaryButtonText, secondaryButtonText);
   }
 
   async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: { token, text, primaryButtonText, secondaryButtonText },
-    });
-    if (window.location.href === this.modalHref) {
-      await modal.present();
+    if (!this.modalOpened) {
+      const modal = await this.modalController.create({
+        component: BuyOrDepositTokenToastComponent,
+        cssClass: 'ux-toast-warning-with-margin',
+        showBackdrop: false,
+        id: 'feeModal',
+        componentProps: { token, text, primaryButtonText, secondaryButtonText },
+      });
+      if (window.location.href === this.modalHref) {
+        await modal.present();
+        this.modalOpened = true;
+      }
+      await modal.onDidDismiss().then(() => (this.modalOpened = false));
     }
-    await modal.onDidDismiss().then(() => (this.modalOpened = false));
   }
 }
