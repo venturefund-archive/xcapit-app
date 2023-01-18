@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
+import { ScanUrlOf } from '../../../models/scan-url-of/scan-url-of';
 
 @Component({
   selector: 'app-transaction-in-progress-card',

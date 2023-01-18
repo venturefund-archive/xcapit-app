@@ -123,8 +123,8 @@ import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-
         >
         </app-backup-information-card>
       </div>
-      <div class="wt__transaction-in-progress" *ngFor="let tx of this.operationsInProgress">
-        <app-transaction-in-progress-card [transaction]="tx"></app-transaction-in-progress-card>
+      <div class="wt__transaction-in-progress">
+        <app-transaction-in-progress></app-transaction-in-progress>
       </div>
       <div class="wt">
         <div class="wt__segments">
@@ -224,8 +224,6 @@ export class HomeWalletPage implements OnInit {
   newTokens: NewToken[];
   connected: boolean;
   allLoaded = false;
-  operationsInProgress: TxInProgress[] = [];
-  private subscription$: Subscription;
 
   constructor(
     private navController: NavController,
@@ -263,7 +261,10 @@ export class HomeWalletPage implements OnInit {
     this.isProtectedWallet();
     this.getNewTokensAvailable();
     this.checkConnectionOfWalletConnect();
+<<<<<<< HEAD
     this.subscribeToTxInProgress();
+=======
+>>>>>>> be82314bc (style(Wallets): WIP: Toggle start)
   }
 
   async getSliderImages() {
@@ -272,20 +273,6 @@ export class HomeWalletPage implements OnInit {
       slide.image = await (await this.base64ImageFactory.new(slide.image)).value();
     }
     this.slides = slides;
-  }
-
-  ionViewWillLeave() {
-    this.unsubscribe();
-  }
-
-  async subscribeToTxInProgress() {
-    this.subscription$ = this.txInProgressService.inProgress().subscribe((inProgress) => {
-      this.operationsInProgress = inProgress;
-    });
-  }
-
-  unsubscribe() {
-    this.subscription$.unsubscribe();
   }
 
   private trackScreenView() {

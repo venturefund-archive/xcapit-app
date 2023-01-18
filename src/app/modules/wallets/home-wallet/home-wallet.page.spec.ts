@@ -251,13 +251,6 @@ describe('HomeWalletPage', () => {
     expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
   });
 
-  it('should unsubscribe on ionViewWillLeave', async () => {
-    const spy = spyOn(component, 'unsubscribe').and.callThrough();
-    await component.ionViewWillEnter();
-    await component.ionViewWillLeave();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   it('should initialize on view did enter without tokens', async () => {
     storageServiceSpy.getAssetsSelected.and.returnValue(Promise.resolve([]));
     await component.ionViewDidEnter();
@@ -438,22 +431,5 @@ describe('HomeWalletPage', () => {
     iconEl.nativeElement.click();
     expect(iconEl).toBeTruthy();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/connection-detail');
-  });
-
-  it('should render operations in progress if there is a swap and a send pending', async () => {
-    txInProgressServiceSpy.inProgress.and.returnValue(of([txSwap, txSend]));
-    component.ionViewWillEnter()
-    fixture.detectChanges();
-    const txCardEl = fixture.debugElement.queryAll(By.css('app-transaction-in-progress-card'));
-    expect(txCardEl.length).toEqual(2)
-
-  });
-
-  it('should not render operations in progress if there are no tx in progress', async () => {
-    txInProgressServiceSpy.inProgress.and.returnValue(of([]));
-    component.ionViewWillEnter()
-    fixture.detectChanges();
-    const txCardEl = fixture.debugElement.queryAll(By.css('app-transaction-in-progress-card'));
-    expect(txCardEl.length).toEqual(0)
   });
 });
