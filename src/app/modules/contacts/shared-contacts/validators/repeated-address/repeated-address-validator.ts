@@ -9,7 +9,7 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
   })
 
 export class RepeatedAddressValidator implements AsyncValidator {
-  _aKey = 'contact_list';
+  private _aKey = 'contact_list';
   constructor(private storage: IonicStorageService) {}
 
   validate = async (control: AbstractControl, err: ValidationErrors = CustomValidatorErrors.isRepeatedAddress) => {

@@ -29,7 +29,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       <div class="ch__content" *ngIf="this.contacts.length > 0">
         <div
           class="ch__content__item"
-          (click)="selectContact(contact.address)"
+          (click)="this.selectContact(contact.address)"
           lines="none"
           appTrackClick
           *ngFor="let contact of this.contacts"
@@ -104,6 +104,7 @@ export class ContactsHomePage implements OnInit {
     this.token = this.route.snapshot.paramMap.get('token');
     this.amount = this.route.snapshot.paramMap.get('amount');
   }
+
   private async _getContacts() {
     const contacts = await this.ionicService.get('contact_list');
     this.contacts = contacts ? contacts : [];

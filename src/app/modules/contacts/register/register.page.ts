@@ -92,7 +92,7 @@ import { RepeatedAddressValidator } from '../shared-contacts/validators/repeated
 })
 export class RegisterPage implements OnInit {
   public isNativePlatform: boolean;
-  _aKey = 'contact_list';
+  private _aKey = 'contact_list';
   validatorText: string;
   networksData = structuredClone(NETWORKS_DATA);
   loading: boolean;
@@ -145,17 +145,16 @@ export class RegisterPage implements OnInit {
 
   subscribeToStatusChanges() {
     this.form.get('address').statusChanges.subscribe((valid) => {
-      if (valid === 'PENDING') {
-        return;
+      if (valid !== 'PENDING') {
+        this.status = valid === 'VALID';
+        const isRepeatAddressValidator = this.form.get('address').hasError('isRepeatedAddress');
+        if (isRepeatAddressValidator) {
+          this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.repeated_address';
+        } else {
+          this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.text_invalid';
+        }
+        this.hideHelpText = true;
       }
-      this.status = valid === 'VALID';
-      const isRepeatAddressValidator = this.form.get('address').hasError('isRepeatedAddress');
-      if (isRepeatAddressValidator) {
-        this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.repeated_address';
-      } else {
-        this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.text_invalid';
-      }
-      this.hideHelpText = true;
     });
   }
 
@@ -209,7 +208,7 @@ export class RegisterPage implements OnInit {
   }
 
   showSuccessToast() {
-    this.toastService.showSuccessToast({
+    this.toastService.showSuccessToastVerticalOffset({
       message: this.translate.instant('contacts.register.success_toast'),
     });
   }

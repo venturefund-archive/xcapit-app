@@ -50,7 +50,7 @@ export class UpdateNewsComponent implements OnInit {
     {
       title: this.translate.instant('shared.update_news.second.title'),
       description: this.translate.instant('shared.update_news.second.description'),
-      url: ['/tabs/investments'],
+      url: ['/tabs/wallets'],
       isOpenByBrowser: false,
     },
   ];

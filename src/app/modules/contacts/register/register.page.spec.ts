@@ -49,8 +49,8 @@ describe('RegisterPage', () => {
     fakeActivatedRoute = new FakeActivatedRoute();
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
-      showSuccessToast: Promise.resolve(),
-      showToast: Promise.resolve(),
+      showSuccessToastVerticalOffset: Promise.resolve(),
+      showToast:Promise.resolve()
     });
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
       isNative: true,
@@ -113,7 +113,7 @@ describe('RegisterPage', () => {
     await fixture.whenStable();
     expect(storageSpy.get).toHaveBeenCalledTimes(1);
     expect(storageSpy.set).toHaveBeenCalledTimes(1);
-    expect(toastServiceSpy.showSuccessToast).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showSuccessToastVerticalOffset).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('contacts/home');
   });
 

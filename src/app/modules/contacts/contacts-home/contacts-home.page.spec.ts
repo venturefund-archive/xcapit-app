@@ -141,6 +141,6 @@ describe('ContactsHomePage', () => {
     const contactEl = fixture.debugElement.query(By.css('div.ch__content__item'));
     contactEl.nativeElement.click();
     fixture.detectChanges();
-    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(2);
   });
 });
