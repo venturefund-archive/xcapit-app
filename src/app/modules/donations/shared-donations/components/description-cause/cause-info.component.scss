@@ -57,14 +57,18 @@
             display: grid;
           }
 
-          &__icon-text {
-            justify-items: center;
-            align-items: center;
+          &__receive {
+            text-align: center;
 
             img {
-              align-self: flex-end;
-              width: 25px;
+              height: 33px;
+              width: 33px;
             }
+          }
+
+          &__logos {
+            display: flex;
+            justify-content: center;
           }
         }
 

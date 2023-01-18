@@ -5,6 +5,9 @@ import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiTicketsService } from '../../services/api-tickets.service';
 import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { CapacitorDeviceInjectable } from 'src/app/shared/models/capacitor-device/injectable/capacitor-device.injectable';
+import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-create-ticket-form',
@@ -145,7 +148,10 @@ export class CreateTicketFormComponent implements OnInit {
     private translate: TranslateService,
     private apiTicketsService: ApiTicketsService,
     private formBuilder: FormBuilder,
-    private browserService: BrowserService
+    private browserService: BrowserService,
+    private capacitorDeviceInjectable: CapacitorDeviceInjectable,
+    private appVersionInjectable: AppVersionInjectable,
+    private platformService: PlatformService
   ) {}
 
   ngOnInit() {
@@ -157,21 +163,36 @@ export class CreateTicketFormComponent implements OnInit {
     }
   }
 
-  handleSubmit() {
-    const parsedValues = this.getParsedValues(this.form.value);
+  async handleSubmit() {
+    const parsedValues = await this.getParsedValues(this.form.value);
+
     this.apiTicketsService.createTicket(parsedValues).subscribe(
       (data) => this.successTicketCreation.emit(this.form.value),
       (error) => this.errorTicketCreation.emit(error)
     );
   }
 
-  getParsedValues(formValues) {
+  async getParsedValues(formValues) {
     const valuesCopy = Object.assign({}, formValues);
     valuesCopy.category_code = valuesCopy.subject.name;
     valuesCopy.subject = this.translate.instant(valuesCopy.subject.value);
+    valuesCopy.device_info = await this.getParsedDeviceInfo();
     return valuesCopy;
   }
 
+  async getParsedAppInfo() {
+    const appVersion = this.platformService.isNative() ? await this.appVersionInjectable.create().current() : 'PWA';
+    return `versionApp: ${appVersion}`;
+  }
+
+  async getParsedDeviceInfo() {
+    const deviceInfo = await this.capacitorDeviceInjectable.create().infoDevice();
+    return `platform:${deviceInfo.platform}, os_version:${deviceInfo.osVersion}, operatingSystem:${
+      deviceInfo.operatingSystem
+    }, manufacturer:${deviceInfo.manufacturer}, model:${deviceInfo.model}, webViewVersion:${
+      deviceInfo.webViewVersion
+    }, ${await this.getParsedAppInfo()}`;
+  }
   goToPrivacyPolicies() {
     this.browserService.open({ url: this.links.xcapitPrivacyPolicy });
   }

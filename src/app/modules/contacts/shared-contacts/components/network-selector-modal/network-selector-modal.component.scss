@@ -1,5 +1,14 @@
 :host {
   .nsm {
+    &__network {
+      display: flex;
+
+      ion-label:last-child {
+        margin-left: 5px;
+        color: var(--ion-color-neutral50);
+      }
+    }
+
     &__header {
       display: flex;
       justify-content: space-between;
@@ -15,6 +24,8 @@
     }
 
     &__content {
+      min-height: 330px;
+
       &__item {
         --background: transparent;
       }
