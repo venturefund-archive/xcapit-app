@@ -44,7 +44,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { TicketsModule } from 'src/app/modules/tickets/tickets.module';
 
-fdescribe('InvestmentConfirmationPage', () => {
+describe('InvestmentConfirmationPage', () => {
   const weiGasPriceTestValue = '100000000000';
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   let component: InvestmentConfirmationPage;
