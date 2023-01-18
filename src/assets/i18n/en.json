@@ -131,16 +131,16 @@
       "of": "of"
     },
     "update_news": {
-      "title": "What you were waiting for, has arrived \uD83D\uDE0E",
+      "title": "Good news, Xcapiter!",
       "first": {
         "badge": "New feature",
-        "title": "\uD83D\uDE80 Biometric Auth",
-        "description": "Log in to your wallet faster than ever using your biometric data."
+        "title": "\ud83d\udc41\ufe0f Biometric Auth",
+        "description": "Now you will not only be able to log in to your wallet with them, but you will also be able to approve your transactions!"
       },
       "second": {
         "badge": "New feature",
-        "title": "\uD83D\uDE0E App improvements",
-        "description": "Performance improvements in your investment and transfer operations. Bug fixes and much more."
+        "title": "\ud83d\ude0e Experience enhancements",
+        "description": "Activation of suppliers, smoother flows and greater clarity in core operations."
       }
     },
     "transaction_fees": {
@@ -717,6 +717,7 @@
       "toggle_description": "Activate to access your wallet and approve your transactions.",
       "password_title": "Your safety matters to us",
       "password_description": "To activate your biometric data, enter your Xcapit wallet's password.",
+      "alternative_password_description": "To change the inactivity logout time, enter your Xcapit wallet password.",
       "password_button": "Confirm",
       "password_error": "The password entered is not valid.",
       "options": {
@@ -742,7 +743,11 @@
       "header": "Configuration",
       "inactivity": {
         "title": "Inactivity logout",
-        "message": "Select the amount of time you want to allow for inactivity before you are logged out."
+        "message": "Select the amount of time you want to allow for inactivity before you are logged out.",
+        "option_1": "Never log out",
+        "option_2": "Log out every time the app is in the background",
+        "option_3": "2 minutes",
+        "option_4": "5 minutes"
       },
       "password_change": {
         "title": "Password",
@@ -1490,6 +1495,10 @@
         }
       }
     },
+    "token_selection":{
+      "header":"Donations",
+      "title":"Select the currency you wish to donate"
+    },
     "send_donations": {
       "alias": "Address or alias",
       "destiny_wallet": "Destination wallet",
@@ -1676,7 +1685,7 @@
       "complete_steps": "1 of 2 steps complete",
       "next_step": "next step",
       "progress": "Your progress",
-      "completed": "completado",
+      "completed": "Complete",
       "steps": {
         "step_one": {
           "title": "buy tokens",
@@ -3208,12 +3217,14 @@
       "name_placeholder": "Ex: Laura's Wallet",
       "text_invalid": "The wallet address is incorrect",
       "text_valid": "The wallet address is correct",
+      "repeated_address":"The address is already added",
       "loading": "Saving",
       "success_toast": "Excellent! Wallet successfully saved"
     },
     "shared_contacts": {
       "network_selector": {
-        "label": "Network"
+        "label": "Network",
+        "placeholder":"Select an option"
       },
       "network_selector_modal": {
         "title": "Select network"

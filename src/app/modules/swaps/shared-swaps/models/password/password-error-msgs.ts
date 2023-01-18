@@ -6,7 +6,7 @@ export type RawPasswordErrorMsgs = {
 
 const rawPasswordErrorMsgsData: RawPasswordErrorMsgs = {
   invalid: 'invalid password',
-  empty: 'Emtpy Password',
+  empty: 'Empty Password',
 };
 
 

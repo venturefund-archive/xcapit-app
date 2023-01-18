@@ -30,10 +30,30 @@
         display: grid;
         margin-left: 16px;
       }
+
+      &__radio-group {
+        --background: var(--ion-color-white);
+
+        ion-item {
+          --inner-border-width: 0;
+
+          margin-left: -12px;
+          margin-top: 8px;
+        }
+
+        ion-radio {
+          --color-checked: var(--ion-color-info);
+          --color: var(--ion-color-info);
+        }
+
+        ion-label {
+          --color: var(--ion-color-neutral90);
+        }
+      }
     }
 
     &__password-change {
-      margin-top: 40px;
+      margin-top: 24px;
 
       &__labels {
         display: flex;

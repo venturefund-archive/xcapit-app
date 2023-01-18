@@ -14,4 +14,8 @@ export class FakeCapacitorApp implements CapacitorApp {
   public onPause(callback: CallableFunction): void {
     return;
   }
+
+  public onAppUrlOpen(callback: CallableFunction): void {
+    return;
+  }
 }

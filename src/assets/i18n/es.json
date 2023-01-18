@@ -122,16 +122,16 @@
       "of": "de"
     },
     "update_news": {
-      "title": "Lo que estabas esperando, llegó \uD83D\uDE0E",
+      "title": "¡Buenas nuevas, Xcapiter!",
       "first": {
         "badge": "Nueva función",
-        "title": "\uD83D\uDE80 Datos biométricos",
-        "description": "Ingresa a tu wallet más rápido que nunca usando tus datos biométricos."
+        "title": "\ud83d\udc41\ufe0f Datos biométricos",
+        "description": "Ahora no sólo podrás ingresar con ellos a tu wallet, ¡además podrás aprobar tus transacciones!"
       },
       "second": {
         "badge": "Nueva función",
-        "title": "\uD83D\uDE0E Mejoras en la app",
-        "description": "Mejoras de performance en tus operaciones de inversión y envio. Corrección de bugs y mucho más."
+        "title": "\ud83d\ude0e Mejoras en la experiencia",
+        "description": "Activación de proveedores, flujos más ágiles y mayor claridad en las operaciones principales."
       }
     },
     "transaction_fees": {
@@ -710,6 +710,7 @@
       "toggle_description": "Actívalos para ingresar a tu wallet y aprobar tus transacciones.",
       "password_title": "Tu seguridad nos importa",
       "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
+      "alternative_password_description": "Para modificar el tiempo de bloqueo por inactividad, ingresa la contraseña de tu wallet Xcapit.",
       "password_button": "Confirmar",
       "password_error": "La contraseña ingresada no es correcta.",
       "options": {
@@ -735,7 +736,11 @@
       "header": "Configuración",
       "inactivity": {
         "title": "Cierre de sesión por inactividad",
-        "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión."
+        "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión.",
+        "option_1": "No cerrar sesión nunca",
+        "option_2": "Cerrar sesión cada vez que la app se encuentre en segundo plano",
+        "option_3": "2 minutos",
+        "option_4": "5 minutos"
       },
       "password_change": {
         "title": "Contraseña",
@@ -1483,6 +1488,10 @@
         }
       }
     },
+    "token_selection":{
+      "header":"Donaciones",
+      "title":"Selecciona la moneda que deseas donar"
+    },
     "send_donations": {
       "alias": "Dirección o alias",
       "destiny_wallet": "Billetera de destino",
@@ -1669,7 +1678,7 @@
       "complete_steps": "1 de 2 pasos completos",
       "next_step": "Proximo paso",
       "progress": "Tu progreso",
-      "completed": "completed",
+      "completed": "Completo",
       "steps": {
         "step_one": {
           "title": "Comprar tokens",
@@ -3133,7 +3142,7 @@
       "question4": "¿Cómo importar una wallet?",
       "answer4": "<b>1.</b> Dentro de la app, Se accede a la opción: “Importar wallet”.<br><b>2.</b> Ingresar las 12 palabras de la wallet que se desea importar.<br><b>3.</b> Seleccionar los tokens a visualizar.<br><b>4.</b> Crear nueva contraseña para la firma de transacciones con la nueva wallet.",
       "question5": "¿Qué es la “ruta de derivación” de la frase semilla (en inglés = ”Derivation path”)?",
-      "answer5": "Es el formato que fue utilizado por una red específica (ETH, por ej.) para derivar una address a partir de tu frase semilla. Si deseas migrar tus llaves privadas de una wallet a otra, que fueron creadas con el mismo formato, mantendrás el mismo address. Caso contrario, tendrás dos address para dos wallets distintas. <br> Para más info: <br> <a class='ux-link-xs' href='https://medium.com/mycrypto/wtf-is-a-derivation-path-c3493ca2eb52'>https://medium.com/mycrypto/wtf-is-a-derivation-path-c3493ca2eb52</a>",
+      "answer5": "Es el formato que utilizó la wallet con la que creaste tu wallet para generar tus address a partir de tu frase semilla. Si deseas migrar tus llaves privadas de una wallet a otra, es importante que verifiques cómo fueron creadas las mismas (ruta de derivación). Y utilices el mismo formato, de esta manera importarás las mismas address. Caso contrario, crearás una nueva address, resultando en dos o más address distintas. <br> Para info más técnica podrías usar este <a class='ux-link-xs' href='https://medium.com/mycrypto/wtf-is-a-derivation-path-c3493ca2eb52'>link</a>",
       "question6": "¿Qué es la frase de recuperación?",
       "answer6": "La frase de recuperación está compuesta por 12 palabras que necesitarás para acceder a la billetera posteriormente. Si la pierdes, no podrás acceder a tu wallet. <br> Es muy importante que no se pierda, ya que es el único medio para acceder a tu billetera digital en caso de extravío de la contraseña. La misma es propiedad exclusiva del usuario y solamente él puede acceder a su cuenta.",
       "question7": "¿Por qué necesito una clave además de mi frase de recuperación?",
@@ -3372,12 +3381,14 @@
       "submit_text": "Agendar wallet",
       "text_invalid": "La dirección de wallet es incorrecta",
       "text_valid": "La dirección de wallet es correcta",
+      "repeated_address":"La dirección ya se encuentra agendada",
       "loading": "Agendando",
       "success_toast": "¡Excelente! Wallet agendada con éxito"
     },
     "shared_contacts": {
       "network_selector": {
-        "label": "Red"
+        "label": "Red",
+        "placeholder":"Selecciona una opción"
       },
       "network_selector_modal": {
         "title": "Seleccionar Red"
