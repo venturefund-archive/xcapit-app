@@ -55,6 +55,7 @@ describe('SummaryDataSendDonationPage', () => {
           amount: 1,
           referenceAmount: '50000',
           balance: 2,
+          cause:'pulenta'
         }
       );
       alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
@@ -228,15 +229,10 @@ describe('SummaryDataSendDonationPage', () => {
   });
 
   it('should navigate back page when ux_donations_back is clicked', async () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        cause: sendDonationDataSpy.cause,
-      },
-    };
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-back-button[name="ux_donations_back"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_donations_back"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/donations/send-donation'], navigationExtras);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/donations/send-donation/cause/', 'pulenta', 'value', 'ETH', 'network', 'ERC20']);
   });
 });

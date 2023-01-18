@@ -56,8 +56,13 @@ const routes: Routes = [
             (m) => m.DonationsInvalidPasswordPageModule
           ),
       },
+      {
+        path: 'token-selection',
+        loadChildren: () => import('./token-selection/token-selection.module').then( m => m.TokenSelectionPageModule)
+      },
     ],
   },
+
 ];
 
 @NgModule({

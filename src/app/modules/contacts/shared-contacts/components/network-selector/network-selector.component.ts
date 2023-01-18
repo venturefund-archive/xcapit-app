@@ -11,7 +11,7 @@ import { NetworkSelectorModalComponent } from '../network-selector-modal/network
       <ion-label class="ux-font-titulo-xs" color="primary">{{ 'contacts.shared_contacts.network_selector.label' | translate }}</ion-label>
       <ion-list>
         <ion-item [disabled]="this.isModalOpen" (click)="this.openModal()" class="ns__item">
-          <ion-input [formControlName]="this.controlName"></ion-input>
+          <ion-input [placeholder]="'contacts.shared_contacts.network_selector.placeholder' | translate" [formControlName]="this.controlName"></ion-input>
           <ion-icon class="ns__item__arrow_icon" slot="end" name="ux-down"></ion-icon>
         </ion-item>
       </ion-list>

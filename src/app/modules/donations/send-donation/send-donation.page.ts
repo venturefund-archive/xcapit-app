@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CAUSES } from '../shared-donations/constants/causes';
 import { Subject } from 'rxjs';
@@ -29,16 +29,22 @@ import { ERC20ContractController } from '../../defi-investments/shared-defi-inve
 import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 
 @Component({
   selector: 'app-send-donation',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left no-border">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/donations/description-cause"></ion-back-button>
+          <ion-button class="sd__button_back" (click)="this.goBack()">
+            <ion-icon name="chevron-back-outline"></ion-icon
+          ></ion-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'donations.send_donations.header' | translate }}</ion-title>
+        <ion-title class="ion-text-start">{{ 'donations.send_donations.header' | translate }}</ion-title>
+        <ion-label class="ux-font-text-xs sd__step_counter" slot="end"
+          >2 {{ 'shared.step_counter.of' | translate }} 3</ion-label
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd ion-padding">
@@ -54,7 +60,7 @@ import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo'
               <ion-text class="ux-font-titulo-xs">{{ 'donations.send_donations.destiny_wallet' | translate }}</ion-text>
             </div>
             <div class="sd__send-amount-card__address ux-card">
-              {{ this.cause.address }}
+              {{ this.causeAddress }}
             </div>
             <div>
               <ion-text class="ux-font-text-xxs">{{ 'donations.send_donations.alias' | translate }}</ion-text>
@@ -109,14 +115,14 @@ export class SendDonationPage implements OnInit {
     amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
-
+  causeAddress: string;
+  selectedValue: string;
   selectedNetwork: string;
   leave$ = new Subject<void>();
-  networks = [];
   cause: any;
   token: Coin;
   fee: number;
-  causes = CAUSES;
+  causes = structuredClone(CAUSES);
   dynamicFee: Amount = { value: 0, token: undefined };
   quoteFee: Amount = { value: 0, token: 'USD' };
   balance: number;
@@ -147,7 +153,7 @@ export class SendDonationPage implements OnInit {
     this.modalHref = window.location.href;
     await this.walletService.walletExist();
     this.getCause();
-    this.setNetwork();
+    this.setCoinData();
     this.setTokens();
     this.dynamicPrice();
     await this.getFee();
@@ -156,20 +162,23 @@ export class SendDonationPage implements OnInit {
   }
 
   getCause() {
-    const causeIDParam = this.route.snapshot.queryParamMap.get('cause');
+    const causeIDParam = this.route.snapshot.paramMap.get('cause');
     this.cause = this.causes.find((cause) => cause.id === (causeIDParam ? causeIDParam : this.sendDonationData.cause));
     this.sendDonationData.cause = this.cause.id;
   }
 
-  setNetwork() {
-    this.selectedNetwork = this.cause.token.network;
-    this.networks = [this.cause.token.network];
+  setCoinData() {
+    this.selectedNetwork = this.route.snapshot.paramMap.get('network');
+    this.selectedValue = this.route.snapshot.paramMap.get('value');
+    this.causeAddress = this.cause.addresses.find(
+      (cause) => cause.token.network === this.selectedNetwork && cause.token.value === this.selectedValue
+    ).address;
   }
 
   setTokens() {
     this.token = this.apiWalletService
       .getCoins()
-      .find((coin: Coin) => coin.value === this.cause.token.value && coin.network === this.cause.token.network);
+      .find((coin: Coin) => coin.value === this.selectedValue && coin.network === this.selectedNetwork);
     this.nativeToken = this.token.native
       ? this.token
       : this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
@@ -220,8 +229,8 @@ export class SendDonationPage implements OnInit {
     this.fee = await new FormattedFee(
       new NativeFeeOf(
         new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
-          this.cause.address,
-          this.parseWei(this.form.value.amount),
+          this.causeAddress,
+          new WeiOf(this.form.value.amount, this.token).value(),
         ]),
         new FakeProvider(await this.gasPrice())
       )
@@ -233,7 +242,7 @@ export class SendDonationPage implements OnInit {
       new NativeFeeOf(
         new NativeGasOf(this.erc20Provider(), {
           to: await this.userWallet(),
-          value: this.parseWei(1),
+          value: new WeiOf(1, this.token).value(),
         }),
         new FakeProvider(await this.gasPrice())
       ),
@@ -263,14 +272,24 @@ export class SendDonationPage implements OnInit {
     this.sendDonationData.data = {
       network: this.selectedNetwork,
       currency: this.token,
-      address: this.cause.address,
+      address: this.causeAddress,
       amount: parseFloat(this.form.value.amount),
       referenceAmount: this.form.value.quoteAmount,
       balanceNativeToken: this.balance,
       balance: this.balance,
       fee: this.fee.toString(),
       referenceFee: this.quoteFee.value.toString(),
+      cause: this.cause.id,
     };
+  }
+
+  goBack() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        cause: this.cause.id,
+      },
+    };
+    this.navController.navigateBack(['/donations/token-selection'], navigationExtras);
   }
 
   goToSummary() {
