@@ -6,10 +6,7 @@
           display: flex;
           align-items: center;
           padding: 16px;
-
-          app-token-with-blockchain-logo {
-            margin-right: 14px;
-          }
+          gap: 14px;
 
           &__text {
             display: flex;
