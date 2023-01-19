@@ -714,7 +714,7 @@
     "biometric_auth": {
       "header": "Dados biométricos",
       "toggle_text": "Dados biométricos",
-      "toggle_description": "Ative para acessar sua carteira e aprovar suas transações.",
+      "toggle_description": "Ative-os para entrar em sua carteira e aprovar suas transações.",
       "password_title": "Sua segurança é importante para nós",
       "password_description": "Para ativar seus dados biométricos, digite a senha de sua carteira Xcapit.",
       "password_button": "confirme",
@@ -743,6 +743,17 @@
       "inactivity": {
         "title": "Logout por inatividade",
         "message": "Selecione a quantidade de tempo que você deseja permitir para inatividade antes de ser desconectado."
+      },
+      "password_change": {
+        "title": "Senha",
+        "button": "Mudar"
+      }
+    },
+    "security_configuration": {
+      "header": "Configuração",
+      "inactivity": {
+        "title": "Sair devido à inatividade",
+        "message": "Selecione a quantidade de tempo que você deseja permitir a inatividade antes de sair da sessão."
       },
       "password_change": {
         "title": "Senha",
