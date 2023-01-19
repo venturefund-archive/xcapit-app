@@ -4,7 +4,7 @@ import {
   Investment,
   TwoPiInvestment,
 } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { InvestmentConfirmationPage } from './investment-confirmation.page';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
@@ -39,9 +39,12 @@ import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fi
 import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { fixedGasPriceTo } from 'src/testing/fixed-gas-price.spec';
+import { DefiInvestmentsService } from '../../shared-defi-investments/services/defi-investments-service/defi-investments.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
+import { TicketsModule } from 'src/app/modules/tickets/tickets.module';
 
 describe('InvestmentConfirmationPage', () => {
-
   const weiGasPriceTestValue = '100000000000';
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   let component: InvestmentConfirmationPage;
@@ -71,140 +74,146 @@ describe('InvestmentConfirmationPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
-  let localNotificationInjectableSpy: jasmine.SpyObj<LocalNotificationInjectable>
-  let testLocalNotificationOk: {title: string, body: string}
-  let testLocalNotificationNotOk: {title: string, body: string}
-  let fakeLocalNotification: FakeLocalNotification
+  let localNotificationInjectableSpy: jasmine.SpyObj<LocalNotificationInjectable>;
+  let testLocalNotificationOk: { title: string; body: string };
+  let testLocalNotificationNotOk: { title: string; body: string };
+  let fakeLocalNotification: FakeLocalNotification;
   let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let defiInvesmentServiceSpy: jasmine.SpyObj<DefiInvestmentsService>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
-  beforeEach(
-    waitForAsync(() => {
+  beforeEach(waitForAsync(() => {
+    testLocalNotificationOk = {
+      title: 'defi_investments.notifications.success.title',
+      body: 'defi_investments.notifications.success.body',
+    };
 
-      testLocalNotificationOk = {
-        title: 'defi_investments.notifications.success.title',
-        body: 'defi_investments.notifications.success.body',
-      };
-      
-      testLocalNotificationNotOk = {
-        title: 'defi_investments.notifications.error.title',
-        body: 'defi_investments.notifications.error.body',
-      };
+    defiInvesmentServiceSpy = jasmine.createSpyObj('DefiInvesmentService', {
+      fundWallet: of(),
+    });
 
-      fakeModalController = new FakeModalController({ data: 'fake_password' });
-      modalControllerSpy = fakeModalController.createSpy();
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      productSpy = jasmine.createSpyObj('InvestmentProduct', {
-        token: { value: 'USDC' },
-        contractAddress: '0xtest',
-        name: 'testInvestmentProductName',
-      });
-      investmentDataServiceSpy = jasmine.createSpyObj(
-        'InvestmentDataService',
-        {},
-        {
-          product: productSpy,
-          amount: 50,
-          quoteAmount: 100,
-        }
-      );
-      walletServiceSpy = jasmine.createSpyObj('WalletService', { walletExist: Promise.resolve(true) });
-      wallet = Wallet.fromMnemonic(
-        'clever brain critic belt soldier daring own luxury begin plate orange banana',
-        "m/44'/80001'/0'/0/0"
-      );
-      walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getDecryptedWalletForCurrency: wallet,
-        getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
-      });
+    testLocalNotificationNotOk = {
+      title: 'defi_investments.notifications.error.title',
+      body: 'defi_investments.notifications.error.body',
+    };
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) });
 
-      fakeLocalNotification = new FakeLocalNotification();
+    fakeModalController = new FakeModalController({ data: 'fake_password' });
+    modalControllerSpy = fakeModalController.createSpy();
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    productSpy = jasmine.createSpyObj('InvestmentProduct', {
+      token: { value: 'USDC' },
+      contractAddress: '0xtest',
+      name: 'testInvestmentProductName',
+    });
+    investmentDataServiceSpy = jasmine.createSpyObj(
+      'InvestmentDataService',
+      {},
+      {
+        product: productSpy,
+        amount: 50,
+        quoteAmount: 100,
+      }
+    );
+    walletServiceSpy = jasmine.createSpyObj('WalletService', { walletExist: Promise.resolve(true) });
+    wallet = Wallet.fromMnemonic(
+      'clever brain critic belt soldier daring own luxury begin plate orange banana',
+      "m/44'/80001'/0'/0/0"
+    );
+    walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
+      getDecryptedWalletForCurrency: wallet,
+      getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
+    });
 
-      localNotificationInjectableSpy = jasmine.createSpyObj('LocalNotificationInjectable', {
-        create: fakeLocalNotification
-      });
+    fakeLocalNotification = new FakeLocalNotification();
 
-      providerSpy = jasmine.createSpyObj(
-        'Provider',
-        {
-          _isProvider: true,
-        }
-      );
-      erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', {
-        value: providerSpy,
-        coin: { contract: '0x000000001', abi: [] },
-      });
-      investmentSpy = jasmine.createSpyObj('Investment', {
-        deposit: Promise.resolve({ wait: () => Promise.resolve() }),
-      });
-      toastServiceSpy = jasmine.createSpyObj('ToastService', {
-        showErrorToast: Promise.resolve(),
-        showWarningToast: Promise.resolve(),
-      });
-      dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(4000) });
-      erc20ContractSpy = jasmine.createSpyObj('ERC20Contract', {
-        value: { estimateGas: { approve: () => Promise.resolve(BigNumber.from('15')) } },
-      });
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getPrices: of({ prices: { ETH: 4000 } }),
-        getCoins: [],
-        getCoinsFromNetwork: [{ native: true, value: 'MATIC' }],
-      });
-      walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
-      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
-        tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
-      });
-      storageSpy = jasmine.createSpyObj('IonicStorageService', {
-        set: Promise.resolve(),
-        get: Promise.resolve(true),
-      });
+    localNotificationInjectableSpy = jasmine.createSpyObj('LocalNotificationInjectable', {
+      create: fakeLocalNotification,
+    });
 
-      browserServiceSpy = jasmine.createSpyObj('BrowserService', {
-        open: Promise.resolve(),
-      });
+    providerSpy = jasmine.createSpyObj('Provider', {
+      _isProvider: true,
+    });
+    erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', {
+      value: providerSpy,
+      coin: { contract: '0x000000001', abi: [] },
+    });
+    investmentSpy = jasmine.createSpyObj('Investment', {
+      deposit: Promise.resolve({ wait: () => Promise.resolve() }),
+    });
+    toastServiceSpy = jasmine.createSpyObj('ToastService', {
+      showErrorToast: Promise.resolve(),
+      showWarningToast: Promise.resolve(),
+    });
+    dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(4000) });
+    erc20ContractSpy = jasmine.createSpyObj('ERC20Contract', {
+      value: { estimateGas: { approve: () => Promise.resolve(BigNumber.from('15')) } },
+    });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getPrices: of({ prices: { ETH: 4000 } }),
+      getCoins: [],
+      getCoinsFromNetwork: [{ native: true, value: 'MATIC' }],
+    });
+    walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
+    tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
+      tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
+    });
+    storageSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(),
+      get: Promise.resolve(true),
+    });
 
-      blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-        create: blockchains,
-      });
+    browserServiceSpy = jasmine.createSpyObj('BrowserService', {
+      open: Promise.resolve(),
+    });
 
-      gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
-        create: fixedGasPriceTo(weiGasPriceTestValue),
-      });
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
 
-      fakeActivatedRoute = new FakeActivatedRoute({ mode: 'invest' });
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
+    gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
+      create: fixedGasPriceTo(weiGasPriceTestValue),
+    });
 
-      TestBed.configureTestingModule({
-        declarations: [InvestmentConfirmationPage, FormattedAmountPipe],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
-        providers: [
-          { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
-          { provide: WalletService, useValue: walletServiceSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-          { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ToastService, useValue: toastServiceSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
-          { provide: IonicStorageService, useValue: storageSpy },
-          { provide: BrowserService, useValue: browserServiceSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
-          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
-          { provide: LocalNotificationInjectable, useValue: localNotificationInjectableSpy },
-          { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
-          { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-      fixture = TestBed.createComponent(InvestmentConfirmationPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      createDynamicPriceSpy = spyOn(component, 'createDynamicPrice').and.returnValue(dynamicPriceSpy);
-      createErc20ProviderSpy = spyOn(component, 'createErc20Provider').and.returnValue(erc20ProviderSpy);
-      approveFeeContractSpy = spyOn(component, 'approveFeeContract').and.returnValue(Promise.resolve(erc20ContractSpy));
-    })
-  );
+    fakeActivatedRoute = new FakeActivatedRoute({ mode: 'invest' });
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
+    remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getFeatureFlag: true });
+
+    TestBed.configureTestingModule({
+      declarations: [InvestmentConfirmationPage, FormattedAmountPipe],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
+      providers: [
+        { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ToastService, useValue: toastServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
+        { provide: IonicStorageService, useValue: storageSpy },
+        { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+        { provide: LocalNotificationInjectable, useValue: localNotificationInjectableSpy },
+        { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: DefiInvestmentsService, useValue: defiInvesmentServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+    fixture = TestBed.createComponent(InvestmentConfirmationPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    createDynamicPriceSpy = spyOn(component, 'createDynamicPrice').and.returnValue(dynamicPriceSpy);
+    createErc20ProviderSpy = spyOn(component, 'createErc20Provider').and.returnValue(erc20ProviderSpy);
+    approveFeeContractSpy = spyOn(component, 'approveFeeContract').and.returnValue(Promise.resolve(erc20ContractSpy));
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -235,10 +244,13 @@ describe('InvestmentConfirmationPage', () => {
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
     expect(sendSpy).toHaveBeenCalledTimes(1);
     expect(onClickSpy).toHaveBeenCalledTimes(1);
-    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(
+      testLocalNotificationOk.title,
+      testLocalNotificationOk.body
+    );
     expect(storageSpy.set).toHaveBeenCalledOnceWith('_agreement_2PI_T&C', true);
   });
-  
+
   it('should not make deposit when password is valid but deposit fails', async () => {
     const sendSpy = spyOn(fakeLocalNotification, 'send');
     const onClickSpy = spyOn(fakeLocalNotification, 'onClick');
@@ -249,12 +261,15 @@ describe('InvestmentConfirmationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
-    expect(sendSpy ).toHaveBeenCalledTimes(1);
+    expect(sendSpy).toHaveBeenCalledTimes(1);
     expect(onClickSpy).toHaveBeenCalledTimes(0);
-    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationNotOk.title, testLocalNotificationNotOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(
+      testLocalNotificationNotOk.title,
+      testLocalNotificationNotOk.body
+    );
     expect(storageSpy.set).not.toHaveBeenCalled();
   });
-  
+
   it('should not make deposit when modal closes', async () => {
     fakeModalController.modifyReturns({ data: undefined }, {});
     await component.ionViewDidEnter();
@@ -392,5 +407,18 @@ describe('InvestmentConfirmationPage', () => {
     const componentEl = fixture.debugElement.queryAll(By.css('app-transaction-fee'));
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
+  });
+
+  it('should track event when executing request fund faucet', async () => {
+    walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.0));
+    defiInvesmentServiceSpy.fundWallet.and.returnValue(of(true));
+    await component.ionViewDidEnter();
+
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

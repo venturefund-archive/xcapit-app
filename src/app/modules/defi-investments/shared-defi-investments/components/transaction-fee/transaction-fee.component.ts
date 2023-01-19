@@ -34,16 +34,16 @@ import { Amount } from '../../types/amount.type';
         <div class="tf__fee__qty_and_advice__qty">
           <ion-text
             class="ux-font-text-base tf__fee__qty__amount"
-            [ngClass]="{ negative: this.balance < this.fee.value }"
+            [ngClass]="{ negative: this.balance < this.fee.value && this.showErrors}"
             >{{ this.fee.value | formattedAmount }} {{ this.fee.token }}</ion-text
           >
           <ion-text
             class="ux-font-text-base tf__fee__qty__quoteFee"
-            [ngClass]="{ negative: this.balance < this.fee.value }"
+            [ngClass]="{ negative: this.balance < this.fee.value && this.showErrors }"
             >{{ this.quoteFee.value | formattedAmount: 10:2 }} {{ this.quoteFee.token }}
           </ion-text>
         </div>
-        <div class="tf__fee__qty_and_advice__funds-advice" *ngIf="this.balance < this.fee.value">
+        <div class="tf__fee__qty_and_advice__funds-advice" *ngIf="this.balance < this.fee.value && this.showErrors">
           <img src="assets/img/defi-investments/shared/transaction-fee/exclamation.svg" />
           <ion-text class="ux-font-text-xxs">
             {{ 'defi_investments.shared.transaction_fees.advice' | translate }}
@@ -75,6 +75,7 @@ export class TransactionFeeComponent implements OnChanges, OnDestroy {
   @Input() autoPrice: boolean;
   @Input() defaultFeeInfo: boolean;
   @Input() loadingEnabled = true;
+  @Input() showErrors = true;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;
