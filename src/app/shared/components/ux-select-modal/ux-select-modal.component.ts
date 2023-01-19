@@ -27,8 +27,8 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
       <form [formGroup]="this.form">
         <app-ux-radio-group>
           <ion-list>
-            <ion-radio-group (ionChange)="this.select($event)" formControlName="radio">
-              <div class="container" *ngFor="let item of this.data; let last = last">
+            <ion-radio-group formControlName="radio">
+              <div class="container" (click)="select(item)" *ngFor="let item of this.data; let last = last">
                 <ion-item class="sm__content__item">
                   <ion-label>{{ this.rawData ? item : item[this.keyName] }}</ion-label>
                   <ion-radio mode="md" slot="start" [value]="this.rawData ? item : item[this.valueName]"></ion-radio>
@@ -68,8 +68,8 @@ export class UxSelectModalComponent implements OnInit {
     });
   }
 
-  select(event: any) {
-    this.modalController.dismiss(event.detail.value, 'selected');
+  select(language: any) {
+    this.modalController.dismiss(language.value, 'selected');
   }
 
   close() {
