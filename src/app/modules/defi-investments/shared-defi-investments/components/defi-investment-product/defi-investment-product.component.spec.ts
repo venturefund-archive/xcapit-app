@@ -78,11 +78,6 @@ describe('DefiInvestmentProductComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render app-token-with-blockchain-logo properly', () => {
-    const compEl = fixture.debugElement.query(By.css('app-token-with-blockchain-logo'));
-    expect(compEl).toBeTruthy();
-  });
-
   it('should render properly tvl and apy of vaults', async () => {
     component.ngOnInit();
     fixture.detectChanges();

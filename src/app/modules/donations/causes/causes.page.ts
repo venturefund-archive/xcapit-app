@@ -28,7 +28,7 @@ import { CAUSES } from '../shared-donations/constants/causes';
   styleUrls: ['./causes.page.scss'],
 })
 export class CausesPage implements OnInit {
-  causes = CAUSES;
+  causes = structuredClone(CAUSES);
   constructor(private trackService: TrackService) {}
 
   ionViewWillEnter() {

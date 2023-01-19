@@ -182,7 +182,7 @@ describe('ExpandableInvestmentInfoComponent', () => {
         By.css('ion-item.split-information-item div.inline-image img')
       );
       const informativeIcon = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
-      const compEl = fixture.debugElement.query(By.css('app-token-with-blockchain-logo'));
+      const compEl = fixture.debugElement.query(By.css('div.eif__accordion__header__content > img'));
       const defiInfoButtonEl = fixture.debugElement.query(
         By.css('.eif__accordion__content__information-item__button ion-button')
       );

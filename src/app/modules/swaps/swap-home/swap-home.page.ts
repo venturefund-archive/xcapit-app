@@ -260,7 +260,7 @@ export class SwapHomePage {
   blockchainName: string;
   url: string;
   modalHref: string;
-
+  modalOpened: boolean;
   constructor(
     private apiWalletService: ApiWalletService,
     private walletBalance: WalletBalanceService,
@@ -545,7 +545,7 @@ export class SwapHomePage {
       })
       .finally(() => {
         this.swapInProgressService.finishSwap();
-      }); 
+      });
   }
 
   private handleError(err: Error) {
@@ -680,16 +680,19 @@ export class SwapHomePage {
   }
 
   async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: { token, text, primaryButtonText, secondaryButtonText },
-    });
-    if (window.location.href === this.modalHref) {
-      await modal.present();
+    if (!this.modalOpened) {
+      const modal = await this.modalController.create({
+        component: BuyOrDepositTokenToastComponent,
+        cssClass: 'ux-toast-warning-with-margin',
+        showBackdrop: false,
+        id: 'feeModal',
+        componentProps: { token, text, primaryButtonText, secondaryButtonText },
+      });
+      if (window.location.href === this.modalHref) {
+        await modal.present();
+        this.modalOpened = true;
+      }
+      await modal.onDidDismiss().then(() => (this.modalOpened = false));
     }
-    await modal.onDidDismiss();
   }
 }

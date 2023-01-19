@@ -710,6 +710,7 @@
       "toggle_description": "Actívalos para ingresar a tu wallet y aprobar tus transacciones.",
       "password_title": "Tu seguridad nos importa",
       "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
+      "alternative_password_description": "Para modificar el tiempo de bloqueo por inactividad, ingresa la contraseña de tu wallet Xcapit.",
       "password_button": "Confirmar",
       "password_error": "La contraseña ingresada no es correcta.",
       "options": {
@@ -735,10 +736,14 @@
       "header": "Configuración",
       "inactivity": {
         "title": "Cierre de sesión por inactividad",
-        "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión."
+        "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión.",
+        "option_1": "No cerrar sesión nunca",
+        "option_2": "Cerrar sesión cada vez que la app se encuentre en segundo plano",
+        "option_3": "2 minutos",
+        "option_4": "5 minutos"
       },
       "password_change": {
-        "title": "Constraseña",
+        "title": "Contraseña",
         "button": "Cambiar"
       }
     },
@@ -1483,6 +1488,10 @@
         }
       }
     },
+    "token_selection":{
+      "header":"Donaciones",
+      "title":"Selecciona la moneda que deseas donar"
+    },
     "send_donations": {
       "alias": "Dirección o alias",
       "destiny_wallet": "Billetera de destino",
@@ -1669,7 +1678,7 @@
       "complete_steps": "1 de 2 pasos completos",
       "next_step": "Proximo paso",
       "progress": "Tu progreso",
-      "completed": "completed",
+      "completed": "Completo",
       "steps": {
         "step_one": {
           "title": "Comprar tokens",
@@ -3372,12 +3381,14 @@
       "submit_text": "Agendar wallet",
       "text_invalid": "La dirección de wallet es incorrecta",
       "text_valid": "La dirección de wallet es correcta",
+      "repeated_address":"La dirección ya se encuentra agendada",
       "loading": "Agendando",
       "success_toast": "¡Excelente! Wallet agendada con éxito"
     },
     "shared_contacts": {
       "network_selector": {
-        "label": "Red"
+        "label": "Red",
+        "placeholder":"Selecciona una opción"
       },
       "network_selector_modal": {
         "title": "Seleccionar Red"
