@@ -1,5 +1,4 @@
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
-import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { Component } from '@angular/core';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -9,7 +8,6 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
 import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { VoidSigner } from 'ethers';
-import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { ApiUsuariosService } from '../../users/shared-users/services/api-usuarios/api-usuarios.service';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
@@ -149,7 +147,6 @@ export class DefiInvestmentProductsPage {
   private products: DefiProduct[];
   private investments: DefiInvestment[] = [];
   private address: string;
-  private pids = [];
   private defaultInvestmentProfile = 'wealth_managements.profiles.conservative';
   totalInvested: number;
   investmentProfiles: RawInvestmentProfile[];
@@ -170,8 +167,6 @@ export class DefiInvestmentProductsPage {
     private apiWalletService: ApiWalletService,
     private apiUsuariosService: ApiUsuariosService,
     private twoPiApi: TwoPiApi,
-    private walletEncryptionService: WalletEncryptionService,
-    private walletService: WalletService,
     private navController: NavController,
     private remoteConfig: RemoteConfigService,
     private graphql: GraphqlService,
@@ -297,7 +292,6 @@ export class DefiInvestmentProductsPage {
 
   async setInvestments() {
     const investmentsProducts = [];
-    this.pids = [];
     for (const product of this.products) {
       const anInvestmentProduct = await this.getInvestmentProduct(product);
       investmentsProducts.push({
