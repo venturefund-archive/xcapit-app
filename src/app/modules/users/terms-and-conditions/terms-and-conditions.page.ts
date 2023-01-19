@@ -24,7 +24,12 @@ import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
         }}</ion-text>
       </div>
       <div class="tac__card" *ngIf="this.providerItems">
-        <app-tyc-item-card *ngFor="let item of this.providerItems" [item]="item"> </app-tyc-item-card>
+        <app-tyc-item-card
+          *ngFor="let item of this.providerItems"
+          [item]="item"
+          (openBrowser)="this.openBrowser($event)"
+        >
+        </app-tyc-item-card>
       </div>
     </ion-content> `,
   styleUrls: ['./terms-and-conditions.page.scss'],
@@ -40,10 +45,8 @@ export class TermsAndConditionsPage {
     this.filterItems();
   }
 
-  async openBrowser(event) {
-    await this.browserService.open({
-      url: event.route,
-    });
+  async openBrowser(url: string) {
+    await this.browserService.open({ url });
   }
 
   async filterItems() {

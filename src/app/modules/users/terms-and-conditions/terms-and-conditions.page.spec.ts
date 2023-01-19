@@ -64,7 +64,7 @@ describe('TermsAndConditionsPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('app-tyc-item-card')).triggerEventHandler('openBrowser', itemsMenu[0]);
+    fixture.debugElement.query(By.css('app-tyc-item-card')).triggerEventHandler('openBrowser', itemsMenu[0].route);
 
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: itemsMenu[0].route });
   });
