@@ -23,10 +23,7 @@ import { LINKS } from 'src/app/config/static-links';
       >
         <ion-item slot="header" class="eif__accordion__header">
           <div class="eif__accordion__header__content">
-            <app-token-with-blockchain-logo
-              [blockchainLogo]="this.nativeToken.logoRoute"
-              [tokenLogo]="this.token.logoRoute"
-            ></app-token-with-blockchain-logo>
+            <img [src]="this.token?.logoRoute" />
             <div class="eif__accordion__header__content__text">
               <ion-label>
                 <ion-text

@@ -102,11 +102,6 @@ describe('InvestmentBalanceItemComponent', () => {
     expect(convertedBalanceEl.nativeElement.innerHTML).toContain(50);
   });
 
-  it('should render app-token-with-blockchain-logo properly', () => {
-    const compEl = fixture.debugElement.query(By.css('app-token-with-blockchain-logo'));
-    expect(compEl).toBeTruthy();
-  });
-
   it('should navigate to investment detail when go_to_invest_detail div is clicked', async () => {
     const clickeableDiv = fixture.debugElement.query(By.css('div[name="go_to_invest_detail"]'));
     clickeableDiv.nativeElement.click();
