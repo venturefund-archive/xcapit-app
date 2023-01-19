@@ -7,7 +7,7 @@ import { Referral } from "../referral/referral";
 import { Swap } from "../swap/swap";
 import { SwapInfoOf } from "./swap-info-of";
 import { DefaultToken } from "../token/token";
-import { Blockchain } from "../blockchain/blockchain";
+import { DefaultBlockchain } from "../blockchain/blockchain";
 
 
 describe('Swap Info Of', () => {
@@ -17,7 +17,7 @@ describe('Swap Info Of', () => {
   beforeEach(() => {
     swapInfo = new SwapInfoOf(
       new Swap('1', new DefaultToken(rawMATICData), new DefaultToken(rawUSDCData)),
-      new OneInch(new Blockchain(rawEthereumData), new FakeHttpClient(rawSwapInfoData)),
+      new OneInch(new DefaultBlockchain(rawEthereumData), new FakeHttpClient(rawSwapInfoData)),
       new Referral()
     );
   });

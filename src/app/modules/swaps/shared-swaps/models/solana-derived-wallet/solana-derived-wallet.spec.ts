@@ -1,4 +1,4 @@
-import { Blockchain } from "../blockchain/blockchain";
+import { DefaultBlockchain } from "../blockchain/blockchain";
 import { rawSolanaData } from "../fixtures/raw-blockchains-data";
 import { SolanaDerivedWallet } from "./solana-derived-wallet";
 
@@ -11,7 +11,7 @@ describe('SolanaDerivedWallet', () => {
   beforeEach(() => {
     wallet = new SolanaDerivedWallet(
       seedPhrase,
-      new Blockchain(rawSolanaData)
+      new DefaultBlockchain(rawSolanaData)
     );
   });
 

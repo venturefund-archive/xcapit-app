@@ -1,4 +1,4 @@
-import { Blockchain } from "../../blockchain/blockchain";
+import { DefaultBlockchain } from "../../blockchain/blockchain";
 import { rawEthereumData } from "../../fixtures/raw-blockchains-data";
 import { rawTokensData } from "../../fixtures/raw-tokens-data";
 import { TokenRepo } from "../../token-repo/token-repo";
@@ -20,7 +20,7 @@ describe('Blockchain Tokens Factory', () => {
 
   it('create', () => {
     const tokens = blockchainTokensFactory.create(
-      new Blockchain(rawEthereumData),
+      new DefaultBlockchain(rawEthereumData),
       new DefaultTokens(new TokenRepo(rawTokensData))
     );
 

@@ -46,7 +46,9 @@ export class AppStorageService implements StorageService {
 }
 
 export class FakeAppStorage implements StorageService {
+
   private _aFakeStorageValueCopy: any;
+
   constructor(private readonly _aFakeStorageValue: any = {}) {
     this._aFakeStorageValueCopy = structuredClone(_aFakeStorageValue);
   }

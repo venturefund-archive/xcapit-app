@@ -1,4 +1,4 @@
-import { Blockchain } from "../../blockchain/blockchain";
+import { DefaultBlockchain } from "../../blockchain/blockchain";
 import { FakeOneInch } from "../../fakes/fake-one-inch";
 import { rawEthereumData } from "../../fixtures/raw-blockchains-data";
 import { rawAllowanceData } from "../../fixtures/raw-one-inch-response-data";
@@ -19,7 +19,7 @@ describe('Swap Transactions Factory', () => {
   it('create', () => {
     const swapTransactions = new SwapTransactionsFactory().create(
       new Swap('1', new DefaultToken(rawMATICData), new DefaultToken(rawUSDCData)),
-      new DefaultWallet(rawWalletData, new Blockchain(rawEthereumData)),
+      new DefaultWallet(rawWalletData, new DefaultBlockchain(rawEthereumData)),
       new FakeOneInch(rawAllowanceData)
     );
 

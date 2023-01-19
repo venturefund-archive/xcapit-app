@@ -1,4 +1,4 @@
-import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
+import { DefaultBlockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { FakeBlockchainTx } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-blockchain-tx';
 import { rawSolanaData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { SolanaFeeOfInjectable } from './solana-fee-of-injectable';
@@ -17,6 +17,6 @@ describe('SolanaFeeOfInjectable', () => {
   });
 
   it('create', () => {
-    expect(injectable.create(new FakeBlockchainTx(), new Blockchain(rawSolanaData))).toBeTruthy();
+    expect(injectable.create(new FakeBlockchainTx(), new DefaultBlockchain(rawSolanaData))).toBeTruthy();
   });
 });

@@ -1,5 +1,5 @@
 import { AmountOf } from '../amount-of/amount-of';
-import { Blockchain } from '../blockchain/blockchain';
+import { DefaultBlockchain } from '../blockchain/blockchain';
 import { fakeRawGasPrice, fakeProviders } from '../fakes/fake-ethers-providers';
 import { rawEthereumData } from '../fixtures/raw-blockchains-data';
 import { DefaultGasPriceOf, GasPrice } from './gas-price';
@@ -8,7 +8,7 @@ import { DefaultGasPriceOf, GasPrice } from './gas-price';
 describe('Default Gas Price', () => {
 
   let gasPrice: GasPrice;
-  const blockchain = new Blockchain(rawEthereumData);
+  const blockchain = new DefaultBlockchain(rawEthereumData);
   const expectedAmount = new AmountOf(fakeRawGasPrice.toString(), blockchain.nativeToken());
 
   beforeEach(() => {

@@ -6,33 +6,31 @@ import { Password } from '../password/password';
 import { Blockchains } from '../blockchains/blockchains';
 import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
 import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
+import { BlockchainMM } from '../blockchain-mm/blockchain-mm';
 
 export class Wallets {
-  constructor(private _dataRepo: DataRepo, private _blockchains: Blockchains, private _ethersWallet: any = EthersWallet) {}
+  constructor(private _dataRepo: DataRepo, private _ethersWallet: any = EthersWallet) {}
 
   async oneBy(aBlockchain: Blockchain): Promise<Wallet> {
-    const creationMethod = await this._dataRepo.creationMethod();
     const rawData = await this._rawWalletData(aBlockchain);
 
-    if (this._isSolana(aBlockchain)) {
-      return SolanaWallet.create(rawData, aBlockchain);
-    } 
-
-    if (creationMethod === 'legacy') {
-      return new DefaultWallet(rawData, aBlockchain);
-    }
-
-    return new DefaultWallet(rawData, this._blockchains.oneByName('ERC20'));
+    return this._isSolana(aBlockchain)
+      ? SolanaWallet.create(rawData, aBlockchain)
+      : new DefaultWallet(
+        rawData,
+        this._blockchainByCreationMethod(aBlockchain, await this._dataRepo.creationMethod())
+      );
   }
 
   async createFrom(
     aPhrase: string,
     aPassword: Password,
-    creationMethod: WalletCreationMethod
+    blockchains: Blockchains,
+    creationMethod: WalletCreationMethod,
   ): Promise<void> {
     await this._dataRepo.save(
-      this._addressesFrom(aPhrase, creationMethod),
-      await this._erc20Wallet(aPhrase).encrypt(aPassword.value(), {
+      this._addressesFrom(aPhrase, blockchains, creationMethod),
+      await this._erc20Wallet(aPhrase, blockchains).encrypt(aPassword.value(), {
         scrypt: {
           N: 1,
         },
@@ -40,17 +38,19 @@ export class Wallets {
     );
   }
 
-  private _addressesFrom(aPhrase: string, creationMethod: WalletCreationMethod) {
+  private _addressesFrom(aPhrase: string, blockchains: Blockchains, creationMethod: WalletCreationMethod) {
     const addresses = {};
-    const erc20Blockchain = this._blockchains.oneByName('ERC20');
-    for (const blockchain of this._blockchains.value()) {
+    for (const blockchain of blockchains.value()) {
       if (this._isSolana(blockchain)) {
         addresses[blockchain.name()] = this._solanaDerivedAddressFor(aPhrase, blockchain);
       } else {
-        const creationBlockchain = creationMethod === 'default' ? erc20Blockchain : blockchain;
-        addresses[blockchain.name()] = this._ethersWalletFor(aPhrase, creationBlockchain).address.toLowerCase();
+        addresses[blockchain.name()] = this._ethersWalletFor(
+          aPhrase,
+          this._blockchainByCreationMethod(blockchain, creationMethod)
+        ).address.toLowerCase();
       }
     }
+    console.log('addresses', addresses);
     return addresses;
   }
 
@@ -62,8 +62,8 @@ export class Wallets {
     return new SolanaDerivedWallet(aPhrase, blockchain).address();
   }
 
-  private _erc20Wallet(aPhrase: string): EthersWallet {
-    return this._ethersWalletFor(aPhrase, this._blockchains.oneByName('ERC20'));
+  private _erc20Wallet(aPhrase: string, blockchains: Blockchains): EthersWallet {
+    return this._ethersWalletFor(aPhrase, blockchains.oneByName('ERC20'));
   }
 
   private _ethersWalletFor(aPhrase: string, blockchain: Blockchain): EthersWallet {
@@ -75,5 +75,9 @@ export class Wallets {
       address: await this._dataRepo.addressByName(aBlockchain.name()),
       encryptedWallet: await this._dataRepo.encryptedRootWallet(),
     };
+  }
+
+  private _blockchainByCreationMethod(blockchain: Blockchain, creationMethod: WalletCreationMethod): Blockchain {
+    return creationMethod === 'default' ? new BlockchainMM(blockchain) : blockchain;
   }
 }

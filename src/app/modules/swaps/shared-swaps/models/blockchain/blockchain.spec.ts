@@ -1,4 +1,4 @@
-import { Blockchain } from "./blockchain";
+import { Blockchain, DefaultBlockchain } from "./blockchain";
 import { rawEthereumData } from "../fixtures/raw-blockchains-data";
 
 
@@ -6,7 +6,7 @@ describe('Blockchain', () => {
   let blockchain: Blockchain;
 
   beforeEach(() => {
-    blockchain = new Blockchain(rawEthereumData);
+    blockchain = new DefaultBlockchain(rawEthereumData);
   });
 
   it('new', () => {

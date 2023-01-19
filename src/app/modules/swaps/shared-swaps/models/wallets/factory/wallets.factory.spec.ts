@@ -1,21 +1,21 @@
 import { AppStorageService, FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';
 import { BlockchainsFactory } from '../../blockchains/factory/blockchains.factory';
 import { rawBlockchainsData } from '../../fixtures/raw-blockchains-data';
-import { rawStoredWalletData } from '../../fixtures/raw-stored-wallet-data';
+import { rawStoredWalletDataNoneMethod } from '../../fixtures/raw-stored-wallet-data';
 import { Wallets } from '../wallets';
 import { WalletsFactory } from './wallets.factory';
 
 describe('Wallets Factory', () => {
   let walletsFactory: WalletsFactory;
   let storageSpy: jasmine.SpyObj<AppStorageService>;
-  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>; 
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
 
   beforeEach(() => {
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-      create: {}, 
+      create: {},
     })
     storageSpy = jasmine.createSpyObj('AppStorageSpy', {
-      get: rawStoredWalletData,
+      get: rawStoredWalletDataNoneMethod,
     });
     walletsFactory = new WalletsFactory(
       storageSpy,

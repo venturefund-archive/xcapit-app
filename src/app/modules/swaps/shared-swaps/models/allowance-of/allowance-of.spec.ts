@@ -9,7 +9,7 @@ import { rawWalletData } from "../fixtures/raw-wallet-data";
 import { DefaultToken } from "../token/token";
 import { DefaultWallet } from "../wallet/wallet";
 import { Swap } from "../swap/swap";
-import { Blockchain } from "../blockchain/blockchain";
+import { DefaultBlockchain } from "../blockchain/blockchain";
 
 
 describe('Allowance Of', () => {
@@ -19,9 +19,9 @@ describe('Allowance Of', () => {
   const createAllowanceOf = (aRawAllowanceData: any): AllowanceOf => {
     return new AllowanceOf(
       new Swap('1', new DefaultToken(rawMATICData), new DefaultToken(rawUSDCData)),
-      new DefaultWallet(rawWalletData, new Blockchain(rawEthereumData)),
+      new DefaultWallet(rawWalletData, new DefaultBlockchain(rawEthereumData)),
       new OneInch(
-        new Blockchain(rawEthereumData),
+        new DefaultBlockchain(rawEthereumData),
         new FakeHttpClient(aRawAllowanceData)
       )
     );

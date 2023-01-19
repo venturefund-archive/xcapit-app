@@ -18,6 +18,7 @@ import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fi
 import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 import { StorageAsset } from '../../interfaces/storage-asset.interface';
 
+// TODO: revisar
 describe('WalletEncryptionService', () => {
   let service: WalletEncryptionService;
   let storageSpy: any;

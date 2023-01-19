@@ -1,5 +1,5 @@
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
-import { Blockchain } from "../../blockchain/blockchain";
+import { DefaultBlockchain } from "../../blockchain/blockchain";
 import { rawEthereumData } from "../../fixtures/raw-blockchains-data";
 import { rawEthereumTokensData } from "../../fixtures/raw-one-inch-response-data";
 import { OneInch } from "../../one-inch/one-inch";
@@ -20,7 +20,7 @@ describe('One Inch Tokens Factory', () => {
 
   it('create', () => {
     const tokens = factory.create(new OneInch(
-      new Blockchain(rawEthereumData),
+      new DefaultBlockchain(rawEthereumData),
       new FakeHttpClient(rawEthereumTokensData)
     ));
 

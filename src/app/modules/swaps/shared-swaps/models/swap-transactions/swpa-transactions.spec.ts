@@ -7,7 +7,7 @@ import { DefaultWallet } from "../wallet/wallet";
 import { FakeOneInch } from "../fakes/fake-one-inch";
 import { rawAllowanceData, rawNotAllowanceData } from "../fixtures/raw-one-inch-response-data";
 import { SwapTransactions } from "./swpa-transactions";
-import { Blockchain } from "../blockchain/blockchain";
+import { DefaultBlockchain } from "../blockchain/blockchain";
 
 
 describe('Swap Transactions', () => {
@@ -17,7 +17,7 @@ describe('Swap Transactions', () => {
   const createSwapTransactions = (aRawAllowanceData: any): SwapTransactions => {
     return new SwapTransactions(
       new Swap('1', new DefaultToken(rawMATICData), new DefaultToken(rawUSDCData)),
-      new DefaultWallet(rawWalletData, new Blockchain(rawEthereumData)),
+      new DefaultWallet(rawWalletData, new DefaultBlockchain(rawEthereumData)),
       new FakeOneInch(aRawAllowanceData)
     );
   };

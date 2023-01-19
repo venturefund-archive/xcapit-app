@@ -4,13 +4,13 @@ import { rawEthereumData, rawSolanaData } from '../fixtures/raw-blockchains-data
 import { passEncryptedWallet, rawWalletData } from '../fixtures/raw-wallet-data';
 import { DefaultWallet, FakeWallet, SolanaWallet, Wallet } from './wallet';
 import { fakeProviders } from '../fakes/fake-ethers-providers';
-import { Blockchain } from '../blockchain/blockchain';
+import { DefaultBlockchain } from '../blockchain/blockchain';
 import { FakeConnection } from '../fakes/fake-connection';
 
 describe('DefaultWallet', () => {
   let wallet: Wallet;
   let testObject: any;
-  const blockchain = new Blockchain(rawEthereumData);
+  const blockchain = new DefaultBlockchain(rawEthereumData);
 
   beforeEach(() => {
     wallet = new DefaultWallet(rawWalletData, blockchain, new FakeEthersWallet(), fakeProviders);
@@ -100,7 +100,7 @@ describe('DefaultWallet', () => {
 describe('SolanaWallet', () => {
   let wallet: Wallet;
   let testObject: any;
-  const blockchain = new Blockchain(rawSolanaData);
+  const blockchain = new DefaultBlockchain(rawSolanaData);
 
   beforeEach(() => {
     wallet = new SolanaWallet(

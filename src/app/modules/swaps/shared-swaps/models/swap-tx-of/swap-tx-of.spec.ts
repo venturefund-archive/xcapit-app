@@ -11,7 +11,7 @@ import { Swap } from "../swap/swap";
 import { SwapTxOf } from "./swap-tx-of";
 import { DefaultToken } from "../token/token";
 import { DefaultWallet } from "../wallet/wallet";
-import { Blockchain } from "../blockchain/blockchain";
+import { DefaultBlockchain } from "../blockchain/blockchain";
 import { BigNumber } from "ethers";
 
 
@@ -22,8 +22,8 @@ describe('Swap Tx Of', () => {
   beforeEach(() => {
     swapTx = new SwapTxOf(
       new Swap('1', new DefaultToken(rawMATICData), new DefaultToken(rawUSDCData)),
-      new DefaultWallet(rawWalletData, new Blockchain(rawEthereumData)),
-      new OneInch(new Blockchain(rawEthereumData), new FakeHttpClient(rawSwapData)),
+      new DefaultWallet(rawWalletData, new DefaultBlockchain(rawEthereumData)),
+      new OneInch(new DefaultBlockchain(rawEthereumData), new FakeHttpClient(rawSwapData)),
       new Slippage(),
       new Referral()
     );

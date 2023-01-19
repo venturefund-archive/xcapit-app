@@ -545,7 +545,7 @@ export class SwapHomePage {
       })
       .finally(() => {
         this.swapInProgressService.finishSwap();
-      }); 
+      });
   }
 
   private handleError(err: Error) {

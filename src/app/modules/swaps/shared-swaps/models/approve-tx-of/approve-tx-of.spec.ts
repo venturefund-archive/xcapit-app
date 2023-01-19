@@ -6,7 +6,7 @@ import { rawApproveData } from "../fixtures/raw-one-inch-response-data";
 import { rawMATICData, rawUSDCData } from "../fixtures/raw-tokens-data";
 import { Swap } from "../swap/swap";
 import { DefaultToken } from "../token/token";
-import { Blockchain } from "../blockchain/blockchain";
+import { DefaultBlockchain } from "../blockchain/blockchain";
 import { BigNumber } from "ethers";
 
 
@@ -22,7 +22,7 @@ describe('ApproveTxOf', () => {
         new DefaultToken(rawUSDCData)
       ),
       new OneInch(
-        new Blockchain(rawEthereumData),
+        new DefaultBlockchain(rawEthereumData),
         new FakeHttpClient(rawApproveData)
       )
     );

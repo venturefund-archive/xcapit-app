@@ -11,6 +11,7 @@ export class WalletsFactory {
   constructor(private appStorageService: AppStorageService, private blockchainsFactory: BlockchainsFactory) {}
 
   create(aStorage: StorageService = this.appStorageService, blockchains: any = this.blockchainsFactory.create()): Wallets {
+    // TODO: ver q onda esto.. mepa q blockchains vuela
     return new Wallets(new WalletRepo(aStorage), blockchains);
   }
 }

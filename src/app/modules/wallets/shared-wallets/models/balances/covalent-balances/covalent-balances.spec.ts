@@ -9,7 +9,7 @@ import {
   rawTokensData,
   rawUSDCData,
 } from '../../../../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
-import { Blockchain } from '../../../../../swaps/shared-swaps/models/blockchain/blockchain';
+import { DefaultBlockchain } from '../../../../../swaps/shared-swaps/models/blockchain/blockchain';
 import { rawPolygonData, rawSolanaData } from '../../../../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { BlockchainTokens } from '../../../../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { TokenRepo } from '../../../../../swaps/shared-swaps/models/token-repo/token-repo';
@@ -20,7 +20,7 @@ describe('CovalentBalances', () => {
   let tokens: Tokens;
 
   beforeEach(() => {
-    tokens = new BlockchainTokens(new Blockchain(rawPolygonData), new DefaultTokens(new TokenRepo(rawTokensData)));
+    tokens = new BlockchainTokens(new DefaultBlockchain(rawPolygonData), new DefaultTokens(new TokenRepo(rawTokensData)));
     covalentBalances = new CovalentBalances('0x0001', tokens, new FakeHttpClient(polygonResponse), 'https:/test/');
   });
 
@@ -41,7 +41,7 @@ describe('CovalentBalances', () => {
   });
 
   it('should get value for solana tokens', async () => {
-    tokens = new BlockchainTokens(new Blockchain(rawSolanaData), new DefaultTokens(new TokenRepo(rawTokensData)));
+    tokens = new BlockchainTokens(new DefaultBlockchain(rawSolanaData), new DefaultTokens(new TokenRepo(rawTokensData)));
 
     covalentBalances = new CovalentBalances('0x0001', tokens, new FakeHttpClient(solanaResponse), 'https:/test/');
     expect(await covalentBalances.value()).toEqual([

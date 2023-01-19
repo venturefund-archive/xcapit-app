@@ -9,7 +9,7 @@ import { Slippage } from "../slippage/slippage";
 import { Swap } from "../swap/swap";
 import { DefaultToken } from "../token/token";
 import { DefaultWallet } from "../wallet/wallet";
-import { Blockchain } from "../blockchain/blockchain";
+import { DefaultBlockchain } from "../blockchain/blockchain";
 
 
 describe('One Inch', () => {
@@ -17,12 +17,12 @@ describe('One Inch', () => {
   let swap: Swap;
   let dex: OneInch;
   const referral = new Referral();
-  const wallet = new DefaultWallet(rawWalletData, new Blockchain(rawEthereumData));
+  const wallet = new DefaultWallet(rawWalletData, new DefaultBlockchain(rawEthereumData));
 
   beforeEach(() => {
     swap = new Swap('1', new DefaultToken(rawMATICData), new DefaultToken(rawUSDCData));
     dex = new OneInch(
-      new Blockchain(rawEthereumData),
+      new DefaultBlockchain(rawEthereumData),
       new FakeHttpClient(rawApproveData)
     );
   });
@@ -42,7 +42,7 @@ describe('One Inch', () => {
   it('swap', async () => {
     const slippage = new Slippage();
     const dex = new OneInch(
-      new Blockchain(rawEthereumData),
+      new DefaultBlockchain(rawEthereumData),
       new FakeHttpClient(rawSwapData)
     );
 
@@ -53,7 +53,7 @@ describe('One Inch', () => {
 
   it('allowance', async () => {
     const dex = new OneInch(
-      new Blockchain(rawEthereumData),
+      new DefaultBlockchain(rawEthereumData),
       new FakeHttpClient(rawNotAllowanceData)
     );
 
@@ -62,7 +62,7 @@ describe('One Inch', () => {
 
   it('swap info', async () => {
     const dex = new OneInch(
-      new Blockchain(rawEthereumData),
+      new DefaultBlockchain(rawEthereumData),
       new FakeHttpClient(rawSwapInfoData)
     );
 

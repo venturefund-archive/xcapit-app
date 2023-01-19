@@ -37,7 +37,13 @@ export class WalletEncryptionService {
   }
 
   private async createWallets(aPassword: Password): Promise<void> {
-    await this.walletsFactory.create().createFrom(this.mnemonicService.mnemonic.phrase, aPassword, this.creationMethod);
+    await this.walletsFactory.create().createFrom(
+      this.mnemonicService.mnemonic.phrase,
+      aPassword,
+      // TODO: ver porque cambiando esto no fallo nada...
+      this.blockchainsFactory.create(),
+      this.creationMethod
+    );
   }
 
   private async saveEncryptedWallet(): Promise<void> {

@@ -1,5 +1,5 @@
 import { AppStorageService, FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';
-import { rawStoredWalletData, rawStoredWalletDataNew } from '../fixtures/raw-stored-wallet-data';
+import { rawStoredWalletDataNew, rawStoredWalletDataNoneMethod } from '../fixtures/raw-stored-wallet-data';
 import { WalletRepo } from './wallet-repo';
 
 describe('Wallet Repo', () => {
@@ -37,7 +37,7 @@ describe('Wallet Repo', () => {
   });
 
   it('creation method legacy', async () => {
-    storageSpy.get.and.resolveTo(rawStoredWalletData.enc_wallet);
+    storageSpy.get.and.resolveTo(rawStoredWalletDataNoneMethod.enc_wallet);
     expect(await repo.creationMethod()).toEqual('legacy');
   });
 });

@@ -1,4 +1,4 @@
-import { Blockchain } from '../blockchain/blockchain';
+import { Blockchain, DefaultBlockchain } from '../blockchain/blockchain';
 import { rawEthereumData, rawPolygonData, rawSolanaData } from '../fixtures/raw-blockchains-data';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { fakeRawGasPrice, fakeProviders } from '../fakes/fake-ethers-providers';
@@ -10,9 +10,9 @@ import { AmountOf } from '../amount-of/amount-of';
 
 describe('Gas Station Of', () => {
   let gasStation: GasStationOf;
-  const solanaBlockchain = new Blockchain(rawSolanaData);
-  const polygonBlockchain = new Blockchain(rawPolygonData);
-  const ethereumBlockchain = new Blockchain(rawEthereumData);
+  const solanaBlockchain = new DefaultBlockchain(rawSolanaData);
+  const polygonBlockchain = new DefaultBlockchain(rawPolygonData);
+  const ethereumBlockchain = new DefaultBlockchain(rawEthereumData);
 
   const _gasStationOf = (_aBlockchain: Blockchain): GasStationOf => {
     return new GasStationOf(_aBlockchain, new FakeHttpClient(rawPolygonGasStation), fakeProviders);

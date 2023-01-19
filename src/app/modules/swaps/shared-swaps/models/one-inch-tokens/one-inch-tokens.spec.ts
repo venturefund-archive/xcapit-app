@@ -4,7 +4,7 @@ import { rawEthereumData } from "../fixtures/raw-blockchains-data";
 import { rawEthereumTokensData, rawSTXTokenData } from "../fixtures/raw-one-inch-response-data";
 import { OneInchTokens } from "./one-inch-tokens";
 import { Tokens } from "../tokens/tokens";
-import { Blockchain } from "../blockchain/blockchain";
+import { DefaultBlockchain } from "../blockchain/blockchain";
 
 
 describe('OneInchTokens', () => {
@@ -13,7 +13,7 @@ describe('OneInchTokens', () => {
 
   beforeEach(() => {
     tokens = new OneInchTokens(new OneInch(
-      new Blockchain(rawEthereumData),
+      new DefaultBlockchain(rawEthereumData),
       new FakeHttpClient(rawEthereumTokensData)
     ));
   });

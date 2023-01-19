@@ -2,7 +2,7 @@ import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spe
 import { TokenPrices } from './token-prices';
 import { BlockchainTokens } from 'src/app/modules/swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { DefaultTokens, Tokens } from 'src/app/modules/swaps/shared-swaps/models/tokens/tokens';
-import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
+import { DefaultBlockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { rawPolygonData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { TokenRepo } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { rawMATICData, rawTokensData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
@@ -12,7 +12,7 @@ describe('TokenPrices', () => {
   let tokenPrices: TokenPrices;
 
   beforeEach(() => {
-    tokens = new BlockchainTokens(new Blockchain(rawPolygonData), new DefaultTokens(new TokenRepo(rawTokensData)));
+    tokens = new BlockchainTokens(new DefaultBlockchain(rawPolygonData), new DefaultTokens(new TokenRepo(rawTokensData)));
     tokenPrices = new TokenPrices(
       tokens,
       new FakeHttpClient({}, { prices: { USDC: 1, MATIC: 2 } }),

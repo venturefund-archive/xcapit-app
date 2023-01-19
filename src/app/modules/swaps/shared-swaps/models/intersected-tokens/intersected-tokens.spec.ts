@@ -9,7 +9,7 @@ import { OneInchTokens } from "../one-inch-tokens/one-inch-tokens";
 import { DefaultToken } from "../token/token";
 import { TokenRepo } from "../token-repo/token-repo";
 import { DefaultTokens, Tokens } from "../tokens/tokens";
-import { Blockchain } from "../blockchain/blockchain";
+import { DefaultBlockchain } from "../blockchain/blockchain";
 
 
 describe('Intersected Tokens', () => {
@@ -17,7 +17,7 @@ describe('Intersected Tokens', () => {
   let tokens: Tokens;
 
   beforeEach(() => {
-    const blockchain = new Blockchain(rawEthereumData)
+    const blockchain = new DefaultBlockchain(rawEthereumData)
     tokens = new IntersectedTokens(
       new BlockchainTokens(
         blockchain,

@@ -39,8 +39,13 @@ export class DefaultWallet implements Wallet {
 
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
     const connectedWallet = this._connectedWallet(this._derivedWallet(await this._decryptedWallet()));
+    console.log('txs number', transactions.length);
     for (const tx of transactions) {
-      await (await connectedWallet.sendTransaction((await tx.value()) as TransactionRequest)).wait();
+      const _tx = await tx.value();
+      console.log('tx', _tx);
+      const txSended = await connectedWallet.sendTransaction((_tx) as TransactionRequest);
+      console.log('tx sended', txSended.hash);
+      await (txSended).wait();
     }
     return true;
   }
@@ -60,7 +65,11 @@ export class DefaultWallet implements Wallet {
   }
 
   private _derivedWallet(aEthersWallet: EthersWallet): EthersWallet {
-    return this._ethersWallet.fromMnemonic(aEthersWallet.mnemonic.phrase, this._aBlockchain.derivedPath());
+    console.log('phrase', aEthersWallet.mnemonic.phrase);
+    console.log('derived path', this._aBlockchain.derivedPath());
+    const d = this._ethersWallet.fromMnemonic(aEthersWallet.mnemonic.phrase, this._aBlockchain.derivedPath());
+    console.log('address', d.address);
+    return d;
   }
 
   private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {

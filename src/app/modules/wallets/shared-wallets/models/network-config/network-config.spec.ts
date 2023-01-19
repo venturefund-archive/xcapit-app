@@ -4,7 +4,7 @@ import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { rawPolygonGasStation } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-polygon-gs-data';
 import { rawPolygonData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { fakeProviders } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-ethers-providers';
-import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
+import { DefaultBlockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { BigNumberOf } from 'src/app/modules/swaps/shared-swaps/models/polygon-gas-price/big-number-of';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
@@ -13,7 +13,7 @@ import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures
 
 describe('NetworkConfig', () => {
   const gasStation = new GasStationOf(
-    new Blockchain(rawPolygonData),
+    new DefaultBlockchain(rawPolygonData),
     new FakeHttpClient(rawPolygonGasStation),
     fakeProviders
   )

@@ -2,7 +2,17 @@ import { RawBlockchain } from "../blockchain-repo/blockchain-repo";
 import { DefaultToken, Token } from "../token/token";
 
 
-export class Blockchain {
+export interface Blockchain {
+  id(): string;
+  name(): string;
+  rpc(): string;
+  derivedPath(): string;
+  json(): RawBlockchain;
+  nativeToken(): Token;
+}
+
+
+export class DefaultBlockchain implements Blockchain {
 
   constructor(private _rawData: RawBlockchain) { }
 
