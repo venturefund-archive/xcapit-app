@@ -34,6 +34,7 @@ import { FakeLocalNotification } from 'src/app/shared/models/local-notification/
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
+import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 
 describe('SendSummaryPage', () => {
   let component: SendSummaryPage;
@@ -57,6 +58,7 @@ describe('SendSummaryPage', () => {
   let testLocalNotificationOk: { title: string; body: string };
   let fakeLocalNotification: FakeLocalNotification;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
+  let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const summaryData: SummaryData = {
     network: 'ERC20',
@@ -70,6 +72,10 @@ describe('SendSummaryPage', () => {
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
 
   beforeEach(() => {
+    txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
+      startTx: null,
+      finishTx: null,
+    });
     testLocalNotificationOk = {
       title: 'wallets.send.send_notifications.success.title',
       body: 'wallets.send.send_notifications.success.body',
@@ -137,6 +143,7 @@ describe('SendSummaryPage', () => {
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: IonicStorageService, useValue: storageSpy },
+        { provide: TxInProgressService, useValue: txInProgressServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -197,6 +204,8 @@ describe('SendSummaryPage', () => {
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
+    expect(txInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
   });
 
   it('should send if solana', async () => {
@@ -217,6 +226,8 @@ describe('SendSummaryPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
     expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
+    expect(txInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
   });
 
  it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
@@ -246,6 +257,7 @@ describe('SendSummaryPage', () => {
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
+    expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(0);
   });
 
   it('should show loader at the start of transaction and dismiss it afterwards', fakeAsync(() => {
@@ -258,7 +270,6 @@ describe('SendSummaryPage', () => {
   }));
 
   it('should redirect to Wrong Amount Page if not enough funds for transaction estimated cost', async () => {
-    
     storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
     walletTransactionsServiceSpy.canAffordSendTx.and.resolveTo(false);
@@ -342,5 +353,20 @@ describe('SendSummaryPage', () => {
       .triggerEventHandler('phrasetransactionFeeInfoClicked', null);
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  });
+
+  it('password is valid for solana, start tx for card on home', async() => {
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
+    const solanaSummaryData = { ...summaryData, currency: rawSOLData, network: rawSolanaData.name };
+    new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(solanaSummaryData);
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
+    await fixture.whenStable();
+
+    expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
+    expect(txInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
   });
 });

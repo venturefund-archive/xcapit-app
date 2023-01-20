@@ -195,6 +195,8 @@ export class SendSummaryPage implements OnInit {
           new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
         ),
       ]);
+      this.txInProgress = new TxInProgress('send');
+      this.txInProgressService.startTx(this.txInProgress);
       this.notifyWhenTransactionMined();
     }
   }

@@ -414,7 +414,7 @@ describe('SwapHomePage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
   }));
 
-  it('password is valid, start swap for save in ionic storage service', fakeAsync(() => {
+  it('password is valid, start tx for card on home', fakeAsync(() => {
     storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
     _setTokenAmountArrange(1);
     component.swapThem();
@@ -425,7 +425,7 @@ describe('SwapHomePage', () => {
     expect(txInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
   }));
 
-  it('should not start swap if password is invalid', fakeAsync(() => {
+  it('should not start tx if password is invalid', fakeAsync(() => {
     _setWalletToInvalidPassword();
     _setTokenAmountArrange(1);
     component.swapThem();
