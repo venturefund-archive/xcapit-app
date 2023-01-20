@@ -31,15 +31,6 @@
     background: var(--ion-color-white);
     margin: 16px;
 
-    &__transaction-in-progress {
-      display: flex;
-      margin: 4px 0;
-
-      app-transaction-in-progress-card {
-        width: 100%;
-      }
-    }
-
     &__total-invested {
       margin-bottom: 36px;
 

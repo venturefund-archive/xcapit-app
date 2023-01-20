@@ -1817,7 +1817,8 @@
       "transaction_in_progress": {
         "badge": "En progreso",
         "swap_title": "Intercambio",
-        "send_title": "Envío"
+        "send_title": "Envío",
+        "title": "Operaciones"
       }
     },
     "select_coin": {
