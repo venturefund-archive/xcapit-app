@@ -257,10 +257,6 @@ export class HomeWalletPage implements OnInit {
     this.isProtectedWallet();
     this.getNewTokensAvailable();
     this.checkConnectionOfWalletConnect();
-<<<<<<< HEAD
-    this.subscribeToTxInProgress();
-=======
->>>>>>> be82314bc (style(Wallets): WIP: Toggle start)
   }
 
   async getSliderImages() {

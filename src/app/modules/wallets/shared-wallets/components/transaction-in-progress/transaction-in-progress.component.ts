@@ -8,7 +8,7 @@ import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-pr
   template: `
     <div class="tip" *ngIf="this.numberOfOperations > 0">
       <div class="tip__toggle" *ngIf="this.numberOfOperations > 1">
-        <ion-accordion-group color="primary">
+        <ion-accordion-group>
           <ion-accordion class="ion-no-padding" value="toggle">
             <ion-item slot="header">
               <div class="tip__toggle__img">
