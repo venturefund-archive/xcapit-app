@@ -22,7 +22,7 @@ export class KycValidationPage {
   validationContent = VALIDATION_CONTENT;
   data: any;
   digitalDocument: string;
-
+  modalOpened: boolean;
   constructor(
     private route: ActivatedRoute,
     private trackService: TrackService,
@@ -52,22 +52,26 @@ export class KycValidationPage {
   }
 
   async goBack() {
-    const modal = await this.modalController.create({
-      component: TwoButtonsAlertComponent,
-      cssClass: 'modal',
-      backdropDismiss: false,
-      componentProps: {
-        title: this.translate.instant('fiat_ramps.kyc.front_id.back_modal.title'),
-        description: this.translate.instant('fiat_ramps.kyc.front_id.back_modal.description'),
-        confirmButton: this.translate.instant('fiat_ramps.kyc.front_id.back_modal.confirm_button'),
-        cancelButton: this.translate.instant('fiat_ramps.kyc.front_id.back_modal.cancel_button'),
-      },
-    });
-
-    await modal.present();
-    const { role } = await modal.onDidDismiss();
-    if (role === 'confirm') {
-      await this.navController.navigateBack('/fiat-ramps/user-register');
+    if(!this.modalOpened){
+      const modal = await this.modalController.create({
+        component: TwoButtonsAlertComponent,
+        cssClass: 'modal',
+        backdropDismiss: false,
+        componentProps: {
+          title: this.translate.instant('fiat_ramps.kyc.front_id.back_modal.title'),
+          description: this.translate.instant('fiat_ramps.kyc.front_id.back_modal.description'),
+          confirmButton: this.translate.instant('fiat_ramps.kyc.front_id.back_modal.confirm_button'),
+          cancelButton: this.translate.instant('fiat_ramps.kyc.front_id.back_modal.cancel_button'),
+        },
+      });
+  
+      await modal.present();
+      this.modalOpened = true;
+      const { role } = await modal.onDidDismiss();
+      this.modalOpened = false;
+      if (role === 'confirm') {
+        await this.navController.navigateBack('/fiat-ramps/user-register');
+      }
     }
   }
 }
