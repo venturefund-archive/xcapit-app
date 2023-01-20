@@ -20,7 +20,7 @@ import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-pr
         </ion-accordion-group>
       </div>
       <div class="tipc__single-operation" *ngIf="this.numberOfOperations === 1">
-        <app-transaction-in-progress-card [transaction]="this.txsInProgress[0]"></app-transaction-in-progress-card>
+        <app-transaction-in-progress-card [showAsSingleCard]="true" [transaction]="this.txsInProgress[0]"></app-transaction-in-progress-card>
       </div>
     </div>
   `,

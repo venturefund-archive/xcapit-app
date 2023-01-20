@@ -6,14 +6,14 @@ import { ScanUrlOf } from '../../../models/scan-url-of/scan-url-of';
 @Component({
   selector: 'app-transaction-in-progress-card',
   template: `
-    <ion-item class="tipc ion-no-padding" lines="none" (click)="goToScanner()">
+    <ion-item class="tipc ion-no-padding" lines="none" (click)="goToScanner()" [ngClass]="this.showAsSingleCard ? 'single-card' : ''">
       <div class="tipc__container">
         <div class="tipc__container__img">
           <img [src]="this.imgUrl" />
         </div>
         <div class="tipc__container__content">
           <ion-text class="ux-font-header-titulo">{{ this.title | translate }}</ion-text>
-          <div>
+          <div *ngIf="this.showAsSingleCard">
             <ion-badge>{{ 'wallets.home.transaction_in_progress.badge' | translate }}</ion-badge>
           </div>
         </div>
@@ -30,6 +30,7 @@ import { ScanUrlOf } from '../../../models/scan-url-of/scan-url-of';
 })
 export class TransactionInProgressCardComponent implements OnInit {
   @Input() transaction: TxInProgress;
+  @Input() showAsSingleCard = false;
   title: string;
   imgUrl: string;
 
