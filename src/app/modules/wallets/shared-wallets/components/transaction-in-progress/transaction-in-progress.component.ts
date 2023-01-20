@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress';
@@ -43,7 +43,7 @@ import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-pr
   `,
   styleUrls: ['./transaction-in-progress.component.scss'],
 })
-export class TransactionInProgressComponent implements OnInit {
+export class TransactionInProgressComponent implements OnInit, OnDestroy {
   txsInProgress: TxInProgress[];
   numberOfOperations = 0;
   private subscription$: Subscription;
