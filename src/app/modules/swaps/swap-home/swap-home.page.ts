@@ -233,7 +233,6 @@ export class SwapHomePage {
   private fromTokenKey = 'fromToken';
   private toTokenKey = 'toToken';
   private priceRefreshInterval = 15000;
-  private tokensAvailableForPurchase: Coin[];
   destroy$ = new Subject<void>();
   swapBalance = 0;
   feeBalance = 0;

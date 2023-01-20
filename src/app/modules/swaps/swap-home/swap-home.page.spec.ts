@@ -74,7 +74,7 @@ describe('SwapHomePage', () => {
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let activatedRouteSpy: any;
-  let swapInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
+  let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
     id: 1,
@@ -135,7 +135,7 @@ describe('SwapHomePage', () => {
     );
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
-    swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService', {
+    txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
       startTx: null,
       finishTx: null,
     });
@@ -233,7 +233,7 @@ describe('SwapHomePage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: IonicStorageService, useValue: storageSpy },
-        { provide: TxInProgressService, useValue: swapInProgressServiceSpy },
+        { provide: TxInProgressService, useValue: txInProgressServiceSpy },
       ],
     }).compileComponents();
 
@@ -421,8 +421,8 @@ describe('SwapHomePage', () => {
 
     tick(2);
 
-    expect(swapInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
-    expect(swapInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
+    expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
+    expect(txInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
   }));
 
   it('should not start swap if password is invalid', fakeAsync(() => {
@@ -432,7 +432,7 @@ describe('SwapHomePage', () => {
 
     tick(2);
 
-    expect(swapInProgressServiceSpy.startTx).toHaveBeenCalledTimes(0);
+    expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(0);
   }));
 
   it('password modal open on click swap button and password is invalid', fakeAsync(() => {

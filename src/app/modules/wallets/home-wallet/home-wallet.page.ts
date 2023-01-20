@@ -263,7 +263,7 @@ export class HomeWalletPage implements OnInit {
     this.isProtectedWallet();
     this.getNewTokensAvailable();
     this.checkConnectionOfWalletConnect();
-    this.subscribeToSwapInProgress();
+    this.subscribeToTxInProgress();
   }
 
   async getSliderImages() {
@@ -278,7 +278,7 @@ export class HomeWalletPage implements OnInit {
     this.unsubscribe();
   }
 
-  async subscribeToSwapInProgress() {
+  async subscribeToTxInProgress() {
     this.subscription$ = this.txInProgressService.inProgress().subscribe((inProgress) => {
       this.operationsInProgress = inProgress;
     });
