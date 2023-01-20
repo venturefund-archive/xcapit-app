@@ -44,9 +44,7 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
-import { TxInProgressService } from '../../swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
-import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-in-progress';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -78,11 +76,8 @@ describe('HomeWalletPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
-  let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
-  const txSwap = new TxInProgress('swap');
-  const txSend = new TxInProgress('send');
 
 
   beforeEach(waitForAsync(() => {
@@ -126,10 +121,6 @@ describe('HomeWalletPage', () => {
     refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
       isAvailable: true,
       lock: of(),
-    });
-
-    txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
-      inProgress: of([txSwap]),
     });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -225,7 +216,6 @@ describe('HomeWalletPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
-        { provide: TxInProgressService, useValue: txInProgressServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

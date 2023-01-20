@@ -34,10 +34,7 @@ import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
 import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
-import { TxInProgressService } from '../../swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
-import { Subscription } from 'rxjs';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
-import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-in-progress';
 
 @Component({
   selector: 'app-home-wallet',
@@ -247,7 +244,6 @@ export class HomeWalletPage implements OnInit {
     private walletConnectService: WalletConnectService,
     private updateNewsService: UpdateNewsService,
     private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable,
-    private txInProgressService: TxInProgressService,
     private base64ImageFactory: Base64ImageFactory
   ) {}
 

@@ -1,19 +1,65 @@
 :host {
-  .tipc {
+  .tip {
     margin: 16px 16px 0;
 
-    ion-accordion-group {
-      ion-accordion {
-        box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
-        border-radius: 8px;
+    &__toggle {
+      ion-accordion-group {
+        ion-accordion {
+          box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
+          border-radius: 8px;
+        }
+
+        ion-accordion.accordion-collapsing ion-item[slot='header'],
+        ion-accordion.accordion-collapsed ion-item[slot='header'],
+        ion-accordion.accordion-expanding ion-item[slot='header'],
+        ion-accordion.accordion-expanded ion-item[slot='header'] {
+          --color: var(--ion-color-info);
+        }
+      }
+
+      ion-item {
+        --inner-padding-top: 8px;
+        --inner-padding-bottom: 8px;
+      }
+
+      &__img {
+        width: 41px;
+        height: 41px;
+        margin-top: 3px;
+        margin-left: -4px;
+      }
+
+      &__container {
+        &__title {
+          margin-bottom: 4px;
+
+          ion-text {
+            color: var(--ion-color-primary);
+          }
+        }
+      }
+
+      &__content {
+        padding: 0 16px 8px;
+        gap: 4px;
+        display: flex;
+        flex-direction: column;
       }
     }
+  }
 
-    &__toggle__content {
-      padding: 8px 16px;
-      gap: 4px;
-      display: flex;
-      flex-direction: column;
-    }
+  ion-badge {
+    --padding-start: 4px;
+    --padding-end: 4px;
+    --color: var(--ion-color-warningdark);
+
+    font-family: var(--ux-font-worksans);
+    font-weight: var(--ux-fweight-semibold);
+    line-height: 14.08px;
+    font-size: var(--ux-fsize-12);
+    border-radius: 4px;
+    height: 21px;
+
+    --background: var(--ion-color-warninglight);
   }
 }
