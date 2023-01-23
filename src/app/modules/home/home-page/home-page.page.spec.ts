@@ -19,7 +19,7 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { TotalBalanceController } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.controller';
 import { TokenPricesController } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.controller';
-import { CovalentBalancesController } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
 import { TokenDetailController } from '../../wallets/shared-wallets/models/token-detail/token-detail.controller';
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
 import { FakeBalance } from '../../wallets/shared-wallets/models/balance/fake-balance/fake-balance';
@@ -61,7 +61,7 @@ describe('HomePage', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
   let totalBalanceControllerSpy: jasmine.SpyObj<TotalBalanceController>;
   let tokenPricesControllerSpy: jasmine.SpyObj<TokenPricesController>;
-  let covalentBalancesControllerSpy: jasmine.SpyObj<CovalentBalancesController>;
+  let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
   let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
@@ -77,7 +77,7 @@ describe('HomePage', () => {
     coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
     totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
     tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
-    covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+    covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { create: new FakeBalances() });
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
       { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
@@ -152,7 +152,7 @@ describe('HomePage', () => {
         { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
-        { provide: CovalentBalancesController, useValue: covalentBalancesControllerSpy },
+        { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
         { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
         { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
         { provide: TokenDetailController, useValue: tokenDetailControllerSpy },

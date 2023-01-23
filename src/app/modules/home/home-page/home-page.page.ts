@@ -12,7 +12,7 @@ import { NullBalances } from '../../wallets/shared-wallets/models/balances/null-
 import { ZeroBalance } from '../../wallets/shared-wallets/models/balance/zero-balance/zero-balance';
 import { TotalBalance } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance';
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
-import { CovalentBalancesController } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
 import { TokenPricesController } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.controller';
 import { TokenDetailController } from '../../wallets/shared-wallets/models/token-detail/token-detail.controller';
 import { TotalBalanceController } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.controller';
@@ -140,7 +140,7 @@ export class HomePage implements OnInit {
     private balanceCacheService: BalanceCacheService,
     private storageService: StorageService,
     private http: HttpClient,
-    private covalentBalances: CovalentBalancesController,
+    private covalentBalances: CovalentBalancesInjectable,
     private tokenPrices: TokenPricesController,
     private tokenDetail: TokenDetailController,
     private totalBalance: TotalBalanceController,
@@ -212,7 +212,7 @@ export class HomePage implements OnInit {
     for (const blockchain of this.blockchainsFactory.create().value()) {
       const tokens: any = new BlockchainTokens(blockchain, new DefaultTokens(new TokenRepo(this.userTokens)));
       if ((await tokens.value()).length) {
-        const balances = this.covalentBalances.new(
+        const balances = this.covalentBalances.create(
           (await this.walletsFactory.create().oneBy(blockchain)).address(),
           tokens,
           this.http

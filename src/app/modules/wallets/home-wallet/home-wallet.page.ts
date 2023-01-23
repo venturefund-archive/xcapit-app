@@ -11,7 +11,7 @@ import { TotalBalance } from '../shared-wallets/models/balance/total-balance/tot
 import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
 import { NullPrices } from '../shared-wallets/models/prices/null-prices/null-prices';
 import { NullBalances } from '../shared-wallets/models/balances/null-balances/null-balances';
-import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
 import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
 import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
 import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
@@ -229,7 +229,7 @@ export class HomeWalletPage implements OnInit {
     private storageService: StorageService,
     private balanceCacheService: BalanceCacheService,
     private http: HttpClient,
-    private covalentBalances: CovalentBalancesController,
+    private covalentBalances: CovalentBalancesInjectable,
     private tokenPrices: TokenPricesController,
     private tokenDetail: TokenDetailController,
     private totalBalance: TotalBalanceController,
@@ -354,7 +354,7 @@ export class HomeWalletPage implements OnInit {
     for (const blockchain of this.blockchainsFactory.create().value()) {
       const tokens: any = new BlockchainTokens(blockchain, new DefaultTokens(new TokenRepo(this.userTokens)));
       if ((await tokens.value()).length) {
-        const balances = this.covalentBalances.new(
+        const balances = this.covalentBalances.create(
           (await this.walletsFactory.create().oneBy(blockchain)).address(),
           tokens,
           this.http

@@ -22,7 +22,7 @@ import { FixedTokens } from '../../swaps/shared-swaps/models/filtered-tokens/fix
 import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
 import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
@@ -175,7 +175,7 @@ export class TokenDetailPage {
     private transfersFactory: TransfersFactory,
     private blockchainsFactory: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
-    private covalentBalancesFactory: CovalentBalancesController,
+    private covalentBalancesInjectable: CovalentBalancesInjectable,
     private tokenPricesFactory: TokenPricesController,
     private tokenDetailInjectable: TokenDetailInjectable,
     private refreshTimeoutService: RefreshTimeoutService
@@ -259,7 +259,7 @@ export class TokenDetailPage {
   private async setTokenDetail() {
     const fixedTokens = new FixedTokens([this.token]);
     this.tokenDetail = this.tokenDetailInjectable.create(
-      this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
+      this.covalentBalancesInjectable.create(this.wallet.address(), fixedTokens),
       this.tokenPricesFactory.new(fixedTokens),
       (await fixedTokens.value())[0]
     );

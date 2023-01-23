@@ -24,7 +24,7 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
 import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
 import {
   rawETHData,
@@ -67,7 +67,7 @@ describe('TokenDetailPage', () => {
   let transfersFactorySpy: jasmine.SpyObj<TransfersFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
-  let covalentBalancesFactorySpy: jasmine.SpyObj<CovalentBalancesController>;
+  let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
   let tokenPricesFactorySpy: jasmine.SpyObj<TokenPricesController>;
   let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
@@ -92,7 +92,7 @@ describe('TokenDetailPage', () => {
     tokenPricesFactorySpy = jasmine.createSpyObj('TokenPricesController', {
       new: new FakePrices(),
     });
-    covalentBalancesFactorySpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+    covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { create: new FakeBalances() });
     fakeActivatedRoute = new FakeActivatedRoute({ blockchain: rawEthereumData.name, token: rawETHData.contract });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -174,7 +174,7 @@ describe('TokenDetailPage', () => {
         { provide: TransfersFactory, useValue: transfersFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
-        { provide: CovalentBalancesController, useValue: covalentBalancesFactorySpy },
+        { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
         { provide: TokenPricesController, useValue: tokenPricesFactorySpy },
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
