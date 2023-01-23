@@ -15,13 +15,17 @@ export class DefaultKriptonPrice implements ProviderPrice {
   ) {}
 
   value(): Observable<number> {
-    return this._price().pipe(map((res) => 1 / res.data.amount_out));
+    return this._price().pipe(
+      map(
+        (res) => 1 / ((parseFloat(res.data.amount_out) + parseFloat(res.data.costs)) / parseFloat(res.data.amount_in))
+      )
+    );
   }
 
   private _price(): Observable<any> {
     return this._httpClient.post('https://app.kriptonmarket.com/public/calculate_amount_out', {
       currency_in: this._fiatCurrency,
-      amount_in: 1,
+      amount_in: 10000,
       currency_out: this._cryptoCurrency.value,
       type: 'cash-in',
       network_out: this._network(),
