@@ -37,7 +37,7 @@ import { TokenDetail } from '../../shared-wallets/models/token-detail/token-deta
 import { FixedTokens } from 'src/app/modules/swaps/shared-swaps/models/filtered-tokens/fixed-tokens';
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { CovalentBalancesInjectable } from '../../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
-import { TokenPricesController } from '../../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-prices/token-prices-injectable.service';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
@@ -170,7 +170,7 @@ export class SendDetailPage {
     private gasStation: GasStationOfFactory,
     private tokenDetailInjectable: TokenDetailInjectable,
     private covalentBalancesFactory: CovalentBalancesInjectable,
-    private tokenPricesFactory: TokenPricesController,
+    private tokenPricesFactory: TokenPricesInjectable,
     private solanaFeeOf: SolanaFeeOfInjectable
   ) {}
 
@@ -271,7 +271,7 @@ export class SendDetailPage {
   private async tokenDetailOf(aToken: Token) {
     const tokenDetail = this.tokenDetailInjectable.create(
       this.covalentBalancesFactory.create(this.wallet.address(), new FixedTokens([aToken])),
-      this.tokenPricesFactory.new(new FixedTokens([aToken])),
+      this.tokenPricesFactory.create(new FixedTokens([aToken])),
       aToken
     );
     await tokenDetail.cached();

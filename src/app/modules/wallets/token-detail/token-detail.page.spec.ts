@@ -25,7 +25,7 @@ import { TransfersFactory } from '../shared-wallets/models/transfers/factory/tra
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
-import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices-injectable.service';
 import {
   rawETHData,
   rawSAMOData,
@@ -68,7 +68,7 @@ describe('TokenDetailPage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
-  let tokenPricesFactorySpy: jasmine.SpyObj<TokenPricesController>;
+  let tokenPricesFactorySpy: jasmine.SpyObj<TokenPricesInjectable>;
   let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
@@ -89,8 +89,8 @@ describe('TokenDetailPage', () => {
       } as Vault),
     });
 
-    tokenPricesFactorySpy = jasmine.createSpyObj('TokenPricesController', {
-      new: new FakePrices(),
+    tokenPricesFactorySpy = jasmine.createSpyObj('TokenPricesInjectable', {
+      create: new FakePrices(),
     });
     covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { create: new FakeBalances() });
     fakeActivatedRoute = new FakeActivatedRoute({ blockchain: rawEthereumData.name, token: rawETHData.contract });
@@ -175,7 +175,7 @@ describe('TokenDetailPage', () => {
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
-        { provide: TokenPricesController, useValue: tokenPricesFactorySpy },
+        { provide: TokenPricesInjectable, useValue: tokenPricesFactorySpy },
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
       ],

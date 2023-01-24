@@ -23,7 +23,7 @@ import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tok
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
-import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices-injectable.service';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
@@ -176,7 +176,7 @@ export class TokenDetailPage {
     private blockchainsFactory: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
     private covalentBalancesInjectable: CovalentBalancesInjectable,
-    private tokenPricesFactory: TokenPricesController,
+    private tokenPricesFactory: TokenPricesInjectable,
     private tokenDetailInjectable: TokenDetailInjectable,
     private refreshTimeoutService: RefreshTimeoutService
   ) {}
@@ -260,7 +260,7 @@ export class TokenDetailPage {
     const fixedTokens = new FixedTokens([this.token]);
     this.tokenDetail = this.tokenDetailInjectable.create(
       this.covalentBalancesInjectable.create(this.wallet.address(), fixedTokens),
-      this.tokenPricesFactory.new(fixedTokens),
+      this.tokenPricesFactory.create(fixedTokens),
       (await fixedTokens.value())[0]
     );
     this.tokenDetail.cached();
