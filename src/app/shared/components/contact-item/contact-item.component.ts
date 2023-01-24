@@ -35,8 +35,8 @@ export class ContactItemComponent {
   @Input() name: string;
   @Input() address: string;
   @Input() networks: string[];
-  @Input() showWalletImg: boolean = true;
-  @Input() boldName: boolean = true;
+  @Input() showWalletImg = true;
+  @Input() boldName = true;
   constructor() {}
 
 }
