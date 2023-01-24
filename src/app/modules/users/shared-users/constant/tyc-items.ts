@@ -35,6 +35,7 @@ export const TYC_ITEMS = [
     title: 'profiles.user_profile_menu.terms_and_conditions.kripton.title',
     subtitle: 'profiles.user_profile_menu.terms_and_conditions.tyc',
     route: 'https://kriptonmarket.com/terms-and-conditions',
+    key: 'kripton_privacy_and_policy_accepted',
   },
   {
     img: '/assets/img/users/term-and-conditions/icon-kripton.svg',
@@ -42,5 +43,6 @@ export const TYC_ITEMS = [
     title: 'profiles.user_profile_menu.terms_and_conditions.kripton.title',
     subtitle: 'profiles.user_profile_menu.terms_and_conditions.privacy_policy',
     route: 'https://cash.kriptonmarket.com/privacy',
+    key: 'kripton_privacy_and_policy_accepted',
   },
 ];
