@@ -16,7 +16,7 @@ import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/r
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { By } from '@angular/platform-browser';
-import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
+import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-balance/total-balance-injectable.service';
 import { FakeBalance } from '../shared-wallets/models/balance/fake-balance/fake-balance';
 import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
 import { FakePrices } from '../shared-wallets/models/prices/fake-prices/fake-prices';
@@ -59,7 +59,7 @@ describe('HomeWalletPage', () => {
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let contentSpy: jasmine.SpyObj<IonContent>;
   let coinSpy: jasmine.SpyObj<Coin>;
-  let totalBalanceControllerSpy: jasmine.SpyObj<TotalBalanceController>;
+  let totalBalanceInjectableSpy: jasmine.SpyObj<TotalBalanceInjectable>;
   let tokenPricesControllerSpy: jasmine.SpyObj<TokenPricesController>;
   let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
   let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
@@ -79,12 +79,11 @@ describe('HomeWalletPage', () => {
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
-
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
     navControllerSpy = fakeNavController.createSpy();
-    totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
+    totalBalanceInjectableSpy = jasmine.createSpyObj('TotalBalanceInjectable', { create: new FakeBalance(10) });
     tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
     covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { create: new FakeBalances() });
     localStorageServiceSpy = jasmine.createSpyObj(
@@ -181,9 +180,11 @@ describe('HomeWalletPage', () => {
     });
 
     base64ImageFactorySpy = jasmine.createSpyObj('Base64ImageFactory', {
-      new: Promise.resolve({ value : () => {
-        return Promise.resolve({})
-      }}),
+      new: Promise.resolve({
+        value: () => {
+          return Promise.resolve({});
+        },
+      }),
     });
 
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
@@ -202,7 +203,7 @@ describe('HomeWalletPage', () => {
         { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
         { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
         { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
-        { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
+        { provide: TotalBalanceInjectable, useValue: totalBalanceInjectableSpy },
         { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
@@ -377,7 +378,6 @@ describe('HomeWalletPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-
 
   it('should get on storage onInit', () => {
     component.ionViewWillEnter();

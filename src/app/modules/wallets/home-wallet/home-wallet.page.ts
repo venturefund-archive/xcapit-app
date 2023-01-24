@@ -14,7 +14,7 @@ import { NullBalances } from '../shared-wallets/models/balances/null-balances/nu
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
 import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
 import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
-import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
+import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-balance/total-balance-injectable.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
@@ -232,7 +232,7 @@ export class HomeWalletPage implements OnInit {
     private covalentBalances: CovalentBalancesInjectable,
     private tokenPrices: TokenPricesController,
     private tokenDetail: TokenDetailController,
-    private totalBalance: TotalBalanceController,
+    private totalBalance: TotalBalanceInjectable,
     private trackService: TrackService,
     private ionicStorageService: IonicStorageService,
     private localStorageService: LocalStorageService,
@@ -345,7 +345,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   private initializeTotalBalance() {
-    this.totalBalanceModel = this.totalBalance.new(new NullPrices(), new NullBalances(), new ZeroBalance());
+    this.totalBalanceModel = this.totalBalance.create(new NullPrices(), new NullBalances(), new ZeroBalance());
   }
 
   private async setTokenDetails() {
@@ -365,7 +365,7 @@ export class HomeWalletPage implements OnInit {
           tokenDetails.push(tokenDetail);
           await tokenDetail.cached();
         }
-        this.totalBalanceModel = this.totalBalance.new(prices, balances, this.totalBalanceModel);
+        this.totalBalanceModel = this.totalBalance.create(prices, balances, this.totalBalanceModel);
       }
     }
     this.sortTokens(tokenDetails);

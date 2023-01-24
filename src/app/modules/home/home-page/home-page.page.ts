@@ -15,7 +15,7 @@ import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/to
 import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
 import { TokenPricesController } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.controller';
 import { TokenDetailController } from '../../wallets/shared-wallets/models/token-detail/token-detail.controller';
-import { TotalBalanceController } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.controller';
+import { TotalBalanceInjectable } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance-injectable.service';
 import { HttpClient } from '@angular/common/http';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
@@ -143,7 +143,7 @@ export class HomePage implements OnInit {
     private covalentBalances: CovalentBalancesInjectable,
     private tokenPrices: TokenPricesController,
     private tokenDetail: TokenDetailController,
-    private totalBalance: TotalBalanceController,
+    private totalBalance: TotalBalanceInjectable,
     private appStorage: AppStorageService,
     private walletBackupService: WalletBackupService,
     private storage: IonicStorageService,
@@ -203,7 +203,7 @@ export class HomePage implements OnInit {
   }
 
   private initializeTotalBalance() {
-    this.totalBalanceModel = this.totalBalance.new(new NullPrices(), new NullBalances(), new ZeroBalance());
+    this.totalBalanceModel = this.totalBalance.create(new NullPrices(), new NullBalances(), new ZeroBalance());
   }
 
   private async setTokenDetails() {
@@ -223,7 +223,7 @@ export class HomePage implements OnInit {
           tokenDetails.push(tokenDetail);
           await tokenDetail.cached();
         }
-        this.totalBalanceModel = this.totalBalance.new(prices, balances, this.totalBalanceModel);
+        this.totalBalanceModel = this.totalBalance.create(prices, balances, this.totalBalanceModel);
       }
     }
     this.tokenDetails = tokenDetails;
