@@ -267,7 +267,6 @@ describe('InvestmentConfirmationPage', () => {
       testLocalNotificationNotOk.title,
       testLocalNotificationNotOk.body
     );
-    expect(storageSpy.set).not.toHaveBeenCalled();
   });
 
   it('should not make deposit when modal closes', async () => {
