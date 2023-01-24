@@ -73,6 +73,8 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
             [subtitle]="'wallets.send.send_detail.address_input.subtitle' | translate"
             [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
+            [addressFromContact]="this.addressFromContact"
+            [contact]="this.contact"
             (addFromContacts)="navigateToContacts()"
           ></app-address-input-card>
         </div>
@@ -141,6 +143,8 @@ export class SendDetailPage {
   tokenSolana: Token;
   tplTokenSolana: RawToken;
   tokenDetail: TokenDetail;
+  addressFromContact = false;
+  contact: string;
   private wallet: Wallet;
   private tokenObj: Token;
   private nativeToken: Token;
@@ -181,15 +185,21 @@ export class SendDetailPage {
     await this.setWallet();
     await this.setTokenDetail();
     await this.setAddressValidator();
-    if (this.route.snapshot.paramMap.get('address')) {
-      this.setFormData(this.route.snapshot.paramMap.get('address'), this.route.snapshot.paramMap.get('amount'));
+    if (this.route.snapshot.paramMap.get('contact')) {
+      this.setFormData(
+        this.route.snapshot.paramMap.get('contact'),
+        this.route.snapshot.paramMap.get('address'),
+        this.route.snapshot.paramMap.get('amount')
+      );
     }
     this.getPrices();
     await this.tokenBalances();
   }
 
-  setFormData(address: string, amount: string) {
+  setFormData(contact: string, address: string, amount: string) {
     this.form.patchValue({ address, amount });
+    this.addressFromContact = true;
+    this.contact = contact;
   }
 
   async setAddressValidator() {
@@ -406,6 +416,7 @@ export class SendDetailPage {
       balance: this.balance,
       fee: this.fee.toString(),
       referenceFee: this.quoteFee.value.toString(),
+      contact: this.contact,
     };
   }
 

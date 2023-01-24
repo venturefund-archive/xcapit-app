@@ -2035,6 +2035,8 @@
         "text": "Comenzar a invertir"
       },
       "address_input_card": {
+        "agenda": "Agenda",
+        "remove_contact":"Remover contacto",
         "scan_error": "Error al escanear el código QR",
         "placeholder": "Mantén presionado para pegar",
         "scan_unauthorized": "No tienes permiso para escanear",

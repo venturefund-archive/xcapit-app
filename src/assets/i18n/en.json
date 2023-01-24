@@ -2050,6 +2050,8 @@
         "text": "Start investing"
       },
       "address_input_card": {
+        "agenda": "Agenda",
+        "remove_contact":"Remove contact",
         "scan_error": "Error scanning QR code",
         "placeholder": "Press and hold to paste",
         "scan_unauthorized": "You have no permission to scan",

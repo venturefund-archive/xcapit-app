@@ -77,6 +77,7 @@ describe('SendDetailPage', () => {
     valid: {
       address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
       amount: 1,
+      contact: 'testWallet',
       quoteAmount: 1,
     },
     solanaValid: {
@@ -364,19 +365,19 @@ describe('SendDetailPage', () => {
     ]);
   });
 
-  it('should set form data when address is present on URL', async () => {
+  it('should set form data when address is present on URL', fakeAsync (() => {
     fakeActivatedRoute.modifySnapshotParams({
       token: rawUSDTData.contract,
       blockchain: rawUSDTData.network,
+      contact: formData.valid.contact, 
       address: formData.valid.address,
       amount: formData.valid.amount,
     });
-    await component.ionViewDidEnter();
-    await fixture.whenRenderingDone();
-    await fixture.whenStable();
+    component.ionViewDidEnter();
+    tick()
     fixture.detectChanges();
 
     expect(component.form.value.address).toEqual(formData.valid.address);
     expect(component.form.value.amount).toEqual(formData.valid.amount);
-  });
+  }));
 });

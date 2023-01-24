@@ -8,7 +8,11 @@ const routes: Routes = [
     component: SendDetailPage,
   },
   {
-    path: 'blockchain/:blockchain/token/:token/address/:address/amount/:amount',
+    path: 'blockchain/:blockchain/token/:token/amount/:amount',
+    component: SendDetailPage,
+  },
+  {
+    path: 'blockchain/:blockchain/token/:token/contact/:contact/address/:address/amount/:amount',
     component: SendDetailPage,
   },
 ];

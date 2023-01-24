@@ -142,4 +142,21 @@ describe('AddressInputCardComponent', () => {
     contactsButtonEl.dispatchEvent(customEvent);
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should render app-contact-item if address was imported from contacts', ()=>{
+    component.addressFromContact = true;
+    component.form.patchValue({ address: contacts[0].address });
+    fixture.detectChanges();
+    const contactEl = fixture.debugElement.query(By.css('app-contact-item'));
+    expect(contactEl).toBeTruthy();
+  })
+
+  it('should remove wallet added from contacts', () => {
+    component.form.patchValue({ address: contacts[0].address });
+    component.addressFromContact = true;
+    fixture.detectChanges();
+    const removeContactButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_remove_contact"]'));
+    removeContactButtonEl.nativeElement.click();
+    expect(component.form.value.address).toEqual('');
+  });
 });

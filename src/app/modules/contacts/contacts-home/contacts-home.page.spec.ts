@@ -89,10 +89,8 @@ describe('ContactsHomePage', () => {
   it('should render contacts', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    const imgEl = fixture.debugElement.query(By.css('img.ch__content__item__wrapper__img'));
-    const nameEl = fixture.debugElement.query(By.css('div.ch__content__item__wrapper__data__title > ion-text'));
-    expect(imgEl.attributes.src).toContain('/assets/img/contacts/wallet.svg');
-    expect(nameEl.nativeElement.innerHTML).toContain(contacts[0].name);
+    const contactEl = fixture.debugElement.query(By.css('app-contact-item'));
+    expect(contactEl).toBeTruthy();
   });
 
   it('should call trackEvent on trackService when ux_address_new button was clicked', () => {
@@ -126,6 +124,8 @@ describe('ContactsHomePage', () => {
       route.blockchain,
       'token',
       route.token,
+      'contact',
+      contacts[0].name,
       'address',
       contacts[0].address,
       'amount',
@@ -142,5 +142,29 @@ describe('ContactsHomePage', () => {
     contactEl.nativeElement.click();
     fixture.detectChanges();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(2);
+  });
+
+  it('should go back to send detail page if is selecting', async () => {
+    fakeActivatedRoute.modifySnapshotParams(route);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const backButton = fixture.debugElement.query(By.css('ion-back-button'));
+    backButton.nativeElement.click();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith([
+      '/wallets/send/detail/blockchain',
+      route.blockchain,
+      'token',
+      route.token,
+      'amount',
+      route.amount,
+    ]);
+  });
+
+  it('should go back to menu profile page if is not selecting', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const backButton = fixture.debugElement.query(By.css('ion-back-button'));
+    backButton.nativeElement.click();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/profiles/menu');
   });
 });

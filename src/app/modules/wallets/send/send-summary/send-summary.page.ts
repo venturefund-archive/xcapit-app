@@ -7,7 +7,6 @@ import { AlertController, ModalController, NavController } from '@ionic/angular'
 import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
-import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
