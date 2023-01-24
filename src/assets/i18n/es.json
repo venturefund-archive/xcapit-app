@@ -481,7 +481,8 @@
       },
       "transaction_fees": {
         "label": "Tarifa de transacción estimada",
-        "advice": "Fondos insuficientes"
+        "advice": "Fondos insuficientes",
+        "faucet": "¡Sin costos! 😎"
       },
       "filter_tab": {
         "conservative": "Perfil conservador",
@@ -620,7 +621,7 @@
       "faq_help": "Preguntas frecuentes",
       "support_help": "Hablar con soporte",
       "terms_and_conditions": {
-        "providers":"Proveedores",
+        "providers": "Proveedores",
         "tyc": "Términos y condiciones",
         "privacy_policy": "Política de privacidad",
         "kripton": {
@@ -1488,9 +1489,9 @@
         }
       }
     },
-    "token_selection":{
-      "header":"Donaciones",
-      "title":"Selecciona la moneda que deseas donar"
+    "token_selection": {
+      "header": "Donaciones",
+      "title": "Selecciona la moneda que deseas donar"
     },
     "send_donations": {
       "alias": "Dirección o alias",
@@ -3383,14 +3384,14 @@
       "submit_text": "Agendar wallet",
       "text_invalid": "La dirección de wallet es incorrecta",
       "text_valid": "La dirección de wallet es correcta",
-      "repeated_address":"La dirección ya se encuentra agendada",
+      "repeated_address": "La dirección ya se encuentra agendada",
       "loading": "Agendando",
       "success_toast": "¡Excelente! Wallet agendada con éxito"
     },
     "shared_contacts": {
       "network_selector": {
         "label": "Red",
-        "placeholder":"Selecciona una opción"
+        "placeholder": "Selecciona una opción"
       },
       "network_selector_modal": {
         "title": "Seleccionar Red"

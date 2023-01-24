@@ -352,7 +352,6 @@ export class InvestmentConfirmationPage {
     if (this.remoteConfig.getFeatureFlag('ff_fundFaucet')) {
       if (this.isElegibleToFund) {
         await this.defiInvesmentService.fundWallet().toPromise();
-
         this.sendEvent();
       }
     }
