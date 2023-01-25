@@ -77,4 +77,9 @@ export const NFT_DATA_PROD = [
     rpc: environment.maticApiUrl,
     abi: nftAbi,
   },
+  {
+    contractAddress: '0x48Ac76A3f0afbCc3121a61bcF8bFD05a68e4aa94',
+    rpc: environment.maticApiUrl,
+    abi: nftAbi,
+  },
 ];
