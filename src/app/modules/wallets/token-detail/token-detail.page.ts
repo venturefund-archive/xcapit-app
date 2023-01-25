@@ -260,7 +260,7 @@ export class TokenDetailPage {
     const fixedTokens = new FixedTokens([this.token]);
     this.tokenDetail = this.tokenDetailInjectable.create(
       this.covalentBalancesInjectable.create(this.wallet.address(), fixedTokens),
-      this.tokenPricesFactory.create(fixedTokens),
+      this.tokenPricesInjectable.create(fixedTokens),
       (await fixedTokens.value())[0]
     );
     this.tokenDetail.cached();
