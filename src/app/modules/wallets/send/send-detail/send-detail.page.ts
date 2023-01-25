@@ -13,7 +13,7 @@ import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model'
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { VoidSigner } from 'ethers';
 import { Erc20ProviderInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
-import { ERC20ContractController } from '../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { ERC20ContractInjectable } from '../../../defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -162,7 +162,7 @@ export class SendDetailPage {
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
     private erc20ProviderInjectable: Erc20ProviderInjectable,
-    private erc20ContractController: ERC20ContractController,
+    private erc20ContractInjectable: ERC20ContractInjectable,
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalController: ModalController,
     private translate: TranslateService,
@@ -330,7 +330,7 @@ export class SendDetailPage {
   }
 
   async erc20Contract(): Promise<ERC20Contract> {
-    return this.erc20ContractController.new(this.erc20Provider(), new VoidSigner(await this.userWallet()));
+    return this.erc20ContractInjectable.create(this.erc20Provider(), new VoidSigner(await this.userWallet()));
   }
 
   erc20Provider(): ERC20Provider {

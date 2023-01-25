@@ -11,7 +11,7 @@ import { FakeTokenSend } from 'src/testing/fakes/token-send.fake.spec';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import linkAbi from '../../constants/assets-abi-prod/link-abi-prod.json';
 import { Erc20ProviderInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
-import { ERC20ContractController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { ERC20ContractInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
 import { FakeContract } from 'src/app/modules/defi-investments/shared-defi-investments/models/fake-contract/fake-contract.model';
 import { BigNumber } from 'ethers';
@@ -165,7 +165,7 @@ describe('WalletTransactionsService', () => {
   let fakeTokenSend: typeof FakeTokenSend;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let erc20ProviderInjectableSpy: jasmine.SpyObj<Erc20ProviderInjectable>;
-  let erc20ContractControllerSpy: jasmine.SpyObj<ERC20ContractController>;
+  let erc20ContractInjectableSpy: jasmine.SpyObj<ERC20ContractInjectable>;
   let erc20TokenInjectableSpy: jasmine.SpyObj<ERC20TokenInjectable>;
   let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
   let gasFeeOfFactorySpy: jasmine.SpyObj<GasFeeOfFactory>;
@@ -207,8 +207,8 @@ describe('WalletTransactionsService', () => {
       create: new FakeERC20Provider(null, new FakeProvider('100000000')),
     });
 
-    erc20ContractControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
-      new: jasmine.createSpyObj('ERC20Contract', {
+    erc20ContractInjectableSpy = jasmine.createSpyObj('ERC20ProviderController', {
+      create: jasmine.createSpyObj('ERC20Contract', {
         value: new FakeContract({ transfer: () => Promise.resolve(BigNumber.from('10')) }),
       }),
     });
@@ -253,7 +253,7 @@ describe('WalletTransactionsService', () => {
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: Erc20ProviderInjectable, useValue: erc20ProviderInjectableSpy },
-        { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
+        { provide: ERC20ContractInjectable, useValue: erc20ContractInjectableSpy },
         { provide: ERC20TokenInjectable, useValue: erc20TokenInjectableSpy },
         { provide: GasFeeOfFactory, useValue: gasFeeOfFactorySpy },
         { provide: NativeGasOfFactory, useValue: nativeGasOfFactorySpy },

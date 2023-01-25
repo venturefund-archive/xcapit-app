@@ -17,7 +17,7 @@ import { NativeFeeOf } from 'src/app/modules/defi-investments/shared-defi-invest
 import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { Erc20ProviderInjectable } from '../../../../defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
-import { ERC20ContractController } from '../../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { ERC20ContractInjectable } from '../../../../defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
 import { ERC20TokenInjectable } from '../../../../defi-investments/shared-defi-investments/models/erc20-token/injectable/erc20-token.injectable';
 import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.interface';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
@@ -41,8 +41,8 @@ export class WalletTransactionsService {
     private http: CustomHttpService,
     private apiWalletService: ApiWalletService,
     private erc20ProviderInjectable: Erc20ProviderInjectable,
-    private erc20ContractController: ERC20ContractController,
-    private erc20TokenController: ERC20TokenInjectable,
+    private erc20ContractInjectable: ERC20ContractInjectable,
+    private erc20TokenInjectable: ERC20TokenInjectable,
     private gasFeeOfFactory: GasFeeOfFactory,
     private nativeGasOfFactory: NativeGasOfFactory,
     private blockchains: BlockchainsFactory,
@@ -295,7 +295,7 @@ export class WalletTransactionsService {
 
   erc20Contract(coin: Coin, address?: string): ERC20Contract {
     const signer = address ? new VoidSigner(address) : undefined;
-    return this.erc20ContractController.new(this.erc20Provider(coin), signer);
+    return this.erc20ContractInjectable.create(this.erc20Provider(coin), signer);
   }
 
   erc20Provider(coin: Coin): ERC20Provider {
@@ -303,6 +303,6 @@ export class WalletTransactionsService {
   }
 
   erc20Token(contract: ERC20Contract): ERC20Token {
-    return this.erc20TokenController.create(contract);
+    return this.erc20TokenInjectable.create(contract);
   }
 }

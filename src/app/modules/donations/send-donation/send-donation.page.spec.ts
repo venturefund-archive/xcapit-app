@@ -32,7 +32,7 @@ import { SendDonationPage } from './send-donation.page';
 import { SpyProperty } from '../../../../testing/spy-property.spec';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 import { TokenOperationDataService } from '../../fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
-import { ERC20ContractController } from '../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { ERC20ContractInjectable } from '../../defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
 import { FakeContract } from '../../defi-investments/shared-defi-investments/models/fake-contract/fake-contract.model';
 import { BigNumber } from 'ethers';
 import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
@@ -59,7 +59,7 @@ describe('SendDonationPage', () => {
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
-  let erc20ContractControllerSpy: jasmine.SpyObj<ERC20ContractController>;
+  let erc20ContractInjectableSpy: jasmine.SpyObj<ERC20ContractInjectable>;
   let erc20ContractSpy: jasmine.SpyObj<ERC20Contract>;
 
   beforeEach(waitForAsync(() => {
@@ -132,8 +132,8 @@ describe('SendDonationPage', () => {
       value: new FakeContract({ transfer: () => Promise.resolve(BigNumber.from('10')) }),
     });
 
-    erc20ContractControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
-      new: erc20ContractSpy,
+    erc20ContractInjectableSpy = jasmine.createSpyObj('ERC20ProviderController', {
+      create: erc20ContractSpy,
     });
     erc20ProviderInjectableSpy = jasmine.createSpyObj('ERC20ProviderController', {
       create: new FakeERC20Provider(null, new FakeProvider('100000000')),
@@ -158,7 +158,7 @@ describe('SendDonationPage', () => {
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: Erc20ProviderInjectable, useValue: erc20ProviderInjectableSpy },
-        { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
+        { provide: ERC20ContractInjectable, useValue: erc20ContractInjectableSpy },
         { provide: SendDonationDataService, useValue: sendDonationDataSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
