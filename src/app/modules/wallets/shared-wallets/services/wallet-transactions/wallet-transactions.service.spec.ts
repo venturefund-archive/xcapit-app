@@ -16,7 +16,7 @@ import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec'
 import { FakeContract } from 'src/app/modules/defi-investments/shared-defi-investments/models/fake-contract/fake-contract.model';
 import { BigNumber } from 'ethers';
 import { FakeERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/fake/fake-erc20-provider';
-import { ERC20TokenController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/controller/erc20-token.controller';
+import { ERC20TokenInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/controller/e-r-c20-token-injectable.service';
 import { FakeERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/fake/fake-erc20-token';
 import { NativeGasOfFactory } from 'src/app/shared/models/native-gas-of/factory/native-gas-of.factory';
 import { GasFeeOfFactory } from 'src/app/shared/models/gas-fee-of/factory/gas-fee-of.factory';
@@ -166,7 +166,7 @@ describe('WalletTransactionsService', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let erc20ProviderControllerSpy: jasmine.SpyObj<ERC20ProviderController>;
   let erc20ContractControllerSpy: jasmine.SpyObj<ERC20ContractController>;
-  let erc20TokenControllerSpy: jasmine.SpyObj<ERC20TokenController>;
+  let erc20TokenInjectableSpy: jasmine.SpyObj<ERC20TokenInjectable>;
   let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
   let gasFeeOfFactorySpy: jasmine.SpyObj<GasFeeOfFactory>;
   let nativeGasOfFactorySpy: jasmine.SpyObj<NativeGasOfFactory>;
@@ -213,8 +213,8 @@ describe('WalletTransactionsService', () => {
       }),
     });
 
-    erc20TokenControllerSpy = jasmine.createSpyObj('ERC20TokenController', {
-      new: new FakeERC20Token(Promise.resolve(BigNumber.from('1'))),
+    erc20TokenInjectableSpy = jasmine.createSpyObj('ERC20TokenController', {
+      create: new FakeERC20Token(Promise.resolve(BigNumber.from('1'))),
     });
 
     nativeGasOfSpy = jasmine.createSpyObj('NativeGasOf', {
@@ -250,7 +250,7 @@ describe('WalletTransactionsService', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ERC20ProviderController, useValue: erc20ProviderControllerSpy },
         { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
-        { provide: ERC20TokenController, useValue: erc20TokenControllerSpy },
+        { provide: ERC20TokenInjectable, useValue: erc20TokenInjectableSpy },
         { provide: GasFeeOfFactory, useValue: gasFeeOfFactorySpy },
         { provide: NativeGasOfFactory, useValue: nativeGasOfFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },

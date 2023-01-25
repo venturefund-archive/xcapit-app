@@ -18,7 +18,7 @@ import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/in
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { ERC20ProviderController } from '../../../../defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
 import { ERC20ContractController } from '../../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
-import { ERC20TokenController } from '../../../../defi-investments/shared-defi-investments/models/erc20-token/controller/erc20-token.controller';
+import { ERC20TokenInjectable } from '../../../../defi-investments/shared-defi-investments/models/erc20-token/controller/e-r-c20-token-injectable.service';
 import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.interface';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
@@ -42,7 +42,7 @@ export class WalletTransactionsService {
     private apiWalletService: ApiWalletService,
     private erc20ProviderController: ERC20ProviderController,
     private erc20ContractController: ERC20ContractController,
-    private erc20TokenController: ERC20TokenController,
+    private erc20TokenController: ERC20TokenInjectable,
     private gasFeeOfFactory: GasFeeOfFactory,
     private nativeGasOfFactory: NativeGasOfFactory,
     private blockchains: BlockchainsFactory,
@@ -304,6 +304,6 @@ export class WalletTransactionsService {
   }
 
   erc20Token(contract: ERC20Contract): ERC20Token {
-    return this.erc20TokenController.new(contract);
+    return this.erc20TokenController.create(contract);
   }
 }
