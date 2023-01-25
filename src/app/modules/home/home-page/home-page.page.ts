@@ -12,10 +12,10 @@ import { NullBalances } from '../../wallets/shared-wallets/models/balances/null-
 import { ZeroBalance } from '../../wallets/shared-wallets/models/balance/zero-balance/zero-balance';
 import { TotalBalance } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance';
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
-import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
-import { TokenPricesInjectable } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices-injectable.service';
-import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/token-detail-injectable.service';
-import { TotalBalanceInjectable } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance-injectable.service';
+import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.injectable';
+import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/token-detail.injectable';
+import { TotalBalanceInjectable } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.injectable';
 import { HttpClient } from '@angular/common/http';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';

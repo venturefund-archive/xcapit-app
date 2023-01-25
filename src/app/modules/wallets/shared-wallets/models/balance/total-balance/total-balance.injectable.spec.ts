@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TotalBalanceInjectable } from './total-balance-injectable.service';
+import { TotalBalanceInjectable } from './total-balance.injectable';
 import { FakePrices } from '../../prices/fake-prices/fake-prices';
 import { FakeBalances } from '../../balances/fake-balances/fake-balances';
 import { FakeBalance } from '../fake-balance/fake-balance';

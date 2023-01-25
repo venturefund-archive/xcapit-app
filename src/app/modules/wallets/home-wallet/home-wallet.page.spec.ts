@@ -16,13 +16,13 @@ import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/r
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { By } from '@angular/platform-browser';
-import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-balance/total-balance-injectable.service';
+import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-balance/total-balance.injectable';
 import { FakeBalance } from '../shared-wallets/models/balance/fake-balance/fake-balance';
-import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices-injectable.service';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { FakePrices } from '../shared-wallets/models/prices/fake-prices/fake-prices';
-import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
-import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/token-detail-injectable.service';
+import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/token-detail.injectable';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';

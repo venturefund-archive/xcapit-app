@@ -1,4 +1,4 @@
-import { CovalentBalancesInjectable } from './covalent-balances-injectable.service';
+import { CovalentBalancesInjectable } from './covalent-balances.injectable';
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { CovalentBalances } from './covalent-balances';
 

@@ -36,8 +36,8 @@ import { DefaultTokens } from 'src/app/modules/swaps/shared-swaps/models/tokens/
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
 import { FixedTokens } from 'src/app/modules/swaps/shared-swaps/models/filtered-tokens/fixed-tokens';
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
-import { CovalentBalancesInjectable } from '../../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
-import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-prices/token-prices-injectable.service';
+import { CovalentBalancesInjectable } from '../../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';

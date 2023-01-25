@@ -1,4 +1,4 @@
-import { TokenPricesInjectable } from './token-prices-injectable.service';
+import { TokenPricesInjectable } from './token-prices.injectable';
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { TokenPrices } from './token-prices';
 

@@ -22,8 +22,8 @@ import { FixedTokens } from '../../swaps/shared-swaps/models/filtered-tokens/fix
 import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
-import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices-injectable.service';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
@@ -176,7 +176,7 @@ export class TokenDetailPage {
     private blockchainsFactory: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
     private covalentBalancesInjectable: CovalentBalancesInjectable,
-    private tokenPricesFactory: TokenPricesInjectable,
+    private tokenPricesInjectable: TokenPricesInjectable,
     private tokenDetailInjectable: TokenDetailInjectable,
     private refreshTimeoutService: RefreshTimeoutService
   ) {}

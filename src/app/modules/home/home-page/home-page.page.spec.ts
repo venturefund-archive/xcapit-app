@@ -17,10 +17,10 @@ import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
-import { TotalBalanceInjectable } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance-injectable.service';
-import { TokenPricesInjectable } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices-injectable.service';
-import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
-import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/token-detail-injectable.service';
+import { TotalBalanceInjectable } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.injectable';
+import { TokenPricesInjectable } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.injectable';
+import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/token-detail.injectable';
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
 import { FakeBalance } from '../../wallets/shared-wallets/models/balance/fake-balance/fake-balance';
 import { FakePrices } from '../../wallets/shared-wallets/models/prices/fake-prices/fake-prices';

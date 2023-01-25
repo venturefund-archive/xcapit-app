@@ -203,17 +203,17 @@ describe('WalletTransactionsService', () => {
       post: of(),
     });
 
-    erc20ProviderInjectableSpy = jasmine.createSpyObj('ERC20ProviderController', {
+    erc20ProviderInjectableSpy = jasmine.createSpyObj('ERC20ProviderInjectable', {
       create: new FakeERC20Provider(null, new FakeProvider('100000000')),
     });
 
-    erc20ContractInjectableSpy = jasmine.createSpyObj('ERC20ProviderController', {
+    erc20ContractInjectableSpy = jasmine.createSpyObj('ERC20ContractInjectable', {
       create: jasmine.createSpyObj('ERC20Contract', {
         value: new FakeContract({ transfer: () => Promise.resolve(BigNumber.from('10')) }),
       }),
     });
 
-    erc20TokenInjectableSpy = jasmine.createSpyObj('ERC20TokenController', {
+    erc20TokenInjectableSpy = jasmine.createSpyObj('ERC20TokenInjectable', {
       create: new FakeERC20Token(Promise.resolve(BigNumber.from('1'))),
     });
 

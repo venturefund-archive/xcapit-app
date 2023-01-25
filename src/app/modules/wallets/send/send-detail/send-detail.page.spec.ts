@@ -106,7 +106,7 @@ describe('SendDetailPage', () => {
     tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
       tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
     });
-    erc20ProviderInjectableSpy = jasmine.createSpyObj('ERC20ProviderController', {
+    erc20ProviderInjectableSpy = jasmine.createSpyObj('ERC20ProviderInjectable', {
       create: new FakeERC20Provider(null, new FakeProvider('100000000')),
     });
 
@@ -114,7 +114,7 @@ describe('SendDetailPage', () => {
       value: new FakeContract({ transfer: () => Promise.resolve(BigNumber.from('10')) }),
     });
 
-    erc20ContractInjectableSpy = jasmine.createSpyObj('ERC20ProviderController', {
+    erc20ContractInjectableSpy = jasmine.createSpyObj('ERC20ProviderInjectable', {
       create: erc20ContractSpy,
     });
 

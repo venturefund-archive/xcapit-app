@@ -132,10 +132,10 @@ describe('SendDonationPage', () => {
       value: new FakeContract({ transfer: () => Promise.resolve(BigNumber.from('10')) }),
     });
 
-    erc20ContractInjectableSpy = jasmine.createSpyObj('ERC20ProviderController', {
+    erc20ContractInjectableSpy = jasmine.createSpyObj('ERC20ContractInjectable', {
       create: erc20ContractSpy,
     });
-    erc20ProviderInjectableSpy = jasmine.createSpyObj('ERC20ProviderController', {
+    erc20ProviderInjectableSpy = jasmine.createSpyObj('ERC20ProviderInjectable', {
       create: new FakeERC20Provider(null, new FakeProvider('100000000')),
     });
     dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(4000) });

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TokenDetailInjectable } from './token-detail-injectable.service';
+import { TokenDetailInjectable } from './token-detail.injectable';
 import { CovalentBalances } from '../balances/covalent-balances/covalent-balances';
 import { TokenPrices } from '../prices/token-prices/token-prices';
 import { BalanceCacheService } from '../../services/balance-cache/balance-cache.service';

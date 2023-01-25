@@ -11,10 +11,10 @@ import { TotalBalance } from '../shared-wallets/models/balance/total-balance/tot
 import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
 import { NullPrices } from '../shared-wallets/models/prices/null-prices/null-prices';
 import { NullBalances } from '../shared-wallets/models/balances/null-balances/null-balances';
-import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
-import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices-injectable.service';
-import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/token-detail-injectable.service';
-import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-balance/total-balance-injectable.service';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
+import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/token-detail.injectable';
+import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-balance/total-balance.injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';

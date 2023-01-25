@@ -24,8 +24,8 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
-import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices-injectable.service';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import {
   rawETHData,
   rawSAMOData,
@@ -68,7 +68,7 @@ describe('TokenDetailPage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
-  let tokenPricesFactorySpy: jasmine.SpyObj<TokenPricesInjectable>;
+  let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
   let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
@@ -89,7 +89,7 @@ describe('TokenDetailPage', () => {
       } as Vault),
     });
 
-    tokenPricesFactorySpy = jasmine.createSpyObj('TokenPricesInjectable', {
+    tokenPricesInjectableSpy = jasmine.createSpyObj('TokenPricesInjectable', {
       create: new FakePrices(),
     });
     covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { create: new FakeBalances() });
@@ -175,7 +175,7 @@ describe('TokenDetailPage', () => {
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
-        { provide: TokenPricesInjectable, useValue: tokenPricesFactorySpy },
+        { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
       ],
