@@ -44,7 +44,6 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
-import { SwapInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/swap-in-progress.service';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 
 describe('HomeWalletPage', () => {
@@ -77,9 +76,9 @@ describe('HomeWalletPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
-  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
+
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -122,10 +121,6 @@ describe('HomeWalletPage', () => {
     refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
       isAvailable: true,
       lock: of(),
-    });
-
-    swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService', {
-      inProgress: of(true),
     });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -221,7 +216,6 @@ describe('HomeWalletPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
-        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -245,13 +239,6 @@ describe('HomeWalletPage', () => {
     expect(component.userTokens.length).toBeGreaterThan(0);
     expect(component.tokenDetails.length).toBeGreaterThan(0);
     expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
-  });
-
-  it('should unsubscribe on ionViewWillLeave ', async () => {
-    const spy = spyOn(component, 'unsubscribe').and.callThrough();
-    await component.ionViewWillEnter();
-    await component.ionViewWillLeave();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should initialize on view did enter without tokens', async () => {

@@ -43,6 +43,6 @@ export class UserProfileCardComponent implements OnInit {
   ngOnInit() {}
 
   goToInvestments() {
-    this.navController.navigateForward(['/tabs/investments']);
+    this.navController.navigateRoot(['/tabs/investments']);
   }
 }

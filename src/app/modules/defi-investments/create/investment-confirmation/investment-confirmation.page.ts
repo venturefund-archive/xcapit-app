@@ -40,6 +40,10 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 import { format } from 'date-fns';
 import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
+import { DefiInvestment } from '../../shared-defi-investments/interfaces/defi-investment.interface';
+import { DefiInvestmentsService } from '../../shared-defi-investments/services/defi-investments-service/defi-investments.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -69,11 +73,16 @@ import { LocalNotificationInjectable } from 'src/app/shared/models/local-notific
                 >{{ this.amount.value | formattedAmount }} {{ this.amount.token }}</ion-text
               >
               <ion-text class="ux-font-text-base summary__amount__qty__quoteAmount"
-                >{{ this.quoteAmount.value | formattedAmount: 10:2 }} {{ this.quoteAmount.token }}
+                >{{ this.quoteAmount.value | formattedAmount : 10 : 2 }} {{ this.quoteAmount.token }}
               </ion-text>
             </div>
           </div>
-          <app-transaction-fee [fee]="this.fee" [quoteFee]="this.quoteFee" [balance]="this.nativeTokenBalance">
+          <app-transaction-fee
+            [fee]="this.fee"
+            [quoteFee]="this.quoteFee"
+            [balance]="this.nativeTokenBalance"
+            [showErrors]="!this.isElegibleToFund"
+          >
           </app-transaction-fee>
         </div>
       </ion-card>
@@ -142,6 +151,7 @@ export class InvestmentConfirmationPage {
   nativeTokenBalance: number;
   amount: Amount;
   quoteAmount: Amount;
+  isElegibleToFund: boolean;
   fee: Amount = { value: undefined, token: 'MATIC' };
   quoteFee: Amount = { value: undefined, token: 'USD' };
   loading = false;
@@ -171,7 +181,10 @@ export class InvestmentConfirmationPage {
     private localNotificationInjectable: LocalNotificationInjectable,
     private gasStation: GasStationOfFactory,
     private blockchains: BlockchainsFactory,
-    private navController: NavController
+    private navController: NavController,
+    private defiInvesmentService: DefiInvestmentsService,
+    private remoteConfig: RemoteConfigService,
+    private trackService: TrackService
   ) {}
 
   async ionViewDidEnter() {
@@ -183,6 +196,7 @@ export class InvestmentConfirmationPage {
     this.checkTwoPiAgreement();
     await this.walletService.walletExist();
     await this.getNativeTokenBalance();
+    this.setIsElegibleToFund();
     await this.checkNativeTokenBalance();
   }
 
@@ -334,8 +348,27 @@ export class InvestmentConfirmationPage {
     return this.nativeTokenBalance;
   }
 
+  async fundWallet() {
+    if (this.remoteConfig.getFeatureFlag('ff_fundFaucet')) {
+      if (this.isElegibleToFund) {
+        await this.defiInvesmentService.fundWallet().toPromise();
+        this.sendEvent();
+      }
+    }
+  }
+
+  sendEvent() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_faucet_request',
+    });
+  }
+
+  setIsElegibleToFund() {
+    this.isElegibleToFund = this.nativeTokenBalance === 0.0;
+  }
+
   async checkNativeTokenBalance() {
-    if (this.nativeTokenBalance <= this.fee.value) {
+    if (this.nativeTokenBalance <= this.fee.value && !this.isElegibleToFund) {
       await this.openModalNativeTokenBalance();
       this.isNegativeBalance = true;
     } else {
@@ -364,8 +397,10 @@ export class InvestmentConfirmationPage {
 
   async invest() {
     this.disable = true;
+    await this.fundWallet();
     await this.getTokenBalanceAvailable();
     const wallet = await this.wallet();
+    await this.saveTwoPiAgreement();
     if (wallet) {
       if (this.checkTokenBalance()) {
         await this.openInProgressModal();
@@ -377,7 +412,7 @@ export class InvestmentConfirmationPage {
             .then(() => this.createNotification('success'))
             .then(() => this.setActionListener())
             .then(() => this.notification.send());
-          await this.saveTwoPiAgreement();
+          
         } catch {
           this.createNotification('error');
           this.notification.send();

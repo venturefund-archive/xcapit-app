@@ -265,6 +265,7 @@ export class OperationsNewPage implements AfterViewInit {
     if (this.form.valid) {
       await this.setOperationStorage();
       const email = await this.kriptonStorageService.get('email');
+      this.kriptonStorageService.set('privacy_and_policy_accepted', true);
       const operationData = Object.assign({ email }, this.storageOperationService.getData());
       const operationResponse = await this.fiatRampsService.createOperation(operationData).toPromise();
 

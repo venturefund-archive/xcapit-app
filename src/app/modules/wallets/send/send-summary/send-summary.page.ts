@@ -26,6 +26,8 @@ import { format } from 'date-fns';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
 import { LoginToken } from 'src/app/modules/users/shared-users/models/login-token/login-token';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress';
+import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -68,6 +70,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
   styleUrls: ['./send-summary.page.scss'],
 })
 export class SendSummaryPage implements OnInit {
+  private txInProgress: TxInProgress;
   summaryData: SummaryData;
   action: string;
   isSending: boolean;
@@ -92,7 +95,8 @@ export class SendSummaryPage implements OnInit {
     private blockchains: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
     private localNotificationInjectable: LocalNotificationInjectable,
-    private storage: IonicStorageService
+    private storage: IonicStorageService,
+    private txInProgressService: TxInProgressService
   ) {}
 
   ngOnInit() {}
@@ -178,6 +182,8 @@ export class SendSummaryPage implements OnInit {
         this.summaryData.address,
         this.summaryData.currency
       );
+      this.txInProgress = new TxInProgress('send', this.blockchain.name(), response.hash);
+      this.txInProgressService.startTx(this.txInProgress);
       this.notifyWhenTransactionMined(response);
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
@@ -189,6 +195,8 @@ export class SendSummaryPage implements OnInit {
           new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
         ),
       ]);
+      this.txInProgress = new TxInProgress('send');
+      this.txInProgressService.startTx(this.txInProgress);
       this.notifyWhenTransactionMined();
     }
   }
@@ -292,7 +300,8 @@ export class SendSummaryPage implements OnInit {
           description: window.location.href,
           eventLabel: 'ux_send_notification_success',
         })
-      );
+      )
+      .finally(() => this.txInProgressService.finishTx(this.txInProgress));
   }
 
   private _sendSuccessNotification() {
@@ -318,9 +327,9 @@ export class SendSummaryPage implements OnInit {
       await this.handleInvalidPassword();
     } else if (this.isNotEnoughBalanceError(error)) {
       await this.handleNotEnoughBalance();
-    } else if (!(new PasswordErrorMsgs().isEmptyError(error))) {
+    } else if (!new PasswordErrorMsgs().isEmptyError(error)) {
       throw error;
-    } 
+    }
   }
 
   private isNotEnoughBalanceError(error) {

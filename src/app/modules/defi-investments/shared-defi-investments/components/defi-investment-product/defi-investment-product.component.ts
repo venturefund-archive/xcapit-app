@@ -12,15 +12,12 @@ import { DefiInvestment } from '../../interfaces/defi-investment.interface';
       <div class="dip__content" [ngClass]="{ 'dip__content-rounded': this.investment.balance === null }">
         <div class="dip__content__title_and_image">
           <div class="dip__content__title_and_image__image_container">
-            <app-token-with-blockchain-logo
-              [blockchainLogo]="this.nativeToken?.logoRoute"
-              [tokenLogo]="this.token?.logoRoute"
-            ></app-token-with-blockchain-logo>
+            <img [src]="this.token?.logoRoute" />
           </div>
           <div class="dip__title_container">
             <ion-text class="ux-font-text-lg">{{ this.token.value }}</ion-text>
             <div class="dip__content__title">
-              <ion-text class="ux-font-text-xs title">{{ this.token.name | splitString: ' - '[1] }}</ion-text>
+              <ion-text class="ux-font-text-xs title">{{ this.formattedTokenName | titlecase }}</ion-text>
             </div>
           </div>
         </div>
@@ -29,7 +26,7 @@ import { DefiInvestment } from '../../interfaces/defi-investment.interface';
             'defi_investments.shared.defi_investment_product.performance' | translate
           }}</ion-text>
           <ion-badge class="ux-font-num-subtitulo ux-badge-coming dip__footer__badge" slot="end"
-            >{{ this.apy | number: '1.2-2' }}%
+            >{{ this.apy | number : '1.2-2' }}%
             {{ 'defi_investments.shared.defi_investment_product.annual' | translate }}</ion-badge
           >
         </div>
@@ -72,23 +69,26 @@ import { DefiInvestment } from '../../interfaces/defi-investment.interface';
 export class DefiInvestmentProductComponent implements OnInit {
   @Input() investment: DefiInvestment;
   apy: number;
-  tvl: number;
   token: Coin;
-  nativeToken: Coin;
   secondFooterLabel: string;
   trackClickName: string;
+  formattedTokenName: string;
 
   constructor(private navController: NavController, private walletService: WalletService) {}
 
   ngOnInit() {
     this.apy = this.investment.product.apy();
-    this.tvl = this.investment.product.tvl();
     this.token = this.investment.product.token();
-    this.nativeToken = this.investment.product.nativeToken();
     this.secondFooterLabel = this.investment.continuousEarning
       ? 'defi_investments.shared.defi_investment_product.continuous_earnings'
       : 'defi_investments.shared.defi_investment_product.weekly_earnings';
     this.trackClickName = `ux_invest_${this.token.value.toLowerCase()}`;
+    this.formatTokenName();
+  }
+
+  formatTokenName() {
+    this.formattedTokenName = this.token.name.substring(this.token.name.indexOf('- ') + 1, this.token.name.length);
+    this.formattedTokenName = this.formattedTokenName === ' Polygon' ? 'Matic' : this.formattedTokenName;
   }
 
   async invest() {

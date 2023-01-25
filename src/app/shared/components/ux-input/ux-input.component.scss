@@ -51,6 +51,10 @@
 
       color: var(--ion-color-neutral90);
 
+      &__disabled {
+        border: 1px solid var(--ion-color-neutral50);
+      }
+
       &.item-has-focus {
         border: 1.5px solid var(--ion-color-primary);
       }

@@ -495,7 +495,8 @@
       "filter_tab": {
         "conservative": "Conservative profile",
         "medium": "Moderate profile",
-        "risky": "Aggressive profile"
+        "risky": "Aggressive profile",
+        "faucet": "No costs! \ud83d\ude0e"
       },
       "coming_soon_card": {
         "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
@@ -717,6 +718,7 @@
       "toggle_description": "Activate to access your wallet and approve your transactions.",
       "password_title": "Your safety matters to us",
       "password_description": "To activate your biometric data, enter your Xcapit wallet's password.",
+      "alternative_password_description": "To change the inactivity logout time, enter your Xcapit wallet password.",
       "password_button": "Confirm",
       "password_error": "The password entered is not valid.",
       "options": {
@@ -742,7 +744,11 @@
       "header": "Configuration",
       "inactivity": {
         "title": "Inactivity logout",
-        "message": "Select the amount of time you want to allow for inactivity before you are logged out."
+        "message": "Select the amount of time you want to allow for inactivity before you are logged out.",
+        "option_1": "Never log out",
+        "option_2": "Log out every time the app is in the background",
+        "option_3": "2 minutes",
+        "option_4": "5 minutes"
       },
       "password_change": {
         "title": "Password",
@@ -1490,6 +1496,10 @@
         }
       }
     },
+    "token_selection": {
+      "header": "Donations",
+      "title": "Select the currency you wish to donate"
+    },
     "send_donations": {
       "alias": "Address or alias",
       "destiny_wallet": "Destination wallet",
@@ -1676,7 +1686,7 @@
       "complete_steps": "1 of 2 steps complete",
       "next_step": "next step",
       "progress": "Your progress",
-      "completed": "completado",
+      "completed": "Complete",
       "steps": {
         "step_one": {
           "title": "buy tokens",
@@ -1814,7 +1824,9 @@
       },
       "transaction_in_progress": {
         "badge": "In progress",
-        "swap_title": "Swap"
+        "swap_title": "Swap",
+        "send_title": "Send",
+        "title": "Operations"
       }
     },
     "select_coin": {
@@ -3208,12 +3220,14 @@
       "name_placeholder": "Ex: Laura's Wallet",
       "text_invalid": "The wallet address is incorrect",
       "text_valid": "The wallet address is correct",
+      "repeated_address": "The address is already added",
       "loading": "Saving",
       "success_toast": "Excellent! Wallet successfully saved"
     },
     "shared_contacts": {
       "network_selector": {
-        "label": "Network"
+        "label": "Network",
+        "placeholder": "Select an option"
       },
       "network_selector_modal": {
         "title": "Select network"

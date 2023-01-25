@@ -23,10 +23,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class TycItemCardComponent {
   @Input() item: any;
-  @Output() openBrowser = new EventEmitter<void>();
+  @Output() openBrowser = new EventEmitter<any>();
   constructor() {}
 
   navigateTo() {
-    this.openBrowser.emit(this.item);
+    this.openBrowser.emit(this.item.route);
   }
 }

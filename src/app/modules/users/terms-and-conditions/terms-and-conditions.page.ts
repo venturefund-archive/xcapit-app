@@ -18,13 +18,18 @@ import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
         <app-tyc-item-card *ngFor="let item of this.xcapitItems" [item]="item" (openBrowser)="this.openBrowser($event)">
         </app-tyc-item-card>
       </div>
-      <div class="tac__providers">
+      <div class="tac__providers" *ngIf="this.providerItems.length > 0">
         <ion-text class="ux-font-header-titulo">{{
           'profiles.user_profile_menu.terms_and_conditions.providers' | translate
         }}</ion-text>
       </div>
       <div class="tac__card" *ngIf="this.providerItems">
-        <app-tyc-item-card *ngFor="let item of this.providerItems" [item]="item"> </app-tyc-item-card>
+        <app-tyc-item-card
+          *ngFor="let item of this.providerItems"
+          [item]="item"
+          (openBrowser)="this.openBrowser($event)"
+        >
+        </app-tyc-item-card>
       </div>
     </ion-content> `,
   styleUrls: ['./terms-and-conditions.page.scss'],
@@ -32,7 +37,7 @@ import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
 export class TermsAndConditionsPage {
   items = structuredClone(TYC_ITEMS);
   xcapitItems = [];
-  providerItems = [];
+  providerItems: any[] = [];
 
   constructor(private browserService: BrowserService, private ionicStorage: IonicStorageService) {}
 
@@ -40,10 +45,8 @@ export class TermsAndConditionsPage {
     this.filterItems();
   }
 
-  async openBrowser(event) {
-    await this.browserService.open({
-      url: event.route,
-    });
+  async openBrowser(url: string) {
+    await this.browserService.open({ url });
   }
 
   async filterItems() {
@@ -55,8 +58,6 @@ export class TermsAndConditionsPage {
           if (value) {
             this.providerItems.push(item);
           }
-        } else {
-          this.providerItems.push(item);
         }
       }
     }

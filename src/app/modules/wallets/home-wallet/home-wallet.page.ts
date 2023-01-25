@@ -34,8 +34,6 @@ import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
 import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
-import { SwapInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/swap-in-progress.service';
-import { Subscription } from 'rxjs';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 
 @Component({
@@ -122,8 +120,8 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
         >
         </app-backup-information-card>
       </div>
-      <div class="wt__transaction-in-progress" *ngIf="this.swapInProgress">
-        <app-transaction-in-progress-card transactionType="swap"></app-transaction-in-progress-card>
+      <div class="wt__transaction-in-progress">
+        <app-transaction-in-progress></app-transaction-in-progress>
       </div>
       <div class="wt">
         <div class="wt__segments">
@@ -223,8 +221,6 @@ export class HomeWalletPage implements OnInit {
   newTokens: NewToken[];
   connected: boolean;
   allLoaded = false;
-  swapInProgress = false;
-  private subscription$: Subscription;
 
   constructor(
     private navController: NavController,
@@ -248,7 +244,6 @@ export class HomeWalletPage implements OnInit {
     private walletConnectService: WalletConnectService,
     private updateNewsService: UpdateNewsService,
     private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable,
-    private swapInProgressService: SwapInProgressService,
     private base64ImageFactory: Base64ImageFactory
   ) {}
 
@@ -262,7 +257,6 @@ export class HomeWalletPage implements OnInit {
     this.isProtectedWallet();
     this.getNewTokensAvailable();
     this.checkConnectionOfWalletConnect();
-    this.suscribeToSwapInProgress();
   }
 
   async getSliderImages() {
@@ -271,20 +265,6 @@ export class HomeWalletPage implements OnInit {
       slide.image = await (await this.base64ImageFactory.new(slide.image)).value();
     }
     this.slides = slides;
-  }
-
-  ionViewWillLeave() {
-    this.unsubscribe();
-  }
-
-  async suscribeToSwapInProgress() {
-    this.subscription$ = this.swapInProgressService.inProgress().subscribe((inProgress) => {
-      this.swapInProgress = inProgress;
-    });
-  }
-
-  unsubscribe() {
-    this.subscription$.unsubscribe();
   }
 
   private trackScreenView() {

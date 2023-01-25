@@ -26,7 +26,7 @@ import { ToastService } from '../../services/toast/toast.service';
           <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
         </ion-button>
       </div>
-      <ion-item class="ux_input_container__item ux-font-text-xs">
+      <ion-item class="ux_input_container__item ux-font-text-xs" [ngClass]="this.disabled ? 'ux_input_container__item__disabled' : 'ux_input_container__item'">
         <img class="ux_input_container__item__image" [src]="this.leftIcon" />
         <ion-input
           [disabled]="this.disabled"

@@ -29,8 +29,9 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       <div class="ch__content" *ngIf="this.contacts.length > 0">
         <div
           class="ch__content__item"
-          (click)="selectContact(contact.address)"
+          (click)="this.selectContact(contact.address)"
           lines="none"
+          appTrackClick
           *ngFor="let contact of this.contacts"
         >
           <div class="ch__content__item__wrapper">
@@ -103,6 +104,7 @@ export class ContactsHomePage implements OnInit {
     this.token = this.route.snapshot.paramMap.get('token');
     this.amount = this.route.snapshot.paramMap.get('amount');
   }
+
   private async _getContacts() {
     const contacts = await this.ionicService.get('contact_list');
     this.contacts = contacts ? contacts : [];
@@ -117,7 +119,8 @@ export class ContactsHomePage implements OnInit {
 
   selectContact(address: string) {
     if (this.isSelecting) {
-      this.trackContactSelected()
+      this.trackContactSelected();
+      this.setEvent();
       this.navController.navigateBack([
         '/wallets/send/detail/blockchain',
         this.blockchain,
@@ -131,11 +134,17 @@ export class ContactsHomePage implements OnInit {
     }
   }
 
-  trackContactSelected(){
+  setEvent() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_address_select_wallet',
+    });
+  }
+
+  trackContactSelected() {
     this.trackService.trackEvent({
       eventAction: 'click',
       description: window.location.href,
-      eventLabel: 'ux_address_wallet'
+      eventLabel: 'ux_address_wallet',
     });
   }
 }

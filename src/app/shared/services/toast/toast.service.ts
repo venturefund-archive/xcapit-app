@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ToastButton, ToastController } from '@ionic/angular';
 import { ToastOptions } from '@ionic/core';
 
-export type ToastType = 'success' | 'error' | 'warning' | 'info';
+export type ToastType = 'success' | 'successVerticalOffset' | 'error' | 'warning' | 'info';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,7 @@ export class ToastService {
 
   private readonly iconNames = {
     success: 'ux-checked-circle-outline',
+    successVerticalOffset: 'ux-checked-circle-outline',
     error: 'ux-error-circle-outline',
     warning: 'ux-warning-circle-outline',
     info: 'ux-info-circle-outline',
@@ -58,6 +59,10 @@ export class ToastService {
 
   showSuccessToast(options: ToastOptions): Promise<any> {
     return this.showToast({ ...this.optionsFor('success'), ...options });
+  }
+
+  showSuccessToastVerticalOffset(options: ToastOptions): Promise<any> {
+    return this.showToast({ ...this.optionsFor('successVerticalOffset'), ...options });
   }
 
   showErrorToast(options: ToastOptions): Promise<any> {

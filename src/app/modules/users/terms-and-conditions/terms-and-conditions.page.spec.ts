@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-
 import { TermsAndConditionsPage } from './terms-and-conditions.page';
 
 const itemsMenu = [
@@ -64,23 +63,23 @@ describe('TermsAndConditionsPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('app-tyc-item-card')).triggerEventHandler('openBrowser', itemsMenu[0]);
+    fixture.debugElement.query(By.css('app-tyc-item-card')).triggerEventHandler('openBrowser', itemsMenu[0].route);
 
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: itemsMenu[0].route });
   });
 
-  it('should obtain the providers that your T&C are signed', fakeAsync(() => {
+  it('should obtain the providers that your T&C are signed', async () => {
     component.ionViewWillEnter();
-    tick();
     fixture.detectChanges();
+    await fixture.whenRenderingDone();
     expect(component.providerItems.length).toEqual(1);
-  }));
+  });
 
-  it('should obtain the providers that your T&C are not signed', fakeAsync(() => {
+  it('should obtain the providers that your T&C are not signed', async () => {
     ionicStorageSpy.get.and.returnValue(Promise.resolve(false));
     component.ionViewWillEnter();
-    tick();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     expect(component.providerItems.length).toEqual(0);
-  }));
+  });
 });

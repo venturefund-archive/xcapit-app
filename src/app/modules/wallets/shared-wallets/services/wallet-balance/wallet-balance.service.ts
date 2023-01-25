@@ -13,10 +13,7 @@ export class WalletBalanceService {
   allPrices: any;
   userCoins: Coin[];
 
-  constructor(
-    private walletService: WalletService,
-    private apiWalletService: ApiWalletService,
-  ) {}
+  constructor(private walletService: WalletService, private apiWalletService: ApiWalletService) {}
 
   async getUsdTotalBalance() {
     const sumUSDAmounts = function (total, currentBalance) {
@@ -33,6 +30,8 @@ export class WalletBalanceService {
   }
 
   async balanceOf(aCoin: Coin): Promise<number> {
-    return this.walletService.balanceOf(this.walletService.addresses[aCoin.network], aCoin.value, aCoin.network).then(parseFloat);
+    return this.walletService
+      .balanceOf(this.walletService.addresses[aCoin.network], aCoin.value, aCoin.network)
+      .then(parseFloat);
   }
 }

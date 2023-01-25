@@ -9,6 +9,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
+import { RepeatedAddressValidator } from '../shared-contacts/validators/repeated-address/repeated-address-validator';
 
 @Component({
   selector: 'app-register',
@@ -91,7 +92,7 @@ import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
 })
 export class RegisterPage implements OnInit {
   public isNativePlatform: boolean;
-  _aKey = 'contact_list';
+  private _aKey = 'contact_list';
   validatorText: string;
   networksData = structuredClone(NETWORKS_DATA);
   loading: boolean;
@@ -101,7 +102,7 @@ export class RegisterPage implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
     networks: ['', [Validators.required]],
     address: [''],
-    name: ['', [Validators.required]],
+    name: ['', [Validators.required, Validators.maxLength(100)]],
   });
 
   constructor(
@@ -113,6 +114,7 @@ export class RegisterPage implements OnInit {
     private ionicStorageService: IonicStorageService,
     private navController: NavController,
     private route: ActivatedRoute,
+    private repeatAddressValidator: RepeatedAddressValidator
   ) {}
 
   ngOnInit() {}
@@ -129,21 +131,30 @@ export class RegisterPage implements OnInit {
     this.isSaveMode();
   }
 
-  isSaveMode(){
-    if(this.route.snapshot.paramMap.get('mode') === 'save'){
-      const network = this.networksData.filter((network) => network.value === this.route.snapshot.paramMap.get('blockchain'));
-      const address = this.route.snapshot.paramMap.get('address') 
-      this.form.patchValue({networks : [network[0].value]})
+  isSaveMode() {
+    if (this.route.snapshot.paramMap.get('mode') === 'save') {
+      const network = this.networksData.filter(
+        (network) => network.value === this.route.snapshot.paramMap.get('blockchain')
+      );
+      const address = this.route.snapshot.paramMap.get('address');
+      this.form.patchValue({ networks: [network[0].value] });
       this.setAddressValidator([network[0].value]);
-      this.form.patchValue({address: address});
+      this.form.patchValue({ address: address });
     }
   }
 
   subscribeToStatusChanges() {
     this.form.get('address').statusChanges.subscribe((valid) => {
-      this.status = valid === 'VALID';
-      this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.text_invalid';
-      this.hideHelpText = true;
+      if (valid !== 'PENDING') {
+        this.status = valid === 'VALID';
+        const isRepeatAddressValidator = this.form.get('address').hasError('isRepeatedAddress');
+        if (isRepeatAddressValidator) {
+          this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.repeated_address';
+        } else {
+          this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.text_invalid';
+        }
+        this.hideHelpText = true;
+      }
     });
   }
 
@@ -171,6 +182,7 @@ export class RegisterPage implements OnInit {
     } else {
       this.form.get('address').addValidators(CustomValidators.isAddress());
     }
+    this.form.get('address').addAsyncValidators(this.repeatAddressValidator.validate);
     if (this.form.get('address').value) {
       this.form.get('address').updateValueAndValidity();
     }
@@ -196,7 +208,7 @@ export class RegisterPage implements OnInit {
   }
 
   showSuccessToast() {
-    this.toastService.showSuccessToast({
+    this.toastService.showSuccessToastVerticalOffset({
       message: this.translate.instant('contacts.register.success_toast'),
     });
   }
@@ -204,7 +216,7 @@ export class RegisterPage implements OnInit {
   async nullStorage() {
     if ((await this.getAddressesList()) === null) {
       this.ionicStorageService.set(this._aKey, []);
-    } 
+    }
   }
 
   async getAddressesList() {

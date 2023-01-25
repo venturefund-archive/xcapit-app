@@ -38,7 +38,7 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
       </div>
       <div class="aic__content">
         <div class="aic__content__title">
-          <ion-text class="ux-font-text-lg"> {{ this.label }}</ion-text>
+          <ion-text class="ux-font-titulo-xs"> {{ this.label }}</ion-text>
         </div>
         <div *ngIf="this.showRange" class="aic__content__percentage">
           <ion-input
