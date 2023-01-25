@@ -11,6 +11,7 @@ import { InfoSendModalComponent } from '../shared-wallets/components/info-send-m
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 @Component({
   selector: 'app-transaction-details',
   template: ` <ion-header>
@@ -99,25 +100,40 @@ import { NavController } from '@ionic/angular';
           </div>
           <div class="divider list-divider"></div>
           <div class="td__card__item__title">
-            <ion-text class="ux-font-title-xs">{{ 'wallets.transaction_details.title_wallet' | translate }}</ion-text>
+            <ion-text class="ux-font-title-xs">{{
+              (this.isReception ? 'wallets.transaction_details.from_wallet' : 'wallets.transaction_details.to_wallet')
+                | translate
+            }}</ion-text>
           </div>
           <div class="td__card__item__wallet">
-            <ion-text class="ux-font-text-base">{{ this.tplTransfer.to_address }}</ion-text>
+            <ion-text *ngIf="!this.contact" class="ux-font-text-base">{{
+              this.isReception ? this.tplTransfer.from_address : this.tplTransfer.to_address
+            }}</ion-text>
+            <!-- <app-contact-item
+            *ngIf="this.contact"
+            [name]="this.contact.contact"
+            [address]="this.contact.address"
+            [networks]="[this.tplTransfer.token.network]"
+            [showWalletImg]="false"
+            [boldName]="false"
+          ></app-contact-item> -->
           </div>
-          <div class="divider list-divider"></div>
-          <div class="td__card__item__title">
-            <ion-text class="ux-font-title-xs">{{ 'wallets.transaction_details.title_fee' | translate }}</ion-text>
-          </div>
-          <div class="container-item">
-            <div class="td__card__item__fee">
-              <ion-text class="ux-font-text-base">{{ this.tplTransfer.fee }}</ion-text>
+          <ng-container *ngIf="">
+            <div class="divider list-divider"></div>
+            <div class="td__card__item__title">
+              <ion-text class="ux-font-title-xs">{{ 'wallets.transaction_details.title_fee' | translate }}</ion-text>
             </div>
-            <div class="td__card__item__usd">
-              <ion-text class="ux-font-text-base"
-                >{{ this.tplTransfer.gas_quote | formattedAmount: 10:2 }} USD</ion-text
-              >
+            <div class="container-item">
+              <div class="td__card__item__fee">
+                <ion-text class="ux-font-text-base">{{ this.tplTransfer.fee }}</ion-text>
+              </div>
+              <div class="td__card__item__usd">
+                <ion-text class="ux-font-text-base"
+                  >{{ this.tplTransfer.gas_quote | formattedAmount: 10:2 }} USD</ion-text
+                >
+              </div>
             </div>
-          </div>
+          </ng-container>
           <div class="divider list-divider"></div>
           <div class="td__card__item__title">
             <ion-text class="ux-font-title-xs">{{ 'wallets.transaction_details.title_date' | translate }}</ion-text>
@@ -151,44 +167,53 @@ export class TransactionDetailsPage implements OnInit {
   transactionData: Transfer;
   formattedDate: string;
   formattedTime: string;
-  date: Date;
   tplTransfer: any;
   url: string;
+  contact: any;
+  isReception: boolean;
 
   constructor(
     private transactionDetailsService: TransactionDetailsService,
     private browserService: BrowserService,
     private modalController: ModalController,
     private translate: TranslateService,
-    private navController: NavController
+    private navController: NavController,
+    private ionicService: IonicStorageService
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.getTransactionData();
     this.getTransactionUrl();
-    this.date = new Date(this.tplTransfer.block_signed_at);
-    this.formattedTime = this.formatTime(this.date.toLocaleTimeString());
-    this.formattedDate = this.formatDate(this.tplTransfer.block_signed_at);
+    this.setTransactionDateAndTime();
+    this.isReception = this.tplTransfer.type === 'IN';
+    await this._getContacts();
+    console.log(this.tplTransfer)
   }
 
+  private async _getContacts() {
+    const contacts = await this.ionicService.get('contact_list');
+    const addresses = contacts.map((c) => c.address);
+    const index = addresses.findIndex(
+      (a) => a === (this.isReception ? this.tplTransfer.from_address : this.tplTransfer.to_address)
+    );
+    if (index !== -1) {
+      this.contact = contacts[index];
+    }
+  }
+
+  setTransactionDateAndTime() {
+    const dateAndTime = format(parseISO(this.tplTransfer.block_signed_at), 'dd-MM-yyyy HH:mm').split(' ');
+    this.formattedDate = dateAndTime[0];
+    this.formattedTime = dateAndTime[1];
+  }
   getTransactionUrl() {
     this.url = ScanUrlOf.create(this.tplTransfer.tx_hash, this.tplTransfer.token.network).value();
   }
 
   private getTransactionData() {
     this.tplTransfer = new JSONTransfer(this.transactionDetailsService.transactionData).value();
-  }
-
-  private formatDate(value) {
-    return format(parseISO(value), 'dd-MM-yyyy');
-  }
-
-  private formatTime(value: string) {
-    const time = value.split(':');
-    time.pop();
-    return time.join(':');
   }
 
   openTransactionUrl() {
