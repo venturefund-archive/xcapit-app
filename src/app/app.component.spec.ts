@@ -3,7 +3,6 @@ import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick, discardPeriod
 import { NavController, Platform } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
-import { LoadingService } from './shared/services/loading/loading.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
@@ -32,7 +31,6 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: jasmine.SpyObj<LanguageService>;
-  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let updateServiceSpy: jasmine.SpyObj<UpdateService>;
   let submitButtonServiceSpy: jasmine.SpyObj<SubmitButtonService>;
@@ -59,7 +57,6 @@ describe('AppComponent', () => {
     submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
     trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
     updateServiceSpy = jasmine.createSpyObj('UpdateService', ['checkForUpdate']);
-    loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
     platformSpy = jasmine.createSpyObj('Platform', { ready: Promise.resolve() });
     languageServiceSpy = jasmine.createSpyObj('LanguageService', ['setInitialAppLanguage']);
     statusBarSpy = jasmine.createSpyObj('StatusBar', { setBackgroundColor: Promise.resolve() });
@@ -121,7 +118,6 @@ describe('AppComponent', () => {
         { provide: Platform, useValue: platformSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
         { provide: LanguageService, useValue: languageServiceSpy },
-        { provide: LoadingService, useValue: loadingServiceSpy },
         { provide: UpdateService, useValue: updateServiceSpy },
         { provide: SubmitButtonService, useValue: submitButtonServiceSpy },
         { provide: TranslateService, useValue: translateSpy },
@@ -152,7 +148,6 @@ describe('AppComponent', () => {
     component.ngOnInit();
     await fixture.whenStable();
     expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.enabled).toHaveBeenCalledTimes(1);
     expect(updateServiceSpy.checkForUpdate).toHaveBeenCalledTimes(1);
     expect(trackServiceSpy.startTracker).toHaveBeenCalledTimes(1);
     expect(platformSpy.ready).toHaveBeenCalledTimes(1);
