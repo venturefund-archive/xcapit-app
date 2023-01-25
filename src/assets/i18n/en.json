@@ -1495,9 +1495,9 @@
         }
       }
     },
-    "token_selection":{
-      "header":"Donations",
-      "title":"Select the currency you wish to donate"
+    "token_selection": {
+      "header": "Donations",
+      "title": "Select the currency you wish to donate"
     },
     "send_donations": {
       "alias": "Address or alias",
@@ -2985,6 +2985,16 @@
         "title": "Your Kripton Market account has been verified.",
         "message": "You can now make your purchases with this provider."
       }
+    },
+    "bitrefill": {
+      "header": "Buy with crypto",
+      "exit_button": "Exit",
+      "modal": {
+        "title": "Attention",
+        "description": "Do you wish to exit? Your progress will be lost and you will have to start over.",
+        "cancel_button": "Cancel",
+        "confirm_button": "Confirm"
+      }
     }
   },
   "home": {
@@ -3219,14 +3229,14 @@
       "name_placeholder": "Ex: Laura's Wallet",
       "text_invalid": "The wallet address is incorrect",
       "text_valid": "The wallet address is correct",
-      "repeated_address":"The address is already added",
+      "repeated_address": "The address is already added",
       "loading": "Saving",
       "success_toast": "Excellent! Wallet successfully saved"
     },
     "shared_contacts": {
       "network_selector": {
         "label": "Network",
-        "placeholder":"Select an option"
+        "placeholder": "Select an option"
       },
       "network_selector_modal": {
         "title": "Select network"

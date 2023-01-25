@@ -620,7 +620,7 @@
       "faq_help": "Preguntas frecuentes",
       "support_help": "Hablar con soporte",
       "terms_and_conditions": {
-        "providers":"Proveedores",
+        "providers": "Proveedores",
         "tyc": "Términos y condiciones",
         "privacy_policy": "Política de privacidad",
         "kripton": {
@@ -1488,9 +1488,9 @@
         }
       }
     },
-    "token_selection":{
-      "header":"Donaciones",
-      "title":"Selecciona la moneda que deseas donar"
+    "token_selection": {
+      "header": "Donaciones",
+      "title": "Selecciona la moneda que deseas donar"
     },
     "send_donations": {
       "alias": "Dirección o alias",
@@ -2976,6 +2976,16 @@
         "title": "Tu cuenta en Kripton Market fue verificada.",
         "message": "Ya puedes realizar tus compras con este proveedor."
       }
+    },
+    "bitrefill": {
+      "header": "Compra con crypto",
+      "exit_button": "Salir",
+      "modal": {
+        "title": "Atención",
+        "description": "¿Deseas salir? Se perderán tus avances y deberás comenzar nuevamente.",
+        "cancel_button": "Cancelar",
+        "confirm_button": "Confirmar"
+      }
     }
   },
   "home": {
@@ -3383,14 +3393,14 @@
       "submit_text": "Agendar wallet",
       "text_invalid": "La dirección de wallet es incorrecta",
       "text_valid": "La dirección de wallet es correcta",
-      "repeated_address":"La dirección ya se encuentra agendada",
+      "repeated_address": "La dirección ya se encuentra agendada",
       "loading": "Agendando",
       "success_toast": "¡Excelente! Wallet agendada con éxito"
     },
     "shared_contacts": {
       "network_selector": {
         "label": "Red",
-        "placeholder":"Selecciona una opción"
+        "placeholder": "Selecciona una opción"
       },
       "network_selector_modal": {
         "title": "Seleccionar Red"
