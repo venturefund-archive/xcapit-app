@@ -12,7 +12,7 @@ import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { VoidSigner } from 'ethers';
-import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
+import { Erc20ProviderInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
 import { ERC20ContractController } from '../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { Subject, Observable } from 'rxjs';
@@ -71,7 +71,7 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [subtitle]="'wallets.send.send_detail.address_input.subtitle' | translate"
-            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
+            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate : { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
             (addFromContacts)="navigateToContacts()"
           ></app-address-input-card>
@@ -161,7 +161,7 @@ export class SendDetailPage {
     private walletsFactory: WalletsFactory,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
-    private erc20ProviderController: ERC20ProviderController,
+    private erc20ProviderInjectable: Erc20ProviderInjectable,
     private erc20ContractController: ERC20ContractController,
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalController: ModalController,
@@ -334,7 +334,7 @@ export class SendDetailPage {
   }
 
   erc20Provider(): ERC20Provider {
-    return this.erc20ProviderController.new(this.token);
+    return this.erc20ProviderInjectable.create(this.token);
   }
 
   private async setFee(): Promise<void> {

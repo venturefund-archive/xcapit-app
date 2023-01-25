@@ -15,7 +15,7 @@ import { FormattedFee } from '../../defi-investments/shared-defi-investments/mod
 import { NativeFeeOf } from '../../defi-investments/shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
-import { ERC20ProviderController } from '../../defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
+import { Erc20ProviderInjectable } from '../../defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
 import { takeUntil } from 'rxjs/operators';
 import { SendDonationDataService } from '../shared-donations/services/send-donation-data.service';
 import { ModalController, NavController } from '@ionic/angular';
@@ -139,7 +139,7 @@ export class SendDonationPage implements OnInit {
     private walletService: WalletService,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
-    private erc20ProviderController: ERC20ProviderController,
+    private erc20ProviderInjectable: Erc20ProviderInjectable,
     private erc20ContractController: ERC20ContractController,
     private modalController: ModalController,
     private translate: TranslateService,
@@ -202,7 +202,7 @@ export class SendDonationPage implements OnInit {
   }
 
   erc20Provider(): ERC20Provider {
-    return this.erc20ProviderController.new(this.token);
+    return this.erc20ProviderInjectable.create(this.token);
   }
 
   private async gasPrice(): Promise<BigNumber> {

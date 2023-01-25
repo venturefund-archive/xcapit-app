@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ERC20TokenInjectable } from './e-r-c20-token-injectable.service';
+import { ERC20TokenInjectable } from './erc20-token.injectable';
 import { DefaultERC20Token } from '../default-erc20-token.model';
 import { FakeContract } from '../../fake-contract/fake-contract.model';
 

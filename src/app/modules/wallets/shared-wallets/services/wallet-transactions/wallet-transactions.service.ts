@@ -16,9 +16,9 @@ import { NetworkConfig } from '../../models/network-config/network-config';
 import { NativeFeeOf } from 'src/app/modules/defi-investments/shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
-import { ERC20ProviderController } from '../../../../defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
+import { Erc20ProviderInjectable } from '../../../../defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
 import { ERC20ContractController } from '../../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
-import { ERC20TokenInjectable } from '../../../../defi-investments/shared-defi-investments/models/erc20-token/controller/e-r-c20-token-injectable.service';
+import { ERC20TokenInjectable } from '../../../../defi-investments/shared-defi-investments/models/erc20-token/injectable/erc20-token.injectable';
 import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.interface';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
@@ -40,7 +40,7 @@ export class WalletTransactionsService {
     private storageService: StorageService,
     private http: CustomHttpService,
     private apiWalletService: ApiWalletService,
-    private erc20ProviderController: ERC20ProviderController,
+    private erc20ProviderInjectable: Erc20ProviderInjectable,
     private erc20ContractController: ERC20ContractController,
     private erc20TokenController: ERC20TokenInjectable,
     private gasFeeOfFactory: GasFeeOfFactory,
@@ -242,7 +242,6 @@ export class WalletTransactionsService {
     return ordered.reverse();
   }
 
-
   async canAffordSendTx(to: string, amount: number, coin: Coin): Promise<boolean> {
     const from = await this.storageService.getWalletsAddresses(coin.network);
     const feePromise = this.sendEstimatedFee(from, to, amount, coin);
@@ -300,7 +299,7 @@ export class WalletTransactionsService {
   }
 
   erc20Provider(coin: Coin): ERC20Provider {
-    return this.erc20ProviderController.new(coin);
+    return this.erc20ProviderInjectable.create(coin);
   }
 
   erc20Token(contract: ERC20Contract): ERC20Token {

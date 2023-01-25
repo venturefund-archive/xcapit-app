@@ -10,13 +10,13 @@ import { FakeConnectedWallet } from '../../../../../../testing/fakes/wallet.fake
 import { FakeTokenSend } from 'src/testing/fakes/token-send.fake.spec';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import linkAbi from '../../constants/assets-abi-prod/link-abi-prod.json';
-import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
+import { Erc20ProviderInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
 import { ERC20ContractController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
 import { FakeContract } from 'src/app/modules/defi-investments/shared-defi-investments/models/fake-contract/fake-contract.model';
 import { BigNumber } from 'ethers';
 import { FakeERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/fake/fake-erc20-provider';
-import { ERC20TokenInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/controller/e-r-c20-token-injectable.service';
+import { ERC20TokenInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/injectable/erc20-token.injectable';
 import { FakeERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/fake/fake-erc20-token';
 import { NativeGasOfFactory } from 'src/app/shared/models/native-gas-of/factory/native-gas-of.factory';
 import { GasFeeOfFactory } from 'src/app/shared/models/gas-fee-of/factory/gas-fee-of.factory';
@@ -164,7 +164,7 @@ describe('WalletTransactionsService', () => {
   let fakeConnectedWallet: FakeConnectedWallet;
   let fakeTokenSend: typeof FakeTokenSend;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
-  let erc20ProviderControllerSpy: jasmine.SpyObj<ERC20ProviderController>;
+  let erc20ProviderInjectableSpy: jasmine.SpyObj<Erc20ProviderInjectable>;
   let erc20ContractControllerSpy: jasmine.SpyObj<ERC20ContractController>;
   let erc20TokenInjectableSpy: jasmine.SpyObj<ERC20TokenInjectable>;
   let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
@@ -177,7 +177,7 @@ describe('WalletTransactionsService', () => {
 
   beforeEach(() => {
     modifyGetBalanceReturn = (balance: string): void => {
-      erc20ProviderControllerSpy.new.and.returnValue(new FakeERC20Provider(null, new FakeProvider(null, balance)));
+      erc20ProviderInjectableSpy.create.and.returnValue(new FakeERC20Provider(null, new FakeProvider(null, balance)));
     };
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -203,8 +203,8 @@ describe('WalletTransactionsService', () => {
       post: of(),
     });
 
-    erc20ProviderControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
-      new: new FakeERC20Provider(null, new FakeProvider('100000000')),
+    erc20ProviderInjectableSpy = jasmine.createSpyObj('ERC20ProviderController', {
+      create: new FakeERC20Provider(null, new FakeProvider('100000000')),
     });
 
     erc20ContractControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
@@ -234,7 +234,11 @@ describe('WalletTransactionsService', () => {
     });
 
     gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
-      create: { price: () => ({ standard: () => Promise.resolve(new AmountOf('100000000000', new DefaultToken(rawMATICData))) }) }
+      create: {
+        price: () => ({
+          standard: () => Promise.resolve(new AmountOf('100000000000', new DefaultToken(rawMATICData))),
+        }),
+      },
     });
 
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
@@ -248,7 +252,7 @@ describe('WalletTransactionsService', () => {
         { provide: StorageService, useValue: storageServiceMock },
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-        { provide: ERC20ProviderController, useValue: erc20ProviderControllerSpy },
+        { provide: Erc20ProviderInjectable, useValue: erc20ProviderInjectableSpy },
         { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
         { provide: ERC20TokenInjectable, useValue: erc20TokenInjectableSpy },
         { provide: GasFeeOfFactory, useValue: gasFeeOfFactorySpy },
@@ -309,7 +313,7 @@ describe('WalletTransactionsService', () => {
   });
 
   it('should return true when balance is enough to afford fee', async () => {
-    erc20ProviderControllerSpy.new.and.returnValue(
+    erc20ProviderInjectableSpy.create.and.returnValue(
       new FakeERC20Provider(null, new FakeProvider('100000000', '100000000000'))
     );
     expect(await service.canAffordSendFee('testAddress', 1, ETH)).toBeTrue();
@@ -332,7 +336,7 @@ describe('WalletTransactionsService', () => {
   });
 
   it('should return true if balance is enough to afford transaction with non-native-token', async () => {
-    erc20ProviderControllerSpy.new.and.returnValue(new FakeERC20Provider(null, new FakeProvider('1000', '1000')));
+    erc20ProviderInjectableSpy.create.and.returnValue(new FakeERC20Provider(null, new FakeProvider('1000', '1000')));
 
     expect(await service.canAffordSendTx('testAddress', 0.000001, USDT)).toBeTrue();
   });
