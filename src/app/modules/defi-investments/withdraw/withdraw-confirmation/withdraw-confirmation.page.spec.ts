@@ -20,7 +20,7 @@ import { InvestmentProduct } from '../../shared-defi-investments/interfaces/inve
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
-import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
+import { WithdrawConfirmationInjectable } from './withdraw-confirmation.injectable';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { By } from '@angular/platform-browser';
@@ -60,7 +60,7 @@ describe('WithdrawConfirmationPage', () => {
   let fakeModalController: FakeModalController;
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
   let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
-  let controllerSpy: jasmine.SpyObj<WithdrawConfirmationController>;
+  let controllerSpy: jasmine.SpyObj<WithdrawConfirmationInjectable>;
   let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
@@ -76,7 +76,7 @@ describe('WithdrawConfirmationPage', () => {
       title: 'defi_investments.withdraw_notifications.success.title',
       body: 'defi_investments.withdraw_notifications.success.body',
     };
-    
+
     testLocalNotificationNotOk = {
       title: 'defi_investments.withdraw_notifications.error.title',
       body: 'defi_investments.withdraw_notifications.error.body',
@@ -191,7 +191,7 @@ describe('WithdrawConfirmationPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
         { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
-        { provide: WithdrawConfirmationController, useValue: controllerSpy },
+        { provide: WithdrawConfirmationInjectable, useValue: controllerSpy },
         { provide: AlertController, useValue: alertControllerSpy },
         { provide: LocalNotificationInjectable, useValue: localNotificationInjectableSpy },
         { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
