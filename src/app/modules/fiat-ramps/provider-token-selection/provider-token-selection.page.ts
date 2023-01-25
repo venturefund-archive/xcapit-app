@@ -6,6 +6,8 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
+import { LINKS } from 'src/app/config/static-links';
 
 @Component({
   selector: 'app-provider-token-selection',
@@ -29,6 +31,10 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
           state="buy"
           (clickedCoin)="this.selectCurrency($event)"
         ></app-token-selection-list>
+      </div>
+
+      <div class="sc__require-token">
+        <app-require-token buttonEventName="ux_exp_addtoken_buy"></app-require-token>
       </div>
     </ion-content> `,
   styleUrls: ['./provider-token-selection.page.scss'],

@@ -30,6 +30,10 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
           ></app-token-selection-list>
         </div>
       </div>
+
+      <div class="sc__require-token">
+        <app-require-token buttonEventName="ux_exp_addtoken_select"></app-require-token>
+      </div>
     </ion-content>
   `,
   styleUrls: ['./select-currency.page.scss'],
