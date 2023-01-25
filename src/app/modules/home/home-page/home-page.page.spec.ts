@@ -20,7 +20,7 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { TotalBalanceInjectable } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance-injectable.service';
 import { TokenPricesInjectable } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices-injectable.service';
 import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
-import { TokenDetailController } from '../../wallets/shared-wallets/models/token-detail/token-detail.controller';
+import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/token-detail-injectable.service';
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
 import { FakeBalance } from '../../wallets/shared-wallets/models/balance/fake-balance/fake-balance';
 import { FakePrices } from '../../wallets/shared-wallets/models/prices/fake-prices/fake-prices';
@@ -62,7 +62,7 @@ describe('HomePage', () => {
   let totalBalanceInjectableSpy: jasmine.SpyObj<TotalBalanceInjectable>;
   let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
   let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
-  let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
+  let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
@@ -88,7 +88,7 @@ describe('HomePage', () => {
         coin: coinSpy,
       }
     );
-    tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
+    tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailSpy', { create: tokenDetailSpy });
     windowSpy = spyOn(window, 'open');
 
     fakeNavController = new FakeNavController();
@@ -155,7 +155,7 @@ describe('HomePage', () => {
         { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
         { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
         { provide: TotalBalanceInjectable, useValue: totalBalanceInjectableSpy },
-        { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
+        { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: AppStorageService, useValue: appStorageServiceSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },

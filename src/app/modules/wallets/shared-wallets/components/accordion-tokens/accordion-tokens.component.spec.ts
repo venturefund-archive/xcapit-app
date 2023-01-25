@@ -5,13 +5,13 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { Coin } from '../../interfaces/coin.interface';
 import { TokenDetail } from '../../models/token-detail/token-detail';
-import { TokenDetailController } from '../../models/token-detail/token-detail.controller';
+import { TokenDetailInjectable } from '../../models/token-detail/token-detail-injectable.service';
 import { AccordionTokensComponent } from './accordion-tokens.component';
 
 describe('AccordionTokensComponent', () => {
   let component: AccordionTokensComponent;
   let fixture: ComponentFixture<AccordionTokensComponent>;
-  let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
+  let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let coinSpy: jasmine.SpyObj<Coin>;
 
@@ -26,7 +26,7 @@ describe('AccordionTokensComponent', () => {
         coin: coinSpy,
       }
     );
-    tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
+    tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailSpy', { create: tokenDetailSpy });
     coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
     const fakeTokenDetails: TokenDetail[] = [
       tokenDetailSpy,
@@ -40,7 +40,7 @@ describe('AccordionTokensComponent', () => {
       declarations: [AccordionTokensComponent],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: TokenDetailController, useValue: tokenDetailControllerSpy }],
+      providers: [{ provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AccordionTokensComponent);
@@ -84,7 +84,7 @@ describe('AccordionTokensComponent', () => {
   it('should get token details on ngOnChanges if exist changes', () => {
     component.ngOnInit();
     fixture.detectChanges();
-    const change: SimpleChanges = { tokenDetails: new SimpleChange(component.tokenDetails, [tokenDetailSpy], true)}  
+    const change: SimpleChanges = { tokenDetails: new SimpleChange(component.tokenDetails, [tokenDetailSpy], true) };
     component.ngOnChanges(change);
     fixture.detectChanges();
     expect(component.firstTokenDetails).toEqual([tokenDetailSpy]);

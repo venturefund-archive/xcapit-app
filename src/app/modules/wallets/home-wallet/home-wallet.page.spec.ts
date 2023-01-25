@@ -22,7 +22,7 @@ import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-pri
 import { FakePrices } from '../shared-wallets/models/prices/fake-prices/fake-prices';
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
 import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
-import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
+import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/token-detail-injectable.service';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -62,7 +62,7 @@ describe('HomeWalletPage', () => {
   let totalBalanceInjectableSpy: jasmine.SpyObj<TotalBalanceInjectable>;
   let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
   let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
-  let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
+  let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
@@ -103,7 +103,7 @@ describe('HomeWalletPage', () => {
         coin: coinSpy,
       }
     );
-    tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
+    tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailSpy', { create: tokenDetailSpy });
     coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -204,7 +204,7 @@ describe('HomeWalletPage', () => {
         { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
         { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
         { provide: TotalBalanceInjectable, useValue: totalBalanceInjectableSpy },
-        { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
+        { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: LocalStorageService, useValue: localStorageServiceSpy },

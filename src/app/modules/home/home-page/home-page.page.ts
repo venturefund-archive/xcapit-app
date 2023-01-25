@@ -14,7 +14,7 @@ import { TotalBalance } from '../../wallets/shared-wallets/models/balance/total-
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
 import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances-injectable.service';
 import { TokenPricesInjectable } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices-injectable.service';
-import { TokenDetailController } from '../../wallets/shared-wallets/models/token-detail/token-detail.controller';
+import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/token-detail-injectable.service';
 import { TotalBalanceInjectable } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance-injectable.service';
 import { HttpClient } from '@angular/common/http';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
@@ -142,7 +142,7 @@ export class HomePage implements OnInit {
     private http: HttpClient,
     private covalentBalances: CovalentBalancesInjectable,
     private tokenPrices: TokenPricesInjectable,
-    private tokenDetail: TokenDetailController,
+    private tokenDetail: TokenDetailInjectable,
     private totalBalance: TotalBalanceInjectable,
     private appStorage: AppStorageService,
     private walletBackupService: WalletBackupService,
@@ -219,7 +219,7 @@ export class HomePage implements OnInit {
         );
         const prices = this.tokenPrices.create(tokens, this.http);
         for (const token of await tokens.value()) {
-          const tokenDetail = this.tokenDetail.new(balances, prices, token, this.balanceCacheService);
+          const tokenDetail = this.tokenDetail.create(balances, prices, token, this.balanceCacheService);
           tokenDetails.push(tokenDetail);
           await tokenDetail.cached();
         }
