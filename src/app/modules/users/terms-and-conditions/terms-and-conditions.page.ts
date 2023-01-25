@@ -18,7 +18,7 @@ import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
         <app-tyc-item-card *ngFor="let item of this.xcapitItems" [item]="item" (openBrowser)="this.openBrowser($event)">
         </app-tyc-item-card>
       </div>
-      <div class="tac__providers">
+      <div class="tac__providers" *ngIf="this.providerItems.length > 0">
         <ion-text class="ux-font-header-titulo">{{
           'profiles.user_profile_menu.terms_and_conditions.providers' | translate
         }}</ion-text>
@@ -37,7 +37,7 @@ import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
 export class TermsAndConditionsPage {
   items = structuredClone(TYC_ITEMS);
   xcapitItems = [];
-  providerItems = [];
+  providerItems: any[] = [];
 
   constructor(private browserService: BrowserService, private ionicStorage: IonicStorageService) {}
 
@@ -58,8 +58,6 @@ export class TermsAndConditionsPage {
           if (value) {
             this.providerItems.push(item);
           }
-        } else {
-          this.providerItems.push(item);
         }
       }
     }

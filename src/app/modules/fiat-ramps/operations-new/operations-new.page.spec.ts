@@ -107,6 +107,7 @@ describe('OperationsNewPage', () => {
 
     kriptonStorageServiceSpy = jasmine.createSpyObj('KriptonStorageService', {
       get: Promise.resolve('test@test.com'),
+      set: Promise.resolve(),
     });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -222,6 +223,7 @@ describe('OperationsNewPage', () => {
     await component.handleSubmit();
     expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledWith(data);
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(2);
+    expect(kriptonStorageServiceSpy.set).toHaveBeenCalledWith('privacy_and_policy_accepted', true);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order/1');
   });
 
