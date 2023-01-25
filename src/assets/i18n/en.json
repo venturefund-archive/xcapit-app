@@ -495,7 +495,8 @@
       "filter_tab": {
         "conservative": "Conservative profile",
         "medium": "Moderate profile",
-        "risky": "Aggressive profile"
+        "risky": "Aggressive profile",
+        "faucet": "No costs! \ud83d\ude0e"
       },
       "coming_soon_card": {
         "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
@@ -1495,9 +1496,9 @@
         }
       }
     },
-    "token_selection":{
-      "header":"Donations",
-      "title":"Select the currency you wish to donate"
+    "token_selection": {
+      "header": "Donations",
+      "title": "Select the currency you wish to donate"
     },
     "send_donations": {
       "alias": "Address or alias",
@@ -3219,14 +3220,14 @@
       "name_placeholder": "Ex: Laura's Wallet",
       "text_invalid": "The wallet address is incorrect",
       "text_valid": "The wallet address is correct",
-      "repeated_address":"The address is already added",
+      "repeated_address": "The address is already added",
       "loading": "Saving",
       "success_toast": "Excellent! Wallet successfully saved"
     },
     "shared_contacts": {
       "network_selector": {
         "label": "Network",
-        "placeholder":"Select an option"
+        "placeholder": "Select an option"
       },
       "network_selector_modal": {
         "title": "Select network"
