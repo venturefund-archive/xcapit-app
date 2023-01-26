@@ -5,6 +5,7 @@ import { TransactionDetailsService } from '../../services/transaction-details/tr
 import { JSONTransfer } from '../../models/json-transfer/json-transfer';
 import { Transfer } from '../../models/transfer/transfer.interface';
 import { EnvService } from 'src/app/shared/services/env/env.service';
+import { AssetHistoryCacheService } from '../../services/asset-history-cache/asset-history-cache.service';
 
 @Component({
   selector: 'app-wallet-transaction-card-item',
@@ -64,13 +65,18 @@ export class WalletTransactionCardItemComponent implements OnInit {
   constructor(
     private navController: NavController,
     private transactionDetailsService: TransactionDetailsService,
-    private envService: EnvService
+    private envService: EnvService,
+    private assetHistoryCacheService: AssetHistoryCacheService
   ) {}
 
+  //TODO: Cada Tx agrega su propio contenido al storage?
+  //TODO: El cache deberia limpiarse al borrar la wallet
   ngOnInit() {
     this.tplTransfer = new JSONTransfer(this.transfer).value();
     this.formattedDate = this.formatDate(this.tplTransfer.block_signed_at);
     this.isBuyTransaction();
+    this.checkCacheInformation();
+    console.log('valor base de tplTransfer (page): ', this.tplTransfer)
   }
 
   isBuyTransaction() {
@@ -94,5 +100,14 @@ export class WalletTransactionCardItemComponent implements OnInit {
 
   private saveTransactionDetails() {
     this.transactionDetailsService.transactionData = this.transfer;
+  }
+
+  async checkCacheInformation() {
+    const isCached = await this.assetHistoryCacheService.transaction(this.tplTransfer)
+    if (isCached === undefined) {
+      //Agregar a storage
+      console.log('transaccion no encontrada, guardando en cache...')
+      this.assetHistoryCacheService.updateTransaction(this.tplTransfer)
+    }
   }
 }

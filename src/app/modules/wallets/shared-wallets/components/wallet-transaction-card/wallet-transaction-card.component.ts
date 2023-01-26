@@ -26,4 +26,11 @@ export class WalletTransactionCardComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  //TODO: Agregar funcionalidad de Cache por cada Tx obtenida en transfers
+  // Buscar primero operaciones cacheadas
+  // Da precio segun lo cacheado
+  // Si existe/no existe, busca ademas operaciones nuevas
+  // Cachea operaciones nuevas
+  // Actualiza monto
 }
