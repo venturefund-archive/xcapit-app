@@ -111,6 +111,8 @@ describe('TokenDetailPage', () => {
 
     transfersFactorySpy = jasmine.createSpyObj('TransfersFactory', {
       create: { all: () => [] },
+      cached: null,
+      update: null
     });
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {

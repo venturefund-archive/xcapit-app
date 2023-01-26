@@ -4,14 +4,20 @@ import { rawTransfers } from '../../fixtures/covalent-transfers.fixture';
 import { of } from 'rxjs';
 import { Transfers } from './transfers';
 import { rawNoNativeTransfers } from '../../fixtures/covalent-no-native-transfers.fixture';
+import { CacheService } from 'src/app/shared/services/cache/cache.service';
 
 describe('Transfers', () => {
   let aToken: jasmine.SpyObj<RawToken>;
   const inAddress = '';
   let transfers: Transfers;
+  let cacheServiceSpy: jasmine.SpyObj<CacheService>
   beforeEach(() => {
+    cacheServiceSpy = jasmine.createSpyObj('CacheService', {
+      update: Promise.resolve(),
+      get: Promise.resolve(),
+    });
     aToken = jasmine.createSpyObj('RawToken', {}, { native: true, value: 'MATIC' });
-    transfers = new Transfers(aToken, inAddress, new FakeCovalentRepo(of(rawTransfers)));
+    transfers = new Transfers(aToken, inAddress, new FakeCovalentRepo(of(rawTransfers)), cacheServiceSpy);
   });
 
   it('new', () => {
@@ -23,7 +29,7 @@ describe('Transfers', () => {
   });
 
   it('all when no native', async () => {
-    transfers = new Transfers(aToken, inAddress, new FakeCovalentRepo(of(rawNoNativeTransfers)));
+    transfers = new Transfers(aToken, inAddress, new FakeCovalentRepo(of(rawNoNativeTransfers)), cacheServiceSpy);
     expect((await transfers.all()).length).toEqual(1);
   });
 });
