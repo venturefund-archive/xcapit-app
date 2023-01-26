@@ -7,11 +7,14 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
   selector: 'app-select-currency',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.send.select_currency.header' | translate }}</ion-title>
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
+          >1 {{ 'shared.step_counter.of' | translate }} 3</ion-label
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="sc ion-padding">

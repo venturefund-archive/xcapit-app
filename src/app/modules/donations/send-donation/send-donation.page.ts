@@ -35,14 +35,14 @@ import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
   selector: 'app-send-donation',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left no-border">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded ux_toolbar__left no-border">
         <ion-buttons slot="start">
           <ion-button class="sd__button_back" (click)="this.goBack()">
             <ion-icon name="chevron-back-outline"></ion-icon
           ></ion-button>
         </ion-buttons>
         <ion-title class="ion-text-start">{{ 'donations.send_donations.header' | translate }}</ion-title>
-        <ion-label class="ux-font-text-xs sd__step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >2 {{ 'shared.step_counter.of' | translate }} 3</ion-label
         >
       </ion-toolbar>

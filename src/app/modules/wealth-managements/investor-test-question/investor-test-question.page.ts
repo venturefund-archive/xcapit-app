@@ -18,7 +18,7 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
           <ion-back-button defaultHref="" (click)="this.goToPreviousQuestion()" name="back"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wealth_managements.investor_test.header' | translate }}</ion-title>
-        <ion-label class="step_counter" slot="end" *ngIf="this.investorTestService.hasLoadedQuestions"
+        <ion-label class="ux_toolbar__step" slot="end" *ngIf="this.investorTestService.hasLoadedQuestions"
           >{{ this.currentQuestionNumber }} {{ 'shared.step_counter.of' | translate }}
           {{ this.totalNumberOfQuestions }}</ion-label
         >
