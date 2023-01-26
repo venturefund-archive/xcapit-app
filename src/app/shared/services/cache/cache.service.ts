@@ -14,7 +14,7 @@ export class CacheService {
   }
 
   private expirationDate(): number {
-    return add(this.now(), { seconds: CONFIG.cache.TTL }).getTime();
+    return add(this.now(), { years: CONFIG.cache.TTL }).getTime();
   }
 
   private now(): number {
