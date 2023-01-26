@@ -15,7 +15,7 @@ import { FormattedFee } from '../../defi-investments/shared-defi-investments/mod
 import { NativeFeeOf } from '../../defi-investments/shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
-import { ERC20ProviderController } from '../../defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
+import { Erc20ProviderInjectable } from '../../defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
 import { takeUntil } from 'rxjs/operators';
 import { SendDonationDataService } from '../shared-donations/services/send-donation-data.service';
 import { ModalController, NavController } from '@ionic/angular';
@@ -25,7 +25,7 @@ import { parseUnits } from 'ethers/lib/utils';
 import { TokenOperationDataService } from '../../fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 import { GasFeeOf } from '../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
-import { ERC20ContractController } from '../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { ERC20ContractInjectable } from '../../defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
 import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
@@ -139,8 +139,8 @@ export class SendDonationPage implements OnInit {
     private walletService: WalletService,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
-    private erc20ProviderController: ERC20ProviderController,
-    private erc20ContractController: ERC20ContractController,
+    private erc20ProviderInjectable: Erc20ProviderInjectable,
+    private erc20ContractInjectable: ERC20ContractInjectable,
     private modalController: ModalController,
     private translate: TranslateService,
     private dynamicPriceFactory: DynamicPriceFactory,
@@ -202,7 +202,7 @@ export class SendDonationPage implements OnInit {
   }
 
   erc20Provider(): ERC20Provider {
-    return this.erc20ProviderController.new(this.token);
+    return this.erc20ProviderInjectable.create(this.token);
   }
 
   private async gasPrice(): Promise<BigNumber> {
@@ -222,7 +222,7 @@ export class SendDonationPage implements OnInit {
   }
 
   async erc20Contract(): Promise<ERC20Contract> {
-    return this.erc20ContractController.new(this.erc20Provider(), new VoidSigner(await this.userWallet()));
+    return this.erc20ContractInjectable.create(this.erc20Provider(), new VoidSigner(await this.userWallet()));
   }
 
   private async nonNativeTransferFee(): Promise<void> {

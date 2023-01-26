@@ -4,8 +4,8 @@ import { ERC20Token } from '../erc20-token.interface';
 import { ERC20Contract } from '../../erc20-contract/erc20-contract.model';
 
 @Injectable({ providedIn: 'root' })
-export class ERC20TokenController {
-  public new(_contract: ERC20Contract): ERC20Token {
+export class ERC20TokenInjectable {
+  public create(_contract: ERC20Contract): ERC20Token {
     return new DefaultERC20Token(_contract);
   }
 }

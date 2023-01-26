@@ -15,7 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
-import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
+import { WithdrawConfirmationInjectable } from './withdraw-confirmation.injectable';
 import { WithdrawInfoModalComponent } from '../../shared-defi-investments/components/withdraw-info-modal/withdraw-info-modal.component';
 import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
@@ -165,7 +165,7 @@ export class WithdrawConfirmationPage {
     private navController: NavController,
     private walletBalance: WalletBalanceService,
     private investmentDataService: InvestmentDataService,
-    private controller: WithdrawConfirmationController,
+    private controller: WithdrawConfirmationInjectable,
     private alertController: AlertController,
     private localNotificationInjectable: LocalNotificationInjectable,
     private gasStation: GasStationOfFactory,
