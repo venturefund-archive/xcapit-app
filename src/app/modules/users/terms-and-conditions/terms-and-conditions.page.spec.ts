@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -23,6 +23,13 @@ const itemsMenu = [
     route: 'https://docs.2pi.network/resources/terms-and-conditions',
     key: '_agreement_2PI_T&C',
   },
+  {
+    img: '/assets/img/users/term-and-conditions/icon-2pi.svg',
+    name: 'TyC-1inch',
+    title: 'profiles.user_profile_menu.terms_and_conditions.2pi.title',
+    route: 'https://docs.2pi.network/resources/terms-and-conditions',
+    key: '_agreement_2PI_T&C',
+  },
 ];
 
 describe('TermsAndConditionsPage', () => {
@@ -38,6 +45,7 @@ describe('TermsAndConditionsPage', () => {
 
     ionicStorageSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
+      remove: Promise.resolve(),
     });
     TestBed.configureTestingModule({
       declarations: [TermsAndConditionsPage],
@@ -59,7 +67,7 @@ describe('TermsAndConditionsPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate open browser when button ', () => {
+  it('should navigate open browser when event is emited', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
 
@@ -81,5 +89,16 @@ describe('TermsAndConditionsPage', () => {
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     expect(component.providerItems.length).toEqual(0);
+  });
+
+  it('should remove item from the array when the event is emited', async() => {
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const appTyCEl = fixture.debugElement.queryAll(By.css('app-tyc-item-card'))[1];
+    appTyCEl.triggerEventHandler('itemToRemove', itemsMenu[1]);
+    fixture.detectChanges();
+    expect(component.providerItems.length).toEqual(1);
+    expect(ionicStorageSpy.remove).toHaveBeenCalledWith(itemsMenu[1].key);
   });
 });

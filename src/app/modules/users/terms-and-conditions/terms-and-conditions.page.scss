@@ -1,4 +1,8 @@
 :host {
+  ion-content {
+    --background: var(--ion-color-background);
+  }
+
   ion-toolbar {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
