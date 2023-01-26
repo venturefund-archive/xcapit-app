@@ -178,13 +178,8 @@ export class SendDetailPage {
     private solanaFeeOf: SolanaFeeOfInjectable
   ) {}
 
-  async ionViewDidEnter() {
-    this.modalHref = window.location.href;
+  async ionViewWillEnter() {
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
-    await this.setTokens();
-    await this.setWallet();
-    await this.setTokenDetail();
-    await this.setAddressValidator();
     if (this.route.snapshot.paramMap.get('contact')) {
       this.setFormData(
         this.route.snapshot.paramMap.get('contact'),
@@ -192,6 +187,14 @@ export class SendDetailPage {
         this.route.snapshot.paramMap.get('amount')
       );
     }
+    await this.setAddressValidator();
+  }
+
+  async ionViewDidEnter() {
+    this.modalHref = window.location.href;
+    await this.setTokens();
+    await this.setWallet();
+    await this.setTokenDetail();
     this.getPrices();
     await this.tokenBalances();
   }

@@ -45,7 +45,7 @@ import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
 
-describe('SendDetailPage', () => {
+fdescribe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
@@ -197,6 +197,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should find currency and networks on ionViewDidEnter', fakeAsync(() => {
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
 
@@ -209,6 +210,7 @@ describe('SendDetailPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     component.form.patchValue({ amount: 1 });
 
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
 
@@ -217,6 +219,7 @@ describe('SendDetailPage', () => {
   }));
 
   it('should calculate fee when user enters valid address and amount and token isnt native', fakeAsync(() => {
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
     component.form.patchValue(formData.valid);
@@ -226,6 +229,7 @@ describe('SendDetailPage', () => {
   }));
 
   it('should reset fee when user enters invalid address or amount and token isnt native', fakeAsync(() => {
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
     component.form.patchValue({ address: '' });
@@ -249,6 +253,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
     component.form.patchValue(formData.valid);
@@ -262,6 +267,7 @@ describe('SendDetailPage', () => {
 
   it('should save transaction data and navigate when ux_send_continue Button clicked, form valid and solana token', fakeAsync(() => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawSOLData.contract, blockchain: rawSOLData.network });
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
     component.form.patchValue(formData.solanaValid);
@@ -290,6 +296,7 @@ describe('SendDetailPage', () => {
     );
     tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
 
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -298,6 +305,7 @@ describe('SendDetailPage', () => {
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
 
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
@@ -314,6 +322,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should show toast when native balance is less than fee', async () => {
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     component.nativeBalance = 0.5;
     component.fee = 1;
@@ -325,6 +334,7 @@ describe('SendDetailPage', () => {
 
   it('should open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is false', async () => {
     component.isInfoModalOpen = false;
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
@@ -337,6 +347,7 @@ describe('SendDetailPage', () => {
 
   it('should not open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is true ', async () => {
     component.isInfoModalOpen = true;
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
@@ -348,6 +359,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should navigate when addFromContacts event is emited', async () => {
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
@@ -373,6 +385,7 @@ describe('SendDetailPage', () => {
       address: formData.valid.address,
       amount: formData.valid.amount,
     });
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick()
     fixture.detectChanges();

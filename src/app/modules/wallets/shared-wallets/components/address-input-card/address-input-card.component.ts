@@ -43,7 +43,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           (qrScannerOpened)="scanQR()"
           [native]="!this.isPWA"
         ></app-ux-input>
-        <div *ngIf="!this.addressFromContact && !this.removedContact">
+        <div *ngIf="!this.addressFromContact && !this.contact">
           <div *ngIf="this.hideHelpText">
             <div class="aic__content__validator" *ngIf="!this.status">
               <img src="assets/img/defi-investments/shared/transaction-fee/exclamation.svg" />
@@ -115,7 +115,6 @@ export class AddressInputCardComponent implements OnInit {
   status: boolean;
   hasContacts = false;
   validatorText: string;
-  removedContact = false;
   constructor(
     private modalController: ModalController,
     private toastService: ToastService,
@@ -146,7 +145,6 @@ export class AddressInputCardComponent implements OnInit {
         ? 'wallets.shared_wallets.address_input_card.text_valid'
         : 'wallets.shared_wallets.address_input_card.text_invalid';
       this.hideHelpText = true;
-      this.removedContact = false;
     });
   }
 
@@ -191,6 +189,5 @@ export class AddressInputCardComponent implements OnInit {
   public removeContact() {
     this.addressFromContact = false;
     this.form.patchValue({ address: '' });
-    this.removedContact = true;
   }
 }
