@@ -89,7 +89,7 @@ export class NetworkSelectorModalComponent implements OnInit {
   }
 
   disableCheckboxesOnInit() {
-    for (let selectedNetwork of this.selectedNetworks) {
+    for (const selectedNetwork of this.selectedNetworks) {
       if (selectedNetwork === 'SOLANA') {
         this.disableNotSolanaNetworks(true);
       } else {
