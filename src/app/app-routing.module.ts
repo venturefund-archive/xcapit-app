@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { NewLoginRedirectGuard } from './modules/home/shared-home/guards/new-login-redirect-guard';
+import { NewLogin } from './modules/users/shared-users/guards/new-login/new-login.guard';
 
 const routes: Routes = [
-  { canActivate: [NewLoginRedirectGuard], path: '', pathMatch: 'full', redirectTo: '/users/login' },
+  {
+    canActivate: [NewLogin],
+    data: { redirectUrl: '/tabs/wallets' },
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/users/login',
+  },
 ];
 
 @NgModule({
