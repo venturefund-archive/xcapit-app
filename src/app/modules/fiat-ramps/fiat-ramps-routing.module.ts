@@ -174,6 +174,10 @@ const routes: Routes = [
         path: 'purchase-order',
         loadChildren: () => import('./purchase-order/purchase-order.module').then((m) => m.PurchaseOrderPageModule),
       },
+      {
+        path: 'bitrefill',
+        loadChildren: () => import('./bitrefill/bitrefill.module').then((m) => m.BitrefillPageModule),
+      },
     ],
   },
 ];

@@ -2977,6 +2977,16 @@
         "title": "Tu cuenta en Kripton Market fue verificada.",
         "message": "Ya puedes realizar tus compras con este proveedor."
       }
+    },
+    "bitrefill": {
+      "header": "Compra con crypto",
+      "exit_button": "Salir",
+      "modal": {
+        "title": "Atención",
+        "description": "¿Deseas salir? Se perderán tus avances y deberás comenzar nuevamente.",
+        "cancel_button": "Cancelar",
+        "confirm_button": "Confirmar"
+      }
     }
   },
   "home": {

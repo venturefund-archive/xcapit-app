@@ -2986,6 +2986,16 @@
         "title": "Your Kripton Market account has been verified.",
         "message": "You can now make your purchases with this provider."
       }
+    },
+    "bitrefill": {
+      "header": "Buy with crypto",
+      "exit_button": "Exit",
+      "modal": {
+        "title": "Attention",
+        "description": "Do you wish to exit? Your progress will be lost and you will have to start over.",
+        "cancel_button": "Cancel",
+        "confirm_button": "Confirm"
+      }
     }
   },
   "home": {
