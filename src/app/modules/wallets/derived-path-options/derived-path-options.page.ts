@@ -11,7 +11,7 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="" (click)="this.setCreationMethod()"></ion-back-button>
+          <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center" *ngIf="this.mode === 'import'">{{
           'wallets.derived_path_options.header.import' | translate
@@ -100,7 +100,6 @@ export class DerivedPathOptionsPage {
   trackClickNameother: string;
   headerText: string;
   titleText: string;
-  method: WalletCreationMethod;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -112,10 +111,16 @@ export class DerivedPathOptionsPage {
   ionViewWillEnter() {
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.eventNames();
-    this.form.valueChanges.subscribe((res) => {
-      this.method = res.method;
-    });
-    this.form.patchValue({ method: this.walletEncryptionService.creationMethod });
+    this._setFormInitialValue();
+    this._subscribeToValueChanges();
+  }
+
+  private _subscribeToValueChanges() {
+    this.form.valueChanges.subscribe((formValue) => this._setCreationMethod(formValue.method));
+  }
+
+  private _setFormInitialValue() {
+    this.form.patchValue({ method: this.walletEncryptionService.creationMethod }, { emitEvent: false });
   }
 
   eventNames() {
@@ -127,8 +132,9 @@ export class DerivedPathOptionsPage {
       this.trackClickNameother = `ux_${this.mode}_other`;
     }
   }
-  setCreationMethod() {
-    this.walletEncryptionService.creationMethod = this.method;
+
+  private _setCreationMethod(method: WalletCreationMethod) {
+    this.walletEncryptionService.creationMethod = method;
   }
 
   goToFaqs() {
