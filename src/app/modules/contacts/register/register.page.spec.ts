@@ -235,7 +235,7 @@ describe('RegisterPage', () => {
     expect(component.form.value.networks).toEqual(['MATIC']);
   });
 
-  it('should set properly blockhain and address when mode is save', async () => {
+  it('should set properly blockhain, address and name when mode is edit', async () => {
     fakeActivatedRoute.modifySnapshotParams({
       mode: 'edit',
     });
@@ -246,7 +246,7 @@ describe('RegisterPage', () => {
     expect(component.form.value.name).toEqual('TestEdit');
   });
 
-  it('should edit address contact', async () => {
+  it('should edit contact name', async () => {
     fakeActivatedRoute.modifySnapshotParams({
       mode: 'edit',
     });
