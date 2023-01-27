@@ -12,8 +12,8 @@ import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { VoidSigner } from 'ethers';
-import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
-import { ERC20ContractController } from '../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { Erc20ProviderInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
+import { ERC20ContractInjectable } from '../../../defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -36,8 +36,8 @@ import { DefaultTokens } from 'src/app/modules/swaps/shared-swaps/models/tokens/
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
 import { FixedTokens } from 'src/app/modules/swaps/shared-swaps/models/filtered-tokens/fixed-tokens';
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
-import { CovalentBalancesController } from '../../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
-import { TokenPricesController } from '../../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { CovalentBalancesInjectable } from '../../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
@@ -48,7 +48,7 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
   selector: 'app-send-detail',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button
             appTrackClick
@@ -56,8 +56,8 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
             defaultHref="/wallets/send/select-currency"
           ></ion-back-button>
         </ion-buttons>
-        <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
-        <ion-label class="step-counter" slot="end">2 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
+        <ion-title class="sd__header">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
+        <ion-label class="ux_toolbar__step" slot="end">2 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd">
@@ -71,7 +71,7 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [subtitle]="'wallets.send.send_detail.address_input.subtitle' | translate"
-            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
+            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate : { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
             (addFromContacts)="navigateToContacts()"
           ></app-address-input-card>
@@ -161,16 +161,16 @@ export class SendDetailPage {
     private walletsFactory: WalletsFactory,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
-    private erc20ProviderController: ERC20ProviderController,
-    private erc20ContractController: ERC20ContractController,
+    private erc20ProviderInjectable: Erc20ProviderInjectable,
+    private erc20ContractInjectable: ERC20ContractInjectable,
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalController: ModalController,
     private translate: TranslateService,
     private blockchains: BlockchainsFactory,
     private gasStation: GasStationOfFactory,
     private tokenDetailInjectable: TokenDetailInjectable,
-    private covalentBalancesFactory: CovalentBalancesController,
-    private tokenPricesFactory: TokenPricesController,
+    private covalentBalancesFactory: CovalentBalancesInjectable,
+    private tokenPricesFactory: TokenPricesInjectable,
     private solanaFeeOf: SolanaFeeOfInjectable
   ) {}
 
@@ -270,8 +270,8 @@ export class SendDetailPage {
 
   private async tokenDetailOf(aToken: Token) {
     const tokenDetail = this.tokenDetailInjectable.create(
-      this.covalentBalancesFactory.new(this.wallet.address(), new FixedTokens([aToken])),
-      this.tokenPricesFactory.new(new FixedTokens([aToken])),
+      this.covalentBalancesFactory.create(this.wallet.address(), new FixedTokens([aToken])),
+      this.tokenPricesFactory.create(new FixedTokens([aToken])),
       aToken
     );
     await tokenDetail.cached();
@@ -330,11 +330,11 @@ export class SendDetailPage {
   }
 
   async erc20Contract(): Promise<ERC20Contract> {
-    return this.erc20ContractController.new(this.erc20Provider(), new VoidSigner(await this.userWallet()));
+    return this.erc20ContractInjectable.create(this.erc20Provider(), new VoidSigner(await this.userWallet()));
   }
 
   erc20Provider(): ERC20Provider {
-    return this.erc20ProviderController.new(this.token);
+    return this.erc20ProviderInjectable.create(this.token);
   }
 
   private async setFee(): Promise<void> {

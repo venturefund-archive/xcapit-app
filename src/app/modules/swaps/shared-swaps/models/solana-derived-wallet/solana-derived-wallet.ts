@@ -1,7 +1,7 @@
 import * as bip39 from 'bip39';
 import { Keypair } from "@solana/web3.js";
 import { derivePath } from "ed25519-hd-key";
-import { Blockchain } from "../blockchain/blockchain";
+import { IBlockchain } from "../blockchain/blockchain";
 
 
 export class SolanaDerivedWallet {
@@ -10,7 +10,7 @@ export class SolanaDerivedWallet {
 
   constructor(
     private _seedPhrase: string,
-    private _aBlockchain: Blockchain
+    private _aBlockchain: IBlockchain
   ) {}
 
   address(): string {

@@ -15,7 +15,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
         <ion-title>
           {{ 'fiat_ramps.kyc.user_basic.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs ubi__step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >1 {{ 'shared.step_counter.of' | translate }} 4</ion-label
         >
       </ion-toolbar>

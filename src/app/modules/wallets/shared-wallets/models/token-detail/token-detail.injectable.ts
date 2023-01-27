@@ -6,8 +6,8 @@ import { Balances } from '../balances/balances.interface';
 import { Token } from '../../../../swaps/shared-swaps/models/token/token';
 
 @Injectable({ providedIn: 'root' })
-export class TokenDetailController {
-  public new(
+export class TokenDetailInjectable {
+  public create(
     _balances: Balances,
     _prices: TokenPrices,
     token: Token,

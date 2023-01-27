@@ -12,8 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
-import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
-import { ERC20ContractController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { Erc20ProviderInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
+import { ERC20ContractInjectable } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
 import { FakeERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/fake/fake-erc20-provider';
 import { FakeNavController } from '../../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeProvider } from '../../../../shared/models/provider/fake-provider.spec';
@@ -56,8 +56,8 @@ describe('SendDetailPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let erc20ContractSpy: jasmine.SpyObj<ERC20Contract>;
-  let erc20ProviderControllerSpy: jasmine.SpyObj<ERC20ProviderController>;
-  let erc20ContractControllerSpy: jasmine.SpyObj<ERC20ContractController>;
+  let erc20ProviderInjectableSpy: jasmine.SpyObj<Erc20ProviderInjectable>;
+  let erc20ContractInjectableSpy: jasmine.SpyObj<ERC20ContractInjectable>;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let fakeModalController: FakeModalController;
@@ -106,16 +106,16 @@ describe('SendDetailPage', () => {
     tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
       tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
     });
-    erc20ProviderControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
-      new: new FakeERC20Provider(null, new FakeProvider('100000000')),
+    erc20ProviderInjectableSpy = jasmine.createSpyObj('ERC20ProviderInjectable', {
+      create: new FakeERC20Provider(null, new FakeProvider('100000000')),
     });
 
     erc20ContractSpy = jasmine.createSpyObj('ERC20Contract', {
       value: new FakeContract({ transfer: () => Promise.resolve(BigNumber.from('10')) }),
     });
 
-    erc20ContractControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
-      new: erc20ContractSpy,
+    erc20ContractInjectableSpy = jasmine.createSpyObj('ERC20ProviderInjectable', {
+      create: erc20ContractSpy,
     });
 
     dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
@@ -171,8 +171,8 @@ describe('SendDetailPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-        { provide: ERC20ProviderController, useValue: erc20ProviderControllerSpy },
-        { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
+        { provide: Erc20ProviderInjectable, useValue: erc20ProviderInjectableSpy },
+        { provide: ERC20ContractInjectable, useValue: erc20ContractInjectableSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },

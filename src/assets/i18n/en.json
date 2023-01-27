@@ -872,7 +872,7 @@
       "p9": "Indicate that you are an individual, not a company.",
       "p10": "Consider the Bitex requirements to operate locally",
       "ul1li1": "Valid ID (in color and fully legible)",
-      "ul1li2": "Support of income and savings (last 3 salary receipts or invoices issued in the last month or Declared Jurisdictions of personal assets or profits).",
+      "ul1li2": "Support of income and savings (last 3 salary receipts or invoices issued in the last month or Declared Jurisdictions of personal tokens or profits).",
       "ul1li3": "Activity declaration",
       "ul1li4": "Service to your name",
       "p11": "Now we will continue with the account verification, remember that all the fields are required, there are four steps:",
@@ -880,7 +880,7 @@
       "p13": "There are several fields, here you must upload an image of your ID in front and one on the back, keep in mind that the images have to be clear, in color and not have cuts or areas that can not be read.",
       "p14": "In step two, you will complete the contact information",
       "p15": "Here you must upload a phone bill, prepaid or any other service to your name with your current address and click next",
-      "p16": "As a third step, Bitex needs to verify where the money comes from, to do this complete the fields and you must provide a scan or an image such as the receipt of wages, invoices, contracts, liquidation of investments or affidavits of personal assets. Choose the file and click on next.",
+      "p16": "As a third step, Bitex needs to verify where the money comes from, to do this complete the fields and you must provide a scan or an image such as the receipt of wages, invoices, contracts, liquidation of investments or affidavits of personal tokens. Choose the file and click on next.",
       "p17": "Last step is to wait for account validation, it may take up to 4 days.",
       "p18": "In case of any error or missing information, Bitex will contact you through the email with which you registered. Stay tuned to this medium.",
       "p19": "When the account is approved you can make transfers in pesos or dollars to your account to buy BTC (Bitcoins)",
@@ -1515,7 +1515,7 @@
       "currency": "Currency",
       "network": "Network",
       "label": "Amount to donate",
-      "disclaimer": "The network you selected is {{network}}. Make sure that the target wallet uses this same network. Otherwise, you will lose your assets.",
+      "disclaimer": "The network you selected is {{network}}. Make sure that the target wallet uses this same network. Otherwise, you will lose your tokens.",
       "summary": {
         "title": "Transaction data",
         "destination_address": "Destination address",
@@ -1719,7 +1719,7 @@
       "header": "Remove wallet",
       "title": "When removing your wallet remember",
       "item1": "You will not lose your past transactions, they are stored by the network.",
-      "item2": "If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
+      "item2": "If you remove your wallet and do not have a copy of your backup phrase, you could lose your tokens.",
       "item3": "You will be able to again create a new wallet in Xcapit or import an existing one.",
       "tos": "I read and understand that I will remove my wallet.",
       "button_text": "Continue",
@@ -1779,7 +1779,7 @@
       "header": "Recovery phrase",
       "text1": "You still do not have a recovery phrase.",
       "text2": "Create or import your wallet to be able to view it.",
-      "text3": "As long as you have your 12 word phrase you will be able to recover your wallet and all your assets.",
+      "text3": "As long as you have your 12 word phrase you will be able to recover your wallet and all your tokens.",
       "button_import": "Import Wallet",
       "button_create": "Create Wallet",
       "button_faq": "What is the recovery phrase?"
@@ -1807,7 +1807,7 @@
     "home": {
       "available_money": "Available balance in wallet",
       "invested": "Amount invested",
-      "tab_assets": "Assets",
+      "tab_assets": "tokens",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
@@ -1838,9 +1838,9 @@
     },
     "select_coin": {
       "header": "Create Wallet",
-      "header_edit": "Edit assets",
-      "title": "Select assets",
-      "subtitle": "Choose the assets you want to view in your wallet. Remember that to operate on each network you must have its native currency",
+      "header_edit": "Edit tokens",
+      "title": "Select tokens",
+      "subtitle": "Choose the tokens you want to view in your wallet. Remember that to operate on each network you must have its native currency",
       "suite": "Suite {{suiteName}}",
       "native": "NATIVE",
       "submit_edit": "Save changes",
@@ -2061,7 +2061,7 @@
         "scan_error": "Error scanning QR code",
         "placeholder": "Press and hold to paste",
         "scan_unauthorized": "You have no permission to scan",
-        "disclaimer": "The network you selected is {{network}}. Make sure that the destination wallet uses this same network. Otherwise, you will lose your assets"
+        "disclaimer": "The network you selected is {{network}}. Make sure that the destination wallet uses this same network. Otherwise, you will lose your tokens"
       },
       "wallet_password": {
         "title": "Enter your password",
@@ -2992,6 +2992,16 @@
       "approving": {
         "title": "Your Kripton Market account has been verified.",
         "message": "You can now make your purchases with this provider."
+      }
+    },
+    "bitrefill": {
+      "header": "Buy with crypto",
+      "exit_button": "Exit",
+      "modal": {
+        "title": "Attention",
+        "description": "Do you wish to exit? Your progress will be lost and you will have to start over.",
+        "cancel_button": "Cancel",
+        "confirm_button": "Confirm"
       }
     }
   },

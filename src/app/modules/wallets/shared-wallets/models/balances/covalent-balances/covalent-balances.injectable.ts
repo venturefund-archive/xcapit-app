@@ -6,11 +6,11 @@ import { environment } from '../../../../../../../environments/environment';
 import { Tokens } from '../../../../../swaps/shared-swaps/models/tokens/tokens';
 
 @Injectable({ providedIn: 'root' })
-export class CovalentBalancesController {
+export class CovalentBalancesInjectable {
 
   constructor(private httpClient: HttpClient) {}
 
-  public new(
+  public create(
     _address: string,
     _tokens: Tokens,
     _http: HttpClient | FakeHttpClient = this.httpClient,

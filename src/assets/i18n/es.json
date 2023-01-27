@@ -986,7 +986,7 @@
     }
   },
   "state_names": {
-    "active": "Activo",
+    "active": "Token",
     "pausado": "Pausado",
     "to-NF": "Cambiando a {{ca}}",
     "toUSDT": "Cambiado a USDT",
@@ -1508,7 +1508,7 @@
       "currency": "Moneda",
       "network": "Red",
       "label": "Monto a donar",
-      "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos.",
+      "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus tokens.",
       "summary": {
         "title": "Datos de la operación",
         "destination_address": "Dirección de destino",
@@ -1578,7 +1578,7 @@
       "info_description1": "Cualquier usuario puede invitar a otras personas a conocer Xcapit, solo necesita crear una cuenta y compartir su link dentro de su panel de referidos.",
       "info_description2": "Vas a ganar $10 (diez dólares) por cada invitado que active una cuenta Advanced o Expert, y vas a ganar $1 (un dólar) por cada invitado que active una cuenta Explorer. En cualquiera de los casos tu invitado debe tener la cuenta activa por más de 60 días.",
       "info_description3": "Dentro de la app en tu panel de referidos dale click a Solicitar recompensa. Nos contactaremos para coordinar el pago.",
-      "info_description4": "Dentro de la app en tu panel de referidos vas a ver el listado de invitados activos y un contador del dinero que has ganado."
+      "info_description4": "Dentro de la app en tu panel de referidos vas a ver el listado de invitados tokens y un contador del dinero que has ganado."
     },
     "referrals_list": {
       "header": "Referidos",
@@ -1712,7 +1712,7 @@
       "header": "Eliminar wallet",
       "title": "Al eliminar tu wallet recuerda",
       "item1": "No perderás tus transacciones pasadas, éstas son almacenadas por la red.",
-      "item2": "Si eliminas tu wallet y no posees una copia de tu frase de seguridad, podrías perder tus activos.",
+      "item2": "Si eliminas tu wallet y no posees una copia de tu frase de seguridad, podrías perder tus tokens.",
       "item3": "Podrás crear nuevamente una nueva wallet en Xcapit o importar una existente.",
       "tos": "Leí y comprendo que eliminaré mi wallet.",
       "button_text": "Continuar",
@@ -1772,7 +1772,7 @@
       "header": "Frase de recuperación",
       "text1": "Aún no tienes frase de recuperación.",
       "text2": "Crea o importa tu wallet para poder visualizarla.",
-      "text3": "Siempre que tengas tu frase de 12 palabras vas a poder recuperar tu wallet y todos tus activos.",
+      "text3": "Siempre que tengas tu frase de 12 palabras vas a poder recuperar tu wallet y todos tus tokens.",
       "button_import": "Importar Wallet",
       "button_create": "Crear Wallet",
       "button_faq": "¿Qué es la frase de recuperación?"
@@ -1831,9 +1831,9 @@
     },
     "select_coin": {
       "header": "Crear wallet",
-      "header_edit": "Editar activos",
-      "title": "Selecciona los activos",
-      "subtitle": "Elige los activos que quieres visualizar en tu wallet. Recuerda que para operar en cada red debes poseer su moneda nativa",
+      "header_edit": "Editar tokens",
+      "title": "Selecciona los tokens",
+      "subtitle": "Elige los tokens que quieres visualizar en tu wallet. Recuerda que para operar en cada red debes poseer su moneda nativa",
       "suite": "Suite {{suiteName}}",
       "native": "NATIVA",
       "submit_edit": "Guardar cambios",
@@ -2046,7 +2046,7 @@
         "scan_error": "Error al escanear el código QR",
         "placeholder": "Mantén presionado para pegar",
         "scan_unauthorized": "No tienes permiso para escanear",
-        "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos.",
+        "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus tokens.",
         "text_valid": "Dirección añadida con éxito.",
         "text_invalid": "La dirección de wallet de destino es incorrecta."
       },
@@ -2128,7 +2128,7 @@
       }
     },
     "asset_detail": {
-      "header": "Detalle de activo",
+      "header": "Detalle de token",
       "wallet_transaction_title": "Transacciones",
       "available": "Saldo disponible",
       "invest_button": "Invertir"
@@ -2984,6 +2984,16 @@
         "title": "Tu cuenta en Kripton Market fue verificada.",
         "message": "Ya puedes realizar tus compras con este proveedor."
       }
+    },
+    "bitrefill": {
+      "header": "Compra con crypto",
+      "exit_button": "Salir",
+      "modal": {
+        "title": "Atención",
+        "description": "¿Deseas salir? Se perderán tus avances y deberás comenzar nuevamente.",
+        "cancel_button": "Cancelar",
+        "confirm_button": "Confirmar"
+      }
     }
   },
   "home": {
@@ -3070,7 +3080,7 @@
       "question4": "4- Sus responsabilidades",
       "answer4": "Excepto en la medida en que lo cause nuestro incumplimiento de este Acuerdo, (a) usted es responsable de todas las actividades que ocurran en su Cuenta, independientemente de si las actividades están autorizadas por usted o realizadas por usted, sus empleados o un tercero (incluido su contratistas, agentes o usuarios finales) y (b) nosotros y nuestros afiliados no somos responsables del acceso no autorizado a su Cuenta. 4.1 Su uso. Se asegurará de que su uso de los servicios no viole ninguna ley aplicable. 4.2 Su seguridad y respaldo. Usted es responsable de configurar y usar correctamente los Servicios y de tomar las medidas adecuadas para asegurar, proteger y hacer copias de seguridad de sus Cuentas y Su Contenido de una manera que proporcione la seguridad y protección adecuadas, lo que podría incluir el uso de cifrado.",
       "question5": "5- Servicios y contenido de terceros",
-      "answer5": "Xcapit Wallet le permite acceder y utilizar ciertas aplicaciones distribuidas (\"Dapps\") y plataformas de comercio de criptomonedas (\"Crypto Exchanges\") en la red Ethereum, RSK, Polygon y BSC, que están integradas o son compatibles con Xcapit Wallet. Estos Dapps y Crypto Exchanges son proporcionados por terceros que no están relacionados con Xcapit. Aunque facilitamos su acceso a estos Dapps y Crypto Exchanges, no somos responsables de ellos de ninguna manera. Su uso de Dapps y Crypto Exchanges estará sujeto a términos y condiciones distintos a los nuestros, que están disponibles en los sitios web correspondientes. No todos los intercambios criptográficos y Dapps admiten todos los tipos de activos criptográficos. Antes de iniciar cualquier transacción a través de Xcapit Wallet, debe asegurarse de que los criptoactivos que está enviando sean compatibles con la billetera del destinatario. No podrá recuperar ningún criptoactivo que haya enviado, y no seremos responsables ante usted de las pérdidas que sufra como resultado de que el destinatario rechace los criptoactivos que envíe como incompatibles o inadecuados.",
+      "answer5": "Xcapit Wallet le permite acceder y utilizar ciertas aplicaciones distribuidas (\"Dapps\") y plataformas de comercio de criptomonedas (\"Crypto Exchanges\") en la red Ethereum, RSK, Polygon y BSC, que están integradas o son compatibles con Xcapit Wallet. Estos Dapps y Crypto Exchanges son proporcionados por terceros que no están relacionados con Xcapit. Aunque facilitamos su acceso a estos Dapps y Crypto Exchanges, no somos responsables de ellos de ninguna manera. Su uso de Dapps y Crypto Exchanges estará sujeto a términos y condiciones distintos a los nuestros, que están disponibles en los sitios web correspondientes. No todos los intercambios criptográficos y Dapps admiten todos los tipos de tokens criptográficos. Antes de iniciar cualquier transacción a través de Xcapit Wallet, debe asegurarse de que los criptoactivos que está enviando sean compatibles con la billetera del destinatario. No podrá recuperar ningún criptoactivo que haya enviado, y no seremos responsables ante usted de las pérdidas que sufra como resultado de que el destinatario rechace los criptoactivos que envíe como incompatibles o inadecuados.",
       "question6": "6- Suspensión de la cuenta",
       "answer6": "Generalmente. Podemos suspender Su derecho a acceder o utilizar cualquier parte o todos los Servicios inmediatamente después de que le notifiquemos si determinamos: (a) que su uso de los Servicios (i) plantea un riesgo de seguridad para los Servicios o cualquier tercero, (ii) podría afectar negativamente nuestros sistemas, los Servicios o los sistemas de cualquier otro usuario, (iii) podría someternos a nosotros, a nuestro afiliados, o cualquier tercero a responsabilidad, o (iv) podría ser fraudulento; (b) usted o cualquier Usuario final está incumpliendo este Acuerdo. ",
       "question7": "7- Uso de la wallet de Xcapit",
@@ -3095,7 +3105,7 @@
       "question2": "2- Información que recopilamos",
       "answer2": "<ol type=\"a\"><li>¿Qué son los datos personales?</li></ol><br>Cuando esta Política de privacidad se refiere a \"datos personales\", se refiere a datos sobre usted a partir de los cuales podría ser identificado, como su nombre, su fecha de nacimiento, sus datos de contacto e incluso su dirección IP. Por ley, todas las organizaciones que procesan sus datos personales están obligadas a procesar sus datos personales de determinadas formas y a garantizar que se le proporcione una cantidad adecuada de información sobre cómo los utilizan. También tiene varios derechos para buscar información de esas organizaciones sobre cómo están usando sus datos y para evitar que los procesen ilegalmente. Para obtener más información sobre estos derechos, consulte la sección \"Sus derechos\" de esta Política de privacidad.<br><br><ol type=\"a\" start=\"2\"><li>Cómo y qué tipos de datos recopilamos de usted cuando usa la Aplicación</li></ol><br>Cuando usa la aplicación para registrar una cuenta, completar los formularios provistos en la aplicación, suscribirse a nuestros servicios (como 'Xcapit Wallet') o informar un problema con la aplicación, podemos recopilar, almacenar y usar cierta información personal que usted nos proporciona. La información que recopilamos de usted puede incluir (pero no se limita a): su dirección IP, dirección de correo electrónico, número de teléfono, comentarios e información de inicio de sesión.También recopilaremos información sobre usted cuando visite e interactúe con la Aplicación mediante el uso de tecnologías como las cookies. Los siguientes son ejemplos de información que podemos recopilar:<ol><li>Información sobre su dispositivo, navegador o sistema operativo;</li><li>Ajuste de zona horaria;</li><li>Su dirección IP;</li><li>Información sobre las interacciones que tiene con la aplicación (como el desplazamiento y los clics);</li><li>Información sobre la forma en que usa y las acciones que realiza dentro de la Aplicación;</li><li>La cantidad de tiempo en la aplicación y el tiempo dedicado a ciertas secciones; tiempos de respuesta; y descargar errores.</li></ol><br>Consulte el material de ayuda de su dispositivo para saber qué controles puede utilizar para eliminar cookies o bloquear cookies. Si hace esto, puede afectar su uso de un sitio web o una aplicación.También podemos asociarnos con terceros que pueden recopilar datos estadísticos o de uso anónimos a través de su uso de la Aplicación (incluidos, por ejemplo, subcontratistas en servicios técnicos, de pago y / o entrega, socios comerciales, redes publicitarias, proveedores de análisis).Ante cualquier duda puede comunicarse con nosotros ( legal@xcapit.com ), si tiene alguna pregunta sobre nuestro uso de esta tecnología.",
       "question3": "3- Uso de datos",
-      "answer3": "<ol type=\"a\"><li>Base legal para procesar su información</li></ol><br>Solo usaremos sus datos personales cuando la ley nos lo permita. Por lo general, utilizaremos sus datos personales en las siguientes circunstancias:<ol type=\"a\"><li>Cuando nos haya pedido que lo hagamos, o haya dado su consentimiento para que lo hagamos;</li><li>Cuando debamos hacerlo para ejecutar un contrato que hayamos celebrado con usted;</li><li>Cuando sea necesario para nuestros intereses legítimos (o los de un tercero) y sus derechos fundamentales no prevalezcan sobre esos intereses.</li><li>Donde necesitamos cumplir con una obligación legal o regulatoria.</li><li>Márketing: Recibirá nuestros mensajes de marketing si nos ha dado su consentimiento para hacerlo o si ha proporcionado comentarios sobre nuestra aplicación y no ha optado por no recibir mensajes de marketing. (Para cancelar la suscripción a los correos electrónicos de marketing en cualquier momento, haga clic en el enlace para cancelar la suscripción en la parte inferior de cualquier correo electrónico de marketing y actualice las preferencias de su cuenta. También puede comunicarse con nosotros para informarnos si no desea recibir ningún material de marketing de nuestra parte).</li></ol><br>Dependiendo de cómo y por qué nos proporcione sus datos personales, podemos compartirlos de las siguientes maneras:<ol><li>Podemos compartir su información personal con cualquier miembro de nuestro grupo, lo que significa nuestras subsidiarias, y nuestra controladora.</li><li>Con terceros seleccionados, incluidos socios comerciales, proveedores y subcontratistas para la ejecución de cualquier contrato que celebremos con ellos o con usted (consulte \"Proveedores de servicios\" a continuación) o con analíticas que nos ayudan en la mejora y optimización de la App.</li></ol><br> También podemos divulgar su información personal a terceros en los siguientes eventos:<ol><li>Si vendemos o compramos cualquier negocio o activo, en cuyo caso podríamos divulgar su información personal al posible vendedor o comprador de dicho negocio o activo;</li><li>Si “Xcapit” o sustancialmente todos sus activos son adquiridos por un tercero, en cuyo caso la información personal que tengamos sobre nuestros clientes será uno de los activos transferidos; o</li><li>Si tenemos la obligación de divulgar o compartir su información personal para cumplir con cualquier obligación legal o para proteger los derechos, la propiedad o la seguridad de nuestra empresa, nuestros clientes u otros. Esto incluye el intercambio de información con otras empresas y organizaciones con el fin de proteger contra el fraude y reducir el riesgo de crédito.</li></ol><br><ol type=\"a\" start=\"b\"><li>Enlaces a sitios de terceros</li></ol><br>La aplicación puede contener enlaces hacia y desde los sitios web de nuestras redes de socios, anunciantes y afiliados. También podemos proporcionar enlaces a sitios web de terceros que no están afiliados a la Aplicación. Todos los sitios web de terceros están fuera de nuestro control y no están cubiertos por esta Política de privacidad. Si accede a sitios de terceros utilizando los enlaces proporcionados, los operadores de estos sitios pueden recopilar información suya que podrían utilizar, de acuerdo con sus propias políticas de privacidad. Consulte estas políticas antes de enviar datos personales a esos sitios web.",
+      "answer3": "<ol type=\"a\"><li>Base legal para procesar su información</li></ol><br>Solo usaremos sus datos personales cuando la ley nos lo permita. Por lo general, utilizaremos sus datos personales en las siguientes circunstancias:<ol type=\"a\"><li>Cuando nos haya pedido que lo hagamos, o haya dado su consentimiento para que lo hagamos;</li><li>Cuando debamos hacerlo para ejecutar un contrato que hayamos celebrado con usted;</li><li>Cuando sea necesario para nuestros intereses legítimos (o los de un tercero) y sus derechos fundamentales no prevalezcan sobre esos intereses.</li><li>Donde necesitamos cumplir con una obligación legal o regulatoria.</li><li>Márketing: Recibirá nuestros mensajes de marketing si nos ha dado su consentimiento para hacerlo o si ha proporcionado comentarios sobre nuestra aplicación y no ha optado por no recibir mensajes de marketing. (Para cancelar la suscripción a los correos electrónicos de marketing en cualquier momento, haga clic en el enlace para cancelar la suscripción en la parte inferior de cualquier correo electrónico de marketing y actualice las preferencias de su cuenta. También puede comunicarse con nosotros para informarnos si no desea recibir ningún material de marketing de nuestra parte).</li></ol><br>Dependiendo de cómo y por qué nos proporcione sus datos personales, podemos compartirlos de las siguientes maneras:<ol><li>Podemos compartir su información personal con cualquier miembro de nuestro grupo, lo que significa nuestras subsidiarias, y nuestra controladora.</li><li>Con terceros seleccionados, incluidos socios comerciales, proveedores y subcontratistas para la ejecución de cualquier contrato que celebremos con ellos o con usted (consulte \"Proveedores de servicios\" a continuación) o con analíticas que nos ayudan en la mejora y optimización de la App.</li></ol><br> También podemos divulgar su información personal a terceros en los siguientes eventos:<ol><li>Si vendemos o compramos cualquier negocio o token, en cuyo caso podríamos divulgar su información personal al posible vendedor o comprador de dicho negocio o token;</li><li>Si “Xcapit” o sustancialmente todos sus tokens son adquiridos por un tercero, en cuyo caso la información personal que tengamos sobre nuestros clientes será uno de los tokens transferidos; o</li><li>Si tenemos la obligación de divulgar o compartir su información personal para cumplir con cualquier obligación legal o para proteger los derechos, la propiedad o la seguridad de nuestra empresa, nuestros clientes u otros. Esto incluye el intercambio de información con otras empresas y organizaciones con el fin de proteger contra el fraude y reducir el riesgo de crédito.</li></ol><br><ol type=\"a\" start=\"b\"><li>Enlaces a sitios de terceros</li></ol><br>La aplicación puede contener enlaces hacia y desde los sitios web de nuestras redes de socios, anunciantes y afiliados. También podemos proporcionar enlaces a sitios web de terceros que no están afiliados a la Aplicación. Todos los sitios web de terceros están fuera de nuestro control y no están cubiertos por esta Política de privacidad. Si accede a sitios de terceros utilizando los enlaces proporcionados, los operadores de estos sitios pueden recopilar información suya que podrían utilizar, de acuerdo con sus propias políticas de privacidad. Consulte estas políticas antes de enviar datos personales a esos sitios web.",
       "question4": "4- Plazo de conservación de sus datos",
       "answer4": "Conservaremos su información personal en nuestros sistemas solo durante el tiempo que sea necesario para proporcionarle los productos y servicios que ha solicitado, incluso con el fin de satisfacer cualquier requisito legal, reglamentario, fiscal, contable o de informes. Podemos retener sus datos personales durante un período más largo en caso de una queja o si creemos razonablemente que existe una perspectiva de litigio con respecto a nuestra relación con usted. En algunas circunstancias, puede solicitarnos que eliminemos sus datos: consulte \"Sus derechos\" a continuación para obtener más información. En algunas circunstancias, podemos anonimizar sus datos personales (para que ya no puedan asociarse con usted) con fines de investigación o estadísticos, en cuyo caso podemos utilizar esta información de forma indefinida sin previo aviso.",
       "question5": "5- Seguridad",
@@ -3146,7 +3156,7 @@
       "question1": "¿Puedo usar Xcapit desde cualquier parte del mundo?",
       "answer1": "Por el momento está disponible únicamente en Argentina, Brasil, Colombia, México y España.",
       "question2": "¿Cuál es el riesgo de invertir con Xcapit?",
-      "answer2": "Cada producto de inversión que ofrecemos tiene su métrica correspondiente de riesgo a la cual debes estar seguro que quieras tomarlo, puedes ver los términos y condiciones de cada producto al momento de invertir tus activos.",
+      "answer2": "Cada producto de inversión que ofrecemos tiene su métrica correspondiente de riesgo a la cual debes estar seguro que quieras tomarlo, puedes ver los términos y condiciones de cada producto al momento de invertir tus tokens.",
       "question3": "¿Por qué usar la wallet de Xcapit?",
       "answer3": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Puedes acceder ágilmente a productos de inversión descentralizados.</li><li>Acceso al intercambio de tus NFTs favoritos.</li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
       "question4": "¿Cómo importar una wallet?",

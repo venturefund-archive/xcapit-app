@@ -20,7 +20,7 @@ import { InvestmentProduct } from '../../shared-defi-investments/interfaces/inve
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
-import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
+import { WithdrawConfirmationInjectable } from './withdraw-confirmation.injectable';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { By } from '@angular/platform-browser';
@@ -34,9 +34,7 @@ import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockc
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { fixedGasPriceTo } from 'src/testing/fixed-gas-price.spec';
 
-
 describe('WithdrawConfirmationPage', () => {
-
   const weiGasPriceTestValue = '10';
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   let component: WithdrawConfirmationPage;
@@ -60,14 +58,14 @@ describe('WithdrawConfirmationPage', () => {
   let fakeModalController: FakeModalController;
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
   let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
-  let controllerSpy: jasmine.SpyObj<WithdrawConfirmationController>;
+  let withdrawConfirmationInjectableSpy: jasmine.SpyObj<WithdrawConfirmationInjectable>;
   let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
-  let localNotificationInjectableSpy: jasmine.SpyObj<LocalNotificationInjectable>
-  let testLocalNotificationOk: {title: string, body: string}
-  let testLocalNotificationNotOk: {title: string, body: string}
-  let fakeLocalNotification: FakeLocalNotification
+  let localNotificationInjectableSpy: jasmine.SpyObj<LocalNotificationInjectable>;
+  let testLocalNotificationOk: { title: string; body: string };
+  let testLocalNotificationNotOk: { title: string; body: string };
+  let fakeLocalNotification: FakeLocalNotification;
   let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
 
@@ -76,7 +74,7 @@ describe('WithdrawConfirmationPage', () => {
       title: 'defi_investments.withdraw_notifications.success.title',
       body: 'defi_investments.withdraw_notifications.success.body',
     };
-    
+
     testLocalNotificationNotOk = {
       title: 'defi_investments.withdraw_notifications.error.title',
       body: 'defi_investments.withdraw_notifications.error.body',
@@ -107,7 +105,7 @@ describe('WithdrawConfirmationPage', () => {
       value: {},
     });
 
-    controllerSpy = jasmine.createSpyObj('Controller', {
+    withdrawConfirmationInjectableSpy = jasmine.createSpyObj('Controller', {
       createDynamicPrice: dynamicPriceSpy,
       createGasFeeOf: gasFeeOfSpy,
       createErc20Provider: erc20ProviderSpy,
@@ -140,9 +138,8 @@ describe('WithdrawConfirmationPage', () => {
     fakeLocalNotification = new FakeLocalNotification();
 
     localNotificationInjectableSpy = jasmine.createSpyObj('LocalNotificationInjectable', {
-      create: fakeLocalNotification
+      create: fakeLocalNotification,
     });
-
 
     nativeCoinSpy = jasmine.createSpyObj('Coin', {}, { native: true, value: 'MATIC', network: 'MATIC' });
 
@@ -191,7 +188,7 @@ describe('WithdrawConfirmationPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
         { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
-        { provide: WithdrawConfirmationController, useValue: controllerSpy },
+        { provide: WithdrawConfirmationInjectable, useValue: withdrawConfirmationInjectableSpy },
         { provide: AlertController, useValue: alertControllerSpy },
         { provide: LocalNotificationInjectable, useValue: localNotificationInjectableSpy },
         { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
@@ -227,7 +224,7 @@ describe('WithdrawConfirmationPage', () => {
       value: component.quoteAmount.value - component.withdrawFeeQuote.value,
       token: component.quoteAmount.token,
     });
-    expect(controllerSpy.createDynamicPrice).toHaveBeenCalledTimes(2);
+    expect(withdrawConfirmationInjectableSpy.createDynamicPrice).toHaveBeenCalledTimes(2);
   });
 
   it('should withdraw', async () => {
@@ -239,9 +236,12 @@ describe('WithdrawConfirmationPage', () => {
     fakeLocalNotification.triggerOnClick();
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
-    expect(sendSpy ).toHaveBeenCalledTimes(1);
+    expect(sendSpy).toHaveBeenCalledTimes(1);
     expect(onClickSpy).toHaveBeenCalledTimes(1);
-    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(
+      testLocalNotificationOk.title,
+      testLocalNotificationOk.body
+    );
   });
 
   it('should withdrawAll', async () => {
@@ -256,9 +256,12 @@ describe('WithdrawConfirmationPage', () => {
     fakeLocalNotification.triggerOnClick();
     expect(investmentSpy.withdrawAll).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
-    expect(sendSpy ).toHaveBeenCalledTimes(1);
+    expect(sendSpy).toHaveBeenCalledTimes(1);
     expect(onClickSpy).toHaveBeenCalledTimes(1);
-    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(
+      testLocalNotificationOk.title,
+      testLocalNotificationOk.body
+    );
   });
 
   it('should not withdraw if invalid password', async () => {
@@ -290,9 +293,12 @@ describe('WithdrawConfirmationPage', () => {
     await component.withdraw();
     await fixture.whenStable();
 
-    expect(sendSpy ).toHaveBeenCalledTimes(1);
+    expect(sendSpy).toHaveBeenCalledTimes(1);
     expect(onClickSpy).toHaveBeenCalledTimes(0);
-    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationNotOk.title, testLocalNotificationNotOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(
+      testLocalNotificationNotOk.title,
+      testLocalNotificationNotOk.body
+    );
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
   });

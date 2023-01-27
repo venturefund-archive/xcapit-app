@@ -3,11 +3,6 @@
     --background: var(--ion-color-neutral10);
   }
 
-  ion-toolbar {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-
   .ion-text-start {
     padding-left: 60px;
   }
@@ -15,11 +10,6 @@
   .saw {
     &__back {
       font-size: 12px;
-    }
-
-    &__step_counter {
-      margin-right: 13px;
-      color: var(--ion-color-white);
     }
 
     &__expandable_info {

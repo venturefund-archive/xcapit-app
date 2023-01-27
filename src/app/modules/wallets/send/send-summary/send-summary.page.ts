@@ -31,12 +31,12 @@ import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref=""></ion-back-button>
         </ion-buttons>
-        <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
-        <ion-label class="step-counter" slot="end">3 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
+        <ion-title class="sd__header">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
+        <ion-label class="ux_toolbar__step" slot="end">3 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ss ion-padding">

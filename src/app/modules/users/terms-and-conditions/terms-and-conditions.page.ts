@@ -6,7 +6,7 @@ import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
 @Component({
   selector: 'app-terms-and-conditions',
   template: `<ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/profiles/menu"></ion-back-button>
         </ion-buttons>
