@@ -14,28 +14,30 @@ export class Transfers {
     private readonly _cache: CacheService
   ) {}
 
-  public async all(): Promise<Transfer[]> {
-    const response = await this.repo
+  public all(): Promise<Transfer[]> {
+    return this.repo
       .transfersOf(this._aToken, this._inAddress)
       .toPromise()
-      .then((res) => this._transferResponseOf(res));
-    await this._saveInCache(response);
-    return response;
+      .then((res) => {
+        this._saveInCache(res);
+        return this._transferResponseOf(res);
+      });
   }
 
   public cached(): Promise<Transfer[]> {
-    return this._cache.get(this._storageKey());
+    return this._cache.get(this._storageKey())
+      .then((res) => res ? this._transferResponseOf(res) : undefined);
   }
 
   private _storageKey() {
     return `asset_transaction_${this._aToken.network}_${this._aToken.value}`;
   }
 
-  private _saveInCache(transfer: Transfer[]): Promise<void> {
-    return this._cache.update(this._storageKey(), transfer);
+  private _saveInCache(data: any): Promise<void> {
+    return this._cache.update(this._storageKey(), data);
   }
 
-  private _transferResponseOf(res: any) {
+  private _transferResponseOf(res: any): Transfer[] {
     return res.data.items.map((rawTransfer: RawTransfer) => {
       let transferType: typeof NativeTransfer | typeof NoNativeTransfer;
       if (rawTransfer.hasOwnProperty('transfers')) {
