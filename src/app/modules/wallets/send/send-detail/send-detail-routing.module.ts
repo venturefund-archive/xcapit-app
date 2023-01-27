@@ -11,10 +11,6 @@ const routes: Routes = [
     path: 'blockchain/:blockchain/token/:token/amount/:amount',
     component: SendDetailPage,
   },
-  {
-    path: 'blockchain/:blockchain/token/:token/contact/:contact/address/:address/amount/:amount',
-    component: SendDetailPage,
-  },
 ];
 
 @NgModule({

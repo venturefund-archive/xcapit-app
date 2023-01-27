@@ -74,15 +74,18 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
             expand="block"
             appTrackClick
             name="ux_go_to_address_list"
-            >
+          >
             <ion-icon name="qr-contact"></ion-icon>
             <ion-label>{{ 'wallets.shared_wallets.address_input_card.agenda' | translate }}</ion-label>
           </ion-button>
         </ng-container>
         <ng-container *ngIf="this.addressFromContact">
-          <ion-button 
-          name="ux_remove_contact"
-          (click)="this.removeContact()" class="ux-link-xl aic__content__contact-button" expand="block">
+          <ion-button
+            name="ux_remove_contact"
+            (click)="this.remove()"
+            class="ux-link-xl aic__content__contact-button"
+            expand="block"
+          >
             <ion-label>{{ 'wallets.shared_wallets.address_input_card.remove_contact' | translate }}</ion-label>
           </ion-button>
         </ng-container>
@@ -107,6 +110,7 @@ export class AddressInputCardComponent implements OnInit {
   @Input() addressFromContact = false;
   @Input() contact: string;
   @Output() addFromContacts: EventEmitter<void> = new EventEmitter<void>();
+  @Output() removeContact: EventEmitter<void> = new EventEmitter<void>();
   isPWA = true;
   form: UntypedFormGroup;
   control: AbstractControl;
@@ -121,10 +125,11 @@ export class AddressInputCardComponent implements OnInit {
     private translate: TranslateService,
     private formGroupDirective: FormGroupDirective,
     private platformService: PlatformService,
-    private ionicStorage: IonicStorageService
+    private ionicStorage: IonicStorageService,
   ) {}
 
   ngOnInit() {
+    console.log('ngOnInit aic');
     this.form = this.formGroupDirective.form;
     this.checkIsWebPlatform();
     this.checkContactsList();
@@ -186,8 +191,9 @@ export class AddressInputCardComponent implements OnInit {
     return this.addFromContacts.emit();
   }
 
-  public removeContact() {
+  public remove() {
     this.addressFromContact = false;
     this.form.patchValue({ address: '' });
+    this.removeContact.emit();
   }
 }

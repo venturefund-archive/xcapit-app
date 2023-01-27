@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { Contact } from '../shared-contacts/interfaces/contact.interface';
+import { ContactDataService } from '../shared-contacts/services/contact-data/contact-data.service';
 
 @Component({
   selector: 'app-contacts-home',
@@ -68,7 +70,8 @@ export class ContactsHomePage implements OnInit {
     private ionicService: IonicStorageService,
     private navController: NavController,
     private route: ActivatedRoute,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private contactDataService: ContactDataService
   ) {}
 
   ngOnInit() {}
@@ -101,19 +104,16 @@ export class ContactsHomePage implements OnInit {
     this.navController.navigateForward(['/contacts/register']);
   }
 
-  selectContact(contact) {
+  selectContact(contact: Contact) {
     if (this.isSelecting) {
       this.trackContactSelected();
       this.setEvent();
+      this.contactDataService.updateContact(contact);
       this.navController.navigateBack([
         '/wallets/send/detail/blockchain',
         this.blockchain,
         'token',
         this.token,
-        'contact',
-        contact.name,
-        'address',
-        contact.address,
         'amount',
         this.amount,
       ]);

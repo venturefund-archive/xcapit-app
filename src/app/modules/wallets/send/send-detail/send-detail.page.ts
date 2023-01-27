@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { ModalController, NavController } from '@ionic/angular';
@@ -43,6 +43,8 @@ import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet'
 import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
 import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
+import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
 
 @Component({
   selector: 'app-send-detail',
@@ -74,8 +76,9 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
             [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
             [addressFromContact]="this.addressFromContact"
-            [contact]="this.contact"
+            [contact]="this.contact?.name"
             (addFromContacts)="navigateToContacts()"
+            (removeContact)="removeContact()"
           ></app-address-input-card>
         </div>
         <div class="sd__amount-input-card" *ngIf="this.token">
@@ -144,7 +147,7 @@ export class SendDetailPage {
   tplTokenSolana: RawToken;
   tokenDetail: TokenDetail;
   addressFromContact = false;
-  contact: string;
+  contact: Contact;
   private wallet: Wallet;
   private tokenObj: Token;
   private nativeToken: Token;
@@ -175,17 +178,15 @@ export class SendDetailPage {
     private tokenDetailInjectable: TokenDetailInjectable,
     private covalentBalancesFactory: CovalentBalancesController,
     private tokenPricesFactory: TokenPricesController,
-    private solanaFeeOf: SolanaFeeOfInjectable
+    private solanaFeeOf: SolanaFeeOfInjectable,
+    private contactDataService: ContactDataService
   ) {}
 
   async ionViewWillEnter() {
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
-    if (this.route.snapshot.paramMap.get('contact')) {
-      this.setFormData(
-        this.route.snapshot.paramMap.get('contact'),
-        this.route.snapshot.paramMap.get('address'),
-        this.route.snapshot.paramMap.get('amount')
-      );
+    this.contact = this.contactDataService.getContact();
+    if (this.contact) {
+      this.setFormData(this.route.snapshot.paramMap.get('amount'));
     }
     await this.setAddressValidator();
   }
@@ -199,10 +200,9 @@ export class SendDetailPage {
     await this.tokenBalances();
   }
 
-  setFormData(contact: string, address: string, amount: string) {
-    this.form.patchValue({ address, amount });
+  setFormData(amount: string) {
+    this.form.patchValue({ address: this.contact.address, amount });
     this.addressFromContact = true;
-    this.contact = contact;
   }
 
   async setAddressValidator() {
@@ -419,7 +419,7 @@ export class SendDetailPage {
       balance: this.balance,
       fee: this.fee.toString(),
       referenceFee: this.quoteFee.value.toString(),
-      contact: this.contact,
+      contact: this.contact.name,
     };
   }
 
@@ -433,6 +433,7 @@ export class SendDetailPage {
   ionViewWillLeave() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.removeContact();
   }
 
   async checkEnoughBalance() {
@@ -461,13 +462,20 @@ export class SendDetailPage {
   }
 
   navigateToContacts() {
-    return this.navController.navigateForward([
-      `contacts/home/select/blockchain`,
-      this.blockchain.name(),
-      'token',
-      this.token.contract,
-      'amount',
-      this.form.value.amount,
-    ]);
+    return this.navController.navigateForward(
+      [
+        `contacts/home/select/blockchain`,
+        this.blockchain.name(),
+        'token',
+        this.token.contract,
+        'amount',
+        this.form.value.amount,
+      ],
+      { replaceUrl: true }
+    );
+  }
+
+  removeContact() {
+    this.contactDataService.updateContact(null);
   }
 }

@@ -10,6 +10,8 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { Contact } from '../shared-contacts/interfaces/contact.interface';
+import { ContactDataService } from '../shared-contacts/services/contact-data/contact-data.service';
 import { ContactsHomePage } from './contacts-home.page';
 
 describe('ContactsHomePage', () => {
@@ -22,6 +24,7 @@ describe('ContactsHomePage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
 
   const contacts = [
     {
@@ -37,6 +40,12 @@ describe('ContactsHomePage', () => {
     token: '0x0000000000000000000000000000000000001010',
     amount: '1',
   };
+
+  const contact: Contact = {
+    address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+    name: 'Test',
+    networks: ['MATIC'],
+  };
   beforeEach(waitForAsync(() => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(contacts),
@@ -51,6 +60,10 @@ describe('ContactsHomePage', () => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
+    contactDataServiceSpy = jasmine.createSpyObj('ContactDataService', {
+      getContact: contact,
+      updateContact: {},
+    });
 
     TestBed.configureTestingModule({
       declarations: [ContactsHomePage, FakeTrackClickDirective],
@@ -60,6 +73,7 @@ describe('ContactsHomePage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: ContactDataService, useValue: contactDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -119,15 +133,12 @@ describe('ContactsHomePage', () => {
     const contactEl = fixture.debugElement.query(By.css('div.ch__content__item'));
     contactEl.nativeElement.click();
     fixture.detectChanges();
+    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith([
       '/wallets/send/detail/blockchain',
       route.blockchain,
       'token',
       route.token,
-      'contact',
-      contacts[0].name,
-      'address',
-      contacts[0].address,
       'amount',
       route.amount,
     ]);
