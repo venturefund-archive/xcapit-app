@@ -31,7 +31,7 @@ import { ContactDataService } from '../shared-contacts/services/contact-data/con
       <div class="ch__content" *ngIf="this.contacts.length > 0">
         <div
           class="ch__content__item"
-          (click)="this.selectContact(contact)"
+          (click)="this.select(contact)"
           lines="none"
           appTrackClick
           *ngFor="let contact of this.contacts"
@@ -104,19 +104,30 @@ export class ContactsHomePage implements OnInit {
     this.navController.navigateForward(['/contacts/register']);
   }
 
-  selectContact(contact: Contact) {
+  select(aContact: Contact) {
     if (this.isSelecting) {
       this.trackContactSelected();
       this.setEvent();
-      this.contactDataService.updateContact(contact);
+      this.contactDataService.updateContact(aContact);
       this.navController.navigateBack([
         '/wallets/send/detail/blockchain',
         this.blockchain,
         'token',
         this.token,
+        'address',
+        aContact.address,
         'amount',
         this.amount,
       ]);
+    } else {
+      const contact: Contact = {
+        name: aContact.name,
+        address: aContact.address,
+        networks: aContact.networks,
+        index: this.contacts.indexOf(aContact),
+      };
+      this.contactDataService.updateContact(contact);
+      this.navController.navigateForward('/contacts/detail');
     }
   }
 

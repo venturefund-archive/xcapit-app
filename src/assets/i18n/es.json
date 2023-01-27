@@ -3407,6 +3407,7 @@
       "name_label": "Nombre",
       "name_placeholder": "Ej: Wallet de Laura",
       "submit_text": "Agendar wallet",
+      "button_edit": "Confirmar",
       "text_invalid": "La dirección de wallet es incorrecta",
       "text_valid": "La dirección de wallet es correcta",
       "repeated_address": "La dirección ya se encuentra agendada",
@@ -3427,6 +3428,17 @@
       "title": "Escanea el codigo QR de la dirección que deseas agendar",
       "scan_error": "Error al escanear el código QR",
       "scan_unauthorized": "No tienes permiso para escanear"
+    },
+    "detail": {
+      "header":"Contacto",
+      "subtitle_network":"Red",
+      "subtitle_address":"Dirección",
+      "alert": {
+        "title":"¿Deseas eliminar?",
+        "description":"Se perderán de manera permanente los datos ingresados.",
+        "confirm_button":"Confirmar",
+        "cancel_button":"Cancelar"
+      }
     }
   }
 }

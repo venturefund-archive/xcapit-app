@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -116,6 +116,8 @@ describe('RegisterPage', () => {
   });
 
   it('should render properly', () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
     const network_selector = fixture.debugElement.query(By.css('app-network-selector'));
     const [addressInputEl, nameInputEl] = fixture.debugElement.queryAll(By.css('app-ux-input'));
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_address_confirm"]'));
@@ -131,20 +133,24 @@ describe('RegisterPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should save data on storage when form is valid ', async () => {
+  it('should save data on storage when form is valid ', fakeAsync ( () => {
     storageSpy.get.and.resolveTo([]);
+    component.ionViewWillEnter();
+    tick();
+    fixture.detectChanges();
     component.form.patchValue(validFormErc20Data);
+    tick();
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_address_confirm"]'));
     buttonEl.nativeElement.click();
+    tick();
     fixture.detectChanges();
-    await fixture.whenRenderingDone();
-    await fixture.whenStable();
-    expect(storageSpy.get).toHaveBeenCalledTimes(1);
+    expect(storageSpy.get).toHaveBeenCalledTimes(3);
     expect(storageSpy.set).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showSuccessToastVerticalOffset).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('contacts/home');
-  });
+    discardPeriodicTasks();
+  }));
 
   it('should set array when null storage ', async () => {
     storageSpy.get.and.resolveTo(null);

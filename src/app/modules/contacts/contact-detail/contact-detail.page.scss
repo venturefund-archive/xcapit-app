@@ -1,0 +1,81 @@
+:host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  ion-content {
+    --background: var(--ion-color-background);
+  }
+
+  .cd {
+    &__content {
+      background: var(--ion-color-white);
+      box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+      border-radius: 8px;
+
+      &__wrapper {
+        height: 64px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        img {
+          height: 100%;
+        }
+
+        &__icons {
+          display: flex;
+          flex-direction: row;
+          font-size: 20px;
+
+          &__edit {
+            margin-right: 23px;
+          }
+
+          &__delete {
+            margin-right: 4px;
+          }
+        }
+      }
+
+      &__title {
+        margin-top: 16px;
+      }
+
+      &__networks {
+        margin-top: 20px;
+
+        &__item {
+          display: flex;
+          column-gap: 8px;
+          row-gap: 2px;
+          flex-wrap: wrap;
+          margin-top: 4px;
+
+          app-token-network-badge {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+
+      &__address-wrapper {
+        margin-top: 23px;
+
+        &__address {
+          margin-top: 4px;
+          display: flex;
+          margin-bottom: 17px;
+
+          ion-text {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: var(--ion-color-neutral90);
+          }
+        }
+      }
+    }
+  }
+}
