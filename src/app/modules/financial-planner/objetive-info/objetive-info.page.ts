@@ -9,12 +9,12 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
   selector: 'app-objetive-info',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left no-border">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded no-border">
         <ion-buttons slot="start">
           <ion-back-button class="oi__back" defaultHref="/financial-planner/new-objetive"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-start">{{ 'financial_planner.objetive_info.header' | translate }}</ion-title>
-        <ion-label class="ux-font-text-xs oi__step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >2 {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >
       </ion-toolbar>

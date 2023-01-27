@@ -9,7 +9,7 @@ import { ContactDataService } from '../shared-contacts/services/contact-data/con
 @Component({
   selector: 'app-contacts-home',
   template: `<ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="" (click)="this.back()"></ion-back-button>
         </ion-buttons>

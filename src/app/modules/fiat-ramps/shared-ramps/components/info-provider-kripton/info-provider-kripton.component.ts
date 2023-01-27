@@ -36,14 +36,6 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
               <ion-text>{{ 'fiat_ramps.select_provider.modal_info.kyc_required' | translate }}</ion-text>
             </div>
             <div class="ux-font-header-titulo main__body__content__subtitle">
-              <ion-text>{{ 'fiat_ramps.select_provider.modal_info.subtitle_minimum_amount' | translate }}</ion-text>
-            </div>
-            <div class="main__body__content__description">
-              <ion-text class="ux-font-text-base">
-                {{ 'fiat_ramps.select_provider.modal_info.kripton.minimum_amount' | translate }}
-              </ion-text>
-            </div>
-            <div class="ux-font-header-titulo main__body__content__subtitle">
               <ion-text>{{ 'fiat_ramps.select_provider.modal_info.subtitle_delivery_time' | translate }}</ion-text>
             </div>
             <div class="main__body__content__description">

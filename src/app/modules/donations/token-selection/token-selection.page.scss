@@ -1,15 +1,5 @@
 :host {
-  ion-toolbar {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-
   .dts {
-    &__step_counter {
-      margin-right: 13px;
-      color: var(--ion-color-white);
-    }
-
     &__button_back {
       ion-icon {
         height: 24px;

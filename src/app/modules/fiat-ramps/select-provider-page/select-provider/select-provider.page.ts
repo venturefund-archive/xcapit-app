@@ -5,14 +5,13 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FiatRampOperation } from '../../shared-ramps/interfaces/fiat-ramp-operation.interface';
-import { FiatRampProvider } from '../../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { COUNTRIES } from '../../shared-ramps/constants/countries';
 import { TokenOperationDataService } from '../../shared-ramps/services/token-operation-data/token-operation-data.service';
 @Component({
   selector: 'app-select-provider',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/token-selection"></ion-back-button>
         </ion-buttons>

@@ -103,6 +103,7 @@ import { InProgressTransactionModalComponent } from './components/in-progress-tr
 import { AssetDetailComponent } from './components/asset-detail/asset-detail.component';
 import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/components/address-input-card/address-input-card.component';
 import { ContactItemComponent } from './components/contact-item/contact-item.component';
+import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-alert.component';
 
 @NgModule({
   declarations: [
@@ -130,6 +131,7 @@ import { ContactItemComponent } from './components/contact-item/contact-item.com
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
     ContactItemComponent,
+    ModalAsAlertComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
@@ -244,6 +246,7 @@ import { ContactItemComponent } from './components/contact-item/contact-item.com
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
     ContactItemComponent,
+    ModalAsAlertComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,

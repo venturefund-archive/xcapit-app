@@ -11,10 +11,10 @@ import { TotalBalance } from '../shared-wallets/models/balance/total-balance/tot
 import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
 import { NullPrices } from '../shared-wallets/models/prices/null-prices/null-prices';
 import { NullBalances } from '../shared-wallets/models/balances/null-balances/null-balances';
-import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
-import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
-import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
-import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
+import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/token-detail.injectable';
+import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-balance/total-balance.injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
@@ -229,10 +229,10 @@ export class HomeWalletPage implements OnInit {
     private storageService: StorageService,
     private balanceCacheService: BalanceCacheService,
     private http: HttpClient,
-    private covalentBalances: CovalentBalancesController,
-    private tokenPrices: TokenPricesController,
-    private tokenDetail: TokenDetailController,
-    private totalBalance: TotalBalanceController,
+    private covalentBalances: CovalentBalancesInjectable,
+    private tokenPrices: TokenPricesInjectable,
+    private tokenDetail: TokenDetailInjectable,
+    private totalBalance: TotalBalanceInjectable,
     private trackService: TrackService,
     private ionicStorageService: IonicStorageService,
     private localStorageService: LocalStorageService,
@@ -345,7 +345,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   private initializeTotalBalance() {
-    this.totalBalanceModel = this.totalBalance.new(new NullPrices(), new NullBalances(), new ZeroBalance());
+    this.totalBalanceModel = this.totalBalance.create(new NullPrices(), new NullBalances(), new ZeroBalance());
   }
 
   private async setTokenDetails() {
@@ -354,18 +354,18 @@ export class HomeWalletPage implements OnInit {
     for (const blockchain of this.blockchainsFactory.create().value()) {
       const tokens: any = new BlockchainTokens(blockchain, new DefaultTokens(new TokenRepo(this.userTokens)));
       if ((await tokens.value()).length) {
-        const balances = this.covalentBalances.new(
+        const balances = this.covalentBalances.create(
           (await this.walletsFactory.create().oneBy(blockchain)).address(),
           tokens,
           this.http
         );
-        const prices = this.tokenPrices.new(tokens, this.http);
+        const prices = this.tokenPrices.create(tokens, this.http);
         for (const token of await tokens.value()) {
-          const tokenDetail = this.tokenDetail.new(balances, prices, token, this.balanceCacheService);
+          const tokenDetail = this.tokenDetail.create(balances, prices, token, this.balanceCacheService);
           tokenDetails.push(tokenDetail);
           await tokenDetail.cached();
         }
-        this.totalBalanceModel = this.totalBalance.new(prices, balances, this.totalBalanceModel);
+        this.totalBalanceModel = this.totalBalance.create(prices, balances, this.totalBalanceModel);
       }
     }
     this.sortTokens(tokenDetails);

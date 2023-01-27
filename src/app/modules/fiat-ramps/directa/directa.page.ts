@@ -34,7 +34,7 @@ import { D24_PAYMENT_TYPES } from '../shared-ramps/constants/payment-types';
   selector: 'app-directa',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>

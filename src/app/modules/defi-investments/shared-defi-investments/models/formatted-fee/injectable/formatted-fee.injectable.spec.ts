@@ -1,22 +1,22 @@
 import { TestBed } from '@angular/core/testing';
-import { FormattedFeeController } from './formatted-fee.controller';
+import { FormattedFeeInjectable } from './formatted-fee.injectable';
 import { Fee } from '../../../interfaces/fee.interface';
 import { FormattedFee } from '../formatted-fee.model';
 
-describe('FormattedFeeController', () => {
-  let service: FormattedFeeController;
+describe('FormattedFeeInjectable', () => {
+  let service: FormattedFeeInjectable;
   let feeSpy: jasmine.SpyObj<Fee>;
 
   beforeEach(() => {
-    service = TestBed.inject(FormattedFeeController);
+    service = TestBed.inject(FormattedFeeInjectable);
     feeSpy = jasmine.createSpyObj('Fee', ['value']);
   });
 
   it('should create with default decimals', () => {
-    expect(service.new(feeSpy)).toBeInstanceOf(FormattedFee);
+    expect(service.create(feeSpy)).toBeInstanceOf(FormattedFee);
   });
 
   it('should create with specific decimals', () => {
-    expect(service.new(feeSpy, 10)).toBeInstanceOf(FormattedFee);
+    expect(service.create(feeSpy, 10)).toBeInstanceOf(FormattedFee);
   });
 });

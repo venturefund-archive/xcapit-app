@@ -11,11 +11,6 @@ ion-card {
   padding-left: 60px;
 }
 
-ion-toolbar {
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
 .wp {
   &__back {
     font-size: 12px;
@@ -25,11 +20,6 @@ ion-toolbar {
 
   &__card {
     margin-bottom: 20px;
-  }
-
-  &__step_counter {
-    margin-right: 13px;
-    color: var(--ion-color-white);
   }
 
   &__fee,

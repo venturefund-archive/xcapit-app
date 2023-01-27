@@ -352,7 +352,6 @@ export class InvestmentConfirmationPage {
     if (this.remoteConfig.getFeatureFlag('ff_fundFaucet')) {
       if (this.isElegibleToFund) {
         await this.defiInvesmentService.fundWallet().toPromise();
-
         this.sendEvent();
       }
     }
@@ -401,6 +400,7 @@ export class InvestmentConfirmationPage {
     await this.fundWallet();
     await this.getTokenBalanceAvailable();
     const wallet = await this.wallet();
+    await this.saveTwoPiAgreement();
     if (wallet) {
       if (this.checkTokenBalance()) {
         await this.openInProgressModal();
@@ -412,7 +412,7 @@ export class InvestmentConfirmationPage {
             .then(() => this.createNotification('success'))
             .then(() => this.setActionListener())
             .then(() => this.notification.send());
-          await this.saveTwoPiAgreement();
+          
         } catch {
           this.createNotification('error');
           this.notification.send();

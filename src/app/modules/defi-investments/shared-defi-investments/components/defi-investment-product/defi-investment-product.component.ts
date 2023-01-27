@@ -17,7 +17,7 @@ import { DefiInvestment } from '../../interfaces/defi-investment.interface';
           <div class="dip__title_container">
             <ion-text class="ux-font-text-lg">{{ this.token.value }}</ion-text>
             <div class="dip__content__title">
-              <ion-text class="ux-font-text-xs title">{{ this.token.name | splitString: ' - '[1] }}</ion-text>
+              <ion-text class="ux-font-text-xs title">{{ this.formattedTokenName | titlecase }}</ion-text>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@ import { DefiInvestment } from '../../interfaces/defi-investment.interface';
             'defi_investments.shared.defi_investment_product.performance' | translate
           }}</ion-text>
           <ion-badge class="ux-font-num-subtitulo ux-badge-coming dip__footer__badge" slot="end"
-            >{{ this.apy | number: '1.2-2' }}%
+            >{{ this.apy | number : '1.2-2' }}%
             {{ 'defi_investments.shared.defi_investment_product.annual' | translate }}</ion-badge
           >
         </div>
@@ -72,6 +72,7 @@ export class DefiInvestmentProductComponent implements OnInit {
   token: Coin;
   secondFooterLabel: string;
   trackClickName: string;
+  formattedTokenName: string;
 
   constructor(private navController: NavController, private walletService: WalletService) {}
 
@@ -82,6 +83,12 @@ export class DefiInvestmentProductComponent implements OnInit {
       ? 'defi_investments.shared.defi_investment_product.continuous_earnings'
       : 'defi_investments.shared.defi_investment_product.weekly_earnings';
     this.trackClickName = `ux_invest_${this.token.value.toLowerCase()}`;
+    this.formatTokenName();
+  }
+
+  formatTokenName() {
+    this.formattedTokenName = this.token.name.substring(this.token.name.indexOf('- ') + 1, this.token.name.length);
+    this.formattedTokenName = this.formattedTokenName === ' Polygon' ? 'Matic' : this.formattedTokenName;
   }
 
   async invest() {

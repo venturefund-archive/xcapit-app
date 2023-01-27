@@ -9,10 +9,10 @@ import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { TwoPiContract } from '../../shared-defi-investments/models/two-pi-contract/two-pi-contract.model';
 import { TwoPiInvestment } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
-import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
+import { WithdrawConfirmationInjectable } from './withdraw-confirmation.injectable';
 
-describe('WithdrawConfirmationController', () => {
-  let service: WithdrawConfirmationController;
+describe('WithdrawConfirmationInjectable', () => {
+  let service: WithdrawConfirmationInjectable;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
   let coinSpy: jasmine.SpyObj<Coin>;
   let signerSpy: jasmine.SpyObj<Signer>;
@@ -27,7 +27,7 @@ describe('WithdrawConfirmationController', () => {
       imports: [],
       providers: [],
     });
-    service = TestBed.inject(WithdrawConfirmationController);
+    service = TestBed.inject(WithdrawConfirmationInjectable);
   });
 
   it('should create', () => {

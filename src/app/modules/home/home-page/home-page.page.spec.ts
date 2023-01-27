@@ -17,10 +17,10 @@ import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
-import { TotalBalanceController } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.controller';
-import { TokenPricesController } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.controller';
-import { CovalentBalancesController } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
-import { TokenDetailController } from '../../wallets/shared-wallets/models/token-detail/token-detail.controller';
+import { TotalBalanceInjectable } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.injectable';
+import { TokenPricesInjectable } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.injectable';
+import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/token-detail.injectable';
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
 import { FakeBalance } from '../../wallets/shared-wallets/models/balance/fake-balance/fake-balance';
 import { FakePrices } from '../../wallets/shared-wallets/models/prices/fake-prices/fake-prices';
@@ -59,10 +59,10 @@ describe('HomePage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let coinSpy: jasmine.SpyObj<Coin>;
-  let totalBalanceControllerSpy: jasmine.SpyObj<TotalBalanceController>;
-  let tokenPricesControllerSpy: jasmine.SpyObj<TokenPricesController>;
-  let covalentBalancesControllerSpy: jasmine.SpyObj<CovalentBalancesController>;
-  let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
+  let totalBalanceInjectableSpy: jasmine.SpyObj<TotalBalanceInjectable>;
+  let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
+  let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
+  let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
@@ -75,9 +75,9 @@ describe('HomePage', () => {
 
   beforeEach(waitForAsync(() => {
     coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
-    totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
-    tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
-    covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+    totalBalanceInjectableSpy = jasmine.createSpyObj('TotalBalanceInjectable', { create: new FakeBalance(10) });
+    tokenPricesInjectableSpy = jasmine.createSpyObj('TokenPricesInjectable', { create: new FakePrices() });
+    covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { create: new FakeBalances() });
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
       { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
@@ -88,7 +88,7 @@ describe('HomePage', () => {
         coin: coinSpy,
       }
     );
-    tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
+    tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailSpy', { create: tokenDetailSpy });
     windowSpy = spyOn(window, 'open');
 
     fakeNavController = new FakeNavController();
@@ -152,10 +152,10 @@ describe('HomePage', () => {
         { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
-        { provide: CovalentBalancesController, useValue: covalentBalancesControllerSpy },
-        { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
-        { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
-        { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
+        { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
+        { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
+        { provide: TotalBalanceInjectable, useValue: totalBalanceInjectableSpy },
+        { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: AppStorageService, useValue: appStorageServiceSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },

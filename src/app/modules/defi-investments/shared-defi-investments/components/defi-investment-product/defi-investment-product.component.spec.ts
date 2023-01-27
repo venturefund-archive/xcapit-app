@@ -38,7 +38,7 @@ describe('DefiInvestmentProductComponent', () => {
       {},
       {
         name: 'USDC - USD Coin',
-        logoRoute: 'assets/img/coins/USDC.png',
+        logoRoute: 'assets/img/coins/USDC-POLYGON.svg',
         value: 'USDC',
       }
     );
