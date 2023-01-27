@@ -32,7 +32,7 @@ import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services
   template: ` <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
-          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref=""></ion-back-button>
+          <ion-back-button appTrackClick name="ux_nav_go_back" (click)="back()" defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title class="sd__header">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
         <ion-label class="ux_toolbar__step" slot="end">3 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
@@ -206,7 +206,7 @@ export class SendSummaryPage implements OnInit {
       componentProps: {
         data: SUCCESS_TYPES.send_in_progress,
         address: this.summaryData.address,
-        blockchain: this.blockchain
+        blockchain: this.blockchain,
       },
       cssClass: 'modal',
       backdropDismiss: false,
@@ -315,6 +315,17 @@ export class SendSummaryPage implements OnInit {
     });
   }
 
+  back() {
+    this.navController.navigateBack([
+      'wallets/send/detail/blockchain',
+      this.summaryData.network,
+      'token',
+      this.summaryData.currency.contract,
+      'amount',
+      this.summaryData.amount,
+    ]);
+  }
+  
   private navigateToTokenDetail() {
     this.navController.navigateRoot([
       `wallets/token-detail/blockchain/${this.summaryData.network}/token/${this.summaryData.currency.contract}`,

@@ -52,11 +52,7 @@ import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/con
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
-          <ion-back-button
-            appTrackClick
-            name="ux_nav_go_back"
-            defaultHref="/wallets/send/select-currency"
-          ></ion-back-button>
+          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref="" (click)="back()"></ion-back-button>
         </ion-buttons>
         <ion-title class="sd__header">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
         <ion-label class="ux_toolbar__step" slot="end">2 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
@@ -73,10 +69,9 @@ import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/con
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [subtitle]="'wallets.send.send_detail.address_input.subtitle' | translate"
-            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate : { currency: this.token.value }"
+            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
             [addressFromContact]="this.addressFromContact"
-            [contact]="this.contact?.name"
             (addFromContacts)="navigateToContacts()"
             (removeContact)="removeContact()"
           ></app-address-input-card>
@@ -433,7 +428,6 @@ export class SendDetailPage {
   ionViewWillLeave() {
     this.destroy$.next();
     this.destroy$.complete();
-    this.removeContact();
   }
 
   async checkEnoughBalance() {
@@ -459,6 +453,11 @@ export class SendDetailPage {
       await modal.present();
     }
     await modal.onDidDismiss();
+  }
+
+  back() {
+    this.removeContact()
+    return this.navController.navigateBack(['/wallets/send/select-currency']);
   }
 
   navigateToContacts() {

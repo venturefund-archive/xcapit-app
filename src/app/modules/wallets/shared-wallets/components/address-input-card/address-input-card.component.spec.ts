@@ -12,6 +12,7 @@ import { FormattedNetworkPipe } from 'src/app/shared/pipes/formatted-network-nam
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeFeatureFlagDirective } from '../../../../../../testing/fakes/feature-flag-directive.fake.spec';
+import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 
 describe('AddressInputCardComponent', () => {
   let component: AddressInputCardComponent;
@@ -24,6 +25,7 @@ describe('AddressInputCardComponent', () => {
   let fakeModalController: FakeModalController;
   let platformServiceSpy: any;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
 
   const contacts = [
     {
@@ -39,6 +41,10 @@ describe('AddressInputCardComponent', () => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(contacts),
     });
+    contactDataServiceSpy = jasmine.createSpyObj('ContacDataServiceSpy', {
+      getContact: contacts[0],
+    });
+
     platformServiceSpy = jasmine.createSpyObj('PlatformService', ['isWeb']);
     platformServiceSpy.isWeb.and.returnValue(false);
     controlContainerMock = new UntypedFormGroup({
@@ -63,6 +69,7 @@ describe('AddressInputCardComponent', () => {
         { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
         { provide: PlatformService, useValue: platformServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: ContactDataService, useValue: contactDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -143,13 +150,16 @@ describe('AddressInputCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should render app-contact-item if address was imported from contacts', ()=>{
-    component.addressFromContact = true;
+  it('should render app-contact-item if address was imported from contacts', () => {
     component.form.patchValue({ address: contacts[0].address });
+    component.addressFromContact = true;
     fixture.detectChanges();
+    component.ngOnInit();
+    fixture.detectChanges();
+
     const contactEl = fixture.debugElement.query(By.css('app-contact-item'));
     expect(contactEl).toBeTruthy();
-  })
+  });
 
   it('should remove wallet added from contacts', () => {
     component.form.patchValue({ address: contacts[0].address });
@@ -158,5 +168,6 @@ describe('AddressInputCardComponent', () => {
     const removeContactButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_remove_contact"]'));
     removeContactButtonEl.nativeElement.click();
     expect(component.form.value.address).toEqual('');
+    expect(component.addressFromContact).toEqual(false);
   });
 });

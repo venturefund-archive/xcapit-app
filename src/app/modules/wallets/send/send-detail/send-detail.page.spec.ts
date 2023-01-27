@@ -416,9 +416,25 @@ describe('SendDetailPage', () => {
     expect(component.form.value.amount).toEqual(formData.valid.amount);
   }));
 
-  it('should delete contact from contactDataService when ionViewWillLeave  was called', () => {
-    component.ionViewWillLeave();
+  it('should delete contact from contactDataService when backButton was clicked', fakeAsync(() => {
+    component.ionViewWillEnter();
+    component.ionViewDidEnter();
+    tick();
     fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('ion-back-button[name="ux_nav_go_back"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledOnceWith(null);
+  }));
+
+  it('should delete contact from contactDataService when removeContact event was emitted', async () => {
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('app-address-input-card')).triggerEventHandler('removeContact');
 
     expect(contactDataServiceSpy.updateContact).toHaveBeenCalledOnceWith(null);
   });

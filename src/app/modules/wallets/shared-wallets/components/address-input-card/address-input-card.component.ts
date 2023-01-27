@@ -6,6 +6,8 @@ import { ToastService } from '../../../../../shared/services/toast/toast.service
 import { TranslateService } from '@ngx-translate/core';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
+import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 
 @Component({
   selector: 'app-address-input-card',
@@ -60,8 +62,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
         </div>
         <div class="aic__content__contact" *ngIf="this.addressFromContact">
           <app-contact-item
-            [name]="contact"
-            [address]="form.value.address"
+            [name]="this.contact?.name"
+            [address]="this.contact?.address"
             [networks]="[selectedNetwork]"
           ></app-contact-item>
         </div>
@@ -108,7 +110,6 @@ export class AddressInputCardComponent implements OnInit {
   @Input() selectedNetwork: string;
   @Input() showContactsPicker = true;
   @Input() addressFromContact = false;
-  @Input() contact: string;
   @Output() addFromContacts: EventEmitter<void> = new EventEmitter<void>();
   @Output() removeContact: EventEmitter<void> = new EventEmitter<void>();
   isPWA = true;
@@ -119,6 +120,7 @@ export class AddressInputCardComponent implements OnInit {
   status: boolean;
   hasContacts = false;
   validatorText: string;
+  contact: Contact;
   constructor(
     private modalController: ModalController,
     private toastService: ToastService,
@@ -126,14 +128,21 @@ export class AddressInputCardComponent implements OnInit {
     private formGroupDirective: FormGroupDirective,
     private platformService: PlatformService,
     private ionicStorage: IonicStorageService,
+    private contactDataService: ContactDataService
   ) {}
 
   ngOnInit() {
-    console.log('ngOnInit aic');
     this.form = this.formGroupDirective.form;
     this.checkIsWebPlatform();
     this.checkContactsList();
+    this.checkIfIsContact();
     this.suscribeToFormChanges();
+  }
+
+  checkIfIsContact() {
+    if (this.addressFromContact) {
+      this.contact = this.contactDataService.getContact();
+    }
   }
 
   async checkContactsList() {

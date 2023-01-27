@@ -33,4 +33,8 @@ describe('ContactDataService', () => {
     service.updateContact(contact);
     expect(service.getContact()).toEqual(contact);
   });
+
+  it('should return null if is not contact', () => {
+    expect(service.getContact()).toEqual(null);
+  });
 });

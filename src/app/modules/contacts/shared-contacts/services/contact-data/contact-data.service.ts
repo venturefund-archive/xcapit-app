@@ -9,7 +9,7 @@ export class ContactDataService {
   constructor() {}
 
   getContact(){
-    return { ...this.contact };
+    return this.contact ? { ...this.contact } : null;
   }
 
   updateContact(contact : Contact){
