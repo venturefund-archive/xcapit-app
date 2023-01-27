@@ -13,10 +13,9 @@ export class NewLogin implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
     if (this.isFeatureFlagEnabled()) {
-      console.log(route.data)
       const url = route.data.redirectUrl ? route.data.redirectUrl : this.defaultRoute;
       await this.redirectTo(url);     
-    };
+    }
 
     return !this.isFeatureFlagEnabled();
   }
