@@ -419,7 +419,7 @@ export class SendDetailPage {
       balance: this.balance,
       fee: this.fee.toString(),
       referenceFee: this.quoteFee.value.toString(),
-      contact: this.contact.name,
+      contact: this.contact ? this.contact.name : '',
     };
   }
 

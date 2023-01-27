@@ -280,22 +280,26 @@ describe('SendDetailPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
 
-  it('should save transaction data and navigate when ux_send_continue Button clicked, form valid and solana token', async () => {
+  it('should save transaction data and navigate when ux_send_continue Button clicked, form valid and solana token', fakeAsync(() => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawSOLData.contract, blockchain: rawSOLData.network });
-    await component.ionViewWillEnter();
-    await component.ionViewDidEnter();
-    await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
+    contactDataServiceSpy.getContact.and.returnValue(null);
+    component.ionViewWillEnter();
+    tick();
+    fixture.detectChanges();
+    component.ionViewDidEnter();
+    tick();
     fixture.detectChanges();
     component.form.patchValue(formData.solanaValid);
+    tick();
     fixture.detectChanges();
 
     _continueButton().nativeElement.click();
+    tick();
     fixture.detectChanges();
 
     expect(component.fee).toEqual(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
-  });
-
+  }));
 
   it('should show card if native token balance is zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
