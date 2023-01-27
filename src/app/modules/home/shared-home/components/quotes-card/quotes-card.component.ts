@@ -142,7 +142,6 @@ export class QuotesCardComponent implements OnInit {
         ...q,
       };
     });
-    console.log(quotes);
     this.firstQuotes = quotes?.slice(0, 3);
     this.remainingQuotes = quotes?.slice(3, allQuotes.length);
     this.waitingQuotes = false;
@@ -166,7 +165,6 @@ export class QuotesCardComponent implements OnInit {
         usdcQuote.lastPrice = this.usdcData.market_data.current_price.usd;
         usdcQuote.priceChangePercent = this.usdcData.market_data.price_change_percentage_24h_in_currency.usd;
       } else {
-        console.log('entre aca')
         const index = allQuotes.indexOf(usdcQuote);
         allQuotes.splice(index, 1);
       }
