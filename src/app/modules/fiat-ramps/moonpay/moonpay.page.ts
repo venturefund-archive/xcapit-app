@@ -28,7 +28,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
   selector: 'app-moonpay',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>

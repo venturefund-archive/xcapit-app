@@ -27,7 +27,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
         <ion-title class="po__header">
           {{ 'fiat_ramps.purchase_order.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >{{ this.step }} {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >
       </ion-toolbar>

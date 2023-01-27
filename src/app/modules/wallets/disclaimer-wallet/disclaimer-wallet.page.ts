@@ -10,7 +10,7 @@ import { LINKS } from 'src/app/config/static-links';
   selector: 'app-disclaimer-wallet',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
@@ -20,7 +20,7 @@ import { LINKS } from 'src/app/config/static-links';
         <ion-title class="ion-text-start" *ngIf="this.mode !== 'import'">{{
           'wallets.disclaimer.header' | translate
         }}</ion-title>
-        <ion-label class="step-counter" slot="end"
+        <ion-label class="ux_toolbar__step" slot="end"
           >1 {{ 'shared.step_counter.of' | translate }} {{ this.mode !== 'import' ? '2' : '3' }}</ion-label
         >
       </ion-toolbar>

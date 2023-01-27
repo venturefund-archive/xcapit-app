@@ -13,8 +13,18 @@
   --min-height: 60px;
 
   &.ux_toolbar__left ion-title {
-    text-align: left;
-    padding-left: 52px;
+    text-align: left !important;
+    padding-left: 60px;
+  }
+
+  &__step {
+    color: var(--ion-color-white);
+    margin-right: 16px;
+  }
+
+  &__rounded {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 }
 
