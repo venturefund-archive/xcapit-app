@@ -632,6 +632,13 @@
         },
         "2pi": {
           "title": "2pi"
+        },
+        "remove_tyc": {
+          "title": "Quitar firma",
+          "message_to_kripton": "Deberás firmar los términos y condiciones, y políticas de privacidad nuevamente para operar con este proveedor.",
+          "message_others_providers": "Deberás firmar los términos y condiciones nuevamente para operar con este proveedor.",
+          "cancel_button": "Cancelar",
+          "confirm_button": "Confirmar"
         }
       },
       "community": "Únete a nuestra comunidad",

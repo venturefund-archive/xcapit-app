@@ -1,4 +1,8 @@
 :host {
+  ion-content {
+    --background: var(--ion-color-background);
+  }
+
   .tac {
     --padding-top: 24px;
     --padding-start: 16px;
