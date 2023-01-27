@@ -9,6 +9,8 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
+import { Contact } from '../shared-contacts/interfaces/contact.interface';
+import { ContactDataService } from '../shared-contacts/services/contact-data/contact-data.service';
 import { RepeatedAddressValidator } from '../shared-contacts/validators/repeated-address/repeated-address-validator';
 
 @Component({
@@ -18,7 +20,7 @@ import { RepeatedAddressValidator } from '../shared-contacts/validators/repeated
         <ion-buttons slot="start">
           <ion-back-button appTrackClick defaultHref="contacts/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="rp__header ion-text-left">{{ 'contacts.register.header' | translate }}</ion-title>
+        <ion-title class="rp__header ion-text-left">{{ this.header | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -57,7 +59,7 @@ import { RepeatedAddressValidator } from '../shared-contacts/validators/repeated
               <ion-label class="ux-font-text-xxs" color="dangerdark">{{ this.validatorText | translate }}</ion-label>
             </div>
             <div class="rp__help-text__validator" *ngIf="this.status">
-              <ion-icon name="ux-checked-circle-outline" color="successdark"> </ion-icon>
+              <ion-icon name="ux-checked-circle-outline" color="successdark"></ion-icon>
               <ion-label class="ux-font-text-xxs" color="successdark">{{ this.validatorText | translate }}</ion-label>
             </div>
           </div>
@@ -99,6 +101,7 @@ export class RegisterPage implements OnInit {
   hideHelpText: boolean;
   status: boolean;
   native: boolean;
+  header = 'contacts.register.header';
   form: UntypedFormGroup = this.formBuilder.group({
     networks: ['', [Validators.required]],
     address: [''],
@@ -114,7 +117,7 @@ export class RegisterPage implements OnInit {
     private ionicStorageService: IonicStorageService,
     private navController: NavController,
     private route: ActivatedRoute,
-    private repeatAddressValidator: RepeatedAddressValidator
+    private contactDataService: ContactDataService
   ) {}
 
   ngOnInit() {}
@@ -128,19 +131,35 @@ export class RegisterPage implements OnInit {
     this.isNative();
     await this.nullStorage();
     this.subscribeToStatusChanges();
-    this.isSaveMode();
+    this.checkMode();
   }
 
-  isSaveMode() {
-    if (this.route.snapshot.paramMap.get('mode') === 'save') {
-      const network = this.networksData.filter(
-        (network) => network.value === this.route.snapshot.paramMap.get('blockchain')
-      );
-      const address = this.route.snapshot.paramMap.get('address');
-      this.form.patchValue({ networks: [network[0].value] });
-      this.setAddressValidator([network[0].value]);
-      this.form.patchValue({ address: address });
+  checkMode() {
+    const mode = this.route.snapshot.paramMap.get('mode');
+    if (mode === 'save') {
+      this.saveMode();
     }
+    if (mode === 'edit') {
+      const _aContact = this.contactDataService.getContact();
+      this.edit(_aContact);
+      this.header = 'contacts.register.header_edit';
+    }
+  }
+
+  edit(_aContact: Contact) {
+    this.form.patchValue({ networks: _aContact.networks });
+    this.form.patchValue({ address: _aContact.address });
+    this.form.patchValue({ name: _aContact.name });
+  }
+
+  saveMode() {
+    const network = this.networksData.filter(
+      (network) => network.value === this.route.snapshot.paramMap.get('blockchain')
+    );
+    const address = this.route.snapshot.paramMap.get('address');
+    this.form.patchValue({ networks: [network[0].value] });
+    this.setAddressValidator([network[0].value]);
+    this.form.patchValue({ address: address });
   }
 
   subscribeToStatusChanges() {
@@ -182,7 +201,11 @@ export class RegisterPage implements OnInit {
     } else {
       this.form.get('address').addValidators(CustomValidators.isAddress());
     }
-    this.form.get('address').addAsyncValidators(this.repeatAddressValidator.validate);
+    this.form
+      .get('address')
+      .addAsyncValidators(
+        RepeatedAddressValidator.validate(this.ionicStorageService, this.contactDataService.getContact().address)
+      );
     if (this.form.get('address').value) {
       this.form.get('address').updateValueAndValidity();
     }
@@ -196,7 +219,12 @@ export class RegisterPage implements OnInit {
     this.loading = true;
     if (this.form.valid) {
       const addresses_list = await this.getAddressesList();
-      addresses_list.push(this.form.value);
+      if (this.isEditMode()) {
+        const index = this.contactDataService.getContact().index;
+        addresses_list[index] = this.form.value;
+      } else {
+        addresses_list.push(this.form.value);
+      }
       this.ionicStorageService.set(this._aKey, addresses_list);
       this.navigateToContactsHome();
       this.showSuccessToast();
@@ -208,19 +236,24 @@ export class RegisterPage implements OnInit {
   }
 
   showSuccessToast() {
+    const message = this.isEditMode() ? 'contacts.register.success_edit' : 'contacts.register.success_toast';
     this.toastService.showSuccessToastVerticalOffset({
-      message: this.translate.instant('contacts.register.success_toast'),
+      message: this.translate.instant(message),
     });
   }
 
   async nullStorage() {
     if ((await this.getAddressesList()) === null) {
-      this.ionicStorageService.set(this._aKey, []);
+      this.clearStorage();
     }
   }
 
   async getAddressesList() {
     return this.ionicStorageService.get(this._aKey);
+  }
+
+  async clearStorage() {
+    this.ionicStorageService.set(this._aKey, []);
   }
 
   async openQRScanner() {
@@ -247,6 +280,10 @@ export class RegisterPage implements OnInit {
         await this.showToast(this.translate.instant('contacts.qr_scanner.scan_unauthorized'));
         break;
     }
+  }
+
+  isEditMode() {
+    return this.route.snapshot.paramMap.get('mode') === 'edit';
   }
 
   private async showToast(message) {

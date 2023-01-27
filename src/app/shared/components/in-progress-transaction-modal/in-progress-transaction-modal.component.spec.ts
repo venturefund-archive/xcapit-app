@@ -9,25 +9,33 @@ import { IonicStorageService } from '../../services/ionic-storage/ionic-storage.
 import { InProgressTransactionModalComponent } from './in-progress-transaction-modal.component';
 import { FakeFeatureFlagDirective } from '../../../../testing/fakes/feature-flag-directive.fake.spec';
 
-const testAddress = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
-const savedAddress = {
-  address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  name: 'testName',
-  networks: ['MATIC'],
-};
-const testData = {
-  image: 'assets/test_image.svg',
-  icon: 'assets/test_icon.svg',
-  urlClose: '/tabs/wallets',
-  textPrimary: 'textPrimary',
-  textSecondary: 'textSecondary',
-  namePrimaryAction: 'primaryAction',
-  urlPrimaryAction: '/tabs/wallets',
-  titlePrimary: 'title',
-  textBadge: 'badge',
-};
+
 
 describe('InProgressTransactionModalComponent', () => {
+  const blockchain = {
+    _rawData: {
+      name: 'MATIC',
+    },
+  };
+  
+  const testAddress = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
+  const savedAddress = {
+    address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    name: 'testName',
+    networks: ['MATIC'],
+  };
+  const testData = {
+    image: 'assets/test_image.svg',
+    icon: 'assets/test_icon.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'textPrimary',
+    textSecondary: 'textSecondary',
+    namePrimaryAction: 'primaryAction',
+    urlPrimaryAction: '/tabs/wallets',
+    titlePrimary: 'title',
+    textBadge: 'badge',
+  };
+  
   let component: InProgressTransactionModalComponent;
   let fixture: ComponentFixture<InProgressTransactionModalComponent>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
@@ -57,6 +65,7 @@ describe('InProgressTransactionModalComponent', () => {
     fixture = TestBed.createComponent(InProgressTransactionModalComponent);
     component = fixture.componentInstance;
     component.data = testData;
+    component.blockchain = blockchain;
     fixture.detectChanges();
   }));
 
@@ -115,5 +124,20 @@ describe('InProgressTransactionModalComponent', () => {
     fixture.detectChanges();
     const saveButtonEl = fixture.debugElement.query(By.css("ion-label[name='ux_address_new_sent']"));
     expect(saveButtonEl).toBeFalsy();
+  });
+
+  it('should navigate to save address ', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo([]);
+    component.address = testAddress;
+    component.ngOnInit();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const saveButtonEl = fixture.debugElement.query(By.css("ion-label[name='ux_address_new_sent']"));
+    saveButtonEl.nativeElement.click();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([ 'contacts/register', 'save', 'blockchain', 'MATIC', 'address', '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' ]);
   });
 });

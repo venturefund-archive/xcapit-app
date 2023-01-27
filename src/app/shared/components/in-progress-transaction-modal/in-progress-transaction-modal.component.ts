@@ -97,7 +97,7 @@ export class InProgressTransactionModalComponent implements OnInit {
   }
 
   goToSaveAddress() {
-    this.navController.navigateForward([
+    this.navController.navigateRoot([
       'contacts/register',
       'save',
       'blockchain',

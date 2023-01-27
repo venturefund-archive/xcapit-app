@@ -11,11 +11,24 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { ContactDataService } from '../shared-contacts/services/contact-data/contact-data.service';
 
 import { RegisterPage } from './register.page';
 
 describe('RegisterPage', () => {
+  const contactForEdit = {
+    address: '0xf8d564837ec51f9ba8ea25f8340003e832b91d52',
+    name: 'TestEdit',
+    networks: ['MATIC'],
+    index: 0,
+  };
+
   const contacts = [
+    {
+      address: '0xf8d564837ec51f9ba8ea25f8340003e832b91d52',
+      name: 'TestEdit',
+      networks: ['MATIC'],
+    },
     {
       address: '0xf8d564837ec51f9ba8ea25f8340003e832b91d50',
       name: 'TestWallet',
@@ -45,12 +58,16 @@ describe('RegisterPage', () => {
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
   beforeEach(waitForAsync(() => {
     fakeActivatedRoute = new FakeActivatedRoute();
     activatedRouteSpy = fakeActivatedRoute.createSpy();
+    contactDataServiceSpy = jasmine.createSpyObj('ContactDataService', {
+      getContact: contactForEdit,
+    });
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showSuccessToastVerticalOffset: Promise.resolve(),
-      showToast:Promise.resolve()
+      showToast: Promise.resolve(),
     });
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
       isNative: true,
@@ -73,6 +90,7 @@ describe('RegisterPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: ContactDataService, useValue: contactDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -215,5 +233,36 @@ describe('RegisterPage', () => {
     fixture.detectChanges();
     expect(component.form.value.address).toEqual('0xe0459da14bae1f5e6fab63d6e93576353b0bb4a3');
     expect(component.form.value.networks).toEqual(['MATIC']);
+  });
+
+  it('should set properly blockhain and address when mode is save', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      mode: 'edit',
+    });
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.form.value.address).toEqual('0xf8d564837ec51f9ba8ea25f8340003e832b91d52');
+    expect(component.form.value.networks).toEqual(['MATIC']);
+    expect(component.form.value.name).toEqual('TestEdit');
+  });
+
+  it('should edit address contact', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      mode: 'edit',
+    });
+    storageSpy.get.and.resolveTo(contacts);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    component.form.patchValue({ name: 'newName' });
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_address_confirm"]'));
+    buttonEl.nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    expect(storageSpy.set).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showSuccessToastVerticalOffset).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('contacts/home');
   });
 });

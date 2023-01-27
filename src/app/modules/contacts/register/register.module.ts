@@ -9,6 +9,10 @@ const routes: Routes = [
     component: RegisterPage,
   },
   {
+    path: ':mode',
+    component: RegisterPage,
+  },
+  {
     path: ':mode/blockchain/:blockchain/address/:address',
     component: RegisterPage,
   },

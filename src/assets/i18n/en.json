@@ -3210,6 +3210,7 @@
     },
     "register": {
       "header": "Save wallet",
+      "header_edit":"Edit wallet",
       "title": "Enter the details of the wallet you wish to save.",
       "address_label": "Address",
       "address_sublabel": "Paste the address or scan the QR code.",
@@ -3221,7 +3222,8 @@
       "text_valid": "The wallet address is correct",
       "repeated_address":"The address is already added",
       "loading": "Saving",
-      "success_toast": "Excellent! Wallet successfully saved"
+      "success_toast": "Excellent! Wallet successfully saved",
+      "success_edit":"Excellent! Wallet successfully edited"
     },
     "shared_contacts": {
       "network_selector": {
