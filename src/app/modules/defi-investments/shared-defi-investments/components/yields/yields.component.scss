@@ -1,7 +1,10 @@
 :host {
   .cyc {
+    border: none;
     display: flex;
     flex-direction: row;
+    box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+    border-radius: 16px;
 
     &__image {
       display: flex;

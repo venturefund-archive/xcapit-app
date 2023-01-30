@@ -2131,7 +2131,7 @@
     },
     "asset_detail": {
       "header": "Detalle de token",
-      "wallet_transaction_title": "Transacciones",
+      "wallet_transaction_title": "Últimas transacciones",
       "available": "Saldo disponible",
       "invest_button": "Invertir"
     },

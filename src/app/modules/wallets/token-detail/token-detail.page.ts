@@ -124,7 +124,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           *ngIf="(this.transfers !== undefined && this.transfers.length > 0) || this.transfers === undefined"
         >
           <div class="wad__transaction__title">
-            <ion-label class="ux-font-text-lg ">
+            <ion-label class="ux-font-header-titulo">
               {{ 'wallets.asset_detail.wallet_transaction_title' | translate }}
             </ion-label>
           </div>

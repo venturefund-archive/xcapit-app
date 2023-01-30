@@ -18,7 +18,7 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
           <div class="wtci__content__top">
             <div class="wtci__content__top__type_date_hash">
               <div class="wtci__content__top__type_date_hash__type_date">
-                <ion-label class="type ux-font-lato ux-fsize-14 ux-fweight-bold">{{
+                <ion-label class="type ux-font-title-xs">{{
                   'wallets.transactions.' + this.tplTransfer.type | translate
                 }}</ion-label>
                 <ion-label class="ux-font-text-xxs date">
@@ -32,7 +32,7 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
               </div>
             </div>
             <div class="wtci__content__top__column">
-              <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold">
+              <ion-label class="ux-font-title-xs">
                 {{ this.tplTransfer.amount | formattedAmount }} {{ this.tplTransfer.token.value }}
               </ion-label>
               <div class="ux-font-num-subtitulo wtci__content__top__column__badge">

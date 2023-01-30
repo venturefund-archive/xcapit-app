@@ -2144,7 +2144,7 @@
     },
     "asset_detail": {
       "header": "Asset Detail",
-      "wallet_transaction_title": "Transactions",
+      "wallet_transaction_title": "Latest transactions",
       "available": "Balance available",
       "invest_button": "Invest"
     },

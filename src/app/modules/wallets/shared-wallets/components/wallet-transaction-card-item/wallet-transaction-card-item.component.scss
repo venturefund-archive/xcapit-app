@@ -28,9 +28,13 @@
           &__type_date {
             display: flex;
 
+            ion-label {
+              color: var(--ion-color-primary);
+            }
+
             .date {
               margin-left: 4px;
-              color: var(--ion-color-neutral80);
+              color: var(--ion-color-neutral50);
             }
           }
 
@@ -40,11 +44,19 @@
             overflow: hidden;
             min-width: 110px;
             max-width: auto;
+
+            ion-text {
+              color: var(--ion-color-neutral80);
+            }
           }
         }
 
         &__column {
           text-align: right;
+
+          ion-label {
+            color: var(--ion-color-primary);
+          }
 
           &__badge {
             ion-badge {

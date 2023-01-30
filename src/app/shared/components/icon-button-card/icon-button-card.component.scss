@@ -45,6 +45,10 @@
       margin-top: 8px;
       text-align: center;
       line-height: 0.8;
+
+      ion-text {
+        color: var(--ion-color-primary);
+      }
     }
   }
 }
