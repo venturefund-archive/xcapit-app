@@ -18,6 +18,7 @@ export class Transfers {
     return this.repo
       .transfersOf(this._aToken, this._inAddress)
       .toPromise()
+      .then((res) => res.data.items)
       .then((res) => {
         this._saveInCache(res);
         return this._transferResponseOf(res);
@@ -33,12 +34,12 @@ export class Transfers {
     return `asset_transaction_${this._aToken.network}_${this._aToken.value}`;
   }
 
-  private _saveInCache(data: any): Promise<void> {
+  private _saveInCache(data: RawTransfer[]): Promise<void> {
     return this._cache.update(this._storageKey(), data);
   }
 
-  private _transferResponseOf(res: any): Transfer[] {
-    return res.data.items.map((rawTransfer: RawTransfer) => {
+  private _transferResponseOf(res: RawTransfer[]): Transfer[] {
+    return res.map((rawTransfer: RawTransfer) => {
       let transferType: typeof NativeTransfer | typeof NoNativeTransfer;
       if (rawTransfer.hasOwnProperty('transfers')) {
         transferType = NoNativeTransfer;
