@@ -14,4 +14,5 @@ export const LINKS = {
   oneInchToS: 'https://docs.1inch.io/docs/aggregation-protocol/api/legal/',
   twoPiPage: 'https://dashboard.2pi.network/',
   kriptonPage: 'https://kriptonmarket.com',
+  requireToken: 'https://docs.google.com/forms/d/e/1FAIpQLSc1dW8XVW6wIBasrymzYvdDrOkSnrKpYdyGrO6ol5NKHKLP0w/viewform',
 };

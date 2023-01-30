@@ -127,6 +127,7 @@ export class RemoveWalletPage implements OnInit {
     await this.walletConnectService.killSession();
     await this.goToSuccessPage();
     this.disableLoading();
+    this.removeTyCofStorage();
   }
 
   private cleanProtectedWallet(): Promise<void> {
@@ -147,5 +148,12 @@ export class RemoveWalletPage implements OnInit {
 
   toggleButton(): boolean {
     return (this.acceptTos = !this.acceptTos);
+  }
+
+  removeTyCofStorage() {
+    this.ionicStorageService.remove('_agreement_2PI_T&C');
+    this.ionicStorageService.remove('termsAndConditions1InchSwapAccepted');
+    this.ionicStorageService.remove('kripton_privacy_and_policy_accepted');
+    this.ionicStorageService.remove('userAcceptedToS');
   }
 }

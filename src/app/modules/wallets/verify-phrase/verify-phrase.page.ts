@@ -11,12 +11,12 @@ import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wa
   selector: 'app-verify-phrase',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded ux_toolbar__left">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/recovery/read"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.verify_phrase.header' | translate }}</ion-title>
-        <ion-label class="step-counter" slot="end">2 {{ 'shared.step_counter.of' | translate }} 2</ion-label>
+        <ion-label class="ux_toolbar__step" slot="end">2 {{ 'shared.step_counter.of' | translate }} 2</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">

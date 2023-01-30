@@ -2,34 +2,38 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
-
 import { ItemQuoteComponent } from './item-quote.component';
-const testQuote = [
-  {
-    symbol: 'BTCUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'ETHUSDT',
-    openPrice: 2900,
-    lastPrice: 3000,
-    priceChangePercent: -0.24,
-  },
-];
-
-const reversedQuote = {
-  symbol: 'USDTDAI',
-  openPrice: 0.441,
-  lastPrice: 0.416,
-  priceChangePercent: -5.669,
-};
 
 describe('ItemQuoteComponent', () => {
   let component: ItemQuoteComponent;
   let fixture: ComponentFixture<ItemQuoteComponent>;
 
+  const testQuote = [
+    {
+      symbol: 'BTCUSDT',
+      tokenName: 'Bitcoin',
+      openPrice: 46000,
+      lastPrice: 47585,
+      priceChangePercent: 0.24,
+    },
+    {
+      symbol: 'ETHUSDT',
+      tokenName: 'Ethereum',
+      openPrice: 2900,
+      lastPrice: 3000,
+      priceChangePercent: -0.24,
+    },
+  ];
+  
+  const reversedQuote = {
+    symbol: 'USDTDAI',
+    tokenName: 'DAI',
+    openPrice: 0.441,
+    lastPrice: 0.416,
+    priceChangePercent: -5.669,
+  };
+
+  
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -53,7 +57,7 @@ describe('ItemQuoteComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const symbolEl = fixture.debugElement.query(By.css('.symbol'));
+    const symbolEl = fixture.debugElement.query(By.css('ion-text.iq__wrapper__pair__symbol__base'));
     expect(symbolEl.nativeElement.innerHTML).toContain('BTC');
   });
 
@@ -61,7 +65,7 @@ describe('ItemQuoteComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const symbolEl = fixture.debugElement.query(By.css('.pair'));
+    const symbolEl = fixture.debugElement.query(By.css('ion-text.iq__wrapper__pair__symbol__quote'));
     expect(symbolEl.nativeElement.innerHTML).toContain('/USDT');
   });
 
@@ -69,7 +73,7 @@ describe('ItemQuoteComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const symbolEl = fixture.debugElement.query(By.css('.positive'));
+    const symbolEl = fixture.debugElement.query(By.css('ion-text.iq__wrapper__price__positive'));
     expect(symbolEl.nativeElement.innerHTML).toContain(0.24);
   });
 
@@ -77,7 +81,7 @@ describe('ItemQuoteComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const symbolEl = fixture.debugElement.query(By.css('.lastPrice'));
+    const symbolEl = fixture.debugElement.query(By.css('div.iq__wrapper__price > ion-text'));
     expect(symbolEl.nativeElement.innerHTML).toContain('$47,585.00');
   });
 
@@ -86,7 +90,7 @@ describe('ItemQuoteComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const symbolEl = fixture.debugElement.query(By.css('.negative'));
+    const symbolEl = fixture.debugElement.query(By.css('ion-text.iq__wrapper__price__negative'));
     expect(symbolEl.nativeElement.innerHTML).toContain(-0.24);
   });
 
@@ -96,13 +100,15 @@ describe('ItemQuoteComponent', () => {
     component.ngOnInit();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    const baseEl = fixture.debugElement.query(By.css('.symbol'));
-    const quoteEl = fixture.debugElement.query(By.css('.pair'));
-    const priceEl = fixture.debugElement.query(By.css('.lastPrice'));
-    const percentagChangeEl = fixture.debugElement.query(By.css('.positive'));
+    const baseEl = fixture.debugElement.query(By.css('ion-text.iq__wrapper__pair__symbol__base'));
+    const quoteEl = fixture.debugElement.query(By.css('ion-text.iq__wrapper__pair__symbol__quote'));
+    const tokenNameEl = fixture.debugElement.query(By.css('ion-text.iq__wrapper__pair__name'));
+    const priceEl = fixture.debugElement.query(By.css('div.iq__wrapper__price > ion-text'));
+    const percentagChangeEl = fixture.debugElement.query(By.css('ion-text.iq__wrapper__price__positive'));
 
     expect(baseEl.nativeElement.innerHTML).toContain('DAI');
     expect(quoteEl.nativeElement.innerHTML).toContain('/USDT');
+    expect(tokenNameEl.nativeElement.innerHTML).toContain('Dai');
     expect(priceEl.nativeElement.innerHTML).toContain('$2.40');
     expect(percentagChangeEl.nativeElement.innerHTML).toContain('+6.01%');
   });

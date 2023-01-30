@@ -12,37 +12,34 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
   selector: 'app-quotes-card',
   template: `
     <div class="qc">
+      <div class="qc__title">
+        <ion-label class="ux-font-header-titulo">{{ 'home.home_page.quotes_card.title' | translate }}</ion-label>
+      </div>
       <div class="qc__content">
-        <div class="qc__accordeon">
-          <ion-item lines="none" slot="header">
-            <ion-label>{{ 'home.home_page.quotes_card.title' | translate }}</ion-label>
-          </ion-item>
+        <div class="qc__content__accordeon">
           <ion-list show="true" slot="content">
             <app-ux-list-inverted>
-              <ion-list>
-                <ion-item class="table-header ux-font-text-xxs">
-                  <ion-label>
+              <ion-list class="qc__content__accordeon__list">
+                <div class="qc__content__accordeon__list__header">
+                  <ion-label class="ux-font-text-xxs">
                     {{ 'home.home_page.quotes_card.table_label1' | translate }}
                   </ion-label>
-                  <ion-label>
+                  <ion-label class="ux-font-text-xxs">
                     {{ 'home.home_page.quotes_card.table_label2' | translate }}
                   </ion-label>
-                  <ion-label class="right">
-                    {{ 'home.home_page.quotes_card.table_label3' | translate }}
-                  </ion-label>
-                </ion-item>
+                </div>
                 <div class="loader" *ngIf="this.waitingQuotes">
                   <app-ux-loading-block minSize="30px"></app-ux-loading-block>
                 </div>
-                <div class="container">
+                <div class="qc__content__accordeon__list__container">
                   <app-item-quote
                     *ngFor="let quote of this.firstQuotes; let last = last"
                     [quotation]="quote"
                   ></app-item-quote>
                 </div>
                 <ion-accordion-group>
-                  <ion-accordion toggleIcon="" class="accordion" value="quotes">
-                    <div slot="content" class="container">
+                  <ion-accordion toggleIcon="" class="qc__content__accordeon__list__accordion" value="quotes">
+                    <div slot="content" class="qc__content__accordeon__list__container">
                       <app-item-quote
                         *ngFor="let quote of this.remainingQuotes; let last = last"
                         [quotation]="quote"
@@ -55,30 +52,30 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
             </app-ux-list-inverted>
           </ion-list>
         </div>
-      </div>
-      <div class="qc__button">
-        <ion-button
-          *ngIf="!this.openedAccordion"
-          name="Open Accordion"
-          class="link ux-link-xs"
-          appTrackClick
-          fill="clear"
-          size="small"
-          (click)="openAccordion()"
-        >
-          {{ 'home.home_page.quotes_card.more_button' | translate }}
-        </ion-button>
-        <ion-button
-          *ngIf="this.openedAccordion"
-          name="Close Accordion"
-          class="link ux-link-xs"
-          appTrackClick
-          fill="clear"
-          size="small"
-          (click)="closeAccordion()"
-        >
-          {{ 'home.home_page.quotes_card.less_button' | translate }}
-        </ion-button>
+        <div class="qc__content__button">
+          <ion-button
+            *ngIf="!this.openedAccordion"
+            name="Open Accordion"
+            class="link ux-link-xs"
+            appTrackClick
+            fill="clear"
+            size="small"
+            (click)="openAccordion()"
+          >
+            {{ 'home.home_page.quotes_card.more_button' | translate }}
+          </ion-button>
+          <ion-button
+            *ngIf="this.openedAccordion"
+            name="Close Accordion"
+            class="link ux-link-xs"
+            appTrackClick
+            fill="clear"
+            size="small"
+            (click)="closeAccordion()"
+          >
+            {{ 'home.home_page.quotes_card.less_button' | translate }}
+          </ion-button>
+        </div>
       </div>
     </div>
   `,
@@ -138,24 +135,36 @@ export class QuotesCardComponent implements OnInit {
 
   async separateFilteredData(allQuotes: Quotes[]) {
     const alreadySettedQuotes = await this.setUsdcPrice(allQuotes);
-    this.firstQuotes = alreadySettedQuotes?.slice(0, 3);
-    this.remainingQuotes = alreadySettedQuotes?.slice(3, allQuotes.length);
+    const quotes = alreadySettedQuotes.map((q) => {
+      const token = this.coins?.find((c) => c.symbol === q.symbol);
+      return {
+        tokenName: this.formatTokenName(token.name),
+        ...q,
+      };
+    });
+    this.firstQuotes = quotes?.slice(0, 3);
+    this.remainingQuotes = quotes?.slice(3, allQuotes.length);
     this.waitingQuotes = false;
   }
 
-  async getUsdcQuote(){
-    await this.quotesService.getUsdcQuote().subscribe((data) => {
-      this.usdcData = data;
-    })
+  formatTokenName(tokenName: string) {
+    const formattedTokenName = tokenName.substring(tokenName.indexOf('- ') + 1, tokenName.length);
+    return formattedTokenName === ' Polygon' ? 'Matic' : formattedTokenName;
   }
 
-  async setUsdcPrice(allQuotes : Quotes[]){
+  async getUsdcQuote() {
+    this.quotesService.getUsdcQuote().subscribe((data) => {
+      this.usdcData = data;
+    });
+  }
+
+  async setUsdcPrice(allQuotes: Quotes[]) {
     const usdcQuote = allQuotes.find((quote) => quote.symbol === 'USDCUSDT');
-    if(usdcQuote){
-      if(this.usdcData !== undefined){
+    if (usdcQuote) {
+      if (this.usdcData !== undefined) {
         usdcQuote.lastPrice = this.usdcData.market_data.current_price.usd;
         usdcQuote.priceChangePercent = this.usdcData.market_data.price_change_percentage_24h_in_currency.usd;
-      }else{
+      } else {
         const index = allQuotes.indexOf(usdcQuote);
         allQuotes.splice(index, 1);
       }

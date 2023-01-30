@@ -1,9 +1,4 @@
 :host {
-  ion-toolbar {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-
   .sc {
     --background: var(--ion-color-white);
 
@@ -13,6 +8,10 @@
 
     &__list {
       margin-top: 16px;
+    }
+
+    &__require-token {
+      margin-top: 24px;
     }
   }
 }

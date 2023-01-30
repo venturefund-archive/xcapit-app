@@ -25,11 +25,11 @@ import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token
           </div>
         </div>
         <div class="wbci__content__bottom">
-          <ion-label color="neutral50" class="ux-font-lato ux-fsize-12 ux-fweight-regular"
+          <ion-label class="ux-font-text-xs"
             >{{ this.formattedTokenName | titlecase }}
           </ion-label>
-          <ion-label color="neutral50" class="ux-font-lato ux-fsize-12 ux-fweight-regular">
-            {{
+          <ion-label class="ux-font-text-xs">
+            = {{
               this.tokenDetail.price * this.tokenDetail.balance
                 | formattedAmount : 10 : 2
                 | hideText : this.hideFundText
@@ -39,7 +39,6 @@ import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token
         </div>
       </div>
     </div>
-    <div *ngIf="!this.last" class="list-divider"></div>
   `,
   styleUrls: ['./wallet-balance-card-item.component.scss'],
 })

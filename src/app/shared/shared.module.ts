@@ -102,6 +102,9 @@ import { CommaToDotDirective } from './directives/comma-to-dot/comma-to-dot.dire
 import { InProgressTransactionModalComponent } from './components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 import { AssetDetailComponent } from './components/asset-detail/asset-detail.component';
 import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/components/address-input-card/address-input-card.component';
+import { ContactItemComponent } from './components/contact-item/contact-item.component';
+import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-alert.component';
+import { RequireTokenComponent } from './components/require-token/require-token.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +131,8 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     EyeComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
+    ContactItemComponent,
+    ModalAsAlertComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
@@ -190,6 +195,7 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     OperationStatusChipComponent,
     AssetDetailComponent,
     AddressInputCardComponent,
+    RequireTokenComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -205,7 +211,7 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     ButtonSpinnerDirective,
     FeatureFlagDirective,
     BuyCryptoFeatureFlagDirective,
-    CommaToDotDirective
+    CommaToDotDirective,
   ],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
@@ -241,6 +247,8 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     EyeComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
+    ContactItemComponent,
+    ModalAsAlertComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
@@ -299,6 +307,7 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     OperationStatusChipComponent,
     AssetDetailComponent,
     AddressInputCardComponent,
+    RequireTokenComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -314,7 +323,7 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     FeatureFlagDirective,
     SelectStyleDirective,
     BuyCryptoFeatureFlagDirective,
-    CommaToDotDirective
+    CommaToDotDirective,
   ],
 })
 export class SharedModule {}

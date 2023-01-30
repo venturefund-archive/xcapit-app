@@ -22,12 +22,12 @@ import { TwoPiInvestmentFactory } from '../../shared-defi-investments/models/two
 @Component({
   selector: 'app-select-amount-withdraw',
   template: ` <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left no-border">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded ux_toolbar__left no-border">
         <ion-buttons slot="start">
           <ion-back-button class="saw__back" defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-start">{{ 'defi_investments.withdraw.select_amount.header' | translate }}</ion-title>
-        <ion-label class="ux-font-text-xs saw__step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >1 {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >
       </ion-toolbar>

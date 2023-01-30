@@ -7,6 +7,10 @@
     &__content {
       margin-top: -16px;
 
+      &__contact {
+        margin-top: 24px;
+      }
+
       &__helpText {
         color: var(--ion-color-neutral80);
         padding: 4.23px 24px 32.24px;
@@ -31,6 +35,8 @@
       &__contact-button {
         margin-top: 8px;
 
+        --background-focused: var(--ion-color-white) !important;
+        --background-hover: var(--ion-color-white);
         --background-activated: var(--ion-color-white);
         --background: var(--ion-color-white);
 

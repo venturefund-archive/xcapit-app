@@ -12,7 +12,6 @@ import { TokenSelectionListComponent } from '../../../../shared/components/token
 import { SuitePipe } from '../../../../shared/pipes/suite/suite.pipe';
 import { rawTokensData, rawUSDTData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
-
 describe('SelectCurrencyPage', () => {
   let component: SelectCurrencyPage;
   let fixture: ComponentFixture<SelectCurrencyPage>;
@@ -68,8 +67,12 @@ describe('SelectCurrencyPage', () => {
 
     fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', rawUSDTData);
 
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['wallets/send/detail/blockchain', rawUSDTData.network, 'token',rawUSDTData.contract]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      'wallets/send/detail/blockchain',
+      rawUSDTData.network,
+      'token',
+      rawUSDTData.contract,
+    ]);
   });
 
   it('should show no-active-tokens-card component when storage has no coins', async () => {
@@ -78,7 +81,7 @@ describe('SelectCurrencyPage', () => {
     storageServiceSpy.getAssetsSelected.and.returnValue(Promise.resolve([]));
     await fixture.whenStable();
 
-    const cardEl = fixture.debugElement.query(By.css('app-no-active-tokens-card'))
+    const cardEl = fixture.debugElement.query(By.css('app-no-active-tokens-card'));
     expect(cardEl).toBeTruthy();
-  })
+  });
 });

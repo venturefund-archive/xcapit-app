@@ -12,6 +12,7 @@ import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const coinClicked = {
   id: 1,
@@ -34,12 +35,11 @@ describe('ProviderTokenSelectionPage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
-  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
 
   beforeEach(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
-
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: [
@@ -48,9 +48,13 @@ describe('ProviderTokenSelectionPage', () => {
       ],
     });
 
-    tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
-      tokenOperationData: {}
-    })
+    tokenOperationDataServiceSpy = jasmine.createSpyObj(
+      'TokenOperationDataService',
+      {},
+      {
+        tokenOperationData: {},
+      }
+    );
 
     providersSpy = jasmine.createSpyObj('Providers', {
       all: rawProvidersData,
@@ -70,6 +74,7 @@ describe('ProviderTokenSelectionPage', () => {
         { provide: ProvidersFactory, useValue: providersFactorySpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProviderTokenSelectionPage);
@@ -94,8 +99,6 @@ describe('ProviderTokenSelectionPage', () => {
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['fiat-ramps/select-provider']
-    );
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
   });
 });

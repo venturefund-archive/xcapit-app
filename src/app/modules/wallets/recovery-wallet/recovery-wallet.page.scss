@@ -1,9 +1,4 @@
 :host {
-  ion-toolbar {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-
   .resize {
     font-size: var(--ux-fsize-16);
   }
@@ -13,10 +8,6 @@
     flex-direction: column;
     margin-top: 25px;
     margin-bottom: 16px;
-  }
-
-  .step-counter {
-    margin-right: 13px;
   }
 
   .ion-text-start {

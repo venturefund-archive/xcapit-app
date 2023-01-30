@@ -144,7 +144,7 @@ describe('PurchaseOrderPage', () => {
     const transferEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const voucherEl = fixture.debugElement.query(By.css('app-voucher-card'));
     const currentStepEl = fixture.debugElement.query(By.css('.active')).nativeElement.textContent;
-    const stepCounterEl = fixture.debugElement.query(By.css('.step_counter')).nativeElement.textContent;
+    const stepCounterEl = fixture.debugElement.query(By.css('.ux_toolbar__step')).nativeElement.textContent;
 
     expect(transferEl).toBeTruthy();
     expect(voucherEl).toBeNull();
@@ -160,7 +160,7 @@ describe('PurchaseOrderPage', () => {
     const transferEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const voucherEl = fixture.debugElement.query(By.css('app-voucher-card'));
     const currentStepEl = fixture.debugElement.query(By.css('.active')).nativeElement.textContent;
-    const stepCounterEl = fixture.debugElement.query(By.css('.step_counter')).nativeElement.textContent;
+    const stepCounterEl = fixture.debugElement.query(By.css('.ux_toolbar__step')).nativeElement.textContent;
 
     expect(transferEl).toBeNull();
     expect(voucherEl).toBeTruthy();
@@ -173,8 +173,8 @@ describe('PurchaseOrderPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     const headerTitleEl = fixture.debugElement.query(By.css('ion-title.po__header'));
-    const stepOfEl = fixture.debugElement.query(By.css('ion-label.step_counter'));
-    const [step1El, step2El] = fixture.debugElement.queryAll(By.css('ion-label.po__step-wrapper__step__title'));
+    const stepOfEl = fixture.debugElement.query(By.css('ion-label.ux_toolbar__step'));
+    const [step1El, step2El] =   fixture.debugElement.queryAll(By.css('ion-label.po__step-wrapper__step__title'));
     const providerTitleEl = fixture.debugElement.query(By.css('div.po__provider ion-text'));
     const kriptonAccountEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const purchaseInfoEl = fixture.debugElement.query(By.css('app-kripton-purchase-info'));

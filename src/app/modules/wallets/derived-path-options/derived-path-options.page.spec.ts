@@ -67,17 +67,15 @@ describe('DerivedPathOptionsPage', () => {
     expect(titleEl.nativeElement.innerHTML).toContain('wallets.derived_path_options.title.create');
   });
 
-  it('should set creation method on service when back button is clicked', () => {
+  it('should set creation method on service when form value changes', () => {
     component.ionViewWillEnter();
     component.form.patchValue({ method: 'legacy' });
-    fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
     fixture.detectChanges();
     expect(walletEncryptionServiceSpy.creationMethod).toEqual('legacy');
   });
 
   it('should call trackEvent on trackService when ion Radio clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-radio', 'ux_radio_default');
-
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

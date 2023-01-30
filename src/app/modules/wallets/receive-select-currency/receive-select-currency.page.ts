@@ -8,11 +8,14 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
   selector: 'app-receive-select-currency',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.receive_select_currency.header' | translate }}</ion-title>
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
+          >1 {{ 'shared.step_counter.of' | translate }} 2</ion-label
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="sc ion-padding">

@@ -14,11 +14,14 @@ import { NavController } from '@ionic/angular';
   selector: 'app-receive',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.receive.header' | translate }}</ion-title>
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
+          >2 {{ 'shared.step_counter.of' | translate }} 2</ion-label
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
