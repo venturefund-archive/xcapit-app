@@ -52,7 +52,8 @@ import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/c
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { SwapError } from '../shared-swaps/models/swap-error/swap-error';
-import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-in-progress';
+import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-in-progress.interface';
+import { SwapTxInProgress } from '../../users/shared-users/models/tx-in-progress/swap/swap-tx-in-progress';
 
 @Component({
   selector: 'app-swap-home',
@@ -514,7 +515,7 @@ export class SwapHomePage {
     const password = new Password(data);
     if (await this.validPassword(password)) {
       this.showSwapInProgressModal();
-      this.txInProgress = new TxInProgress('swap');
+      this.txInProgress = new SwapTxInProgress(this.activeBlockchain);
       this.swapInProgressService.startTx(this.txInProgress);
     } else {
       throw new Error(new PasswordErrorMsgs().invalid());

@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:nonprod.xcapit.com</string>
+		<string>applinks:app.xcapit.com</string>
 	</array>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>

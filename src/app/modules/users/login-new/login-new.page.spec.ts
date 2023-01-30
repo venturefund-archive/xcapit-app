@@ -12,7 +12,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeBiometricAuth } from 'src/app/shared/models/biometric-auth/fake/fake-biometric-auth';
-import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';

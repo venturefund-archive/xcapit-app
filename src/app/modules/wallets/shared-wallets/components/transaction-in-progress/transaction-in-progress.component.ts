@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
-import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress';
+import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress.interface';
 
 @Component({
   selector: 'app-transaction-in-progress',

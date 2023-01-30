@@ -22,7 +22,7 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
-import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';

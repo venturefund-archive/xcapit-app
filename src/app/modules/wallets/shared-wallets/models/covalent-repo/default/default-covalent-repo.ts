@@ -30,4 +30,8 @@ export class DefaultCovalentRepo implements CovalentRepo {
           aToken.contract
         }&limit=10&quote-currency=${quoteCurrency}`;
   }
+
+  transferByHash(chainId: number,hash:string ){
+    return this._http.get(`${this._env.byKey('covalentApiUrl')}${chainId}/transaction_v2/${hash}/`, { headers: this._authHeaders() })
+  }
 }

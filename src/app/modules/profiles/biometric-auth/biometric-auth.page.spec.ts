@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';

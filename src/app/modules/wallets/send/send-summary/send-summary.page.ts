@@ -25,8 +25,11 @@ import { format } from 'date-fns';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
 import { LoginToken } from 'src/app/modules/users/shared-users/models/login-token/login-token';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress';
+import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress.interface';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
+import { SendTxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/send/send-tx-in-progress';
+import { DefaultTxHash } from '../../shared-wallets/models/tx-hash/default/default-tx-hash';
+import { NullTxHash } from '../../shared-wallets/models/tx-hash/null-tx-hash/null-tx-hash';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -166,7 +169,6 @@ export class SendSummaryPage implements OnInit {
     }
     const password = new Password(data);
     if (await this.validPassword(password)) {
-      this.openInProgressModal();
       return password;
     } else {
       throw new Error(new PasswordErrorMsgs().invalid());
@@ -181,22 +183,26 @@ export class SendSummaryPage implements OnInit {
         this.summaryData.address,
         this.summaryData.currency
       );
-      this.txInProgress = new TxInProgress('send', this.blockchain.name(), response.hash);
+      this.txInProgress = new SendTxInProgress(this.blockchain, new DefaultTxHash(response.hash));
       this.txInProgressService.startTx(this.txInProgress);
+      this.openInProgressModal();
       this.notifyWhenTransactionMined(response);
     } else {
+      this.txInProgress = new SendTxInProgress(this.blockchain, new NullTxHash());
+      this.txInProgressService.startTx(this.txInProgress);
+
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.onNeedPass().subscribe(() => new Password(password).value());
-      await wallet.sendTxs([
-        new SolanaNativeSendTx(
-          wallet,
-          this.summaryData.address,
-          new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
-        ),
-      ]);
-      this.txInProgress = new TxInProgress('send');
-      this.txInProgressService.startTx(this.txInProgress);
-      this.notifyWhenTransactionMined();
+      wallet
+        .sendTxs([
+          new SolanaNativeSendTx(
+            wallet,
+            this.summaryData.address,
+            new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
+          ),
+        ])
+        .then(() => this.notifyWhenTransactionMined());
+      this.openInProgressModal();
     }
   }
 

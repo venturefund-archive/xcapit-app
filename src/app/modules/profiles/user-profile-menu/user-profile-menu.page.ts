@@ -13,7 +13,7 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
-import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
