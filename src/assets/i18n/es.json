@@ -3314,7 +3314,7 @@
       "available": "Disponible ",
       "fee_title": "Detalles de Transacción",
       "footer_text": "Solo tomará unos segundos.",
-      "tos_1": "Has aceptado en la primera operación realizada los de acuerdo con los ",
+      "tos_1": "Has aceptado en la primera operación realizada los ",
       "tos_button": "términos y condiciones",
       "tos_2": "de 1inch",
       "warning_same_tokens": "El token de origen no puede ser igual al token de destino.",

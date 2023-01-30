@@ -495,10 +495,6 @@ export class InvestmentConfirmationPage {
     return this.storage.set('_agreement_2PI_T&C', true);
   }
 
-  // async getTwoPiAgreement():Promise<any> {
-  //   return  this.storage.get('_agreement_2PI_T&C');
-  // }
-
   private updateTexts() {
     switch (this.mode) {
       case 'invest':
