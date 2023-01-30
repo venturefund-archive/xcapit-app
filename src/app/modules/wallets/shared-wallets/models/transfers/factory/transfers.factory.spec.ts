@@ -4,10 +4,10 @@ import { rawMATICData } from '../../../../../swaps/shared-swaps/models/fixtures/
 describe('TransfersFactory', () => {
 
   it('new', () => {
-    expect(new TransfersFactory(null, null)).toBeTruthy();
+    expect(new TransfersFactory(null, null, null)).toBeTruthy();
   });
 
   it('create', () => {
-    expect(new TransfersFactory(null, null).create(rawMATICData, '')).toBeTruthy();
+    expect(new TransfersFactory(null, null, null).create(rawMATICData, '')).toBeTruthy();
   });
 });

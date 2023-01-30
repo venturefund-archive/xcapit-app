@@ -48,6 +48,7 @@ import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail'
 import { SpyProperty } from 'src/testing/spy-property.spec';
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
 import { of } from 'rxjs';
+import { Transfers } from '../shared-wallets/models/transfers/transfers';
 
 describe('TokenDetailPage', () => {
   let component: TokenDetailPage;
@@ -72,7 +73,28 @@ describe('TokenDetailPage', () => {
   let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
+  let transfersSpy: jasmine.SpyObj<Transfers>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
+
+  const rawTransfer = {
+    block_height: 31071581,
+    block_signed_at: '2023-01-17T16:50:57Z',
+    fees_paid: '30800000301000',
+    from_address: '0x925f1b4d8092bd94608b1f680b87f87f0bd737dc',
+    from_address_label: null,
+    gas_offered: 21000,
+    gas_price: 1466666681,
+    gas_quote: null,
+    gas_quote_rate: null,
+    gas_spent: 21000,
+    successful: true,
+    to_address: '0xa895d3221076a464b45d1cdb30cdc2691497e0c4',
+    to_address_label: null,
+    tx_hash: '0x0e1029197d9874a36011a11bae091714dcedf7464475906ffa2e54a39411f8a2',
+    tx_offset: 8,
+    value: '200000000000000',
+    value_quote: null,
+  };
 
   beforeEach(waitForAsync(() => {
     twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
@@ -109,8 +131,13 @@ describe('TokenDetailPage', () => {
       create: providersSpy,
     });
 
+    transfersSpy = jasmine.createSpyObj('Transfers', {
+      cached: rawTransfer,
+      all: rawTransfer
+    });
+
     transfersFactorySpy = jasmine.createSpyObj('TransfersFactory', {
-      create: { all: () => [] },
+      create: transfersSpy
     });
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
@@ -178,6 +205,7 @@ describe('TokenDetailPage', () => {
         { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
+        { provide: Transfers, useValue: transfersSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

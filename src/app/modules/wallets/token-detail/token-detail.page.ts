@@ -274,7 +274,9 @@ export class TokenDetailPage {
   async getTransfers() {
     if (this.blockchain.name() !== 'SOLANA') {
       this.transfers = undefined;
-      this.transfers = await this.transfersFactory.create(this.token.json(), this.wallet.address()).all();
+      const transfers = this.transfersFactory.create(this.token.json(), this.wallet.address());
+      this.transfers = await transfers.cached();
+      this.transfers = await transfers.all();
     }
   }
 

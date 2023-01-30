@@ -64,7 +64,7 @@ export class WalletTransactionCardItemComponent implements OnInit {
   constructor(
     private navController: NavController,
     private transactionDetailsService: TransactionDetailsService,
-    private envService: EnvService
+    private envService: EnvService,
   ) {}
 
   ngOnInit() {
