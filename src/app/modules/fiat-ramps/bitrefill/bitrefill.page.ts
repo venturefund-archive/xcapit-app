@@ -25,7 +25,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
         *ngIf="this.url !== undefined"
         [src]="this.url"
         frameborder="0"
-        scrolling="no"
+        scrolling="yes"
         width="100%"
         height="100%"
       ></iframe>
