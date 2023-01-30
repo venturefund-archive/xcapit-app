@@ -19,7 +19,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
         [class.ux_toolbar__left]="!this.protectedWallet"
         [class.ux_toolbar_xs]="this.protectedWallet"
         color="primary"
-        class="ux_toolbar"
+        class="ux_toolbar ux_toolbar__rounded"
       >
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/recovery/info"></ion-back-button>
@@ -32,7 +32,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             ) | translate
           }}
         </ion-title>
-        <ion-label class="step-counter" *ngIf="!this.protectedWallet" slot="end"
+        <ion-label class="ux_toolbar__step" *ngIf="!this.protectedWallet" slot="end"
           >1 {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >
       </ion-toolbar>

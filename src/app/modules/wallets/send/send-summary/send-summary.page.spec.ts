@@ -99,7 +99,7 @@ describe('SendSummaryPage', () => {
     fakeLocalNotification = new FakeLocalNotification();
 
     localNotificationInjectableSpy = jasmine.createSpyObj('LocalNotificationInjectable', {
-      create: fakeLocalNotification
+      create: fakeLocalNotification,
     });
     transactionDataServiceSpy = jasmine.createSpyObj('TransactionDataService', {}, { transactionData: summaryData });
     walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionService', {
@@ -198,7 +198,10 @@ describe('SendSummaryPage', () => {
       summaryData.currency
     );
     expect(component.isSending).toBeFalse();
-    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(
+      testLocalNotificationOk.title,
+      testLocalNotificationOk.body
+    );
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
@@ -224,16 +227,19 @@ describe('SendSummaryPage', () => {
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
-    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(
+      testLocalNotificationOk.title,
+      testLocalNotificationOk.body
+    );
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
     expect(txInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
   });
 
- it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
+  it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
     component.summaryData = summaryData;
     storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid'}));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
     component.ionViewWillEnter();
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
@@ -355,7 +361,7 @@ describe('SendSummaryPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 
-  it('password is valid for solana, start tx for card on home', async() => {
+  it('password is valid for solana, start tx for card on home', async () => {
     storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
     const solanaSummaryData = { ...summaryData, currency: rawSOLData, network: rawSolanaData.name };
@@ -369,4 +375,21 @@ describe('SendSummaryPage', () => {
     expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
     expect(txInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
   });
+
+  it('should navigate to send details when backButton was clicked', fakeAsync(() => {
+    component.ionViewWillEnter();
+    tick();
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('ion-back-button[name="ux_nav_go_back"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith([
+      'wallets/send/detail/blockchain',
+      component.summaryData.network,
+      'token',
+      component.summaryData.currency.contract,
+      'amount',
+      component.summaryData.amount,
+    ]);
+  }));
 });

@@ -412,7 +412,7 @@ export class SwapHomePage {
         await this.setFeeInfo();
         await this.balanceAvailableOf(this.fromToken.symbol(), this.activeBlockchain.name());
         this.setUSDPrices(value);
-        this.checkFee(value);
+        this.checkFee(parseFloat(value));
       });
   }
 

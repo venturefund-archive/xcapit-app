@@ -28,7 +28,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
   selector: 'app-operations-new',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
@@ -265,6 +265,7 @@ export class OperationsNewPage implements AfterViewInit {
     if (this.form.valid) {
       await this.setOperationStorage();
       const email = await this.kriptonStorageService.get('email');
+      this.kriptonStorageService.set('privacy_and_policy_accepted', true);
       const operationData = Object.assign({ email }, this.storageOperationService.getData());
       const operationResponse = await this.fiatRampsService.createOperation(operationData).toPromise();
 

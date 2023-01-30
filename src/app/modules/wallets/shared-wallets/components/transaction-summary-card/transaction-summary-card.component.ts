@@ -4,7 +4,6 @@ import { NETWORK_COLORS } from '../../constants/network-colors.constant';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 
-
 @Component({
   selector: 'app-transaction-summary-card',
   template: `
@@ -14,25 +13,17 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
           {{ this.title }}
         </ion-text>
       </div>
-      <div class="tsc__name-and-icon">
-        <div class="tsc__name-and-icon__name">
-          <ion-text class="ux-font-text-base">{{ this.summaryData.currency.name }}</ion-text>
-          <div class="tsc__name-and-icon__badge">
-            <ion-badge [color]="this.networkColors[this.summaryData.network]" class="ux-badge ux-font-num-subtitulo">{{
-              this.summaryData.network | formattedNetwork | uppercase
-            }}</ion-badge>
-          </div>
-        </div>
-        <div class="tsc__name-and-icon__icon">
-          <img [src]="this.summaryData.currency.logoRoute" alt="Crypto icon" />
-        </div>
-      </div>
+      <app-asset-detail
+        [blockchain]="this.summaryData.network"
+        [token]="this.summaryData.currency.value"
+        [tokenLogo]="this.summaryData.currency.logoRoute"
+      ></app-asset-detail>
       <div class="tsc__amount">
         <div class="tsc__amount__title">
           <ion-text class="ux-font-titulo-xs">{{ this.amountsTitle }}</ion-text>
           <ion-button
             *ngIf="this.amountSend"
-            class="ion-no-padding"
+            class="ion-no-padding ion-no-margin"
             slot="icon-only"
             fill="clear"
             appTrackClick
@@ -40,7 +31,7 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
             size="small"
             (click)="this.showPhraseAmountInfo()"
           >
-            <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+            <ion-icon name="information-circle"></ion-icon>
           </ion-button>
         </div>
         <div class="tsc__amount__content">
@@ -56,7 +47,17 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
         </div>
 
         <div class="tsc__address__content">
-          <ion-text class="ux-font-text-base">{{ this.summaryData.address }}</ion-text>
+          <app-contact-item
+            *ngIf="this.summaryData.contact"
+            [name]="this.summaryData.contact"
+            [address]="this.summaryData.address"
+            [networks]="[this.summaryData.network]"
+            [showWalletImg]="false"
+            [boldName]="false"
+          ></app-contact-item>
+          <ion-text *ngIf="!this.summaryData.contact" class="ux-font-text-base">{{
+            this.summaryData.address
+          }}</ion-text>
         </div>
       </div>
       <div class="tsc__fee">
@@ -66,7 +67,7 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
           </ion-text>
           <ion-button
             *ngIf="this.transactionFee"
-            class="ion-no-padding"
+            class="ion-no-padding ion-no-margin"
             slot="icon-only"
             fill="clear"
             appTrackClick
@@ -74,7 +75,7 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
             size="small"
             (click)="this.showPhrasereferenceFeeInfo()"
           >
-            <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+            <ion-icon name="information-circle"></ion-icon>
           </ion-button>
         </div>
         <div class="tsc__fee__fee">

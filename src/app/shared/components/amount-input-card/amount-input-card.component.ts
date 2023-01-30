@@ -25,7 +25,7 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
         </ion-text>
         <ion-button
           *ngIf="this.amountSend"
-          class="ion-no-padding"
+          class="ion-no-padding ion-no-margin"
           slot="icon-only"
           fill="clear"
           appTrackClick
@@ -33,11 +33,11 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
           size="small"
           (click)="this.showPhraseAmountInfo()"
         >
-          <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+          <ion-icon name="information-circle"></ion-icon>
         </ion-button>
       </div>
       <div class="aic__content">
-        <div class="aic__content__title">
+        <div class="aic__content__title" *ngIf="this.label">
           <ion-text class="ux-font-titulo-xs"> {{ this.label }}</ion-text>
         </div>
         <div *ngIf="this.showRange" class="aic__content__percentage">

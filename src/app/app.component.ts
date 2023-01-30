@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, NgZone } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
-import { LoadingService } from './shared/services/loading/loading.service';
 import { LanguageService } from './shared/services/language/language.service';
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
@@ -43,7 +42,6 @@ export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     private submitButtonService: SubmitButtonService,
-    private loadingService: LoadingService,
     private languageService: LanguageService,
     private trackService: TrackService,
     private updateService: UpdateService,
@@ -67,7 +65,6 @@ export class AppComponent implements OnInit {
     this.initializeApp();
     this.statusBarConfig();
     this.submitButtonService.enabled();
-    this.loadingService.enabled();
     this.trackService.startTracker();
     this.setBackgroundActions();
   }

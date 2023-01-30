@@ -28,55 +28,54 @@ describe('RemoveWalletPage', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
 
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        removeWalletFromStorage: Promise.resolve(),
-      });
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      removeWalletFromStorage: Promise.resolve(),
+    });
 
-      balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
-        removeTotal: Promise.resolve(),
-      });
+    balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
+      removeTotal: Promise.resolve(),
+    });
 
-      queueServiceSpy = jasmine.createSpyObj('QueueService', {
-        dequeueAll: Promise.resolve(),
-      });
+    queueServiceSpy = jasmine.createSpyObj('QueueService', {
+      dequeueAll: Promise.resolve(),
+    });
 
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
-        killSession: Promise.resolve(),
-      });
+    walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
+      killSession: Promise.resolve(),
+    });
 
-      ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
-        set: Promise.resolve(),
-      });
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(),
+      remove: Promise.resolve(),
+    });
 
-      walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
-        enableModal: Promise.resolve(),
-      });
+    walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+      enableModal: Promise.resolve(),
+    });
 
-      TestBed.configureTestingModule({
-        declarations: [RemoveWalletPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: StorageService, useValue: storageServiceSpy },
-          { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
-          { provide: QueueService, useValue: queueServiceSpy },
-          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
-          { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
-          { provide: WalletBackupService, useValue: walletBackupServiceSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [RemoveWalletPage, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
+        { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
+        { provide: QueueService, useValue: queueServiceSpy },
+        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(RemoveWalletPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    fixture = TestBed.createComponent(RemoveWalletPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -110,5 +109,6 @@ describe('RemoveWalletPage', () => {
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', false);
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('loggedIn', false);
     expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
+    expect(ionicStorageServiceSpy.remove).toHaveBeenCalledTimes(4);
   });
 });

@@ -15,7 +15,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
         <ion-title>
           {{ 'fiat_ramps.kyc.summary_data.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs sd__step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >4 {{ 'shared.step_counter.of' | translate }} 4</ion-label
         >
       </ion-toolbar>

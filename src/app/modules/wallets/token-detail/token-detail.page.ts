@@ -22,8 +22,8 @@ import { FixedTokens } from '../../swaps/shared-swaps/models/filtered-tokens/fix
 import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
-import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
@@ -175,8 +175,8 @@ export class TokenDetailPage {
     private transfersFactory: TransfersFactory,
     private blockchainsFactory: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
-    private covalentBalancesFactory: CovalentBalancesController,
-    private tokenPricesFactory: TokenPricesController,
+    private covalentBalancesInjectable: CovalentBalancesInjectable,
+    private tokenPricesInjectable: TokenPricesInjectable,
     private tokenDetailInjectable: TokenDetailInjectable,
     private refreshTimeoutService: RefreshTimeoutService
   ) {}
@@ -259,8 +259,8 @@ export class TokenDetailPage {
   private async setTokenDetail() {
     const fixedTokens = new FixedTokens([this.token]);
     this.tokenDetail = this.tokenDetailInjectable.create(
-      this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
-      this.tokenPricesFactory.new(fixedTokens),
+      this.covalentBalancesInjectable.create(this.wallet.address(), fixedTokens),
+      this.tokenPricesInjectable.create(fixedTokens),
       (await fixedTokens.value())[0]
     );
     this.tokenDetail.cached();

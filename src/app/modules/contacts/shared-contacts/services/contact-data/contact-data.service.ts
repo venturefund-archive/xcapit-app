@@ -9,7 +9,7 @@ export class ContactDataService {
   constructor() {}
 
   getContact(){
-    return structuredClone(this.contact);
+    return this.contact ? structuredClone(this.contact) : null;
   }
 
   updateContact(contact : Contact){

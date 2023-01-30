@@ -2,7 +2,7 @@ import { ContactDataService} from './contact-data.service';
 import { TestBed } from '@angular/core/testing';
 import { Contact } from '../../interfaces/contact.interface';
 
-describe('TwoPiInvestmentService', () => {
+describe('ContactDataService', () => {
   let contact : Contact;
   let service: ContactDataService;
 
@@ -18,11 +18,14 @@ describe('TwoPiInvestmentService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    
   });
 
   it('should update and access data', () => {
     service.updateContact(contact);
     expect(service.getContact()).toEqual(contact);
+  });
+
+  it('should return null if is not contact', () => {
+    expect(service.getContact()).toEqual(null);
   });
 });

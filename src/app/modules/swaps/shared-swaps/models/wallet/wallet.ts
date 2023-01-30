@@ -1,7 +1,7 @@
 import { Wallet as EthersWallet, providers } from 'ethers';
 import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { BlockchainTx } from '../blockchain-tx';
-import { Blockchain } from '../blockchain/blockchain';
+import { IBlockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
 import { Connection, Transaction } from '@solana/web3.js';
 import { FakeConnection } from '../fakes/fake-connection';
@@ -20,7 +20,7 @@ export class DefaultWallet implements Wallet {
 
   constructor(
     private _rawData: any,
-    private _aBlockchain: Blockchain,
+    private _aBlockchain: IBlockchain,
     private _ethersWallet: any = EthersWallet,
     private _ethersProviders: any = providers
   ) {}
@@ -115,12 +115,12 @@ export class SolanaWallet implements Wallet {
 
   constructor(
     private _rawData: any,
-    private _aBlockchain: Blockchain,
+    private _aBlockchain: IBlockchain,
     private _connection: Connection | FakeConnection,
     private _ethersWallet: any = EthersWallet
   ) {}
 
-  public static create(_rawData: any, _aBlockchain: Blockchain): SolanaWallet {
+  public static create(_rawData: any, _aBlockchain: IBlockchain): SolanaWallet {
     return new this(_rawData, _aBlockchain, new Connection(_aBlockchain.rpc()));
   }
 
