@@ -12,10 +12,6 @@ const routes: Routes = [
     path: ':mode',
     component: RegisterPage,
   },
-  {
-    path: ':mode/blockchain/:blockchain/address/:address',
-    component: RegisterPage,
-  },
 ];
 
 @NgModule({

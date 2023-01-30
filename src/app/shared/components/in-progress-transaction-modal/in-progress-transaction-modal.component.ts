@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
+import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
+import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 import { IonicStorageService } from '../../services/ionic-storage/ionic-storage.service';
 
 @Component({
@@ -73,7 +75,8 @@ export class InProgressTransactionModalComponent implements OnInit {
   constructor(
     private modalController: ModalController,
     private navController: NavController,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private contactDataService: ContactDataService
   ) {}
 
   async ngOnInit() {
@@ -97,15 +100,13 @@ export class InProgressTransactionModalComponent implements OnInit {
   }
 
   goToSaveAddress() {
-    this.navController.navigateRoot([
-      'contacts/register',
-      'save',
-      'blockchain',
-      this.blockchain._rawData.name,
-      'address',
-      this.address,
-    ]);
+    const contact: Contact = {
+      address: this.address,
+      networks: [this.blockchain._rawData.name],
+    };
+    this.contactDataService.updateContact(contact);
     this.modalController.dismiss();
+    this.navController.navigateRoot('contacts/register/save');
   }
 
   close() {

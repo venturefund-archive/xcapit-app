@@ -8,6 +8,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { IonicStorageService } from '../../services/ionic-storage/ionic-storage.service';
 import { InProgressTransactionModalComponent } from './in-progress-transaction-modal.component';
 import { FakeFeatureFlagDirective } from '../../../../testing/fakes/feature-flag-directive.fake.spec';
+import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 
 
 
@@ -43,6 +44,7 @@ describe('InProgressTransactionModalComponent', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController({});
     navControllerSpy = fakeNavController.createSpy();
@@ -51,6 +53,9 @@ describe('InProgressTransactionModalComponent', () => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve([]),
     });
+    contactDataServiceSpy = jasmine.createSpyObj('ContactDataService', {
+      updateContact: null,
+    });
     TestBed.configureTestingModule({
       declarations: [InProgressTransactionModalComponent, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -58,6 +63,7 @@ describe('InProgressTransactionModalComponent', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: ContactDataService, useValue: contactDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -126,7 +132,7 @@ describe('InProgressTransactionModalComponent', () => {
     expect(saveButtonEl).toBeFalsy();
   });
 
-  it('should navigate to save address ', async () => {
+  it('should update contact on service and navigate to save address ', async () => {
     ionicStorageServiceSpy.get.and.resolveTo([]);
     component.address = testAddress;
     component.ngOnInit();
@@ -138,6 +144,7 @@ describe('InProgressTransactionModalComponent', () => {
     await fixture.whenRenderingDone();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([ 'contacts/register', 'save', 'blockchain', 'MATIC', 'address', '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' ]);
+    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledOnceWith({address:'0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',networks:['MATIC']});
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('contacts/register/save');
   });
 });

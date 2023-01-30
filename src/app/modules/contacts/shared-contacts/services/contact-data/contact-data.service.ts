@@ -4,12 +4,12 @@ import { Contact } from '../../interfaces/contact.interface'
   providedIn: 'root',
 })
 export class ContactDataService {
-  contact : Contact;
+  private contact : Contact;
 
   constructor() {}
 
   getContact(){
-    return { ...this.contact };
+    return structuredClone(this.contact);
   }
 
   updateContact(contact : Contact){

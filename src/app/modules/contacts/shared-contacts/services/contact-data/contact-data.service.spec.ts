@@ -21,14 +21,6 @@ describe('TwoPiInvestmentService', () => {
     
   });
 
-  it('should store contacts data', () => {
-    service.contact = contact; 
-
-    expect(service.contact.address).toEqual('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeep');
-    expect(service.contact.networks).toEqual(['MATIC']);
-    expect(service.contact.name).toEqual('TestName');
-  });
-
   it('should update and access data', () => {
     service.updateContact(contact);
     expect(service.getContact()).toEqual(contact);

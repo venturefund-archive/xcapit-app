@@ -23,6 +23,17 @@ describe('RegisterPage', () => {
     index: 0,
   };
 
+  const contactForSave = {
+    address: '0xf8d564837ec51f9ba8ea25f8340003e832b91d53',
+    networks: ['MATIC'],
+  };
+
+  const editedContact = {
+    networks: ['MATIC'],
+    address: '0xf8d564837ec51f9ba8ea25f8340003e832b91d52',
+    name: 'newName',
+  };
+
   const contacts = [
     {
       address: '0xf8d564837ec51f9ba8ea25f8340003e832b91d52',
@@ -226,12 +237,11 @@ describe('RegisterPage', () => {
   it('should set properly blockhain and address when mode is save', async () => {
     fakeActivatedRoute.modifySnapshotParams({
       mode: 'save',
-      blockchain: 'MATIC',
-      address: '0xe0459da14bae1f5e6fab63d6e93576353b0bb4a3',
     });
+    contactDataServiceSpy.getContact.and.returnValue(contactForSave);
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    expect(component.form.value.address).toEqual('0xe0459da14bae1f5e6fab63d6e93576353b0bb4a3');
+    expect(component.form.value.address).toEqual('0xf8d564837ec51f9ba8ea25f8340003e832b91d53');
     expect(component.form.value.networks).toEqual(['MATIC']);
   });
 
@@ -261,7 +271,7 @@ describe('RegisterPage', () => {
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
-    expect(storageSpy.set).toHaveBeenCalledTimes(1);
+    expect(storageSpy.set).toHaveBeenCalledOnceWith('contact_list', [editedContact, contacts[1]]);
     expect(toastServiceSpy.showSuccessToastVerticalOffset).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('contacts/home');
   });

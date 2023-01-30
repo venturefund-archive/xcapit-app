@@ -135,11 +135,10 @@ export class RegisterPage implements OnInit {
   }
 
   checkMode() {
-    const mode = this.route.snapshot.paramMap.get('mode');
-    if (mode === 'save') {
+    if (!this.isEditMode()) {
       this.saveMode();
     }
-    if (mode === 'edit') {
+    if (this.isEditMode()) {
       const _aContact = this.contactDataService.getContact();
       this.edit(_aContact);
       this.header = 'contacts.register.header_edit';
@@ -153,13 +152,10 @@ export class RegisterPage implements OnInit {
   }
 
   saveMode() {
-    const network = this.networksData.filter(
-      (network) => network.value === this.route.snapshot.paramMap.get('blockchain')
-    );
-    const address = this.route.snapshot.paramMap.get('address');
-    this.form.patchValue({ networks: [network[0].value] });
-    this.setAddressValidator([network[0].value]);
-    this.form.patchValue({ address: address });
+    const contactToSave = this.contactDataService.getContact();
+    this.form.patchValue({ networks: contactToSave.networks });
+    this.setAddressValidator(contactToSave.networks);
+    this.form.patchValue({ address: contactToSave.address });
   }
 
   subscribeToStatusChanges() {
