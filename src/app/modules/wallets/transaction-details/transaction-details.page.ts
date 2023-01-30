@@ -109,14 +109,14 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
             <ion-text *ngIf="!this.contact" class="ux-font-text-base">{{
               this.isReception ? this.tplTransfer.from_address : this.tplTransfer.to_address
             }}</ion-text>
-            <!-- <app-contact-item
-            *ngIf="this.contact"
-            [name]="this.contact.contact"
-            [address]="this.contact.address"
-            [networks]="[this.tplTransfer.token.network]"
-            [showWalletImg]="false"
-            [boldName]="false"
-          ></app-contact-item> -->
+            <app-contact-item
+              *ngIf="this.contact"
+              [name]="this.contact.name"
+              [address]="this.contact.address"
+              [networks]="[this.tplTransfer.token.network]"
+              [showWalletImg]="false"
+              [boldName]="false"
+            ></app-contact-item>
           </div>
           <ng-container *ngIf="">
             <div class="divider list-divider"></div>
@@ -189,14 +189,13 @@ export class TransactionDetailsPage implements OnInit {
     this.setTransactionDateAndTime();
     this.isReception = this.tplTransfer.type === 'IN';
     await this._getContacts();
-    console.log(this.tplTransfer)
   }
 
   private async _getContacts() {
     const contacts = await this.ionicService.get('contact_list');
     const addresses = contacts.map((c) => c.address);
     const index = addresses.findIndex(
-      (a) => a === (this.isReception ? this.tplTransfer.from_address : this.tplTransfer.to_address)
+      (a: string) => a === (this.isReception ? this.tplTransfer.from_address : this.tplTransfer.to_address)
     );
     if (index !== -1) {
       this.contact = contacts[index];
