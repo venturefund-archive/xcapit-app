@@ -7,7 +7,6 @@ import { AlertController, ModalController, NavController } from '@ionic/angular'
 import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
-import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
@@ -31,12 +30,12 @@ import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
-          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref=""></ion-back-button>
+          <ion-back-button appTrackClick name="ux_nav_go_back" (click)="back()" defaultHref=""></ion-back-button>
         </ion-buttons>
-        <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
-        <ion-label class="step-counter" slot="end">3 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
+        <ion-title class="sd__header">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
+        <ion-label class="ux_toolbar__step" slot="end">3 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ss ion-padding">
@@ -207,7 +206,7 @@ export class SendSummaryPage implements OnInit {
       componentProps: {
         data: SUCCESS_TYPES.send_in_progress,
         address: this.summaryData.address,
-        blockchain: this.blockchain
+        blockchain: this.blockchain,
       },
       cssClass: 'modal',
       backdropDismiss: false,
@@ -316,6 +315,17 @@ export class SendSummaryPage implements OnInit {
     });
   }
 
+  back() {
+    this.navController.navigateBack([
+      'wallets/send/detail/blockchain',
+      this.summaryData.network,
+      'token',
+      this.summaryData.currency.contract,
+      'amount',
+      this.summaryData.amount,
+    ]);
+  }
+  
   private navigateToTokenDetail() {
     this.navController.navigateRoot([
       `wallets/token-detail/blockchain/${this.summaryData.network}/token/${this.summaryData.currency.contract}`,

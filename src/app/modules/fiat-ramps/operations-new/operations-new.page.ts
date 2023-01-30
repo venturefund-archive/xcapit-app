@@ -28,7 +28,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
   selector: 'app-operations-new',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>

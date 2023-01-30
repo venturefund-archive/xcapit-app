@@ -9,12 +9,12 @@ import { CAUSES } from '../shared-donations/constants/causes';
   selector: 'app-token-selection',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left no-border">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded no-border">
         <ion-buttons slot="start">
           <ion-button class="dts__button_back" (click)="this.goBack()"> <ion-icon name="chevron-back-outline"></ion-icon></ion-button>
         </ion-buttons>
         <ion-title class="ion-text-start">{{ 'donations.token_selection.header' | translate }}</ion-title>
-        <ion-label class="ux-font-text-xs dts__step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >1 {{ 'shared.step_counter.of' | translate }} 3</ion-label
         >
       </ion-toolbar>

@@ -11,14 +11,14 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
   selector: 'app-recovery-wallet',
   template: ` 
     <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="rwp__header">{{
           'wallets.recovery_wallet.header' | translate
         }}</ion-title>
-        <ion-label class="step-counter" slot="end"
+        <ion-label class="ux_toolbar__step" slot="end"
           >2 {{ 'shared.step_counter.of' | translate }} 3</ion-label
         >
       </ion-toolbar>

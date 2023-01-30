@@ -12,7 +12,7 @@ import { LINKS } from 'src/app/config/static-links';
 @Component({
   selector: 'app-provider-token-selection',
   template: `<ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>

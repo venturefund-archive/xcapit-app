@@ -24,8 +24,8 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
-import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import {
   rawETHData,
   rawSAMOData,
@@ -67,8 +67,8 @@ describe('TokenDetailPage', () => {
   let transfersFactorySpy: jasmine.SpyObj<TransfersFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
-  let covalentBalancesFactorySpy: jasmine.SpyObj<CovalentBalancesController>;
-  let tokenPricesFactorySpy: jasmine.SpyObj<TokenPricesController>;
+  let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
+  let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
   let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
@@ -89,10 +89,10 @@ describe('TokenDetailPage', () => {
       } as Vault),
     });
 
-    tokenPricesFactorySpy = jasmine.createSpyObj('TokenPricesController', {
-      new: new FakePrices(),
+    tokenPricesInjectableSpy = jasmine.createSpyObj('TokenPricesInjectable', {
+      create: new FakePrices(),
     });
-    covalentBalancesFactorySpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+    covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { create: new FakeBalances() });
     fakeActivatedRoute = new FakeActivatedRoute({ blockchain: rawEthereumData.name, token: rawETHData.contract });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -174,8 +174,8 @@ describe('TokenDetailPage', () => {
         { provide: TransfersFactory, useValue: transfersFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
-        { provide: CovalentBalancesController, useValue: covalentBalancesFactorySpy },
-        { provide: TokenPricesController, useValue: tokenPricesFactorySpy },
+        { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
+        { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
       ],

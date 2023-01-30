@@ -17,7 +17,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class WithdrawConfirmationController {
+export class WithdrawConfirmationInjectable {
   constructor() {}
 
   createDynamicPrice(priceRefreshInterval: number, token: Coin, apiWalletService: ApiWalletService): DynamicPrice {

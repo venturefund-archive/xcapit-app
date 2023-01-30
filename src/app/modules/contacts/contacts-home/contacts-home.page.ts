@@ -3,13 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { Contact } from '../shared-contacts/interfaces/contact.interface';
+import { ContactDataService } from '../shared-contacts/services/contact-data/contact-data.service';
 
 @Component({
   selector: 'app-contacts-home',
   template: `<ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/profiles/menu"></ion-back-button>
+          <ion-back-button defaultHref="" (click)="this.back()"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'contacts.home.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -29,32 +31,16 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       <div class="ch__content" *ngIf="this.contacts.length > 0">
         <div
           class="ch__content__item"
-          (click)="this.selectContact(contact.address)"
+          (click)="this.selectContact(contact)"
           lines="none"
           appTrackClick
           *ngFor="let contact of this.contacts"
         >
-          <div class="ch__content__item__wrapper">
-            <img class="ch__content__item__wrapper__img" src="/assets/img/contacts/wallet.svg" />
-            <div class="ch__content__item__wrapper__data">
-              <div class="ch__content__item__wrapper__data__title">
-                <ion-text class="ux-font-text-lg">{{ contact.name }}</ion-text>
-                <app-token-network-badge
-                  *ngIf="contact.networks.length === 1"
-                  [blockchainName]="contact.networks[0]"
-                ></app-token-network-badge>
-              </div>
-              <div class="ch__content__item__wrapper__data__networks" *ngIf="contact.networks.length > 1">
-                <app-token-network-badge
-                  *ngFor="let network of contact.networks"
-                  [blockchainName]="network"
-                ></app-token-network-badge>
-              </div>
-              <div class="ch__content__item__wrapper__data__subtitle">
-                <ion-text class="ux-font-text-xs">{{ contact.address }}</ion-text>
-              </div>
-            </div>
-          </div>
+          <app-contact-item
+            [name]="contact.name"
+            [address]="contact.address"
+            [networks]="contact.networks"
+          ></app-contact-item>
         </div>
       </div>
     </ion-content>
@@ -84,7 +70,8 @@ export class ContactsHomePage implements OnInit {
     private ionicService: IonicStorageService,
     private navController: NavController,
     private route: ActivatedRoute,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private contactDataService: ContactDataService
   ) {}
 
   ngOnInit() {}
@@ -117,17 +104,16 @@ export class ContactsHomePage implements OnInit {
     this.navController.navigateForward(['/contacts/register']);
   }
 
-  selectContact(address: string) {
+  selectContact(contact: Contact) {
     if (this.isSelecting) {
       this.trackContactSelected();
       this.setEvent();
+      this.contactDataService.updateContact(contact);
       this.navController.navigateBack([
         '/wallets/send/detail/blockchain',
         this.blockchain,
         'token',
         this.token,
-        'address',
-        address,
         'amount',
         this.amount,
       ]);
@@ -146,5 +132,20 @@ export class ContactsHomePage implements OnInit {
       description: window.location.href,
       eventLabel: 'ux_address_wallet',
     });
+  }
+
+  back() {
+    if (this.isSelecting) {
+      this.navController.navigateBack([
+        '/wallets/send/detail/blockchain',
+        this.blockchain,
+        'token',
+        this.token,
+        'amount',
+        this.amount,
+      ]);
+    } else {
+      this.navController.navigateBack('/profiles/menu');
+    }
   }
 }
