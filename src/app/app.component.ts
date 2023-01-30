@@ -22,6 +22,7 @@ import { AppSessionInjectable } from './shared/models/app-session/injectable/app
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
 import { CapacitorApp } from './shared/models/capacitor-app/capacitor-app.interface';
+import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -58,7 +59,8 @@ export class AppComponent implements OnInit {
     private capacitorAppInjectable: CapacitorAppInjectable,
     private appSessionInjectable: AppSessionInjectable,
     private walletMaintenanceService: WalletMaintenanceService,
-    private dynamicLinkInjectable: DynamicLinkInjectable
+    private dynamicLinkInjectable: DynamicLinkInjectable,
+    private notificationsService: NotificationsService
   ) {}
 
   ngOnInit() {
@@ -85,8 +87,21 @@ export class AppComponent implements OnInit {
       this.checkWalletConnectAndDynamicLinks();
       this.localNotificationsService.init();
       this.trackUserWalletAddress();
+      this.pushNotificationActionPerformed()
     });
   }
+
+  private pushNotificationActionPerformed() {
+    this.notificationsService.getInstance().pushNotificationActionPerformed((notification) => {
+      if (notification.actionId === 'tap' && notification.notification.data.url) {
+        console.log('me ejecuto');
+        console.log('url', notification.notification.data.url);
+        
+        // this.navController.navigateForward(notification.notification.data.url);
+      }
+    });
+  }
+
 
   private setCapacitorApp() {
     this.app = this.capacitorAppInjectable.create();
