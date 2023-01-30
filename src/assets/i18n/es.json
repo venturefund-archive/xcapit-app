@@ -3050,8 +3050,8 @@
         "table_label1": "Par",
         "table_label2": "Último Precio",
         "table_label3": "Cambio % 24 h",
-        "more_button": "Ver más",
-        "less_button": "Ver menos"
+        "more_button": "Ampliar",
+        "less_button": "Reducir"
       }
     },
     "shared": {
