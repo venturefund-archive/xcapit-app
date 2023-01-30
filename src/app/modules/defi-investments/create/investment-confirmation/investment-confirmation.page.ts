@@ -40,7 +40,6 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 import { format } from 'date-fns';
 import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
-import { DefiInvestment } from '../../shared-defi-investments/interfaces/defi-investment.interface';
 import { DefiInvestmentsService } from '../../shared-defi-investments/services/defi-investments-service/defi-investments.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
@@ -87,7 +86,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
         </div>
       </ion-card>
       <form [formGroup]="this.form" class="ion-padding-horizontal ion-padding-bottom">
-        <ion-item class="term-item ion-no-padding ion-no-margin">
+        <ion-item *ngIf="!this.agreement" class="term-item ion-no-padding ion-no-margin">
           <ion-checkbox
             appTrackClick
             formControlName="thirdPartyDisclaimer"
@@ -102,7 +101,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
           </ion-label>
         </ion-item>
 
-        <ion-item class="term-item ion-no-padding ion-no-margin">
+        <ion-item *ngIf="!this.agreement" class="term-item ion-no-padding ion-no-margin">
           <ion-checkbox
             appTrackClick
             formControlName="termsAndConditions"
@@ -119,7 +118,18 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
             }}</ion-text>
           </ion-label>
         </ion-item>
+        <ion-item *ngIf="this.agreement" class="term-item ion-no-padding ion-no-margin">
+          <ion-label class="ion-no-padding ion-no-margin">
+            <ion-text name="ux_tyc_accepted" class="ux-font-text-xxs" color="neutral80">{{
+              'defi_investments.confirmation.terms.you_have_accepted' | translate
+            }}</ion-text>
+            <ion-text class="ux-link-xs" (click)="this.openTOS()">{{
+              'defi_investments.confirmation.terms.link_to_terms' | translate
+            }}</ion-text>
+          </ion-label>
+        </ion-item>
       </form>
+
       <ion-button
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.confirmation.submit_loading' | translate"
@@ -145,6 +155,7 @@ export class InvestmentConfirmationPage {
     termsAndConditions: [false, Validators.requiredTrue],
   });
   product: InvestmentProduct;
+  agreement: boolean;
   token: Coin;
   available: number;
   nativeToken: Coin;
@@ -190,10 +201,10 @@ export class InvestmentConfirmationPage {
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.checkTwoPiAgreement();
     this.updateTexts();
     await this.setInvestmentInfo();
     this.dynamicPrice();
-    this.checkTwoPiAgreement();
     await this.walletService.walletExist();
     await this.getNativeTokenBalance();
     this.setIsElegibleToFund();
@@ -412,7 +423,6 @@ export class InvestmentConfirmationPage {
             .then(() => this.createNotification('success'))
             .then(() => this.setActionListener())
             .then(() => this.notification.send());
-          
         } catch {
           this.createNotification('error');
           this.notification.send();
@@ -475,8 +485,8 @@ export class InvestmentConfirmationPage {
   }
 
   async checkTwoPiAgreement(): Promise<void> {
-    const agreement = await this.storage.get('_agreement_2PI_T&C');
-    if (agreement) {
+    this.agreement = await this.storage.get('_agreement_2PI_T&C');
+    if (this.agreement) {
       this.form.patchValue({ thirdPartyDisclaimer: true, termsAndConditions: true });
     }
   }
@@ -484,6 +494,10 @@ export class InvestmentConfirmationPage {
   saveTwoPiAgreement(): Promise<any> {
     return this.storage.set('_agreement_2PI_T&C', true);
   }
+
+  // async getTwoPiAgreement():Promise<any> {
+  //   return  this.storage.get('_agreement_2PI_T&C');
+  // }
 
   private updateTexts() {
     switch (this.mode) {

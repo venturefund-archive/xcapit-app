@@ -52,7 +52,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
             paymentType="fiat_ramps.shared.constants.payment_types.kripton"
           ></app-provider-new-operation-card>
 
-          <div class="aon__disclaimer">
+          <div *ngIf="!this.agreement" class="aon__disclaimer">
             <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
               <ion-checkbox formControlName="thirdPartyKYC" mode="md" slot="start"></ion-checkbox>
               <ion-label class="ion-no-padding ion-no-margin">
@@ -77,6 +77,16 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
                 class="ion-no-padding ion-no-margin ux-font-text-xxs"
                 color="neutral80"
                 [innerHTML]="'fiat_ramps.new_operation.privacyPolicyAndTOS' | translate"
+              >
+              </ion-label>
+            </ion-item>
+          </div>
+          <div class="aon__disclaimer" *ngIf="this.agreement">
+            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
+              <ion-label
+                class="ion-no-padding ion-no-margin ux-font-text-xxs"
+                color="neutral80"
+                [innerHTML]="'fiat_ramps.new_operation.acceptedprivacyPolicyAndTOS' | translate"
               >
               </ion-label>
             </ion-item>
@@ -115,6 +125,7 @@ export class OperationsNewPage implements AfterViewInit {
   priceRefreshInterval = 15000;
   destroy$: Subject<void>;
   minimumFiatAmount: number;
+  agreement: boolean;
   form: UntypedFormGroup = this.formBuilder.group({
     cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
@@ -164,6 +175,7 @@ export class OperationsNewPage implements AfterViewInit {
     this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
+    this.checkKriptonAgreement()
     this.availableCoins();
     this.setCountry();
     this.setCurrency();
@@ -214,7 +226,7 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.get('fiatAmount').updateValueAndValidity();
   }
 
-  private async dynamicPrice() { 
+  private async dynamicPrice() {
     this.createKriptonDynamicPrice()
       .value()
       .pipe(takeUntil(this.destroy$))
@@ -277,6 +289,13 @@ export class OperationsNewPage implements AfterViewInit {
       this.navController.navigateRoot('/fiat-ramps/purchase-order/1');
     } else {
       this.form.markAllAsTouched();
+    }
+  }
+
+  async checkKriptonAgreement(): Promise<void> {
+    this.agreement = await this.kriptonStorageService.get('privacy_and_policy_accepted');
+    if (this.agreement) {
+      this.form.patchValue({ thirdPartyKYC: true, thirdPartyTransaction: true, acceptTOSAndPrivacyPolicy: true });
     }
   }
 

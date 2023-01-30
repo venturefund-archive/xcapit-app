@@ -398,6 +398,7 @@
       "terms": {
         "third_party_disclaimer": "Entiendo que al invertir mis criptomonedas lo haré a través de un proveedor externo (2pi) sujeto a  términos y condiciones  distintos, de los cuales Xcapit no es responsable.",
         "i_have_read": "He leído y acepto los ",
+        "you_have_accepted": "Has aceptado en la primera operación realizada los ",
         "link_to_terms": "Términos y condiciones de 2PI"
       }
     },
@@ -2509,6 +2510,7 @@
       "thirdPartyKYC": "Entiendo que Xcapit no almacena la información KYC.",
       "thirdPartyTransaction": "Entiendo que los términos y condiciones del proveedor externo (Kripton Market) son independientes de Xcapit.",
       "privacyPolicyAndTOS": "Acepto los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y la <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
+      "acceptedprivacyPolicyAndTOS":"Has aceptado en la primera operación realizada los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
       "next_button": "Continuar"
     },
     "register": {
@@ -3312,7 +3314,7 @@
       "available": "Disponible ",
       "fee_title": "Detalles de Transacción",
       "footer_text": "Solo tomará unos segundos.",
-      "tos_1": "Leí y estoy de acuerdo con los ",
+      "tos_1": "Has aceptado en la primera operación realizada los de acuerdo con los ",
       "tos_button": "términos y condiciones",
       "tos_2": "de 1inch",
       "warning_same_tokens": "El token de origen no puede ser igual al token de destino.",
@@ -3344,6 +3346,7 @@
       "condition_3": "Los intercambios poseen costos de transacción asociados.",
       "terms": {
         "i_have_read": "Leí y estoy de acuerdo con los",
+        "you_have_accepted":"Has aceptado en la primera operación realizada los ",
         "link_to_terms": "términos y condiciones",
         "of": "de 1inch"
       },
