@@ -11,4 +11,5 @@ export interface SummaryData {
   fee?: string;
   referenceFee?: string;
   cause?: string;
+  contact?: string;
 }

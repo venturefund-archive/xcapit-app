@@ -44,6 +44,8 @@ import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/facto
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
+import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
+import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
 
 describe('SendDetailPage', () => {
   let component: SendDetailPage;
@@ -69,6 +71,8 @@ describe('SendDetailPage', () => {
   let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let solanaFeeOfInjectableSpy: jasmine.SpyObj<SolanaFeeOfInjectable>;
+  let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
+
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const _continueButton = (): DebugElement => {
     return trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
@@ -77,6 +81,7 @@ describe('SendDetailPage', () => {
     valid: {
       address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
       amount: 1,
+      contact: 'testWallet',
       quoteAmount: 1,
     },
     solanaValid: {
@@ -85,10 +90,20 @@ describe('SendDetailPage', () => {
       quoteAmount: 1,
     },
   };
+  const contact: Contact = {
+    address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+    name: 'Test',
+    networks: ['MATIC'],
+  };
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve(['testAddress']),
+    });
+
+    contactDataServiceSpy = jasmine.createSpyObj('ContactDataService', {
+      getContact: contact,
+      updateContact: {},
     });
 
     fakeActivatedRoute = new FakeActivatedRoute({ token: rawUSDTData.contract, blockchain: rawUSDTData.network });
@@ -181,6 +196,7 @@ describe('SendDetailPage', () => {
         { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: SolanaFeeOfInjectable, useValue: solanaFeeOfInjectableSpy },
+        { provide: ContactDataService, useValue: contactDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -196,6 +212,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should find currency and networks on ionViewDidEnter', fakeAsync(() => {
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
 
@@ -208,6 +225,7 @@ describe('SendDetailPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     component.form.patchValue({ amount: 1 });
 
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
 
@@ -216,6 +234,7 @@ describe('SendDetailPage', () => {
   }));
 
   it('should calculate fee when user enters valid address and amount and token isnt native', fakeAsync(() => {
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
     component.form.patchValue(formData.valid);
@@ -225,6 +244,7 @@ describe('SendDetailPage', () => {
   }));
 
   it('should reset fee when user enters invalid address or amount and token isnt native', fakeAsync(() => {
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
     component.form.patchValue({ address: '' });
@@ -248,6 +268,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
+    component.ionViewWillEnter();
     component.ionViewDidEnter();
     tick();
     component.form.patchValue(formData.valid);
@@ -261,13 +282,20 @@ describe('SendDetailPage', () => {
 
   it('should save transaction data and navigate when ux_send_continue Button clicked, form valid and solana token', fakeAsync(() => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawSOLData.contract, blockchain: rawSOLData.network });
+    contactDataServiceSpy.getContact.and.returnValue(null);
+    component.ionViewWillEnter();
+    tick();
+    fixture.detectChanges();
     component.ionViewDidEnter();
     tick();
+    fixture.detectChanges();
     component.form.patchValue(formData.solanaValid);
     tick();
+    fixture.detectChanges();
 
     _continueButton().nativeElement.click();
     tick();
+    fixture.detectChanges();
 
     expect(component.fee).toEqual(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
@@ -289,6 +317,7 @@ describe('SendDetailPage', () => {
     );
     tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
 
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -297,6 +326,7 @@ describe('SendDetailPage', () => {
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
 
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
@@ -313,6 +343,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should show toast when native balance is less than fee', async () => {
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     component.nativeBalance = 0.5;
     component.fee = 1;
@@ -324,6 +355,7 @@ describe('SendDetailPage', () => {
 
   it('should open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is false', async () => {
     component.isInfoModalOpen = false;
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
@@ -336,6 +368,7 @@ describe('SendDetailPage', () => {
 
   it('should not open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is true ', async () => {
     component.isInfoModalOpen = true;
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
@@ -347,6 +380,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should navigate when addFromContacts event is emited', async () => {
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
@@ -354,29 +388,54 @@ describe('SendDetailPage', () => {
 
     fixture.debugElement.query(By.css('app-address-input-card')).triggerEventHandler('addFromContacts', null);
 
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      'contacts/home/select/blockchain',
-      component.tplBlockchain.name,
-      'token',
-      component.token.contract,
-      'amount',
-      component.form.value.amount,
-    ]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      [
+        'contacts/home/select/blockchain',
+        component.tplBlockchain.name,
+        'token',
+        component.token.contract,
+        'amount',
+        component.form.value.amount,
+      ],
+      { replaceUrl: true }
+    );
   });
 
-  it('should set form data when address is present on URL', async () => {
+  it('should set form data when address is present on URL', fakeAsync(() => {
     fakeActivatedRoute.modifySnapshotParams({
       token: rawUSDTData.contract,
       blockchain: rawUSDTData.network,
-      address: formData.valid.address,
       amount: formData.valid.amount,
     });
+    component.ionViewWillEnter();
+    component.ionViewDidEnter();
+    tick();
+    fixture.detectChanges();
+
+    expect(component.form.value.address).toEqual(formData.valid.address);
+    expect(component.form.value.amount).toEqual(formData.valid.amount);
+  }));
+
+  it('should delete contact from contactDataService when backButton was clicked', fakeAsync(() => {
+    component.ionViewWillEnter();
+    component.ionViewDidEnter();
+    tick();
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('ion-back-button[name="ux_nav_go_back"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledOnceWith(null);
+  }));
+
+  it('should delete contact from contactDataService when removeContact event was emitted', async () => {
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect(component.form.value.address).toEqual(formData.valid.address);
-    expect(component.form.value.amount).toEqual(formData.valid.amount);
+    fixture.debugElement.query(By.css('app-address-input-card')).triggerEventHandler('removeContact');
+
+    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledOnceWith(null);
   });
 });

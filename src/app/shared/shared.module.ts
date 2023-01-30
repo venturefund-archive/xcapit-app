@@ -102,6 +102,7 @@ import { CommaToDotDirective } from './directives/comma-to-dot/comma-to-dot.dire
 import { InProgressTransactionModalComponent } from './components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 import { AssetDetailComponent } from './components/asset-detail/asset-detail.component';
 import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/components/address-input-card/address-input-card.component';
+import { ContactItemComponent } from './components/contact-item/contact-item.component';
 import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-alert.component';
 
 @NgModule({
@@ -129,6 +130,7 @@ import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-aler
     EyeComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
+    ContactItemComponent,
     ModalAsAlertComponent,
     // Ux
     NewTokenInfoModalComponent,
@@ -243,6 +245,7 @@ import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-aler
     EyeComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
+    ContactItemComponent,
     ModalAsAlertComponent,
     // Ux
     NewTokenInfoModalComponent,

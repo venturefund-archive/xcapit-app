@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { ModalController, NavController } from '@ionic/angular';
@@ -43,6 +43,8 @@ import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet'
 import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
 import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
+import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
 
 @Component({
   selector: 'app-send-detail',
@@ -50,11 +52,7 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
-          <ion-back-button
-            appTrackClick
-            name="ux_nav_go_back"
-            defaultHref="/wallets/send/select-currency"
-          ></ion-back-button>
+          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref="" (click)="back()"></ion-back-button>
         </ion-buttons>
         <ion-title class="sd__header">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
         <ion-label class="ux_toolbar__step" slot="end">2 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
@@ -71,9 +69,11 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [subtitle]="'wallets.send.send_detail.address_input.subtitle' | translate"
-            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate : { currency: this.token.value }"
+            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
+            [addressFromContact]="this.addressFromContact"
             (addFromContacts)="navigateToContacts()"
+            (removeContact)="removeContact()"
           ></app-address-input-card>
         </div>
         <div class="sd__amount-input-card" *ngIf="this.token">
@@ -141,6 +141,8 @@ export class SendDetailPage {
   tokenSolana: Token;
   tplTokenSolana: RawToken;
   tokenDetail: TokenDetail;
+  addressFromContact = false;
+  contact: Contact;
   private wallet: Wallet;
   private tokenObj: Token;
   private nativeToken: Token;
@@ -171,25 +173,31 @@ export class SendDetailPage {
     private tokenDetailInjectable: TokenDetailInjectable,
     private covalentBalancesFactory: CovalentBalancesInjectable,
     private tokenPricesFactory: TokenPricesInjectable,
-    private solanaFeeOf: SolanaFeeOfInjectable
+    private solanaFeeOf: SolanaFeeOfInjectable,
+    private contactDataService: ContactDataService
   ) {}
+
+  async ionViewWillEnter() {
+    this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
+    this.contact = this.contactDataService.getContact();
+    if (this.contact) {
+      this.setFormData(this.route.snapshot.paramMap.get('amount'));
+    }
+    await this.setAddressValidator();
+  }
 
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
-    this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
     await this.setTokens();
     await this.setWallet();
     await this.setTokenDetail();
-    await this.setAddressValidator();
-    if (this.route.snapshot.paramMap.get('address')) {
-      this.setFormData(this.route.snapshot.paramMap.get('address'), this.route.snapshot.paramMap.get('amount'));
-    }
     this.getPrices();
     await this.tokenBalances();
   }
 
-  setFormData(address: string, amount: string) {
-    this.form.patchValue({ address, amount });
+  setFormData(amount: string) {
+    this.form.patchValue({ address: this.contact.address, amount });
+    this.addressFromContact = true;
   }
 
   async setAddressValidator() {
@@ -406,6 +414,7 @@ export class SendDetailPage {
       balance: this.balance,
       fee: this.fee.toString(),
       referenceFee: this.quoteFee.value.toString(),
+      contact: this.contact ? this.contact.name : '',
     };
   }
 
@@ -446,14 +455,26 @@ export class SendDetailPage {
     await modal.onDidDismiss();
   }
 
+  back() {
+    this.removeContact()
+    return this.navController.navigateBack(['/wallets/send/select-currency']);
+  }
+
   navigateToContacts() {
-    return this.navController.navigateForward([
-      `contacts/home/select/blockchain`,
-      this.blockchain.name(),
-      'token',
-      this.token.contract,
-      'amount',
-      this.form.value.amount,
-    ]);
+    return this.navController.navigateForward(
+      [
+        `contacts/home/select/blockchain`,
+        this.blockchain.name(),
+        'token',
+        this.token.contract,
+        'amount',
+        this.form.value.amount,
+      ],
+      { replaceUrl: true }
+    );
+  }
+
+  removeContact() {
+    this.contactDataService.updateContact(null);
   }
 }
