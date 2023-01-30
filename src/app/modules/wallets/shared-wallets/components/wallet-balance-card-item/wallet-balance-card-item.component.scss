@@ -39,6 +39,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        ion-label {
+          color: var(--ion-color-neutral80);
+        }
       }
     }
   }
