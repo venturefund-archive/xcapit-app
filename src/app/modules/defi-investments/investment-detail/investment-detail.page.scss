@@ -1,6 +1,10 @@
 :host {
   .id {
+    --background: var(--ion-color-background);
+
     &__card {
+      border: none;
+      box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
       margin-bottom: 0;
     }
 

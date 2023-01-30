@@ -2,6 +2,8 @@
   font-family: var(--ux-font-gilroy);
 
   .wad {
+    --background: var(--ion-color-background);
+
     &__invest-button {
       width: 85px;
       height: 44px;
@@ -81,6 +83,12 @@
       margin-top: 24px;
       font-size: 12px;
       font-weight: 600;
+
+      &__title {
+        ion-label {
+          color: var(--ion-color-neutral80);
+        }
+      }
 
       &__wallet-transaction-card {
         margin-top: 8px;
