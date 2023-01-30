@@ -148,6 +148,10 @@
       "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
       "button_text": "Understood",
       "loading_text": "Calculating. Wait a few moments."
+    },
+    "require_token": {
+      "description": "The token you are looking for is not available?",
+      "button": "Request it"
     }
   },
   "users": {

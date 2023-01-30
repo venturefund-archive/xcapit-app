@@ -104,6 +104,7 @@ import { AssetDetailComponent } from './components/asset-detail/asset-detail.com
 import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/components/address-input-card/address-input-card.component';
 import { ContactItemComponent } from './components/contact-item/contact-item.component';
 import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-alert.component';
+import { RequireTokenComponent } from './components/require-token/require-token.component';
 
 @NgModule({
   declarations: [
@@ -194,6 +195,7 @@ import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-aler
     OperationStatusChipComponent,
     AssetDetailComponent,
     AddressInputCardComponent,
+    RequireTokenComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -209,7 +211,7 @@ import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-aler
     ButtonSpinnerDirective,
     FeatureFlagDirective,
     BuyCryptoFeatureFlagDirective,
-    CommaToDotDirective
+    CommaToDotDirective,
   ],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
@@ -305,6 +307,7 @@ import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-aler
     OperationStatusChipComponent,
     AssetDetailComponent,
     AddressInputCardComponent,
+    RequireTokenComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -320,7 +323,7 @@ import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-aler
     FeatureFlagDirective,
     SelectStyleDirective,
     BuyCryptoFeatureFlagDirective,
-    CommaToDotDirective
+    CommaToDotDirective,
   ],
 })
 export class SharedModule {}
