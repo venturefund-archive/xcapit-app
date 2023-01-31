@@ -104,7 +104,6 @@ export class BitrefillPage {
         if (this.rawData.event === 'payment_intent') {
           this.data = this.dataOf();
           await this.handleSubmit();
-          console.log('DATA', this.data);
         }
       },
       false
@@ -118,18 +117,14 @@ export class BitrefillPage {
   }
 
   nativeOperationDataOf(): BitrefillOperation {
-    console.log('native');
     const blockchainAndAddress = this.rawData.paymentUri.split('?')[0];
     const extraParams = new URLSearchParams(this.rawData.paymentUri.split('?')[1]);
     const addressWithChainId = blockchainAndAddress.split(':')[1];
     const address = addressWithChainId.split('@')[0];
     const chainId = parseFloat(addressWithChainId.split('@')[1]);
-    // const token = this.apiWalletService.getCoins().find((coin: Coin) => {
-    //   return coin.chainId === chainId && coin.native;
-    // });
-    const token = this.apiWalletService.getCoin('ETH', 'ERC20'); //TODO: Borrar esto, solo esta a modo de prueba
+    const token = this.apiWalletService.getCoins().find((coin: Coin) => coin.chainId === chainId && coin.native);
     const weiAmount = parseFloat(extraParams.get('value'));
-    const amount = parseFloat(formatUnits(weiAmount, token.decimals));
+    const amount = parseFloat(formatUnits(weiAmount.toString(), token.decimals));
     return {
       address,
       weiAmount,
@@ -139,19 +134,17 @@ export class BitrefillPage {
   }
 
   nonNativeOperationDataOf(): BitrefillOperation {
-    console.log('non native');
     const blockchainAndTokenContract = this.rawData.paymentUri.split('?')[0].split('/')[0];
     const extraParams = new URLSearchParams(this.rawData.paymentUri.split('?')[1]);
     const addressWithChainId = blockchainAndTokenContract.split(':')[1];
     const tokenContract = addressWithChainId.split('@')[0];
     const address = extraParams.get('address');
     const chainId = parseFloat(blockchainAndTokenContract.split('@')[1]);
-    // const token = this.apiWalletService
-    //   .getCoins()
-    //   .find((coin: Coin) => coin.chainId === chainId && coin.contract === tokenContract);
-    const token = this.apiWalletService.getCoin('USDC', 'MATIC'); //TODO: Borrar esto, solo esta a modo de prueba
+    const token = this.apiWalletService
+      .getCoins()
+      .find((coin: Coin) => coin.chainId === chainId && coin.contract === tokenContract);
     const weiAmount = parseFloat(extraParams.get('uint256'));
-    const amount = parseFloat(formatUnits(weiAmount, token.decimals));
+    const amount = parseFloat(formatUnits(weiAmount.toString(), token.decimals));
     return {
       address,
       amount,
@@ -215,7 +208,6 @@ export class BitrefillPage {
     await this.handleNotEnoughBalance();
   }
 
-
   async showAlert(header: string, message: string, buttonText: string) {
     const alert = await this.alertController.create({
       header: this.translate.instant(header),
@@ -259,22 +251,21 @@ export class BitrefillPage {
   }
 
   private async send(password: string) {
-    // const response = await this.walletTransactionsService.send(
-    //   password,
-    //   this.data.amount,
-    //   this.data.address,
-    //   this.data.token
-    // );
-    // this.notifyWhenTransactionMined(response);
-    console.log('contraseña correcta', password, this.data);
+    const response = await this.walletTransactionsService.send(
+      password,
+      this.data.amount,
+      this.data.address,
+      this.data.token
+    );
+    this.notifyWhenTransactionMined(response);
   }
 
-  // private notifyWhenTransactionMined(response?: TransactionResponse) {
-  //   response
-  //     .wait()
-  //     .then(() => this.showSuccessToast())
-  //     .catch((err) => this.showErrorToast(err));
-  // }
+  private notifyWhenTransactionMined(response?: TransactionResponse) {
+    response
+      .wait()
+      .then(() => this.showSuccessToast())
+      .catch(() => this.showErrorToast());
+  }
 
   private async showSuccessToast() {
     await this.toastService.showSuccessToast({
@@ -282,7 +273,7 @@ export class BitrefillPage {
     });
   }
 
-  private async showErrorToast(err) {
+  private async showErrorToast() {
     await this.toastService.showErrorToast({
       message: this.translate.instant('fiat_ramps.bitrefill.toast.error'),
     });
