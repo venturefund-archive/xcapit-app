@@ -230,7 +230,6 @@ export class SecurityConfigurationPage {
     const expirationTime = await this.appExpirationTimeService.get();
     if (expirationTime) {
       this.form.patchValue({ inactivity: this._expirationValue(expirationTime) }, { emitEvent: false });
-    } else {
     }
     this.previousInactivity = this.form.value.inactivity;
   }

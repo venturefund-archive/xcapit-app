@@ -116,9 +116,7 @@ export class AppComponent implements OnInit {
 
   setBackgroundActions() {
     this.app.onStateChange(({ isActive }) => {
-      if (isActive) {
-        this.isSessionValid()
-      };
+      if (isActive) this.isSessionValid();
     });
     this.app.onPause(() => {
       this.session.save();
