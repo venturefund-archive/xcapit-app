@@ -7,15 +7,15 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-bitrefill',
   template: `
-    <ion-header>
+    <ion-header class="b">
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left">
-        <ion-title>
+        <ion-title class="ion-text-start">
           {{ 'fiat_ramps.bitrefill.header' | translate }}
         </ion-title>
-        <ion-buttons slot="end">
-          <ion-button name="goBack" (click)="this.navigateBack()">{{
-            'fiat_ramps.bitrefill.exit_button' | translate
-          }}</ion-button>
+        <ion-buttons class="b__buttons"slot="end">
+          <ion-button class="b__buttons__button" name="goBack" (click)="this.navigateBack()">
+            <ion-text class="ux-font-header-titulo">{{ 'fiat_ramps.bitrefill.exit_button' | translate }} </ion-text>
+          </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>

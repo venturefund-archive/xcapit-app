@@ -2993,7 +2993,7 @@
       }
     },
     "bitrefill": {
-      "header": "Compra con crypto",
+      "header": "Compra con cripto",
       "exit_button": "Salir",
       "modal": {
         "title": "Atención",
