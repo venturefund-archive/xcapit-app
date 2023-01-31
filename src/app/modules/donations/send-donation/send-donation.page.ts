@@ -52,10 +52,10 @@ import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
         <form [formGroup]="this.form">
           <div class="sd__send-amount-card ux-card ion-padding">
             <app-asset-detail
-              [blockchain]="this.nativeToken.value"
+              [blockchain]="this.token.network"
               [token]="this.token.value"
               [tokenLogo]="this.token.logoRoute"
-            ></app-asset-detail>
+            ></app-asset-detail> 
             <div class="sd__send-amount-card__title">
               <ion-text class="ux-font-titulo-xs">{{ 'donations.send_donations.destiny_wallet' | translate }}</ion-text>
             </div>
