@@ -24,6 +24,9 @@ import { AppSession } from './shared/models/app-session/app-session';
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
 import { DynamicLink } from './shared/models/dynamic-link/dynamic-link';
+import { NullNotificationsService } from './modules/notifications/shared-notifications/services/null-notifications/null-notifications.service';
+import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
+import { BrowserService } from './shared/services/browser/browser.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -51,6 +54,9 @@ describe('AppComponent', () => {
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let dynamicLinkInjectableSpy: jasmine.SpyObj<DynamicLinkInjectable>;
   let dynamicLinkSpy: jasmine.SpyObj<DynamicLink>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
+  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   beforeEach(waitForAsync(() => {
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
@@ -76,6 +82,19 @@ describe('AppComponent', () => {
     walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
       checkTokensStructure: Promise.resolve(),
     });
+
+    ///////////////////////////////////
+    browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
+
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
+      'pushNotificationActionPerformed',
+    ]);
+
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: nullNotificationServiceSpy,
+    });
+
+    ////////////////////////////////////
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
       set: Promise.resolve(),
@@ -131,6 +150,8 @@ describe('AppComponent', () => {
         { provide: AppSessionInjectable, useValue: appSessionInjectableSpy },
         { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
         { provide: DynamicLinkInjectable, useValue: dynamicLinkInjectableSpy },
+        { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();

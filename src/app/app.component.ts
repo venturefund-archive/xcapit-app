@@ -23,6 +23,7 @@ import { WalletMaintenanceService } from './modules/wallets/shared-wallets/servi
 import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
 import { CapacitorApp } from './shared/models/capacitor-app/capacitor-app.interface';
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
+import { BrowserService } from './shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-root',
@@ -60,7 +61,8 @@ export class AppComponent implements OnInit {
     private appSessionInjectable: AppSessionInjectable,
     private walletMaintenanceService: WalletMaintenanceService,
     private dynamicLinkInjectable: DynamicLinkInjectable,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private browserService: BrowserService
   ) {}
 
   ngOnInit() {
@@ -87,21 +89,33 @@ export class AppComponent implements OnInit {
       this.checkWalletConnectAndDynamicLinks();
       this.localNotificationsService.init();
       this.trackUserWalletAddress();
-      this.pushNotificationActionPerformed()
+      this.pushNotificationActionPerformed();
     });
   }
 
   private pushNotificationActionPerformed() {
     this.notificationsService.getInstance().pushNotificationActionPerformed((notification) => {
       if (notification.actionId === 'tap' && notification.notification.data.url) {
-        console.log('me ejecuto');
-        console.log('url', notification.notification.data.url);
-        
-        // this.navController.navigateForward(notification.notification.data.url);
+        this.openLink(notification.notification.data.url);
       }
     });
   }
 
+  async openLink(link) {
+    this.isHTTPLink(link) ? await this.browseTo(link) : this.navigateTo(link);
+  }
+
+  isHTTPLink(link) {
+    return /^http.*/i.test(link);
+  }
+
+  async browseTo(link) {
+    await this.browserService.open({ url: link });
+  }
+
+  async navigateTo(link) {
+    await this.navController.navigateForward(link);
+  }
 
   private setCapacitorApp() {
     this.app = this.capacitorAppInjectable.create();
