@@ -66,7 +66,7 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
                 <div class="container">
                   <ion-item class="ux-font-text-base">
                     <ion-label>{{ 'profiles.security_configuration.inactivity.option_2' | translate }}</ion-label>
-                    <ion-radio name="always" mode="md" slot="start" value="0"></ion-radio>
+                    <ion-radio name="always" mode="md" slot="start" value="0.1"></ion-radio>
                   </ion-item>
                 </div>
                 <div class="container">
@@ -157,7 +157,7 @@ export class SecurityConfigurationPage {
     const password = await this.requestPassword('profiles.biometric_auth.alternative_password_description');
     try {
       if (await this.checkPassword(password)) {
-        this.appExpirationTimeService.set(parseInt(mode));
+        this.appExpirationTimeService.set(parseFloat(mode));
       } else {
         this.showErrorToast();
         this.form.patchValue({ inactivity: this.previousInactivity }, { emitEvent: false });
@@ -229,9 +229,13 @@ export class SecurityConfigurationPage {
   async getExpirationSessionTime(): Promise<void> {
     const expirationTime = await this.appExpirationTimeService.get();
     if (expirationTime) {
+      console.log('expirationTimeService value found, patching form with value: ', expirationTime)
       this.form.patchValue({ inactivity: this._expirationValue(expirationTime) }, { emitEvent: false });
+    } else {
+      console.log('expirationTimeService value NOT found')
     }
     this.previousInactivity = this.form.value.inactivity;
+    console.log('post-asignation expiration value: ', this.form.value.inactivity)
   }
 
   private _expirationValue(storageValue: number) {
