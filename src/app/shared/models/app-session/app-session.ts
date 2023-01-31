@@ -29,9 +29,7 @@ export class AppSession {
   }
 
   private async _time(): Promise<number> {
-    if (!this._aTime) {
-      this._aTime = await this.expirationTimeService.get();
-    }
+    this._aTime = await this.expirationTimeService.get();
     return this._aTime;
   }
 }

@@ -66,7 +66,7 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
                 <div class="container">
                   <ion-item class="ux-font-text-base">
                     <ion-label>{{ 'profiles.security_configuration.inactivity.option_2' | translate }}</ion-label>
-                    <ion-radio name="always" mode="md" slot="start" value="0"></ion-radio>
+                    <ion-radio name="always" mode="md" slot="start" value="0.1"></ion-radio>
                   </ion-item>
                 </div>
                 <div class="container">
@@ -157,7 +157,7 @@ export class SecurityConfigurationPage {
     const password = await this.requestPassword('profiles.biometric_auth.alternative_password_description');
     try {
       if (await this.checkPassword(password)) {
-        this.appExpirationTimeService.set(parseInt(mode));
+        this.appExpirationTimeService.set(parseFloat(mode));
       } else {
         this.showErrorToast();
         this.form.patchValue({ inactivity: this.previousInactivity }, { emitEvent: false });
