@@ -54,7 +54,20 @@ describe('NetworkSelectorModalComponent', () => {
   it('should preselect previously checked networks', () => {
     networks[2].checked = true;
     component.ngOnInit();
-    expect(component.selectedNetworks).toEqual(['RSK']);
+    expect(component.selectedNetworks).toEqual([ 'RSK' ]);
+  });
+
+  it('should disable others networks when solana is preselected', () => {
+    networks[1].checked = true;
+    component.ngOnInit();
+    expect(component.networks[0].disabled).toEqual(true);
+    expect(component.networks[2].disabled).toEqual(true);
+  });
+
+  it('should disable solana when other networks are preselected', () => {
+    networks[0].checked = true;
+    component.ngOnInit();
+    expect(component.networks[1].disabled).toEqual(true);
   });
 
   it('should disable others networks when solana is checked', () => {

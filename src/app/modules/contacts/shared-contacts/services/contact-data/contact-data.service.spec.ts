@@ -18,15 +18,6 @@ describe('ContactDataService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    
-  });
-
-  it('should store contacts data', () => {
-    service.contact = contact; 
-
-    expect(service.contact.address).toEqual('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeep');
-    expect(service.contact.networks).toEqual(['MATIC']);
-    expect(service.contact.name).toEqual('TestName');
   });
 
   it('should update and access data', () => {

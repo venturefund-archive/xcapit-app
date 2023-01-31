@@ -11,6 +11,11 @@ describe('RepeatedAddressValidator', () => {
       name: 'TestWallet',
       networks: ['ERC20', 'RSK'],
     },
+    {
+      address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef',
+      name: 'Test2Wallet',
+      networks: ['ERC20', 'RSK'],
+    },
   ];
 
   let repeatedAddressValidator: RepeatedAddressValidator;
@@ -34,7 +39,7 @@ describe('RepeatedAddressValidator', () => {
 
   it('should be invalid form when address is already saved on storage', fakeAsync(() => {
     const form: UntypedFormGroup = formBuilder.group({
-      address: ['', [], [repeatedAddressValidator.validate]],
+      address: ['', [], [RepeatedAddressValidator.validate(ionicStorageServiceSpy)]],
     });
 
     form.patchValue({ address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' });
@@ -47,7 +52,20 @@ describe('RepeatedAddressValidator', () => {
 
   it('should be valid form when address is not already saved on storage', fakeAsync(() => {
     const form: UntypedFormGroup = formBuilder.group({
-      address: ['', [], [repeatedAddressValidator.validate]],
+      address: ['', [], [RepeatedAddressValidator.validate(ionicStorageServiceSpy)]],
+    });
+
+    form.patchValue({ address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeep' });
+    form.updateValueAndValidity();
+    tick();
+
+    expect(form.valid).toBe(true);
+    expect(form.get('address').hasError('isRepeatedAddress')).toBe(false);
+  }));
+
+  it('should be valid form when address is already added but user is editing', fakeAsync(() => {
+    const form: UntypedFormGroup = formBuilder.group({
+      address: ['', [], [RepeatedAddressValidator.validate(ionicStorageServiceSpy, '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef' )]],
     });
 
     form.patchValue({ address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef' });
@@ -56,5 +74,18 @@ describe('RepeatedAddressValidator', () => {
 
     expect(form.valid).toBe(true);
     expect(form.get('address').hasError('isRepeatedAddress')).toBe(false);
+  }));
+
+  it('should be invalid form when user is editing the address and input other added address', fakeAsync(() => {
+    const form: UntypedFormGroup = formBuilder.group({
+      address: ['', [], [RepeatedAddressValidator.validate(ionicStorageServiceSpy, '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef' )]],
+    });
+
+    form.patchValue({ address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' });
+    form.updateValueAndValidity();
+    tick();
+
+    expect(form.valid).toBe(false);
+    expect(form.get('address').hasError('isRepeatedAddress')).toBe(true);
   }));
 });

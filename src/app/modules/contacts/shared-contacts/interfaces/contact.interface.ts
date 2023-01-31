@@ -1,5 +1,5 @@
 export interface Contact {
-  name: string;
+  name?: string;
   address: string;
   networks: Array<any>;
   index?: number;
