@@ -12,10 +12,10 @@ describe('AppSession', () => {
 
   beforeEach(() => {
     fakeStorage = new FakeAppStorage();
-    appSession = new AppSession(fakeStorage, 2, null);
-    AppExpirationTimeServiceSpy = jasmine.createSpyObj('AppExpirationTimeServiceSpy', {
+    AppExpirationTimeServiceSpy = jasmine.createSpyObj('AppExpirationTimeService', {
       get: Promise.resolve(2),
     });
+    appSession = new AppSession(fakeStorage, 2, AppExpirationTimeServiceSpy);
   });
 
   it('new ', () => {
