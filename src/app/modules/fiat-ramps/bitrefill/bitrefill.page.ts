@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { TwoButtonsAlertComponent } from 'src/app/shared/components/two-buttons-alert/two-buttons-alert.component';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -16,6 +16,7 @@ import { WalletTransactionsService } from '../../wallets/shared-wallets/services
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 import { formatUnits } from 'ethers/lib/utils';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 @Component({
   selector: 'app-bitrefill',
   template: `
@@ -59,7 +60,9 @@ export class BitrefillPage {
     private sanitizer: DomSanitizer,
     private apiWalletService: ApiWalletService,
     private storage: IonicStorageService,
-    private walletTransactionsService: WalletTransactionsService
+    private walletTransactionsService: WalletTransactionsService,
+    private toastService: ToastService,
+    private alertController: AlertController
   ) {}
 
   ionViewWillEnter() {
@@ -176,11 +179,9 @@ export class BitrefillPage {
   }
 
   async handleSubmit() {
-    console.log('submit');
     if (!(await this.checksBeforeSend())) {
       return;
     }
-    console.log('pass checksBeforeSend');
 
     try {
       const password = await this.askForPassword();
@@ -194,20 +195,49 @@ export class BitrefillPage {
   }
 
   private async checksBeforeSend(): Promise<boolean> {
-    console.log('checksBeforeSend', this.data);
     if (!(await this.userCanAffordFees())) {
-      // await this.handleUserCantAffordFees();
+      await this.handleUserCantAffordFees();
       return false;
     }
-    console.log('can afford fees');
 
     if (!(await this.userCanAffordTx())) {
-      // await this.handleUserCantAffordTx();
+      await this.handleUserCantAffordTx();
       return false;
     }
-    console.log('can afford tx');
-
     return true;
+  }
+
+  private async handleUserCantAffordFees() {
+    await this.showAlertNotEnoughNativeToken();
+  }
+
+  private async handleUserCantAffordTx() {
+    await this.handleNotEnoughBalance();
+  }
+
+
+  async showAlert(header: string, message: string, buttonText: string) {
+    const alert = await this.alertController.create({
+      header: this.translate.instant(header),
+      message: this.translate.instant(message),
+      cssClass: 'ux-alert-confirm',
+      buttons: [
+        {
+          text: this.translate.instant(buttonText),
+          cssClass: 'primary-button',
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async showAlertNotEnoughNativeToken() {
+    const route = 'wallets.send.send_summary.alert_not_enough_native_token';
+    await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
+  }
+
+  private async handleNotEnoughBalance() {
+    // await this.navController.navigateForward(['/wallets/send/error/wrong-amount']);
   }
 
   private async handleSendError(error) {
@@ -246,9 +276,17 @@ export class BitrefillPage {
   //     .catch((err) => this.showErrorToast(err));
   // }
 
-  private showSuccessToast() {}
+  private async showSuccessToast() {
+    await this.toastService.showSuccessToast({
+      message: this.translate.instant('fiat_ramps.bitrefill.toasts.success'),
+    });
+  }
 
-  private showErrorToast(err) {}
+  private async showErrorToast(err) {
+    await this.toastService.showErrorToast({
+      message: this.translate.instant('fiat_ramps.bitrefill.toast.error'),
+    });
+  }
 
   private validPassword(password: Password) {
     return new LoginToken(password, this.storage).valid();
