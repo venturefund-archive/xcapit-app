@@ -117,19 +117,16 @@ export class AppComponent implements OnInit {
   setBackgroundActions() {
     this.app.onStateChange(({ isActive }) => {
       if (isActive) {
-        console.log('app is on focus at: ', new Date)
         this.isSessionValid()
       };
     });
     this.app.onPause(() => {
-      console.log('app is on background at: ', new Date)
       this.session.save();
     });
   }
 
   async isSessionValid() {
     if (!(await this.session.valid())) {
-      console.log('Closing session to inactivity at: ', new Date)
       await new LoggedIn(this.storage).save(false);
       this.redirectToNewLogin();
     }

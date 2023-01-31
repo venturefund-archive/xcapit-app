@@ -229,13 +229,10 @@ export class SecurityConfigurationPage {
   async getExpirationSessionTime(): Promise<void> {
     const expirationTime = await this.appExpirationTimeService.get();
     if (expirationTime) {
-      console.log('expirationTimeService value found, patching form with value: ', expirationTime)
       this.form.patchValue({ inactivity: this._expirationValue(expirationTime) }, { emitEvent: false });
     } else {
-      console.log('expirationTimeService value NOT found')
     }
     this.previousInactivity = this.form.value.inactivity;
-    console.log('post-asignation expiration value: ', this.form.value.inactivity)
   }
 
   private _expirationValue(storageValue: number) {

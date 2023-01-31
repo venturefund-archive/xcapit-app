@@ -17,9 +17,6 @@ export class AppSession {
   }
 
   public async valid(): Promise<boolean> {
-    console.log('time set for session expiration (minutes): ', await this._time())
-    console.log('time elapsed since background to focus (minutes): ', await this._timeActive())
-    console.log('should the session expire?: ', !((await this._timeActive()) < await this._time()))
     return (await this._timeActive()) < await this._time();
   }
 
@@ -33,7 +30,6 @@ export class AppSession {
 
   private async _time(): Promise<number> {
     this._aTime = await this.expirationTimeService.get();
-    console.log('expirationTimeService value set, new value: ', await this.expirationTimeService.get())
     return this._aTime;
   }
 }
