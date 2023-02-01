@@ -32,12 +32,18 @@ describe('ContactsHomePage', () => {
       name: 'TestWallet',
       networks: ['ERC20', 'RSK'],
     },
+    {
+      address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+      name: 'Test',
+      networks: ['MATIC'],
+    }
   ];
 
   const route = {
     mode: 'select',
     blockchain: 'ERC20',
     token: '0x0000000000000000000000000000000000001010',
+    address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     amount: '1',
   };
 
@@ -139,9 +145,26 @@ describe('ContactsHomePage', () => {
       route.blockchain,
       'token',
       route.token,
+      'address',
+      route.address,
       'amount',
       route.amount,
     ]);
+  });
+
+  it('should navigate forward to contact detail and update contact when contact was clicked and mode was not select', async () => {
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(contacts));
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.queryAll(By.css('div.ch__content__item'))[1].nativeElement.click();
+    fixture.detectChanges();
+    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledOnceWith({
+      address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+      name: 'Test',
+      networks: ['MATIC'],
+      index: 1
+    });
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/contacts/detail');
   });
 
   it('should track event when contact was clicked and mode was select', async () => {

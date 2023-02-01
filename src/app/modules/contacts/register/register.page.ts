@@ -86,7 +86,7 @@ import { RepeatedAddressValidator } from '../shared-contacts/validators/repeated
           (click)="this.handleSubmit()"
           [disabled]="!this.isFormValid()"
           color="secondary"
-          >{{ 'contacts.register.submit_text' | translate }}</ion-button
+          ><ion-text>{{ this.buttonSubmit | translate }}</ion-text></ion-button
         >
       </div>
     </ion-footer>`,
@@ -102,6 +102,7 @@ export class RegisterPage implements OnInit {
   status: boolean;
   native: boolean;
   header = 'contacts.register.header';
+  buttonSubmit: string;
   form: UntypedFormGroup = this.formBuilder.group({
     networks: ['', [Validators.required]],
     address: [''],
@@ -127,6 +128,7 @@ export class RegisterPage implements OnInit {
   }
 
   async ionViewWillEnter() {
+    this.setSubmitButton()
     this.valueChanges();
     this.isNative();
     await this.nullStorage();
@@ -135,7 +137,7 @@ export class RegisterPage implements OnInit {
   }
 
   checkMode() {
-    if (!this.isEditMode()) {
+    if (this.isSaveMode()) {
       this.saveMode();
     }
     if (this.isEditMode()) {
@@ -143,6 +145,10 @@ export class RegisterPage implements OnInit {
       this.edit(_aContact);
       this.header = 'contacts.register.header_edit';
     }
+  }
+
+  setSubmitButton() {
+    this.buttonSubmit = this.isEditMode() ? 'contacts.register.button_edit' : 'contacts.register.submit_text';
   }
 
   edit(_aContact: Contact) {
@@ -280,6 +286,10 @@ export class RegisterPage implements OnInit {
 
   isEditMode() {
     return this.route.snapshot.paramMap.get('mode') === 'edit';
+  }
+
+  isSaveMode() {
+    return this.route.snapshot.paramMap.get('mode') === 'save';
   }
 
   private async showToast(message) {

@@ -3242,6 +3242,7 @@
       "address_placeholder": "Press and hold to paste",
       "name_label": "Name",
       "submit_text": "Save wallet",
+      "button_edit": "Confirmar",
       "name_placeholder": "Ex: Laura's Wallet",
       "text_invalid": "The wallet address is incorrect",
       "text_valid": "The wallet address is correct",
@@ -3263,6 +3264,17 @@
       "title": "Scan the QR code of the address you wish to save",
       "scan_error": "Error scanning QR code",
       "scan_unauthorized": "You do not have permission to scan"
+    },
+    "detail": {
+      "header":"Contact",
+      "subtitle_network":"Network",
+      "subtitle_address":"Address",
+      "alert": {
+        "title":"Do you want to delete?",
+        "description":"The data entered will be permanently lost.",
+        "confirm_button":"Confirm",
+        "cancel_button":"Cancel"
+      }
     }
   }
 }
