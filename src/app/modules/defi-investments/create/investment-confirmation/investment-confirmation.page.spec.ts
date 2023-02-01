@@ -42,7 +42,6 @@ import { fixedGasPriceTo } from 'src/testing/fixed-gas-price.spec';
 import { DefiInvestmentsService } from '../../shared-defi-investments/services/defi-investments-service/defi-investments.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { TicketsModule } from 'src/app/modules/tickets/tickets.module';
 
 describe('InvestmentConfirmationPage', () => {
   const weiGasPriceTestValue = '100000000000';
@@ -373,6 +372,7 @@ describe('InvestmentConfirmationPage', () => {
   });
 
   it('should open 2PI T&C when T&C link is clicked', async () => {
+    storageSpy.get.and.resolveTo(false);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-label.checkbox-link > ion-text:last-child')).nativeElement.click();
@@ -387,6 +387,14 @@ describe('InvestmentConfirmationPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(headerEl.nativeElement.innerHTML).toContain('defi_investments.confirmation.header');
     expect(labelEl.nativeElement.innerHTML).toContain('defi_investments.confirmation.amount_to_invest');
+  });
+
+  it('should render the correct text according to the accepted term and conditions ', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const copyes = fixture.debugElement.query(By.css('ion-text[name="ux_tyc_accepted"]'));
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(copyes.nativeElement.innerHTML).toContain('defi_investments.confirmation.terms.you_have_accepted');
   });
 
   it('should render the correct text according to mode "add"', async () => {

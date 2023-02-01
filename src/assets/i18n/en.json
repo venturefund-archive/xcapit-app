@@ -411,6 +411,7 @@
       "terms": {
         "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
         "i_have_read": "I have read and agree to ",
+        "you_have_accepted": "You have accepted in the first transaction the ",
         "link_to_terms": "2PI's Terms and Conditions."
       }
     },
@@ -2552,6 +2553,7 @@
       "thirdPartyKYC": "I understand that Xcapit does not store KYC information.",
       "thirdPartyTransaction": "I understand that the terms and conditions of the third party provider (Kripton Market) are independent of Xcapit.",
       "privacyPolicyAndTOS": "I accept the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>.",
+      "acceptedprivacyPolicyAndTOS":"You have accepted in the first transaction to the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>",
       "next_button": "Next"
     },
     "register": {
@@ -3186,7 +3188,8 @@
       "condition_2": "The conditions of token exchange depend on the provider.",
       "condition_3": "Exchanges have associated transaction costs.",
       "terms": {
-        "i_have_read": "I have read and agree to the",
+        "i_have_read": "I have read and agree to ",
+        "you_have_accepted":"You have accepted in the first transaction the ",
         "link_to_terms": "terms and conditions",
         "of": "of 1inch"
       },
