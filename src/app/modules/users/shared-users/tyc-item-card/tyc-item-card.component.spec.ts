@@ -2,17 +2,19 @@ import { ComponentFixture, TestBed, fakeAsync, waitForAsync, tick } from '@angul
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { TycItemCardComponent } from './tyc-item-card.component';
 
-describe('TycItemCardComponent', () => {
+fdescribe('TycItemCardComponent', () => {
   let component: TycItemCardComponent;
   let fixture: ComponentFixture<TycItemCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TycItemCardComponent>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
 
   const testItems = {
     name: 'TyC-inch',
@@ -25,10 +27,16 @@ describe('TycItemCardComponent', () => {
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
+    toastServiceSpy = jasmine.createSpyObj('ToastService', {
+      showInfoToast: Promise.resolve(),
+    });
     TestBed.configureTestingModule({
       declarations: [TycItemCardComponent, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers: [{ provide: ModalController, useValue: modalControllerSpy }],
+      providers: [
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: ToastService, useValue: toastServiceSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TycItemCardComponent);
@@ -85,7 +93,7 @@ describe('TycItemCardComponent', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit event to remove item when img to remove item is clicked and data is confirm', fakeAsync(() => {
+  it('should emit event to remove item and show info toast when img to remove item is clicked and data is confirm', fakeAsync(() => {
     fakeModalController.modifyReturns({ data: 'confirm' }, {});
     const spy = spyOn(component.itemToRemove, 'emit');
     fixture.detectChanges();
@@ -93,6 +101,7 @@ describe('TycItemCardComponent', () => {
     fixture.debugElement.query(By.css('div.tcic__wrapper__content img')).nativeElement.click();
     tick();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledTimes(1);
   }));
 

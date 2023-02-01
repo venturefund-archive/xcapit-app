@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalAsAlertComponent } from 'src/app/shared/components/modal-as-alert/modal-as-alert.component';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-tyc-item-card',
@@ -36,7 +37,11 @@ export class TycItemCardComponent implements OnInit {
   @Output() itemToRemove = new EventEmitter<any>();
   message: string;
 
-  constructor(private modalController: ModalController, private translate: TranslateService) {}
+  constructor(
+    private modalController: ModalController,
+    private translate: TranslateService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit() {
     this.setCorrectText();
@@ -76,7 +81,14 @@ export class TycItemCardComponent implements OnInit {
     const { data } = await modal.onWillDismiss();
     if (data === 'confirm') {
       this.removeTyC();
+      this.showToast();
     }
+  }
+
+  private showToast() {
+    this.toastService.showInfoToast({
+      message: this.translate.instant('profiles.user_profile_menu.terms_and_conditions.remove_tyc.alert'),
+    });
   }
 
   setCorrectText() {
