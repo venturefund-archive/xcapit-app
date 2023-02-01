@@ -8,7 +8,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { TycItemCardComponent } from './tyc-item-card.component';
 
-fdescribe('TycItemCardComponent', () => {
+describe('TycItemCardComponent', () => {
   let component: TycItemCardComponent;
   let fixture: ComponentFixture<TycItemCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TycItemCardComponent>;
