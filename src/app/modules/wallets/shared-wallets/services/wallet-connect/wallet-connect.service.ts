@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { transactionType } from '../../constants/transaction-type';
 import { supportedProviders } from '../../../shared-wallets/constants/supported-providers';
 import { BehaviorSubject } from 'rxjs';
+import { EIP712Data } from '../../models/eip-712-data/eip-712-data';
 
 export interface IPeerMeta {
   description: string;
@@ -114,7 +115,7 @@ export class WalletConnectService {
       const { session, wallet, chainId } = walletConnectSession;
       this.walletConnector = new WalletConnect({ session });
       const { connected, peerMeta } = this.walletConnector;
-      
+
       if (peerMeta) {
         const provider = supportedProviders.filter(prov => prov.chain_id === chainId)[0];
         const walletData =  {
@@ -249,11 +250,11 @@ export class WalletConnectService {
 
   public async checkActiveScreen() {
     const url = this.router.url.split('/').pop();
-    
+
     if (url === 'connection-detail') {
       await this.navController.navigateBack(['wallets/wallet-connect/new-connection']);
     }
-    
+
     const dapp = this.peerMeta.name
     await this.killSession();
     this.showDisconnectionToast(this.translate.instant('wallets.wallet_connect.dapp_disconnection.message', {dapp}))
@@ -276,7 +277,7 @@ export class WalletConnectService {
       this.peerMeta = null;
       this.connected = false;
       this.setUri(null);
-      
+
       if (this.walletConnector.session.connected) {
         await this.walletConnector.killSession();
       }
@@ -346,7 +347,7 @@ export class WalletConnectService {
     const provider = new ethers.providers.JsonRpcProvider(this.rpcUrl);
     const routerContract = new ethers.Contract(routerAddress, routerAbi, provider);
     const wethAddress = await routerContract.WETH();
-    
+
     if (token1 === null) {
       token1 = wethAddress;
     }
@@ -412,10 +413,15 @@ export class WalletConnectService {
         case 'eth_signTypedData_v3':
         case 'eth_signTypedData_v4':
           addressRequested = request.params[0];
-
-          if (address.toLowerCase() === addressRequested.toLowerCase()) {
+          const eip712Data = new EIP712Data(request.params[1]);
+          if (!eip712Data.validFor(this.activeChainId)) {
+            this.toastService.showErrorToast({
+              message: this.translate.instant('wallets.wallet_connect.eip712_invalid'),
+            });
+            this.navController.pop();
+          } else if (address.toLowerCase() === addressRequested.toLowerCase()) {
             try {
-              const result = await this.walletTransactionsService.signTypedData(wallet, request.params[1]);
+              const result = await this.walletTransactionsService.signTypedData(wallet, eip712Data);
               await this.approveRequest(request.id, result);
 
               return { error: false };
@@ -425,6 +431,7 @@ export class WalletConnectService {
           } else {
             console.log('Error: Address requested does not match active account');
           }
+
           break;
         case 'personal_sign':
           addressRequested = request.params[1];
