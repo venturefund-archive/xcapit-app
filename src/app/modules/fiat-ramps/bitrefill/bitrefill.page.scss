@@ -5,6 +5,18 @@
     }
   }
 
+  .b {
+    &__buttons {
+      &__button {
+        margin-right: 6px;
+
+        ion-text {
+          color: var(--ion-color-white);
+        }
+      }
+    }
+  }
+
   ion-content {
     iframe {
       overflow: hidden;
