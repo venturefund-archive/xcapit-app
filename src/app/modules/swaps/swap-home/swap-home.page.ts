@@ -108,7 +108,7 @@ import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-
                   <ion-input
                     appNumberInput
                     appCommaToDot
-                    [disabled]="this.sameTokens"
+                    [disabled]="this.sameTokens || this.disableInput"
                     [ngClass]="{ insufficient: this.insufficientBalance }"
                     class="sw__swap-card__from__detail__amount__wrapper__input"
                     formControlName="fromTokenAmount"
@@ -127,6 +127,7 @@ import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-
                 </div>
               </form>
               <div
+                *ngIf="!this.disableInput && (this.swapBalance || this.swapBalance === 0)"
                 [ngClass]="
                   this.swapBalance === 0 || this.insufficientBalance
                     ? 'sw__swap-card__from__detail__insufficient'
@@ -234,7 +235,7 @@ export class SwapHomePage {
   private toTokenKey = 'toToken';
   private priceRefreshInterval = 15000;
   destroy$ = new Subject<void>();
-  swapBalance = 0;
+  swapBalance: number;
   feeBalance = 0;
   loadingBtn: boolean;
   disabledBtn: boolean;
@@ -245,7 +246,7 @@ export class SwapHomePage {
   tplFee: RawAmount = new NullAmountOf().json();
   tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
   form: UntypedFormGroup = this.formBuilder.group({
-    fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
+    fromTokenAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   defaultNavBackUrl = 'tabs/wallets';
   swapInProgressUrl = 'swaps/swap-in-progress';
@@ -262,6 +263,7 @@ export class SwapHomePage {
   modalHref: string;
   modalOpened: boolean;
   txInProgress: TxInProgress;
+  disableInput: boolean;
 
   constructor(
     private apiWalletService: ApiWalletService,
@@ -318,9 +320,7 @@ export class SwapHomePage {
 
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
-    this.checkBalance();
     this.trackPage();
-    this.subscribeToFromTokenAmountChanges();
     this.setAllowedBlockchains();
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
     this.setNullFeeInfo();
@@ -330,9 +330,10 @@ export class SwapHomePage {
       this.route.snapshot.paramMap.get(this.fromTokenKey),
       this.route.snapshot.paramMap.get(this.toTokenKey)
     );
+    this.setTokenAmount();
+    this.subscribeToFromTokenAmountChanges();
     this.setFeeInfo();
     this.setQuotePrices();
-    this.setTokenAmount();
   }
 
   setAllowedBlockchains() {
@@ -340,14 +341,15 @@ export class SwapHomePage {
     this.tplAllowedBlockchainsName = this.allowedBlockchains.value().map((blockchain) => blockchain.name());
   }
 
-  private setTokenAmount() {
-    if (this.fromTokenAmount()) {
-      this.form.patchValue({ fromTokenAmount: this.fromTokenAmount() });
+  private async setTokenAmount() {
+    this.disableInput = true;
+    await this.balanceAvailableOf(this.fromToken.symbol(), this.activeBlockchain.name());
+    this.disableInput = false;
+    const value = this.route.snapshot.queryParamMap.get('from-token-amount');
+    if (value) {
+      this.form.patchValue({ fromTokenAmount: value });
+      this.checkBalance(value);
     }
-  }
-
-  private fromTokenAmount() {
-    return this.route.snapshot.queryParamMap.get('from-token-amount');
   }
 
   private setQuotePrices() {
@@ -404,8 +406,10 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
+        this.checkBalance(value);
         if (value > this.swapBalance) {
           this.showInsufficientBalanceModal();
+          this.disableMainButton();
         }
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
@@ -461,10 +465,9 @@ export class SwapHomePage {
     this.fromToken = await new TokenByAddress(fromTokenAddress, this.tokens).value();
 
     this.tplFromToken = this.fromToken.json();
-
+    
     this.toToken = await new TokenByAddress(toTokenAddress, this.tokens).value();
     this.tplToToken = this.toToken.json();
-    await this.balanceAvailableOf(this.fromToken.symbol(), this.activeBlockchain.name());
     this.checkTokens();
   }
 
@@ -624,7 +627,6 @@ export class SwapHomePage {
       await this.setSwapInfo(this.swapBalance.toString());
       await this.setFeeInfo();
     }
-
     this.form.get('fromTokenAmount').setValue(this._maxAmount());
     this.form.updateValueAndValidity();
   }
@@ -632,15 +634,17 @@ export class SwapHomePage {
   private _maxAmount() {
     return this._isNativeToken() ? Math.max(this.swapBalance - this.tplFee.value, 0) : this.swapBalance;
   }
+
   private _isNativeToken() {
     return this.fromToken.symbol() === this.activeBlockchain.nativeToken().symbol();
   }
 
-  checkBalance() {
-    this.form.get('fromTokenAmount').valueChanges.subscribe((value) => {
-      this.disableMainButton();
+  checkBalance(value) {
+    if (value > this.swapBalance) {
       this.insufficientBalance = true;
-    });
+    } else {
+      this.insufficientBalance = false;
+    }
   }
 
   checkFee(value: number) {
@@ -650,14 +654,12 @@ export class SwapHomePage {
           this.showInsufficientBalanceFeeModal();
         } else {
           this.enabledMainButton();
-          this.insufficientBalance = false;
         }
       } else {
         if (this.tplFee.value > this.feeBalance) {
           this.showInsufficientBalanceFeeModal();
         } else {
           this.enabledMainButton();
-          this.insufficientBalance = false;
         }
       }
     }
