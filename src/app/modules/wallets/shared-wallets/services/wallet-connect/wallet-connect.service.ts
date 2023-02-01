@@ -117,8 +117,8 @@ export class WalletConnectService {
       const { connected, peerMeta } = this.walletConnector;
 
       if (peerMeta) {
-        const provider = supportedProviders.filter(prov => prov.chain_id === chainId)[0];
-        const walletData =  {
+        const provider = supportedProviders.filter((prov) => prov.chain_id === chainId)[0];
+        const walletData = {
           address: wallet,
           network: provider.chain,
           chainId: provider.chain_id,
@@ -177,8 +177,8 @@ export class WalletConnectService {
     const walletConnectSession = {
       session: this.walletConnector.session,
       wallet: this.address,
-      chainId: this.activeChainId
-    }
+      chainId: this.activeChainId,
+    };
 
     await this.appStorageService.set('walletConnectSession', walletConnectSession);
   }
@@ -255,9 +255,9 @@ export class WalletConnectService {
       await this.navController.navigateBack(['wallets/wallet-connect/new-connection']);
     }
 
-    const dapp = this.peerMeta.name
+    const dapp = this.peerMeta.name;
     await this.killSession();
-    this.showDisconnectionToast(this.translate.instant('wallets.wallet_connect.dapp_disconnection.message', {dapp}))
+    this.showDisconnectionToast(this.translate.instant('wallets.wallet_connect.dapp_disconnection.message', { dapp }));
   }
 
   private showDisconnectionToast(text: string) {
@@ -311,7 +311,7 @@ export class WalletConnectService {
     if (decodedData && decodedData.name) {
       const type = this.transactionTypes.filter((type) => type.name === decodedData.name)[0];
       if (type) {
-        type.data = decodedData.params
+        type.data = decodedData.params;
 
         return type;
       }
@@ -371,6 +371,7 @@ export class WalletConnectService {
   public async checkRequest(request, userWallet) {
     if (request) {
       let addressRequested;
+      let eip712Data: EIP712Data;
       const address = this.address;
       const wallet = userWallet;
       const peerMeta = this.peerMeta;
@@ -392,8 +393,8 @@ export class WalletConnectService {
               gasPrice,
             };
 
-            if(request.params[0].value && request.params[0].value > 0) {
-              data["value"] = request.params[0].value;
+            if (request.params[0].value && request.params[0].value > 0) {
+              data['value'] = request.params[0].value;
             }
 
             try {
@@ -413,7 +414,7 @@ export class WalletConnectService {
         case 'eth_signTypedData_v3':
         case 'eth_signTypedData_v4':
           addressRequested = request.params[0];
-          const eip712Data = new EIP712Data(request.params[1]);
+          eip712Data = new EIP712Data(request.params[1]);
           if (!eip712Data.validFor(this.activeChainId)) {
             this.toastService.showErrorToast({
               message: this.translate.instant('wallets.wallet_connect.eip712_invalid'),
