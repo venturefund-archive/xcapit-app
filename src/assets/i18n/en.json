@@ -2305,7 +2305,8 @@
       "disclaimer_support": "support.",
       "dapp_disconnection": {
         "message": "The connection to {{dapp}} was lost. This can happen if you disconnect manually or if the connection is unstable."
-      }
+      },
+      "eip712_invalid": "The signature was rejected because the chainId of the EIP-712 object is not the same as the chainId of the active blockchain."
     },
     "export_private_key": {
       "header": "Private key",
