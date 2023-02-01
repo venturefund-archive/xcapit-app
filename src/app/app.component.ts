@@ -95,14 +95,19 @@ export class AppComponent implements OnInit {
 
   private pushNotificationActionPerformed() {
     this.notificationsService.getInstance().pushNotificationActionPerformed((notification) => {
-      if (notification.actionId === 'tap' && notification.notification.data.url) {
-        this.openLink(notification.notification.data.url);
-      }
+       this.open(notification)
     });
   }
 
-  async openLink(link) {
-    this.isHTTPLink(link) ? await this.browseTo(link) : this.navigateTo(link);
+
+  open(_aNotification) {
+    if (_aNotification.actionId === 'tap' && _aNotification.notification.data.url) {
+      this.analyzeToOpen(_aNotification.notification.data.url);
+    }
+  }
+
+  async analyzeToOpen(_aLink) {
+    this.isHTTPLink(_aLink) ? await this.browseTo(_aLink) : this.navigateTo(_aLink);
   }
 
   isHTTPLink(link) {

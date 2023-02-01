@@ -27,6 +27,7 @@ import { DynamicLink } from './shared/models/dynamic-link/dynamic-link';
 import { NullNotificationsService } from './modules/notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 import { BrowserService } from './shared/services/browser/browser.service';
+import { CapacitorNotificationsService } from './modules/notifications/shared-notifications/services/capacitor-notifications/capacitor-notifications.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -55,8 +56,26 @@ describe('AppComponent', () => {
   let dynamicLinkInjectableSpy: jasmine.SpyObj<DynamicLinkInjectable>;
   let dynamicLinkSpy: jasmine.SpyObj<DynamicLink>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
-  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
+  let nullNotificationServiceSpy: jasmine.SpyObj<CapacitorNotificationsService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+
+  const tapBrowserInApp = {
+    actionId: 'tap',
+    notification: {
+      data: {
+        url: 'https://test-url',
+      },
+    },
+  }
+  
+  const tapInsideApp = {
+    actionId: 'tap',
+    notification: {
+      data: {
+        url: '/test-url',
+      },
+    },
+  }
 
   beforeEach(waitForAsync(() => {
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
@@ -83,18 +102,14 @@ describe('AppComponent', () => {
       checkTokensStructure: Promise.resolve(),
     });
 
-    ///////////////////////////////////
     browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
 
-    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
-      'pushNotificationActionPerformed',
-    ]);
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['pushNotificationActionPerformed']);
 
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: nullNotificationServiceSpy,
     });
 
-    ////////////////////////////////////
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
       set: Promise.resolve(),
@@ -179,6 +194,28 @@ describe('AppComponent', () => {
     expect(walletMaintenanceServiceSpy.checkTokensStructure).toHaveBeenCalledTimes(1);
   });
 
+  it('should navigate to test-url inside the app when tap a notification', async () => {
+    nullNotificationServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
+      callback(tapInsideApp);
+    });
+    component.ngOnInit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/test-url')
+  });
+
+
+  it('should open browser in app when tap a notification', async () => {
+    nullNotificationServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
+      callback(tapBrowserInApp);
+    });
+    component.ngOnInit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({url: 'https://test-url'})
+  });
+
+
   it('should call set background if android platform', async () => {
     platformServiceSpy.platform.and.returnValue('android');
     component.ngOnInit();
@@ -219,7 +256,7 @@ describe('AppComponent', () => {
     expect(appSessionSpy.save).toHaveBeenCalledTimes(1);
   });
 
-  it('should validate session when state is active and session is valid', fakeAsync( () => {
+  it('should validate session when state is active and session is valid', fakeAsync(() => {
     component.ngOnInit();
     tick();
     expect(appSessionSpy.valid).toHaveBeenCalledTimes(1);
