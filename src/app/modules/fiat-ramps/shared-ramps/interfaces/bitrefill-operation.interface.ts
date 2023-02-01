@@ -5,4 +5,5 @@ export interface BitrefillOperation {
   token: Coin;
   amount: number;
   weiAmount: number;
+  paymentMethod: string;
 }

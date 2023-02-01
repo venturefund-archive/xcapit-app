@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AlertController, ModalController, NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { TwoButtonsAlertComponent } from 'src/app/shared/components/two-buttons-alert/two-buttons-alert.component';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -14,9 +14,9 @@ import { LoginToken } from '../../users/shared-users/models/login-token/login-to
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 import { formatUnits } from 'ethers/lib/utils';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 @Component({
   selector: 'app-bitrefill',
   template: `
@@ -62,7 +62,7 @@ export class BitrefillPage {
     private storage: IonicStorageService,
     private walletTransactionsService: WalletTransactionsService,
     private toastService: ToastService,
-    private alertController: AlertController
+    private trackService: TrackService
   ) {}
 
   ionViewWillEnter() {
@@ -97,26 +97,24 @@ export class BitrefillPage {
   }
 
   addListener() {
-    window.addEventListener(
-      'message',
-      async (event) => {
-        this.rawData = JSON.parse(event.data);
-        if (this.rawData.event === 'payment_intent') {
-          this.data = this.dataOf();
-          await this.handleSubmit();
-        }
-      },
-      false
-    );
+    window.addEventListener('message', async (event) => await this.messageHandler(event), false);
   }
 
-  dataOf(): BitrefillOperation {
+  async messageHandler(event) {
+    this.rawData = JSON.parse(event.data);
+    if (this.rawData.event === 'payment_intent') {
+      this.data = this.dataOf(this.rawData.paymentMethod);
+      await this.handleSubmit();
+    }
+  }
+
+  dataOf(paymentMethod: string): BitrefillOperation {
     return this.rawData.paymentUri.includes('transfer?address=')
-      ? this.nonNativeOperationDataOf()
-      : this.nativeOperationDataOf();
+      ? this.nonNativeOperationDataOf(paymentMethod)
+      : this.nativeOperationDataOf(paymentMethod);
   }
 
-  nativeOperationDataOf(): BitrefillOperation {
+  nativeOperationDataOf(paymentMethod: string): BitrefillOperation {
     const blockchainAndAddress = this.rawData.paymentUri.split('?')[0];
     const extraParams = new URLSearchParams(this.rawData.paymentUri.split('?')[1]);
     const addressWithChainId = blockchainAndAddress.split(':')[1];
@@ -130,10 +128,11 @@ export class BitrefillPage {
       weiAmount,
       amount,
       token,
+      paymentMethod,
     };
   }
 
-  nonNativeOperationDataOf(): BitrefillOperation {
+  nonNativeOperationDataOf(paymentMethod: string): BitrefillOperation {
     const blockchainAndTokenContract = this.rawData.paymentUri.split('?')[0].split('/')[0];
     const extraParams = new URLSearchParams(this.rawData.paymentUri.split('?')[1]);
     const addressWithChainId = blockchainAndTokenContract.split(':')[1];
@@ -142,7 +141,7 @@ export class BitrefillPage {
     const chainId = parseFloat(blockchainAndTokenContract.split('@')[1]);
     const token = this.apiWalletService
       .getCoins()
-      .find((coin: Coin) => coin.chainId === chainId && coin.contract === tokenContract);
+      .find((coin: Coin) => coin.chainId === chainId && coin.contract === tokenContract.toLocaleLowerCase());
     const weiAmount = parseFloat(extraParams.get('uint256'));
     const amount = parseFloat(formatUnits(weiAmount.toString(), token.decimals));
     return {
@@ -150,6 +149,7 @@ export class BitrefillPage {
       amount,
       weiAmount,
       token,
+      paymentMethod,
     };
   }
 
@@ -167,7 +167,7 @@ export class BitrefillPage {
     if (await this.validPassword(password)) {
       return password;
     } else {
-      throw new Error(new PasswordErrorMsgs().invalid());
+      await this.failedTransaction();
     }
   }
 
@@ -175,7 +175,6 @@ export class BitrefillPage {
     if (!(await this.checksBeforeSend())) {
       return;
     }
-
     try {
       const password = await this.askForPassword();
       if (!password) {
@@ -183,71 +182,26 @@ export class BitrefillPage {
       }
       await this.send(password.value());
     } catch (error) {
-      await this.handleSendError(error);
+      this.failedTransaction();
     }
   }
 
   private async checksBeforeSend(): Promise<boolean> {
     if (!(await this.userCanAffordFees())) {
-      await this.handleUserCantAffordFees();
+      await this.failedTransaction();
       return false;
     }
 
-    if (!(await this.userCanAffordTx())) {
-      await this.handleUserCantAffordTx();
+    if (!this.availablePaymentMethods.includes(this.data.paymentMethod)) {
+      await this.failedTransaction();
       return false;
     }
+
     return true;
-  }
-
-  private async handleUserCantAffordFees() {
-    await this.showAlertNotEnoughNativeToken();
-  }
-
-  private async handleUserCantAffordTx() {
-    await this.handleNotEnoughBalance();
-  }
-
-  async showAlert(header: string, message: string, buttonText: string) {
-    const alert = await this.alertController.create({
-      header: this.translate.instant(header),
-      message: this.translate.instant(message),
-      cssClass: 'ux-alert-confirm',
-      buttons: [
-        {
-          text: this.translate.instant(buttonText),
-          cssClass: 'primary-button',
-        },
-      ],
-    });
-    await alert.present();
-  }
-
-  async showAlertNotEnoughNativeToken() {
-    const route = 'wallets.send.send_summary.alert_not_enough_native_token';
-    await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
-  }
-
-  private async handleNotEnoughBalance() {
-    // await this.navController.navigateForward(['/wallets/send/error/wrong-amount']);
-  }
-
-  private async handleSendError(error) {
-    // if (new PasswordErrorMsgs().isInvalidError(error)) {
-    //   await this.handleInvalidPassword();
-    // } else if (this.isNotEnoughBalanceError(error)) {
-    //   await this.handleNotEnoughBalance();
-    // } else if (!new PasswordErrorMsgs().isEmptyError(error)) {
-    //   throw error;
-    // }
   }
 
   private userCanAffordFees(): Promise<boolean> {
     return this.walletTransactionsService.canAffordSendFee(this.data.address, this.data.amount, this.data.token);
-  }
-
-  private userCanAffordTx(): Promise<boolean> {
-    return this.walletTransactionsService.canAffordSendTx(this.data.address, this.data.amount, this.data.token);
   }
 
   private async send(password: string) {
@@ -263,8 +217,30 @@ export class BitrefillPage {
   private notifyWhenTransactionMined(response?: TransactionResponse) {
     response
       .wait()
-      .then(() => this.showSuccessToast())
-      .catch(() => this.showErrorToast());
+      .then(() => this.successTransaction())
+      .catch(() => this.failedTransaction());
+  }
+
+  private async successTransaction() {
+    await this.showSuccessToast();
+    this.trackSuccessEvent();
+  }
+
+  private async failedTransaction() {
+    await this.showErrorToast();
+    this.trackErrorEvent();
+  }
+
+  private trackSuccessEvent() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_bitrefill_success',
+    });
+  }
+
+  private trackErrorEvent() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_bitrefill_fail',
+    });
   }
 
   private async showSuccessToast() {
