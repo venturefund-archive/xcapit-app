@@ -29,6 +29,7 @@ export class FakeNavController implements Fake {
       'navigateRoot',
       'consumeTransition',
       'back',
+      'pop',
     ]);
     this.modifyReturns(
       this.navigateForwardResponse,
