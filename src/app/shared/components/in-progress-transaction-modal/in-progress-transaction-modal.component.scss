@@ -8,14 +8,16 @@
       border-radius: 8px 8px 0 0;
 
       &__close-button {
-        justify-content: end;
-        display: flex;
+        text-align: end !important;
       }
 
       &__img {
         display: flex;
         justify-content: center;
-        height: 200px;
+
+        img {
+          min-height: 200px;
+        }
       }
     }
 
