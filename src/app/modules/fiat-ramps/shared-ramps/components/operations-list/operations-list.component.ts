@@ -69,6 +69,7 @@ export class OperationsListComponent implements OnChanges {
   }
 
   sliceOperations() {
+    this.operationsList = this.operationsList.slice().reverse();
     this.firstOperations = this.calculateFirstOperations();
     this.remainingOperations = this.calculateRemainingOperations();
   }
