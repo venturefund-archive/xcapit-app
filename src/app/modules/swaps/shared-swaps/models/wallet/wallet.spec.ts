@@ -26,18 +26,12 @@ describe('DefaultWallet', () => {
     expect(wallet.address()).toEqual('0x0');
   });
 
-  it('on need pass subscribe', () => {
-    wallet.onNeedPass().subscribe(() => 'superpass');
-
-    expect(true).toBeTrue();
-  });
-
   it('notify need pass on send tx with fakes', async () => {
     wallet.onNeedPass().subscribe(() => testObject.testMethod());
 
     const result = await wallet.sendTxs([]);
 
-    expect(result).toEqual(true);
+    expect(result).toEqual([]);
     expect(testObject.testMethod).toHaveBeenCalledTimes(1);
   });
 
@@ -54,7 +48,7 @@ describe('DefaultWallet', () => {
     wallet.onNeedPass().subscribe(() => testObject.testMethod());
     const result = await wallet.sendTxs([new FakeBlockchainTx(), new FakeBlockchainTx()]);
 
-    expect(result).toEqual(true);
+    expect(result).toEqual(['testHash', 'testHash']);
   });
 
   describe('FakeWallet', () => {
@@ -92,7 +86,7 @@ describe('DefaultWallet', () => {
       fakeWallet.onNeedPass().subscribe(() => testObject.testMethod());
       const result = await fakeWallet.sendTxs([new FakeBlockchainTx(), new FakeBlockchainTx()]);
 
-      expect(result).toEqual(false);
+      expect(result).toEqual(['testHash']);
     });
   });
 });
@@ -126,14 +120,8 @@ describe('SolanaWallet', () => {
     expect(wallet.address()).toEqual('0x0');
   });
 
-  it('on need pass subscribe', () => {
-    wallet.onNeedPass().subscribe(() => 'superpass');
-
-    expect(true).toBeTrue();
-  });
-
-  it('sendTx', async () => {
-    const result = await wallet.sendTxs([new FakeBlockchainTx()]);
-    expect(result).toBeTrue();
+  it('sendTxs', async () => {
+    const result = await wallet.sendTxs([new FakeBlockchainTx(), new FakeBlockchainTx()]);
+    expect(result).toEqual(['testHash', 'testHash']);
   });
 });

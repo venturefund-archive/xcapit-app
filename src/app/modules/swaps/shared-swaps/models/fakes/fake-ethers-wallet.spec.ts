@@ -26,4 +26,8 @@ describe('Fake Ethers Wallet', () => {
   it('encrypt', async () => {
     expect(await fakeWallet.encrypt()).toEqual('');
   });
+
+  it('sendTransaction', async () => {
+    expect((await (await fakeWallet.sendTransaction()).wait()).transactionHash).toEqual('testHash');
+  });
 });

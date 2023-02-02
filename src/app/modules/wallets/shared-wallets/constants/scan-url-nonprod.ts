@@ -3,4 +3,5 @@ export const NONPROD_SCAN_URLS = {
   ERC20: 'https://kovan.etherscan.io/',
   BSC_BEP20: 'https://testnet.bscscan.com/',
   RSK: 'https://explorer.testnet.rsk.co/',
+  SOLANA: 'https://solscan.io/',
 };

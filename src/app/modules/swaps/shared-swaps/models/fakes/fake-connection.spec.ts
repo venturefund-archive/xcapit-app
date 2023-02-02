@@ -12,6 +12,6 @@ describe('Fake Connection', () => {
   });
 
   it('send transaction', async () => {
-    expect(await connection.sendTransaction(null, [])).toBeTrue();
+    expect(await connection.sendTransaction(null, [])).toEqual('testHash');
   });
 });

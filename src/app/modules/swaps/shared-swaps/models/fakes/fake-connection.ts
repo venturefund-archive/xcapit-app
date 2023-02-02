@@ -2,8 +2,8 @@ import { BlockhashWithExpiryBlockHeight, Signer, Transaction } from '@solana/web
 
 
 export class FakeConnection {
-  sendTransaction(transaction: Transaction, signers: Signer[]): Promise<boolean> {
-    return Promise.resolve(true);
+  sendTransaction(transaction: Transaction, signers: Signer[]): Promise<string> {
+    return Promise.resolve('testHash');
   }
 
   async getLatestBlockhash(): Promise<BlockhashWithExpiryBlockHeight> {

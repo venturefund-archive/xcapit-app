@@ -16,7 +16,6 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { FakeNavController } from '../../../../../testing/fakes/nav-controller.fake.spec';
 import { BigNumber, constants } from 'ethers';
-import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';

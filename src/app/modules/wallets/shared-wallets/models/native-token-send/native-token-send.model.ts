@@ -1,6 +1,5 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { BigNumber, Signer, VoidSigner } from 'ethers';
-import { parseUnits } from 'ethers/lib/utils';
+import { Signer, VoidSigner } from 'ethers';
 import { DefaultERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { Coin } from '../../interfaces/coin.interface';
 import { Send } from '../../interfaces/send.interface';

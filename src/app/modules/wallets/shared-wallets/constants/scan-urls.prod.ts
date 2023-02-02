@@ -3,4 +3,5 @@ export const SCAN_URLS = {
   ERC20: 'https://etherscan.io/',
   BSC_BEP20: 'https://bscscan.com/',
   RSK: 'https://explorer.rsk.co/',
+  SOLANA: 'https://solscan.io/',
 };

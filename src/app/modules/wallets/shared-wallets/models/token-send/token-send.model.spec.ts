@@ -11,29 +11,27 @@ describe('TokenSend', () => {
   const to = '';
   const amount = 0;
   let coinSpy: jasmine.SpyObj<Coin>;
-  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let signerSpy: jasmine.SpyObj<Signer>;
   let networkConfigSpy: jasmine.SpyObj<NetworkConfig>;
 
   beforeEach(() => {
     signerSpy = jasmine.createSpyObj('Signer', { connect: Promise.resolve() });
     coinSpy = jasmine.createSpyObj('Coin', {}, { native: false });
-    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', { getNativeTokenFromNetwork: coinSpy });
     networkConfigSpy = jasmine.createSpyObj('NetworkConfig', {
       value: Promise.resolve({ gasPrice: '100000000' }),
     });
   });
 
   it('should create with wallet', () => {
-    expect(new TokenSend(from, to, amount, coinSpy, apiWalletServiceSpy, signerSpy, networkConfigSpy)).toBeTruthy();
+    expect(new TokenSend(to, amount, coinSpy, signerSpy, networkConfigSpy)).toBeTruthy();
   });
 
   it('should create without wallet', () => {
-    expect(TokenSend.create(from, to, amount, coinSpy, apiWalletServiceSpy, networkConfigSpy)).toBeTruthy();
+    expect(TokenSend.create(from, to, amount, coinSpy, networkConfigSpy)).toBeTruthy();
   });
 
   it('should return an ERC20TokenSend if coin is not native', () => {
-    const tokenSend = TokenSend.create(from, to, amount, coinSpy, apiWalletServiceSpy, networkConfigSpy);
+    const tokenSend = TokenSend.create(from, to, amount, coinSpy, networkConfigSpy);
     expect(tokenSend.value()).toBeInstanceOf(ERC20TokenSend);
   });
 
@@ -43,7 +41,6 @@ describe('TokenSend', () => {
       to,
       amount,
       { native: true } as Coin,
-      apiWalletServiceSpy,
       networkConfigSpy
     );
     expect(tokenSend.value()).toBeInstanceOf(NativeTokenSend);

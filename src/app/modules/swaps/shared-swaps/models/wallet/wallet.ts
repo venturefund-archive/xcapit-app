@@ -11,7 +11,7 @@ export interface Wallet {
   address: () => string;
   onNeedPass: () => Subscribable;
   onDecryptedWallet: () => Subscribable;
-  sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
+  sendTxs: (transactions: BlockchainTx[]) => Promise<string[]>;
 }
 
 export class DefaultWallet implements Wallet {
@@ -37,12 +37,14 @@ export class DefaultWallet implements Wallet {
     return this._onNeedPass;
   }
 
-  async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
+  async sendTxs(transactions: BlockchainTx[]): Promise<string[]> {
+    let responses = [];
     const connectedWallet = this._connectedWallet(this._derivedWallet(await this._decryptedWallet()));
     for (const tx of transactions) {
-      await (await connectedWallet.sendTransaction((await tx.value()) as TransactionRequest)).wait();
+      const response = await (await connectedWallet.sendTransaction((await tx.value()) as TransactionRequest)).wait();
+      responses.push(response.transactionHash);
     }
-    return true;
+    return responses;
   }
 
   private _encryptedWallet(): string {
@@ -78,7 +80,7 @@ export class FakeWallet implements Wallet {
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
   constructor(
-    private readonly sendTxsResponse: Promise<any> = Promise.resolve(false),
+    private readonly sendTxsResponse: Promise<any> = Promise.resolve(['testHash']),
     private error: Error = null,
     private _address: string = ''
   ) {}
@@ -91,7 +93,7 @@ export class FakeWallet implements Wallet {
     return this._onWalletDecrypted;
   }
 
-  async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
+  async sendTxs(transactions: BlockchainTx[]): Promise<any[]> {
     await this._onNeedPass.notify();
     this._checkError();
     await this._onWalletDecrypted.notify();
@@ -124,18 +126,22 @@ export class SolanaWallet implements Wallet {
     return new this(_rawData, _aBlockchain, new Connection(_aBlockchain.rpc()));
   }
 
-  async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
-    await this._sendTxs(
+  async sendTxs(transactions: BlockchainTx[]): Promise<string[]> {
+    return this._sendTxs(
       transactions,
       new SolanaDerivedWallet((await this._decryptedWallet()).mnemonic.phrase, this._aBlockchain)
     );
-    return true;
   }
 
-  private async _sendTxs(transactions: BlockchainTx[], wallet: SolanaDerivedWallet): Promise<void> {
+  private async _sendTxs(transactions: BlockchainTx[], wallet: SolanaDerivedWallet): Promise<string[]> {
+    let responses = [];
+
     for (const tx of transactions) {
-      await this._connection.sendTransaction((await tx.value()) as Transaction, [wallet.value()]);
+      const response = await this._connection.sendTransaction((await tx.value()) as Transaction, [wallet.value()]);
+      responses.push(response);
     }
+
+    return responses;
   }
 
   private async _decryptedWallet(): Promise<EthersWallet> {

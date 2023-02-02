@@ -187,14 +187,14 @@ export class SendSummaryPage implements OnInit {
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.onNeedPass().subscribe(() => new Password(password).value());
-      await wallet.sendTxs([
+      const res = await wallet.sendTxs([
         new SolanaNativeSendTx(
           wallet,
           this.summaryData.address,
           new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
         ),
       ]);
-      this.txInProgress = new TxInProgress('send');
+      this.txInProgress = new TxInProgress('send', this.blockchain.name(), res[res.length-1]);
       this.txInProgressService.startTx(this.txInProgress);
       this.notifyWhenTransactionMined();
     }
@@ -289,7 +289,7 @@ export class SendSummaryPage implements OnInit {
     );
   }
 
-  private notifyWhenTransactionMined(response?: TransactionResponse) {
+  private async notifyWhenTransactionMined(response?: TransactionResponse) {
     const fixedTxResponse = response ? response.wait() : Promise.resolve({ to: this.summaryData.address });
     fixedTxResponse
       .then(() => this._sendSuccessNotification())
