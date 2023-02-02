@@ -1694,7 +1694,7 @@
       "title": "Select the currency you want to receive"
     },
     "experimental_onboarding": {
-      "titile": "Welcome to {{username}} 🚀",
+      "title": "Welcome {{username}} \ud83d\ude80",
       "init_wallet": "Init wallet",
       "complete_steps": "1 of 2 steps complete",
       "next_step": "next step",
@@ -1710,7 +1710,7 @@
           "subtitle": "Add USDC from other wallet."
         },
         "step_three": {
-          "title": "Creación de wallet"
+          "title": "Wallet creation"
         }
       }
     },
