@@ -80,7 +80,7 @@ describe('HomeSlidesComponent', () => {
     slider1.nativeElement.click();
     slider2.nativeElement.click();
     slider3.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/receive/select-currency')
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith('/wallets/receive/select-currency')
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'test.com' });
     expect(browserServiceSpy.open).toHaveBeenCalledTimes(2);
    });
