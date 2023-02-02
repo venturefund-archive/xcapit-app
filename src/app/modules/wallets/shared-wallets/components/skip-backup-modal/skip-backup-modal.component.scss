@@ -1,40 +1,44 @@
-.main {
-  &__body {
-    padding-top: 24px;
-    text-align: center;
+:host {
+  justify-content: center;
 
-    &__form {
-      &__content {
-        padding: 0 16px;
+  .main {
+    &__body {
+      padding-top: 24px;
+      text-align: center;
+
+      &__form {
+        &__content {
+          padding: 0 16px;
+        }
+
+        ion-item {
+          align-items: flex-start;
+          margin-top: 16px;
+
+          ion-checkbox {
+            margin-right: 8px;
+          }
+        }
       }
+    }
 
-      ion-item {
-        align-items: flex-start;
-        margin-top: 16px;
+    &__actions {
+      display: flex;
+      margin-top: 24px;
+      border-top: 1px solid #eee;
 
-        ion-checkbox {
-          margin-right: 8px;
+      &__button {
+        flex-basis: 50%;
+        text-decoration: none;
+
+        &-back {
+          color: var(--ion-color-neutral80);
         }
       }
     }
   }
 
-  &__actions {
-    display: flex;
-    margin-top: 24px;
-    border-top: 1px solid #eee;
-
-    &__button {
-      flex-basis: 50%;
-      text-decoration: none;
-
-      &-back {
-        color: var(--ion-color-neutral80);
-      }
-    }
+  .button-disabled {
+    color: var(--ion-color-neutral50);
   }
-}
-
-.button-disabled {
-  color: var(--ion-color-neutral50);
 }

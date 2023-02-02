@@ -79,7 +79,7 @@ export class SuccessCreationPage {
     const modal = await this.modalController.create({
       component: SkipBackupModalComponent,
       componentProps: {},
-      cssClass: 'ux-routeroutlet-modal ux-modal-skip-backup',
+      cssClass: 'modal',
       backdropDismiss: false,
     });
     await modal.present();
