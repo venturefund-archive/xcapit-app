@@ -650,7 +650,8 @@
           "message_to_kripton": "You will need to sign the terms and conditions and privacy policies again to operate with this provider.",
           "message_others_providers": "You will have to sign the terms and conditions again to operate with this provider.",
           "cancel_button": "Cancel",
-          "confirm_button": "Confirm"
+          "confirm_button": "Confirm",
+          "alert": "Permission successfully revoked"
         }
       },
       "community": "Join our community",

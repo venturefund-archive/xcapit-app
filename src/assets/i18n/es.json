@@ -643,7 +643,8 @@
           "message_to_kripton": "Deberás firmar los términos y condiciones, y políticas de privacidad nuevamente para operar con este proveedor.",
           "message_others_providers": "Deberás firmar los términos y condiciones nuevamente para operar con este proveedor.",
           "cancel_button": "Cancelar",
-          "confirm_button": "Confirmar"
+          "confirm_button": "Confirmar",
+          "alert": "Permiso revocado exitosamente"
         }
       },
       "community": "Únete a nuestra comunidad",
