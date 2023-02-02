@@ -46,7 +46,6 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { of } from 'rxjs';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
-import { Password } from '../shared-swaps/models/password/password';
 import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
 
 describe('SwapHomePage', () => {
@@ -333,8 +332,8 @@ describe('SwapHomePage', () => {
       toToken: rawUSDCData.contract,
     });
     apiWalletServiceSpy.getCoin.and.returnValue(rawMATICData);
-
     await component.ionViewDidEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
 
     const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__from__detail__available ion-text '));
@@ -385,6 +384,7 @@ describe('SwapHomePage', () => {
 
   it('navigate on from token click', async () => {
     await component.ionViewDidEnter();
+    component.form.patchValue({ fromTokenAmount: '1' });
     fixture.detectChanges();
     const fromTokenEl = fixture.debugElement.query(By.css('.sw__swap-card__from__detail__token>app-coin-selector'));
 
@@ -395,6 +395,7 @@ describe('SwapHomePage', () => {
 
   it('navigate on to token click', async () => {
     await component.ionViewDidEnter();
+    component.form.patchValue({ fromTokenAmount: '1' });
     fixture.detectChanges();
     const toTokenEl = fixture.debugElement.query(By.css('.sw__swap-card__to__detail__token>app-coin-selector'));
 
@@ -525,7 +526,6 @@ describe('SwapHomePage', () => {
   });
 
   it('should set max amount from swap', async () => {
-    walletBalanceSpy.balanceOf.and.returnValues(Promise.resolve(10), Promise.resolve(0));
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await component.setMaxAmount();
@@ -539,7 +539,6 @@ describe('SwapHomePage', () => {
       fromToken: rawMATICData.contract,
       toToken: rawUSDCData.contract,
     });
-    walletBalanceSpy.balanceOf.and.returnValues(Promise.resolve(10), Promise.resolve(0));
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await component.setMaxAmount();
