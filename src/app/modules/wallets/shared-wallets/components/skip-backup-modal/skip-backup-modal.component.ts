@@ -5,7 +5,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 
 @Component({
   selector: 'app-skip-backup-modal',
-  template: ` <div class="main__body">
+  template: ` <div class="modal-content">
+  <div class="main__body">
     <form [formGroup]="skipBackUpForm" class="main__body__form">
       <div class="main__body__form__content">
         <ion-label class="ux-font-text-lg"
@@ -40,6 +41,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
         </ion-button>
       </div>
     </form>
+  </div>
   </div>`,
   styleUrls: ['./skip-backup-modal.component.scss'],
 })
