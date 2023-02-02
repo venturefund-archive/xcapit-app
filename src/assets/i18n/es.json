@@ -1686,7 +1686,7 @@
       "title": "Selecciona la moneda que quieres recibir"
     },
     "experimental_onboarding": {
-      "title": "Bienvenido {{username}} 🚀",
+      "title": "Bienvenido {{username}} \ud83d\ude80",
       "init_wallet": "Iniciar wallet",
       "complete_steps": "1 de 2 pasos completos",
       "next_step": "Proximo paso",

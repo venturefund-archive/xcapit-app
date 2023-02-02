@@ -1693,7 +1693,7 @@
       "title": "Select the currency you want to receive"
     },
     "experimental_onboarding": {
-      "title": "Welcome {{username}} 🚀",
+      "title": "Welcome {{username}} \ud83d\ude80",
       "init_wallet": "Init wallet",
       "complete_steps": "1 of 2 steps complete",
       "next_step": "next step",
