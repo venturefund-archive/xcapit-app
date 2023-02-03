@@ -7,9 +7,7 @@ import { LanguageService } from '../../../shared/services/language/language.serv
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
-import { RawBitrefillOperation } from '../shared-ramps/interfaces/raw-bitrefill-operation.interface';
-import { BitrefillOperation } from '../shared-ramps/interfaces/bitrefill-operation.interface';
-import { rawETHData, rawTokensData, rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawTokensData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
@@ -17,6 +15,22 @@ import { BigNumber } from 'ethers/lib/ethers';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import {
+  nativeEvent,
+  nativeNonValidEvent,
+  nonNativeEvent,
+  rawNativeEvent,
+  rawNativeNonValidTokenEvent,
+  rawNonNativeEvent,
+} from '../shared-ramps/fixtures/raw-bitrefill-operation-data';
+import { DefaultBitrefillOperation } from '../shared-ramps/models/bitrefill-operation/default-bitrefill-operation';
+import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
+import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { BitrefillOperationFactory } from '../shared-ramps/models/bitrefill-operation/factory/bitrefill-operation.factory';
 
 describe('BitrefillPage', () => {
   let component: BitrefillPage;
@@ -31,48 +45,15 @@ describe('BitrefillPage', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let transactionResponseSpy: jasmine.SpyObj<any>;
-  const rawNonNativeEvent =
-    '{"event":"payment_intent", "invoiceId": "123-456-789-012","paymentMethod": "usdc_polygon","paymentUri":"ethereum:0x2791bca1f2de4661ed88a30c99a7a9449aa84174@137/transfer?address=0xD148C6735e1777BE439519B32A1a6Ef9c8853944&uint256=5.8e5"}';
-
-  const rawNativeEvent =
-    '{"event":"payment_intent", "invoiceId": "123-456-789-012","paymentMethod": "ethereum","paymentUri":"ethereum:0xD148C6735e1777BE439519B32A1a6Ef9c8853944@1?value=2e17&gasPrice=18&label=Bitrefill%20cebbd003-912e-4232-95a2-7f4d5e4bc5a5"}';
-
-  const rawNativeNonValidTokenEvent =
-    '{"event":"payment_intent", "invoiceId": "123-456-789-012","paymentMethod": "bitcoin","paymentUri":"bitcoin:0xD148C6735e1777BE439519B32A1a6Ef9c8853944@1?value=2e17&gasPrice=18&label=Bitrefill%20cebbd003-912e-4232-95a2-7f4d5e4bc5a5"}';
-
-  const fakeNonNativeOperationRawData: RawBitrefillOperation = {
-    paymentUri:
-      'ethereum:0x2791bca1f2de4661ed88a30c99a7a9449aa84174@137/transfer?address=0xD148C6735e1777BE439519B32A1a6Ef9c8853944&uint256=5.8e5',
-    event: 'payment_intent',
-    invoiceId: '123-456-789-012',
-    paymentMethod: 'usdc_polygon',
-  };
-
-  const fakeNativeOperationRawData: RawBitrefillOperation = {
-    paymentUri:
-      'ethereum:0xD148C6735e1777BE439519B32A1a6Ef9c8853944@1?value=2e17&gasPrice=18&label=Bitrefill%20cebbd003-912e-4232-95a2-7f4d5e4bc5a5',
-    event: 'payment_intent',
-    invoiceId: '123-456-789-012',
-    paymentMethod: 'ethereum',
-  };
-
-  const fakeNonNativeOperationData: BitrefillOperation = {
-    address: '0xD148C6735e1777BE439519B32A1a6Ef9c8853944',
-    token: rawUSDCData,
-    amount: 0.58,
-    weiAmount: 580000,
-    paymentMethod: 'usdc_polygon',
-  };
-  const fakeNativeOperationData: BitrefillOperation = {
-    address: '0xD148C6735e1777BE439519B32A1a6Ef9c8853944',
-    token: rawETHData,
-    amount: 0.2,
-    weiAmount: 200000000000000000,
-    paymentMethod: 'ethereum',
-  };
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let bitrefillOperationFactorySpy: jasmine.SpyObj<BitrefillOperationFactory>;
 
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
-
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
+  const tokens = new DefaultTokens(new TokenRepo(rawTokensData));
+  const nativeOperation = new DefaultBitrefillOperation(rawNativeEvent, tokens, blockchains);
+  const nativeNonValidOperation = new DefaultBitrefillOperation(rawNativeNonValidTokenEvent, tokens, blockchains);
+  const nonNativeOperation = new DefaultBitrefillOperation(rawNonNativeEvent, tokens, blockchains);
   const _dispatchEvent = (data: string) => {
     const event = new MessageEvent('message', {
       data,
@@ -89,6 +70,13 @@ describe('BitrefillPage', () => {
     });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: rawTokensData,
+    });
+
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
+    bitrefillOperationFactorySpy = jasmine.createSpyObj('BitrefillOperationFactory', {
+      create: nativeOperation,
     });
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showSuccessToast: Promise.resolve(),
@@ -119,6 +107,8 @@ describe('BitrefillPage', () => {
         { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: BitrefillOperationFactory, useValue: bitrefillOperationFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -162,21 +152,21 @@ describe('BitrefillPage', () => {
   });
 
   it('should format data from non native operation', fakeAsync(() => {
+    bitrefillOperationFactorySpy.create.and.returnValue(nonNativeOperation);
     component.ionViewWillEnter();
-    _dispatchEvent(rawNonNativeEvent);
+    _dispatchEvent(nonNativeEvent);
     tick();
-    expect(component.rawData).toEqual(fakeNonNativeOperationRawData);
-    expect(component.data).toEqual(fakeNonNativeOperationData);
-
+    expect(bitrefillOperationFactorySpy.create).toHaveBeenCalledOnceWith(rawNonNativeEvent, tokens, blockchains);
+    expect(component.operation).toBeInstanceOf(DefaultBitrefillOperation);
     component.ionViewWillLeave();
   }));
 
   it('should format data from native operation', fakeAsync(() => {
     component.ionViewWillEnter();
-    _dispatchEvent(rawNativeEvent);
+    _dispatchEvent(nativeEvent);
     tick();
-    expect(component.rawData).toEqual(fakeNativeOperationRawData);
-    expect(component.data).toEqual(fakeNativeOperationData);
+    expect(bitrefillOperationFactorySpy.create).toHaveBeenCalledOnceWith(rawNativeEvent, tokens, blockchains);
+    expect(component.operation).toBeInstanceOf(DefaultBitrefillOperation);
 
     component.ionViewWillLeave();
   }));
@@ -184,7 +174,7 @@ describe('BitrefillPage', () => {
   it('should show error toast and not send transaction nor redirect user if user cannot afford fees', fakeAsync(() => {
     walletTransactionsServiceSpy.canAffordSendFee.and.resolveTo(false);
     component.ionViewWillEnter();
-    _dispatchEvent(rawNativeEvent);
+    _dispatchEvent(nativeEvent);
     tick(50);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(0);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
@@ -196,7 +186,7 @@ describe('BitrefillPage', () => {
     ionicStorageServiceSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
     component.ionViewWillEnter();
-    _dispatchEvent(rawNativeEvent);
+    _dispatchEvent(nativeEvent);
     tick(50);
     fixture.detectChanges();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(1);
@@ -212,7 +202,7 @@ describe('BitrefillPage', () => {
     walletTransactionsServiceSpy.send.and.rejectWith(new Error('insufficient funds'));
 
     component.ionViewWillEnter();
-    _dispatchEvent(rawNativeEvent);
+    _dispatchEvent(nativeEvent);
     tick(50);
     fixture.detectChanges();
 
@@ -229,7 +219,7 @@ describe('BitrefillPage', () => {
     transactionResponseSpy.wait.and.rejectWith();
 
     component.ionViewWillEnter();
-    _dispatchEvent(rawNativeEvent);
+    _dispatchEvent(nativeEvent);
     tick(50);
     fixture.detectChanges();
 
@@ -243,9 +233,10 @@ describe('BitrefillPage', () => {
   it('should not send transaction if token is not valid to use', fakeAsync(() => {
     ionicStorageServiceSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
+    bitrefillOperationFactorySpy.create.and.returnValue(nativeNonValidOperation);
 
     component.ionViewWillEnter();
-    _dispatchEvent(rawNativeNonValidTokenEvent);
+    _dispatchEvent(nativeNonValidEvent);
     tick(50);
     fixture.detectChanges();
 
@@ -256,12 +247,12 @@ describe('BitrefillPage', () => {
     component.ionViewWillLeave();
   }));
 
-  it('should navigate to error page when modal is closed and password is incorrect', fakeAsync(() => {
+  it('should show error toast if wallet password is incorrect', fakeAsync(() => {
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
     walletTransactionsServiceSpy.send.and.rejectWith({ message: new PasswordErrorMsgs().invalid() });
 
     component.ionViewWillEnter();
-    _dispatchEvent(rawNativeEvent);
+    _dispatchEvent(nativeEvent);
     tick(50);
     fixture.detectChanges();
 

@@ -4,7 +4,6 @@ import { ModalController, NavController } from '@ionic/angular';
 import { TwoButtonsAlertComponent } from 'src/app/shared/components/two-buttons-alert/two-buttons-alert.component';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { BitrefillOperation } from '../shared-ramps/interfaces/bitrefill-operation.interface';
 import { RawBitrefillOperation } from '../shared-ramps/interfaces/raw-bitrefill-operation.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -14,9 +13,16 @@ import { LoginToken } from '../../users/shared-users/models/login-token/login-to
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { formatUnits } from 'ethers/lib/utils';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import {
+  BitrefillOperation,
+  DefaultBitrefillOperation,
+} from '../shared-ramps/models/bitrefill-operation/default-bitrefill-operation';
+import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { BitrefillOperationFactory } from '../shared-ramps/models/bitrefill-operation/factory/bitrefill-operation.factory';
 @Component({
   selector: 'app-bitrefill',
   template: `
@@ -49,8 +55,8 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 export class BitrefillPage {
   rootURL = 'https://www.bitrefill.com/embed/';
   url: SafeResourceUrl;
-  data: BitrefillOperation;
-  rawData: RawBitrefillOperation;
+  operation: BitrefillOperation;
+  rawOperationData: RawBitrefillOperation;
   availablePaymentMethods = ['usdc_polygon', 'ethereum', 'usdt_erc20', 'usdc_erc20'];
   constructor(
     private translate: TranslateService,
@@ -62,7 +68,9 @@ export class BitrefillPage {
     private storage: IonicStorageService,
     private walletTransactionsService: WalletTransactionsService,
     private toastService: ToastService,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private blockchains: BlockchainsFactory,
+    private bitrefillOperation: BitrefillOperationFactory
   ) {}
 
   ionViewWillEnter() {
@@ -101,56 +109,19 @@ export class BitrefillPage {
   }
 
   async messageHandler(event) {
-    this.rawData = JSON.parse(event.data);
-    if (this.rawData.event === 'payment_intent') {
-      this.data = this.dataOf(this.rawData.paymentMethod);
+    this.rawOperationData = JSON.parse(event.data);
+    if (this.rawOperationData.event === 'payment_intent') {
+      this.operation = this.dataOf();
       await this.handleSubmit();
     }
   }
 
-  dataOf(paymentMethod: string): BitrefillOperation {
-    return this.rawData.paymentUri.includes('transfer?address=')
-      ? this.nonNativeOperationDataOf(paymentMethod)
-      : this.nativeOperationDataOf(paymentMethod);
-  }
-
-  nativeOperationDataOf(paymentMethod: string): BitrefillOperation {
-    const blockchainAndAddress = this.rawData.paymentUri.split('?')[0];
-    const extraParams = new URLSearchParams(this.rawData.paymentUri.split('?')[1]);
-    const addressWithChainId = blockchainAndAddress.split(':')[1];
-    const address = addressWithChainId.split('@')[0];
-    const chainId = parseFloat(addressWithChainId.split('@')[1]);
-    const token = this.apiWalletService.getCoins().find((coin: Coin) => coin.chainId === chainId && coin.native);
-    const weiAmount = parseFloat(extraParams.get('value'));
-    const amount = parseFloat(formatUnits(weiAmount.toString(), token.decimals));
-    return {
-      address,
-      weiAmount,
-      amount,
-      token,
-      paymentMethod,
-    };
-  }
-
-  nonNativeOperationDataOf(paymentMethod: string): BitrefillOperation {
-    const blockchainAndTokenContract = this.rawData.paymentUri.split('?')[0].split('/')[0];
-    const extraParams = new URLSearchParams(this.rawData.paymentUri.split('?')[1]);
-    const addressWithChainId = blockchainAndTokenContract.split(':')[1];
-    const tokenContract = addressWithChainId.split('@')[0];
-    const address = extraParams.get('address');
-    const chainId = parseFloat(blockchainAndTokenContract.split('@')[1]);
-    const token = this.apiWalletService
-      .getCoins()
-      .find((coin: Coin) => coin.chainId === chainId && coin.contract === tokenContract.toLocaleLowerCase());
-    const weiAmount = parseFloat(extraParams.get('uint256'));
-    const amount = parseFloat(formatUnits(weiAmount.toString(), token.decimals));
-    return {
-      address,
-      amount,
-      weiAmount,
-      token,
-      paymentMethod,
-    };
+  dataOf(): BitrefillOperation {
+    return this.bitrefillOperation.create(
+      this.rawOperationData,
+      new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())),
+      this.blockchains.create()
+    );
   }
 
   async askForPassword() {
@@ -192,7 +163,7 @@ export class BitrefillPage {
       return false;
     }
 
-    if (!this.availablePaymentMethods.includes(this.data.paymentMethod)) {
+    if (!this.availablePaymentMethods.includes(this.operation.paymentMethod())) {
       await this.failedTransaction();
       return false;
     }
@@ -200,16 +171,20 @@ export class BitrefillPage {
     return true;
   }
 
-  private userCanAffordFees(): Promise<boolean> {
-    return this.walletTransactionsService.canAffordSendFee(this.data.address, this.data.amount, this.data.token);
+  private async userCanAffordFees(): Promise<boolean> {
+    return this.walletTransactionsService.canAffordSendFee(
+      this.operation.address(),
+      (await this.operation.amount()).value(),
+      (await this.operation.token()).json() as Coin
+    );
   }
 
   private async send(password: string) {
     const response = await this.walletTransactionsService.send(
       password,
-      this.data.amount,
-      this.data.address,
-      this.data.token
+      (await this.operation.amount()).value(),
+      this.operation.address(),
+      (await this.operation.token()).json() as Coin
     );
     this.notifyWhenTransactionMined(response);
   }
