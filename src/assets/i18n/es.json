@@ -2050,7 +2050,7 @@
       },
       "address_input_card": {
         "agenda": "Agenda",
-        "remove_contact":"Remover contacto",
+        "remove_contact": "Remover contacto",
         "scan_error": "Error al escanear el código QR",
         "placeholder": "Mantén presionado para pegar",
         "scan_unauthorized": "No tienes permiso para escanear",
@@ -2998,6 +2998,10 @@
     "bitrefill": {
       "header": "Compra con cripto",
       "exit_button": "Salir",
+      "toasts": {
+        "success": "¡Pago acreditado exitosamente! Próximamente estarás recibiendo el voucher en tu email.",
+        "error": "Error en el pago. Inténtalo nuevamente."
+      },
       "modal": {
         "title": "Atención",
         "description": "¿Deseas salir? Se perderán tus avances y deberás comenzar nuevamente.",

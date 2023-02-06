@@ -30,4 +30,10 @@ describe('Blockchains', () => {
 
     expect(blockchains.oneByName(aBlockchainName).name()).toEqual(aBlockchainName);
   });
+
+  it('by Id', () => {
+    const aBlockchainId = rawBlockchainsData[0].id;
+
+    expect(blockchains.oneById(aBlockchainId).id()).toEqual(aBlockchainId);
+  });
 });

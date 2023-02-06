@@ -3007,6 +3007,10 @@
     "bitrefill": {
       "header": "Buy with crypto",
       "exit_button": "Exit",
+      "toasts": {
+        "success": "Payment successfully credited! Soon you will be receiving the voucher in your email.",
+        "error": "Payment error. Please try again."
+      },
       "modal": {
         "title": "Attention",
         "description": "Do you wish to exit? Your progress will be lost and you will have to start over.",
