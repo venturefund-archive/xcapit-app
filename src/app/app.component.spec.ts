@@ -56,7 +56,7 @@ describe('AppComponent', () => {
   let dynamicLinkInjectableSpy: jasmine.SpyObj<DynamicLinkInjectable>;
   let dynamicLinkSpy: jasmine.SpyObj<DynamicLink>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
-  let nullNotificationServiceSpy: jasmine.SpyObj<CapacitorNotificationsService>;
+  let capacitorNotificationsServiceSpy: jasmine.SpyObj<CapacitorNotificationsService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   const tapBrowserInApp = {
@@ -104,10 +104,10 @@ describe('AppComponent', () => {
 
     browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
 
-    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['pushNotificationActionPerformed']);
+    capacitorNotificationsServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['pushNotificationActionPerformed']);
 
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
-      getInstance: nullNotificationServiceSpy,
+      getInstance: capacitorNotificationsServiceSpy,
     });
 
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
@@ -195,7 +195,7 @@ describe('AppComponent', () => {
   });
 
   it('should navigate to test-url inside the app when tap a notification', async () => {
-    nullNotificationServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
+    capacitorNotificationsServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
       callback(tapInsideApp);
     });
     component.ngOnInit();
@@ -206,7 +206,7 @@ describe('AppComponent', () => {
 
 
   it('should open browser in app when tap a notification', async () => {
-    nullNotificationServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
+    capacitorNotificationsServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
       callback(tapBrowserInApp);
     });
     component.ngOnInit();

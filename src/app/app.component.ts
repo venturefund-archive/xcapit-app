@@ -102,23 +102,23 @@ export class AppComponent implements OnInit {
 
   open(_aNotification) {
     if (_aNotification.actionId === 'tap' && _aNotification.notification.data.url) {
-      this.analyzeToOpen(_aNotification.notification.data.url);
+      this._analyzeToOpen(_aNotification.notification.data.url);
     }
   }
 
-  async analyzeToOpen(_aLink) {
+  private async _analyzeToOpen(_aLink) {
     this.isHTTPLink(_aLink) ? await this.browseTo(_aLink) : this.navigateTo(_aLink);
   }
 
-  isHTTPLink(link) {
+  private isHTTPLink(link) {
     return /^http.*/i.test(link);
   }
 
-  async browseTo(link) {
+  private async browseTo(link) {
     await this.browserService.open({ url: link });
   }
 
-  async navigateTo(link) {
+  private async navigateTo(link) {
     await this.navController.navigateForward(link);
   }
 
