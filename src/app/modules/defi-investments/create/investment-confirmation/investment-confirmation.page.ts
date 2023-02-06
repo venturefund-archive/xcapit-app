@@ -163,7 +163,7 @@ export class InvestmentConfirmationPage {
   amount: Amount;
   quoteAmount: Amount;
   isElegibleToFund: boolean;
-  isFeatureFlagFaucet: boolean
+  isFeatureFlagFaucet: boolean;
   fee: Amount = { value: undefined, token: 'MATIC' };
   quoteFee: Amount = { value: undefined, token: 'USD' };
   loading = false;
@@ -370,7 +370,7 @@ export class InvestmentConfirmationPage {
     }
   }
 
-  checkFeatureFlagFaucet(){
+  checkFeatureFlagFaucet() {
     this.isFeatureFlagFaucet = this.remoteConfig.getFeatureFlag('ff_fundFaucet');
   }
 
