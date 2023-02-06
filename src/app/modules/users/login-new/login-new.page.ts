@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { LoginToken } from '../shared-users/models/login-token/login-token';
@@ -110,6 +110,7 @@ export class LoginNewPage {
   showToast = true;
   isModalOpen = false;
   biometricEnabled: boolean;
+  isExpirationModal: boolean;
 
   constructor(
     private toastService: ToastService,
@@ -133,6 +134,7 @@ export class LoginNewPage {
   ) {}
 
   async ionViewWillEnter() {
+    console.log('login-new page running ionViewWillEnter...')
     this.removeOldToken();
     this._setBiometricAuth();
     await this._setBiometricEnabled();
@@ -140,6 +142,7 @@ export class LoginNewPage {
     this._trackScreenView();
     this.subscribeOnValueChanges();
     this.enablePushNotificationsByDefault();
+    console.log('login-new page ending ionViewWillEnter...')
   }
 
   private _trackScreenView(): void {
@@ -260,7 +263,12 @@ export class LoginNewPage {
     }
   }
 
-  private _goToWallet(): void {
+  private async _goToWallet() {
+    if (this.isExpirationModal) {
+      console.log('login from modal detected!')
+      console.log('dismiss response: ', await this.modalController.dismiss(null, 'confirm', 'loginModal'));
+      return this.modalController.dismiss(null, 'confirm', 'loginModal');
+    }
     this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
   }
 
