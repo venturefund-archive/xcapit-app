@@ -10,7 +10,7 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 const modalOptions = {
   component: WarningBackupModalComponent,
   componentProps: {},
-  cssClass: 'ux-md-modal-informative',
+  cssClass: 'modal',
   backdropDismiss: false,
 };
 
