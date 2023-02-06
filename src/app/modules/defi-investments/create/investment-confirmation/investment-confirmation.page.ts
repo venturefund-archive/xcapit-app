@@ -163,6 +163,7 @@ export class InvestmentConfirmationPage {
   amount: Amount;
   quoteAmount: Amount;
   isElegibleToFund: boolean;
+  isFeatureFlagFaucet: boolean
   fee: Amount = { value: undefined, token: 'MATIC' };
   quoteFee: Amount = { value: undefined, token: 'USD' };
   loading = false;
@@ -207,6 +208,7 @@ export class InvestmentConfirmationPage {
     this.dynamicPrice();
     await this.walletService.walletExist();
     await this.getNativeTokenBalance();
+    this.checkFeatureFlagFaucet();
     this.setIsElegibleToFund();
     await this.checkNativeTokenBalance();
   }
@@ -360,12 +362,16 @@ export class InvestmentConfirmationPage {
   }
 
   async fundWallet() {
-    if (this.remoteConfig.getFeatureFlag('ff_fundFaucet')) {
+    if (this.isFeatureFlagFaucet) {
       if (this.isElegibleToFund) {
         await this.defiInvesmentService.fundWallet().toPromise();
         this.sendEvent();
       }
     }
+  }
+
+  checkFeatureFlagFaucet(){
+    this.isFeatureFlagFaucet = this.remoteConfig.getFeatureFlag('ff_fundFaucet');
   }
 
   sendEvent() {
