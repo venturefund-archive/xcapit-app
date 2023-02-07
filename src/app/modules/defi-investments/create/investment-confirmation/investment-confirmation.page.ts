@@ -202,13 +202,13 @@ export class InvestmentConfirmationPage {
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.checkFeatureFlagFaucet();
     this.checkTwoPiAgreement();
     this.updateTexts();
     await this.setInvestmentInfo();
     this.dynamicPrice();
     await this.walletService.walletExist();
     await this.getNativeTokenBalance();
-    this.checkFeatureFlagFaucet();
     this.setIsElegibleToFund();
     await this.checkNativeTokenBalance();
   }
@@ -381,7 +381,9 @@ export class InvestmentConfirmationPage {
   }
 
   setIsElegibleToFund() {
-    this.isElegibleToFund = this.nativeTokenBalance === 0.0;
+    this.isFeatureFlagFaucet
+      ? (this.isElegibleToFund = this.nativeTokenBalance === 0.0)
+      : (this.isElegibleToFund = false);
   }
 
   async checkNativeTokenBalance() {
