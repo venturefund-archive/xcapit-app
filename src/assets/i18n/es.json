@@ -487,7 +487,7 @@
       "transaction_fees": {
         "label": "Tarifa de transacción estimada",
         "advice": "Fondos insuficientes",
-        "faucet": "¡Sin costos! \ud83d\ude0e"
+        "faucet": "Esta vez, invitamos nosotros \ud83d\ude0e"
       },
       "filter_tab": {
         "conservative": "Perfil conservador",
