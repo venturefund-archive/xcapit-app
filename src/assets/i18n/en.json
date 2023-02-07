@@ -496,7 +496,7 @@
       "transaction_fees": {
         "label": "Estimated transaction fee",
         "advice": "Insufficient funds",
-        "faucet": "Free of charge! \ud83d\ude0e"
+        "faucet": "this occasion, it's on us \ud83d\ude0e"
       },
       "filter_tab": {
         "conservative": "Conservative profile",
