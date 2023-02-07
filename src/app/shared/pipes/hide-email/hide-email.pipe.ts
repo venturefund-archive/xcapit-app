@@ -3,9 +3,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 const visibleChars = 3;
 
 @Pipe({
-  name: 'hideReferral',
+  name: 'hideEmail',
 })
-export class HideReferralPipe implements PipeTransform {
+export class HideEmailPipe implements PipeTransform {
   transform(value: string): string {
     return value
       ? value.replace(
@@ -15,7 +15,7 @@ export class HideReferralPipe implements PipeTransform {
             c
               .split('')
               .slice(visibleChars, -1)
-              .map((v) => '*')
+              .map((v) => '.')
               .join('') +
             '@'
         )

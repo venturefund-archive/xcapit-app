@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { HideEmailPipe } from 'src/app/shared/pipes/hide-email/hide-email.pipe';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { rawOperationsData } from '../../fixtures/raw-operations-data';
@@ -20,6 +22,7 @@ describe('OperationsListComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController();
@@ -34,15 +37,21 @@ describe('OperationsListComponent', () => {
     providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
       create: providersSpy,
     });
+
+    ionicStorageServiceSpy = jasmine.createSpyObj('StorageService', {
+      get: Promise.resolve('kripton_email'),
+    });
+
     TestBed.configureTestingModule({
-      declarations: [OperationsListComponent],
+      declarations: [OperationsListComponent, HideEmailPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas:[CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(OperationsListComponent);
@@ -56,9 +65,9 @@ describe('OperationsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render operations list component if there is four operations', () => {
+  it('should render operations list component if there is four operations', async () => {
     const change: SimpleChanges = { operationsList: new SimpleChange(null, rawOperationsData, true) };
-    component.ngOnChanges(change);
+    await component.ngOnChanges(change);
     fixture.detectChanges();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));
     const textEl = fixture.debugElement.query(By.css('ion-text[name="No Operations"]'));
@@ -68,9 +77,9 @@ describe('OperationsListComponent', () => {
     expect(component.remainingOperations.length).toEqual(1);
   });
 
-  it('should render operations list component if there is one operation', () => {
+  it('should render operations list component if there is one operation', async () => {
     const change: SimpleChanges = { operationsList: new SimpleChange(null, [rawOperationsData[1]], true) };
-    component.ngOnChanges(change);
+    await component.ngOnChanges(change);
     fixture.detectChanges();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));
     expect(tableEl).toBeTruthy();
@@ -98,11 +107,11 @@ describe('OperationsListComponent', () => {
     expect(link).toBeTruthy();
   });
 
-  it('should update operation List when input changes', () => {
+  it('should update operation List when input changes', async () => {
     component.operationsList = [];
     fixture.detectChanges();
     const change: SimpleChanges = { operationsList: new SimpleChange([], [{}, {}], true) };
-    component.ngOnChanges(change);
+    await component.ngOnChanges(change);
     expect(component.operationsList.length).toEqual(2);
   });
 

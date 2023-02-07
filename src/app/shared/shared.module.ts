@@ -28,7 +28,6 @@ import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.compon
 import { UxTextareaComponent } from './components/ux-textarea/ux-textarea.component';
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
 import { NeedHelpComponent } from './components/need-help/need-help.component';
-import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
 import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-alert.component';
 import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
 import { UxListCardComponent } from './components/ux-list-card/ux-list-card.component';
@@ -105,6 +104,7 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
 import { ContactItemComponent } from './components/contact-item/contact-item.component';
 import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-alert.component';
 import { RequireTokenComponent } from './components/require-token/require-token.component';
+import { HideEmailPipe } from './pipes/hide-email/hide-email.pipe';
 
 @NgModule({
   declarations: [
@@ -198,7 +198,7 @@ import { RequireTokenComponent } from './components/require-token/require-token.
     RequireTokenComponent,
     // Pipes
     LocalizedDatePipe,
-    HideReferralPipe,
+    HideEmailPipe,
     SafeURLPipe,
     HideTextPipe,
     SplitStringPipe,
@@ -310,7 +310,7 @@ import { RequireTokenComponent } from './components/require-token/require-token.
     RequireTokenComponent,
     // Pipes
     LocalizedDatePipe,
-    HideReferralPipe,
+    HideEmailPipe,
     SafeURLPipe,
     HideTextPipe,
     SplitStringPipe,
