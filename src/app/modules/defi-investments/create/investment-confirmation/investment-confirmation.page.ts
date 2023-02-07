@@ -163,6 +163,7 @@ export class InvestmentConfirmationPage {
   amount: Amount;
   quoteAmount: Amount;
   isElegibleToFund: boolean;
+  isFeatureFlagFaucet: boolean;
   fee: Amount = { value: undefined, token: 'MATIC' };
   quoteFee: Amount = { value: undefined, token: 'USD' };
   loading = false;
@@ -201,6 +202,7 @@ export class InvestmentConfirmationPage {
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.checkFeatureFlagFaucet();
     this.checkTwoPiAgreement();
     this.updateTexts();
     await this.setInvestmentInfo();
@@ -360,12 +362,14 @@ export class InvestmentConfirmationPage {
   }
 
   async fundWallet() {
-    if (this.remoteConfig.getFeatureFlag('ff_fundFaucet')) {
-      if (this.isElegibleToFund) {
-        await this.defiInvesmentService.fundWallet().toPromise();
-        this.sendEvent();
-      }
+    if (this.isElegibleToFund) {
+      await this.defiInvesmentService.fundWallet().toPromise();
+      this.sendEvent();
     }
+  }
+
+  checkFeatureFlagFaucet() {
+    this.isFeatureFlagFaucet = this.remoteConfig.getFeatureFlag('ff_fundFaucet');
   }
 
   sendEvent() {
@@ -375,7 +379,9 @@ export class InvestmentConfirmationPage {
   }
 
   setIsElegibleToFund() {
-    this.isElegibleToFund = this.nativeTokenBalance === 0.0;
+    this.isFeatureFlagFaucet
+      ? (this.isElegibleToFund = this.nativeTokenBalance === 0.0)
+      : (this.isElegibleToFund = false);
   }
 
   async checkNativeTokenBalance() {
