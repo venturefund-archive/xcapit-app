@@ -495,13 +495,13 @@
       },
       "transaction_fees": {
         "label": "Estimated transaction fee",
-        "advice": "Insufficient funds"
+        "advice": "Insufficient funds",
+        "faucet": "Free of charge! \ud83d\ude0e"
       },
       "filter_tab": {
         "conservative": "Conservative profile",
         "medium": "Moderate profile",
-        "risky": "Aggressive profile",
-        "faucet": "No costs! \ud83d\ude0e"
+        "risky": "Aggressive profile"
       },
       "coming_soon_card": {
         "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
