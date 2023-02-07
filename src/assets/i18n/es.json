@@ -2518,7 +2518,7 @@
       "thirdPartyKYC": "Entiendo que Xcapit no almacena la información KYC.",
       "thirdPartyTransaction": "Entiendo que los términos y condiciones del proveedor externo (Kripton Market) son independientes de Xcapit.",
       "privacyPolicyAndTOS": "Acepto los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y la <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
-      "acceptedprivacyPolicyAndTOS":"Has aceptado en la primera operación realizada los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
+      "acceptedprivacyPolicyAndTOS": "Has aceptado en la primera operación realizada los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
       "next_button": "Continuar"
     },
     "register": {
@@ -3007,6 +3007,9 @@
         "description": "¿Deseas salir? Se perderán tus avances y deberás comenzar nuevamente.",
         "cancel_button": "Cancelar",
         "confirm_button": "Confirmar"
+      },
+      "token_selection": {
+        "title": "¿Con qué token deseas abonar?"
       }
     }
   },
@@ -3358,7 +3361,7 @@
       "condition_3": "Los intercambios poseen costos de transacción asociados.",
       "terms": {
         "i_have_read": "Leí y estoy de acuerdo con los",
-        "you_have_accepted":"Has aceptado en la primera operación realizada los ",
+        "you_have_accepted": "Has aceptado en la primera operación realizada los ",
         "link_to_terms": "términos y condiciones",
         "of": "de 1inch"
       },
@@ -3407,7 +3410,7 @@
     },
     "register": {
       "header": "Agendar wallet",
-      "header_edit":"Editar wallet",
+      "header_edit": "Editar wallet",
       "title": "Ingresa los datos de la wallet que deseas agendar.",
       "address_label": "Dirección",
       "address_sublabel": "Pega la dirección o escanea el código QR.",
@@ -3421,7 +3424,7 @@
       "repeated_address": "La dirección ya se encuentra agendada",
       "loading": "Agendando",
       "success_toast": "¡Excelente! Wallet agendada con éxito",
-      "success_edit":"¡Excelente! Wallet editada con éxito"
+      "success_edit": "¡Excelente! Wallet editada con éxito"
     },
     "shared_contacts": {
       "network_selector": {
@@ -3438,14 +3441,14 @@
       "scan_unauthorized": "No tienes permiso para escanear"
     },
     "detail": {
-      "header":"Contacto",
-      "subtitle_network":"Red",
-      "subtitle_address":"Dirección",
+      "header": "Contacto",
+      "subtitle_network": "Red",
+      "subtitle_address": "Dirección",
       "alert": {
-        "title":"¿Deseas eliminar?",
-        "description":"Se perderán de manera permanente los datos ingresados.",
-        "confirm_button":"Confirmar",
-        "cancel_button":"Cancelar"
+        "title": "¿Deseas eliminar?",
+        "description": "Se perderán de manera permanente los datos ingresados.",
+        "confirm_button": "Confirmar",
+        "cancel_button": "Cancelar"
       }
     }
   }

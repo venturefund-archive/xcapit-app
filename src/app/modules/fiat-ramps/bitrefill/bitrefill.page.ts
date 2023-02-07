@@ -15,23 +15,24 @@ import { WalletTransactionsService } from '../../wallets/shared-wallets/services
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import {
-  BitrefillOperation,
-  DefaultBitrefillOperation,
-} from '../shared-ramps/models/bitrefill-operation/default-bitrefill-operation';
+import { BitrefillOperation } from '../shared-ramps/models/bitrefill-operation/default-bitrefill-operation';
 import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { BitrefillOperationFactory } from '../shared-ramps/models/bitrefill-operation/factory/bitrefill-operation.factory';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-bitrefill',
   template: `
     <ion-header class="b">
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left">
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="fiat-ramps/bitrefill/token-selection"></ion-back-button>
+        </ion-buttons>
         <ion-title class="ion-text-start">
           {{ 'fiat_ramps.bitrefill.header' | translate }}
         </ion-title>
-        <ion-buttons class="b__buttons"slot="end">
+        <ion-buttons class="b__buttons" slot="end">
           <ion-button class="b__buttons__button" name="goBack" (click)="this.navigateBack()">
             <ion-text class="ux-font-header-titulo">{{ 'fiat_ramps.bitrefill.exit_button' | translate }} </ion-text>
           </ion-button>
@@ -70,7 +71,8 @@ export class BitrefillPage {
     private toastService: ToastService,
     private trackService: TrackService,
     private blockchains: BlockchainsFactory,
-    private bitrefillOperation: BitrefillOperationFactory
+    private bitrefillOperation: BitrefillOperationFactory,
+    private route: ActivatedRoute
   ) {}
 
   ionViewWillEnter() {
@@ -99,8 +101,9 @@ export class BitrefillPage {
   }
 
   async setURL() {
+    const paymentMethod = this.route.snapshot.paramMap.get('paymentMethod');
     const languageCode = await this.languageService.getSelectedLanguage();
-    const rawURL = `${this.rootURL}?hl=${languageCode}`;
+    const rawURL = `${this.rootURL}?paymentMethod=${paymentMethod}&hl=${languageCode}`;
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(rawURL);
   }
 
