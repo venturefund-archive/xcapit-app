@@ -362,11 +362,9 @@ export class InvestmentConfirmationPage {
   }
 
   async fundWallet() {
-    if (this.isFeatureFlagFaucet) {
-      if (this.isElegibleToFund) {
-        await this.defiInvesmentService.fundWallet().toPromise();
-        this.sendEvent();
-      }
+    if (this.isElegibleToFund) {
+      await this.defiInvesmentService.fundWallet().toPromise();
+      this.sendEvent();
     }
   }
 
