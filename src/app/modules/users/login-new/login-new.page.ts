@@ -22,6 +22,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { AuthService } from '../shared-users/services/auth/auth.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { AppSessionInjectable } from 'src/app/shared/models/app-session/injectable/app-session.injectable';
+import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
 
 @Component({
   selector: 'app-login-new',
@@ -131,18 +132,22 @@ export class LoginNewPage {
     private authService: AuthService,
     private walletConnectService: WalletConnectService,
     private appSession: AppSessionInjectable,
+    private appExpirationTimeService: AppExpirationTimeService
   ) {}
 
   async ionViewWillEnter() {
-    console.log('login-new page running ionViewWillEnter...')
     this.removeOldToken();
     this._setBiometricAuth();
     await this._setBiometricEnabled();
     await this.activateBiometricAuth();
     this._trackScreenView();
     this.subscribeOnValueChanges();
+    this.appExpirationTimeService.disableExpirationModal();
     this.enablePushNotificationsByDefault();
-    console.log('login-new page ending ionViewWillEnter...')
+  }
+
+  async ionViewWillLeave() {
+    this.appExpirationTimeService.enableExpirationModal();
   }
 
   private _trackScreenView(): void {
@@ -265,9 +270,7 @@ export class LoginNewPage {
 
   private async _goToWallet() {
     if (this.isExpirationModal) {
-      console.log('login from modal detected!')
-      console.log('dismiss response: ', await this.modalController.dismiss(null, 'confirm', 'loginModal'));
-      return this.modalController.dismiss(null, 'confirm', 'loginModal');
+      return this.modalController.dismiss(null, 'confirm');
     }
     this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
   }

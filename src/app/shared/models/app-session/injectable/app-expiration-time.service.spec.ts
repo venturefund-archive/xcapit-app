@@ -42,4 +42,24 @@ describe('AppExpirationTimeService', () => {
     expect(ionicStorageServiceSpy.get).toHaveBeenCalledTimes(1);
     expect(result).toEqual(2);
   });
+
+  it('getModalAvailability', async () => {
+    const result = service.getModalAvailability();
+
+    expect(result).toBeTruthy();
+  });
+
+  it('enableExpirationModal', async () => {
+    service.enableExpirationModal();
+    const result = service.getModalAvailability();
+
+    expect(result).toBeTrue();
+  });
+
+  it('enableExpirationModal', async () => {
+    service.disableExpirationModal();
+    const result = service.getModalAvailability();
+
+    expect(result).toBeFalse();
+  });
 });

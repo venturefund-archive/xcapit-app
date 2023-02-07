@@ -27,6 +27,7 @@ import { TxInProgressService } from './modules/swaps/shared-swaps/services/tx-in
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 import { BrowserService } from './shared/services/browser/browser.service';
 import { NetworkInjectable } from './shared/models/network/injectable/network.injectable';
+import { AppExpirationTimeService } from './shared/models/app-session/injectable/app-expiration-time.service';
 
 @Component({
   selector: 'app-root',
@@ -65,7 +66,6 @@ export class AppComponent implements OnInit {
     private walletConnectService: WalletConnectService,
     private walletBackupService: WalletBackupService,
     private localNotificationsService: LocalNotificationsService,
-    private navController: NavController,
     private storage: IonicStorageService,
     private trackedWalletAddressInjectable: TrackedWalletAddressInjectable,
     private capacitorAppInjectable: CapacitorAppInjectable,
@@ -73,6 +73,7 @@ export class AppComponent implements OnInit {
     private walletMaintenanceService: WalletMaintenanceService,
     private dynamicLinkInjectable: DynamicLinkInjectable,
     private modalController: ModalController,
+    private appExpirationTimeService: AppExpirationTimeService,
     private txInProgressService: TxInProgressService,
     private notificationsService: NotificationsService,
     private browserService: BrowserService,
@@ -194,23 +195,8 @@ export class AppComponent implements OnInit {
   async isSessionValid() {
     if (!(await this.session.valid())) {
       await new LoggedIn(this.storage).save(false);
-      this.redirectToNewLogin();
+      this.showLoginModal();
     }
-  }
-
-  //TODO: Call modal, discriminar si el origen es modal o pagina base, Si es desde el modal, deberia dismisear y NO redirigir, si es pagina base, deberia redirigir unicamente -- DONE
-  //TODO: Usar el service de expiracion para discriminar cual de las dos modalidades es la actual (si la sesion expiro o si fue un logout, ej: eliminar la wallet, o deslogear la cuenta) -- DONE
-  //TODO: Verificar que el modal ocupe el 100% de la pantalla del dispositivo -- DONE
-  //TODO: Evitar que se stackeen multiples modales de login -- DONE
-  //TODO: que sea siempre el modal mas delante en orden y que solo sea dismiseable con un ingreso correcto de contraseña. -- FALTA DISMISEAR UNICAMENTE EL MODAL DE LOGIN, Actualmente dismisea todo lo que ve, el parametro id parece no funcionar
-  //TODO: Chequear bioauth (puede no estar presente, verificar en mobile) -- VER
-  //TODO: Chequear navegaciones automaticas (no deberia haber) -- VER
-  //TODO: Como se maneja la respuesta del modal desde cualquier pagina? -- VER
-  //TODO: NO DEBERIA DISPARARSE EN LA PAGINA DE NEWLOGIN
-  async redirectToNewLogin() {
-    console.log('creating login page as modal...');
-    // return await this.navController.navigateRoot(['users/login-new']);
-    this.showLoginModal();
   }
 
   dynamicLinks(event) {
@@ -257,7 +243,7 @@ export class AppComponent implements OnInit {
   }
 
   async showLoginModal() {
-    if (!this.isModalOpen) {
+    if (!this.isModalOpen && this.appExpirationTimeService.getModalAvailability() === true) {
       this.isModalOpen = true;
       const loginModal = await this.modalController.create({
         component: LoginNewPage,
@@ -266,15 +252,12 @@ export class AppComponent implements OnInit {
         componentProps: {
           isExpirationModal: true,
         },
-        id: 'loginModal'
       });
-      console.log('loginModal object: ', loginModal)
       await loginModal.present();
       const { role } = await loginModal.onDidDismiss();
       this.isModalOpen = false;
-      console.log('onDidDismiss value: ', role);
       if (role === 'confirm') {
-        await this.modalController.dismiss();
+        await loginModal.dismiss();
       }
     }
   }

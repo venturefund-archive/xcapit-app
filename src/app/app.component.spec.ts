@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
-import { NavController, Platform } from '@ionic/angular';
+import { ModalController, NavController, Platform } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -24,6 +24,8 @@ import { AppSession } from './shared/models/app-session/app-session';
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
 import { DynamicLink } from './shared/models/dynamic-link/dynamic-link';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { AppExpirationTimeService } from './shared/models/app-session/injectable/app-expiration-time.service';
 import { TxInProgressService } from './modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { NullNotificationsService } from './modules/notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
@@ -59,6 +61,9 @@ describe('AppComponent', () => {
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let dynamicLinkInjectableSpy: jasmine.SpyObj<DynamicLinkInjectable>;
   let dynamicLinkSpy: jasmine.SpyObj<DynamicLink>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let appExpirationTimeServiceSpy: jasmine.SpyObj<AppExpirationTimeService>;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let capacitorNotificationsServiceSpy: jasmine.SpyObj<CapacitorNotificationsService>;
@@ -145,6 +150,9 @@ describe('AppComponent', () => {
     appSessionInjectableSpy = jasmine.createSpyObj('AppSessionInjectable', {
       create: appSessionSpy,
     });
+    appExpirationTimeServiceSpy = jasmine.createSpyObj('AppExpirationTimeService', {
+      getModalAvailability: true,
+    });
 
     dynamicLinkSpy = jasmine.createSpyObj('DynamicLink', {
       redirect: null,
@@ -153,6 +161,10 @@ describe('AppComponent', () => {
     dynamicLinkInjectableSpy = jasmine.createSpyObj('DynamicLinkInjectable', {
       create: dynamicLinkSpy,
     });
+
+    fakeModalController = new FakeModalController(null, { role: 'confirm' });
+    modalControllerSpy = fakeModalController.createSpy();
+
 
     txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
       checkTransactionStatus: Promise.resolve(),
@@ -183,6 +195,8 @@ describe('AppComponent', () => {
         { provide: AppSessionInjectable, useValue: appSessionInjectableSpy },
         { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
         { provide: DynamicLinkInjectable, useValue: dynamicLinkInjectableSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: AppExpirationTimeService, useValue: appExpirationTimeServiceSpy },
         { provide: BrowserService, useValue: browserServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
@@ -283,12 +297,12 @@ describe('AppComponent', () => {
     discardPeriodicTasks();
   }));
 
-  it('should validate session when state is active and session is invalid', fakeAsync(() => {
+  it('should validate session and show login modal when state is active and session is invalid', fakeAsync(() => {
     appSessionSpy.valid.and.returnValue(Promise.resolve(false));
     component.ngOnInit();
     tick();
     expect(appSessionSpy.valid).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['users/login-new']);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     discardPeriodicTasks();
   }));
 
