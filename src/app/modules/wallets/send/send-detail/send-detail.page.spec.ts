@@ -46,6 +46,11 @@ import { TokenDetail } from '../../shared-wallets/models/token-detail/token-deta
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
 import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
+import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
+import { CovalentBalancesInjectable } from '../../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-prices/token-prices.injectable';
+import { FakeBalances } from '../../shared-wallets/models/balances/fake-balances/fake-balances';
+import { FakePrices } from '../../shared-wallets/models/prices/fake-prices/fake-prices';
 
 describe('SendDetailPage', () => {
   let component: SendDetailPage;
@@ -72,6 +77,9 @@ describe('SendDetailPage', () => {
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let solanaFeeOfInjectableSpy: jasmine.SpyObj<SolanaFeeOfInjectable>;
   let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
+  let transactionDataServiceSpy: jasmine.SpyObj<TransactionDataService>;
+  let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
+  let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const _continueButton = (): DebugElement => {
@@ -97,6 +105,16 @@ describe('SendDetailPage', () => {
   };
 
   beforeEach(() => {
+    transactionDataServiceSpy = jasmine.createSpyObj('TransactionDataService', {}, { transactionData: {} });
+
+    covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { 
+      create: new FakeBalances({ balance: 20 })
+    });
+    
+    tokenPricesInjectableSpy = jasmine.createSpyObj('TokenPricesInjectable', { 
+      create: new FakePrices()
+    });
+
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve(['testAddress']),
     });
@@ -197,6 +215,9 @@ describe('SendDetailPage', () => {
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: SolanaFeeOfInjectable, useValue: solanaFeeOfInjectableSpy },
         { provide: ContactDataService, useValue: contactDataServiceSpy },
+        { provide: TransactionDataService, useValue: transactionDataServiceSpy },
+        { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
+        { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -230,7 +251,7 @@ describe('SendDetailPage', () => {
     tick();
 
     expect(component.token).toEqual(rawETHData);
-    expect(component.fee).toEqual(10);
+    expect(component.fee).toEqual(12.5);
   }));
 
   it('should calculate fee when user enters valid address and amount and token isnt native', fakeAsync(() => {
@@ -297,7 +318,7 @@ describe('SendDetailPage', () => {
     tick();
     fixture.detectChanges();
 
-    expect(component.fee).toEqual(1);
+    expect(component.fee).toEqual(1.25);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
 

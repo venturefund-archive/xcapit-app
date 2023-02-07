@@ -58,7 +58,6 @@ describe('SendDonationPage', () => {
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
-  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let erc20ContractInjectableSpy: jasmine.SpyObj<ERC20ContractInjectable>;
   let erc20ContractSpy: jasmine.SpyObj<ERC20Contract>;
 
@@ -73,13 +72,7 @@ describe('SendDonationPage', () => {
         },
       }
     );
-    tokenOperationDataServiceSpy = jasmine.createSpyObj(
-      'TokenOperationDataService',
-      {},
-      {
-        tokenOperationData: { asset: 'MATIC', network: 'MATIC' },
-      }
-    );
+    
     causeSpy = jasmine.createSpyObj(
       'cause',
       {},
@@ -162,7 +155,6 @@ describe('SendDonationPage', () => {
         { provide: SendDonationDataService, useValue: sendDonationDataSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
-        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -202,7 +194,7 @@ describe('SendDonationPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     tick(1500);
-    expect(component.balance).toEqual(10);
+    expect(component.balance).toEqual(7.5);
     discardPeriodicTasks();
     flush();
   }));
@@ -227,7 +219,7 @@ describe('SendDonationPage', () => {
     fixture.detectChanges();
     tick();
     expect(component.token).toEqual(coinsSpy[0]);
-    expect(component.fee).toEqual(10);
+    expect(component.fee).toEqual(12.5);
     discardPeriodicTasks();
     flush();
   }));

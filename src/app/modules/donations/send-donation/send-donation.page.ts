@@ -142,9 +142,7 @@ export class SendDonationPage implements OnInit {
     private erc20ProviderInjectable: Erc20ProviderInjectable,
     private erc20ContractInjectable: ERC20ContractInjectable,
     private modalController: ModalController,
-    private translate: TranslateService,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ngOnInit() {}
@@ -248,6 +246,8 @@ export class SendDonationPage implements OnInit {
       ),
       this.token.decimals
     ).value();
+
+      this.fee *= 1.25;
   }
 
   parseWei(amount: number) {
