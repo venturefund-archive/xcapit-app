@@ -1,5 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-provider-kripton.component';
 
@@ -12,6 +13,7 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
           >{{ 'fiat_ramps.operations_list.title' | translate }}
           <ion-icon name="information-circle" color="info" (click)="this.showProviderInfo()"></ion-icon>
         </ion-card-title>
+        <ion-text class="ux-font-text-xs" *ngIf="this.isLogged">{{this.loggedEmail | hideEmail }}</ion-text>
       </ion-card-header>
       <ion-card-content [class.operations__content]="this.hasOperations">
         <div *ngIf="!this.isLogged; then notLogged; else logged"></div>
@@ -54,10 +56,14 @@ export class OperationsListComponent implements OnChanges {
   cssWithLine: string;
   hasOperations: boolean;
   isInfoModalOpen = false;
+  loggedEmail: string;
 
-  constructor(private modalController: ModalController, private navController: NavController) {}
+  constructor(private modalController: ModalController, 
+    private navController: NavController,
+    private ionicStorageService: IonicStorageService) {}
 
-  ngOnChanges(changes: SimpleChanges) {
+  async ngOnChanges(changes: SimpleChanges) {
+    await this.setEmail();
     this.operationsList = changes.operationsList.currentValue;
     this.hasOperations = this.checkIfUserHasOperations();
     if (this.hasOperations) this.sliceOperations();
@@ -105,5 +111,9 @@ export class OperationsListComponent implements OnChanges {
       backdropDismiss: false,
     });
     await modal.present();
+  }
+
+  async setEmail() {
+    this.loggedEmail = await this.ionicStorageService.get('kripton_email');
   }
 }

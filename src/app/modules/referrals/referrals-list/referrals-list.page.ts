@@ -51,7 +51,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
                   <ion-item>
                     <ion-label>
                       <h2>
-                        {{ referral.email | hideReferral }}
+                        {{ referral.email | hideEmail }}
                       </h2>
                       <h3>
                         {{ referral.created_at | localizedDate }}
