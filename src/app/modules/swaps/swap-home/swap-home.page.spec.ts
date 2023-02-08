@@ -48,7 +48,7 @@ import { of } from 'rxjs';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
 
-fdescribe('SwapHomePage', () => {
+describe('SwapHomePage', () => {
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
