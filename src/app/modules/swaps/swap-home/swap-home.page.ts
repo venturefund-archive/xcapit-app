@@ -300,7 +300,7 @@ export class SwapHomePage {
   private async setFeeInfo() {
     this.tplFee = (await this.gasPrice()).times(this.tplSwapInfo.estimatedGas).json();
     if (this._isNativeToken()) {
-      this.tplFee.value += (this.tplFee.value * 25) / 100;
+      this.tplFee.value *= 1.30;
     }
   }
 
