@@ -4,7 +4,6 @@ import { SummaryData } from './interfaces/summary-data.interface';
 import { SubmitButtonService } from '../../../../shared/services/submit-button/submit-button.service';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
-import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
@@ -33,7 +32,7 @@ import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/t
 import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
 import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
-
+import { WalletPasswordWithValidatorComponent } from '../../shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -110,7 +109,33 @@ export class SendSummaryPage implements OnInit {
 
   ionViewWillEnter() {
     this.isSending = false;
-    this.summaryData = this.transactionDataService.transactionData;
+    // TODO: Rollback this
+    // this.summaryData = this.transactionDataService.transactionData;
+    this.summaryData = {
+      network: 'MATIC',
+      currency: {
+        id: 16,
+        name: 'MATIC - Polygon',
+        logoRoute: 'assets/img/coins/MATIC-POLYGON.svg',
+        value: 'MATIC',
+        network: 'MATIC',
+        chainId: 80001,
+        rpc: 'https://rpc-mumbai.maticvigil.com/v1/5fc0291a70d1714b3595d5a2fb5ceacec81ab086',
+        moonpayCode: 'matic_polygon',
+        decimals: 18,
+        native: true,
+        contract: '0x0000000000000000000000000000000000001010',
+        symbol: 'MATICUSDT',
+      },
+      address: '0x05f4842eb2118da5442b95a37d1231f2dd9322ef',
+      amount: 0.01,
+      referenceAmount: '0.008752',
+      balanceNativeToken: 0.199629913432143,
+      balance: 0.199629913432143,
+      fee: '0.000110885768721',
+      referenceFee: '0.0000970472247846192',
+      contact: '',
+    };
     this.blockchain = this.blockchains.create().oneByName(this.summaryData.network);
     this.checkMode();
   }
@@ -161,7 +186,7 @@ export class SendSummaryPage implements OnInit {
   async askForPassword() {
     await this.loadingService.dismiss();
     const modal = await this.modalController.create({
-      component: WalletPasswordComponent,
+      component: WalletPasswordWithValidatorComponent,
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
         state: 'send',
@@ -268,6 +293,7 @@ export class SendSummaryPage implements OnInit {
     }
   }
 
+  // TODO: Remove this
   private validPassword(password: Password) {
     return new LoginToken(password, this.storage).valid();
   }

@@ -31,6 +31,7 @@ import { HomeSlidesComponent } from './components/home-slides/home-slides.compon
 import { InitiationWalletStepCardComponent } from './components/initiation-wallet-step-card/initiation-wallet-step-card.component';
 import { WalletTransactionSkeletonCardComponent } from './components/wallet-transaction-card/wallet-transaction-skeleton-card/wallet-transaction-skeleton-card.component';
 import { TransactionInProgressComponent } from './components/transaction-in-progress/transaction-in-progress.component';
+import { WalletPasswordWithValidatorComponent } from './components/wallet-password-with-validator/wallet-password-with-validator.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { TransactionInProgressComponent } from './components/transaction-in-prog
     InitiationWalletStepCardComponent,
     WalletTransactionSkeletonCardComponent,
     TransactionInProgressComponent,
+    WalletPasswordWithValidatorComponent,
   ],
   imports: [SharedModule, SwiperModule],
   exports: [
@@ -98,6 +100,7 @@ import { TransactionInProgressComponent } from './components/transaction-in-prog
     InitiationWalletStepCardComponent,
     WalletTransactionSkeletonCardComponent,
     TransactionInProgressComponent,
+    WalletPasswordWithValidatorComponent,
   ],
 })
 export class SharedWalletsModule {}
