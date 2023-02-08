@@ -63,7 +63,7 @@ export class OperationsListComponent implements OnChanges {
     private ionicStorageService: IonicStorageService) {}
 
   async ngOnChanges(changes: SimpleChanges) {
-    await this.getEmail()
+    await this.setEmail();
     this.operationsList = changes.operationsList.currentValue;
     this.hasOperations = this.checkIfUserHasOperations();
     if (this.hasOperations) this.sliceOperations();
@@ -113,7 +113,7 @@ export class OperationsListComponent implements OnChanges {
     await modal.present();
   }
 
-  async getEmail() {
+  async setEmail() {
     this.loggedEmail = await this.ionicStorageService.get('kripton_email');
   }
 }
