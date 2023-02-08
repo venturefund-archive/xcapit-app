@@ -64,7 +64,7 @@ describe('BitrefillTokenSelectionPage', () => {
     expect(component.tplTokens).toEqual(availableTokens);
   });
 
-  it('should show available tokens', () => {
+  it('should navigate when token was clicked', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
 
