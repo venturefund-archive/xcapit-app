@@ -77,7 +77,8 @@ export class AppComponent implements OnInit {
     private txInProgressService: TxInProgressService,
     private notificationsService: NotificationsService,
     private browserService: BrowserService,
-    private networkInjectable: NetworkInjectable
+    private networkInjectable: NetworkInjectable,
+    private navController: NavController
   ) {}
 
   ngOnInit() {
@@ -243,7 +244,7 @@ export class AppComponent implements OnInit {
   }
 
   async showLoginModal() {
-    if (!this.isModalOpen && this.appExpirationTimeService.getModalAvailability() === true) {
+    if (!this.isModalOpen && this.appExpirationTimeService.getModalAvailability()) {
       this.isModalOpen = true;
       const loginModal = await this.modalController.create({
         component: LoginNewPage,
