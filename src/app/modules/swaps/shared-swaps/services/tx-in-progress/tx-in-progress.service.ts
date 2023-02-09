@@ -46,7 +46,7 @@ export class TxInProgressService {
   }
 
   async checkTransactionStatus() {
-    for (let tx of await this._storageSendTransactions()) {
+    for (const tx of await this._storageSendTransactions()) {
       await this.startTx(tx);
       this._waitForATransaction(tx)
         .then(async () => await this.finishTx(tx))
