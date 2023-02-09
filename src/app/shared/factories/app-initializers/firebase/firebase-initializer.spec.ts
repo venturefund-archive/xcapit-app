@@ -25,7 +25,7 @@ describe('firebaseInitializer', () => {
     firebaseInitializer(remoteConfigSpy, firebaseSpy)();
     tick();
     expect(firebaseSpy.init).toHaveBeenCalledTimes(1);
-    expectAsync(firebaseInitializer(remoteConfigSpy, firebaseSpy)()).toBeResolved();
+    await expectAsync(firebaseInitializer(remoteConfigSpy, firebaseSpy)()).toBeResolved();
   }));
 
 });
