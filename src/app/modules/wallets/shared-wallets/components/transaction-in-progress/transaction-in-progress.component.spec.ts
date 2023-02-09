@@ -5,18 +5,30 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subscription } from 'rxjs';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
-import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress';
+import { SendTxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/send/send-tx-in-progress';
+import { SwapTxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/swap/swap-tx-in-progress';
+import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress.interface';
+import { DefaultTxHash } from '../../models/tx-hash/default/default-tx-hash';
 import { TransactionInProgressComponent } from './transaction-in-progress.component';
+import { Blockchain } from '../../../../swaps/shared-swaps/models/blockchain/blockchain';
+import { rawPolygonData } from '../../../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 
 describe('TransactionInProgressComponent', () => {
   let component: TransactionInProgressComponent;
   let fixture: ComponentFixture<TransactionInProgressComponent>;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
+  let txSend: TxInProgress;
+  let txSwap: TxInProgress;
 
-  const txSend = new TxInProgress('send');
-  const txSwap = new TxInProgress('swap');
+  const aDate = new Date('2023-01-01');
+  const aTestHash = new DefaultTxHash('aTestHash');
+  const aTestNetwork = 'aTestNetwork';
+  const blockchain = new Blockchain(rawPolygonData);
 
   beforeEach(waitForAsync(() => {
+    txSwap = new SwapTxInProgress(blockchain, aDate);
+    txSend = new SendTxInProgress(blockchain, aTestHash, aDate);
+
     txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
       inProgress: of([txSwap, txSend]),
     });
@@ -24,7 +36,7 @@ describe('TransactionInProgressComponent', () => {
       declarations: [TransactionInProgressComponent],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [{ provide: TxInProgressService, useValue: txInProgressServiceSpy }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionInProgressComponent);

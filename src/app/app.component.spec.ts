@@ -24,6 +24,7 @@ import { AppSession } from './shared/models/app-session/app-session';
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
 import { DynamicLink } from './shared/models/dynamic-link/dynamic-link';
+import { TxInProgressService } from './modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { NullNotificationsService } from './modules/notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 import { BrowserService } from './shared/services/browser/browser.service';
@@ -55,6 +56,7 @@ describe('AppComponent', () => {
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let dynamicLinkInjectableSpy: jasmine.SpyObj<DynamicLinkInjectable>;
   let dynamicLinkSpy: jasmine.SpyObj<DynamicLink>;
+  let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let capacitorNotificationsServiceSpy: jasmine.SpyObj<CapacitorNotificationsService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
@@ -67,7 +69,7 @@ describe('AppComponent', () => {
       },
     },
   }
-  
+
   const tapInsideApp = {
     actionId: 'tap',
     notification: {
@@ -144,6 +146,11 @@ describe('AppComponent', () => {
     dynamicLinkInjectableSpy = jasmine.createSpyObj('DynamicLinkInjectable', {
       create: dynamicLinkSpy,
     });
+
+    txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
+      checkTransactionStatus: Promise.resolve(),
+    });
+
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -167,6 +174,7 @@ describe('AppComponent', () => {
         { provide: DynamicLinkInjectable, useValue: dynamicLinkInjectableSpy },
         { provide: BrowserService, useValue: browserServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
+        { provide: TxInProgressService, useValue: txInProgressServiceSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
@@ -192,6 +200,7 @@ describe('AppComponent', () => {
     expect(walletBackupServiceSpy.getBackupWarningWallet).toHaveBeenCalledTimes(1);
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(walletMaintenanceServiceSpy.checkTokensStructure).toHaveBeenCalledTimes(1);
+    expect(txInProgressServiceSpy.checkTransactionStatus).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to test-url inside the app when tap a notification', async () => {

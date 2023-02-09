@@ -2,18 +2,24 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TransactionInProgressCardComponent } from './transaction-in-progress-card.component';
+import { SendTxInProgress } from '../../../../../users/shared-users/models/tx-in-progress/send/send-tx-in-progress';
+import { SwapTxInProgress } from '../../../../../users/shared-users/models/tx-in-progress/swap/swap-tx-in-progress';
+import { rawSendTxInProgress } from '../../../fixtures/raw-send-tx-in-progress';
+import { DefaultTxHash } from '../../../models/tx-hash/default/default-tx-hash';
+import { Blockchain } from '../../../../../swaps/shared-swaps/models/blockchain/blockchain';
+import { rawPolygonData } from '../../../../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 
 describe('TransactionInProgressCardComponent', () => {
   let component: TransactionInProgressCardComponent;
   let fixture: ComponentFixture<TransactionInProgressCardComponent>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  const blockchain = new Blockchain(rawPolygonData);
 
   beforeEach(waitForAsync(() => {
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
-      open: Promise.resolve()
+      open: Promise.resolve(),
     });
     TestBed.configureTestingModule({
       declarations: [TransactionInProgressCardComponent],
@@ -23,7 +29,7 @@ describe('TransactionInProgressCardComponent', () => {
 
     fixture = TestBed.createComponent(TransactionInProgressCardComponent);
     component = fixture.componentInstance;
-    component.transaction = new TxInProgress('send', 'MATIC', '0x1234123');
+    component.transaction = new SendTxInProgress(blockchain, new DefaultTxHash(rawSendTxInProgress.hash));
     fixture.detectChanges();
   }));
 
@@ -32,7 +38,7 @@ describe('TransactionInProgressCardComponent', () => {
   });
 
   it('should show swap text and image', () => {
-    component.transaction = new TxInProgress('swap');
+    component.transaction = new SwapTxInProgress(blockchain);
     component.ngOnInit();
     fixture.detectChanges();
     const textEl = fixture.debugElement.query(By.css('.tipc__container__content > ion-text')).nativeElement;
@@ -55,17 +61,17 @@ describe('TransactionInProgressCardComponent', () => {
   });
 
   it('should redirect to scan in send', () => {
-    component.transaction = new TxInProgress('send', 'MATIC', '0xffff');
+    component.transaction = new SendTxInProgress(blockchain, new DefaultTxHash(rawSendTxInProgress.hash));
     component.ngOnInit();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-item')).nativeElement.click();
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({
-      url: 'https://mumbai.polygonscan.com/tx/0xffff',
+      url: `https://mumbai.polygonscan.com/tx/${rawSendTxInProgress.hash}`,
     });
   });
 
   it('should not redirect to scan in swap', () => {
-    component.transaction = new TxInProgress('swap');
+    component.transaction = new SwapTxInProgress(blockchain);
     component.ngOnInit();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-item')).nativeElement.click();

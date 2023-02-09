@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { BiometricAuthInjectable } from '../../../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { BiometricAuthInjectable } from '../../../../../shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { VerifyResult } from '../../../../../shared/models/biometric-auth/verify-result.interface';
 import { RemoteConfigService } from '../../../../../shared/services/remote-config/remote-config.service';
 import { BiometricAuth } from '../../../../../shared/models/biometric-auth/biometric-auth.interface';

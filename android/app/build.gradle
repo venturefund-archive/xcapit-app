@@ -7,8 +7,8 @@ android {
         applicationId "com.xcapit.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 13
-        versionName "1.8.0"
+        versionCode 62
+        versionName "3.14.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

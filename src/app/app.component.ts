@@ -22,6 +22,7 @@ import { AppSessionInjectable } from './shared/models/app-session/injectable/app
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
 import { CapacitorApp } from './shared/models/capacitor-app/capacitor-app.interface';
+import { TxInProgressService } from './modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 import { BrowserService } from './shared/services/browser/browser.service';
 
@@ -61,6 +62,7 @@ export class AppComponent implements OnInit {
     private appSessionInjectable: AppSessionInjectable,
     private walletMaintenanceService: WalletMaintenanceService,
     private dynamicLinkInjectable: DynamicLinkInjectable,
+    private txInProgressService: TxInProgressService,
     private notificationsService: NotificationsService,
     private browserService: BrowserService
   ) {}
@@ -71,6 +73,7 @@ export class AppComponent implements OnInit {
     this.submitButtonService.enabled();
     this.trackService.startTracker();
     this.setBackgroundActions();
+    this.txInProgressService.checkTransactionStatus();
   }
 
   private checkForUpdate() {

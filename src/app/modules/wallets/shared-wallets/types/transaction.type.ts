@@ -1,1 +1,1 @@
-export type Transaction = 'swap' | 'send' | 'withdraw' | 'investment';
+export type Transaction = 'swap' | 'send' | 'withdraw' | 'investment' | 'solana-send';

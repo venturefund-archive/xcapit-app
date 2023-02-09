@@ -8,7 +8,7 @@ import { LoggedIn } from '../shared-users/models/logged-in/logged-in';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
-import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { VerifyResult } from 'src/app/shared/models/biometric-auth/verify-result.interface';
 import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
