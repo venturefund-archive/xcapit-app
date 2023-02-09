@@ -40,12 +40,15 @@ import { Amount } from '../../types/amount.type';
             >
           </div>
           <div class="tf__fee__qty__faucet" *ngIf="!this.showErrors">
-            <ion-badge class="ux-badge-faucet ux-font-num-subtitulo"> {{ 'defi_investments.shared.transaction_fees.faucet' | translate }}</ion-badge>
+            <ion-badge class="ux-badge-faucet ux-font-num-subtitulo">
+              {{ 'defi_investments.shared.transaction_fees.faucet' | translate }}</ion-badge
+            >
           </div>
           <ion-text
             class="ux-font-text-base tf__fee__qty__quoteFee"
             [ngClass]="{ negative: this.balance < this.fee.value && this.showErrors }"
-            >{{ this.quoteFee.value | formattedAmount : 10 : 2 }} {{ this.quoteFee.token }}
+            >{{ this.showErrors ? this.quoteFee.value : 0 | formattedAmount : 10 : 2 }}
+            {{ this.quoteFee.token }}
           </ion-text>
         </div>
         <div class="tf__fee__qty_and_advice__funds-advice" *ngIf="this.balance < this.fee.value && this.showErrors">
