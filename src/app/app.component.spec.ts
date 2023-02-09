@@ -29,6 +29,9 @@ import { NullNotificationsService } from './modules/notifications/shared-notific
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 import { BrowserService } from './shared/services/browser/browser.service';
 import { CapacitorNotificationsService } from './modules/notifications/shared-notifications/services/capacitor-notifications/capacitor-notifications.service';
+import { NetworkInjectable } from './shared/models/network/injectable/network.injectable';
+import { FakeNetworkPlugin } from './shared/models/network-plugin/fake/fake-network-plugin';
+import { Network } from './shared/models/network/default/network';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -60,6 +63,7 @@ describe('AppComponent', () => {
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let capacitorNotificationsServiceSpy: jasmine.SpyObj<CapacitorNotificationsService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let networkInjectableSpy: jasmine.SpyObj<NetworkInjectable>;
 
   const tapBrowserInApp = {
     actionId: 'tap',
@@ -68,7 +72,7 @@ describe('AppComponent', () => {
         url: 'https://test-url',
       },
     },
-  }
+  };
 
   const tapInsideApp = {
     actionId: 'tap',
@@ -77,7 +81,7 @@ describe('AppComponent', () => {
         url: '/test-url',
       },
     },
-  }
+  };
 
   beforeEach(waitForAsync(() => {
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
@@ -106,7 +110,9 @@ describe('AppComponent', () => {
 
     browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
 
-    capacitorNotificationsServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['pushNotificationActionPerformed']);
+    capacitorNotificationsServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
+      'pushNotificationActionPerformed',
+    ]);
 
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: capacitorNotificationsServiceSpy,
@@ -116,6 +122,7 @@ describe('AppComponent', () => {
       get: Promise.resolve(true),
       set: Promise.resolve(),
     });
+
     trackedWalletAddressSpy = jasmine.createSpyObj('TrackedWalletAddress', {
       value: null,
       isAlreadyTracked: Promise.resolve(false),
@@ -151,6 +158,10 @@ describe('AppComponent', () => {
       checkTransactionStatus: Promise.resolve(),
     });
 
+    networkInjectableSpy = jasmine.createSpyObj('NetworkInjectable', {
+      create: new Network(new FakeNetworkPlugin()),
+    });
+
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -175,6 +186,7 @@ describe('AppComponent', () => {
         { provide: BrowserService, useValue: browserServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
+        { provide: NetworkInjectable, useValue: networkInjectableSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
@@ -201,6 +213,7 @@ describe('AppComponent', () => {
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(walletMaintenanceServiceSpy.checkTokensStructure).toHaveBeenCalledTimes(1);
     expect(txInProgressServiceSpy.checkTransactionStatus).toHaveBeenCalledTimes(1);
+    expect(component.connected).toBeTrue();
   });
 
   it('should navigate to test-url inside the app when tap a notification', async () => {
@@ -210,9 +223,8 @@ describe('AppComponent', () => {
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/test-url')
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/test-url');
   });
-
 
   it('should open browser in app when tap a notification', async () => {
     capacitorNotificationsServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
@@ -221,9 +233,8 @@ describe('AppComponent', () => {
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({url: 'https://test-url'})
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://test-url' });
   });
-
 
   it('should call set background if android platform', async () => {
     platformServiceSpy.platform.and.returnValue('android');

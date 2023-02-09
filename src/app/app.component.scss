@@ -1,0 +1,10 @@
+:host {
+  .no-connection-banner {
+    visibility: hidden;
+    transition: visibility 700ms;
+  }
+
+  ion-router-outlet {
+    transition: margin-top 700ms;
+  }
+}

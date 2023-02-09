@@ -25,22 +25,30 @@ import { CapacitorApp } from './shared/models/capacitor-app/capacitor-app.interf
 import { TxInProgressService } from './modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 import { BrowserService } from './shared/services/browser/browser.service';
+import { NetworkInjectable } from './shared/models/network/injectable/network.injectable';
 
 @Component({
   selector: 'app-root',
   template: `
     <ion-app>
+      <div class="no-connection-banner" [ngStyle]="{ visibility: this.connected ? 'hidden' : 'inherit' }">
+        <app-no-connection-banner></app-no-connection-banner>
+      </div>
       <ion-split-pane contentId="main-content">
-        <ion-router-outlet id="main-content"></ion-router-outlet>
+        <ion-router-outlet [ngStyle]="{ 'margin-top': this.connected ? 'inherit' : '26px' }" id="main-content">
+        </ion-router-outlet>
       </ion-split-pane>
     </ion-app>
   `,
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   onLangChange: Subscription = undefined;
   statusBar = StatusBar;
   session: AppSession;
   app: CapacitorApp;
+
+  connected = false;
 
   constructor(
     private platform: Platform,
@@ -64,23 +72,44 @@ export class AppComponent implements OnInit {
     private dynamicLinkInjectable: DynamicLinkInjectable,
     private txInProgressService: TxInProgressService,
     private notificationsService: NotificationsService,
-    private browserService: BrowserService
+    private browserService: BrowserService,
+    private networkInjectable: NetworkInjectable
   ) {}
 
   ngOnInit() {
-    this.initializeApp();
-    this.statusBarConfig();
-    this.submitButtonService.enabled();
-    this.trackService.startTracker();
-    this.setBackgroundActions();
-    this.txInProgressService.checkTransactionStatus();
+    this._initializeApp();
+    this._statusBarConfig();
+    this._enableSubmitButtonService();
+    this._startTracker();
+    this._setBackgroundActions();
+    this._checkTransactionStatus();
+    this._setConnectionStatus();
   }
 
+  private _enableSubmitButtonService() {
+    this.submitButtonService.enabled();
+  }
+
+  private _startTracker() {
+    this.trackService.startTracker();
+  }
+
+  private _checkTransactionStatus() {
+    this.txInProgressService.checkTransactionStatus();
+  }
+  private _setConnectionStatus() {
+    this.networkInjectable
+      .create()
+      .status()
+      .subscribe((status) => {
+        this.connected = status.connected;
+      });
+  }
   private checkForUpdate() {
     this.updateService.checkForUpdate();
   }
 
-  private initializeApp() {
+  private _initializeApp() {
     this.setCapacitorApp();
     this._setSession();
     this.checkAssetsStructure();
@@ -98,10 +127,9 @@ export class AppComponent implements OnInit {
 
   private pushNotificationActionPerformed() {
     this.notificationsService.getInstance().pushNotificationActionPerformed((notification) => {
-       this.open(notification)
+      this.open(notification);
     });
   }
-
 
   open(_aNotification) {
     if (_aNotification.actionId === 'tap' && _aNotification.notification.data.url) {
@@ -151,7 +179,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  setBackgroundActions() {
+  private _setBackgroundActions() {
     this.app.onStateChange(({ isActive }) => {
       if (isActive) this.isSessionValid();
     });
@@ -191,7 +219,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  private statusBarConfig() {
+  private _statusBarConfig() {
     if (this.platformService.platform() === 'android') {
       this.statusBar.setBackgroundColor({ color: CONFIG.app.statusBarColor });
     }

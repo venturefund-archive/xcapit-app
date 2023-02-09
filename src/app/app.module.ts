@@ -46,12 +46,13 @@ import { RemoteConfigService } from './shared/services/remote-config/remote-conf
 import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { firebaseInitializer } from './shared/factories/app-initializers/firebase/firebase-initializer';
 import { ContactsModule } from './modules/contacts/contacts.module';
+import { NoConnectionBannerComponent } from './shared/components/no-connection-banner/no-connection-banner.component';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NoConnectionBannerComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -134,5 +135,6 @@ registerLocaleData(localeEn, 'en');
     },
   ],
   bootstrap: [AppComponent],
+  exports: [NoConnectionBannerComponent]
 })
 export class AppModule {}
