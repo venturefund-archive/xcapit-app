@@ -6,6 +6,7 @@ import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { KriptonNetworks } from '../../constants/kripton-networks';
 import { ProviderPrice } from '../provider-price/provider-price';
 
+//TODO: Cambiar httpClinet por fiatRampService, reutilizar para ambos calculos (quotations y fee)
 export class DefaultKriptonPrice implements ProviderPrice {
   kriptonNetworks = KriptonNetworks;
   constructor(
@@ -14,14 +15,17 @@ export class DefaultKriptonPrice implements ProviderPrice {
     private readonly _httpClient: HttpClient | FakeHttpClient
   ) {}
 
+  //El calculo es correcto, el precio a mostrar en el input no (deberia solo mostrar el amount_out)
   value(): Observable<number> {
     return this._price().pipe(
       map(
         (res) => 1 / ((parseFloat(res.data.amount_out) + parseFloat(res.data.costs)) / parseFloat(res.data.amount_in))
+        // (res) => 1 / (parseFloat(res.data.amount_out) / parseFloat(res.data.amount_in))
       )
     );
   }
 
+  //TODO: Evaluar si usamos este llamado o el de quotations
   private _price(): Observable<any> {
     return this._httpClient.post('https://app.kriptonmarket.com/public/calculate_amount_out', {
       currency_in: this._fiatCurrency,

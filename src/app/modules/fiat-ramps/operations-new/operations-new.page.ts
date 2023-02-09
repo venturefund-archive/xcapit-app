@@ -50,7 +50,17 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
             [minimumFiatAmount]="this.minimumFiatAmount"
             (changeCurrency)="this.openModal($event)"
             paymentType="fiat_ramps.shared.constants.payment_types.kripton"
+            [fee]="this.fee"
           ></app-provider-new-operation-card>
+
+          <ion-button
+          (click)="this.getFee()"
+          class="link ux-link-xs"
+          fill="clear"
+          size="small"
+        >
+          SUPER GET FEE BUTTON!
+        </ion-button>
 
           <div *ngIf="!this.agreement" class="aon__disclaimer">
             <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
@@ -133,7 +143,8 @@ export class OperationsNewPage implements AfterViewInit {
     thirdPartyTransaction: [false, [Validators.requiredTrue]],
     acceptTOSAndPrivacyPolicy: [false, [Validators.requiredTrue]],
   });
-
+  fee = { value: 0, token: '' };
+  
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: UntypedFormBuilder,
@@ -200,16 +211,23 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.get('fiatAmount').valueChanges.subscribe((value) => this.fiatAmountChange(value));
   }
 
+  //TODO: La fee esta en crypto, si quiero sumar/restar un valor a fiat, deberia ser transformado previamente
   private cryptoAmountChange(value: number) {
-    this.form.patchValue({ fiatAmount: value * this.fiatPrice }, { emitEvent: false, onlySelf: true });
+    console.log('cryptoAmountChange...')
+    this.getFee();
+    this.form.patchValue({ fiatAmount: (value * this.fiatPrice) + (this.fee.value * this.fiatPrice) }, { emitEvent: false, onlySelf: true });
   }
 
   private fiatAmountChange(value: number) {
-    this.form.patchValue({ cryptoAmount: value / this.fiatPrice }, { emitEvent: false, onlySelf: true });
+    console.log('fiatAmountChange...')
+    this.getFee();
+    this.form.patchValue({ cryptoAmount: (value / this.fiatPrice) - this.fee.value }, { emitEvent: false, onlySelf: true });
   }
 
-  updateAmounts(): void {
-    this.form.patchValue({ fiatAmount: this.form.value.cryptoAmount * this.fiatPrice });
+  async updateAmounts(): Promise<void> {
+    console.log('updateAmounts...')
+    await this.getFee();
+    this.form.patchValue({ fiatAmount: (this.form.value.cryptoAmount * this.fiatPrice) + this.fee.value });
   }
 
   private addDefaultValidators() {
@@ -226,12 +244,15 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.get('fiatAmount').updateValueAndValidity();
   }
 
+  //TODO: El orden de getFee es correcto (si sucede desp del updateAmounts usa el fee antiguo para calcular)
   private async dynamicPrice() {
     this.createKriptonDynamicPrice()
       .value()
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         this.fiatPrice = price;
+        // this.getFee();
+        console.log('price obtained from dynamicPrice: ', price)
         if (this.form.value.fiatAmount) this.updateAmounts();
         if (!this.minimumFiatAmount) this.getMinimumFiatAmount();
       });
@@ -252,11 +273,26 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.patchValue({ fiatAmount: this.minimumFiatAmount, cryptoAmount: this.minimumFiatAmount / this.fiatPrice });
   }
 
+  //TODO: EL AMOUNT OUT ES INCORRECTO! Muestra el valor ANTES del calculo de la Fee
+  //EJ: para 100 USDC el amount_out verdadero es 96,43 (3% de comision + 0,6 fee_of_network) [redondeo]
+  //TODO: Cambiar el valor del form por el amount_out
   createKriptonDynamicPrice(currency = this.fiatCurrency): DynamicKriptonPrice {
     return this.kriptonDynamicPrice.new(
       this.priceRefreshInterval,
       new DefaultKriptonPrice(currency, this.selectedCurrency, this.http)
     );
+  }
+
+  async getFee() {
+    const res = this.fiatRampsService
+      .getKriptonFee(
+        this.fiatCurrency, this.form.value.fiatAmount, this.selectedCurrency.value, 'polygon'
+      ).toPromise().then((res) => {
+        // this.fee = res.data.commissions.amount + res.data.taxes.amount + res.data.fee_of_network
+        this.fee.value = parseFloat(res.data.costs)
+        console.log('fee calculation (entire operation): ', res)
+        // console.log('calculated fee (3% + network, in crypto): ', this.fee)
+      })
   }
 
   setCountry() {
