@@ -17,6 +17,6 @@ describe('SolanaFeeOfInjectable', () => {
   });
 
   it('create', () => {
-    expect(injectable.create(new FakeBlockchainTx(), new Blockchain(rawSolanaData))).toBeTruthy();
+    expect(injectable.create([new FakeBlockchainTx()], new Blockchain(rawSolanaData))).toBeTruthy();
   });
 });

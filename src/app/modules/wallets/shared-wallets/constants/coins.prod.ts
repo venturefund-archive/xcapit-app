@@ -370,6 +370,34 @@ export const PROD_COINS: Coin[] = [
     symbol: 'BTCUSDT',
     canInvest: true,
   },
+{
+    id: 29,
+    name: 'SOL - Solana',
+    logoRoute: 'assets/img/coins/SOL-SOLANA.svg',
+    value: 'SOL',
+    network: 'SOLANA',
+    contract: '11111111111111111111111111111111',
+    chainId: 1399811149,
+    rpc: environment.solanaApiUrl,
+    decimals: 9,
+    native: true,
+    abi: '',
+    symbol: 'SOL',
+  },
+  {
+    id: 30,
+    name: 'LINK - Chainlink',
+    logoRoute:
+    'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/CWE8jPTUYhdCTZYWPTe1o5DFqfdjzWKc9WKz6rSjQUdG/logo.png',
+    value: 'LINK',
+    network: 'SOLANA',
+    contract: 'CWE8jPTUYhdCTZYWPTe1o5DFqfdjzWKc9WKz6rSjQUdG',
+    chainId: 1399811149,
+    rpc: environment.solanaApiUrl,
+    decimals: 6,
+    native: false,
+    abi: '',
+  },
   {
     id: 31,
     name: 'USDT - Tether',
@@ -446,4 +474,18 @@ export const PROD_COINS: Coin[] = [
     abi: linkAbi,
     symbol: 'USDTDAI',
   },
+  {
+    id: 39,
+    name: 'USDT - Tether',
+    logoRoute:
+    'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB/logo.svg',
+    value: 'USDT',
+    network: 'SOLANA',
+    contract: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
+    chainId: 1399811149,
+    rpc: environment.solanaApiUrl,
+    decimals: 6,
+    native: false,
+    abi: '',
+  }
 ];

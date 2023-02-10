@@ -8,9 +8,9 @@ import { SolanaFeeOf } from "../solana-fee-of";
 @Injectable({ providedIn: 'root' })
 export class SolanaFeeOfInjectable {
 
-  create(aTransaction: BlockchainTx, aBlockchain: Blockchain): SolanaFeeOf {
+  create(transactions: BlockchainTx[], aBlockchain: Blockchain): SolanaFeeOf {
     return new SolanaFeeOf(
-      aTransaction,
+      transactions,
       new Connection(aBlockchain.rpc())
     );
   }

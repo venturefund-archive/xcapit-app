@@ -1,3 +1,5 @@
+import { solanaAddress1 } from "./raw-address-data";
+
 export const polygonResponse = {
   data: {
     address: '0x1cda7506637b31922da4924bf79077f3ce38f3d3',
@@ -50,7 +52,7 @@ export const polygonResponse = {
 
 export const solanaResponse = {
   data: {
-    address: 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH',
+    address: solanaAddress1,
     updated_at: '2022-09-13T17:55:36.450988101Z',
     next_update_at: '2022-09-13T18:00:36.450988270Z',
     quote_currency: 'USD',

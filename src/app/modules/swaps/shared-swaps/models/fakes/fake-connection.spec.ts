@@ -14,4 +14,13 @@ describe('Fake Connection', () => {
   it('send transaction', async () => {
     expect(await connection.sendTransaction(null, [])).toBeTrue();
   });
+
+  it('getTokenAccountsByOwner', async () => {
+    expect(await connection.getTokenAccountsByOwner(null, null)).toBeTruthy();
+  });
+
+  it('getTokenAccountsByOwner custom seted', async () => {
+    connection = new FakeConnection([]);
+    expect((await connection.getTokenAccountsByOwner(null, null)).value).toEqual([]);
+  });
 });
