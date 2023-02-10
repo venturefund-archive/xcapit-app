@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { BiometricAuthInjectable } from '../../../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { VerifyResult } from '../../../../../shared/models/biometric-auth/verify-result.interface';
 import { RemoteConfigService } from '../../../../../shared/services/remote-config/remote-config.service';
 import { BiometricAuth } from '../../../../../shared/models/biometric-auth/biometric-auth.interface';
@@ -13,6 +12,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
+import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth.injectable';
 
 @Component({
   selector: 'app-wallet-password-with-validator',
@@ -100,7 +100,7 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
   async ngOnInit() {
     this._setTrackClickEventName();
     this._setBiometricAuth();
-    this._setIsBiometricAuthEnabled();
+    await this._setIsBiometricAuthEnabled();
     await this.openBiometric();
   }
 

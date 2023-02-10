@@ -7,10 +7,6 @@ const routes: Routes = [
     path: '',
     component: SendSummaryPage,
   },
-  {
-    path: ':mode',
-    component: SendSummaryPage,
-  },
 ];
 
 @NgModule({

@@ -4,7 +4,6 @@ import { SummaryData } from './interfaces/summary-data.interface';
 import { SubmitButtonService } from '../../../../shared/services/submit-button/submit-button.service';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,8 +19,6 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
 import { format } from 'date-fns';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
-import { LoginToken } from 'src/app/modules/users/shared-users/models/login-token/login-token';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress.interface';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { SendTxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/send/send-tx-in-progress';
@@ -93,14 +90,12 @@ export class SendSummaryPage implements OnInit {
     private navController: NavController,
     public submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
-    private route: ActivatedRoute,
     private translate: TranslateService,
     private alertController: AlertController,
     private trackService: TrackService,
     private blockchains: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
     private localNotificationInjectable: LocalNotificationInjectable,
-    private storage: IonicStorageService,
     private txInProgressService: TxInProgressService,
     private solanaConnection: SolanaConnectionInjectable
   ) {}
@@ -110,34 +105,33 @@ export class SendSummaryPage implements OnInit {
   ionViewWillEnter() {
     this.isSending = false;
     // TODO: Rollback this
-    // this.summaryData = this.transactionDataService.transactionData;
-    this.summaryData = {
-      network: 'MATIC',
-      currency: {
-        id: 16,
-        name: 'MATIC - Polygon',
-        logoRoute: 'assets/img/coins/MATIC-POLYGON.svg',
-        value: 'MATIC',
-        network: 'MATIC',
-        chainId: 80001,
-        rpc: 'https://rpc-mumbai.maticvigil.com/v1/5fc0291a70d1714b3595d5a2fb5ceacec81ab086',
-        moonpayCode: 'matic_polygon',
-        decimals: 18,
-        native: true,
-        contract: '0x0000000000000000000000000000000000001010',
-        symbol: 'MATICUSDT',
-      },
-      address: '0x05f4842eb2118da5442b95a37d1231f2dd9322ef',
-      amount: 0.01,
-      referenceAmount: '0.008752',
-      balanceNativeToken: 0.199629913432143,
-      balance: 0.199629913432143,
-      fee: '0.000110885768721',
-      referenceFee: '0.0000970472247846192',
-      contact: '',
-    };
+    this.summaryData = this.transactionDataService.transactionData;
+    // this.summaryData = {
+    //   network: 'MATIC',
+    //   currency: {
+    //     id: 16,
+    //     name: 'MATIC - Polygon',
+    //     logoRoute: 'assets/img/coins/MATIC-POLYGON.svg',
+    //     value: 'MATIC',
+    //     network: 'MATIC',
+    //     chainId: 80001,
+    //     rpc: 'https://rpc-mumbai.maticvigil.com/v1/5fc0291a70d1714b3595d5a2fb5ceacec81ab086',
+    //     moonpayCode: 'matic_polygon',
+    //     decimals: 18,
+    //     native: true,
+    //     contract: '0x0000000000000000000000000000000000001010',
+    //     symbol: 'MATICUSDT',
+    //   },
+    //   address: '0x05f4842eb2118da5442b95a37d1231f2dd9322ef',
+    //   amount: 0.01,
+    //   referenceAmount: '0.008752',
+    //   balanceNativeToken: 0.199629913432143,
+    //   balance: 0.199629913432143,
+    //   fee: '0.000110885768721',
+    //   referenceFee: '0.0000970472247846192',
+    //   contact: '',
+    // };
     this.blockchain = this.blockchains.create().oneByName(this.summaryData.network);
-    this.checkMode();
   }
 
   async showPhraseAmountInfo() {
@@ -176,14 +170,7 @@ export class SendSummaryPage implements OnInit {
     }
   }
 
-  checkMode() {
-    const mode = this.route.snapshot.paramMap.get('mode') === 'retry';
-    if (mode) {
-      this.handleSubmit(true).then();
-    }
-  }
-
-  async askForPassword() {
+  async askForPassword(): Promise<Password> {
     await this.loadingService.dismiss();
     const modal = await this.modalController.create({
       component: WalletPasswordWithValidatorComponent,
@@ -194,21 +181,18 @@ export class SendSummaryPage implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
+
     if (data === undefined) {
       this.loading = false;
     }
-    const password = new Password(data);
-    if (await this.validPassword(password)) {
-      return password;
-    } else {
-      throw new Error(new PasswordErrorMsgs().invalid());
-    }
+
+    return data;
   }
 
-  private async send(password: string) {
+  private async send(password: Password) {
     if (this.blockchain.name() !== 'SOLANA') {
       const response = await this.walletTransactionsService.send(
-        password,
+        password.value(),
         this.summaryData.amount,
         this.summaryData.address,
         this.summaryData.currency
@@ -222,7 +206,7 @@ export class SendSummaryPage implements OnInit {
       this.txInProgressService.startTx(this.txInProgress);
 
       const aWallet = await this.walletsFactory.create().oneBy(this.blockchain);
-      aWallet.onNeedPass().subscribe(() => new Password(password).value());
+      aWallet.onNeedPass().subscribe(() => password.value());
       aWallet.sendTxs(
         await new SolanaSendTxsOf(
           new SolanaSend(
@@ -284,18 +268,15 @@ export class SendSummaryPage implements OnInit {
       if (!password) {
         return;
       }
+
       this.loading = true;
-      await this.send(password.value());
+
+      await this.send(password);
     } catch (error) {
       await this.handleSendError(error);
     } finally {
       await this.endTx();
     }
-  }
-
-  // TODO: Remove this
-  private validPassword(password: Password) {
-    return new LoginToken(password, this.storage).valid();
   }
 
   async showAlert(header: string, message: string, buttonText: string) {
@@ -373,11 +354,9 @@ export class SendSummaryPage implements OnInit {
   }
 
   private async handleSendError(error) {
-    if (new PasswordErrorMsgs().isInvalidError(error)) {
-      await this.handleInvalidPassword();
-    } else if (this.isNotEnoughBalanceError(error)) {
+    if (this.isNotEnoughBalanceError(error)) {
       await this.handleNotEnoughBalance();
-    } else if (!new PasswordErrorMsgs().isEmptyError(error)) {
+    } else {
       throw error;
     }
   }
@@ -418,10 +397,6 @@ export class SendSummaryPage implements OnInit {
 
   private async handleUserCantAffordTx() {
     await this.handleNotEnoughBalance();
-  }
-
-  private async handleInvalidPassword() {
-    await this.navController.navigateForward(['/wallets/send/error/incorrect-password']);
   }
 
   private async handleNotEnoughBalance() {

@@ -8,16 +8,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
-import { BiometricAuthInjectable } from '../../../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { FakeBiometricAuth } from '../../../../../shared/models/biometric-auth/fake/fake-biometric-auth';
 import { RemoteConfigService } from '../../../../../shared/services/remote-config/remote-config.service';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { FakeModalController } from '../../../../../../testing/fakes/modal-controller.fake.spec';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LoginToken } from 'src/app/modules/users/shared-users/models/login-token/login-token';
+import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
+import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth.injectable';
 
-// TODO: Fix broken tests
-fdescribe('WalletPasswordWithValidatorComponent', () => {
+describe('WalletPasswordWithValidatorComponent', () => {
   let component: WalletPasswordWithValidatorComponent;
   let fixture: ComponentFixture<WalletPasswordWithValidatorComponent>;
   let fakeModalController: FakeModalController;
@@ -71,7 +71,7 @@ fdescribe('WalletPasswordWithValidatorComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await component.handleSubmit();
-    expect(modalControllerSpy.dismiss).toHaveBeenCalledOnceWith('testPass');
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledOnceWith(new Password('testPass'));
   });
 
   it('should show required error', async () => {
