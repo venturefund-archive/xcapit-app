@@ -313,10 +313,10 @@ describe('SendDetailPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
 
-  [rawSOLData, rawSAMOData].forEach(
-    (token: RawToken) => {
-      it(`should save transaction data and navigate when continue btn clicked, valid form and solana ${token.value} token`, fakeAsync(() => {
-        fakeActivatedRoute.modifySnapshotParams({ token: token.contract, blockchain: token.network });
+  [{ token: rawSOLData, expectedFee: 1.25 }, {token: rawSAMOData, expectedFee: 1 }].forEach(
+    (testData: any) => {
+      it(`should save transaction data and navigate when continue btn clicked, valid form and solana ${testData.token.value} token`, fakeAsync(() => {
+        fakeActivatedRoute.modifySnapshotParams({ token: testData.token.contract, blockchain: testData.token.network });
         contactDataServiceSpy.getContact.and.returnValue(null);
         component.ionViewWillEnter();
         component.ionViewDidEnter();
@@ -327,7 +327,7 @@ describe('SendDetailPage', () => {
         _continueButton().nativeElement.click();
         tick();
 
-        expect(component.fee).toEqual(1);
+        expect(component.fee).toEqual(testData.expectedFee);
         expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
       }));
   })
