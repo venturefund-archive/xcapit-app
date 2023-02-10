@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormBuilder, UntypedFormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -131,7 +131,7 @@ const testNativeCoins = [
   },
 ];
 
-fdescribe('ItemsCoinGroupComponent', () => {
+describe('ItemsCoinGroupComponent', () => {
   let component: ItemsCoinGroupComponent;
   let fixture: ComponentFixture<ItemsCoinGroupComponent>;
   let formGroupDirectiveMock: any;

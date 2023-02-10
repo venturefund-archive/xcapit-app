@@ -23,8 +23,7 @@ describe('SearchBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit event on card click', async () => {
-    const spy = spyOn(component.search, 'emit');
+  it('should emit event when a search is performed', async () => {
     await fixture.whenRenderingDone();
     fixture.debugElement.query(By.css('ion-searchbar')).triggerEventHandler('ionChange', { target: { value: 'aa' } });
     expect(component.search.emit).toHaveBeenCalledTimes(1);
