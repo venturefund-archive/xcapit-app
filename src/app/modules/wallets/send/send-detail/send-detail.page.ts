@@ -45,6 +45,7 @@ import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of
 import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
+import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-send-detail',
@@ -322,7 +323,7 @@ export class SendDetailPage {
     this.dynamicFee.value = this.quoteFee.value = undefined;
   }
 
-  private async setAllFeeData(): Promise<void> {
+  async setAllFeeData(): Promise<void> {
     this.loadingFee();
     await this.setFee();
     this.dynamicFee = { value: this.fee, token: this.nativeToken.symbol() };
@@ -347,6 +348,10 @@ export class SendDetailPage {
 
   private async setFee(): Promise<void> {
     this.fee = (await this.gasPrice()).times(await this.estimatedGas()).value();
+
+    if (this.token.native) {
+      this.fee *= 1.25;
+    }
   }
 
   private async estimatedGas(): Promise<number> {
@@ -431,7 +436,7 @@ export class SendDetailPage {
   }
 
   async checkEnoughBalance() {
-    if (this.nativeBalance < this.fee) {
+    if (this.token.native ? this.nativeBalance <= 0 : this.nativeBalance < this.fee) {
       await this.openModalBalance();
     }
   }
@@ -456,7 +461,7 @@ export class SendDetailPage {
   }
 
   back() {
-    this.removeContact()
+    this.removeContact();
     return this.navController.navigateBack(['/wallets/send/select-currency']);
   }
 
