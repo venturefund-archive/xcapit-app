@@ -105,32 +105,32 @@ export class SendSummaryPage implements OnInit {
   ionViewWillEnter() {
     this.isSending = false;
     // TODO: Rollback this
-    this.summaryData = this.transactionDataService.transactionData;
-    // this.summaryData = {
-    //   network: 'MATIC',
-    //   currency: {
-    //     id: 16,
-    //     name: 'MATIC - Polygon',
-    //     logoRoute: 'assets/img/coins/MATIC-POLYGON.svg',
-    //     value: 'MATIC',
-    //     network: 'MATIC',
-    //     chainId: 80001,
-    //     rpc: 'https://rpc-mumbai.maticvigil.com/v1/5fc0291a70d1714b3595d5a2fb5ceacec81ab086',
-    //     moonpayCode: 'matic_polygon',
-    //     decimals: 18,
-    //     native: true,
-    //     contract: '0x0000000000000000000000000000000000001010',
-    //     symbol: 'MATICUSDT',
-    //   },
-    //   address: '0x05f4842eb2118da5442b95a37d1231f2dd9322ef',
-    //   amount: 0.01,
-    //   referenceAmount: '0.008752',
-    //   balanceNativeToken: 0.199629913432143,
-    //   balance: 0.199629913432143,
-    //   fee: '0.000110885768721',
-    //   referenceFee: '0.0000970472247846192',
-    //   contact: '',
-    // };
+    // this.summaryData = this.transactionDataService.transactionData;
+    this.summaryData = {
+      network: 'MATIC',
+      currency: {
+        id: 16,
+        name: 'MATIC - Polygon',
+        logoRoute: 'assets/img/coins/MATIC-POLYGON.svg',
+        value: 'MATIC',
+        network: 'MATIC',
+        chainId: 80001,
+        rpc: 'https://rpc-mumbai.maticvigil.com/v1/5fc0291a70d1714b3595d5a2fb5ceacec81ab086',
+        moonpayCode: 'matic_polygon',
+        decimals: 18,
+        native: true,
+        contract: '0x0000000000000000000000000000000000001010',
+        symbol: 'MATICUSDT',
+      },
+      address: '0x05f4842eb2118da5442b95a37d1231f2dd9322ef',
+      amount: 0.01,
+      referenceAmount: '0.008752',
+      balanceNativeToken: 0.199629913432143,
+      balance: 0.199629913432143,
+      fee: '0.000110885768721',
+      referenceFee: '0.0000970472247846192',
+      contact: '',
+    };
     this.blockchain = this.blockchains.create().oneByName(this.summaryData.network);
   }
 

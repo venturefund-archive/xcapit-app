@@ -8,7 +8,14 @@ import { CONFIG } from 'src/app/config/app-constants.config';
   template: `
     <div class="ux-error" *ngIf="this.invalid">
       <ion-item class="ux-error__item" lines="none">
-        <p class="ux-error__item__message ux-font-form-errors">
+        <ion-icon
+          class="ux-error__item__icon"
+          item-start
+          name="ux-error"
+          aria-hidden="“true”"
+          *ngIf="this.newStyle"
+        ></ion-icon>
+        <p class="ux-error__item__message" [ngClass]="this.newStyle ? 'ux-font-text-xxs' : 'ux-font-form-errors'">
           {{ this.getError() | translate }}
         </p>
       </ion-item>
@@ -18,7 +25,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
 })
 export class ErrorsFormItemComponent implements OnInit {
   @Input() controlName: string;
-
+  @Input() newStyle = false;
   @Input() errors: ItemFormError[];
 
   errorMessage: string;

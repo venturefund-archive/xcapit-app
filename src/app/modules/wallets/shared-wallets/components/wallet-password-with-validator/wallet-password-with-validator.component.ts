@@ -17,7 +17,8 @@ import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/in
 @Component({
   selector: 'app-wallet-password-with-validator',
   template: `
-  <!-- TODO: Styles are messed up -->
+  <!-- TODO: Wrong textx -->
+  <!-- TODO: Hablar con Cuza por los copys -->
     <div class="wp">
       <div class="wp__header">
         <ion-text class="ux-font-text-lg wp__header__text" color="neutral90">
@@ -41,12 +42,12 @@ import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/in
       </div>
       <form class="wp__form" [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
         <div class="wp__form__input">
-          <!-- TODO: Border red when error -->
           <app-ux-input
             [label]="'wallets.shared_wallets.wallet_password.input_label' | translate"
             type="password"
             [textClass]="'primary'"
             [errors]="this.passwordErrors"
+            [newStyle]="true"
             controlName="password"
           ></app-ux-input>
         </div>
@@ -82,7 +83,7 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
     password: ['', [Validators.required]],
   });
-  passwordErrors: ItemFormError[] = CONFIG.fieldErrors.oldPassword;
+  readonly passwordErrors: ItemFormError[] = CONFIG.fieldErrors.oldPassword;
 
   trackClickEventName: string;
   biometricAuth: BiometricAuth;
