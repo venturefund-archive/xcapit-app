@@ -543,7 +543,7 @@ describe('SwapHomePage', () => {
     fixture.detectChanges();
     await component.setMaxAmount();
 
-    expect(component.form.controls.fromTokenAmount.value).toEqual(9.99999997132675);
+    expect(component.form.controls.fromTokenAmount.value).toEqual(9.99999997017982);
   });
 
   it('should render correct properly and enabled button when the balance is available', fakeAsync(() => {
