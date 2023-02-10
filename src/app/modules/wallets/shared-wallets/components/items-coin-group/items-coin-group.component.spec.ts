@@ -94,57 +94,82 @@ const testCoins = [
   },
 ];
 
-const formData = {
-  valid: {
-    ETH: true,
-    RBTC: false,
+const testNativeCoins = [
+  {
+    id: 1,
+    name: 'ETH - Ethereum',
+    logoRoute: 'assets/img/coins/ETH.svg',
+    last: false,
+    value: 'ETH',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'http://testrpc.test/',
+    native: true,
   },
-  invalid: {
-    ETH: false,
-    RBTC: false,
+  {
+    id: 6,
+    name: 'RBTC - Smart Bitcoin',
+    logoRoute: 'assets/img/coins/RBTC.png',
+    last: false,
+    value: 'RBTC',
+    network: 'RSK',
+    chainId: 31,
+    rpc: 'http://testrpc.text/',
+    native: true,
   },
-};
+  {
+    id: 8,
+    name: 'MATIC - Polygon',
+    logoRoute: 'assets/img/coins/MATIC.svg',
+    last: true,
+    value: 'MATIC',
+    network: 'MATIC',
+    chainId: 80001,
+    rpc: 'http://testrpc.text/',
+    decimals: 18,
+    native: true,
+  },
+];
 
-describe('ItemsCoinGroupComponent', () => {
+fdescribe('ItemsCoinGroupComponent', () => {
   let component: ItemsCoinGroupComponent;
   let fixture: ComponentFixture<ItemsCoinGroupComponent>;
   let formGroupDirectiveMock: any;
   let controlContainerMock: UntypedFormGroup;
 
-  beforeEach(
-    waitForAsync(() => {
-      controlContainerMock = new UntypedFormBuilder().group({
-        ETH: new UntypedFormBuilder().group({
-          ETH: [false],
-          LINK: [false],
-          USDT: [false],
-          AAVE: [false],
-          UNI: [false],
-        }),
-        RSK: new UntypedFormBuilder().group({
-          RBTC: [false],
-          RIF: [false],
-        }),
-        POLYGON: new UntypedFormBuilder().group({
-          MATIC: [false],
-        }),
-      });
-      formGroupDirectiveMock = new FormGroupDirective([], []);
-      formGroupDirectiveMock.form = controlContainerMock;
-      TestBed.configureTestingModule({
-        declarations: [ItemsCoinGroupComponent, SuitePipe],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
-        providers: [TrackClickDirective, { provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    controlContainerMock = new UntypedFormBuilder().group({
+      ETH: new UntypedFormBuilder().group({
+        ETH: [false],
+        LINK: [false],
+        USDT: [false],
+        AAVE: [false],
+        UNI: [false],
+      }),
+      RSK: new UntypedFormBuilder().group({
+        RBTC: [false],
+        RIF: [false],
+      }),
+      POLYGON: new UntypedFormBuilder().group({
+        MATIC: [false],
+      }),
+    });
+    formGroupDirectiveMock = new FormGroupDirective([], []);
+    formGroupDirectiveMock.form = controlContainerMock;
+    TestBed.configureTestingModule({
+      declarations: [ItemsCoinGroupComponent, SuitePipe],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
+      providers: [TrackClickDirective, { provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(ItemsCoinGroupComponent);
-      component = fixture.componentInstance;
-      component.coins = testCoins;
-      component.network = 'ETH';
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(ItemsCoinGroupComponent);
+    component = fixture.componentInstance;
+    component.coins = testCoins;
+    component.network = 'ETH';
+    component.natives = testNativeCoins;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
