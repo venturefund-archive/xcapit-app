@@ -31,6 +31,8 @@ import { DefaultBitrefillOperation } from '../shared-ramps/models/bitrefill-oper
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { BitrefillOperationFactory } from '../shared-ramps/models/bitrefill-operation/factory/bitrefill-operation.factory';
+import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
+import { ActivatedRoute } from '@angular/router';
 
 describe('BitrefillPage', () => {
   let component: BitrefillPage;
@@ -47,6 +49,8 @@ describe('BitrefillPage', () => {
   let transactionResponseSpy: jasmine.SpyObj<any>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let bitrefillOperationFactorySpy: jasmine.SpyObj<BitrefillOperationFactory>;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
 
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
@@ -54,6 +58,7 @@ describe('BitrefillPage', () => {
   const nativeOperation = new DefaultBitrefillOperation(rawNativeEvent, tokens, blockchains);
   const nativeNonValidOperation = new DefaultBitrefillOperation(rawNativeNonValidTokenEvent, tokens, blockchains);
   const nonNativeOperation = new DefaultBitrefillOperation(rawNonNativeEvent, tokens, blockchains);
+  const route = { paymentMethod: 'usdc_polygon' };
   const _dispatchEvent = (data: string) => {
     const event = new MessageEvent('message', {
       data,
@@ -65,6 +70,10 @@ describe('BitrefillPage', () => {
     fakeModalController = new FakeModalController(null, { role: 'confirm' });
     modalControllerSpy = fakeModalController.createSpy();
     navControllerSpy = new FakeNavController().createSpy();
+
+    fakeActivatedRoute = new FakeActivatedRoute({});
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
+
     languageServiceSpy = jasmine.createSpyObj('LanguageService', {
       getSelectedLanguage: Promise.resolve('pt'),
     });
@@ -109,6 +118,7 @@ describe('BitrefillPage', () => {
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: BitrefillOperationFactory, useValue: bitrefillOperationFactorySpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -123,11 +133,14 @@ describe('BitrefillPage', () => {
   });
 
   it('should render iframe with the proper url', async () => {
+    fakeActivatedRoute.modifySnapshotParams(route);
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     const iframeEl = fixture.debugElement.query(By.css('iframe'));
-    expect(iframeEl.attributes.src).toEqual('https://www.bitrefill.com/embed/?hl=pt');
+    expect(iframeEl.attributes.src).toEqual(
+      `https://www.bitrefill.com/embed/?paymentMethod=${route.paymentMethod}&hl=pt`
+    );
     component.ionViewWillLeave();
   });
 
