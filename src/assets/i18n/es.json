@@ -143,6 +143,9 @@
     "require_token": {
       "description": "¿La moneda que buscas no esta disponible?",
       "button": "Solicítala"
+    },
+    "no_connection_banner": {
+      "disclaimer": "Sin conexión"
     }
   },
   "users": {

@@ -152,6 +152,9 @@
     "require_token": {
       "description": "The token you are looking for is not available?",
       "button": "Request it"
+    },
+    "no_connection_banner": {
+      "disclaimer": "No connection"
     }
   },
   "users": {
