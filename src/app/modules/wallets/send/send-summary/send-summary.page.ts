@@ -209,7 +209,7 @@ export class SendSummaryPage implements OnInit {
           this.blockchain,
           this.solanaConnection.create(this.blockchain)
         ).blockchainTxs()
-      ).then(() => this.notifyWhenTransactionMined());;
+      ).then(() => this.notifyWhenTransactionMined());
       this.openInProgressModal();
     }
   }
