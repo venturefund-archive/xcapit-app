@@ -78,6 +78,7 @@ import { RepeatedAddressValidator } from '../shared-contacts/validators/repeated
     <ion-footer class="rp__footer">
       <div class="rp__footer__submit-button ion-padding">
         <ion-button
+          *ngIf="this.buttonSubmit"
           [appLoading]="this.loading"
           [loadingText]="'contacts.register.loading' | translate"
           class="ux_button rp__footer__submit-button__button"
@@ -213,7 +214,7 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  isNative() {
+  isNative() { 
     this.native = this.platformService.isNative();
   }
 
