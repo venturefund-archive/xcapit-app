@@ -105,6 +105,7 @@ import { ContactItemComponent } from './components/contact-item/contact-item.com
 import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-alert.component';
 import { RequireTokenComponent } from './components/require-token/require-token.component';
 import { HideEmailPipe } from './pipes/hide-email/hide-email.pipe';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -196,6 +197,7 @@ import { HideEmailPipe } from './pipes/hide-email/hide-email.pipe';
     AssetDetailComponent,
     AddressInputCardComponent,
     RequireTokenComponent,
+    SearchBarComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,
@@ -308,6 +310,7 @@ import { HideEmailPipe } from './pipes/hide-email/hide-email.pipe';
     AssetDetailComponent,
     AddressInputCardComponent,
     RequireTokenComponent,
+    SearchBarComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,

@@ -1,0 +1,20 @@
+.search-bar {
+  --icon-color: var(--ion-color-info);
+  --background: var(--ion-color-white);
+
+  padding-right: 2px;
+  padding-left: 1px;
+
+  .searchbar-input-container {
+    height: 45px;
+
+    input {
+      border: solid 1px var(--ion-color-neutral50);
+      border-radius: 4px;
+      font-family: var(--ux-font-lato);
+      font-weight: var(--ux-fweight-semibold);
+      font-size: var(--ux-fsize-16);
+      color: var(--ion-color-neutral80);
+    }
+  }
+}
