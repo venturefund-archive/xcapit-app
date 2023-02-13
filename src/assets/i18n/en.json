@@ -155,6 +155,9 @@
     },
     "no_connection_banner": {
       "disclaimer": "No connection"
+    },
+    "search_bar": {
+      "placeholder": "Search"
     }
   },
   "users": {
@@ -1854,7 +1857,8 @@
       "native": "NATIVE",
       "submit_edit": "Save changes",
       "toggle_all_text": "Select all",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "no_result_search": "No results"
     },
     "success_creation": {
       "title": "Congratulations!\nYou have created your wallet",

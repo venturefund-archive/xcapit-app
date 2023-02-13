@@ -148,6 +148,13 @@
       "description": "Devido à volatilidade do mercado, a taxa de câmbio pode variar ligeiramente no momento da transação.",
       "button_text": "Entendido",
       "loading_text": "Calculando. Aguarde alguns instantes."
+    }, 
+    "require_token": {
+      "description": "A ficha que procura não está disponível?",
+      "button": "Solicite-o"
+    },
+    "search_bar": {
+      "placeholder": "Pesquisa"
     }
   },
   "users": {
@@ -1843,7 +1850,8 @@
       "native": "NATIVO",
       "submit_edit": "Salvar alterações",
       "toggle_all_text": "Selecionar tudo",
-      "loading": "Carregando..."
+      "loading": "Carregando...",
+      "no_result_search": "Sem resultados"
     },
     "success_creation": {
       "title": "Parabéns! Você criou sua carteira",
