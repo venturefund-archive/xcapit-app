@@ -2041,7 +2041,7 @@
         "expand_button": "Ampliar",
         "reduce_button": "Reducir"
       },
-      "wallet_transaction_card":{
+      "wallet_transaction_card": {
         "expand_button": "Ampliar",
         "reduce_button": "Reducir"
       },
@@ -2156,7 +2156,8 @@
     "success_wallet_recovery": {
       "title": "¡Felicitaciones!",
       "subtitle": "Importaste tu wallet exitosamente.",
-      "button": "Personalizar wallet"
+      "button": "Personalizar wallet",
+      "button_home": "Ir a wallet"
     },
     "wallet_connect": {
       "header": "WalletConnect",

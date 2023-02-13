@@ -14,8 +14,7 @@ import { TrackedWalletAddressInjectable } from '../../../shared/models/tracked-w
   styleUrls: ['./success-recovery-wallet.page.scss'],
 })
 export class SuccessRecoveryWalletPage implements OnInit {
-  data: any;
-  profileTestComplete: boolean;
+  data = structuredClone(SUCCESS_TYPES.success_wallet_recovery);
   key = 'profileTestCompleted';
 
   constructor(
@@ -26,7 +25,6 @@ export class SuccessRecoveryWalletPage implements OnInit {
 
   ngOnInit() {
     this.getProfileStatus();
-    this.data = { ...SUCCESS_TYPES.success_wallet_recovery };
     this.trackScreenViewEvent();
     this.trackWalletAddressEvent();
   }
@@ -43,14 +41,16 @@ export class SuccessRecoveryWalletPage implements OnInit {
     this.trackedWalletAddress.create().value();
   }
 
-  changeUrlIfProfileCompleted() {
-    if (this.profileTestComplete) this.data.urlPrimaryAction = '/tabs/wallets';
+  changeDataIf(profileTestComplete : boolean) {
+    if (profileTestComplete) {
+      this.data.urlPrimaryAction = '/tabs/wallets';
+      this.data.namePrimaryAction = 'wallets.success_wallet_recovery.button_home'
+    }
   }
 
   getProfileStatus() {
     this.storage.get(this.key).then((value: boolean) => {
-      this.profileTestComplete = value;
-      this.changeUrlIfProfileCompleted();
+      this.changeDataIf(value);
     });
   }
 }
