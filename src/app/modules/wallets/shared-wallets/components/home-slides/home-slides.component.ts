@@ -57,7 +57,7 @@ export class HomeSlidesComponent implements OnInit {
     if (slide.isBrowserOpen) {
       await this.browserService.open({ url: url });
     } else {
-      this.navController.navigateRoot(url);
+      this.navController.navigateBack(url);
     }
   }
 }
