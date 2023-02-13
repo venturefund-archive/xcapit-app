@@ -4,7 +4,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 @Injectable({ providedIn: 'root' })
 export class AppExpirationTimeService {
   private readonly _sessionExpirationTime: string = '_xcp_app_session_expiration_time';
-
+  private isModalEnabled = true;
   constructor(private storage: IonicStorageService) {}
 
   public async get(): Promise<number> {
@@ -18,5 +18,17 @@ export class AppExpirationTimeService {
 
   public set(value: number): Promise<void> {
     return this.storage.set(this._sessionExpirationTime, value);
+  }
+
+  public getModalAvailability(): boolean {
+    return this.isModalEnabled;
+  }
+
+  public enableExpirationModal() {
+    this.isModalEnabled = true;
+  }
+
+  public disableExpirationModal() {
+    this.isModalEnabled = false;
   }
 }

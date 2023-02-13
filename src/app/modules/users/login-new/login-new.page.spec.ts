@@ -26,6 +26,7 @@ import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/pass
 import { AuthService } from '../shared-users/services/auth/auth.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { BehaviorSubject } from 'rxjs';
+import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -51,6 +52,7 @@ describe('LoginNewPage', () => {
   let loginMigrationServiceSpy: jasmine.SpyObj<LoginMigrationService>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
+  let appExpirationTimeServiceSpy: jasmine.SpyObj<AppExpirationTimeService>;
 
   beforeEach(waitForAsync(() => {
     fakeBiometricAuth = new FakeBiometricAuth();
@@ -114,6 +116,11 @@ describe('LoginNewPage', () => {
       checkDeeplinkUrl: Promise.resolve(null),
     });
 
+    appExpirationTimeServiceSpy = jasmine.createSpyObj('AppExpirationTimeService', {
+      enableExpirationModal: Promise.resolve(),
+      disableExpirationModal: Promise.resolve()
+    });
+
     TestBed.configureTestingModule({
       declarations: [LoginNewPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -132,6 +139,7 @@ describe('LoginNewPage', () => {
         { provide: LoginMigrationService, useValue: loginMigrationServiceSpy },
         { provide: AuthService, useValue: authServiceSpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+        { provide: AppExpirationTimeService, useValue: appExpirationTimeServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -360,4 +368,27 @@ describe('LoginNewPage', () => {
 
     expect(walletConnectServiceSpy.checkDeeplinkUrl).toHaveBeenCalled();
   }));
+
+  it('should disable login expiration modal while in login page', fakeAsync(() => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
+
+    expect(appExpirationTimeServiceSpy.disableExpirationModal).toHaveBeenCalledTimes(1);
+  }));
+  
+  it('should enable login expiration modal when leaving login page', async () => {
+    component.ionViewWillLeave();
+
+    expect(appExpirationTimeServiceSpy.enableExpirationModal).toHaveBeenCalledTimes(1);
+  })
+
+  it('should dismiss instead of redirecting when is expiration modal and password is valid', async () => {
+    component.isExpirationModal = true;
+    component.ionViewWillEnter();
+    component.form.patchValue({ password: aPassword });
+    await component.handleSubmit(false);
+
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
+  })
 });

@@ -175,7 +175,7 @@ export class OperationsNewPage implements AfterViewInit {
     this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.checkKriptonAgreement()
+    this.checkKriptonAgreement();
     this.availableCoins();
     this.setCountry();
     this.setCurrency();

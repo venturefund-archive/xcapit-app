@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, NgZone } from '@angular/core';
-import { NavController, Platform } from '@ionic/angular';
+import { ModalController, NavController, Platform } from '@ionic/angular';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { LanguageService } from './shared/services/language/language.service';
 import { TrackService } from './shared/services/track/track.service';
@@ -22,10 +22,12 @@ import { AppSessionInjectable } from './shared/models/app-session/injectable/app
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
 import { CapacitorApp } from './shared/models/capacitor-app/capacitor-app.interface';
+import { LoginNewPage } from './modules/users/login-new/login-new.page';
 import { TxInProgressService } from './modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 import { BrowserService } from './shared/services/browser/browser.service';
 import { NetworkInjectable } from './shared/models/network/injectable/network.injectable';
+import { AppExpirationTimeService } from './shared/models/app-session/injectable/app-expiration-time.service';
 
 @Component({
   selector: 'app-root',
@@ -43,6 +45,7 @@ import { NetworkInjectable } from './shared/models/network/injectable/network.in
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  isModalOpen = false;
   onLangChange: Subscription = undefined;
   statusBar = StatusBar;
   session: AppSession;
@@ -63,17 +66,19 @@ export class AppComponent implements OnInit {
     private walletConnectService: WalletConnectService,
     private walletBackupService: WalletBackupService,
     private localNotificationsService: LocalNotificationsService,
-    private navController: NavController,
     private storage: IonicStorageService,
     private trackedWalletAddressInjectable: TrackedWalletAddressInjectable,
     private capacitorAppInjectable: CapacitorAppInjectable,
     private appSessionInjectable: AppSessionInjectable,
     private walletMaintenanceService: WalletMaintenanceService,
     private dynamicLinkInjectable: DynamicLinkInjectable,
+    private modalController: ModalController,
+    private appExpirationTimeService: AppExpirationTimeService,
     private txInProgressService: TxInProgressService,
     private notificationsService: NotificationsService,
     private browserService: BrowserService,
-    private networkInjectable: NetworkInjectable
+    private networkInjectable: NetworkInjectable,
+    private navController: NavController
   ) {}
 
   ngOnInit() {
@@ -191,12 +196,8 @@ export class AppComponent implements OnInit {
   async isSessionValid() {
     if (!(await this.session.valid())) {
       await new LoggedIn(this.storage).save(false);
-      this.redirectToNewLogin();
+      this.showLoginModal();
     }
-  }
-
-  async redirectToNewLogin() {
-    return await this.navController.navigateRoot(['users/login-new']);
   }
 
   dynamicLinks(event) {
@@ -240,5 +241,25 @@ export class AppComponent implements OnInit {
     this.onLangChange = this.translate.onLangChange.subscribe(() => {
       this.updateLanguage();
     });
+  }
+
+  async showLoginModal() {
+    if (!this.isModalOpen && this.appExpirationTimeService.getModalAvailability()) {
+      this.isModalOpen = true;
+      const loginModal = await this.modalController.create({
+        component: LoginNewPage,
+        cssClass: 'full-screen-modal',
+        backdropDismiss: false,
+        componentProps: {
+          isExpirationModal: true,
+        },
+      });
+      await loginModal.present();
+      const { role } = await loginModal.onDidDismiss();
+      this.isModalOpen = false;
+      if (role === 'confirm') {
+        await loginModal.dismiss();
+      }
+    }
   }
 }
