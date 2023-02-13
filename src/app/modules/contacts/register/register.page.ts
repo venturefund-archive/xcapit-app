@@ -203,11 +203,11 @@ export class RegisterPage implements OnInit {
     } else {
       this.form.get('address').addValidators(CustomValidators.isAddress());
     }
-    this.form
-      .get('address')
-      .addAsyncValidators(
-        RepeatedAddressValidator.validate(this.ionicStorageService, this.contactDataService.getContact().address)
-      );
+    if(this.isEditMode()){
+      this.form.get('address').addAsyncValidators(RepeatedAddressValidator.validate(this.ionicStorageService, this.contactDataService.getContact().address));
+    }else{
+      this.form.get('address').addAsyncValidators(RepeatedAddressValidator.validate(this.ionicStorageService));
+    }
     if (this.form.get('address').value) {
       this.form.get('address').updateValueAndValidity();
     }
