@@ -118,14 +118,7 @@ export class FiatRampsService {
     );
   }
 
-  //"currency_in":"usd","amount_in":"100","currency_out":"doc","type":"cash-in","network_out":"rsk"}
   getKriptonFee(fiatCurrency: string, amount_in: number, currency_out: string, network: string): Observable<any> {
-    // console.log('params used:')
-    // console.log('fiatCurrency: ', fiatCurrency)
-    // console.log('amount_in: ', amount_in)
-    // console.log('currency_out: ', currency_out)
-    // console.log('network: ', network)
-
     return this.http.post('https://app.kriptonmarket.com/public/calculate_amount_out', {
       currency_in: fiatCurrency,
       amount_in: amount_in,

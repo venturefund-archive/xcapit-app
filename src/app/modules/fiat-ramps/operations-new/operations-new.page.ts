@@ -24,6 +24,8 @@ import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynami
 import { DefaultKriptonPrice } from '../shared-ramps/models/kripton-price/default-kripton-price';
 import { takeUntil } from 'rxjs/operators';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
+import RoundedNumber from 'src/app/shared/models/rounded-number/rounded-number';
+import { KriptonNetworks } from '../shared-ramps/constants/kripton-networks';
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -50,17 +52,8 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
             [minimumFiatAmount]="this.minimumFiatAmount"
             (changeCurrency)="this.openModal($event)"
             paymentType="fiat_ramps.shared.constants.payment_types.kripton"
-            [fee]="this.fee"
+            [fee]="this.fiatFee"
           ></app-provider-new-operation-card>
-
-          <ion-button
-          (click)="this.getFee()"
-          class="link ux-link-xs"
-          fill="clear"
-          size="small"
-        >
-          SUPER GET FEE BUTTON!
-        </ion-button>
 
           <div *ngIf="!this.agreement" class="aon__disclaimer">
             <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
@@ -144,6 +137,8 @@ export class OperationsNewPage implements AfterViewInit {
     acceptTOSAndPrivacyPolicy: [false, [Validators.requiredTrue]],
   });
   fee = { value: 0, token: '' };
+  fiatFee = { value: 0, token: '' };
+  kriptonNetworks = KriptonNetworks;
   
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -208,26 +203,27 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.get('cryptoAmount').valueChanges.subscribe((value) => {
       this.cryptoAmountChange(value);
     });
-    this.form.get('fiatAmount').valueChanges.subscribe((value) => this.fiatAmountChange(value));
+    this.form.get('fiatAmount').valueChanges.subscribe((value) => {
+      this.fiatAmountChange(value)
+    });
   }
 
-  //TODO: La fee esta en crypto, si quiero sumar/restar un valor a fiat, deberia ser transformado previamente
-  private cryptoAmountChange(value: number) {
-    console.log('cryptoAmountChange...')
-    this.getFee();
-    this.form.patchValue({ fiatAmount: (value * this.fiatPrice) + (this.fee.value * this.fiatPrice) }, { emitEvent: false, onlySelf: true });
+  private async cryptoAmountChange(value: any) {
+    value = parseFloat(value);
+    this.form.patchValue({ fiatAmount: new RoundedNumber((value + this.fee.value ) * this.fiatPrice).value() }, { emitEvent: false, onlySelf: true });
+    console.log('fiatAmount after patching (BUT BEFORE getUpdatedValues) :', this.form.value.fiatAmount, typeof this.form.value.fiatAmount)
+    await this.getUpdatedValues();
   }
 
-  private fiatAmountChange(value: number) {
-    console.log('fiatAmountChange...')
-    this.getFee();
-    this.form.patchValue({ cryptoAmount: (value / this.fiatPrice) - this.fee.value }, { emitEvent: false, onlySelf: true });
+  private async fiatAmountChange(value: any) {
+    value = parseFloat(value);
+    this.form.patchValue({ cryptoAmount: (value - this.fee.value) / this.fiatPrice }, { emitEvent: false, onlySelf: true });
+    console.log('cryptoAmount after patching (BUT BEFORE getUpdatedValues) :', this.form.value.cryptoAmount, typeof this.form.value.cryptoAmount)
+    await this.getUpdatedValues();
   }
 
   async updateAmounts(): Promise<void> {
-    console.log('updateAmounts...')
-    await this.getFee();
-    this.form.patchValue({ fiatAmount: (this.form.value.cryptoAmount * this.fiatPrice) + this.fee.value });
+    await this.getUpdatedValues();
   }
 
   private addDefaultValidators() {
@@ -244,16 +240,14 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.get('fiatAmount').updateValueAndValidity();
   }
 
-  //TODO: El orden de getFee es correcto (si sucede desp del updateAmounts usa el fee antiguo para calcular)
   private async dynamicPrice() {
     this.createKriptonDynamicPrice()
       .value()
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         this.fiatPrice = price;
-        // this.getFee();
         console.log('price obtained from dynamicPrice: ', price)
-        if (this.form.value.fiatAmount) this.updateAmounts();
+        if (this.form.value.fiatAmount || this.form.value.cryptoAmount) this.getUpdatedValues();
         if (!this.minimumFiatAmount) this.getMinimumFiatAmount();
       });
   }
@@ -273,9 +267,6 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.patchValue({ fiatAmount: this.minimumFiatAmount, cryptoAmount: this.minimumFiatAmount / this.fiatPrice });
   }
 
-  //TODO: EL AMOUNT OUT ES INCORRECTO! Muestra el valor ANTES del calculo de la Fee
-  //EJ: para 100 USDC el amount_out verdadero es 96,43 (3% de comision + 0,6 fee_of_network) [redondeo]
-  //TODO: Cambiar el valor del form por el amount_out
   createKriptonDynamicPrice(currency = this.fiatCurrency): DynamicKriptonPrice {
     return this.kriptonDynamicPrice.new(
       this.priceRefreshInterval,
@@ -283,15 +274,19 @@ export class OperationsNewPage implements AfterViewInit {
     );
   }
 
-  async getFee() {
-    const res = this.fiatRampsService
+  //TODO: Agregar dinamicamente la red
+  async getUpdatedValues() {
+    console.log('about to get fee on kripton, showing parameters:')
+    console.log('fiatAmount: ', this.form.value.fiatAmount, typeof this.form.value.fiatAmount)
+    this.fiatRampsService
       .getKriptonFee(
-        this.fiatCurrency, this.form.value.fiatAmount, this.selectedCurrency.value, 'polygon'
+        this.fiatCurrency, this.form.value.fiatAmount, this.selectedCurrency.value, this._network()
       ).toPromise().then((res) => {
-        // this.fee = res.data.commissions.amount + res.data.taxes.amount + res.data.fee_of_network
-        this.fee.value = parseFloat(res.data.costs)
         console.log('fee calculation (entire operation): ', res)
-        // console.log('calculated fee (3% + network, in crypto): ', this.fee)
+        this.fee.value = parseFloat(res.data.costs)
+        this.form.patchValue({ fiatAmount: parseFloat(res.data.amount_in) }, { emitEvent: false, onlySelf: true });
+        this.form.patchValue({ cryptoAmount: parseFloat(res.data.amount_out) }, { emitEvent: false, onlySelf: true });
+        this.setFiatFee(this.fee)
       })
   }
 
@@ -336,6 +331,7 @@ export class OperationsNewPage implements AfterViewInit {
     }
   }
 
+  //TODO: Agregar costs como campo separado/calculado, agregar al backend para persistencia
   async setOperationStorage() {
     const data: OperationDataInterface = {
       country: this.country.name,
@@ -368,5 +364,14 @@ export class OperationsNewPage implements AfterViewInit {
   ionViewWillLeave() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private _network(): string {
+    return this.kriptonNetworks[this.selectedCurrency.network];
+  }
+
+  setFiatFee(cryptoFee) {
+    this.fiatFee.value = cryptoFee.value * this.fiatPrice;
+    this.fiatFee.token = this.fiatCurrency.toUpperCase();
   }
 }
