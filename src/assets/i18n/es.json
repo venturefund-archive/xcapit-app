@@ -2041,6 +2041,10 @@
         "expand_button": "Ampliar",
         "reduce_button": "Reducir"
       },
+      "wallet_transaction_card":{
+        "expand_button": "Ampliar",
+        "reduce_button": "Reducir"
+      },
       "share_transaction_detail": {
         "text": "Hola! Te envié ",
         "text2": "Para mas información: ",
