@@ -84,7 +84,8 @@ export class InProgressTransactionModalComponent implements OnInit {
   }
 
   async isAlreadySavedAddress() {
-    const contact_list = await this.ionicStorageService.get(this._aKey);
+    let contact_list = await this.ionicStorageService.get(this._aKey);
+    contact_list = contact_list ? contact_list : [];
     for (const contact of contact_list) {
       if (contact.address === this.address) {
         this.alreadySavedAddress = true;
