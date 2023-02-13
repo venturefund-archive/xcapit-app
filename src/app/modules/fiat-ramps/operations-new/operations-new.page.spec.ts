@@ -51,6 +51,7 @@ const data = {
   wallet: '0x000000000000000000000dead',
   provider: '1',
   network: 'MATIC',
+  auth_token: 'test',
 };
 
 describe('OperationsNewPage', () => {
@@ -215,6 +216,8 @@ describe('OperationsNewPage', () => {
   });
 
   it('should create and save operation and redirect to purchase order when valid form is submitted', async () => {
+    kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
     component.ionViewWillEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();

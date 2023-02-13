@@ -243,7 +243,9 @@ describe('PurchaseOrderPage', () => {
   });
 
   it('should send photo and show success modal when finish button is clicked', async () => {
-    const expectedData = { file: photo.dataUrl, email: 'test@test.com' };
+    kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
+    const expectedData = { file: photo.dataUrl, email: 'test@test.com', auth_token: 'test' };
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -259,7 +261,9 @@ describe('PurchaseOrderPage', () => {
   });
   
   it('should send photo and navigate to error when finish button is clicked', async () => {
-    const expectedData = { file: photo.dataUrl, email: 'test@test.com' };
+    kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
+    const expectedData = { file: photo.dataUrl, email: 'test@test.com', auth_token: 'test' };
     fiatRampsServiceSpy.confirmOperation.and.returnValue(throwError('Test'));
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();
