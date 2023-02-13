@@ -274,7 +274,6 @@ export class OperationsNewPage implements AfterViewInit {
     );
   }
 
-  //TODO: Agregar dinamicamente la red
   async getUpdatedValues() {
     console.log('about to get fee on kripton, showing parameters:')
     console.log('fiatAmount: ', this.form.value.fiatAmount, typeof this.form.value.fiatAmount)
@@ -312,11 +311,12 @@ export class OperationsNewPage implements AfterViewInit {
       this.kriptonStorageService.set('privacy_and_policy_accepted', true);
       const operationData = Object.assign({ email, auth_token }, this.storageOperationService.getData());
       const operationResponse = await this.fiatRampsService.createOperation(operationData).toPromise();
-
+      console.log('operationResponse: ', operationResponse)
       const newData = Object.assign(
         { operation_id: operationResponse.id, created_at: operationResponse.created_at },
         this.storageOperationService.getData()
       );
+      console.log('newData: ', newData)
       this.storageOperationService.updateData(newData);
       this.navController.navigateRoot('/fiat-ramps/purchase-order/1');
     } else {
@@ -345,6 +345,7 @@ export class OperationsNewPage implements AfterViewInit {
       wallet: await this.walletAddress(),
       provider: this.provider.id.toString(),
       network: this.selectedCurrency.network,
+      // fee: this.fiatFee.value.toString()
     };
     this.storageOperationService.updateData(data);
   }

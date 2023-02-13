@@ -68,7 +68,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
       <app-kripton-account-info-card
         *ngIf="this.isFirstStep"
         [country]="this.data.country.toLowerCase()"
-        [amount]="this.data.amount_in"
+        [amount]="this.totalAmountIn"
         [currency]="this.data.currency_in.toUpperCase()"
         (copyValue)="this.copyToClipboard($event)"
       ></app-kripton-account-info-card>
@@ -123,6 +123,7 @@ export class PurchaseOrderPage {
   filesystemPlugin = Filesystem;
   cameraPlugin = Camera;
   isSending = false;
+  totalAmountIn: string;
 
   constructor(
     private clipboardService: ClipboardService,
@@ -142,6 +143,7 @@ export class PurchaseOrderPage {
     this.getStep();
     this.getOperationData();
     this.getOperationCreationDate();
+    this.getTotalAmountIn();
     this.getCurrencyOut();
   }
 
@@ -161,7 +163,16 @@ export class PurchaseOrderPage {
 
   private getOperationData() {
     this.data = this.storageOperationService.getData();
+    console.log('transactionData from getOperationData: ', this.data)
     this.voucher = this.storageOperationService.getVoucher();
+  }
+
+  private getTotalAmountIn() {
+    // if (this.data.fee) {
+    //   this.totalAmountIn = (parseFloat(this.data.amount_in) + parseFloat(this.data.fee)).toString();
+    // } else {
+      this.totalAmountIn = this.data.amount_in;
+    // }
   }
 
   copyToClipboard(clipboardInfo) {
