@@ -153,8 +153,9 @@ export class KycSummaryDataPage {
   async sendData() {
     if (this.form.valid) {
       const email = await this.kriptonStorage.get('email');
+      const auth_token = await this.kriptonStorage.get('access_token');
       const politically_exposed = !this.form.value.not_politically_exposed;
-      const kycData = Object.assign({ politically_exposed, email }, this.data);
+      const kycData = Object.assign({ politically_exposed, email, auth_token }, this.data);
       this.fiatRampsService.registerUserInfo(this._parsedValues(kycData)).subscribe(() => {
         this.kriptonStorage.set('user_status', 'USER_IMAGES');
         this.navController.navigateForward('fiat-ramps/user-register');

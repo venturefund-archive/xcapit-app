@@ -49,8 +49,12 @@ export class KycConfirmationPage {
     return this.userKycKriptonImagesService.getPhotos();
   }
 
-  private async _dataWithEmail(digitalDocuments: UserKycKriptonImages): Promise<any> {
-    return { ...digitalDocuments, email: await this.kriptonStorage.get('email') };
+  private async _dataWithEmailAndToken(digitalDocuments: UserKycKriptonImages): Promise<any> {
+    return {
+      ...digitalDocuments,
+      email: await this.kriptonStorage.get('email'),
+      auth_token: await this.kriptonStorage.get('access_token'),
+    };
   }
 
   private trackButtonEvent() {
@@ -65,8 +69,8 @@ export class KycConfirmationPage {
     if (this.digitalDocument === 'dni_selfie') {
       this.trackButtonEvent();
       const digitalDocuments = this._loadPhotos();
-      const dataWithEmail = await this._dataWithEmail(digitalDocuments);
-      this.fiatRampsService.registerUserImages(dataWithEmail).subscribe(() => {
+      const dataWithEmailAndToken = await this._dataWithEmailAndToken(digitalDocuments);
+      this.fiatRampsService.registerUserImages(dataWithEmailAndToken).subscribe(() => {
         this.kriptonStorage.set('user_status', 'COMPLETE');
         this.navController.navigateForward('fiat-ramps/user-register');
       });

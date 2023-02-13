@@ -7,6 +7,7 @@ import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
 import { Providers } from '../models/providers/providers.interface';
 import { ProvidersFactory } from '../models/providers/factory/providers.factory';
 import { HttpParams } from '@angular/common/http';
+import { KriptonStorageService } from './kripton-storage/kripton-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -111,7 +112,7 @@ export class FiatRampsService {
       data,
       undefined,
       false
-    )
+    );
   }
 
   getLink(apikeyId: number): Observable<any> {
