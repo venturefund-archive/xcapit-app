@@ -2160,7 +2160,8 @@
     "success_wallet_recovery": {
       "title": "Parabéns!",
       "subtitle": "Você importou sua carteira com sucesso.",
-      "button": "Personalizar carteira"
+      "button": "Personalizar carteira",
+      "button_home": "Ir para a carteira"
     },
     "wallet_connect": {
       "header": "Wallet Connect",

@@ -2173,7 +2173,8 @@
     "success_wallet_recovery": {
       "title": "Congratulations!",
       "subtitle": "You imported your wallet successfully.",
-      "button": "Personalize wallet"
+      "button": "Personalize wallet",
+      "button_home": "Go to wallet"
     },
     "wallet_connect": {
       "header": "WalletConnect",
