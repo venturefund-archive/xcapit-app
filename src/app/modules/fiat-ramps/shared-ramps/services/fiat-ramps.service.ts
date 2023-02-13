@@ -74,11 +74,14 @@ export class FiatRampsService {
     return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/login`, data, undefined, false);
   }
 
-  getUserOperations(data: { email: string }): Observable<FiatRampOperation[]> {
+  getUserOperations(data: { email: string; auth_token: string }): Observable<FiatRampOperation[]> {
     return this.http.post(`${environment.apiUrl}/${this.entity}/get_all_operations`, data, undefined, true);
   }
 
-  getUserSingleOperation(operationId: string | number, data: { email: string }): Observable<FiatRampOperation[]> {
+  getUserSingleOperation(
+    operationId: string | number,
+    data: { email: string; auth_token: string }
+  ): Observable<FiatRampOperation[]> {
     return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/get_user_operation/${operationId}`,
       data,

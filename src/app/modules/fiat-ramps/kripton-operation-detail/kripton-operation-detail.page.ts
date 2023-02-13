@@ -64,7 +64,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
               </div>
               <div class="kod__card-container__card__amount__in">
                 <ion-text class="ux-font-text-xs"
-                  >= {{ this.operation.amount_in | number: '1.2-2' }}
+                  >= {{ this.operation.amount_in | number : '1.2-2' }}
                   {{ this.operation.currency_in | uppercase }}</ion-text
                 >
               </div>
@@ -87,8 +87,8 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
               <div class="kod__card-container__card__state__container__status">
                 <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
                 <ion-text *ngIf="this.operation.tx_hash" class="ux-link-xs"
-                  >{{ 'fiat_ramps.kripton_operation_detail.scan_link' | translate
-                  }} {{ 'fiat_ramps.kripton_operation_detail.scans.' + this.operation.network | translate }}</ion-text
+                  >{{ 'fiat_ramps.kripton_operation_detail.scan_link' | translate }}
+                  {{ 'fiat_ramps.kripton_operation_detail.scans.' + this.operation.network | translate }}</ion-text
                 >
               </div>
               <app-operation-status-alert
@@ -109,7 +109,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
               <div class="kod__card-container__card__quotation__container__content">
                 <ion-text class="ux-font-text-base">
                   1 {{ this.operation.currency_out | uppercase }} =
-                  {{ this.operation.amount_in / this.operation.amount_out | number: '1.2-2' }}
+                  {{ this.operation.amount_in / this.operation.amount_out | number : '1.2-2' }}
                   {{ this.operation.currency_in | uppercase }}
                 </ion-text>
               </div>
@@ -168,14 +168,14 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
                 </div>
                 <div class="kod__card-container__card__date__container__date__content">
                   <ion-text class="ux-font-text-base">
-                    {{ this.operation.created_at | date: 'dd/MM/YYYY' }}
+                    {{ this.operation.created_at | date : 'dd/MM/YYYY' }}
                   </ion-text>
                 </div>
               </div>
               <div class="kod__card-container__card__date__container__hour">
                 <div class="kod__card-container__card__date__container__hour__content">
                   <ion-text class="ux-font-text-base">
-                    {{ this.operation.created_at | date: 'HH:mm'
+                    {{ this.operation.created_at | date : 'HH:mm'
                     }}{{ 'fiat_ramps.kripton_operation_detail.hours' | translate }}
                   </ion-text>
                 </div>
@@ -284,8 +284,9 @@ export class KriptonOperationDetailPage {
 
   private async getUserOperation(operationId: string) {
     const email = await this.kriptonStorageService.get('email');
+    const auth_token = await this.kriptonStorageService.get('access_token');
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.fiatRampsService.getUserSingleOperation(operationId, { email }).subscribe({
+    this.fiatRampsService.getUserSingleOperation(operationId, { email, auth_token }).subscribe({
       next: (data) => {
         this.operation = data[0];
         this.getCoin();
