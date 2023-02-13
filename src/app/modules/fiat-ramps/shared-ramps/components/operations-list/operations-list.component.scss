@@ -2,6 +2,19 @@
   ion-card-header {
     padding: 16px 16px 12px;
     border-bottom: 1px solid var(--ion-color-neutral10);
+    display: flex;
+    justify-content: space-between;
+
+    .logout-icon {
+      justify-content: end;
+      margin-right: 4px;
+      display: flex;
+      align-items: center;
+
+      ion-icon {
+        font-size: 20px;
+      }
+    }
 
     ion-card-title {
       display: flex;
@@ -18,8 +31,12 @@
     }
   }
 
-  ion-card-content {
+  .card-content {
     padding: 8px 16px 16px;
+  }
+
+  ion-card-content {
+    padding: 0;
 
     &.operations__content {
       padding: 8px 0 0;

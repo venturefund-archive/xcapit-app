@@ -2405,7 +2405,13 @@
       "no_operations_message": "Una vez realizadas tus compras, podrás verlas en este apartado.",
       "link": "iniciar sesión en Kripton Market",
       "button_show_less": "Ver menos",
-      "button_show_more": "Ver más"
+      "button_show_more": "Ver más",
+      "log_out_modal": {
+        "title":"¿Deseas cerrar sesión?",
+        "description": "Deberás ingresar nuevamente con tu email para ver tus compras.",
+        "confirm_button": "Confirmar",
+        "cancel_button": "Cancelar"
+      }
     },
     "moonpay_purchases": {
       "title": "Compras en Moonpay",
