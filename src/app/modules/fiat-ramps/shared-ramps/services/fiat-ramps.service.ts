@@ -111,7 +111,7 @@ export class FiatRampsService {
       data,
       undefined,
       false
-    )
+    );
   }
 
   getLink(apikeyId: number): Observable<any> {
