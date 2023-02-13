@@ -114,8 +114,6 @@ export class ContactsHomePage implements OnInit {
         this.blockchain,
         'token',
         this.token,
-        'address',
-        aContact.address,
         'amount',
         this.amount,
       ]);

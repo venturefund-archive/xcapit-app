@@ -35,6 +35,7 @@ import { WalletConnectService } from '../shared-wallets/services/wallet-connect/
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
+import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -244,7 +245,8 @@ export class HomeWalletPage implements OnInit {
     private walletConnectService: WalletConnectService,
     private updateNewsService: UpdateNewsService,
     private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable,
-    private base64ImageFactory: Base64ImageFactory
+    private base64ImageFactory: Base64ImageFactory,
+    private contactService: ContactDataService,
   ) {}
 
   ngOnInit() {}
@@ -257,6 +259,7 @@ export class HomeWalletPage implements OnInit {
     this.isProtectedWallet();
     this.getNewTokensAvailable();
     this.checkConnectionOfWalletConnect();
+    this.cleanContact();
   }
 
   async getSliderImages() {
@@ -290,6 +293,10 @@ export class HomeWalletPage implements OnInit {
     this.setAvailableDefiProducts();
     await this.setInvestments();
     this.setInvestedBalance();
+  }
+
+  private cleanContact(){
+    this.contactService.updateContact(null);
   }
 
   private showUpdateModal() {

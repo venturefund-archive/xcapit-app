@@ -111,6 +111,7 @@ export class InProgressTransactionModalComponent implements OnInit {
   }
 
   close() {
+    this.contactDataService.updateContact(null);
     this.navController.navigateForward([this.data.urlClose]);
     this.modalController.dismiss();
   }

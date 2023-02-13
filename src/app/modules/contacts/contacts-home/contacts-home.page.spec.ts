@@ -43,7 +43,6 @@ describe('ContactsHomePage', () => {
     mode: 'select',
     blockchain: 'ERC20',
     token: '0x0000000000000000000000000000000000001010',
-    address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     amount: '1',
   };
 
@@ -145,8 +144,6 @@ describe('ContactsHomePage', () => {
       route.blockchain,
       'token',
       route.token,
-      'address',
-      route.address,
       'amount',
       route.amount,
     ]);

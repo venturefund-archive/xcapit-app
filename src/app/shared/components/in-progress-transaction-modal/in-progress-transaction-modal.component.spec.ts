@@ -10,15 +10,13 @@ import { InProgressTransactionModalComponent } from './in-progress-transaction-m
 import { FakeFeatureFlagDirective } from '../../../../testing/fakes/feature-flag-directive.fake.spec';
 import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 
-
-
 describe('InProgressTransactionModalComponent', () => {
   const blockchain = {
     _rawData: {
       name: 'MATIC',
     },
   };
-  
+
   const testAddress = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
   const savedAddress = {
     address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
@@ -36,7 +34,7 @@ describe('InProgressTransactionModalComponent', () => {
     titlePrimary: 'title',
     textBadge: 'badge',
   };
-  
+
   let component: InProgressTransactionModalComponent;
   let fixture: ComponentFixture<InProgressTransactionModalComponent>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
@@ -100,6 +98,7 @@ describe('InProgressTransactionModalComponent', () => {
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlClose]);
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledOnceWith(null);
   });
 
   it('should router navigate when Success Action Primary is clicked', () => {
@@ -144,7 +143,10 @@ describe('InProgressTransactionModalComponent', () => {
     await fixture.whenRenderingDone();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledOnceWith({address:'0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',networks:['MATIC']});
+    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledOnceWith({
+      address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+      networks: ['MATIC'],
+    });
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('contacts/register/save');
   });
 });
