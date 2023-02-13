@@ -120,8 +120,9 @@ export class HomeOfPurchasesPage {
     if (this.enabledProviders.includes('kripton') && this.isLogged) this.getOperations();
   }
 
-  getOperations(): void {
-    this.fiatRampsService.getUserOperations({ email: this.email }).subscribe((data) => {
+  async getOperations(): Promise<void> {
+    const auth_token = await this.kriptonStorage.get('access_token');
+    this.fiatRampsService.getUserOperations({ email: this.email, auth_token }).subscribe((data) => {
       this.operationsList = data;
     });
   }
