@@ -1816,7 +1816,7 @@
     "home": {
       "available_money": "Available balance in wallet",
       "invested": "Amount invested",
-      "tab_assets": "tokens",
+      "tab_assets": "Tokens",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
