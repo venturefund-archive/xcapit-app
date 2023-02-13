@@ -1,5 +1,5 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController, Platform } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BitrefillPage } from './bitrefill.page';
@@ -51,6 +51,7 @@ describe('BitrefillPage', () => {
   let bitrefillOperationFactorySpy: jasmine.SpyObj<BitrefillOperationFactory>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let platformSpy: jasmine.SpyObj<Platform>;
 
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
@@ -104,6 +105,9 @@ describe('BitrefillPage', () => {
       estimateSendFee: Promise.resolve(BigNumber.from('1000')),
     });
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) });
+
+    platformSpy = jasmine.createSpyObj('Platform', {}, { backButton: { subscribeWithPriority: () => {} } });
+
     TestBed.configureTestingModule({
       declarations: [BitrefillPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -119,6 +123,7 @@ describe('BitrefillPage', () => {
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: BitrefillOperationFactory, useValue: bitrefillOperationFactorySpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: Platform, useValue: platformSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -280,5 +285,11 @@ describe('BitrefillPage', () => {
 
     component.ionViewWillLeave();
     expect(window.removeAllListeners).toHaveBeenCalledTimes(1);
+  });
+
+  it('should suscribe to backButton gesture on will enter', () => {
+    const spy = spyOn(platformSpy.backButton, 'subscribeWithPriority');
+    component.ionViewWillEnter();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
