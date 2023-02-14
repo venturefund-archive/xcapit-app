@@ -45,6 +45,7 @@ import { UpdateNewsService } from '../../../shared/services/update-news/update-n
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
+import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -76,6 +77,7 @@ describe('HomeWalletPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
+  let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
@@ -93,6 +95,9 @@ describe('HomeWalletPage', () => {
       },
       { hideFunds: of(false) }
     );
+    contactDataServiceSpy = jasmine.createSpyObj('ContactDataService', {
+      updateContact: {},
+    })
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
       { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
@@ -217,6 +222,7 @@ describe('HomeWalletPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
+        { provide: ContactDataService, useValue: contactDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
