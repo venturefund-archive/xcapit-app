@@ -8,7 +8,6 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
-import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { TrackService } from '../../../../shared/services/track/track.service';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';

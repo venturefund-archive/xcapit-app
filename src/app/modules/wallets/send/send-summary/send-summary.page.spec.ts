@@ -66,6 +66,10 @@ describe('SendSummaryPage', () => {
     balance: 2,
   };
   const aPassword = new Password('aPassword');
+  const _sendBtn = () => {
+    return fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement;
+  };
+
 
   beforeEach(() => {
     txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
@@ -193,8 +197,7 @@ describe('SendSummaryPage', () => {
 
 
   it('should send if solana no native tx', async () => {
-    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: aPassword }));
     const solanaSummaryData = { ...summaryData, address: solanaAddresses[0], currency: rawSAMOData, network: rawSolanaData.name };
     new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(solanaSummaryData);
     component.ionViewWillEnter();
