@@ -127,7 +127,6 @@ import { ToastService } from '../../services/toast/toast.service';
   ],
 })
 export class UxInputComponent implements OnInit {
-  // TODO: Test new style
   @Input() label: string;
   @Input() subLabel: string;
   @Input() native = false;

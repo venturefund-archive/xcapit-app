@@ -17,8 +17,6 @@ import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/in
 @Component({
   selector: 'app-wallet-password-with-validator',
   template: `
-  <!-- TODO: Wrong textx -->
-  <!-- TODO: Hablar con Cuza por los copys -->
     <div class="wp">
       <div class="wp__header">
         <ion-text class="ux-font-text-lg wp__header__text" color="neutral90">

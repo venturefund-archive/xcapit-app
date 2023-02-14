@@ -74,7 +74,7 @@ describe('WalletPasswordWithValidatorComponent', () => {
     expect(modalControllerSpy.dismiss).toHaveBeenCalledOnceWith(new Password('testPass'));
   });
 
-  it('should show required error', async () => {
+  it('should disable button on empty password', async () => {
     await component.ngOnInit();
     component.form.patchValue({ password: '' });
     fixture.detectChanges();
