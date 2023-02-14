@@ -289,6 +289,7 @@ export class KriptonOperationDetailPage {
     this.fiatRampsService.getUserSingleOperation(operationId, { email, auth_token }).subscribe({
       next: (data) => {
         this.operation = data[0];
+        console.log('data obtained from operation detail: ', this.operation)
         this.getCoin();
         this.getCountry();
         this.status = this._getOperationStatus();

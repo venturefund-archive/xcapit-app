@@ -331,7 +331,6 @@ export class OperationsNewPage implements AfterViewInit {
     }
   }
 
-  //TODO: Agregar costs como campo separado/calculado, agregar al backend para persistencia
   async setOperationStorage() {
     const data: OperationDataInterface = {
       country: this.country.name,
@@ -345,7 +344,7 @@ export class OperationsNewPage implements AfterViewInit {
       wallet: await this.walletAddress(),
       provider: this.provider.id.toString(),
       network: this.selectedCurrency.network,
-      // fee: this.fiatFee.value.toString()
+      fee: this.fiatFee.value.toString(),
     };
     this.storageOperationService.updateData(data);
   }

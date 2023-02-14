@@ -168,11 +168,11 @@ export class PurchaseOrderPage {
   }
 
   private getTotalAmountIn() {
-    // if (this.data.fee) {
-    //   this.totalAmountIn = (parseFloat(this.data.amount_in) + parseFloat(this.data.fee)).toString();
-    // } else {
+    if (this.data.fee) {
+      this.totalAmountIn = (parseFloat(this.data.amount_in) + parseFloat(this.data.fee)).toString();
+    } else {
       this.totalAmountIn = this.data.amount_in;
-    // }
+    }
   }
 
   copyToClipboard(clipboardInfo) {

@@ -13,5 +13,5 @@ export interface OperationDataInterface {
   voucher?: boolean;
   operation_id?: number;
   created_at?: Date;
-  // fee?: string;
+  fee?: string;
 }
