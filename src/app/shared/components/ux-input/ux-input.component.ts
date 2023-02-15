@@ -10,7 +10,9 @@ import { ToastService } from '../../services/toast/toast.service';
     <div class="ux_input_container">
       <div class="ux_input_container__label">
         <div class="ux_input_container__labels">
-          <ion-label class="ux-font-titulo-xs" [ngStyle]="{'color':this.labelColor ? this.labelColor : ''}">{{ this.label }} </ion-label>
+          <ion-label class="ux-font-titulo-xs" [ngStyle]="{ color: this.labelColor ? this.labelColor : '' }"
+            >{{ this.label }}
+          </ion-label>
           <ion-label *ngIf="this.subLabel" class="ux-font-text-xxs">{{ this.subLabel }}</ion-label>
         </div>
         <ion-button
@@ -26,7 +28,16 @@ import { ToastService } from '../../services/toast/toast.service';
           <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
         </ion-button>
       </div>
-      <ion-item class="ux_input_container__item ux-font-text-xs" [ngClass]="this.disabled ? 'ux_input_container__item__disabled' : 'ux_input_container__item'">
+      <ion-item
+        class="ux_input_container__item ux-font-text-xs"
+        [ngClass]="
+          this.disabled
+            ? 'disabled'
+            : this.newStyle && this.control && this.control.invalid && this.control.touched
+            ? 'error'
+            : 'valid'
+        "
+      >
         <img class="ux_input_container__item__image" [src]="this.leftIcon" />
         <ion-input
           [disabled]="this.disabled"
@@ -43,15 +54,15 @@ import { ToastService } from '../../services/toast/toast.service';
         <ion-icon
           class="ux_input_container__item__error_icon"
           item-end
-          *ngIf="!this.showNewPasswordErrors"
+          *ngIf="!this.showNewPasswordErrors && !this.newStyle"
           [hidden]="!(this.control && this.control.invalid && this.control.touched)"
           name="ux-error"
-          color="secondary"
+          color="uxdanger"
           aria-hidden="“true”"
         ></ion-icon>
         <button
           [hidden]="!this.passwordType"
-          [ngClass]="this.textClass" 
+          [ngClass]="this.textClass"
           item-end
           type="button"
           class="ux_input_container__item__eye_icon"
@@ -83,13 +94,22 @@ import { ToastService } from '../../services/toast/toast.service';
         >
           <ion-icon name="ux-paste"></ion-icon>
         </ion-button>
-        <ion-icon name="qr-code-outline" [ngClass]=" !this.disabled ? 'ux_input_container__item__qr_icon' : 'ux_input_container__item__disabled_qr_icon'" slot="end" *ngIf="this.qrScanner && this.native" (click)="this.openQRScanner()"></ion-icon>
+        <ion-icon
+          name="qr-code-outline"
+          [ngClass]="
+            !this.disabled ? 'ux_input_container__item__qr_icon' : 'ux_input_container__item__disabled_qr_icon'
+          "
+          slot="end"
+          *ngIf="this.qrScanner && this.native"
+          (click)="this.openQRScanner()"
+        ></ion-icon>
       </ion-item>
       <app-errors-form-item
         *ngIf="!this.showNewPasswordErrors && this.showErrors"
         class="ux_input_container__item__errors"
         [controlName]="this.controlName"
         [errors]="this.errors"
+        [newStyle]="this.newStyle"
       ></app-errors-form-item>
       <app-errors-form-password-item
         *ngIf="this.showNewPasswordErrors && this.showErrors"
@@ -123,6 +143,7 @@ export class UxInputComponent implements OnInit {
   @Input() copyType = false;
   @Input() leftIcon = '';
   @Input() showNewPasswordErrors = false;
+  @Input() newStyle = false;
   @Input() pasteType = false;
   @Input() textClass: string;
   @Input() infoIcon = false;
@@ -155,8 +176,8 @@ export class UxInputComponent implements OnInit {
     });
   }
 
-  openQRScanner(){
-    if(!this.disabled){
+  openQRScanner() {
+    if (!this.disabled) {
       this.qrScannerOpened.emit();
     }
   }

@@ -11,7 +11,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
-import { ActivatedRoute } from '@angular/router';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { FakeNavController } from '../../../../../testing/fakes/nav-controller.fake.spec';
@@ -30,8 +29,6 @@ import { SpyProperty } from '../../../../../testing/spy-property.spec';
 import { rawETHData, rawSAMOData, rawSOLData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
 import { FakeLocalNotification } from 'src/app/shared/models/local-notification/fake/fake-local-notification';
-import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
@@ -48,8 +45,6 @@ describe('SendSummaryPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
-  let fakeActivatedRoute: FakeActivatedRoute;
-  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
@@ -59,7 +54,6 @@ describe('SendSummaryPage', () => {
   let localNotificationInjectableSpy: jasmine.SpyObj<LocalNotificationInjectable>;
   let testLocalNotificationOk: { title: string; body: string };
   let fakeLocalNotification: FakeLocalNotification;
-  let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
   let solanaConnectionInjectableSpy: jasmine.SpyObj<SolanaConnectionInjectable>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
@@ -72,10 +66,10 @@ describe('SendSummaryPage', () => {
     balance: 2,
   };
   const aPassword = new Password('aPassword');
-  const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const _sendBtn = () => {
     return fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement;
   };
+
 
   beforeEach(() => {
     txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
@@ -86,17 +80,6 @@ describe('SendSummaryPage', () => {
       title: 'wallets.send.send_notifications.success.title',
       body: 'wallets.send.send_notifications.success.body',
     };
-    fakeActivatedRoute = new FakeActivatedRoute({
-      category: 'finance',
-      module: 1,
-      submodule: 1,
-    });
-    storageSpy = jasmine.createSpyObj('IonicStorageService', {
-      set: Promise.resolve(),
-      remove: Promise.resolve(),
-      get: Promise.resolve(true),
-    });
-    activatedRouteSpy = fakeActivatedRoute.createSpy();
     alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
     alertControllerSpy = jasmine.createSpyObj('AlertController', { create: Promise.resolve(alertSpy) });
     fakeNavController = new FakeNavController();
@@ -141,7 +124,6 @@ describe('SendSummaryPage', () => {
       declarations: [SendSummaryPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       providers: [
-        { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: TransactionDataService, useValue: transactionDataServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy },
@@ -152,7 +134,6 @@ describe('SendSummaryPage', () => {
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
-        { provide: IonicStorageService, useValue: storageSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
         { provide: SolanaConnectionInjectable, useValue: solanaConnectionInjectableSpy },
       ],
@@ -174,15 +155,6 @@ describe('SendSummaryPage', () => {
     expect(component.summaryData).toEqual(summaryData);
   });
 
-  it('should open modal if redirected from Incorrect Password Page', fakeAsync(() => {
-    fakeActivatedRoute.modifySnapshotParams({ mode: 'retry' });
-    component.ionViewWillEnter();
-    tick(3000);
-    fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    expect(alertSpy.present).toHaveBeenCalledTimes(0);
-  }));
-
   it('should call trackEvent on trackService when ux_send_send Button clicked', () => {
     spyOn(component, 'handleSubmit');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_send');
@@ -194,8 +166,7 @@ describe('SendSummaryPage', () => {
   });
 
   it('should send and show send in progress modal when user can afford fees and password is correct on ux_send_send Button clicked', async () => {
-    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: aPassword }));
     component.ionViewWillEnter();
     fixture.detectChanges();
 
@@ -226,8 +197,7 @@ describe('SendSummaryPage', () => {
 
 
   it('should send if solana no native tx', async () => {
-    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: aPassword }));
     const solanaSummaryData = { ...summaryData, address: solanaAddresses[0], currency: rawSAMOData, network: rawSolanaData.name };
     new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(solanaSummaryData);
     component.ionViewWillEnter();
@@ -252,8 +222,7 @@ describe('SendSummaryPage', () => {
 
 
   it('should send if solana', async () => {
-    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: aPassword }));
     const solanaSummaryData = { ...summaryData, currency: rawSOLData, network: rawSolanaData.name };
     new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(solanaSummaryData);
     component.ionViewWillEnter();
@@ -274,23 +243,6 @@ describe('SendSummaryPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
     expect(txInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
-    component.summaryData = summaryData;
-    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
-    component.ionViewWillEnter();
-
-    _sendBtn().click();
-    await fixture.whenStable();
-
-    expect(component.isSending).toBeFalse();
-    expect(localNotificationInjectableSpy.create).not.toHaveBeenCalled();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/incorrect-password']);
-    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
-    expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
   it('should cancel transaction if user closed modal', async () => {
@@ -322,8 +274,7 @@ describe('SendSummaryPage', () => {
   }));
 
   it('should redirect to Wrong Amount Page if not enough funds for transaction estimated cost', async () => {
-    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: aPassword }));
     walletTransactionsServiceSpy.canAffordSendTx.and.resolveTo(false);
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -337,8 +288,7 @@ describe('SendSummaryPage', () => {
   });
 
   it('should redirect to Wrong Amount Page if not enough funds for transaction cost', async () => {
-    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: aPassword }));
     walletTransactionsServiceSpy.send.and.rejectWith(new Error('insufficient funds'));
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -379,6 +329,7 @@ describe('SendSummaryPage', () => {
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
+
   it('should not open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is true ', () => {
     component.summaryData = summaryData;
     component.amountSend = true;
