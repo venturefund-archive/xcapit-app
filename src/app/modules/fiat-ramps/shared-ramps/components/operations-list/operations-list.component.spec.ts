@@ -11,6 +11,7 @@ import { rawOperationsData } from '../../fixtures/raw-operations-data';
 import { rawProvidersData } from '../../fixtures/raw-providers-data';
 import { ProvidersFactory } from '../../models/providers/factory/providers.factory';
 import { Providers } from '../../models/providers/providers.interface';
+import { KriptonStorageService } from '../../services/kripton-storage/kripton-storage.service';
 import { OperationsListComponent } from './operations-list.component';
 
 describe('OperationsListComponent', () => {
@@ -23,6 +24,7 @@ describe('OperationsListComponent', () => {
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>
 
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController();
@@ -42,6 +44,10 @@ describe('OperationsListComponent', () => {
       get: Promise.resolve('kripton_email'),
     });
 
+    kriptonStorageServiceSpy = jasmine.createSpyObj('KriptonStorageService', {
+      remove: Promise.resolve(),
+    });
+
     TestBed.configureTestingModule({
       declarations: [OperationsListComponent, HideEmailPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -50,6 +56,7 @@ describe('OperationsListComponent', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy}
       ],
       schemas:[CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -126,6 +133,19 @@ describe('OperationsListComponent', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should log out of kripton account when modal if confirm', async ()=>{
+    fakeModalController.modifyReturns(null, { role: 'confirm' });
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('div.logout-icon > ion-icon'));
+    buttonEl.nativeElement.click();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+
+    expect(kriptonStorageServiceSpy.remove).toHaveBeenCalledTimes(4);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });
