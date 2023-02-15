@@ -1845,6 +1845,7 @@
         "badge": "In progress",
         "swap_title": "Swap",
         "send_title": "Send",
+        "solana-send_title": "Send",
         "title": "Operations"
       }
     },
