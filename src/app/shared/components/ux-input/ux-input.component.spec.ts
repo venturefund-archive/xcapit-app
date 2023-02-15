@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { ClipboardService } from '../../services/clipboard/clipboard.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { By } from '@angular/platform-browser';
+import { CustomValidatorErrors } from '../../validators/custom-validator-errors';
 
 describe('UxInputComponent', () => {
   let component: UxInputComponent;
@@ -124,5 +125,27 @@ describe('UxInputComponent', () => {
     qrEl.nativeElement.click();
     expect(qrEl).toBeTruthy();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show old style', () => {
+    component.newStyle = false;
+    component.control.setErrors(CustomValidatorErrors.walletIncorrectPassword);
+    component.control.markAsTouched();
+    fixture.detectChanges();
+    const errorIconEl = fixture.debugElement.query(By.css('ion-icon.ux_input_container__item__error_icon'));
+    const itemEl = fixture.debugElement.query(By.css('ion-item.error'));
+    expect(errorIconEl).toBeTruthy();
+    expect(itemEl).toBeFalsy();
+  });
+  
+  it('should show new style', () => {
+    component.newStyle = true;
+    component.control.setErrors(CustomValidatorErrors.walletIncorrectPassword);
+    component.control.markAsTouched();
+    fixture.detectChanges();
+    const errorIconEl = fixture.debugElement.query(By.css('ion-icon.ux_input_container__item__error_icon'));
+    const itemEl = fixture.debugElement.query(By.css('ion-item.error'));
+    expect(errorIconEl).toBeFalsy();
+    expect(itemEl).toBeTruthy();
   });
 });
