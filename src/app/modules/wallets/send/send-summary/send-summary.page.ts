@@ -180,18 +180,25 @@ export class SendSummaryPage implements OnInit {
 
       const aWallet = await this.walletsFactory.create().oneBy(this.blockchain);
       aWallet.onNeedPass().subscribe(() => password.value());
-      aWallet.sendTxs(
-        await new SolanaSendTxsOf(
-          new SolanaSend(
-            this.summaryData.amount,
-            new SolanaToken(this.summaryData.currency as RawToken),
-            this.summaryData.address
-          ),
-          aWallet,
-          this.blockchain,
-          this.solanaConnection.create(this.blockchain)
-        ).blockchainTxs()
-      ).then(() => this.notifyWhenTransactionMined());
+      aWallet
+        .sendTxs(
+          await new SolanaSendTxsOf(
+            new SolanaSend(
+              this.summaryData.amount,
+              new SolanaToken(this.summaryData.currency as RawToken),
+              this.summaryData.address
+            ),
+            aWallet,
+            this.blockchain,
+            this.solanaConnection.create(this.blockchain)
+          ).blockchainTxs()
+        )
+        .then(() => this.notifyWhenTransactionMined())
+        .catch((error) => {
+          this.createNotification('error');
+          this.txInProgressService.finishTx(this.txInProgress);
+          throw error;
+        });
       this.openInProgressModal();
     }
   }
