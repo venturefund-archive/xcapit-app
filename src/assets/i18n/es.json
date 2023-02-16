@@ -1838,6 +1838,7 @@
         "badge": "En progreso",
         "swap_title": "Intercambio",
         "send_title": "Envío",
+        "solana-send_title": "Envío",
         "title": "Operaciones"
       }
     },
