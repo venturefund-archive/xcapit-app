@@ -16,11 +16,22 @@ import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { BitrefillOperation } from '../shared-ramps/models/bitrefill-operation/default-bitrefill-operation';
-import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { RawToken, TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { BitrefillOperationFactory } from '../shared-ramps/models/bitrefill-operation/factory/bitrefill-operation.factory';
+import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ActivatedRoute } from '@angular/router';
+import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
+import { Token } from '../../swaps/shared-swaps/models/token/token';
+import { FixedTokens } from '../../swaps/shared-swaps/models/filtered-tokens/fixed-tokens';
+import { TokenPricesInjectable } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.injectable';
+import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/injectable/token-detail.injectable';
+import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
+import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
+
 @Component({
   selector: 'app-bitrefill',
   template: `
@@ -59,8 +70,16 @@ export class BitrefillPage {
   operation: BitrefillOperation;
   rawOperationData: RawBitrefillOperation;
   availablePaymentMethods = ['usdc_polygon', 'ethereum', 'usdt_erc20', 'usdc_erc20'];
+  modalHref: string;
   modalOpened: boolean;
-  
+  tplToken: RawToken;
+  tplNativeToken: RawToken;
+  balance: number;
+  nativeBalance: number;
+  tokenDetail: TokenDetail;
+  nativeToken: Token;
+  private wallet: Wallet;
+  private blockchain: Blockchain;
   constructor(
     private translate: TranslateService,
     private modalController: ModalController,
@@ -75,10 +94,15 @@ export class BitrefillPage {
     private blockchains: BlockchainsFactory,
     private bitrefillOperation: BitrefillOperationFactory,
     private route: ActivatedRoute,
-    private platform: Platform
+    private platform: Platform,
+    private tokenDetailInjectable: TokenDetailInjectable,
+    private tokenPricesFactory: TokenPricesInjectable,
+    private covalentBalancesFactory: CovalentBalancesInjectable,
+    private walletsFactory: WalletsFactory
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    this.modalHref = window.location.href;
     this.setURL();
     this.addListener();
     this.platform.backButton.subscribeWithPriority(10, () => {
@@ -123,8 +147,18 @@ export class BitrefillPage {
 
   async messageHandler(event) {
     this.rawOperationData = JSON.parse(event.data);
-    if (this.rawOperationData.event === 'payment_intent') {
+
+    if (this.rawOperationData.event === 'invoice_created') {
       this.operation = this.dataOf();
+
+      this.tplToken = (await this.operation.token()).json();
+
+      this.setBlockchain(this.tplToken.network);
+
+      await this.setWallet();
+      await this.setTokenDetail();
+      await this.checksBeforeSendTx();
+    } else if (this.rawOperationData.event === 'payment_intent') {
       await this.handleSubmit();
     }
   }
@@ -156,9 +190,6 @@ export class BitrefillPage {
   }
 
   async handleSubmit() {
-    if (!(await this.checksBeforeSend())) {
-      return;
-    }
     try {
       const password = await this.askForPassword();
       if (!password) {
@@ -170,18 +201,24 @@ export class BitrefillPage {
     }
   }
 
-  private async checksBeforeSend(): Promise<boolean> {
+  private async checksBeforeSendTx(): Promise<boolean> {
+    if (!(await this.userCanAffordTx())) {
+      this.showInsufficientBalanceModal();
+      return false;
+    }
     if (!(await this.userCanAffordFees())) {
-      await this.failedTransaction();
+      this.showInsufficientBalanceFeeModal();
       return false;
     }
-
-    if (!this.availablePaymentMethods.includes(this.operation.paymentMethod())) {
-      await this.failedTransaction();
-      return false;
-    }
-
     return true;
+  }
+
+  private async setTokenDetail() {
+    const token = await this.operation.token();
+    this.nativeToken = this.blockchains.create().oneById(this.tplToken.chainId.toString()).nativeToken();
+
+    this.tokenDetail = await this.tokenDetailOf(token);
+    this.balance = this.tokenDetail.balance;
   }
 
   private async userCanAffordFees(): Promise<boolean> {
@@ -190,6 +227,10 @@ export class BitrefillPage {
       (await this.operation.amount()).value(),
       (await this.operation.token()).json() as Coin
     );
+  }
+
+  private async userCanAffordTx(): Promise<boolean> {
+    return this.balance >= (await this.operation.amount()).value();
   }
 
   private async send(password: string) {
@@ -241,6 +282,57 @@ export class BitrefillPage {
     await this.toastService.showErrorToast({
       message: this.translate.instant('fiat_ramps.bitrefill.toast.error'),
     });
+  }
+
+  showInsufficientBalanceFeeModal() {
+    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
+    this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
+  }
+
+  async showInsufficientBalanceModal() {
+    const text = 'swaps.home.balance_modal.insufficient_balance.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
+    this.openModalBalance(await this.operation.token(), text, primaryButtonText, secondaryButtonText);
+  }
+
+  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
+    if (!this.modalOpened) {
+      const modal = await this.modalController.create({
+        component: BuyOrDepositTokenToastComponent,
+        cssClass: 'ux-toast-warning',
+        showBackdrop: false,
+        id: 'feeModal',
+        componentProps: { token, text, primaryButtonText, secondaryButtonText },
+      });
+      if (window.location.href === this.modalHref) {
+        await modal.present();
+        this.modalOpened = true;
+      }
+      await modal.onDidDismiss().then(() => (this.modalOpened = false));
+    }
+  }
+
+  private async setWallet() {
+    this.wallet = await this.walletsFactory.create().oneBy(this.blockchain);
+  }
+
+  private async tokenDetailOf(aToken: Token) {
+    const tokenDetail = this.tokenDetailInjectable.create(
+      this.covalentBalancesFactory.create(this.wallet.address(), new FixedTokens([aToken])),
+      this.tokenPricesFactory.create(new FixedTokens([aToken])),
+      aToken
+    );
+    await tokenDetail.cached();
+    await tokenDetail.fetch();
+
+    return tokenDetail;
+  }
+
+  private setBlockchain(aBlockchainName: string) {
+    this.blockchain = this.blockchains.create().oneByName(aBlockchainName);
   }
 
   private validPassword(password: Password) {
