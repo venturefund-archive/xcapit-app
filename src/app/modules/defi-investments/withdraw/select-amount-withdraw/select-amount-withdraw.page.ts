@@ -33,10 +33,10 @@ import { TwoPiInvestmentFactory } from '../../shared-defi-investments/models/two
       </ion-toolbar>
     </ion-header>
     <ion-content *ngIf="this.investmentProduct">
-      <ion-card class="ux-card saw__expandable_info">
+      <ion-card class="ux-card no-border saw__expandable_info">
         <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
       </ion-card>
-      <ion-card class="ux-card saw__amount_card">
+      <ion-card class="ux-card no-border saw__amount_card">
         <form [formGroup]="this.form" *ngIf="this.investmentProduct && this.token">
           <app-amount-input-card
             *ngIf="this.investedAmount"

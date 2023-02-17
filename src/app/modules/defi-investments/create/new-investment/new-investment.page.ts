@@ -30,14 +30,14 @@ import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ram
         <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content *ngIf="this.investmentProduct">
-      <ion-card class="ux-card">
+    <ion-content class="ni" *ngIf="this.investmentProduct">
+      <ion-card class="ux-card no-border">
         <app-expandable-investment-info
           fbPrefix="ux_invest"
           [investmentProduct]="this.investmentProduct"
         ></app-expandable-investment-info>
       </ion-card>
-      <ion-card class="ux-card">
+      <ion-card class="ux-card no-border">
         <form [formGroup]="this.form">
           <app-amount-input-card
             *ngIf="this.investmentProduct && this.token && this.tokenBalance !== undefined"

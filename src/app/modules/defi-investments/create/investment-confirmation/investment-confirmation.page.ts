@@ -55,8 +55,8 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
         <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content *ngIf="this.product">
-      <ion-card class="ux-card">
+    <ion-content class="ic" *ngIf="this.product">
+      <ion-card class="ux-card no-border">
         <app-expandable-investment-info
           fbPrefix="ux_invest"
           [investmentProduct]="this.product"
