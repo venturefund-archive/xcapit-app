@@ -109,6 +109,6 @@ describe('RemoveWalletPage', () => {
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', false);
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('loggedIn', false);
     expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
-    expect(ionicStorageServiceSpy.remove).toHaveBeenCalledTimes(4);
+    expect(ionicStorageServiceSpy.remove).toHaveBeenCalledTimes(5);
   });
 });
