@@ -1,6 +1,6 @@
 :host {
   ion-content {
-    --background: var(--ion-color-neutral10);
+    --background: var(--ion-color-background);
   }
 
   .ion-text-start {
@@ -46,5 +46,10 @@
         border-radius: 8px;
       }
     }
+  }
+
+  .no-border {
+    border: none;
+    box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
   }
 }

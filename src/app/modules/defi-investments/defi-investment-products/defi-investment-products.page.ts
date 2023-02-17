@@ -33,7 +33,7 @@ import { InvestmentProfiles } from '../shared-defi-investments/models/investment
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content [style]="this.contentFixedStyle">
+    <ion-content class="dp" [style]="this.contentFixedStyle">
       <div class="dp__subheader">
         <div class="dp__subheader__title ux-font-num-subtitulo">
           <ion-text>

@@ -1,5 +1,7 @@
 :host {
   .ni {
+    --background: var(--ion-color-background);
+
     &__footer {
       text-align: center;
       box-shadow: 0 0 16px rgb(28 45 94 / 20%);
@@ -38,5 +40,10 @@
       flex-direction: column;
       gap: 22px;
     }
+  }
+
+  .no-border {
+    border: none;
+    box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
   }
 }
