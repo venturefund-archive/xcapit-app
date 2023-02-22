@@ -1,5 +1,5 @@
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,19 +13,8 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-const coinClicked = {
-  id: 1,
-  name: 'MATIC - MATIC',
-  logoRoute: 'assets/img/coins/MATIC.svg',
-  last: false,
-  value: 'MATIC',
-  network: 'MATIC',
-  chainId: 42,
-  moonpayCode: 'matic',
-  native: true,
-  rpc: '',
-};
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { of } from 'rxjs';
 
 describe('ProviderTokenSelectionPage', () => {
   let component: ProviderTokenSelectionPage;
@@ -36,6 +25,31 @@ describe('ProviderTokenSelectionPage', () => {
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+
+  const coinClicked = {
+    id: 1,
+    name: 'MATIC - MATIC',
+    logoRoute: 'assets/img/coins/MATIC.svg',
+    last: false,
+    value: 'MATIC',
+    network: 'MATIC',
+    chainId: 42,
+    moonpayCode: 'matic',
+    native: true,
+    rpc: '',
+  };
+
+  const availableKriptonCurrencies = [
+    {
+      network: 'BSC',
+      currencies: ['USDT', 'DAI'],
+    },
+    {
+      network: 'MATIC',
+      currencies: ['USDC', 'MATIC'],
+    },
+  ];
 
   beforeEach(() => {
     fakeNavController = new FakeNavController();
@@ -56,6 +70,10 @@ describe('ProviderTokenSelectionPage', () => {
       }
     );
 
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
+    });
+
     providersSpy = jasmine.createSpyObj('Providers', {
       all: rawProvidersData,
       byAlias: rawProvidersData.find((provider) => provider.alias === 'kripton'),
@@ -69,6 +87,7 @@ describe('ProviderTokenSelectionPage', () => {
       declarations: [ProviderTokenSelectionPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
       imports: [IonicModule, TranslateModule.forRoot()],
       providers: [
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
@@ -86,19 +105,19 @@ describe('ProviderTokenSelectionPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render a list of coins', async () => {
+  it('should render a list of coins',  fakeAsync(() => {
     component.ionViewWillEnter();
-    await fixture.whenRenderingDone();
+    tick();
     fixture.detectChanges();
     const list = fixture.debugElement.query(By.css('app-token-selection-list'));
     expect(list).toBeTruthy();
-  });
+  }));
 
-  it('should navigate to provider selection page when clickedCoin event is fired', async () => {
+  it('should navigate to provider selection page when clickedCoin event is fired', fakeAsync(() => {
     component.ionViewWillEnter();
-    await fixture.whenRenderingDone();
+    tick();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
-  });
+  }));
 });

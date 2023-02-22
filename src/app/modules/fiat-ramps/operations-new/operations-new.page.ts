@@ -149,7 +149,7 @@ export class OperationsNewPage implements AfterViewInit {
     private providers: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
     private modalController: ModalController,
-    private kriptonStorageService: KriptonStorageService
+    private kriptonStorageService: KriptonStorageService,
   ) {}
 
   ngAfterViewInit() {
@@ -171,20 +171,20 @@ export class OperationsNewPage implements AfterViewInit {
     });
   }
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.checkKriptonAgreement();
-    this.availableCoins();
+    await this.availableCoins();
     this.setCountry();
     this.setCurrency();
     this.subscribeToFormChanges();
     this.dynamicPrice();
   }
 
-  availableCoins() {
-    this.providerTokens = new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(
+  async availableCoins() {
+    this.providerTokens = await new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins(), this.fiatRampsService).byAlias(
       'kripton'
     );
   }

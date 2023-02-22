@@ -17,6 +17,8 @@ import { RemoteConfigService } from '../../../../../shared/services/remote-confi
 import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 import { FakeAppVersion } from 'src/app/shared/models/app-version/fake/fake-app-version';
+import { FiatRampsService } from '../../services/fiat-ramps.service';
+import { of } from 'rxjs';
 
 describe('BuyOrDepositTokenToastComponent', () => {
   let component: BuyOrDepositTokenToastComponent;
@@ -34,8 +36,19 @@ describe('BuyOrDepositTokenToastComponent', () => {
   let fakeAppVersion: FakeAppVersion;
   let appVersionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
 
+  const availableKriptonCurrencies = [
+    {
+      network: 'MATIC',
+      currencies: ['USDC', 'MATIC', 'DAI'],
+    },
+  ];
   beforeEach(waitForAsync(() => {
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
+    });
+
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     tokenSpy = jasmine.createSpyObj('Token', { symbol: 'USDC', json: { network: 'MATIC' } });
@@ -46,7 +59,7 @@ describe('BuyOrDepositTokenToastComponent', () => {
       {},
       { tokenOperationData: undefined }
     );
-    spyOn(ProviderTokensOf.prototype, 'all').and.returnValue([coinSpy]);
+    spyOn(ProviderTokensOf.prototype, 'all').and.resolveTo([coinSpy]);
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoins: [] });
     providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', { create: [] });
     translateServiceSpy = jasmine.createSpyObj('TranslateService', { instant: 'test' });
@@ -77,6 +90,7 @@ describe('BuyOrDepositTokenToastComponent', () => {
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
+        {provide: FiatRampsService, useValue: fiatRampsServiceSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -119,13 +133,14 @@ describe('BuyOrDepositTokenToastComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/select-provider']);
   }));
 
-  it('should hide buy button if token is not available for purchase', () => {
+  it('should hide buy button if token is not available for purchase', fakeAsync(() => {
     component.token = unavailableTokenSpy;
     fixture.detectChanges();
     component.ngOnInit();
+    tick();
     fixture.detectChanges();
     expect(component.primaryButtonText).toBeUndefined();
-  });
+  }));
 
   it('should show buy button if token is not available for purchase', () => {
     component.ngOnInit();

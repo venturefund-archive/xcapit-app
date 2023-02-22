@@ -53,6 +53,13 @@ describe('DirectaPage', () => {
   let priceSubject: Subject<number>;
   let fakeProviders: FakeProviders;
 
+  const availableKriptonCurrencies = [
+    {
+      network: 'MATIC',
+      currencies: ['USDC', 'MATIC', 'DAI'],
+    },
+  ];
+
   beforeEach(waitForAsync(() => {
     coinsSpy = [
       jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' }),
@@ -79,6 +86,7 @@ describe('DirectaPage', () => {
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       getDirectaExchangeRate: of({ fee: 1 }),
+      getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
     });
 
     providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
@@ -173,7 +181,7 @@ describe('DirectaPage', () => {
   });
 
   it('should add coin if user doesnt have it in wallet when Continue is clicked', async () => {
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     fixture.debugElement.query(By.css('ion-button[name="Continue"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -193,8 +201,8 @@ describe('DirectaPage', () => {
     expect(component.paymentType).toEqual('fiat_ramps.shared.constants.payment_types.directa24_voucher');
   }));
 
-  it('should unsubscribe when leave', () => {
-    component.ionViewWillEnter();
+  it('should unsubscribe when leave', async () => {
+    await component.ionViewWillEnter();
     const nextSpy = spyOn(component.destroy$, 'next');
     const completeSpy = spyOn(component.destroy$, 'complete');
     component.ionViewWillLeave();
@@ -204,6 +212,7 @@ describe('DirectaPage', () => {
 
   it('should recalculate fiat amount when crypto amount is changed', fakeAsync(() => {
     component.ionViewWillEnter();
+    tick();
     component.form.patchValue({ cryptoAmount: 3 });
     fixture.detectChanges();
     tick();
@@ -213,6 +222,7 @@ describe('DirectaPage', () => {
 
   it('should recalculate crypto amount when fiat amount is changed', fakeAsync(() => {
     component.ionViewWillEnter();
+    tick();
     component.form.patchValue({ fiatAmount: 9.1234 });
     fixture.detectChanges();
     tick();
@@ -221,9 +231,9 @@ describe('DirectaPage', () => {
     expect(component.fee.value).toEqual(4);
   }));
 
-  it('should validate that the crypto amount equals the minimum value in dollars', () => {
+  it('should validate that the crypto amount equals the minimum value in dollars', async () => {
     directaPriceSpy.value.and.returnValue(of(1));
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     component.form.patchValue({ fiatAmount: 1 });
     fixture.detectChanges();
     expect(component.form.controls.fiatAmount.valid).toBeFalse();
@@ -231,8 +241,8 @@ describe('DirectaPage', () => {
     expect(component.form.controls.fiatAmount.valid).toBeTrue();
   });
 
-  it('should reset info when input changes', () => {
-    component.ionViewWillEnter();
+  it('should reset info when input changes', async () => {
+    await component.ionViewWillEnter();
     component.form.patchValue({ fiatAmount: null });
     fixture.detectChanges();
     expect(component.fee.value).toEqual(0);
@@ -243,8 +253,8 @@ describe('DirectaPage', () => {
     expect(component.form.value.fiatAmount).toEqual(0);
   });
 
-  it('should update inputs when price is set', () => {
-    component.ionViewWillEnter();
+  it('should update inputs when price is set', async () => {
+    await component.ionViewWillEnter();
     component.form.patchValue({ cryptoAmount: 1 });
     priceSubject.next(1);
     fixture.detectChanges();
