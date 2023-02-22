@@ -310,6 +310,7 @@ export class OperationsNewPage implements AfterViewInit {
       const auth_token = await this.kriptonStorageService.get('access_token');
       this.kriptonStorageService.set('privacy_and_policy_accepted', true);
       const operationData = Object.assign({ email, auth_token }, this.storageOperationService.getData());
+      operationData.amount_in = this.form.value.fiatAmount + this.fiatFee.value;
       const operationResponse = await this.fiatRampsService.createOperation(operationData).toPromise();
       console.log('operationResponse: ', operationResponse)
       const newData = Object.assign(
@@ -332,6 +333,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   async setOperationStorage() {
+    //Considerar fee
     const data: OperationDataInterface = {
       country: this.country.name,
       type: 'cash-in',

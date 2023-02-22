@@ -6,7 +6,6 @@ import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { KriptonNetworks } from '../../constants/kripton-networks';
 import { ProviderPrice } from '../provider-price/provider-price';
 
-//TODO: Cambiar httpClinet por fiatRampService, reutilizar para ambos calculos (quotations y fee)
 export class DefaultKriptonPrice implements ProviderPrice {
   kriptonNetworks = KriptonNetworks;
   constructor(
