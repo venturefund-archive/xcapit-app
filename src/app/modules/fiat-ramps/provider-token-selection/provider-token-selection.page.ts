@@ -6,8 +6,7 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
-import { BrowserService } from '../../../shared/services/browser/browser.service';
-import { LINKS } from 'src/app/config/static-links';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 
 @Component({
   selector: 'app-provider-token-selection',
@@ -45,7 +44,8 @@ export class ProviderTokenSelectionPage implements OnInit {
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providersFactory: ProvidersFactory,
-    private tokenOperationDataService: TokenOperationDataService
+    private tokenOperationDataService: TokenOperationDataService,
+    private fiatRampsService: FiatRampsService
   ) {}
 
   ngOnInit() {}
@@ -64,7 +64,7 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   async availableCoins() {
-    this.coins = new ProviderTokensOf(this.providers(), this.apiWalletService.getCoins()).all();
+    this.coins = await new ProviderTokensOf(this.providers(), this.apiWalletService.getCoins(), this.fiatRampsService).all();
   }
 
   providers(): Providers {

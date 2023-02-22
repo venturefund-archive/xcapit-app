@@ -4,11 +4,23 @@ import { rawProvidersData } from '../../fixtures/raw-providers-data';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ProviderTokensOf } from './provider-tokens-of';
 import { of } from 'rxjs';
+import { FiatRampsService } from '../../services/fiat-ramps.service';
 
 describe('ProviderTokensOf', () => {
   let providers: Providers;
+  let providerTokensOf : ProviderTokensOf;
   let coinsSpy: jasmine.SpyObj<Coin>[];
-
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  const availableKriptonCurrencies = [
+    {
+      network: 'ERC20',
+      currencies: ['ETH'],
+    },
+    {
+      network: 'MATIC',
+      currencies: ['USDC', 'DAI'],
+    },
+  ];
   beforeEach(() => {
     providers = new FakeProviders(
       rawProvidersData,
@@ -16,6 +28,10 @@ describe('ProviderTokensOf', () => {
       Promise.resolve([]),
       of()
     );
+
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
+    });
 
     coinsSpy = [
       jasmine.createSpyObj(
@@ -38,24 +54,33 @@ describe('ProviderTokensOf', () => {
         'Coin',
         {},
         {
+          value: 'DAI',
+          network: 'MATIC',
+        }
+      ),
+      jasmine.createSpyObj(
+        'Coin',
+        {},
+        {
           value: 'RIF',
           network: 'RSK',
         }
       ),
     ];
+    providerTokensOf = new ProviderTokensOf(providers, coinsSpy, fiatRampsServiceSpy)
   });
 
-  it('new', () => {
-    expect(new ProviderTokensOf(providers, coinsSpy)).toBeTruthy();
+  it('new', async () => {
+    expect(providerTokensOf).toBeTruthy();
   });
 
-  it('all', () => {
+  it('all', async () => {
     const expectedCoins = coinsSpy.filter((coin) => coin.value !== 'RIF');
-    expect(new ProviderTokensOf(providers, coinsSpy).all()).toEqual(expectedCoins);
+    expect(await providerTokensOf.all()).toEqual(expectedCoins);
   });
 
-  it('byAlias', () => {
+  it('byAlias', async () => {
     const expectedCoins = coinsSpy.filter((coin) => coin.value == 'USDC');
-    expect(new ProviderTokensOf(providers, coinsSpy).byAlias('PX')).toEqual(expectedCoins);
+    expect(await providerTokensOf.byAlias('PX')).toEqual(expectedCoins);
   });
 });

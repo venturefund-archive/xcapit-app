@@ -10,6 +10,7 @@ import { TokenOperationDataService } from '../../services/token-operation-data/t
 import { RemoteConfigService } from '../../../../../shared/services/remote-config/remote-config.service';
 import { AppVersionInjectable } from '../../../../../shared/models/app-version/injectable/app-version.injectable';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { FiatRampsService } from '../../services/fiat-ramps.service';
 
 @Component({
   selector: 'app-buy-or-deposit-token-toast',
@@ -38,11 +39,12 @@ export class BuyOrDepositTokenToastComponent implements OnInit {
     private translateService: TranslateService,
     private remoteConfigService: RemoteConfigService,
     private appVersion: AppVersionInjectable,
-    private platform: PlatformService
+    private platform: PlatformService,
+    private fiatRampsService : FiatRampsService
   ) {}
 
   async ngOnInit() {
-    if (this.isTokenAvailableForPurchase() && (await this.isEnabledByReviewFeatureFlag())) {
+    if (await this.isTokenAvailableForPurchase() && (await this.isEnabledByReviewFeatureFlag())) {
       this.primaryButtonText = this.translateService.instant(this.primaryButtonText, { token: this.token.symbol() });
     } else {
       this.primaryButtonText = undefined;
@@ -52,9 +54,9 @@ export class BuyOrDepositTokenToastComponent implements OnInit {
     this.secondaryButtonText = this.translateService.instant(this.secondaryButtonText, { token: this.token.symbol() });
   }
 
-  private isTokenAvailableForPurchase(): boolean {
-    return !!new ProviderTokensOf(this.providersFactory.create(), this.apiWalletService.getCoins())
-      .all()
+  private async isTokenAvailableForPurchase(): Promise<boolean> {
+    return !!(await new ProviderTokensOf(this.providersFactory.create(), this.apiWalletService.getCoins(), this.fiatRampsService)
+      .all())
       .find((c) => c.value === this.token.symbol() && c.network === this.token.json().network);
   }
 

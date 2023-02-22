@@ -210,11 +210,12 @@ describe('MoonpayPage', () => {
     expect(walletMaintenanceServiceSpy.wipeDataFromService).toHaveBeenCalledTimes(1);
   });
 
-  it('should select the currency specified by parameter on init', async () => {
-    await component.ionViewWillEnter();
+  it('should select the currency specified by parameter on init', fakeAsync( () => {
+    component.ionViewWillEnter();
+    tick();
     fixture.detectChanges();
     expect(component.selectedCurrency.value).toEqual(tokenOperationDataServiceSpy.tokenOperationData.asset);
-  });
+  }));
 
   it('should show modal', async () => {
     await component.ionViewWillEnter();
@@ -261,13 +262,14 @@ describe('MoonpayPage', () => {
     expect(component.minimumFiatAmount).toEqual(0.0664);
   }));
 
-  it('should validate minimum amount', () => {
+  it('should validate minimum amount', fakeAsync(() => {
     component.ionViewWillEnter();
+    tick();
     component.form.patchValue({ fiatAmount: 0.000001 });
     fixture.detectChanges();
     expect(component.form.controls.fiatAmount.valid).toBeFalse();
     component.form.patchValue({ fiatAmount: 30 });
     fixture.detectChanges();
     expect(component.form.controls.fiatAmount.valid).toBeTrue();
-  });
+  }));
 });

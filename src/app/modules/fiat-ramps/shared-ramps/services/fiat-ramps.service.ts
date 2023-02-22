@@ -14,6 +14,7 @@ import { HttpParams } from '@angular/common/http';
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
   private provider = '1';
+ 
 
   constructor(private providersFactory: ProvidersFactory, private http: CustomHttpService) {}
 
@@ -192,5 +193,9 @@ export class FiatRampsService {
 
   private providers(): Providers {
     return this.providersFactory.create();
+  }
+
+  getKriptonAvailableCurrencies(): Observable<any>{
+    return this.http.get(`${environment.apiUrl}/on_off_ramps/kripton/available_currencies`, undefined, undefined, undefined);
   }
 }
