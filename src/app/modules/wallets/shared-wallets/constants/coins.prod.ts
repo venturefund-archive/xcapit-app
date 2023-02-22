@@ -382,7 +382,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 9,
     native: true,
     abi: '',
-    symbol: 'SOL',
+    symbol: 'SOLUSDT',
   },
   {
     id: 30,
@@ -397,6 +397,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 6,
     native: false,
     abi: '',
+    symbol: 'LINKUSDT',
   },
   {
     id: 31,
