@@ -211,14 +211,12 @@ export class OperationsNewPage implements AfterViewInit {
   private async cryptoAmountChange(value: any) {
     value = parseFloat(value);
     this.form.patchValue({ fiatAmount: new RoundedNumber((value + this.fee.value ) * this.fiatPrice).value() }, { emitEvent: false, onlySelf: true });
-    console.log('fiatAmount after patching (BUT BEFORE getUpdatedValues) :', this.form.value.fiatAmount, typeof this.form.value.fiatAmount)
     await this.getUpdatedValues();
   }
 
   private async fiatAmountChange(value: any) {
     value = parseFloat(value);
     this.form.patchValue({ cryptoAmount: (value - this.fee.value) / this.fiatPrice }, { emitEvent: false, onlySelf: true });
-    console.log('cryptoAmount after patching (BUT BEFORE getUpdatedValues) :', this.form.value.cryptoAmount, typeof this.form.value.cryptoAmount)
     await this.getUpdatedValues();
   }
 
@@ -246,7 +244,6 @@ export class OperationsNewPage implements AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         this.fiatPrice = price;
-        console.log('price obtained from dynamicPrice: ', price)
         if (this.form.value.fiatAmount || this.form.value.cryptoAmount) this.getUpdatedValues();
         if (!this.minimumFiatAmount) this.getMinimumFiatAmount();
       });
@@ -275,13 +272,10 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   async getUpdatedValues() {
-    console.log('about to get fee on kripton, showing parameters:')
-    console.log('fiatAmount: ', this.form.value.fiatAmount, typeof this.form.value.fiatAmount)
     this.fiatRampsService
       .getKriptonFee(
         this.fiatCurrency, this.form.value.fiatAmount, this.selectedCurrency.value, this._network()
       ).toPromise().then((res) => {
-        console.log('fee calculation (entire operation): ', res)
         this.fee.value = parseFloat(res.data.costs)
         this.form.patchValue({ fiatAmount: parseFloat(res.data.amount_in) }, { emitEvent: false, onlySelf: true });
         this.form.patchValue({ cryptoAmount: parseFloat(res.data.amount_out) }, { emitEvent: false, onlySelf: true });
@@ -312,12 +306,10 @@ export class OperationsNewPage implements AfterViewInit {
       const operationData = Object.assign({ email, auth_token }, this.storageOperationService.getData());
       operationData.amount_in = this.form.value.fiatAmount + this.fiatFee.value;
       const operationResponse = await this.fiatRampsService.createOperation(operationData).toPromise();
-      console.log('operationResponse: ', operationResponse)
       const newData = Object.assign(
         { operation_id: operationResponse.id, created_at: operationResponse.created_at },
         this.storageOperationService.getData()
       );
-      console.log('newData: ', newData)
       this.storageOperationService.updateData(newData);
       this.navController.navigateRoot('/fiat-ramps/purchase-order/1');
     } else {
@@ -333,7 +325,6 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   async setOperationStorage() {
-    //Considerar fee
     const data: OperationDataInterface = {
       country: this.country.name,
       type: 'cash-in',

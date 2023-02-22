@@ -1,8 +1,8 @@
 export interface OperationDataInterface {
   country?: string;
   type: string;
-  amount_in: string;
-  amount_out: string;
+  amount_in: number;
+  amount_out: number;
   currency_in: string;
   currency_out: string;
   price_in: string;

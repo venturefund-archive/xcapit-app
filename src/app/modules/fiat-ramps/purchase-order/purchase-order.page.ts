@@ -67,9 +67,9 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
         (removePhoto)="this.removePhoto()"
       ></app-voucher-card>
       <app-kripton-account-info-card
-        *ngIf="this.isFirstStep"
+        *ngIf="this.isFirstStep && !this.isLoading"
         [country]="this.data.country.toLowerCase()"
-        [amount]="this.totalAmountIn"
+        [amount]="this.data.amount_in"
         [currency]="this.data.currency_in.toUpperCase()"
         (copyValue)="this.copyToClipboard($event)"
       ></app-kripton-account-info-card>
@@ -125,9 +125,8 @@ export class PurchaseOrderPage {
   cameraPlugin = Camera;
   isSending = false;
   totalAmountIn: string;
-  // operationData: FiatRampOperation[];
   operationData: any;
-
+  isLoading = false;
 
   constructor(
     private clipboardService: ClipboardService,
@@ -145,11 +144,9 @@ export class PurchaseOrderPage {
 
   ionViewWillEnter() {
     this.getStep();
-    // this.getOperationDataV2();
     this.getStorageOperationData();
     this.getCurrencyOut();
     this.getOperationCreationDate();
-    this.getTotalAmountIn();
   }
 
   private getCurrencyOut() {
@@ -168,40 +165,22 @@ export class PurchaseOrderPage {
 
   private getStorageOperationData() {
     this.data = this.storageOperationService.getData();
-    console.log('transactionData from getOperationData: ', this.data);
+
     this.voucher = this.storageOperationService.getVoucher();
     this.getKriptonOperationData();
   }
 
-  //TODO: REEMPLAZAR ESTO CON PEDIDO DE KRIPTON PARA LA FEE (GetSingleOperation - codigo TIPO) CUANDO ESTE BACKEND DEPLOYADO
-
   private async getKriptonOperationData() {
-    // this.data = this.storageOperationService.getData();
-    // this.voucher = this.storageOperationService.getVoucher();
     const email = await this.kriptonStorageService.get('email');
     const auth_token = await this.kriptonStorageService.get('access_token');
-    console.log('rawData: ', this.data)
-    // const operation = await this.fiatRampsService
-    //   .getUserSingleOperation(rawData.operation_id, { email: email, auth_token: auth_token })
-    //   .toPromise();
-    // this.data = await this.fiatRampsService
-    //   .getUserSingleOperation(rawData.operation_id, { email: email, auth_token: auth_token })
-    //   .toPromise();
     this.operationData = await this.fiatRampsService
       .getUserSingleOperation(this.data.operation_id, { email: email, auth_token: auth_token })
-      .toPromise();
-    console.log('obtained new operation: ', this.operationData)
+      .toPromise().then((res) => {
+        this.data.amount_in = res[0].amount_in
+        this.isLoading = false;
+      });
   }
 
-  private getTotalAmountIn() {
-    if (this.data.fee) {
-      this.totalAmountIn = (parseFloat(this.data.amount_in) + parseFloat(this.data.fee)).toString();
-    } else {
-      this.totalAmountIn = this.data.amount_in;
-    }
-    //amount in = amount out + fiat / amount in
-    this.totalAmountIn = ((this.operationData.amount_out + this.operationData.fiat_fee) / this.operationData.amount_in).toString();
-  }
 
   copyToClipboard(clipboardInfo) {
     this.clipboardService.write({ string: clipboardInfo.value }).then(() => {
