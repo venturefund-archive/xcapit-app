@@ -14,7 +14,7 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
   template: ` <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
+          <ion-back-button defaultHref="" (click)="this.back()"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.home_of_purchases.header' | translate }}
@@ -172,5 +172,9 @@ export class HomeOfPurchasesPage {
       this.message = this.translate.instant('fiat_ramps.kyc_status.approving.message');
       this.style = 'approving';
     }
+  }
+  
+  back(){
+    return this.navController.navigateBack('/tabs/wallets');
   }
 }

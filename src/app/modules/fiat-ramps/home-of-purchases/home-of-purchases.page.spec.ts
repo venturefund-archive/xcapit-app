@@ -201,4 +201,9 @@ describe('HomeOfPurchasesPage', () => {
     const moonpayCardEl = fixture.debugElement.query(By.css('div.hop__moonpay-purchases'));
     expect(moonpayCardEl).toBeFalsy();
   });
+
+  it('should back to /tabs/wallets on back', () => {
+    fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/tabs/wallets')
+  })
 });
