@@ -188,8 +188,9 @@ describe('OperationsNewPage', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should set properly fiatAmount form value with minimum fiat amount', async () => {
+  it('should set properly fiatAmount form value with minimum fiat amount', async () => {
     dynamicKriptonPriceSpy.value.and.returnValue(of(1));
+    fiatRampsServiceSpy.getKriptonFee.and.returnValue(of({data: { costs: '0.50', amount_in: '2913', amount_out: '100' }}))
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
@@ -262,9 +263,11 @@ describe('OperationsNewPage', () => {
     component.ionViewWillEnter();
     tick();
     component.form.patchValue({ cryptoAmount: 1 });
+    tick();
     fixture.detectChanges();
     expect(component.fiatFee.value).toEqual(5)
     priceSubject.next(35);
+    tick();
     fixture.detectChanges();
     expect(component.fiatFee.value).toEqual(17.5)
   }));
