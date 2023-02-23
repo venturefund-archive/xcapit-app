@@ -211,8 +211,7 @@ export class OperationsNewPage implements AfterViewInit {
   private async cryptoAmountChange(value: any) {
     value = parseFloat(value);
     this.form.patchValue(
-      { fiatAmount: new RoundedNumber((value + this.fee.value) * this.fiatPrice).value() },
-      { emitEvent: false, onlySelf: true }
+      { fiatAmount: new RoundedNumber((value + this.fee.value) * this.fiatPrice).value() }, { emitEvent: false, onlySelf: true }
     );
     await this.getUpdatedValues();
   }
@@ -243,7 +242,7 @@ export class OperationsNewPage implements AfterViewInit {
         this.fiatPrice = price;
         if (!this.minimumFiatAmount) {
           this.getMinimumFiatAmount();
-        } else if (this.form.value.fiatAmount || this.form.value.cryptoAmount){
+        } else if (this.form.value.fiatAmount || this.form.value.cryptoAmount) {
           this.getUpdatedValues();
         }
       });

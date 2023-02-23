@@ -114,8 +114,6 @@ describe('PurchaseOrderPage', () => {
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       confirmOperation: of({}),
       getUserSingleOperation: of([testOperation]),
-      // getUserSingleOperation: of({data: {amount_in: 100}}),
-
     });
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
       isNative: true,
@@ -236,19 +234,15 @@ describe('PurchaseOrderPage', () => {
     tick();
     fixture.detectChanges();
     tick();
-
     fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('addPhoto', null);
     tick();
     fixture.detectChanges();
     tick();
 
-
     expect(cameraSpy.getPhoto).toHaveBeenCalledTimes(1);
     expect(storageOperationServiceSpy.updateVoucher).toHaveBeenCalledOnceWith(photo);
     expect(component.voucher).toEqual(photo);
     expect(component.percentage).toEqual(100);
-    // discardPeriodicTasks();
-    // flush();
   }));
 
   it('should remove photo on removePhoto', async () => {
