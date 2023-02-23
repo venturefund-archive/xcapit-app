@@ -139,7 +139,7 @@ export class OperationsNewPage implements AfterViewInit {
   fee = { value: 0, token: '' };
   fiatFee = { value: 0, token: '' };
   kriptonNetworks = KriptonNetworks;
-  
+
   constructor(
     public submitButtonService: SubmitButtonService,
     private formBuilder: UntypedFormBuilder,
@@ -204,13 +204,16 @@ export class OperationsNewPage implements AfterViewInit {
       this.cryptoAmountChange(value);
     });
     this.form.get('fiatAmount').valueChanges.subscribe((value) => {
-      this.fiatAmountChange(value)
+      this.fiatAmountChange(value);
     });
   }
 
   private async cryptoAmountChange(value: any) {
     value = parseFloat(value);
-    this.form.patchValue({ fiatAmount: new RoundedNumber((value + this.fee.value ) * this.fiatPrice).value() }, { emitEvent: false, onlySelf: true });
+    this.form.patchValue(
+      { fiatAmount: new RoundedNumber((value + this.fee.value) * this.fiatPrice).value() },
+      { emitEvent: false, onlySelf: true }
+    );
     await this.getUpdatedValues();
   }
 
@@ -232,14 +235,17 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.get('fiatAmount').updateValueAndValidity();
   }
 
-  private async dynamicPrice() {
+  private dynamicPrice() {
     this.createKriptonDynamicPrice()
       .value()
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         this.fiatPrice = price;
-        if (this.form.value.fiatAmount || this.form.value.cryptoAmount) this.getUpdatedValues();
-        if (!this.minimumFiatAmount) this.getMinimumFiatAmount();
+        if (!this.minimumFiatAmount) {
+          this.getMinimumFiatAmount();
+        } else if (this.form.value.fiatAmount || this.form.value.cryptoAmount){
+          this.getUpdatedValues();
+        }
       });
   }
 
@@ -251,12 +257,9 @@ export class OperationsNewPage implements AfterViewInit {
     const response = await this.fiatRampsService.getKriptonMinimumAmount(this.fiatCurrency, data).toPromise();
     this.minimumFiatAmount = parseFloat(response.minimun_general);
     this.addGreaterThanValidator(this.minimumFiatAmount);
-    this.patchFormValue();
+    await this.getUpdatedValues(this.minimumFiatAmount)
   }
 
-  private patchFormValue() {
-    this.form.patchValue({ fiatAmount: this.minimumFiatAmount, cryptoAmount: this.minimumFiatAmount / this.fiatPrice });
-  }
 
   createKriptonDynamicPrice(currency = this.fiatCurrency): DynamicKriptonPrice {
     return this.kriptonDynamicPrice.new(
@@ -266,16 +269,16 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   async getUpdatedValues(fiatAmount?: number) {
-    const fiatAmountAux = fiatAmount ? fiatAmount : this.form.value.fiatAmount
+    const fiatAmountAux = fiatAmount ? fiatAmount : this.form.value.fiatAmount;
     this.fiatRampsService
-      .getKriptonFee(
-        this.fiatCurrency, fiatAmountAux, this.selectedCurrency.value, this._network()
-      ).toPromise().then((res) => {
-        this.fee.value = parseFloat(res.data.costs)
+      .getKriptonFee(this.fiatCurrency, fiatAmountAux, this.selectedCurrency.value, this._network())
+      .toPromise()
+      .then((res) => {
+        this.fee.value = parseFloat(res.data.costs);
         this.form.patchValue({ fiatAmount: parseFloat(res.data.amount_in) }, { emitEvent: false, onlySelf: true });
         this.form.patchValue({ cryptoAmount: parseFloat(res.data.amount_out) }, { emitEvent: false, onlySelf: true });
-        this.setFiatFee(this.fee)
-      })
+        this.setFiatFee(this.fee);
+      });
   }
 
   setCountry() {

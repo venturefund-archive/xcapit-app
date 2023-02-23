@@ -27,31 +27,6 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
-
-
-describe('OperationsNewPage', () => {
-  let component: OperationsNewPage;
-  let fixture: ComponentFixture<OperationsNewPage>;
-  let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
-  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
-  let navControllerSpy: jasmine.SpyObj<NavController>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsNewPage>;
-  let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
-  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
-  let fakeActivatedRoute: FakeActivatedRoute;
-  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
-  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
-  let coinsSpy: jasmine.SpyObj<Coin>[];
-  let dynamicKriptonPriceSpy: jasmine.SpyObj<DynamicKriptonPrice>;
-  let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<DynamicKriptonPriceFactory>;
-  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
-  let providersSpy: jasmine.SpyObj<Providers>;
-  let priceSubject: Subject<number>;
-  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
-  let modalControllerSpy: jasmine.SpyObj<ModalController>;
-  let fakeModalController: FakeModalController;
-  let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
-
   const availableKriptonCurrencies = [
     {
       network: 'MATIC',
@@ -85,6 +60,29 @@ const data = {
   provider: '1',
   network: 'MATIC',
 };
+
+describe('OperationsNewPage', () => {
+  let component: OperationsNewPage;
+  let fixture: ComponentFixture<OperationsNewPage>;
+  let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsNewPage>;
+  let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let coinsSpy: jasmine.SpyObj<Coin>[];
+  let dynamicKriptonPriceSpy: jasmine.SpyObj<DynamicKriptonPrice>;
+  let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<DynamicKriptonPriceFactory>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
+  let priceSubject: Subject<number>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
+  let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
 
   beforeEach(waitForAsync(() => {
     navControllerSpy = new FakeNavController().createSpy();
@@ -258,18 +256,18 @@ const data = {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should update fiat amount when price changes', async () => {
+  it('should update fiat fee when price changes', fakeAsync(() => {
+    component.minimumFiatAmount = 2913
     component.fiatPrice = 10;
-    await component.ionViewWillEnter();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.ionViewWillEnter();
+    tick();
     component.form.patchValue({ cryptoAmount: 1 });
     fixture.detectChanges();
-    expect(component.form.value.fiatAmount).toEqual(10);
-    
+    expect(component.fiatFee.value).toEqual(5)
     priceSubject.next(35);
     fixture.detectChanges();
-    expect(component.form.value.fiatAmount).toEqual(35);
-  });
+    expect(component.fiatFee.value).toEqual(17.5)
+  }));
 
   it('should show modal', async () => {
     await component.ionViewWillEnter();
