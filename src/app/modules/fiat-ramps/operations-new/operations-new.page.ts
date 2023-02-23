@@ -215,13 +215,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   private async fiatAmountChange(value: any) {
-    value = parseFloat(value);
-    this.form.patchValue({ cryptoAmount: (value - this.fee.value) / this.fiatPrice }, { emitEvent: false, onlySelf: true });
-    await this.getUpdatedValues();
-  }
-
-  async updateAmounts(): Promise<void> {
-    await this.getUpdatedValues();
+    await this.getUpdatedValues(parseFloat(value));
   }
 
   private addDefaultValidators() {
@@ -271,10 +265,11 @@ export class OperationsNewPage implements AfterViewInit {
     );
   }
 
-  async getUpdatedValues() {
+  async getUpdatedValues(fiatAmount?: number) {
+    const fiatAmountAux = fiatAmount ? fiatAmount : this.form.value.fiatAmount
     this.fiatRampsService
       .getKriptonFee(
-        this.fiatCurrency, this.form.value.fiatAmount, this.selectedCurrency.value, this._network()
+        this.fiatCurrency, fiatAmountAux, this.selectedCurrency.value, this._network()
       ).toPromise().then((res) => {
         this.fee.value = parseFloat(res.data.costs)
         this.form.patchValue({ fiatAmount: parseFloat(res.data.amount_in) }, { emitEvent: false, onlySelf: true });

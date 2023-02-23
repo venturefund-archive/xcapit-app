@@ -46,6 +46,20 @@ describe('PurchaseOrderPage', () => {
     saved: true,
   };
 
+  const testOperation = {
+    operation_id: 678,
+    operation_type: 'cash-in',
+    status: 'request',
+    currency_in: 'ARS',
+    amount_in: 500.0,
+    currency_out: 'USDC',
+    amount_out: 100.0,
+    created_at: new Date('2021-02-27T10:02:49.719Z'),
+    provider: '1',
+    voucher: false,
+    wallet_address: '0xeeeeeeeee',
+  };
+
   beforeEach(waitForAsync(() => {
     cameraSpy = jasmine.createSpyObj('Camera', {
       requestPermissions: Promise.resolve(),
@@ -99,6 +113,9 @@ describe('PurchaseOrderPage', () => {
     });
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       confirmOperation: of({}),
+      getUserSingleOperation: of([testOperation]),
+      // getUserSingleOperation: of({data: {amount_in: 100}}),
+
     });
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
       isNative: true,
@@ -174,7 +191,7 @@ describe('PurchaseOrderPage', () => {
     fixture.detectChanges();
     const headerTitleEl = fixture.debugElement.query(By.css('ion-title.po__header'));
     const stepOfEl = fixture.debugElement.query(By.css('ion-label.ux_toolbar__step'));
-    const [step1El, step2El] =   fixture.debugElement.queryAll(By.css('ion-label.po__step-wrapper__step__title'));
+    const [step1El, step2El] = fixture.debugElement.queryAll(By.css('ion-label.po__step-wrapper__step__title'));
     const providerTitleEl = fixture.debugElement.query(By.css('div.po__provider ion-text'));
     const kriptonAccountEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const purchaseInfoEl = fixture.debugElement.query(By.css('app-kripton-purchase-info'));
@@ -212,19 +229,26 @@ describe('PurchaseOrderPage', () => {
     });
   });
 
-  it('should add photo on addPhoto', fakeAsync( () => {
+  it('should add photo on addPhoto', fakeAsync(() => {
     storageOperationServiceSpy.getVoucher.and.returnValues(undefined, photo);
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();
+    tick();
     fixture.detectChanges();
+    tick();
+
     fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('addPhoto', null);
     tick();
     fixture.detectChanges();
+    tick();
+
 
     expect(cameraSpy.getPhoto).toHaveBeenCalledTimes(1);
     expect(storageOperationServiceSpy.updateVoucher).toHaveBeenCalledOnceWith(photo);
     expect(component.voucher).toEqual(photo);
     expect(component.percentage).toEqual(100);
+    // discardPeriodicTasks();
+    // flush();
   }));
 
   it('should remove photo on removePhoto', async () => {
@@ -259,7 +283,7 @@ describe('PurchaseOrderPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
   });
-  
+
   it('should send photo and navigate to error when finish button is clicked', async () => {
     kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
     kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
@@ -278,7 +302,7 @@ describe('PurchaseOrderPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/error-operation-km']);
     expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
   });
-  
+
   it('should clean voucher data if navigate back and is first step', () => {
     fakeActivatedRoute.modifySnapshotParams({ step: '1' });
     component.ionViewWillEnter();

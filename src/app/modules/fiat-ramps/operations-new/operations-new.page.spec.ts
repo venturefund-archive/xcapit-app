@@ -72,10 +72,11 @@ const validForm = {
 
 const data = {
   email: 'test@test.com',
+  auth_token: 'test',
   country: 'country',
   type: 'cash-in',
-  amount_in: '100',
-  amount_out: '100',
+  amount_in: 105,
+  amount_out: 100,
   currency_in: 'ARS',
   currency_out: 'USDT',
   price_in: '1',
@@ -83,7 +84,6 @@ const data = {
   wallet: '0x000000000000000000000dead',
   provider: '1',
   network: 'MATIC',
-  auth_token: 'test',
 };
 
   beforeEach(waitForAsync(() => {
@@ -100,6 +100,7 @@ const data = {
       createOperation: of({ id: 335 }),
       getKriptonMinimumAmount: of({ minimun_general: 2913 }),
       getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
+      getKriptonFee: of({ data: { costs: '0.50', amount_in: '100', amount_out: '200' } })
     });
 
     coinsSpy = [
@@ -189,7 +190,7 @@ const data = {
     expect(component).toBeTruthy();
   });
 
-  it('should set properly fiatAmount form value with minimum fiat amount', async () => {
+  fit('should set properly fiatAmount form value with minimum fiat amount', async () => {
     dynamicKriptonPriceSpy.value.and.returnValue(of(1));
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);

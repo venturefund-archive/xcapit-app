@@ -97,7 +97,6 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
         </div>
       </div>
 
-      <!-- <div class="pnoc__fee" *ngIf="this.provider.alias !== 'kripton'"> -->
       <div class="pnoc__fee">
         <div class="pnoc__fee__label">
           <ion-text class="ux-font-titulo-xs">{{

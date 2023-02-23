@@ -15,7 +15,6 @@ import { OperationDataInterface } from '../shared-ramps/interfaces/operation-dat
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
-import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 
 @Component({
   selector: 'app-purchase-order',
@@ -165,7 +164,6 @@ export class PurchaseOrderPage {
 
   private getStorageOperationData() {
     this.data = this.storageOperationService.getData();
-
     this.voucher = this.storageOperationService.getVoucher();
     this.getKriptonOperationData();
   }
@@ -175,12 +173,12 @@ export class PurchaseOrderPage {
     const auth_token = await this.kriptonStorageService.get('access_token');
     this.operationData = await this.fiatRampsService
       .getUserSingleOperation(this.data.operation_id, { email: email, auth_token: auth_token })
-      .toPromise().then((res) => {
-        this.data.amount_in = res[0].amount_in
+      .toPromise()
+      .then((res) => {
+        this.data.amount_in = res[0].amount_in;
         this.isLoading = false;
       });
   }
-
 
   copyToClipboard(clipboardInfo) {
     this.clipboardService.write({ string: clipboardInfo.value }).then(() => {
