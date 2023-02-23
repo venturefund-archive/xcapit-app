@@ -137,6 +137,7 @@ describe('OperationsListComponent', () => {
   });
 
   it('should log out of kripton account when modal if confirm', async ()=>{
+    const spy = spyOn(component.loggedOut, 'emit');
     fakeModalController.modifyReturns(null, { role: 'confirm' });
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('div.logout-icon > ion-icon'));
@@ -147,5 +148,6 @@ describe('OperationsListComponent', () => {
 
     expect(kriptonStorageServiceSpy.remove).toHaveBeenCalledTimes(4);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
