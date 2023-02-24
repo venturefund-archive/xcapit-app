@@ -11,28 +11,32 @@ export class ProviderTokensOf {
   ) {}
 
   public async all(): Promise<Coin[]> {
-    const mapResult = await Promise.all(this._allCoins.map(async (coin: Coin) => await this.tokensOf(this._providers.all(), coin)));
+    const availableKriptonCurrencies = await this._fiatRampsService.getKriptonAvailableCurrencies().toPromise();
+    const mapResult = await Promise.all(this._allCoins.map(async (coin: Coin) => await this.tokensOf(this._providers.all(), coin, availableKriptonCurrencies)));
     return this._allCoins.filter((_, index) => mapResult[index]);
   }
 
   public async byAlias(anAlias: string): Promise<Coin[]> {
-    const mapResult = await Promise.all(this._allCoins.map(async (coin: Coin) => await this.tokensOf([this._providers.byAlias(anAlias)], coin)));
+    let availableKriptonCurrencies = null;
+    if(anAlias === 'kripton'){
+      availableKriptonCurrencies = await this._fiatRampsService.getKriptonAvailableCurrencies().toPromise();
+    }
+    const mapResult = await Promise.all(this._allCoins.map(async (coin: Coin) => await this.tokensOf([this._providers.byAlias(anAlias)], coin, availableKriptonCurrencies)));
     return this._allCoins.filter((_, index) => mapResult[index]);
   }
 
-  private async tokensOf(providers: FiatRampProvider[], coin: Coin) {
+  private async tokensOf(providers: FiatRampProvider[], coin: Coin, availableKriptonCurrencies: any[]) {
     const providerCurrencies = await Promise.all(
-      providers.map(async (provider) => await this.providerCurrencies(provider))
+      providers.map(async (provider) => await this.providerCurrencies(provider, availableKriptonCurrencies))
     );
     return providerCurrencies.flat().some((token) => token.symbol === coin.value && token.network === coin.network);
   }
 
-  async providerCurrencies(provider) {
-    return provider.providerName === 'kripton' ? await this.getKriptonCoins(provider) : provider.currencies;
+  async providerCurrencies(provider, availableKriptonCurrencies) {
+    return provider.providerName === 'kripton' ? await this.getKriptonCoins(provider, availableKriptonCurrencies) : provider.currencies;
   }
 
-  async getKriptonCoins(provider: FiatRampProvider) {
-    const availableKriptonCurrencies = await this._fiatRampsService.getKriptonAvailableCurrencies().toPromise();
+  async getKriptonCoins(provider: FiatRampProvider, availableKriptonCurrencies: any[]) {
     if (availableKriptonCurrencies) {
       return provider.currencies.filter((currencie) =>
         availableKriptonCurrencies.some(
