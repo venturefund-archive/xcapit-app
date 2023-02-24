@@ -202,6 +202,11 @@ describe('HomeOfPurchasesPage', () => {
     expect(moonpayCardEl).toBeFalsy();
   });
 
+  it('should back to /tabs/wallets on back', () => {
+    fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/tabs/wallets')
+  });
+  
   it('should clean user info if user logout from kripton', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
