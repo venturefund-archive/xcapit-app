@@ -201,4 +201,12 @@ describe('HomeOfPurchasesPage', () => {
     const moonpayCardEl = fixture.debugElement.query(By.css('div.hop__moonpay-purchases'));
     expect(moonpayCardEl).toBeFalsy();
   });
+
+  it('should clean user info if user logout from kripton', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-operations-list')).triggerEventHandler('loggedOut', {});
+    fixture.detectChanges();
+    expect(component.userStatus).toBeNull();
+  })
 });

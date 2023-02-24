@@ -42,7 +42,11 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
         class="hop__operations-list ion-padding-start ion-padding-end ion-padding-top"
         *ngIf="this.isLogged !== undefined && this.enabledProviders && this.enabledProviders.includes('kripton')"
       >
-        <app-operations-list [operationsList]="this.operationsList" [isLogged]="this.isLogged"></app-operations-list>
+        <app-operations-list
+          [operationsList]="this.operationsList"
+          [isLogged]="this.isLogged"
+          (loggedOut)="loggedOut()"
+        ></app-operations-list>
       </div>
       <div
         *ngIf="this.enabledProviders && this.enabledProviders.includes('moonpay')"
@@ -172,5 +176,11 @@ export class HomeOfPurchasesPage {
       this.message = this.translate.instant('fiat_ramps.kyc_status.approving.message');
       this.style = 'approving';
     }
+  }
+
+  loggedOut() {
+    this.isLogged = false;
+    this.userStatus = null;
+    this.email = null;
   }
 }
