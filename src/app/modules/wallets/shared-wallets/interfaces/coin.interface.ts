@@ -16,4 +16,5 @@ export interface Coin {
   symbol?: string;
   canInvest?: boolean;
   moonpayCode?: string;
+  bitrefillCode? :string;
 }
