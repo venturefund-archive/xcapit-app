@@ -9,6 +9,11 @@ import { ethers, Wallet } from 'ethers';
 import * as moment from 'moment';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { EthersService } from '../../shared-wallets/services/ethers/ethers.service';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc.service';
+import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2';
+import { SignRequest } from '../../../../shared/models/wallet-connect/session-request/sign-request/sign-request';
+import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 
 @Component({
   selector: 'app-operation-detail',
@@ -52,26 +57,26 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
 
           <div class="wcod__transaction_detail">
             <div *ngIf="!this.isSignRequest">
-              <app-default-request 
-                [request]="this.transactionDetail" 
+              <app-default-request
+                [request]="this.transactionDetail"
                 [providerSymbol]="this.providerSymbol"
-                [dateInfo]="this.dateInfo" 
+                [dateInfo]="this.dateInfo"
                 *ngIf="!this.decodedData"
               ></app-default-request>
 
-              <app-swap-request 
-                [request]="this.transactionDetail" 
-                [providerSymbol]="this.providerSymbol" 
+              <app-swap-request
+                [request]="this.transactionDetail"
+                [providerSymbol]="this.providerSymbol"
                 [decodedData]="this.decodedData"
-                [dateInfo]="this.dateInfo" 
+                [dateInfo]="this.dateInfo"
                 *ngIf="this.decodedData && this.decodedData.type === 'swap'"
               ></app-swap-request>
 
               <app-liquidity-request
-                [request]="this.transactionDetail" 
-                [providerSymbol]="this.providerSymbol" 
+                [request]="this.transactionDetail"
+                [providerSymbol]="this.providerSymbol"
                 [decodedData]="this.decodedData"
-                [dateInfo]="this.dateInfo" 
+                [dateInfo]="this.dateInfo"
                 *ngIf="this.decodedData && this.decodedData.type === 'liquidity'"
               ></app-liquidity-request>
 
@@ -93,9 +98,9 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
               </div>
             </div>
 
-            <app-sign-request 
+            <app-sign-request
               [message]="this.message"
-              [dateInfo]="this.dateInfo" 
+              [dateInfo]="this.dateInfo"
               *ngIf="this.isSignRequest"
             ></app-sign-request>
           </div>
@@ -103,10 +108,10 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
           <div class="wcod__button_section">
             <ion-button
               [appLoading]="this.loading"
-              [loadingText]=" this.loadingText | translate"
+              [loadingText]="this.loadingText | translate"
               class="ux_button"
               appTrackClick
-              [dataToTrack]="{eventLabel:this.dataToTrackButton}"
+              [dataToTrack]="{ eventLabel: this.dataToTrackButton }"
               color="secondary"
               size="large"
               (click)="confirmOperation()"
@@ -126,31 +131,33 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
         </div>
 
         <div class="disconnect_link" *ngIf="!this.loading">
-          <a (click)="this.cancelOperation()">{{ 'wallets.wallet_connect.operation_detail.cancel_button' | translate }}</a>
+          <a (click)="this.cancelOperation()">{{
+            'wallets.wallet_connect.operation_detail.cancel_button' | translate
+          }}</a>
         </div>
       </div>
     </ion-content>
   `,
   styleUrls: ['./operation-detail.page.scss'],
 })
-export class OperationDetailPage implements OnInit {
+export class OperationDetailPage {
   public peerMeta;
   public isSignRequest = true;
   public isApproval = false;
-  public decodedData:any  = null;
+  public decodedData: any = null;
   public transactionConfirmed = false;
   public transactionDetail;
   public message: any;
   public dateInfo = {
     date: null,
-    time: null
+    time: null,
   };
   public totalFeeAmount;
   public providerSymbol = '';
   loading = false;
   disable = false;
   loadingText = '';
-  dataToTrackButton:string;
+  dataToTrackButton: string;
   constructor(
     private walletConnectService: WalletConnectService,
     private navController: NavController,
@@ -159,38 +166,63 @@ export class OperationDetailPage implements OnInit {
     private modalController: ModalController,
     private walletEncryptionService: WalletEncryptionService,
     private toastService: ToastService,
-    private ethersService: EthersService
+    private ethersService: EthersService,
+    private wcService: WCService,
+    private sessionRequestInjectable: SessionRequestInjectable,
+    private wcConnectionV2: WCConnectionV2
   ) {}
 
   ionViewWillEnter() {
-    this.checkProtocolInfo();
+    this.checkConnection();
     this.dataToTrackButton = this.dataToTrack();
   }
 
-  ngOnInit() {}
+  async checkConnection() {
+    if (this.wcService.connected()) {
+      await this.setTemplateData();
+      this.getActualDateTime();
+    } else {
+      if (!this.wcService.uri().isV2() && !this.walletConnectService.peerMeta) {
+        await this.walletConnectService.killSession();
+      }
+      this.navController.pop();
+    }
+  }
 
-  dataToTrack(){
-    if (this.isSignRequest) return 'ux_wc_sign';
-    if (this.isApproval) return 'ux_wc_approve';
-    return 'ux_wc_confirm';
+  async setTemplateData() {
+    this.wcService.uri().isV2() ? this.setTemplateDataFromRequest() : await this.checkProtocolInfo();
+  }
+
+  setTemplateDataFromRequest() {
+    const sessionRequest = this.sessionRequestInjectable.request() as SignRequest; // TODO: chequear si se puede cambiar
+    const session = this.wcConnectionV2.session();
+    this.peerMeta = session.peerMetadata();
+    this.providerSymbol = session.wallet().blockchain().nativeToken().symbol();
+    this.transactionDetail = sessionRequest.raw();
+
+    if (sessionRequest.method().isSignRequest()) {
+      this.message = sessionRequest.message();
+    } else {
+      this.message = '';
+    }
   }
 
   async checkProtocolInfo() {
-    if (!this.walletConnectService.peerMeta) {
-      await this.walletConnectService.killSession();
-      this.navController.pop();
-    } else {
-      this.peerMeta = this.walletConnectService.peerMeta;
-      this.providerSymbol = this.walletConnectService.providerSymbol;
-      this.transactionDetail = this.walletConnectService.requestInfo;
-      this.checkRequestInfo(this.transactionDetail);
-      this.getActualDateTime();
-    }
+    this.peerMeta = this.walletConnectService.peerMeta;
+    this.providerSymbol = this.walletConnectService.providerSymbol;
+    this.transactionDetail = this.walletConnectService.requestInfo;
+    this.checkRequestInfoV1(this.transactionDetail);
   }
 
   getActualDateTime() {
     this.dateInfo.date = moment().format('DD/MM/YYYY');
     this.dateInfo.time = moment().format('HH:mm');
+  }
+
+  dataToTrack() {
+    if (this.isSignRequest) return 'ux_wc_sign';
+    if (this.isApproval) return 'ux_wc_approve';
+    return 'ux_wc_confirm';
   }
 
   async getTotalFeeAmount(estimatedGas) {
@@ -199,7 +231,7 @@ export class OperationDetailPage implements OnInit {
     this.totalFeeAmount = parseFloat(ethers.utils.formatEther(gasPrice.mul(gas).toString()));
   }
 
-  public async checkRequestInfo(request) {
+  public async checkRequestInfoV1(request) {
     switch (request.method) {
       case 'eth_signTransaction':
       case 'eth_sendTransaction': {
@@ -298,8 +330,7 @@ export class OperationDetailPage implements OnInit {
         {
           text: this.translate.instant('wallets.wallet_connect.operation_detail.cancel_alert.accept_button'),
           handler: async () => {
-            await this.walletConnectService.rejectRequest(this.transactionDetail.id);
-            this.navController.pop();
+            await this.rejectRequest();
           },
         },
       ],
@@ -307,39 +338,67 @@ export class OperationDetailPage implements OnInit {
     await alert.present();
   }
 
+  private async rejectRequest() {
+    if (this.wcService.uri().isV2()) {
+      await this.sessionRequestInjectable.request().reject();
+    } else {
+      await this.walletConnectService.rejectRequest(this.transactionDetail.id);
+    }
+    this.navController.pop();
+  }
+
   setLoadingText() {
     if (this.isSignRequest) this.loadingText = 'wallets.wallet_connect.operation_detail.sign_loading';
     else if (this.isApproval) this.loadingText = 'wallets.wallet_connect.operation_detail.approve_loading';
     else this.loadingText = 'wallets.wallet_connect.operation_detail.confirmation_loading';
   }
-
   public async confirmOperation() {
     this.setLoadingText();
-
     const password = await this.requestPassword();
-
     if (password) {
       this.loadingEnabled(true);
-      let wallet = await this.decryptedWallet(password);
+      this.wcService.uri().isV2() ? this.confirmOperationV2(password) : this.confirmOperationV1(password);
+    }
+  }
 
-      if (wallet) {
-        const provider = this.ethersService.newProvider(this.walletConnectService.rpcUrl);
-        wallet = wallet.connect(provider);
-        const res = await this.walletConnectService.checkRequest(this.walletConnectService.requestInfo, wallet);
+  private async confirmOperationV2(password: string) {
+    this.wcConnectionV2
+      .session()
+      .wallet()
+      .onNeedPass()
+      .subscribe(() => new Password(password).value());
+    try {
+      await this.sessionRequestInjectable.request().approve();
+      this.navController.pop();
+    } catch {
+      this.loadingEnabled(false);
+      this.showAlertTxError();
+    }
+  }
 
-        this.loadingEnabled(false);
-        if (!!res.error && res.error === true) {
-          this.showAlertTxError();
-        } else {
-          this.navController.pop();
-        }
+  private async confirmOperationV1(password: string) {
+    let wallet = await this.decryptedWallet(password);
+
+    if (wallet) {
+      const provider = this.ethersService.newProvider(this.walletConnectService.rpcUrl);
+      wallet = wallet.connect(provider);
+      const res = await this.walletConnectService.checkRequest(this.walletConnectService.requestInfo, wallet);
+
+      this.loadingEnabled(false);
+      if (!!res.error && res.error === true) {
+        this.showAlertTxError();
+      } else {
+        this.navController.pop();
       }
     }
   }
 
   async decryptedWallet(password: string): Promise<Wallet> {
     try {
-      return await this.walletEncryptionService.getDecryptedWalletForNetwork(password, this.walletConnectService.network)
+      return await this.walletEncryptionService.getDecryptedWalletForNetwork(
+        password,
+        this.walletConnectService.network
+      );
     } catch (error) {
       this.loadingEnabled(false);
       await this.toastService.showErrorToast({
@@ -355,11 +414,13 @@ export class OperationDetailPage implements OnInit {
         title: this.translate.instant('wallets.wallet_connect.operation_detail.password_modal.title'),
         description: this.translate.instant('wallets.wallet_connect.operation_detail.password_modal.description'),
         inputLabel: this.translate.instant('wallets.wallet_connect.operation_detail.password_modal.input_label'),
-        submitButtonText: this.translate.instant('wallets.wallet_connect.operation_detail.password_modal.confirm_button'),
+        submitButtonText: this.translate.instant(
+          'wallets.wallet_connect.operation_detail.password_modal.confirm_button'
+        ),
         disclaimer: '',
       },
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
-      backdropDismiss: false
+      backdropDismiss: false,
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();

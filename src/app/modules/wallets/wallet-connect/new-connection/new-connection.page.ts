@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WalletConnectService, IPeerMeta } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { environment } from 'src/environments/environment';
-import { supportedProviders } from '../../shared-wallets/constants/supported-providers';
+import { IProviderData, supportedProviders } from '../../shared-wallets/constants/supported-providers';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { PlatformService } from '../../../../shared/services/platform/platform.service';
 import { NavController } from '@ionic/angular';
@@ -11,6 +11,11 @@ import { ScanQrModalComponent } from '../../../../shared/components/scan-qr-moda
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingService } from '../../../../shared/services/loading/loading.service';
 import { ToastService } from '../../../../shared/services/toast/toast.service';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc.service';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2';
+import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
+import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { BlockchainsFactory } from '../../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 
 @Component({
   selector: 'app-new-connection',
@@ -50,10 +55,10 @@ import { ToastService } from '../../../../shared/services/toast/toast.service';
               <div class="wcnc__radio_group">
                 <ion-radio-group formControlName="wallet">
                   <div *ngFor="let wallet of walletsList" class="container">
-                    <ion-item 
+                    <ion-item
                       class="ux-font-input-label"
                       appTrackClick
-                      [dataToTrack]="{eventLabel: wallet.dataToTrack}"
+                      [dataToTrack]="{ eventLabel: wallet.dataToTrack }"
                     >
                       <ion-label>{{ wallet.name }}</ion-label>
                       <ion-radio
@@ -124,16 +129,16 @@ import { ToastService } from '../../../../shared/services/toast/toast.service';
   `,
   styleUrls: ['./new-connection.page.scss'],
 })
-export class NewConnectionPage implements OnInit {
+export class NewConnectionPage {
   public peerMeta: IPeerMeta;
   public connected = false;
-  public selectedWallet = {};
+  public selectedWallet: WCWallet;
   public address: string;
   public activeChainId = 1;
   public dappInfo: boolean;
-  public walletsList: any[] = [];
+  public walletsList: WCWallet[] = [];
   public isNative: boolean;
-  public providers: any[] = [];
+  public providers: IProviderData[] = [];
 
   form: UntypedFormGroup = this.formBuilder.group({
     wallet: [null, [Validators.required]],
@@ -151,47 +156,51 @@ export class NewConnectionPage implements OnInit {
     private translate: TranslateService,
     private loadingService: LoadingService,
     private toastService: ToastService,
-    private platform: Platform
+    private platform: Platform,
+    private wcService: WCService,
+    private wcConnectionV2: WCConnectionV2,
+    private wallets: WalletsFactory,
+    private blockchains: BlockchainsFactory
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.platform.backButton.subscribe(() => this.cleanForm());
-    this.isConnected();
+    await this.checkConnectionStatus();
   }
 
-  ngOnInit() {}
-
-  isConnected() {
-    if (this.walletConnectService.connected) {
+  async checkConnectionStatus() {
+    if (this.wcService.connected()) {
       this.navController.navigateRoot(['wallets/wallet-connect/connection-detail']);
     } else {
-      this.providers = supportedProviders;
-      this.setWalletsInfo();
-      this.isNative = this.platformService.isNative();
-      this.uriSubscription();
+      await this.initializePage();
     }
   }
 
-  private uriSubscription() {
-    this.walletConnectService.uri.subscribe((res) => {
-      this.form.patchValue({ uri: this.walletConnectService.uri.value });
-    })
+  private async initializePage() {
+    this.providers = supportedProviders;
+    await this.setWalletsInfo();
+    this.isNative = this.platformService.isNative();
+    await this.uriSubscription();
   }
 
-  private async getSupportedWallets () {
+  private async uriSubscription() {
+    const uri = this.wcService.uri().isV2() ? this.wcService.uri().value() : await this.walletConnectService.uri.value;
+
+    this.form.patchValue({ uri });
+  }
+
+  private async getSupportedWallets() {
     const walletsAddrs = await this.storageService.getWalletsAddresses();
     const wallets = Object.entries(walletsAddrs).filter(([key, value]) => {
-      const supported = this.providers.filter(
-        (prov) => prov.chain === key
-      )[0];
+      const supported = this.providers.filter((prov) => prov.chain === key)[0];
 
       if (supported) return walletsAddrs[key];
-    })
+    });
 
     return Object.fromEntries(wallets);
   }
 
-  public async setWalletsInfo() {
+  private async setWalletsInfo() {
     const walletsAddrs = await this.getSupportedWallets();
     this.walletsList = Object.keys(walletsAddrs).map((addrKey) => {
       const provider = this.providers.filter(
@@ -206,16 +215,16 @@ export class NewConnectionPage implements OnInit {
         logo: provider.logo,
         symbol: provider.native_currency.symbol,
         rpc: provider.rpc_url,
-        dataToTrack: `ux_wc_${this.dataToTrack(addrKey)}`
+        dataToTrack: `ux_wc_${this.dataToTrack(addrKey)}`,
       };
     });
   }
 
-  dataToTrack(symbol: string){
-    const translations = {RSK:'rsk', BSC_BEP20:'bsc', ERC20:'eth', MATIC:'pol'};
+  dataToTrack(symbol: string) {
+    const translations = { RSK: 'rsk', BSC_BEP20: 'bsc', ERC20: 'eth', MATIC: 'pol' };
     return translations[symbol];
   }
-  
+
   public async openQRScanner() {
     const modal = await this.modalController.create({
       component: ScanQrModalComponent,
@@ -251,29 +260,44 @@ export class NewConnectionPage implements OnInit {
   }
 
   isValidQR(content: string): boolean {
-    return content.includes('wc:') && content.includes('bridge=');
+    return content.includes('wc:') && (content.includes('bridge=') || content.includes('relay-protocol='));
   }
 
   async showErrorToast(errorCode: string) {
-    await this.toastService
-      .showErrorToast({
-        message: this.translate.instant(errorCode),
-      });
+    await this.toastService.showErrorToast({
+      message: this.translate.instant(errorCode),
+    });
   }
 
   setWalletInfo(wallet) {
     this.selectedWallet = wallet;
   }
 
-  public async initWallet(): Promise<void> {
-    if (this.form.valid) {
-      await this.initWalletConnect();
-    } else {
-      this.form.markAllAsTouched();
+  protected async initWallet(): Promise<void> {
+    this.form.valid ? await this.initWalletConnect() : this.form.markAllAsTouched();
+  }
+
+  private async initWalletConnect() {
+    this.wcService.initialize(this.form.value.uri);
+    this.wcService.uri().isV2() ? this.initWalletConnectV2() : this.legacyInit();
+  }
+
+  public async initWalletConnectV2() {
+    await this.loadingService.show();
+    try {
+      const blockchain = this.blockchains.create().oneById(this.selectedWallet.chainId.toString());
+      const wallet = await this.wallets.create().oneBy(blockchain);
+      await this.wcConnectionV2.pairTo(this.wcService.uri(), wallet);
+      this.navController.navigateForward(['/wallets/wallet-connect/connection-detail']);
+      this.form.patchValue({ wallet: null, uri: '' });
+    } catch (error) {
+      await this.showAlertOnConnectionError();
+    } finally {
+      await this.loadingService.dismiss();
     }
   }
 
-  public async initWalletConnect(): Promise<void> {
+  public async legacyInit(): Promise<void> {
     await this.loadingService.show();
 
     try {
@@ -287,32 +311,26 @@ export class NewConnectionPage implements OnInit {
       }
     } catch (error) {
       await this.killSession();
-      const alert = await this.alertController.create({
-        header: this.translate.instant('wallets.wallet_connect.init_wallet.errors.header'),
-        message: this.translate.instant('wallets.wallet_connect.init_wallet.errors.message'),
-        cssClass: 'ux-alert-small-text',
-        buttons: [
-          {
-            text: this.translate.instant('wallets.wallet_connect.init_wallet.errors.close_button'),
-            role: 'cancel',
-            cssClass: 'ux-link-xs',
-          },
-        ],
-      });
-      await alert.present();
+      await this.showAlertOnConnectionError();
     } finally {
       await this.loadingService.dismiss();
     }
   }
 
-  public async approveSession(): Promise<void> {
-    await this.walletConnectService.approveSession();
-    this.connected = true;
-  }
-
-  public async disconnectSession(): Promise<void> {
-    await this.walletConnectService.killSession();
-    this.connected = false;
+  public async showAlertOnConnectionError() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('wallets.wallet_connect.init_wallet.errors.header'),
+      message: this.translate.instant('wallets.wallet_connect.init_wallet.errors.message'),
+      cssClass: 'ux-alert-small-text',
+      buttons: [
+        {
+          text: this.translate.instant('wallets.wallet_connect.init_wallet.errors.close_button'),
+          role: 'cancel',
+          cssClass: 'ux-link-xs',
+        },
+      ],
+    });
+    await alert.present();
   }
 
   public async killSession() {

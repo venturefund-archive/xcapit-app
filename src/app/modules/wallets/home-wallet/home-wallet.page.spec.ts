@@ -39,13 +39,13 @@ import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { rawETHData, rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
-import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
+import { WCService } from '../shared-wallets/services/wallet-connect/wc.service';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -74,7 +74,7 @@ describe('HomeWalletPage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let base64ImageFactorySpy: jasmine.SpyObj<Base64ImageFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
-  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WCService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
   let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
@@ -97,7 +97,7 @@ describe('HomeWalletPage', () => {
     );
     contactDataServiceSpy = jasmine.createSpyObj('ContactDataService', {
       updateContact: {},
-    })
+    });
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
       { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
@@ -219,7 +219,7 @@ describe('HomeWalletPage', () => {
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: Base64ImageFactory, useValue: base64ImageFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
-        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+        { provide: WCService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
         { provide: ContactDataService, useValue: contactDataServiceSpy },
@@ -410,8 +410,10 @@ describe('HomeWalletPage', () => {
   });
 
   it('should render correct icon if wallet connect is not connected and redirect to new connection page when icon is clicked', async () => {
-    walletConnectServiceSpy.connected = false;
+    walletConnectServiceSpy.connected.and.returnValue(false);
     component.ionViewWillEnter();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnect"]'));
     iconEl.nativeElement.click();
@@ -420,7 +422,7 @@ describe('HomeWalletPage', () => {
   });
 
   it('should render correct icon if wallet connect is connected and redirect to connection detail page when icon is clicked', async () => {
-    walletConnectServiceSpy.connected = true;
+    walletConnectServiceSpy.connected.and.returnValue(true);
     component.ionViewWillEnter();
     fixture.detectChanges();
     const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnectconnect"]'));

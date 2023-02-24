@@ -1,7 +1,6 @@
-import { addressByDerivedPath } from "../fixtures/raw-address-by-derivedpath-data";
+import { addressByDerivedPath } from '../fixtures/raw-address-by-derivedpath-data';
 
 export class FakeEthersWallet {
-
   private _addresses = addressByDerivedPath;
   private _address: string;
 
@@ -34,5 +33,9 @@ export class FakeEthersWallet {
 
   sendTransaction() {
     return Promise.resolve({ wait: () => Promise.resolve(true) });
+  }
+
+  signMessage() {
+    return Promise.resolve('signed message');
   }
 }
