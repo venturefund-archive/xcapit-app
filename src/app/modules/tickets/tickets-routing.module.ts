@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NewLogin } from '../users/shared-users/guards/new-login/new-login.guard';
 import { NoAuthGuard } from '../users/shared-users/guards/no-auth/no-auth.guard';
-import { NewLoginTickets } from './shared-tickets/guards/new-login/new-login-tickets.guard';
 
 const routes: Routes = [
   {
@@ -21,7 +21,8 @@ const routes: Routes = [
           import('./create-ticket-success/create-ticket-success.module').then((m) => m.CreateTicketSuccessPageModule),
       },
       {
-        canActivate: [NewLoginTickets],
+        canActivate: [NewLogin],
+        data: { redirectUrl: '/tickets/new-create-support-ticket' },
         path: 'create-support-ticket',
         loadChildren: () =>
           import('./create-support-ticket/create-support-ticket.module').then((m) => m.CreateSupportTicketPageModule),

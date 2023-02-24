@@ -96,6 +96,12 @@ describe('FiatRampsService', () => {
     });
   });
 
+  it('should call get on http when kripton available currencies', () => {
+    fiatRampsService.getKriptonAvailableCurrencies().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
   it('should call post on http when getLink', () => {
     fiatRampsService.getLink(0).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
@@ -103,13 +109,13 @@ describe('FiatRampsService', () => {
   });
 
   it('should call get on http when getUserOperations', () => {
-    fiatRampsService.getUserOperations({ email: 'test@test.com' }).subscribe(() => {
+    fiatRampsService.getUserOperations({ email: 'test@test.com', auth_token: 'test' }).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
   it('should call get on http when getUserSingleOperation', () => {
-    fiatRampsService.getUserSingleOperation(0, { email: 'test@test.com' }).subscribe(() => {
+    fiatRampsService.getUserSingleOperation(0, { email: 'test@test.com', auth_token: 'test' }).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });

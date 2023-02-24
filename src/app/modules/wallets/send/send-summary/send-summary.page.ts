@@ -4,37 +4,40 @@ import { SummaryData } from './interfaces/summary-data.interface';
 import { SubmitButtonService } from '../../../../shared/services/submit-button/submit-button.service';
 import { WalletTransactionsService } from '../../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
-import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
-import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
-import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
-import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { TrackService } from '../../../../shared/services/track/track.service';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
-import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
-import { WeiOf } from 'src/app/modules/swaps/shared-swaps/models/wei-of/wei-of';
 import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
 import { format } from 'date-fns';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
-import { LoginToken } from 'src/app/modules/users/shared-users/models/login-token/login-token';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/tx-in-progress.interface';
+import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
+import { SendTxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/send/send-tx-in-progress';
+import { DefaultTxHash } from '../../shared-wallets/models/tx-hash/default/default-tx-hash';
+import { NullTxHash } from '../../shared-wallets/models/tx-hash/null-tx-hash/null-tx-hash';
+import { SolanaToken } from 'src/app/modules/swaps/shared-swaps/models/token/solana/solana-token';
+import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
+import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
+import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
+import { WalletPasswordWithValidatorComponent } from '../../shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
         <ion-buttons slot="start">
-          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref=""></ion-back-button>
+          <ion-back-button appTrackClick name="ux_nav_go_back" (click)="back()" defaultHref=""></ion-back-button>
         </ion-buttons>
-        <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
-        <ion-label class="step-counter" slot="end">3 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
+        <ion-title class="sd__header">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
+        <ion-label class="ux_toolbar__step" slot="end">3 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ss ion-padding">
@@ -68,6 +71,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
   styleUrls: ['./send-summary.page.scss'],
 })
 export class SendSummaryPage implements OnInit {
+  private txInProgress: TxInProgress;
   summaryData: SummaryData;
   action: string;
   isSending: boolean;
@@ -85,14 +89,14 @@ export class SendSummaryPage implements OnInit {
     private navController: NavController,
     public submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
-    private route: ActivatedRoute,
     private translate: TranslateService,
     private alertController: AlertController,
     private trackService: TrackService,
     private blockchains: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
     private localNotificationInjectable: LocalNotificationInjectable,
-    private storage: IonicStorageService
+    private txInProgressService: TxInProgressService,
+    private solanaConnection: SolanaConnectionInjectable
   ) {}
 
   ngOnInit() {}
@@ -101,7 +105,6 @@ export class SendSummaryPage implements OnInit {
     this.isSending = false;
     this.summaryData = this.transactionDataService.transactionData;
     this.blockchain = this.blockchains.create().oneByName(this.summaryData.network);
-    this.checkMode();
   }
 
   async showPhraseAmountInfo() {
@@ -140,17 +143,10 @@ export class SendSummaryPage implements OnInit {
     }
   }
 
-  checkMode() {
-    const mode = this.route.snapshot.paramMap.get('mode') === 'retry';
-    if (mode) {
-      this.handleSubmit(true).then();
-    }
-  }
-
-  async askForPassword() {
+  async askForPassword(): Promise<Password> {
     await this.loadingService.dismiss();
     const modal = await this.modalController.create({
-      component: WalletPasswordComponent,
+      component: WalletPasswordWithValidatorComponent,
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
         state: 'send',
@@ -158,38 +154,52 @@ export class SendSummaryPage implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
+
     if (data === undefined) {
       this.loading = false;
     }
-    const password = new Password(data);
-    if (await this.validPassword(password)) {
-      this.openInProgressModal();
-      return password;
-    } else {
-      throw new Error(new PasswordErrorMsgs().invalid());
-    }
+
+    return data;
   }
 
-  private async send(password: string) {
+  private async send(password: Password) {
     if (this.blockchain.name() !== 'SOLANA') {
       const response = await this.walletTransactionsService.send(
-        password,
+        password.value(),
         this.summaryData.amount,
         this.summaryData.address,
         this.summaryData.currency
       );
+      this.txInProgress = new SendTxInProgress(this.blockchain, new DefaultTxHash(response.hash));
+      this.txInProgressService.startTx(this.txInProgress);
+      this.openInProgressModal();
       this.notifyWhenTransactionMined(response);
     } else {
-      const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
-      wallet.onNeedPass().subscribe(() => new Password(password).value());
-      await wallet.sendTxs([
-        new SolanaNativeSendTx(
-          wallet,
-          this.summaryData.address,
-          new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
-        ),
-      ]);
-      this.notifyWhenTransactionMined();
+      this.txInProgress = new SendTxInProgress(this.blockchain, new NullTxHash());
+      this.txInProgressService.startTx(this.txInProgress);
+
+      const aWallet = await this.walletsFactory.create().oneBy(this.blockchain);
+      aWallet.onNeedPass().subscribe(() => password.value());
+      aWallet
+        .sendTxs(
+          await new SolanaSendTxsOf(
+            new SolanaSend(
+              this.summaryData.amount,
+              new SolanaToken(this.summaryData.currency as RawToken),
+              this.summaryData.address
+            ),
+            aWallet,
+            this.blockchain,
+            this.solanaConnection.create(this.blockchain)
+          ).blockchainTxs()
+        )
+        .then(() => this.notifyWhenTransactionMined())
+        .catch((error) => {
+          this.createNotification('error');
+          this.txInProgressService.finishTx(this.txInProgress);
+          throw error;
+        });
+      this.openInProgressModal();
     }
   }
 
@@ -199,7 +209,7 @@ export class SendSummaryPage implements OnInit {
       componentProps: {
         data: SUCCESS_TYPES.send_in_progress,
         address: this.summaryData.address,
-        blockchain: this.blockchain
+        blockchain: this.blockchain,
       },
       cssClass: 'modal',
       backdropDismiss: false,
@@ -238,17 +248,15 @@ export class SendSummaryPage implements OnInit {
       if (!password) {
         return;
       }
+
       this.loading = true;
-      await this.send(password.value());
+
+      await this.send(password);
     } catch (error) {
       await this.handleSendError(error);
     } finally {
       await this.endTx();
     }
-  }
-
-  private validPassword(password: Password) {
-    return new LoginToken(password, this.storage).valid();
   }
 
   async showAlert(header: string, message: string, buttonText: string) {
@@ -292,7 +300,8 @@ export class SendSummaryPage implements OnInit {
           description: window.location.href,
           eventLabel: 'ux_send_notification_success',
         })
-      );
+      )
+      .finally(() => this.txInProgressService.finishTx(this.txInProgress));
   }
 
   private _sendSuccessNotification() {
@@ -307,6 +316,17 @@ export class SendSummaryPage implements OnInit {
     });
   }
 
+  back() {
+    this.navController.navigateBack([
+      'wallets/send/detail/blockchain',
+      this.summaryData.network,
+      'token',
+      this.summaryData.currency.contract,
+      'amount',
+      this.summaryData.amount,
+    ]);
+  }
+
   private navigateToTokenDetail() {
     this.navController.navigateRoot([
       `wallets/token-detail/blockchain/${this.summaryData.network}/token/${this.summaryData.currency.contract}`,
@@ -314,13 +334,11 @@ export class SendSummaryPage implements OnInit {
   }
 
   private async handleSendError(error) {
-    if (new PasswordErrorMsgs().isInvalidError(error)) {
-      await this.handleInvalidPassword();
-    } else if (this.isNotEnoughBalanceError(error)) {
+    if (this.isNotEnoughBalanceError(error)) {
       await this.handleNotEnoughBalance();
-    } else if (!(new PasswordErrorMsgs().isEmptyError(error))) {
+    } else {
       throw error;
-    } 
+    }
   }
 
   private isNotEnoughBalanceError(error) {
@@ -359,10 +377,6 @@ export class SendSummaryPage implements OnInit {
 
   private async handleUserCantAffordTx() {
     await this.handleNotEnoughBalance();
-  }
-
-  private async handleInvalidPassword() {
-    await this.navController.navigateForward(['/wallets/send/error/incorrect-password']);
   }
 
   private async handleNotEnoughBalance() {

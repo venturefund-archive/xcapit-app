@@ -6,11 +6,12 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 
 @Component({
   selector: 'app-provider-token-selection',
   template: `<ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
@@ -30,6 +31,10 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
           (clickedCoin)="this.selectCurrency($event)"
         ></app-token-selection-list>
       </div>
+
+      <div class="sc__require-token">
+        <app-require-token buttonEventName="ux_exp_addtoken_buy"></app-require-token>
+      </div>
     </ion-content> `,
   styleUrls: ['./provider-token-selection.page.scss'],
 })
@@ -39,7 +44,8 @@ export class ProviderTokenSelectionPage implements OnInit {
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providersFactory: ProvidersFactory,
-    private tokenOperationDataService: TokenOperationDataService
+    private tokenOperationDataService: TokenOperationDataService,
+    private fiatRampsService: FiatRampsService
   ) {}
 
   ngOnInit() {}
@@ -58,7 +64,7 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   async availableCoins() {
-    this.coins = new ProviderTokensOf(this.providers(), this.apiWalletService.getCoins()).all();
+    this.coins = await new ProviderTokensOf(this.providers(), this.apiWalletService.getCoins(), this.fiatRampsService).all();
   }
 
   providers(): Providers {

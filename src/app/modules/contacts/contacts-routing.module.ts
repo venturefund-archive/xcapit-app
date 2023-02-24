@@ -14,8 +14,14 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () => import('./contacts-home/contacts-home.module').then((m) => m.ContactsHomePageModule),
       },
+      {
+        path: 'detail',
+        loadChildren: () => import('./contact-detail/contact-detail.module').then( m => m.ContactDetailPageModule)
+      },
+    
     ],
   },
+
 ];
 
 @NgModule({

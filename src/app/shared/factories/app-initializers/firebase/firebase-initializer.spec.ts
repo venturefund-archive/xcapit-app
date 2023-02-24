@@ -19,4 +19,13 @@ describe('firebaseInitializer', () => {
     expect(firebaseSpy.init).toHaveBeenCalledTimes(1);
     expect(firebaseSpy.getApp).toHaveBeenCalledTimes(1);
   }));
+
+  it('should continue when firebase request fails', fakeAsync(async () => {
+    firebaseSpy.init.and.returnValue(Promise.reject());
+    firebaseInitializer(remoteConfigSpy, firebaseSpy)();
+    tick();
+    expect(firebaseSpy.init).toHaveBeenCalledTimes(1);
+    await expectAsync(firebaseInitializer(remoteConfigSpy, firebaseSpy)()).toBeResolved();
+  }));
+
 });

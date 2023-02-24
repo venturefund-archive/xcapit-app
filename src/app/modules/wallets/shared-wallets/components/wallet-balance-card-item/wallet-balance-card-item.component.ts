@@ -19,25 +19,26 @@ import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token
             }}</ion-badge>
           </ion-label>
           <div class="wbci__content__top__balance">
-          <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold">{{
-            this.tokenDetail.balance | formattedAmount | hideText: this.hideFundText
-          }}</ion-label>
+            <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold">{{
+              this.tokenDetail.balance | formattedAmount | hideText : this.hideFundText
+            }}</ion-label>
           </div>
         </div>
         <div class="wbci__content__bottom">
-          <ion-label color="neutral50" class="ux-font-lato ux-fsize-12 ux-fweight-regular"
-            >{{ this.tplToken.name }}
+          <ion-label class="ux-font-text-xs"
+            >{{ this.formattedTokenName | titlecase }}
           </ion-label>
-          <ion-label color="neutral50" class="ux-font-lato ux-fsize-12 ux-fweight-regular">
-            {{
-              this.tokenDetail.price * this.tokenDetail.balance | formattedAmount: 10:2 | hideText: this.hideFundText
+          <ion-label class="ux-font-text-xs">
+            = {{
+              this.tokenDetail.price * this.tokenDetail.balance
+                | formattedAmount : 10 : 2
+                | hideText : this.hideFundText
             }}
             {{ this.tokenDetail.quoteSymbol }}
           </ion-label>
         </div>
       </div>
     </div>
-    <div *ngIf="!this.last" class="list-divider"></div>
   `,
   styleUrls: ['./wallet-balance-card-item.component.scss'],
 })
@@ -47,12 +48,22 @@ export class WalletBalanceCardItemComponent implements OnInit {
   @Input() last: boolean;
   networkColors = NETWORK_COLORS;
   tplToken: RawToken;
+  formattedTokenName: string;
 
   constructor(private navController: NavController, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.subscribeOnHideFunds();
     this.tplToken = this.tokenDetail.token;
+    this.formatTokenName();
+  }
+
+  formatTokenName() {
+    this.formattedTokenName = this.tplToken.name.substring(
+      this.tplToken.name.indexOf('- ') + 1,
+      this.tplToken.name.length
+    );
+    this.formattedTokenName = this.formattedTokenName === ' Polygon' ? 'Matic' : this.formattedTokenName;
   }
 
   subscribeOnHideFunds() {

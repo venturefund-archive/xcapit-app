@@ -52,15 +52,18 @@ describe('SuccessRecoveryWalletPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should change primary url when profile test is completed', async () => {
+  it('should change properly data when profile test is completed', async () => {
     ionicStorageServiceSpy.get.and.resolveTo(true);
-    const expectedData = { ...SUCCESS_TYPES.success_wallet_recovery };
-    expectedData.urlPrimaryAction = '/tabs/wallets';
+    const expectedUrl = '/tabs/wallets';
+    const expectedName = 'wallets.success_wallet_recovery.button_home';
 
     component.ngOnInit();
     await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
 
-    expect(component.data).toEqual(expectedData);
+    expect(component.data.urlPrimaryAction).toEqual(expectedUrl);
+    expect(component.data.namePrimaryAction).toEqual(expectedName);
   });
 
   it('should not change primary url when profile test is not completed', async () => {

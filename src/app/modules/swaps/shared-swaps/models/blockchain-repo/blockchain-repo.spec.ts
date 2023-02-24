@@ -23,4 +23,9 @@ describe('BlockchainRepo', () => {
 
     expect(repo.byName(aBlockchainName).name).toEqual(aBlockchainName);
   });
+  it('by Id', () => {
+    const aBlockchainId = rawBlockchainsData[0].id;
+
+    expect(repo.byId(aBlockchainId).id).toEqual(aBlockchainId);
+  });
 });

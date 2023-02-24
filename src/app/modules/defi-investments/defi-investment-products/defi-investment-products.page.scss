@@ -9,6 +9,8 @@
   }
 
   .dp {
+    --background: var(--ion-color-background);
+
     &__content {
       width: 100vw;
 
@@ -107,6 +109,7 @@
       border-radius: 8px;
       border: 0.5px solid var(--ion-color-neutral50);
       min-height: 28px;
+      box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
 
       ion-skeleton-text {
         margin: 16px;
@@ -134,10 +137,14 @@
 
     &__available-card {
       margin-top: 24px;
+      border: none;
+      box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
     }
 
     &__active-card {
       background: var(--ion-color-infolight);
+      border: none;
+      filter: drop-shadow(0 2px 8px rgb(28 45 94 / 10%));
 
       ion-item::part(native) {
         background-color: var(--ion-color-infolight) !important;

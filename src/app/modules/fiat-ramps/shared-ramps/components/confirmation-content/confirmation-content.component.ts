@@ -12,7 +12,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
         <ion-title>
           {{ 'fiat_ramps.shared.confirmation_content.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs cc__step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >{{ this.data.stepFrom }} {{ 'shared.step_counter.of' | translate }} 3</ion-label
         >
       </ion-toolbar>

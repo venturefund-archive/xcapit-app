@@ -27,7 +27,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
         <ion-title class="po__header">
           {{ 'fiat_ramps.purchase_order.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >{{ this.step }} {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >
       </ion-toolbar>
@@ -213,7 +213,8 @@ export class PurchaseOrderPage {
 
     this.isSending = true;
     const email = await this.kriptonStorageService.get('email');
-    const data = { file: this.voucher.dataUrl, email };
+    const auth_token = await this.kriptonStorageService.get('access_token');
+    const data = { file: this.voucher.dataUrl, email, auth_token };
     this.fiatRampsService.confirmOperation(this.data.operation_id, data).subscribe({
       next: () => {
         this.data.voucher = true;

@@ -1,0 +1,14 @@
+:host {
+  .dts {
+    &__button_back {
+      ion-icon {
+        height: 24px;
+        width: 24px;
+      }
+    }
+
+    &__title {
+      padding: 12px 17px 12px 0;
+    }
+  }
+}

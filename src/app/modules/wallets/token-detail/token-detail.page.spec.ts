@@ -24,8 +24,8 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
-import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import {
   rawETHData,
   rawSAMOData,
@@ -48,11 +48,13 @@ import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail'
 import { SpyProperty } from 'src/testing/spy-property.spec';
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
 import { of } from 'rxjs';
+import { Transfers } from '../shared-wallets/models/transfers/transfers';
+import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 
 describe('TokenDetailPage', () => {
   let component: TokenDetailPage;
   let fixture: ComponentFixture<TokenDetailPage>;
-
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
@@ -67,12 +69,38 @@ describe('TokenDetailPage', () => {
   let transfersFactorySpy: jasmine.SpyObj<TransfersFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
-  let covalentBalancesFactorySpy: jasmine.SpyObj<CovalentBalancesController>;
-  let tokenPricesFactorySpy: jasmine.SpyObj<TokenPricesController>;
+  let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
+  let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
   let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
+  let transfersSpy: jasmine.SpyObj<Transfers>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
+  const availableKriptonCurrencies = [
+    {
+      network: 'MATIC',
+      currencies: ['USDC', 'MATIC', 'DAI'],
+    },
+  ];
+  const rawTransfer = {
+    block_height: 31071581,
+    block_signed_at: '2023-01-17T16:50:57Z',
+    fees_paid: '30800000301000',
+    from_address: '0x925f1b4d8092bd94608b1f680b87f87f0bd737dc',
+    from_address_label: null,
+    gas_offered: 21000,
+    gas_price: 1466666681,
+    gas_quote: null,
+    gas_quote_rate: null,
+    gas_spent: 21000,
+    successful: true,
+    to_address: '0xa895d3221076a464b45d1cdb30cdc2691497e0c4',
+    to_address_label: null,
+    tx_hash: '0x0e1029197d9874a36011a11bae091714dcedf7464475906ffa2e54a39411f8a2',
+    tx_offset: 8,
+    value: '200000000000000',
+    value_quote: null,
+  };
 
   beforeEach(waitForAsync(() => {
     twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
@@ -89,14 +117,18 @@ describe('TokenDetailPage', () => {
       } as Vault),
     });
 
-    tokenPricesFactorySpy = jasmine.createSpyObj('TokenPricesController', {
-      new: new FakePrices(),
+    tokenPricesInjectableSpy = jasmine.createSpyObj('TokenPricesInjectable', {
+      create: new FakePrices(),
     });
-    covalentBalancesFactorySpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+    covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { create: new FakeBalances() });
     fakeActivatedRoute = new FakeActivatedRoute({ blockchain: rawEthereumData.name, token: rawETHData.contract });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: rawTokensData,
+    });
+
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
     });
 
     fakeNavController = new FakeNavController();
@@ -109,8 +141,13 @@ describe('TokenDetailPage', () => {
       create: providersSpy,
     });
 
+    transfersSpy = jasmine.createSpyObj('Transfers', {
+      cached: rawTransfer,
+      all: rawTransfer
+    });
+
     transfersFactorySpy = jasmine.createSpyObj('TransfersFactory', {
-      create: { all: () => [] },
+      create: transfersSpy
     });
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
@@ -174,10 +211,12 @@ describe('TokenDetailPage', () => {
         { provide: TransfersFactory, useValue: transfersFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
-        { provide: CovalentBalancesController, useValue: covalentBalancesFactorySpy },
-        { provide: TokenPricesController, useValue: tokenPricesFactorySpy },
+        { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
+        { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
+        { provide: Transfers, useValue: transfersSpy },
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -205,7 +244,9 @@ describe('TokenDetailPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ blockchain: rawSolanaData.name, token: rawSAMOData.contract });
 
     await component.ionViewWillEnter();
+  
     await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
 
     expect(component.enabledToBuy).toBeFalse();

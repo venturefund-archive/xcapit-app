@@ -22,8 +22,8 @@ import { FixedTokens } from '../../swaps/shared-swaps/models/filtered-tokens/fix
 import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
-import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
@@ -32,6 +32,7 @@ import { TokenByAddress } from '../../swaps/shared-swaps/models/token-by-address
 import { Token } from '../../swaps/shared-swaps/models/token/token';
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 
 @Component({
   selector: 'app-asset-detail',
@@ -124,7 +125,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
           *ngIf="(this.transfers !== undefined && this.transfers.length > 0) || this.transfers === undefined"
         >
           <div class="wad__transaction__title">
-            <ion-label class="ux-font-text-lg ">
+            <ion-label class="ux-font-header-titulo">
               {{ 'wallets.asset_detail.wallet_transaction_title' | translate }}
             </ion-label>
           </div>
@@ -175,10 +176,11 @@ export class TokenDetailPage {
     private transfersFactory: TransfersFactory,
     private blockchainsFactory: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
-    private covalentBalancesFactory: CovalentBalancesController,
-    private tokenPricesFactory: TokenPricesController,
+    private covalentBalancesInjectable: CovalentBalancesInjectable,
+    private tokenPricesInjectable: TokenPricesInjectable,
     private tokenDetailInjectable: TokenDetailInjectable,
-    private refreshTimeoutService: RefreshTimeoutService
+    private refreshTimeoutService: RefreshTimeoutService,
+    private fiatRampsService: FiatRampsService
   ) {}
 
   async ionViewWillEnter() {
@@ -187,7 +189,7 @@ export class TokenDetailPage {
     await this.setWallet();
     await this.setTokenDetail();
     this.setButtonName();
-    this.setAllowedOperations();
+    await this.setAllowedOperations();
     await this.getTransfers();
     this.getAvailableDefiProducts();
     await this.getInvestments();
@@ -259,8 +261,8 @@ export class TokenDetailPage {
   private async setTokenDetail() {
     const fixedTokens = new FixedTokens([this.token]);
     this.tokenDetail = this.tokenDetailInjectable.create(
-      this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
-      this.tokenPricesFactory.new(fixedTokens),
+      this.covalentBalancesInjectable.create(this.wallet.address(), fixedTokens),
+      this.tokenPricesInjectable.create(fixedTokens),
       (await fixedTokens.value())[0]
     );
     this.tokenDetail.cached();
@@ -274,12 +276,15 @@ export class TokenDetailPage {
   async getTransfers() {
     if (this.blockchain.name() !== 'SOLANA') {
       this.transfers = undefined;
-      this.transfers = await this.transfersFactory.create(this.token.json(), this.wallet.address()).all();
+      const transfers = this.transfersFactory.create(this.token.json(), this.wallet.address());
+      this.transfers = await transfers.cached();
+      this.transfers = await transfers.all();
     }
   }
 
-  private setAllowedOperations() {
-    this.enabledToBuy = !!new ProviderTokensOf(this.providers.create(), [this.token.json()]).all().length;
+  private async setAllowedOperations() {
+    const providerTokens = await new ProviderTokensOf(this.providers.create(), [this.token.json()], this.fiatRampsService).all()
+    this.enabledToBuy = !!(providerTokens).length;
     this.enabledToOperate = true;
   }
 

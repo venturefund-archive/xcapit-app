@@ -1,10 +1,16 @@
 .qc {
   margin-top: 8px;
-  background-color: var(--ion-color-white);
   border-radius: 8px;
-  border: 0.5px solid var(--ion-color-neutral50);
   min-height: 28px;
   width: 100%;
+
+  &__title {
+    margin-bottom: 8px;
+
+    ion-label {
+      color: var(--ion-color-neutral80);
+    }
+  }
 
   ion-text.positive {
     color: var(--ion-color-successdark);
@@ -27,43 +33,55 @@
   &__content {
     display: flex;
     border-radius: 8px;
-  }
+    flex-direction: column;
+    padding: 16px 16px 8px;
+    background-color: var(--ion-color-white);
+    box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
 
-  &__accordeon {
-    width: 100%;
-    border-radius: 8px;
+    &__accordeon {
+      width: 100%;
+      border-radius: 8px;
 
-    ion-item[slot='header'] {
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      border-bottom: 1px solid var(--ion-color-neutral50);
-      background-color: var(--ion-color-white);
+      --background: transparent;
 
-      ion-label {
-        background-color: var(--ion-color-white);
-        font-family: var(--ux-font-worksans);
-        font-size: var(--ux-fsize-18);
-        font-weight: var(--ux-fweight-semibold);
-        color: var(--ion-color-primary);
-        line-height: 24px;
-        margin-bottom: 8px;
+      &__list {
+        border-radius: 8px;
+
+        &__header {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 4px;
+
+          ion-label {
+            color: var(--ion-color-neutral80);
+          }
+        }
+
+        &__accordion {
+          margin-top: 8px;
+        }
+
+        &__container {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
       }
     }
-  }
 
-  &__button {
-    display: flex;
-    justify-content: center;
+    &__button {
+      display: flex;
+      justify-content: center;
 
-    ion-button {
-      text-decoration: none;
+      ion-button {
+        text-decoration: none;
+      }
     }
   }
 
   .table-header {
     width: 100%;
     margin-bottom: 0;
-    color: var(--ion-color-neutral80);
     flex-direction: row;
     display: flex;
     text-align: start;

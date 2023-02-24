@@ -15,7 +15,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
         <ion-title>
           {{ 'fiat_ramps.kyc.summary_data.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs sd__step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >4 {{ 'shared.step_counter.of' | translate }} 4</ion-label
         >
       </ion-toolbar>
@@ -153,8 +153,9 @@ export class KycSummaryDataPage {
   async sendData() {
     if (this.form.valid) {
       const email = await this.kriptonStorage.get('email');
+      const auth_token = await this.kriptonStorage.get('access_token');
       const politically_exposed = !this.form.value.not_politically_exposed;
-      const kycData = Object.assign({ politically_exposed, email }, this.data);
+      const kycData = Object.assign({ politically_exposed, email, auth_token }, this.data);
       this.fiatRampsService.registerUserInfo(this._parsedValues(kycData)).subscribe(() => {
         this.kriptonStorage.set('user_status', 'USER_IMAGES');
         this.navController.navigateForward('fiat-ramps/user-register');

@@ -28,7 +28,7 @@ import { LogOutModalService } from '../../services/log-out-modal/log-out-modal.s
             appTrackClick
             (click)="this.goToWalletFaq()"
             name="Wallet FAQs"
-            class="ux-link-xs ion-no-padding ion-no-margin"
+            class="ux-link-xs ion-no-padding ion-no-margin ion-text-wrap"
             fill="clear"
           >
             {{ 'profiles.user_profile_menu.log_out_modal.more_info_link' | translate }}

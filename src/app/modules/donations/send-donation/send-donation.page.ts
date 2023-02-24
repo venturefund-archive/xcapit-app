@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CAUSES } from '../shared-donations/constants/causes';
 import { Subject } from 'rxjs';
@@ -15,7 +15,7 @@ import { FormattedFee } from '../../defi-investments/shared-defi-investments/mod
 import { NativeFeeOf } from '../../defi-investments/shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
-import { ERC20ProviderController } from '../../defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
+import { Erc20ProviderInjectable } from '../../defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
 import { takeUntil } from 'rxjs/operators';
 import { SendDonationDataService } from '../shared-donations/services/send-donation-data.service';
 import { ModalController, NavController } from '@ionic/angular';
@@ -25,20 +25,26 @@ import { parseUnits } from 'ethers/lib/utils';
 import { TokenOperationDataService } from '../../fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 import { GasFeeOf } from '../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
-import { ERC20ContractController } from '../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { ERC20ContractInjectable } from '../../defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
 import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 
 @Component({
   selector: 'app-send-donation',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded ux_toolbar__left no-border">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/donations/description-cause"></ion-back-button>
+          <ion-button class="sd__button_back" (click)="this.goBack()">
+            <ion-icon name="chevron-back-outline"></ion-icon
+          ></ion-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'donations.send_donations.header' | translate }}</ion-title>
+        <ion-title class="ion-text-start">{{ 'donations.send_donations.header' | translate }}</ion-title>
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
+          >2 {{ 'shared.step_counter.of' | translate }} 3</ion-label
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd ion-padding">
@@ -46,15 +52,15 @@ import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo'
         <form [formGroup]="this.form">
           <div class="sd__send-amount-card ux-card ion-padding">
             <app-asset-detail
-              [blockchain]="this.nativeToken.value"
+              [blockchain]="this.token.network"
               [token]="this.token.value"
               [tokenLogo]="this.token.logoRoute"
-            ></app-asset-detail>
+            ></app-asset-detail> 
             <div class="sd__send-amount-card__title">
               <ion-text class="ux-font-titulo-xs">{{ 'donations.send_donations.destiny_wallet' | translate }}</ion-text>
             </div>
             <div class="sd__send-amount-card__address ux-card">
-              {{ this.cause.address }}
+              {{ this.causeAddress }}
             </div>
             <div>
               <ion-text class="ux-font-text-xxs">{{ 'donations.send_donations.alias' | translate }}</ion-text>
@@ -109,14 +115,14 @@ export class SendDonationPage implements OnInit {
     amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
-
+  causeAddress: string;
+  selectedValue: string;
   selectedNetwork: string;
   leave$ = new Subject<void>();
-  networks = [];
   cause: any;
   token: Coin;
   fee: number;
-  causes = CAUSES;
+  causes = structuredClone(CAUSES);
   dynamicFee: Amount = { value: 0, token: undefined };
   quoteFee: Amount = { value: 0, token: 'USD' };
   balance: number;
@@ -133,12 +139,10 @@ export class SendDonationPage implements OnInit {
     private walletService: WalletService,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
-    private erc20ProviderController: ERC20ProviderController,
-    private erc20ContractController: ERC20ContractController,
+    private erc20ProviderInjectable: Erc20ProviderInjectable,
+    private erc20ContractInjectable: ERC20ContractInjectable,
     private modalController: ModalController,
-    private translate: TranslateService,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ngOnInit() {}
@@ -147,7 +151,7 @@ export class SendDonationPage implements OnInit {
     this.modalHref = window.location.href;
     await this.walletService.walletExist();
     this.getCause();
-    this.setNetwork();
+    this.setCoinData();
     this.setTokens();
     this.dynamicPrice();
     await this.getFee();
@@ -156,20 +160,23 @@ export class SendDonationPage implements OnInit {
   }
 
   getCause() {
-    const causeIDParam = this.route.snapshot.queryParamMap.get('cause');
+    const causeIDParam = this.route.snapshot.paramMap.get('cause');
     this.cause = this.causes.find((cause) => cause.id === (causeIDParam ? causeIDParam : this.sendDonationData.cause));
     this.sendDonationData.cause = this.cause.id;
   }
 
-  setNetwork() {
-    this.selectedNetwork = this.cause.token.network;
-    this.networks = [this.cause.token.network];
+  setCoinData() {
+    this.selectedNetwork = this.route.snapshot.paramMap.get('network');
+    this.selectedValue = this.route.snapshot.paramMap.get('value');
+    this.causeAddress = this.cause.addresses.find(
+      (cause) => cause.token.network === this.selectedNetwork && cause.token.value === this.selectedValue
+    ).address;
   }
 
   setTokens() {
     this.token = this.apiWalletService
       .getCoins()
-      .find((coin: Coin) => coin.value === this.cause.token.value && coin.network === this.cause.token.network);
+      .find((coin: Coin) => coin.value === this.selectedValue && coin.network === this.selectedNetwork);
     this.nativeToken = this.token.native
       ? this.token
       : this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
@@ -193,7 +200,7 @@ export class SendDonationPage implements OnInit {
   }
 
   erc20Provider(): ERC20Provider {
-    return this.erc20ProviderController.new(this.token);
+    return this.erc20ProviderInjectable.create(this.token);
   }
 
   private async gasPrice(): Promise<BigNumber> {
@@ -213,15 +220,15 @@ export class SendDonationPage implements OnInit {
   }
 
   async erc20Contract(): Promise<ERC20Contract> {
-    return this.erc20ContractController.new(this.erc20Provider(), new VoidSigner(await this.userWallet()));
+    return this.erc20ContractInjectable.create(this.erc20Provider(), new VoidSigner(await this.userWallet()));
   }
 
   private async nonNativeTransferFee(): Promise<void> {
     this.fee = await new FormattedFee(
       new NativeFeeOf(
         new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
-          this.cause.address,
-          this.parseWei(this.form.value.amount),
+          this.causeAddress,
+          new WeiOf(this.form.value.amount, this.token).value(),
         ]),
         new FakeProvider(await this.gasPrice())
       )
@@ -233,12 +240,14 @@ export class SendDonationPage implements OnInit {
       new NativeFeeOf(
         new NativeGasOf(this.erc20Provider(), {
           to: await this.userWallet(),
-          value: this.parseWei(1),
+          value: new WeiOf(1, this.token).value(),
         }),
         new FakeProvider(await this.gasPrice())
       ),
       this.token.decimals
     ).value();
+
+      this.fee *= 1.25;
   }
 
   parseWei(amount: number) {
@@ -263,14 +272,24 @@ export class SendDonationPage implements OnInit {
     this.sendDonationData.data = {
       network: this.selectedNetwork,
       currency: this.token,
-      address: this.cause.address,
+      address: this.causeAddress,
       amount: parseFloat(this.form.value.amount),
       referenceAmount: this.form.value.quoteAmount,
       balanceNativeToken: this.balance,
       balance: this.balance,
       fee: this.fee.toString(),
       referenceFee: this.quoteFee.value.toString(),
+      cause: this.cause.id,
     };
+  }
+
+  goBack() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        cause: this.cause.id,
+      },
+    };
+    this.navController.navigateBack(['/donations/token-selection'], navigationExtras);
   }
 
   goToSummary() {

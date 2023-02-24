@@ -1,11 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-
 import { TermsAndConditionsPage } from './terms-and-conditions.page';
 
 const itemsMenu = [
@@ -20,6 +19,13 @@ const itemsMenu = [
   {
     img: '/assets/img/users/term-and-conditions/icon-2pi.svg',
     name: 'TyC-2pi',
+    title: 'profiles.user_profile_menu.terms_and_conditions.2pi.title',
+    route: 'https://docs.2pi.network/resources/terms-and-conditions',
+    key: '_agreement_2PI_T&C',
+  },
+  {
+    img: '/assets/img/users/term-and-conditions/icon-2pi.svg',
+    name: 'TyC-1inch',
     title: 'profiles.user_profile_menu.terms_and_conditions.2pi.title',
     route: 'https://docs.2pi.network/resources/terms-and-conditions',
     key: '_agreement_2PI_T&C',
@@ -39,6 +45,7 @@ describe('TermsAndConditionsPage', () => {
 
     ionicStorageSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
+      remove: Promise.resolve(),
     });
     TestBed.configureTestingModule({
       declarations: [TermsAndConditionsPage],
@@ -60,27 +67,38 @@ describe('TermsAndConditionsPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate open browser when button ', () => {
+  it('should navigate open browser when event is emited', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('app-tyc-item-card')).triggerEventHandler('openBrowser', itemsMenu[0]);
+    fixture.debugElement.query(By.css('app-tyc-item-card')).triggerEventHandler('openBrowser', itemsMenu[0].route);
 
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: itemsMenu[0].route });
   });
 
-  it('should obtain the providers that your T&C are signed', fakeAsync(() => {
+  it('should obtain the providers that your T&C are signed', async () => {
     component.ionViewWillEnter();
-    tick();
     fixture.detectChanges();
+    await fixture.whenRenderingDone();
     expect(component.providerItems.length).toEqual(1);
-  }));
+  });
 
-  it('should obtain the providers that your T&C are not signed', fakeAsync(() => {
+  it('should obtain the providers that your T&C are not signed', async () => {
     ionicStorageSpy.get.and.returnValue(Promise.resolve(false));
     component.ionViewWillEnter();
-    tick();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     expect(component.providerItems.length).toEqual(0);
-  }));
+  });
+
+  it('should remove item from the array when the event is emited', async () => {
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const appTyCEl = fixture.debugElement.queryAll(By.css('app-tyc-item-card'))[1];
+    appTyCEl.triggerEventHandler('itemToRemove', itemsMenu[1]);
+    fixture.detectChanges();
+    expect(component.providerItems.length).toEqual(1);
+    expect(ionicStorageSpy.remove).toHaveBeenCalledWith(itemsMenu[1].key);
+  });
 });

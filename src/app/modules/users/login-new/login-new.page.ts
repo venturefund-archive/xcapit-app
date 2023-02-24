@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { LoginToken } from '../shared-users/models/login-token/login-token';
@@ -8,7 +8,7 @@ import { LoggedIn } from '../shared-users/models/logged-in/logged-in';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
-import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { VerifyResult } from 'src/app/shared/models/biometric-auth/verify-result.interface';
 import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
@@ -22,6 +22,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { AuthService } from '../shared-users/services/auth/auth.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { AppSessionInjectable } from 'src/app/shared/models/app-session/injectable/app-session.injectable';
+import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
 
 @Component({
   selector: 'app-login-new',
@@ -110,6 +111,7 @@ export class LoginNewPage {
   showToast = true;
   isModalOpen = false;
   biometricEnabled: boolean;
+  isExpirationModal: boolean;
 
   constructor(
     private toastService: ToastService,
@@ -130,6 +132,7 @@ export class LoginNewPage {
     private authService: AuthService,
     private walletConnectService: WalletConnectService,
     private appSession: AppSessionInjectable,
+    private appExpirationTimeService: AppExpirationTimeService
   ) {}
 
   async ionViewWillEnter() {
@@ -139,7 +142,12 @@ export class LoginNewPage {
     await this.activateBiometricAuth();
     this._trackScreenView();
     this.subscribeOnValueChanges();
+    this.appExpirationTimeService.disableExpirationModal();
     this.enablePushNotificationsByDefault();
+  }
+
+  async ionViewWillLeave() {
+    this.appExpirationTimeService.enableExpirationModal();
   }
 
   private _trackScreenView(): void {
@@ -260,7 +268,10 @@ export class LoginNewPage {
     }
   }
 
-  private _goToWallet(): void {
+  private async _goToWallet() {
+    if (this.isExpirationModal) {
+      return this.modalController.dismiss(null, 'confirm');
+    }
     this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
   }
 

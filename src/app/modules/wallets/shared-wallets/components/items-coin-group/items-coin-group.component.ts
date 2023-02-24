@@ -5,13 +5,13 @@ import { Coin } from '../../interfaces/coin.interface';
 @Component({
   selector: 'app-items-coin-group',
   template: `
-    <app-ux-radio-group>
+    <app-ux-radio-group *ngIf="this.coins.length > 0">
       <ion-list class="list">
         <ion-radio-group>
           <div class="container">
             <ion-item class="icg__item ion-no-padding ion-no-margin" lines="full">
               <ion-label class="icg__label ux-font-text-xs">{{
-                'wallets.select_coin.suite' | translate: { suiteName: (this.network | suite) }
+                'wallets.select_coin.suite' | translate : { suiteName: (this.network | suite) }
               }}</ion-label>
               <ion-toggle
                 name="AllToggle"
@@ -40,6 +40,7 @@ import { Coin } from '../../interfaces/coin.interface';
 })
 export class ItemsCoinGroupComponent implements OnInit {
   @Input() coins: Coin[];
+  @Input() natives: Coin[];
   @Input() network: string;
   @Output() changed = new EventEmitter<any>();
   form: UntypedFormGroup;
@@ -49,7 +50,7 @@ export class ItemsCoinGroupComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formGroup.form;
-
+    
     this.setToggleAllState();
   }
 
@@ -87,7 +88,7 @@ export class ItemsCoinGroupComponent implements OnInit {
   checkIfNativeCoinFromNetworkIsChecked(event: any) {
     const toggledCoin = event.detail.value;
     const isToggledCoinChecking = event.detail.checked;
-    const nativeCoin = this.coins.find((coin) => coin.network === toggledCoin.network && coin.native === true).value;
+    const nativeCoin = this.natives.find((coin) => coin.network === toggledCoin.network && coin.native === true).value;
 
     if (toggledCoin.native && !isToggledCoinChecking) {
       this.deselectAllNetworkCoins(toggledCoin.network);

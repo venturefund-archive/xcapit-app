@@ -34,7 +34,7 @@ import { D24_PAYMENT_TYPES } from '../shared-ramps/constants/payment-types';
   selector: 'app-directa',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
@@ -124,13 +124,13 @@ export class DirectaPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.destroy$ = new Subject<void>();
     const providerAlias = this.route.snapshot.paramMap.get('alias');
     this.provider = this.getProviders().byAlias(providerAlias);
     this.setCountry();
     this.setFiatToken();
-    this.setCryptoToken();
+    await this.setCryptoToken();
     this.cryptoPrice();
     this.usdCryptoPrice();
     this.setPaymentType();
@@ -154,13 +154,13 @@ export class DirectaPage implements OnInit {
     this.fee.token = this.fiatCurrency;
   }
 
-  setCryptoToken() {
+  async setCryptoToken() {
     const { asset, network } = this.tokenOperationDataService.tokenOperationData;
-    this.selectedCurrency = this.providerTokens().find((token) => token.value === asset && token.network === network);
+    this.selectedCurrency = (await this.providerTokens()).find((token) => token.value === asset && token.network === network);
   }
 
-  providerTokens() {
-    return new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
+  async providerTokens() {
+    return await new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins(), this.fiatRampsService).byAlias(this.provider.alias);
   }
 
   depositLinkRequest(depositCreationData: DirectaDepositCreationData): DepositLinkRequest {
@@ -222,10 +222,10 @@ export class DirectaPage implements OnInit {
   subscribeToFormChanges() {
     this.form
       .get('cryptoAmount')
-      .valueChanges.subscribe((value) => (value ? this.cryptoAmountChange(value) : this.resetInfo('fiatAmount')));
+      .valueChanges.subscribe((value) => (value > 0 ? this.cryptoAmountChange(value) : this.resetInfo('fiatAmount')));
     this.form
       .get('fiatAmount')
-      .valueChanges.subscribe((value) => (value ? this.fiatAmountChange(value) : this.resetInfo('cryptoAmount')));
+      .valueChanges.subscribe((value) => (value > 0 ? this.fiatAmountChange(value) : this.resetInfo('cryptoAmount')));
   }
 
   resetInfo(aField: string) {
@@ -241,7 +241,7 @@ export class DirectaPage implements OnInit {
   }
 
   private fiatAmountChange(value: number) {
-    const roundedValue = new RoundedNumber(value).value();
+    const roundedValue = new RoundedNumber(Number(value)).value();
     this.form.patchValue(
       { fiatAmount: roundedValue, cryptoAmount: roundedValue / this.price },
       this.defaultPatchValueOptions()
@@ -297,7 +297,10 @@ export class DirectaPage implements OnInit {
   }
 
   createDirectaPrice(currency = this.fiatCurrency): DynamicDirectaPrice {
-    return this.directaPrice.new(this.milliseconds, new DefaultDirectaPrice(currency, this.selectedCurrency, this.fiatRampsService));
+    return this.directaPrice.new(
+      this.milliseconds,
+      new DefaultDirectaPrice(currency, this.selectedCurrency, this.fiatRampsService)
+    );
   }
 
   loadingFee() {

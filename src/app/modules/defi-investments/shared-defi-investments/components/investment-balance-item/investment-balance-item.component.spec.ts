@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -42,7 +42,7 @@ describe('InvestmentBalanceItemComponent', () => {
       {},
       {
         name: 'USDC - USD Coin',
-        logoRoute: 'assets/img/coins/USDC.png',
+        logoRoute: 'assets/img/coins/USDC-POLYGON.svg',
         value: 'USDC',
       }
     );
@@ -92,19 +92,18 @@ describe('InvestmentBalanceItemComponent', () => {
     expect(balanceEl.nativeElement.innerHTML).toContain(50.0);
   });
 
-  it('should render description properly', () => {
+  it('should render description properly', async () => {
+    component.ngOnInit();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     const descriptionEl = fixture.debugElement.query(By.css('div.ibi__content__group  .description'));
-    expect(descriptionEl.nativeElement.innerHTML).toContain('USD Coin');
+    expect(descriptionEl.nativeElement.innerHTML).toEqual(' Usd Coin');
   });
 
   it('should render converted-balance properly', () => {
     const convertedBalanceEl = fixture.debugElement.query(By.css('div.ibi__content__group  .converted-balance'));
     expect(convertedBalanceEl.nativeElement.innerHTML).toContain(50);
-  });
-
-  it('should render app-token-with-blockchain-logo properly', () => {
-    const compEl = fixture.debugElement.query(By.css('app-token-with-blockchain-logo'));
-    expect(compEl).toBeTruthy();
   });
 
   it('should navigate to investment detail when go_to_invest_detail div is clicked', async () => {

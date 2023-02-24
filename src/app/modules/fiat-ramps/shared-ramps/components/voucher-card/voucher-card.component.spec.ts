@@ -45,8 +45,8 @@ describe('VoucherCardComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  it('should show loader state when percentage is greater or equal than zero', () => {
-    component.percentage = 0;
+  it('should show loader state when percentage is greater than zero', () => {
+    component.percentage = 100;
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.vc__loader'));
     expect(el).toBeTruthy();

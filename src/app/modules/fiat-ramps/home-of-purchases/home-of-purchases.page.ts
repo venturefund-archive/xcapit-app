@@ -14,7 +14,7 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
   template: ` <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
+          <ion-back-button defaultHref="" (click)="this.back()"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.home_of_purchases.header' | translate }}
@@ -42,7 +42,11 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
         class="hop__operations-list ion-padding-start ion-padding-end ion-padding-top"
         *ngIf="this.isLogged !== undefined && this.enabledProviders && this.enabledProviders.includes('kripton')"
       >
-        <app-operations-list [operationsList]="this.operationsList" [isLogged]="this.isLogged"></app-operations-list>
+        <app-operations-list
+          [operationsList]="this.operationsList"
+          [isLogged]="this.isLogged"
+          (loggedOut)="loggedOut()"
+        ></app-operations-list>
       </div>
       <div
         *ngIf="this.enabledProviders && this.enabledProviders.includes('moonpay')"
@@ -120,8 +124,9 @@ export class HomeOfPurchasesPage {
     if (this.enabledProviders.includes('kripton') && this.isLogged) this.getOperations();
   }
 
-  getOperations(): void {
-    this.fiatRampsService.getUserOperations({ email: this.email }).subscribe((data) => {
+  async getOperations(): Promise<void> {
+    const auth_token = await this.kriptonStorage.get('access_token');
+    this.fiatRampsService.getUserOperations({ email: this.email, auth_token }).subscribe((data) => {
       this.operationsList = data;
     });
   }
@@ -171,5 +176,15 @@ export class HomeOfPurchasesPage {
       this.message = this.translate.instant('fiat_ramps.kyc_status.approving.message');
       this.style = 'approving';
     }
+  }
+  
+  back(){
+    return this.navController.navigateBack('/tabs/wallets');
+  }
+  
+  loggedOut() {
+    this.isLogged = false;
+    this.userStatus = null;
+    this.email = null;
   }
 }

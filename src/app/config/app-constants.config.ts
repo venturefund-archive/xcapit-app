@@ -192,7 +192,7 @@ export const CONFIG = {
     selected: 'selected',
   },
   cache: {
-    TTL: 3600,
+    TTL: 10,
     PREFIX: '_cache_',
   },
 };

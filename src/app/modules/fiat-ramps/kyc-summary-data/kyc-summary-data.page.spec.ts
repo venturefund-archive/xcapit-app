@@ -48,6 +48,7 @@ const expectedKycData = {
   postal_code: '123',
   email: 'test@test.com',
   politically_exposed: false,
+  auth_token: 'test',
 };
 
 describe('KycSummaryDataPage', () => {
@@ -121,6 +122,8 @@ describe('KycSummaryDataPage', () => {
   });
 
   it('should update data with politically_exposed, send data and redirect to register user page when ux_buy_kripton_details_confirm is clicked and form is valid', async () => {
+    kriptonStorageSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageSpy.get.withArgs('access_token').and.resolveTo('test');
     component.ionViewWillEnter();
     component.form.patchValue({ not_politically_exposed: true });
     fixture.detectChanges();

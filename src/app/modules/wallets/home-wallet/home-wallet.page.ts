@@ -11,10 +11,10 @@ import { TotalBalance } from '../shared-wallets/models/balance/total-balance/tot
 import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
 import { NullPrices } from '../shared-wallets/models/prices/null-prices/null-prices';
 import { NullBalances } from '../shared-wallets/models/balances/null-balances/null-balances';
-import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
-import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
-import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
-import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
+import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/token-detail.injectable';
+import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-balance/total-balance.injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
@@ -34,9 +34,8 @@ import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
 import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
-import { SwapInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/swap-in-progress.service';
-import { Subscription } from 'rxjs';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
+import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -122,8 +121,8 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
         >
         </app-backup-information-card>
       </div>
-      <div class="wt__transaction-in-progress" *ngIf="this.swapInProgress">
-        <app-transaction-in-progress-card transactionType="swap"></app-transaction-in-progress-card>
+      <div class="wt__transaction-in-progress">
+        <app-transaction-in-progress></app-transaction-in-progress>
       </div>
       <div class="wt">
         <div class="wt__segments">
@@ -171,6 +170,10 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
               name="crescent"
               *ngIf="this.tokenDetails.length === 0 && this.allLoaded === false"
             ></ion-spinner>
+            <div *appFeatureFlag="'ff_newTokenAvailable'">
+              <app-new-token-available-card *ngFor="let newToken of this.newTokens" [newToken]="newToken">
+              </app-new-token-available-card>
+            </div>
             <div class="wt__balance__no-token" *ngIf="this.tokenDetails.length === 0 && this.allLoaded === true">
               <ion-text class="ux-font-text-xxs wt__balance__no-token__title">{{
                 'wallets.home.no_tokens_selected.title' | translate
@@ -179,10 +182,6 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
               <ion-text class="ux-link-xs wt__balance__no-token__link" (click)="this.goToSelectCoins()">{{
                 'wallets.home.no_tokens_selected.link' | translate
               }}</ion-text>
-            </div>
-            <div *appFeatureFlag="'ff_newTokenAvailable'">
-              <app-new-token-available-card *ngFor="let newToken of this.newTokens" [newToken]="newToken">
-              </app-new-token-available-card>
             </div>
             <div *ngIf="this.tokenDetails.length > 0">
               <app-accordion-tokens [tokenDetails]="tokenDetails"> </app-accordion-tokens>
@@ -223,8 +222,6 @@ export class HomeWalletPage implements OnInit {
   newTokens: NewToken[];
   connected: boolean;
   allLoaded = false;
-  swapInProgress = false;
-  private subscription$: Subscription;
 
   constructor(
     private navController: NavController,
@@ -233,10 +230,10 @@ export class HomeWalletPage implements OnInit {
     private storageService: StorageService,
     private balanceCacheService: BalanceCacheService,
     private http: HttpClient,
-    private covalentBalances: CovalentBalancesController,
-    private tokenPrices: TokenPricesController,
-    private tokenDetail: TokenDetailController,
-    private totalBalance: TotalBalanceController,
+    private covalentBalances: CovalentBalancesInjectable,
+    private tokenPrices: TokenPricesInjectable,
+    private tokenDetail: TokenDetailInjectable,
+    private totalBalance: TotalBalanceInjectable,
     private trackService: TrackService,
     private ionicStorageService: IonicStorageService,
     private localStorageService: LocalStorageService,
@@ -248,8 +245,8 @@ export class HomeWalletPage implements OnInit {
     private walletConnectService: WalletConnectService,
     private updateNewsService: UpdateNewsService,
     private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable,
-    private swapInProgressService: SwapInProgressService,
-    private base64ImageFactory: Base64ImageFactory
+    private base64ImageFactory: Base64ImageFactory,
+    private contactService: ContactDataService,
   ) {}
 
   ngOnInit() {}
@@ -262,7 +259,7 @@ export class HomeWalletPage implements OnInit {
     this.isProtectedWallet();
     this.getNewTokensAvailable();
     this.checkConnectionOfWalletConnect();
-    this.suscribeToSwapInProgress();
+    this.cleanContact();
   }
 
   async getSliderImages() {
@@ -271,20 +268,6 @@ export class HomeWalletPage implements OnInit {
       slide.image = await (await this.base64ImageFactory.new(slide.image)).value();
     }
     this.slides = slides;
-  }
-
-  ionViewWillLeave() {
-    this.unsubscribe();
-  }
-
-  async suscribeToSwapInProgress() {
-    this.subscription$ = this.swapInProgressService.inProgress().subscribe((inProgress) => {
-      this.swapInProgress = inProgress;
-    });
-  }
-
-  unsubscribe() {
-    this.subscription$.unsubscribe();
   }
 
   private trackScreenView() {
@@ -310,6 +293,10 @@ export class HomeWalletPage implements OnInit {
     this.setAvailableDefiProducts();
     await this.setInvestments();
     this.setInvestedBalance();
+  }
+
+  private cleanContact(){
+    this.contactService.updateContact(null);
   }
 
   private showUpdateModal() {
@@ -365,7 +352,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   private initializeTotalBalance() {
-    this.totalBalanceModel = this.totalBalance.new(new NullPrices(), new NullBalances(), new ZeroBalance());
+    this.totalBalanceModel = this.totalBalance.create(new NullPrices(), new NullBalances(), new ZeroBalance());
   }
 
   private async setTokenDetails() {
@@ -374,18 +361,18 @@ export class HomeWalletPage implements OnInit {
     for (const blockchain of this.blockchainsFactory.create().value()) {
       const tokens: any = new BlockchainTokens(blockchain, new DefaultTokens(new TokenRepo(this.userTokens)));
       if ((await tokens.value()).length) {
-        const balances = this.covalentBalances.new(
+        const balances = this.covalentBalances.create(
           (await this.walletsFactory.create().oneBy(blockchain)).address(),
           tokens,
           this.http
         );
-        const prices = this.tokenPrices.new(tokens, this.http);
+        const prices = this.tokenPrices.create(tokens, this.http);
         for (const token of await tokens.value()) {
-          const tokenDetail = this.tokenDetail.new(balances, prices, token, this.balanceCacheService);
+          const tokenDetail = this.tokenDetail.create(balances, prices, token, this.balanceCacheService);
           tokenDetails.push(tokenDetail);
           await tokenDetail.cached();
         }
-        this.totalBalanceModel = this.totalBalance.new(prices, balances, this.totalBalanceModel);
+        this.totalBalanceModel = this.totalBalance.create(prices, balances, this.totalBalanceModel);
       }
     }
     this.sortTokens(tokenDetails);

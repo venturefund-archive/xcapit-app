@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     component: LoginPage,
-    canActivate: [NewLogin]
+    canActivate: [NewLogin],
   },
 ];
 

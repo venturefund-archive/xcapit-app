@@ -6,7 +6,7 @@ import { CAUSES } from '../shared-donations/constants/causes';
   selector: 'app-causes',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded no-border">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="donations/information"></ion-back-button>
         </ion-buttons>
@@ -28,7 +28,7 @@ import { CAUSES } from '../shared-donations/constants/causes';
   styleUrls: ['./causes.page.scss'],
 })
 export class CausesPage implements OnInit {
-  causes = CAUSES;
+  causes = structuredClone(CAUSES);
   constructor(private trackService: TrackService) {}
 
   ionViewWillEnter() {

@@ -148,6 +148,13 @@
       "description": "Devido à volatilidade do mercado, a taxa de câmbio pode variar ligeiramente no momento da transação.",
       "button_text": "Entendido",
       "loading_text": "Calculando. Aguarde alguns instantes."
+    }, 
+    "require_token": {
+      "description": "A ficha que procura não está disponível?",
+      "button": "Solicite-o"
+    },
+    "search_bar": {
+      "placeholder": "Pesquisa"
     }
   },
   "users": {
@@ -638,6 +645,14 @@
         },
         "2pi": {
           "title": "2pi"
+        },
+        "remove_tyc": {
+          "title": "Remover assinatura",
+          "message_to_kripton": "Terá de assinar novamente os termos e condições e a política de privacidade para poder negociar com este fornecedor.",
+          "message_others_providers": "Terá de assinar novamente os termos e condições para negociar com este fornecedor.",
+          "cancel_button": "Cancele",
+          "confirm_button": "Confirme",
+          "alert": "Licença revogada com sucesso"
         }
       },
       "community": "Junte-se a nossa comunidade",
@@ -714,7 +729,7 @@
     "biometric_auth": {
       "header": "Dados biométricos",
       "toggle_text": "Dados biométricos",
-      "toggle_description": "Ative para acessar sua carteira e aprovar suas transações.",
+      "toggle_description": "Ative-os para entrar em sua carteira e aprovar suas transações.",
       "password_title": "Sua segurança é importante para nós",
       "password_description": "Para ativar seus dados biométricos, digite a senha de sua carteira Xcapit.",
       "password_button": "confirme",
@@ -743,6 +758,17 @@
       "inactivity": {
         "title": "Logout por inatividade",
         "message": "Selecione a quantidade de tempo que você deseja permitir para inatividade antes de ser desconectado."
+      },
+      "password_change": {
+        "title": "Senha",
+        "button": "Mudar"
+      }
+    },
+    "security_configuration": {
+      "header": "Configuração",
+      "inactivity": {
+        "title": "Sair devido à inatividade",
+        "message": "Selecione a quantidade de tempo que você deseja permitir a inatividade antes de sair da sessão."
       },
       "password_change": {
         "title": "Senha",
@@ -1824,7 +1850,8 @@
       "native": "NATIVO",
       "submit_edit": "Salvar alterações",
       "toggle_all_text": "Selecionar tudo",
-      "loading": "Carregando..."
+      "loading": "Carregando...",
+      "no_result_search": "Sem resultados"
     },
     "success_creation": {
       "title": "Parabéns! Você criou sua carteira",
@@ -2133,7 +2160,8 @@
     "success_wallet_recovery": {
       "title": "Parabéns!",
       "subtitle": "Você importou sua carteira com sucesso.",
-      "button": "Personalizar carteira"
+      "button": "Personalizar carteira",
+      "button_home": "Ir para a carteira"
     },
     "wallet_connect": {
       "header": "Wallet Connect",
@@ -2969,6 +2997,16 @@
       "approving": {
         "title": "Sua conta do Kripton Market foi verificada.",
         "message": "Agora você pode fazer suas compras com este provedor."
+      }
+    },
+    "bitrefill": {
+      "header": "Comprar com crypto",
+      "exit_button": "Sair",
+      "modal": {
+        "title": "Atenção",
+        "description": "Quer partir? O seu progresso será perdido e terá de recomeçar.",
+        "cancel_button": "Cancelar",
+        "confirm_button": "Confirme"
       }
     }
   },

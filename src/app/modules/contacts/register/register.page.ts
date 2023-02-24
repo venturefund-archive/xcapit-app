@@ -9,6 +9,9 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
+import { Contact } from '../shared-contacts/interfaces/contact.interface';
+import { ContactDataService } from '../shared-contacts/services/contact-data/contact-data.service';
+import { RepeatedAddressValidator } from '../shared-contacts/validators/repeated-address/repeated-address-validator';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +20,7 @@ import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
         <ion-buttons slot="start">
           <ion-back-button appTrackClick defaultHref="contacts/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="rp__header ion-text-left">{{ 'contacts.register.header' | translate }}</ion-title>
+        <ion-title class="rp__header ion-text-left">{{ this.header | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -56,7 +59,7 @@ import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
               <ion-label class="ux-font-text-xxs" color="dangerdark">{{ this.validatorText | translate }}</ion-label>
             </div>
             <div class="rp__help-text__validator" *ngIf="this.status">
-              <ion-icon name="ux-checked-circle-outline" color="successdark"> </ion-icon>
+              <ion-icon name="ux-checked-circle-outline" color="successdark"></ion-icon>
               <ion-label class="ux-font-text-xxs" color="successdark">{{ this.validatorText | translate }}</ion-label>
             </div>
           </div>
@@ -75,6 +78,7 @@ import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
     <ion-footer class="rp__footer">
       <div class="rp__footer__submit-button ion-padding">
         <ion-button
+          *ngIf="this.buttonSubmit"
           [appLoading]="this.loading"
           [loadingText]="'contacts.register.loading' | translate"
           class="ux_button rp__footer__submit-button__button"
@@ -83,7 +87,7 @@ import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
           (click)="this.handleSubmit()"
           [disabled]="!this.isFormValid()"
           color="secondary"
-          >{{ 'contacts.register.submit_text' | translate }}</ion-button
+          ><ion-text>{{ this.buttonSubmit | translate }}</ion-text></ion-button
         >
       </div>
     </ion-footer>`,
@@ -91,17 +95,19 @@ import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
 })
 export class RegisterPage implements OnInit {
   public isNativePlatform: boolean;
-  _aKey = 'contact_list';
+  private _aKey = 'contact_list';
   validatorText: string;
   networksData = structuredClone(NETWORKS_DATA);
   loading: boolean;
   hideHelpText: boolean;
   status: boolean;
   native: boolean;
+  header = 'contacts.register.header';
+  buttonSubmit: string;
   form: UntypedFormGroup = this.formBuilder.group({
     networks: ['', [Validators.required]],
     address: [''],
-    name: ['', [Validators.required]],
+    name: ['', [Validators.required, Validators.maxLength(100)]],
   });
 
   constructor(
@@ -113,6 +119,7 @@ export class RegisterPage implements OnInit {
     private ionicStorageService: IonicStorageService,
     private navController: NavController,
     private route: ActivatedRoute,
+    private contactDataService: ContactDataService
   ) {}
 
   ngOnInit() {}
@@ -122,28 +129,54 @@ export class RegisterPage implements OnInit {
   }
 
   async ionViewWillEnter() {
+    this.setSubmitButton()
     this.valueChanges();
     this.isNative();
     await this.nullStorage();
     this.subscribeToStatusChanges();
-    this.isSaveMode();
+    this.checkMode();
   }
 
-  isSaveMode(){
-    if(this.route.snapshot.paramMap.get('mode') === 'save'){
-      const network = this.networksData.filter((network) => network.value === this.route.snapshot.paramMap.get('blockchain'));
-      const address = this.route.snapshot.paramMap.get('address') 
-      this.form.patchValue({networks : [network[0].value]})
-      this.setAddressValidator([network[0].value]);
-      this.form.patchValue({address: address});
+  checkMode() {
+    if (this.isSaveMode()) {
+      this.saveMode();
     }
+    if (this.isEditMode()) {
+      const _aContact = this.contactDataService.getContact();
+      this.edit(_aContact);
+      this.header = 'contacts.register.header_edit';
+    }
+  }
+
+  setSubmitButton() {
+    this.buttonSubmit = this.isEditMode() ? 'contacts.register.button_edit' : 'contacts.register.submit_text';
+  }
+
+  edit(_aContact: Contact) {
+    this.form.patchValue({ networks: _aContact.networks });
+    this.form.patchValue({ address: _aContact.address });
+    this.form.patchValue({ name: _aContact.name });
+  }
+
+  saveMode() {
+    const contactToSave = this.contactDataService.getContact();
+    this.form.patchValue({ networks: contactToSave.networks });
+    this.setAddressValidator(contactToSave.networks);
+    this.form.patchValue({ address: contactToSave.address });
   }
 
   subscribeToStatusChanges() {
     this.form.get('address').statusChanges.subscribe((valid) => {
-      this.status = valid === 'VALID';
-      this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.text_invalid';
-      this.hideHelpText = true;
+      if (valid !== 'PENDING') {
+        this.status = valid === 'VALID';
+        const isRepeatAddressValidator = this.form.get('address').hasError('isRepeatedAddress');
+        if (isRepeatAddressValidator) {
+          this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.repeated_address';
+        } else {
+          this.validatorText = this.status ? 'contacts.register.text_valid' : 'contacts.register.text_invalid';
+        }
+        this.hideHelpText = true;
+      }
     });
   }
 
@@ -171,12 +204,17 @@ export class RegisterPage implements OnInit {
     } else {
       this.form.get('address').addValidators(CustomValidators.isAddress());
     }
+    if(this.isEditMode()){
+      this.form.get('address').addAsyncValidators(RepeatedAddressValidator.validate(this.ionicStorageService, this.contactDataService.getContact().address));
+    }else{
+      this.form.get('address').addAsyncValidators(RepeatedAddressValidator.validate(this.ionicStorageService));
+    }
     if (this.form.get('address').value) {
       this.form.get('address').updateValueAndValidity();
     }
   }
 
-  isNative() {
+  isNative() { 
     this.native = this.platformService.isNative();
   }
 
@@ -184,7 +222,12 @@ export class RegisterPage implements OnInit {
     this.loading = true;
     if (this.form.valid) {
       const addresses_list = await this.getAddressesList();
-      addresses_list.push(this.form.value);
+      if (this.isEditMode()) {
+        const index = this.contactDataService.getContact().index;
+        addresses_list[index] = this.form.value;
+      } else {
+        addresses_list.push(this.form.value);
+      }
       this.ionicStorageService.set(this._aKey, addresses_list);
       this.navigateToContactsHome();
       this.showSuccessToast();
@@ -196,19 +239,24 @@ export class RegisterPage implements OnInit {
   }
 
   showSuccessToast() {
-    this.toastService.showSuccessToast({
-      message: this.translate.instant('contacts.register.success_toast'),
+    const message = this.isEditMode() ? 'contacts.register.success_edit' : 'contacts.register.success_toast';
+    this.toastService.showSuccessToastVerticalOffset({
+      message: this.translate.instant(message),
     });
   }
 
   async nullStorage() {
     if ((await this.getAddressesList()) === null) {
-      this.ionicStorageService.set(this._aKey, []);
-    } 
+      this.clearStorage();
+    }
   }
 
   async getAddressesList() {
     return this.ionicStorageService.get(this._aKey);
+  }
+
+  async clearStorage() {
+    this.ionicStorageService.set(this._aKey, []);
   }
 
   async openQRScanner() {
@@ -235,6 +283,14 @@ export class RegisterPage implements OnInit {
         await this.showToast(this.translate.instant('contacts.qr_scanner.scan_unauthorized'));
         break;
     }
+  }
+
+  isEditMode() {
+    return this.route.snapshot.paramMap.get('mode') === 'edit';
+  }
+
+  isSaveMode() {
+    return this.route.snapshot.paramMap.get('mode') === 'save';
   }
 
   private async showToast(message) {

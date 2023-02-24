@@ -27,16 +27,16 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
   selector: 'app-create-password',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded ux_toolbar__left">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
         <ion-title *ngIf="this.mode === 'import'">{{ 'wallets.recovery_wallet.header' | translate }}</ion-title>
         <ion-title *ngIf="this.mode !== 'import'">{{ 'wallets.create_password.header' | translate }}</ion-title>
-        <ion-label *ngIf="this.mode === 'import'" class="step-counter" slot="end"
+        <ion-label *ngIf="this.mode === 'import'" class="ux_toolbar__step" slot="end"
           >3 {{ 'shared.step_counter.of' | translate }} 3</ion-label
         >
-        <ion-label *ngIf="this.mode !== 'import'" class="step-counter" slot="end"
+        <ion-label *ngIf="this.mode !== 'import'" class="ux_toolbar__step" slot="end"
           >2 {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >
       </ion-toolbar>
@@ -106,7 +106,6 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
             <ion-button
               class="ux_button ion-no-margin ion-no-padding"
               fill="clear"
-              color="info"
               name="ux_edit"
               appTrackClick
               [dataToTrack]="{ eventLabel: this.trackClickName }"
@@ -320,7 +319,7 @@ export class CreatePasswordPage implements OnInit {
     const remoteConfig = this.remoteConfig.getFeatureFlag('ff_experimentOnboarding');
     let url = '/wallets/recovery/success';
     if (this.mode !== 'import') {
-      url = remoteConfig ? 'wallets/experimental-onboarding' : '/wallets/recovery/success';
+      url = remoteConfig ? 'wallets/experimental-onboarding' : '/wallets/success-creation';
     }
 
     return this.navController.navigateRoot([url]);

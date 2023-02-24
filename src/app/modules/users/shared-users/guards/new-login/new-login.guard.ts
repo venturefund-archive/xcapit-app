@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
@@ -7,19 +7,24 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
   providedIn: 'root',
 })
 export class NewLogin implements CanActivate {
+  private readonly defaultRoute = '/users/login-new';
+  
   constructor(private remoteConfigService: RemoteConfigService, private navController: NavController) {}
 
-  async canActivate(): Promise<boolean> {
-    if (this.newLogin()) await this.redirectToNewLogin();
+  async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
+    if (this.isFeatureFlagEnabled()) {
+      const url = route.data.redirectUrl ? route.data.redirectUrl : this.defaultRoute;
+      await this.redirectTo(url);     
+    }
 
-    return !this.newLogin();
+    return !this.isFeatureFlagEnabled();
   }
 
-  private newLogin() {
+  private isFeatureFlagEnabled(): boolean {
     return this.remoteConfigService.getFeatureFlag('ff_newLogin');
   }
 
-  async redirectToNewLogin() {
-    return await this.navController.navigateRoot(['users/login-new']);
-  }
+  private redirectTo(url: string): Promise<boolean> {
+    return this.navController.navigateRoot([url]);
+  } 
 }

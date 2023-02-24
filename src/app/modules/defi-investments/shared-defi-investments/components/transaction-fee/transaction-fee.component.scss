@@ -19,6 +19,7 @@
       &__qty_and_advice {
         display: block;
         width: 100%;
+        padding-top: 7px;
 
         &__qty {
           display: flex;
@@ -26,6 +27,10 @@
 
           ion-text {
             color: var(--ion-color-neutral90);
+          }
+
+          &__faucet {
+            padding-top: 2px;
           }
         }
 

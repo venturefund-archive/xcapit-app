@@ -16,13 +16,13 @@ import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/r
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { By } from '@angular/platform-browser';
-import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
+import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-balance/total-balance.injectable';
 import { FakeBalance } from '../shared-wallets/models/balance/fake-balance/fake-balance';
-import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { FakePrices } from '../shared-wallets/models/prices/fake-prices/fake-prices';
-import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
-import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
+import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/token-detail.injectable';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -44,8 +44,8 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
-import { SwapInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/swap-in-progress.service';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
+import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -60,10 +60,10 @@ describe('HomeWalletPage', () => {
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let contentSpy: jasmine.SpyObj<IonContent>;
   let coinSpy: jasmine.SpyObj<Coin>;
-  let totalBalanceControllerSpy: jasmine.SpyObj<TotalBalanceController>;
-  let tokenPricesControllerSpy: jasmine.SpyObj<TokenPricesController>;
-  let covalentBalancesControllerSpy: jasmine.SpyObj<CovalentBalancesController>;
-  let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
+  let totalBalanceInjectableSpy: jasmine.SpyObj<TotalBalanceInjectable>;
+  let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
+  let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
+  let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
@@ -77,7 +77,7 @@ describe('HomeWalletPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
-  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>;
+  let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
@@ -85,9 +85,9 @@ describe('HomeWalletPage', () => {
     fakeNavController = new FakeNavController();
     updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
     navControllerSpy = fakeNavController.createSpy();
-    totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
-    tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
-    covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+    totalBalanceInjectableSpy = jasmine.createSpyObj('TotalBalanceInjectable', { create: new FakeBalance(10) });
+    tokenPricesInjectableSpy = jasmine.createSpyObj('TokenPricesInjectable', { create: new FakePrices() });
+    covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { create: new FakeBalances() });
     localStorageServiceSpy = jasmine.createSpyObj(
       'LocalStorageService',
       {
@@ -95,6 +95,9 @@ describe('HomeWalletPage', () => {
       },
       { hideFunds: of(false) }
     );
+    contactDataServiceSpy = jasmine.createSpyObj('ContactDataService', {
+      updateContact: {},
+    })
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
       { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
@@ -105,7 +108,7 @@ describe('HomeWalletPage', () => {
         coin: coinSpy,
       }
     );
-    tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
+    tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailSpy', { create: tokenDetailSpy });
     coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -122,10 +125,6 @@ describe('HomeWalletPage', () => {
     refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
       isAvailable: true,
       lock: of(),
-    });
-
-    swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService', {
-      inProgress: of(true),
     });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -186,9 +185,11 @@ describe('HomeWalletPage', () => {
     });
 
     base64ImageFactorySpy = jasmine.createSpyObj('Base64ImageFactory', {
-      new: Promise.resolve({ value : () => {
-        return Promise.resolve({})
-      }}),
+      new: Promise.resolve({
+        value: () => {
+          return Promise.resolve({});
+        },
+      }),
     });
 
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
@@ -205,10 +206,10 @@ describe('HomeWalletPage', () => {
         { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
-        { provide: CovalentBalancesController, useValue: covalentBalancesControllerSpy },
-        { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
-        { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
-        { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
+        { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
+        { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
+        { provide: TotalBalanceInjectable, useValue: totalBalanceInjectableSpy },
+        { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: LocalStorageService, useValue: localStorageServiceSpy },
@@ -221,7 +222,7 @@ describe('HomeWalletPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
-        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy },
+        { provide: ContactDataService, useValue: contactDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -245,13 +246,6 @@ describe('HomeWalletPage', () => {
     expect(component.userTokens.length).toBeGreaterThan(0);
     expect(component.tokenDetails.length).toBeGreaterThan(0);
     expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
-  });
-
-  it('should unsubscribe on ionViewWillLeave ', async () => {
-    const spy = spyOn(component, 'unsubscribe').and.callThrough();
-    await component.ionViewWillEnter();
-    await component.ionViewWillLeave();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should initialize on view did enter without tokens', async () => {
@@ -390,7 +384,6 @@ describe('HomeWalletPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-
 
   it('should get on storage onInit', () => {
     component.ionViewWillEnter();

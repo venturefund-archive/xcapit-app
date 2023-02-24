@@ -28,7 +28,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
   selector: 'app-operations-new',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
@@ -52,7 +52,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
             paymentType="fiat_ramps.shared.constants.payment_types.kripton"
           ></app-provider-new-operation-card>
 
-          <div class="aon__disclaimer">
+          <div *ngIf="!this.agreement" class="aon__disclaimer">
             <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
               <ion-checkbox formControlName="thirdPartyKYC" mode="md" slot="start"></ion-checkbox>
               <ion-label class="ion-no-padding ion-no-margin">
@@ -77,6 +77,16 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
                 class="ion-no-padding ion-no-margin ux-font-text-xxs"
                 color="neutral80"
                 [innerHTML]="'fiat_ramps.new_operation.privacyPolicyAndTOS' | translate"
+              >
+              </ion-label>
+            </ion-item>
+          </div>
+          <div class="aon__disclaimer" *ngIf="this.agreement">
+            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
+              <ion-label
+                class="ion-no-padding ion-no-margin ux-font-text-xxs"
+                color="neutral80"
+                [innerHTML]="'fiat_ramps.new_operation.acceptedprivacyPolicyAndTOS' | translate"
               >
               </ion-label>
             </ion-item>
@@ -115,6 +125,7 @@ export class OperationsNewPage implements AfterViewInit {
   priceRefreshInterval = 15000;
   destroy$: Subject<void>;
   minimumFiatAmount: number;
+  agreement: boolean;
   form: UntypedFormGroup = this.formBuilder.group({
     cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
@@ -138,7 +149,7 @@ export class OperationsNewPage implements AfterViewInit {
     private providers: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
     private modalController: ModalController,
-    private kriptonStorageService: KriptonStorageService
+    private kriptonStorageService: KriptonStorageService,
   ) {}
 
   ngAfterViewInit() {
@@ -160,19 +171,20 @@ export class OperationsNewPage implements AfterViewInit {
     });
   }
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.availableCoins();
+    this.checkKriptonAgreement();
+    await this.availableCoins();
     this.setCountry();
     this.setCurrency();
     this.subscribeToFormChanges();
     this.dynamicPrice();
   }
 
-  availableCoins() {
-    this.providerTokens = new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(
+  async availableCoins() {
+    this.providerTokens = await new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins(), this.fiatRampsService).byAlias(
       'kripton'
     );
   }
@@ -214,7 +226,7 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.get('fiatAmount').updateValueAndValidity();
   }
 
-  private async dynamicPrice() { 
+  private async dynamicPrice() {
     this.createKriptonDynamicPrice()
       .value()
       .pipe(takeUntil(this.destroy$))
@@ -265,7 +277,9 @@ export class OperationsNewPage implements AfterViewInit {
     if (this.form.valid) {
       await this.setOperationStorage();
       const email = await this.kriptonStorageService.get('email');
-      const operationData = Object.assign({ email }, this.storageOperationService.getData());
+      const auth_token = await this.kriptonStorageService.get('access_token');
+      this.kriptonStorageService.set('privacy_and_policy_accepted', true);
+      const operationData = Object.assign({ email, auth_token }, this.storageOperationService.getData());
       const operationResponse = await this.fiatRampsService.createOperation(operationData).toPromise();
 
       const newData = Object.assign(
@@ -276,6 +290,13 @@ export class OperationsNewPage implements AfterViewInit {
       this.navController.navigateRoot('/fiat-ramps/purchase-order/1');
     } else {
       this.form.markAllAsTouched();
+    }
+  }
+
+  async checkKriptonAgreement(): Promise<void> {
+    this.agreement = await this.kriptonStorageService.get('privacy_and_policy_accepted');
+    if (this.agreement) {
+      this.form.patchValue({ thirdPartyKYC: true, thirdPartyTransaction: true, acceptTOSAndPrivacyPolicy: true });
     }
   }
 

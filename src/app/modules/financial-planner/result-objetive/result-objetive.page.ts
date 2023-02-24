@@ -13,7 +13,7 @@ import { ToastWithButtonsComponent } from '../../../shared/components/toast-with
   selector: 'app-result-objetive',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded no-border">
         <ion-buttons slot="start">
           <ion-back-button class="content__back" defaultHref="/financial-planner/objetive-info"></ion-back-button>
         </ion-buttons>

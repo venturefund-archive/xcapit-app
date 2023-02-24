@@ -22,10 +22,6 @@
 
         --ion-padding: 0;
       }
-
-      ion-label {
-        color: var(--ion-color-primary);
-      }
     }
 
     ion-item::part(native) {
@@ -41,7 +37,6 @@
     &__item {
       margin-top: 8px;
       height: 100%;
-      border: 1px solid var(--ion-color-neutral80);
       box-sizing: border-box;
       border-radius: 4px;
 
@@ -50,10 +45,6 @@
       --highlight-background: none;
 
       color: var(--ion-color-neutral90);
-
-      &.item-has-focus {
-        border: 1.5px solid var(--ion-color-primary);
-      }
 
       &__error_icon {
         width: 20px;
@@ -106,5 +97,21 @@
 
   .primary {
     color: var(--ion-color-primary);
+  }
+
+  .valid {
+    border: 1px solid var(--ion-color-neutral80);
+
+    &.item-has-focus {
+      border: 1.5px solid var(--ion-color-primary);
+    }
+  }
+
+  .disabled {
+    border: 1px solid var(--ion-color-neutral50);
+  }
+
+  .error {
+    border: 1.5px solid var(--ion-color-dangerdark);
   }
 }

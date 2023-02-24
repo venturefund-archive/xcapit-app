@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
@@ -16,14 +16,19 @@ import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/pass
 
 @Component({
   selector: 'app-summary-data-send-donation',
-  template: ` <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+  template: ` 
+    <ion-header>
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded ux_toolbar__left no-border">
         <ion-buttons slot="start">
-          <ion-back-button name="ux_donations_back" defaultHref="" (click)="this.navigateBack()"></ion-back-button>
+          <ion-button (click)="this.navigateBack()" name="ux_donations_back" class="sdsd__button_back"> <ion-icon name="chevron-back-outline"></ion-icon></ion-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'donations.send_donations.header' | translate }}</ion-title>
+        <ion-title class="ion-text-start">{{ 'donations.send_donations.header' | translate }}</ion-title>
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
+          >3 {{ 'shared.step_counter.of' | translate }} 3</ion-label
+        >
       </ion-toolbar>
     </ion-header>
+
     <ion-content class="sdsd ion-padding">
       <div class="sdsd__transaction-summary-card" *ngIf="this.summaryData">
         <app-transaction-summary-card
@@ -33,7 +38,6 @@ import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/pass
           [summaryData]="this.summaryData"
         ></app-transaction-summary-card>
       </div>
-
       <div class="sdsd__send_button">
         <ion-button
           [appLoading]="this.loading"
@@ -55,6 +59,7 @@ export class SummaryDataSendDonationPage implements OnInit {
   summaryData: SummaryData;
   loading: boolean;
   isSending: boolean;
+  cause: string;
   constructor(
     private sendDonationData: SendDonationDataService,
     private walletTransactionsService: WalletTransactionsService,
@@ -64,6 +69,7 @@ export class SummaryDataSendDonationPage implements OnInit {
     private loadingService: LoadingService,
     private localNotificationsService: LocalNotificationsService,
     private translate: TranslateService,
+    private route: ActivatedRoute,
     private alertController: AlertController
   ) {}
 
@@ -75,12 +81,7 @@ export class SummaryDataSendDonationPage implements OnInit {
   }
 
   navigateBack() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        cause: this.sendDonationData.cause,
-      },
-    };
-    this.navController.navigateBack(['/donations/send-donation'], navigationExtras);
+    this.navController.navigateBack(['/donations/send-donation/cause/', this.summaryData.cause, 'value', this.summaryData.currency.value, 'network', this.summaryData.network]);
   }
 
   private goToSuccess(response: TransactionResponse) {

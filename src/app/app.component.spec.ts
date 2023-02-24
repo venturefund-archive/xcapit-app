@@ -1,9 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
-import { NavController, Platform } from '@ionic/angular';
+import { ModalController, NavController, Platform } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
-import { LoadingService } from './shared/services/loading/loading.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
@@ -23,6 +22,18 @@ import { CapacitorApp } from './shared/models/capacitor-app/capacitor-app.interf
 import { AppSessionInjectable } from './shared/models/app-session/injectable/app-session.injectable';
 import { AppSession } from './shared/models/app-session/app-session';
 import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { DynamicLinkInjectable } from './shared/models/dynamic-link/injectable/dynamic-link-injectable';
+import { DynamicLink } from './shared/models/dynamic-link/dynamic-link';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { AppExpirationTimeService } from './shared/models/app-session/injectable/app-expiration-time.service';
+import { TxInProgressService } from './modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
+import { NullNotificationsService } from './modules/notifications/shared-notifications/services/null-notifications/null-notifications.service';
+import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
+import { BrowserService } from './shared/services/browser/browser.service';
+import { CapacitorNotificationsService } from './modules/notifications/shared-notifications/services/capacitor-notifications/capacitor-notifications.service';
+import { NetworkInjectable } from './shared/models/network/injectable/network.injectable';
+import { FakeNetworkPlugin } from './shared/models/network-plugin/fake/fake-network-plugin';
+import { Network } from './shared/models/network/default/network';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -30,7 +41,6 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: jasmine.SpyObj<LanguageService>;
-  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let updateServiceSpy: jasmine.SpyObj<UpdateService>;
   let submitButtonServiceSpy: jasmine.SpyObj<SubmitButtonService>;
@@ -49,13 +59,40 @@ describe('AppComponent', () => {
   let appSessionInjectableSpy: jasmine.SpyObj<AppSessionInjectable>;
   let appSessionSpy: jasmine.SpyObj<AppSession>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
+  let dynamicLinkInjectableSpy: jasmine.SpyObj<DynamicLinkInjectable>;
+  let dynamicLinkSpy: jasmine.SpyObj<DynamicLink>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let appExpirationTimeServiceSpy: jasmine.SpyObj<AppExpirationTimeService>;
+  let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
+  let capacitorNotificationsServiceSpy: jasmine.SpyObj<CapacitorNotificationsService>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let networkInjectableSpy: jasmine.SpyObj<NetworkInjectable>;
+
+  const tapBrowserInApp = {
+    actionId: 'tap',
+    notification: {
+      data: {
+        url: 'https://test-url',
+      },
+    },
+  };
+
+  const tapInsideApp = {
+    actionId: 'tap',
+    notification: {
+      data: {
+        url: '/test-url',
+      },
+    },
+  };
 
   beforeEach(waitForAsync(() => {
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
     submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
     trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
     updateServiceSpy = jasmine.createSpyObj('UpdateService', ['checkForUpdate']);
-    loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
     platformSpy = jasmine.createSpyObj('Platform', { ready: Promise.resolve() });
     languageServiceSpy = jasmine.createSpyObj('LanguageService', ['setInitialAppLanguage']);
     statusBarSpy = jasmine.createSpyObj('StatusBar', { setBackgroundColor: Promise.resolve() });
@@ -75,10 +112,22 @@ describe('AppComponent', () => {
     walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
       checkTokensStructure: Promise.resolve(),
     });
+
+    browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
+
+    capacitorNotificationsServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
+      'pushNotificationActionPerformed',
+    ]);
+
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: capacitorNotificationsServiceSpy,
+    });
+
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
       set: Promise.resolve(),
     });
+
     trackedWalletAddressSpy = jasmine.createSpyObj('TrackedWalletAddress', {
       value: null,
       isAlreadyTracked: Promise.resolve(false),
@@ -101,6 +150,30 @@ describe('AppComponent', () => {
     appSessionInjectableSpy = jasmine.createSpyObj('AppSessionInjectable', {
       create: appSessionSpy,
     });
+    appExpirationTimeServiceSpy = jasmine.createSpyObj('AppExpirationTimeService', {
+      getModalAvailability: true,
+    });
+
+    dynamicLinkSpy = jasmine.createSpyObj('DynamicLink', {
+      redirect: null,
+    });
+
+    dynamicLinkInjectableSpy = jasmine.createSpyObj('DynamicLinkInjectable', {
+      create: dynamicLinkSpy,
+    });
+
+    fakeModalController = new FakeModalController(null, { role: 'confirm' });
+    modalControllerSpy = fakeModalController.createSpy();
+
+
+    txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
+      checkTransactionStatus: Promise.resolve(),
+    });
+
+    networkInjectableSpy = jasmine.createSpyObj('NetworkInjectable', {
+      create: new Network(new FakeNetworkPlugin()),
+    });
+
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -109,7 +182,6 @@ describe('AppComponent', () => {
         { provide: Platform, useValue: platformSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
         { provide: LanguageService, useValue: languageServiceSpy },
-        { provide: LoadingService, useValue: loadingServiceSpy },
         { provide: UpdateService, useValue: updateServiceSpy },
         { provide: SubmitButtonService, useValue: submitButtonServiceSpy },
         { provide: TranslateService, useValue: translateSpy },
@@ -122,6 +194,13 @@ describe('AppComponent', () => {
         { provide: CapacitorAppInjectable, useValue: capacitorAppInjectableSpy },
         { provide: AppSessionInjectable, useValue: appSessionInjectableSpy },
         { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+        { provide: DynamicLinkInjectable, useValue: dynamicLinkInjectableSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: AppExpirationTimeService, useValue: appExpirationTimeServiceSpy },
+        { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
+        { provide: TxInProgressService, useValue: txInProgressServiceSpy },
+        { provide: NetworkInjectable, useValue: networkInjectableSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
@@ -139,7 +218,6 @@ describe('AppComponent', () => {
     component.ngOnInit();
     await fixture.whenStable();
     expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
-    expect(loadingServiceSpy.enabled).toHaveBeenCalledTimes(1);
     expect(updateServiceSpy.checkForUpdate).toHaveBeenCalledTimes(1);
     expect(trackServiceSpy.startTracker).toHaveBeenCalledTimes(1);
     expect(platformSpy.ready).toHaveBeenCalledTimes(1);
@@ -148,6 +226,28 @@ describe('AppComponent', () => {
     expect(walletBackupServiceSpy.getBackupWarningWallet).toHaveBeenCalledTimes(1);
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(walletMaintenanceServiceSpy.checkTokensStructure).toHaveBeenCalledTimes(1);
+    expect(txInProgressServiceSpy.checkTransactionStatus).toHaveBeenCalledTimes(1);
+    expect(component.connected).toBeTrue();
+  });
+
+  it('should navigate to test-url inside the app when tap a notification', async () => {
+    capacitorNotificationsServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
+      callback(tapInsideApp);
+    });
+    component.ngOnInit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/test-url');
+  });
+
+  it('should open browser in app when tap a notification', async () => {
+    capacitorNotificationsServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
+      callback(tapBrowserInApp);
+    });
+    component.ngOnInit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://test-url' });
   });
 
   it('should call set background if android platform', async () => {
@@ -190,18 +290,33 @@ describe('AppComponent', () => {
     expect(appSessionSpy.save).toHaveBeenCalledTimes(1);
   });
 
-  it('should validate session when state is active and session is valid', async () => {
+  it('should validate session when state is active and session is valid', fakeAsync(() => {
     component.ngOnInit();
-    await fixture.whenStable();
+    tick();
     expect(appSessionSpy.valid).toHaveBeenCalledTimes(1);
-  });
+    discardPeriodicTasks();
+  }));
 
-  it('should validate session when state is active and session is invalid', fakeAsync(() => {
+  it('should validate session and show login modal when state is active and session is invalid', fakeAsync(() => {
     appSessionSpy.valid.and.returnValue(Promise.resolve(false));
     component.ngOnInit();
     tick();
     expect(appSessionSpy.valid).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['users/login-new']);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     discardPeriodicTasks();
+  }));
+
+  it('should check dynamic link redirections when an url is open with app', fakeAsync(() => {
+    fakeCapacitorApp = new FakeCapacitorApp();
+    spyOn(fakeCapacitorApp, 'onAppUrlOpen').and.callFake((callback) => {
+      callback({ url: 'testDynamicLink' });
+    });
+    capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
+
+    component.ngOnInit();
+    tick();
+
+    expect(dynamicLinkInjectableSpy.create).toHaveBeenCalledOnceWith('testDynamicLink');
+    expect(dynamicLinkSpy.redirect).toHaveBeenCalledTimes(1);
   }));
 });

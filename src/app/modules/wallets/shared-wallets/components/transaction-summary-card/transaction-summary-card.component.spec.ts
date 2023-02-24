@@ -12,37 +12,6 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-const summaryData: SummaryData = {
-  network: 'ERC20',
-  currency: {
-    id: 1,
-    name: 'BTC - Bitcoin',
-    logoRoute: '../../assets/img/coins/BTC.svg',
-    value: 'BTC',
-    network: '',
-    chainId: 42,
-    rpc: '',
-  },
-  address: 'asdlkfjasd56lfjasdpodlfkj',
-  amount: 1,
-  referenceAmount: '50000',
-  fee: '0.00001',
-  referenceFee: '0.18',
-};
-
-const nativeToken = {
-  chainId: 42,
-  id: 1,
-  last: false,
-  logoRoute: 'assets/img/coins/ETH.svg',
-  moonpayCode: 'keth',
-  name: 'ETH - Ethereum',
-  native: true,
-  network: 'ERC20',
-  rpc: 'https://eth-kovan.alchemyapi.io/v2/tfmomSigQreoKgOjz0W9W-j5SdtKkiZN',
-  symbol: 'ETHUSDT',
-  value: 'ETH',
-};
 
 describe('TransactionSummaryCardComponent', () => {
   let component: TransactionSummaryCardComponent;
@@ -52,6 +21,37 @@ describe('TransactionSummaryCardComponent', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
 
+  const summaryData: SummaryData = {
+    network: 'ERC20',
+    currency: {
+      id: 1,
+      name: 'BTC - Bitcoin',
+      logoRoute: '../../assets/img/coins/BTC.svg',
+      value: 'BTC',
+      network: '',
+      chainId: 42,
+      rpc: '',
+    },
+    address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    amount: 1,
+    referenceAmount: '50000',
+    fee: '0.00001',
+    referenceFee: '0.18',
+  };
+  
+  const nativeToken = {
+    chainId: 42,
+    id: 1,
+    last: false,
+    logoRoute: 'assets/img/coins/ETH.svg',
+    moonpayCode: 'keth',
+    name: 'ETH - Ethereum',
+    native: true,
+    network: 'ERC20',
+    rpc: 'https://eth-kovan.alchemyapi.io/v2/tfmomSigQreoKgOjz0W9W-j5SdtKkiZN',
+    symbol: 'ETHUSDT',
+    value: 'ETH',
+  };
   beforeEach(() => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
@@ -91,9 +91,10 @@ describe('TransactionSummaryCardComponent', () => {
     await fixture.whenStable();
     await fixture.whenRenderingDone();
 
-    const nameAndIconEl = fixture.debugElement.query(By.css('.tsc__name-and-icon'));
-    expect(nameAndIconEl.nativeElement.innerHTML).toContain('BTC - Bitcoin');
-    expect(nameAndIconEl.nativeElement.innerHTML).toContain('ERC20');
+    const assetDetailEl = fixture.debugElement.query(By.css('app-asset-detail'));
+    expect(assetDetailEl.nativeElement.token).toContain('BTC');
+    expect(assetDetailEl.nativeElement.blockchain).toContain('ERC20');
+    expect(assetDetailEl.nativeElement.tokenLogo).toContain('../../assets/img/coins/BTC.svg');
 
     const amountEl = fixture.debugElement.query(By.css('.tsc__amount'));
     expect(amountEl.nativeElement.innerHTML).toContain('Test title');
@@ -101,13 +102,27 @@ describe('TransactionSummaryCardComponent', () => {
     expect(amountEl.nativeElement.innerHTML).toContain('50000 USD');
 
     const addressEl = fixture.debugElement.query(By.css('.tsc__address'));
-    expect(addressEl.nativeElement.innerHTML).toContain('asdlkfjasd56lfjasdpodlfkj');
-
+    expect(addressEl.nativeElement.innerHTML).toContain('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+    
     const feeEl = fixture.debugElement.query(By.css('.tsc__fee'));
     expect(feeEl.nativeElement.innerHTML).toContain('wallets.send.send_summary.fee');
     expect(feeEl.nativeElement.innerHTML).toContain('0.00001 ETH');
     expect(feeEl.nativeElement.innerHTML).toContain('0.18 USD');
   });
+
+  it('should render contactItem if property contact is present in summaryData', async () => {
+    const summaryWithContact = {...summaryData, contact: 'test'}
+    component.summaryData = summaryWithContact;
+    component.amountsTitle = 'Test title';
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+
+    const contactItemEl = fixture.debugElement.query(By.css('app-contact-item'));
+    expect(contactItemEl.nativeElement.address).toContain('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+    expect(contactItemEl.nativeElement.name).toContain('test');
+    expect(contactItemEl.nativeElement.networks).toContain('ERC20');
+  })
 
   it('should show modal on trackService when ux_phrase_information clicked', () => {
     component.amountSend = true;

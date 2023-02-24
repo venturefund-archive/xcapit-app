@@ -1,11 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-  waitForAsync,
-  fakeAsync,
-  tick,
-  flush,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync, fakeAsync, tick, flush } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -29,6 +22,7 @@ import {
 import { SELECT_COINS_FORM_DATA } from './form-data.spec';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StorageAsset } from '../shared-wallets/interfaces/storage-asset.interface';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 describe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
@@ -36,6 +30,7 @@ describe('SelectCoinsWalletPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectCoinsWalletPage>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   const testDynamicFormValue = {
     test1: {
@@ -79,6 +74,10 @@ describe('SelectCoinsWalletPage', () => {
       updateTokensStorage: Promise.resolve(),
       wipeDataFromService: null,
     });
+
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
     TestBed.configureTestingModule({
       declarations: [SelectCoinsWalletPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, ReactiveFormsModule],
@@ -86,6 +85,7 @@ describe('SelectCoinsWalletPage', () => {
         TrackClickDirective,
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -213,5 +213,44 @@ describe('SelectCoinsWalletPage', () => {
   it('should wipe fata from service on leave', () => {
     component.ionViewDidLeave();
     expect(walletMaintenanceServiceSpy.wipeDataFromService).toHaveBeenCalledTimes(1);
+  });
+
+  it('should track event when eventEmitted is false and a search is started', async () => {
+    component.eventEmitted = false;
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-search-bar')).triggerEventHandler('search', { target: { value: 'a' } });
+    fixture.detectChanges();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledWith({ eventLabel: 'ux_edit_tokens_search' });
+  });
+
+  it('should track event when no match in the search and show empty state', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement
+      .query(By.css('app-search-bar'))
+      .triggerEventHandler('search', { target: { value: 'noCoins' } });
+    fixture.detectChanges();
+    const emptyStateEl = fixture.debugElement.query(By.css('div.sc__empty-state'));
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledWith({ eventLabel: 'ux_edit_tokens_search_empty' });
+    expect(emptyStateEl).toBeTruthy();
+  });
+
+  it('should reload the coins when the input content is cleared', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-search-bar')).triggerEventHandler('search', { target: { value: '' } });
+    fixture.detectChanges();
+    expect(component.coins.length).toEqual(10);
+    expect(component.disableSelectAll).toBeFalsy();
+  });
+
+  it('should filter the currencies when entering a text in the ion-searchbar', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-search-bar')).triggerEventHandler('search', { target: { value: 'eth' } });
+    fixture.detectChanges();
+    expect(component.coins.length).toEqual(1);
+    expect(component.coins[0].value).toEqual('ETH');
   });
 });

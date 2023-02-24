@@ -1800,7 +1800,7 @@
   dependencies:
     tslib "^2.1.0"
 
-"@capacitor/device@^4.0.0":
+"@capacitor/device@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@capacitor/device/-/device-4.1.0.tgz#b9f73368f6f6f1194181bcd7bc4b8a021c67f33e"
   integrity sha512-BlcYb6e6m+vC1SxeyUDIUGfuNXdKEcpFPDCs/kxk2SByFc/BkvXeoy4NjY4qmTderGELofX9bta5Iy9JV7rGUg==
@@ -1829,6 +1829,11 @@
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/@capacitor/local-notifications/-/local-notifications-4.1.4.tgz#dba63ef23c668356179ec83e366f30e92a6b2b24"
   integrity sha512-nEs0SYkOQG7xT8FiKH7CG6BFOJ7jZkWiYt+JbM38s8sSxsAw1D2qfocNIyXstTUxhrJvKBtbl7oTuKg7mGUeuQ==
+
+"@capacitor/network@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/network/-/network-4.1.0.tgz#0b64a6f53ab34a7525a54feb1538ba1194dfe9c9"
+  integrity sha512-GMJ6LmxmrFA55rAaYxgm4tKSZyUmuLRreQz5Gdu0P09Ja8abSjmXa/DX16gOu1I1+wqHWm2rRI6nPkeUH55Ibw==
 
 "@capacitor/preferences@^4.0.1":
   version "4.0.2"

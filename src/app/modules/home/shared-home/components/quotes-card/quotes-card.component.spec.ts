@@ -10,248 +10,10 @@ import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/w
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { Quotes } from '../../interfaces/quotes.interface';
 import { QuotesService } from '../../services/quotes.service';
 import { QuotesCardComponent } from './quotes-card.component';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-
-const usdcQuote = {
-  market_data:{
-    current_price:{
-      usd: 1
-    },
-    price_change_percentage_24h_in_currency:{
-      usd:-0.2
-    }
-  }
-}
-
-const totalQuotes: Quotes[] = [
-  {
-    symbol: 'BTCUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'ETHUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'MATICUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'BNBUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'AAVEUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'UNIUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'SOVUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'USDCUSDT',
-    openPrice: 0,
-    lastPrice: 0,
-    priceChangePercent: 0,
-  },
-];
-
-//Native
-const coins = [
-  {
-    id: 6,
-    name: 'RBTC - Smart Bitcoin',
-    logoRoute: 'assets/img/coins/RBTC.png',
-    value: 'RBTC',
-    network: 'RSK',
-    native: true,
-    symbol: 'BTCUSDT',
-  },
-  {
-    id: 1,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    value: 'ETH',
-    network: 'ERC20',
-    native: true,
-    symbol: 'ETHUSDT',
-  },
-  {
-    id: 8,
-    name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.svg',
-    value: 'MATIC',
-    network: 'MATIC',
-    native: true,
-    symbol: 'MATICUSDT',
-  },
-  {
-    id: 10,
-    name: 'BNB - Binance Coin',
-    logoRoute: 'assets/img/coins/BNB.svg',
-    value: 'BNB',
-    network: 'BSC_BEP20',
-    native: true,
-    symbol: 'BNBUSDT',
-  },
-  {
-    id: 2,
-    name: 'LINK - Chainlink',
-    logoRoute: 'assets/img/coins/LINK.png',
-    last: false,
-    value: 'LINK',
-    network: 'ERC20',
-    decimals: 18,
-    symbol: 'LINKUSDT',
-  },
-  {
-    id: 3,
-    name: 'USDT - Tether',
-    logoRoute: 'assets/img/coins/USDT.svg',
-    last: false,
-    value: 'USDT',
-    network: 'ERC20',
-  },
-  {
-    id: 5,
-    name: 'USDC - Usd coin',
-    logoRoute: 'assets/img/coins/USDT.svg',
-    last: false,
-    value: 'USDT',
-    network: 'ERC20',
-    symbol: 'USDCUSDT',
-  },
-];
-
-const firstNativeQuotes = [
-  {
-    symbol: 'BTCUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'ETHUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'MATICUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-];
-
-const remainingNativeQuotes = [
-  {
-    symbol: 'BNBUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-];
-
-//User Quotes
-const userQuotes = [
-  {
-    symbol: 'BNBUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'AAVEUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'UNIUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'SOVUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'USDCUSDT',
-    openPrice: 0,
-    lastPrice: 0,
-    priceChangePercent: 0,
-  },
-];
-
-const firstUserQuotes = [
-  {
-    symbol: 'BNBUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'AAVEUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'UNIUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-];
-
-const remainingUserQuotes = [
-  {
-    symbol: 'SOVUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-  {
-    symbol: 'USDCUSDT',
-    openPrice: 0,
-    lastPrice: 1,
-    priceChangePercent: -0.2,
-  },
-];
-
-const remainingUserQuotesWithoutUsdc = [
-  {
-    symbol: 'SOVUSDT',
-    openPrice: 46000,
-    lastPrice: 47585,
-    priceChangePercent: 0.24,
-  },
-];
+import { coins, firstNativeQuotes, remainingNativeQuotes, remainingUserQuotes, totalQuotes, usdcQuote, userQuotes } from '../../fixtures/quotes-card.fixture';
 
 describe('QuotesCardComponent', () => {
   let component: QuotesCardComponent;
@@ -266,7 +28,7 @@ describe('QuotesCardComponent', () => {
     waitForAsync(() => {
       fakeWalletService = new FakeWalletService(true);
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getAssetsSelected: Promise.resolve(userQuotes),
+        getAssetsSelected: Promise.resolve(coins),
       });
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getCoins: coins,
@@ -358,17 +120,16 @@ describe('QuotesCardComponent', () => {
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     expect(component.waitingQuotes).toBeFalse();
-    expect(component.firstQuotes).toEqual(firstUserQuotes);
+    expect(component.firstQuotes).toEqual(firstNativeQuotes);
     expect(component.remainingQuotes).toEqual(remainingUserQuotes);
   });
 
   it('should set usdc quote on init when usdc is part of list and have usdc-data', async () => {
     fakeWalletService.modifyReturns(true, {});
-    component.ngOnInit();
+    fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    fixture.detectChanges();
-    expect(component.firstQuotes).toEqual(firstUserQuotes);
+    expect(component.firstQuotes).toEqual(firstNativeQuotes);
     expect(component.remainingQuotes).toEqual(remainingUserQuotes);
   });
 
@@ -376,10 +137,7 @@ describe('QuotesCardComponent', () => {
     quoteServiceSpy.getUsdcQuote.and.returnValue(of(undefined));
     fakeWalletService.modifyReturns(true, {});
     fixture.detectChanges();
-    component.ngOnInit();
     tick();
-    fixture.detectChanges();
-    expect(component.firstQuotes).toEqual(firstUserQuotes);
-    expect(component.remainingQuotes).toEqual(remainingUserQuotesWithoutUsdc);
+    expect(component.firstQuotes).toEqual(firstNativeQuotes);
   }));
 });

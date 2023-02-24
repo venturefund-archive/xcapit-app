@@ -7,12 +7,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DefiInvestmentProductsPage } from './defi-investment-products.page';
 import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
-import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { DefiProduct } from '../shared-defi-investments/interfaces/defi-product.interface';
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
-import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { ApiUsuariosService } from '../../users/shared-users/services/api-usuarios/api-usuarios.service';
 import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -29,57 +27,7 @@ import { TotalInvestedBalanceOfInjectable } from '../shared-defi-investments/mod
 import { FakeTotalInvestedBalanceOf } from '../shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
 import { InvestedBalanceOfInjectable } from '../shared-defi-investments/models/invested-balance-of/injectable/invested-balance-of.injectable';
 import { FakeInvestedBalanceOf } from '../shared-defi-investments/models/invested-balance-of/fake/fake-invested-balance-of';
-import { FakeInvestedBalanceResponse } from '../shared-defi-investments/models/invested-balance-response/fake/fake-invested-balance-response';
-import {
-  NullInvestedBalanceResponse
-} from '../shared-defi-investments/models/invested-balance-response/null/null-invested-balance-response';
-
-const testCoins = [
-  jasmine.createSpyObj(
-    {},
-    {
-      name: 'USDC - USD Coin',
-      value: 'USDC',
-      network: 'MATIC',
-      decimals: 6,
-    }
-  ),
-];
-
-const allMovementsTest = {
-  data: {
-    flows: [
-      {
-        amount: '500024348558355473',
-        balance: '0',
-        balanceUSD: '0',
-        timestamp: '1661194501',
-        type: 'withdraw',
-      },
-      {
-        amount: '50123123132355473',
-        balance: '12123',
-        balanceUSD: '1232',
-        timestamp: '1661194501',
-        type: 'deposit',
-      },
-      {
-        amount: '500024348558355473',
-        balance: '0',
-        balanceUSD: '0',
-        timestamp: '1661194501',
-        type: 'withdraw',
-      },
-      {
-        amount: '500024348558355473',
-        balance: '0',
-        balanceUSD: '0',
-        timestamp: '1661194501',
-        type: 'withdraw',
-      },
-    ],
-  },
-};
+import { NullInvestedBalanceResponse } from '../shared-defi-investments/models/invested-balance-response/null/null-invested-balance-response';
 
 describe('DefiInvestmentProductsPage', () => {
   let component: DefiInvestmentProductsPage;
@@ -87,9 +35,7 @@ describe('DefiInvestmentProductsPage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let investmentSpy: jasmine.SpyObj<TwoPiInvestment>;
   let availableDefiProductsSpy: jasmine.SpyObj<AvailableDefiProducts>;
-  let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
-  let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiUsuariosServiceSpy: jasmine.SpyObj<ApiUsuariosService>;
   let testUserSpy: jasmine.SpyObj<any>;
   let testUserWithTestSpy: jasmine.SpyObj<any>;
@@ -103,6 +49,54 @@ describe('DefiInvestmentProductsPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
   let investedBalanceOfInjectableSpy: jasmine.SpyObj<InvestedBalanceOfInjectable>;
+
+  const testCoins = [
+    jasmine.createSpyObj(
+      {},
+      {
+        name: 'USDC - USD Coin',
+        value: 'USDC',
+        network: 'MATIC',
+        decimals: 6,
+      }
+    ),
+  ];
+
+  const allMovementsTest = {
+    data: {
+      flows: [
+        {
+          amount: '500024348558355473',
+          balance: '0',
+          balanceUSD: '0',
+          timestamp: '1661194501',
+          type: 'withdraw',
+        },
+        {
+          amount: '50123123132355473',
+          balance: '12123',
+          balanceUSD: '1232',
+          timestamp: '1661194501',
+          type: 'deposit',
+        },
+        {
+          amount: '500024348558355473',
+          balance: '0',
+          balanceUSD: '0',
+          timestamp: '1661194501',
+          type: 'withdraw',
+        },
+        {
+          amount: '500024348558355473',
+          balance: '0',
+          balanceUSD: '0',
+          timestamp: '1661194501',
+          type: 'withdraw',
+        },
+      ],
+    },
+  };
+
   beforeEach(waitForAsync(() => {
     twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
       vault: Promise.resolve({
@@ -153,24 +147,10 @@ describe('DefiInvestmentProductsPage', () => {
 
     apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', { getUser: of(testUserWithTestSpy) });
 
-    walletServiceSpy = jasmine.createSpyObj('WalletServiceSpy', {
-      walletExist: Promise.resolve(true),
-    });
-
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
       getCoins: testCoins,
       getPrices: of({ prices: { USDC: 1 } }),
     });
-
-    walletEncryptionServiceSpy = jasmine.createSpyObj(
-      'WalletEncryptionServiceSpy',
-      {
-        getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
-      },
-      {
-        addresses: { MATIC: '0x0000001' },
-      }
-    );
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve('0x00001'),
@@ -218,8 +198,6 @@ describe('DefiInvestmentProductsPage', () => {
       providers: [
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
-        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-        { provide: WalletService, useValue: walletServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: TwoPiApi, useValue: twoPiApiSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
@@ -379,7 +357,6 @@ describe('DefiInvestmentProductsPage', () => {
   });
 
   it('should render investor test card when user did the investor test', async () => {
-    walletServiceSpy.walletExist.and.resolveTo(false);
     spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
@@ -395,7 +372,6 @@ describe('DefiInvestmentProductsPage', () => {
 
   it('should render investor test card when user did not take the investor test', async () => {
     apiUsuariosServiceSpy.getUser.and.returnValue(of(testUserSpy));
-    walletServiceSpy.walletExist.and.resolveTo(false);
     spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);

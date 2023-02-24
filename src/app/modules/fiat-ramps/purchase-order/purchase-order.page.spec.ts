@@ -144,7 +144,7 @@ describe('PurchaseOrderPage', () => {
     const transferEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const voucherEl = fixture.debugElement.query(By.css('app-voucher-card'));
     const currentStepEl = fixture.debugElement.query(By.css('.active')).nativeElement.textContent;
-    const stepCounterEl = fixture.debugElement.query(By.css('.step_counter')).nativeElement.textContent;
+    const stepCounterEl = fixture.debugElement.query(By.css('.ux_toolbar__step')).nativeElement.textContent;
 
     expect(transferEl).toBeTruthy();
     expect(voucherEl).toBeNull();
@@ -160,7 +160,7 @@ describe('PurchaseOrderPage', () => {
     const transferEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const voucherEl = fixture.debugElement.query(By.css('app-voucher-card'));
     const currentStepEl = fixture.debugElement.query(By.css('.active')).nativeElement.textContent;
-    const stepCounterEl = fixture.debugElement.query(By.css('.step_counter')).nativeElement.textContent;
+    const stepCounterEl = fixture.debugElement.query(By.css('.ux_toolbar__step')).nativeElement.textContent;
 
     expect(transferEl).toBeNull();
     expect(voucherEl).toBeTruthy();
@@ -173,8 +173,8 @@ describe('PurchaseOrderPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     const headerTitleEl = fixture.debugElement.query(By.css('ion-title.po__header'));
-    const stepOfEl = fixture.debugElement.query(By.css('ion-label.step_counter'));
-    const [step1El, step2El] = fixture.debugElement.queryAll(By.css('ion-label.po__step-wrapper__step__title'));
+    const stepOfEl = fixture.debugElement.query(By.css('ion-label.ux_toolbar__step'));
+    const [step1El, step2El] =   fixture.debugElement.queryAll(By.css('ion-label.po__step-wrapper__step__title'));
     const providerTitleEl = fixture.debugElement.query(By.css('div.po__provider ion-text'));
     const kriptonAccountEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const purchaseInfoEl = fixture.debugElement.query(By.css('app-kripton-purchase-info'));
@@ -243,7 +243,9 @@ describe('PurchaseOrderPage', () => {
   });
 
   it('should send photo and show success modal when finish button is clicked', async () => {
-    const expectedData = { file: photo.dataUrl, email: 'test@test.com' };
+    kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
+    const expectedData = { file: photo.dataUrl, email: 'test@test.com', auth_token: 'test' };
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -259,7 +261,9 @@ describe('PurchaseOrderPage', () => {
   });
   
   it('should send photo and navigate to error when finish button is clicked', async () => {
-    const expectedData = { file: photo.dataUrl, email: 'test@test.com' };
+    kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
+    const expectedData = { file: photo.dataUrl, email: 'test@test.com', auth_token: 'test' };
     fiatRampsServiceSpy.confirmOperation.and.returnValue(throwError('Test'));
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();

@@ -3,6 +3,6 @@ import { AppSessionInjectable } from './app-session.injectable';
 
 describe('AppSessionInjectable', () => {
   it('create', () => {
-    expect(new AppSessionInjectable(null).create()).toBeInstanceOf(AppSession);
+    expect(new AppSessionInjectable(null, null).create()).toBeInstanceOf(AppSession);
   });
 });

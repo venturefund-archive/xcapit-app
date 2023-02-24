@@ -174,6 +174,22 @@ const routes: Routes = [
         path: 'purchase-order',
         loadChildren: () => import('./purchase-order/purchase-order.module').then((m) => m.PurchaseOrderPageModule),
       },
+      {
+        path: 'bitrefill',
+        children: [
+          {
+            path: 'purchase',
+            loadChildren: () => import('./bitrefill/bitrefill.module').then((m) => m.BitrefillPageModule),
+          },
+          {
+            path: 'token-selection',
+            loadChildren: () =>
+              import('./bitrefill-token-selection/bitrefill-token-selection.module').then(
+                (m) => m.BitrefillTokenSelectionPageModule
+              ),
+          },
+        ],
+      },
     ],
   },
 ];

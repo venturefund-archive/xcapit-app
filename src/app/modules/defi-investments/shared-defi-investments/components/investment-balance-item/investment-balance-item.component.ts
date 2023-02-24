@@ -9,10 +9,7 @@ import { InvestmentProduct } from '../../interfaces/investment-product.interface
   template: `
     <div (click)="this.goToDetail()" class="ibi" name="go_to_invest_detail">
       <div class="ibi__image">
-        <app-token-with-blockchain-logo
-          [blockchainLogo]="this.nativeToken?.logoRoute"
-          [tokenLogo]="this.token?.logoRoute"
-        ></app-token-with-blockchain-logo>
+        <img [src]="this.token?.logoRoute" />
       </div>
       <div class="ibi__content">
         <div class="ibi__content__group">
@@ -20,14 +17,14 @@ import { InvestmentProduct } from '../../interfaces/investment-product.interface
           <ion-text class="ux-font-text-lg balance">{{ this.balance | formattedAmount }}</ion-text>
         </div>
         <div class="ibi__content__group">
-          <ion-text class="ux-font-text-xs description">{{ (this.token?.name | splitString: ' - ')[1] }}</ion-text>
+          <ion-text class="ux-font-text-xs description">{{ this.formattedTokenName | titlecase }}</ion-text>
           <ion-text class="ux-font-text-xs converted-balance"
             >{{ this.referenceBalance | formattedAmount }}{{ ' USD' }}</ion-text
           >
         </div>
         <div class="ibi__content__group">
           <ion-badge class="ux-font-num-subtitulo ux-badge-coming ibi__content__group__badge" slot="end"
-            >{{ this.apy | number: '1.2-2' }}%
+            >{{ this.apy | number : '1.2-2' }}%
             {{ 'defi_investments.shared.defi_investment_product.annual' | translate }}</ion-badge
           >
         </div>
@@ -44,11 +41,18 @@ export class InvestmentBalanceItemComponent implements OnInit {
   nativeToken: Coin;
   @Input() investmentProduct: InvestmentProduct;
   apy: number;
+  formattedTokenName: string;
   async ngOnInit() {
     this.apy = this.investmentProduct.apy();
     this.token = this.investmentProduct.token();
     this.nativeToken = this.investmentProduct.nativeToken();
     this.getPrice();
+    this.formatTokenName();
+  }
+
+  formatTokenName() {
+    this.formattedTokenName = this.token.name.substring(this.token.name.indexOf('- ') + 1, this.token.name.length);
+    this.formattedTokenName = this.formattedTokenName === ' Polygon' ? 'Matic' : this.formattedTokenName;
   }
 
   private getPrice() {

@@ -1,11 +1,6 @@
 :host {
   ion-content {
-    --background: var(--ion-color-neutral10);
-  }
-
-  ion-toolbar {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    --background: var(--ion-color-background);
   }
 
   .ion-text-start {
@@ -15,11 +10,6 @@
   .saw {
     &__back {
       font-size: 12px;
-    }
-
-    &__step_counter {
-      margin-right: 13px;
-      color: var(--ion-color-white);
     }
 
     &__expandable_info {
@@ -56,5 +46,10 @@
         border-radius: 8px;
       }
     }
+  }
+
+  .no-border {
+    border: none;
+    box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
   }
 }

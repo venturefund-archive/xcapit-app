@@ -49,13 +49,14 @@ describe('HomeOfPurchasesPage', () => {
     });
 
     tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
-      clean: null
+      clean: null,
     });
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
       get: Promise.resolve(),
     });
     kriptonStorageSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageSpy.get.withArgs('access_token').and.resolveTo('test');
     kriptonStorageSpy.get.withArgs('kyc_approved').and.resolveTo();
     kriptonUserSpy = jasmine.createSpyObj('KriptonUser', {
       isLogged: Promise.resolve(true),
@@ -92,7 +93,10 @@ describe('HomeOfPurchasesPage', () => {
     component.ionViewWillEnter();
     tick();
     fixture.detectChanges();
-    expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(1);
+    expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledOnceWith({
+      email: 'test@test.com',
+      auth_token: 'test',
+    });
   }));
 
   it('should not show kripton operations when kripton is disabled', async () => {
@@ -197,4 +201,17 @@ describe('HomeOfPurchasesPage', () => {
     const moonpayCardEl = fixture.debugElement.query(By.css('div.hop__moonpay-purchases'));
     expect(moonpayCardEl).toBeFalsy();
   });
+
+  it('should back to /tabs/wallets on back', () => {
+    fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/tabs/wallets')
+  });
+  
+  it('should clean user info if user logout from kripton', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-operations-list')).triggerEventHandler('loggedOut', {});
+    fixture.detectChanges();
+    expect(component.userStatus).toBeNull();
+  })
 });

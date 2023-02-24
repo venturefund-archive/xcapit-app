@@ -14,6 +14,7 @@ import { rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-token
 import { FormattedNetworkPipe } from '../../../shared/pipes/formatted-network-name/formatted-network.pipe';
 import { FormattedAmountPipe } from '../../../shared/pipes/formatted-amount/formatted-amount.pipe';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
@@ -24,6 +25,20 @@ describe('TransactionDetailsPage', () => {
   let fakeNavController: FakeNavController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+
+  const contacts = [
+    {
+      address: '0x1111111254fb6c44bac0bed2854e76f90643097d',
+      name: 'TestWallet',
+      networks: ['ERC20', 'RSK'],
+    },
+    {
+      address: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      name: 'TestWallet2',
+      networks: ['MATIC'],
+    },
+  ];
 
   beforeEach(waitForAsync(() => {
     transactionDetailsServiceSpy = jasmine.createSpyObj(
@@ -33,6 +48,10 @@ describe('TransactionDetailsPage', () => {
         transactionData: new NativeTransfer(rawTransfer, rawMATICData, ''),
       }
     );
+
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(contacts),
+    });
 
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
       open: Promise.resolve(),
@@ -50,6 +69,7 @@ describe('TransactionDetailsPage', () => {
         { provide: BrowserService, useValue: browserServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -81,14 +101,29 @@ describe('TransactionDetailsPage', () => {
   });
 
   it('should open modal when information-circle button is clicked', async () => {
-    component.ionViewWillEnter()
-    fixture.detectChanges()
-    fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click()
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to write support ticket when support link is clicked', () => {
     fixture.debugElement.query(By.css('ion-text[name="support_link"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/create-support-ticket']);
-  })
+  });
+
+  it('should render addres as text if transaction address is not a contact', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo([]);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const addressEl = fixture.debugElement.query(By.css('div.td__card__item__wallet > ion-text'));
+    expect(addressEl.nativeElement.innerHTML).toContain(component.tplTransfer.to_address);
+  });
+
+  it('should render addres as app-contact-item if transaction address is a contact', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const contactEl = fixture.debugElement.query(By.css('app-contact-item'));
+    expect(contactEl.nativeElement.address).toContain(contacts[0].address);
+  });
 });

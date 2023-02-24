@@ -23,7 +23,7 @@
       --inner-padding-bottom: 0;
 
       margin-bottom: -8px;
-      margin-top: 16px;
+      margin-top: 5px;
 
       &__label {
         margin-left: 16px;
@@ -44,6 +44,19 @@
         --handle-width: 17.66px;
         --handle-height: 17.66px;
       }
+    }
+
+    &__search-bar {
+      margin-top: 15px;
+    }
+
+    &__empty-state {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    &__require-token {
+      margin-top: 24px;
     }
 
     &__radio_text {

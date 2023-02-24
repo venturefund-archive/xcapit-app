@@ -18,7 +18,7 @@ import { Amount } from '../../types/amount.type';
         </ion-text>
         <ion-icon
           appTrackClick
-          [dataToTrack]="{eventLabel:'transaction_fee'}"
+          [dataToTrack]="{ eventLabel: 'transaction_fee' }"
           *ngIf="this.transactionFee || this.defaultFeeInfo"
           name="information-circle"
           (click)="this.showPhrasetransactionFeeInfo()"
@@ -32,24 +32,33 @@ import { Amount } from '../../types/amount.type';
 
       <div class="tf__fee__qty_and_advice" *ngIf="this.quoteFee.value !== undefined && this.fee.value !== undefined">
         <div class="tf__fee__qty_and_advice__qty">
-          <ion-text
-            class="ux-font-text-base tf__fee__qty__amount"
-            [ngClass]="{ negative: this.balance < this.fee.value }"
-            >{{ this.fee.value | formattedAmount }} {{ this.fee.token }}</ion-text
-          >
+          <div *ngIf="this.showErrors">
+            <ion-text
+              class="ux-font-text-base tf__fee__qty__amount"
+              [ngClass]="{ negative: this.balance < this.fee.value && this.showErrors }"
+              >{{ this.fee.value | formattedAmount }} {{ this.fee.token }}</ion-text
+            >
+          </div>
+          <div class="tf__fee__qty__faucet" *ngIf="!this.showErrors">
+            <ion-badge class="ux-badge-faucet ux-font-num-subtitulo">
+              {{ 'defi_investments.shared.transaction_fees.faucet' | translate }}</ion-badge
+            >
+          </div>
           <ion-text
             class="ux-font-text-base tf__fee__qty__quoteFee"
-            [ngClass]="{ negative: this.balance < this.fee.value }"
-            >{{ this.quoteFee.value | formattedAmount: 10:2 }} {{ this.quoteFee.token }}
+            [ngClass]="{ negative: this.balance < this.fee.value && this.showErrors }"
+            >{{ this.showErrors ? (this.quoteFee.value | formattedAmount: 10:2) : 0 }}
+            {{ this.quoteFee.token }}
           </ion-text>
         </div>
-        <div class="tf__fee__qty_and_advice__funds-advice" *ngIf="this.balance < this.fee.value">
+        <div class="tf__fee__qty_and_advice__funds-advice" *ngIf="this.balance < this.fee.value && this.showErrors">
           <img src="assets/img/defi-investments/shared/transaction-fee/exclamation.svg" />
           <ion-text class="ux-font-text-xxs">
             {{ 'defi_investments.shared.transaction_fees.advice' | translate }}
           </ion-text>
         </div>
       </div>
+
       <div *ngIf="this.quoteFee.value === undefined || this.fee.value === undefined" class="skeleton">
         <ion-skeleton-text style="width:100%" animated> </ion-skeleton-text>
       </div>
@@ -75,6 +84,7 @@ export class TransactionFeeComponent implements OnChanges, OnDestroy {
   @Input() autoPrice: boolean;
   @Input() defaultFeeInfo: boolean;
   @Input() loadingEnabled = true;
+  @Input() showErrors = true;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;

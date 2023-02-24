@@ -355,7 +355,7 @@ export const NONPROD_COINS: Coin[] = [
     decimals: 9,
     native: true,
     abi: '',
-    symbol: 'SOL',
+    symbol: 'SOLUSDT',
   },
   {
     id: 30,

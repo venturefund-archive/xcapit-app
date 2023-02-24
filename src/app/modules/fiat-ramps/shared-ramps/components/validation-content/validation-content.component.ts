@@ -5,6 +5,7 @@ import { Camera } from 'src/app/shared/models/photo-source/camera/camera';
 import { UploadedPhotoInjectable } from 'src/app/shared/models/uploaded-photo/injectable/uploaded-photo.injectable';
 import { Photo } from 'src/app/shared/models/photo/photo.interface';
 import { HttpClient } from '@angular/common/http';
+import { Platform } from '@ionic/angular';
 @Component({
   selector: 'app-validation-content',
   template: `<ion-header>
@@ -17,7 +18,7 @@ import { HttpClient } from '@angular/common/http';
         <ion-title>
           {{ 'fiat_ramps.shared.validation_content.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs vc__step_counter" slot="end"
+        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
           >{{ this.data.stepFrom }} {{ 'shared.step_counter.of' | translate }} 3</ion-label
         >
       </ion-toolbar>
@@ -66,7 +67,7 @@ import { HttpClient } from '@angular/common/http';
     </ion-footer>`,
   styleUrls: ['./validation-content.component.scss'],
 })
-export class ValidationContentComponent {
+export class ValidationContentComponent implements OnInit {
   @Input() data: any;
   @Output() backButton: EventEmitter<void> = new EventEmitter<void>();
   @Output() confirm: EventEmitter<void> = new EventEmitter<void>();
@@ -74,8 +75,15 @@ export class ValidationContentComponent {
   constructor(
     private userKycKriptonImagesService: UserKycKriptonImagesService,
     private uploadedPhoto: UploadedPhotoInjectable,
-    private http: HttpClient
+    private http: HttpClient,
+    private platform: Platform
   ) {}
+
+  ngOnInit(): void {
+    this.platform.backButton.subscribeWithPriority(10, ()=>{
+      this.goBack();
+    })
+  }
 
   async takePhoto() {
     const photo: Photo = await this.uploadedPhoto.create(new Camera()).value();

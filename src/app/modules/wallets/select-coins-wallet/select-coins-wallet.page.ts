@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { WalletMaintenanceService } from '../shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { debounce } from 'rxjs/operators';
 import { interval } from 'rxjs';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -28,7 +29,18 @@ import { interval } from 'rxjs';
               {{ 'wallets.select_coin.subtitle' | translate }}
             </div>
           </app-ux-text>
-          <ion-item lines="none" class="sc__toggle_all ux-font-title-xs ion-no-padding">
+          <div class="sc__search-bar">
+            <app-search-bar (search)="this.handleChange($event)" appTrackClick></app-search-bar>
+          </div>
+          <div class="sc__empty-state" *ngIf="this.coins.length === 0">
+            <div>
+              <img src="assets/img/wallets/no-results.svg" />
+            </div>
+            <div>
+              <ion-text class="ux-font-text-xxs" color="neutral80"> {{ 'wallets.select_coin.no_result_search' | translate }}</ion-text>
+            </div>
+          </div>
+          <ion-item lines="none" class="sc__toggle_all ux-font-title-xs ion-no-padding" *ngIf="!this.disableSelectAll">
             <ion-label class="sc__toggle_all__label ion-no-margin ion-no-padding">
               {{ 'wallets.select_coin.toggle_all_text' | translate }}
             </ion-label>
@@ -42,25 +54,34 @@ import { interval } from 'rxjs';
             ></ion-toggle>
           </ion-item>
           <app-items-coin-group
+            *ngFor="let network of this.networks"
             [network]="network"
             [coins]="this.getCoinsFromNetwork(network)"
-            *ngFor="let network of this.networks"
+            [natives]="this.natives"
           ></app-items-coin-group>
+          <div class="sc__require-token">
+            <app-require-token buttonEventName="ux_exp_addtoken_select"></app-require-token>
+          </div>
         </div>
       </form>
     </ion-content>`,
   styleUrls: ['./select-coins-wallet.page.scss'],
 })
-export class SelectCoinsWalletPage implements OnInit {
+export class SelectCoinsWalletPage {
   userCoinsLoaded: boolean;
   form: UntypedFormGroup;
   allSelected = false;
   networks: string[];
+  coins: Coin[] = [];
+  natives: Coin[] = [];
+  disableSelectAll: boolean;
+  eventEmitted = false;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
     private apiWalletService: ApiWalletService,
-    private walletMaintenanceService: WalletMaintenanceService
+    private walletMaintenanceService: WalletMaintenanceService,
+    private trackService: TrackService
   ) {}
 
   ionViewWillEnter() {
@@ -74,13 +95,12 @@ export class SelectCoinsWalletPage implements OnInit {
     this.walletMaintenanceService.wipeDataFromService();
   }
 
-  ngOnInit() {}
-
   private setNetworks(): void {
     this.networks = this.apiWalletService.getNetworks();
   }
 
   createForm() {
+    this.getCoins();
     if (!this.form) {
       const formGroup = {};
 
@@ -92,20 +112,64 @@ export class SelectCoinsWalletPage implements OnInit {
     }
   }
 
+  getCoins() {
+    this.networks.forEach((network) => {
+      this.coins = this.coins.concat(this.apiWalletService.getCoinsFromNetwork(network));
+    });
+    this.natives = this.coins.filter((coin) => coin.native === true);
+    return this.coins;
+  }
+
   async updateTokens() {
     this.setAllSelected();
     const userCoins = [];
     Object.entries(this.form.value).forEach((network) => {
       Object.entries(network[1]).forEach((coin) => {
-        if (coin[1])
-          userCoins.push({ value: coin[0], network: network[0] });
-      })
-    })
+        if (coin[1]) userCoins.push({ value: coin[0], network: network[0] });
+      });
+    });
     await this.walletMaintenanceService.updateTokensStorage(userCoins);
   }
 
   getCoinsFromNetwork(network: string) {
-    return this.apiWalletService.getCoinsFromNetwork(network);
+    return this.coins.filter((coin) => coin.network === network);
+  }
+
+  handleChange(event) {
+    if (!this.eventEmitted) {
+      this.eventEmitted = true;
+      this.setEventToSearch();
+    }
+    this.disableSelectAll = true;
+    const search = event.target.value.toLowerCase();
+    if (search) {
+      this.coins = this.coins.filter((coin) => {
+        return coin.value.toLowerCase().indexOf(search) > -1;
+      });
+      if (this.coins.length === 0) {
+        this.setEventToEmptySearch();
+      }
+    } else if (search === '') {
+      this.reloadCoins();
+    }
+  }
+
+  reloadCoins() {
+    this.coins = [];
+    this.coins = this.getCoins();
+    this.disableSelectAll = false;
+  }
+
+  setEventToSearch() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_edit_tokens_search',
+    });
+  }
+
+  setEventToEmptySearch() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_edit_tokens_search_empty',
+    });
   }
 
   createSuiteFormGroup(suite: Coin[]): UntypedFormGroup {

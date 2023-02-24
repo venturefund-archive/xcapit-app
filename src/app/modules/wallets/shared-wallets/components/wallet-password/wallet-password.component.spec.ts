@@ -8,7 +8,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
-import { BiometricAuthInjectable } from '../../../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { BiometricAuthInjectable } from '../../../../../shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { FakeBiometricAuth } from '../../../../../shared/models/biometric-auth/fake/fake-biometric-auth';
 import { RemoteConfigService } from '../../../../../shared/services/remote-config/remote-config.service';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';

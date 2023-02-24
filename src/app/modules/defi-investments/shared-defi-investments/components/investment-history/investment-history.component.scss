@@ -1,7 +1,6 @@
 .ih {
   margin-top: 8px;
   border-radius: 16px;
-  border: 0.5px solid var(--ion-color-neutral50);
   width: 100%;
   min-height: 70px;
 
@@ -27,6 +26,7 @@
 
     ion-list {
       border-radius: 16px;
+      box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
     }
 
     ion-item[slot='header'] {

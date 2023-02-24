@@ -148,6 +148,16 @@
       "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
       "button_text": "Understood",
       "loading_text": "Calculating. Wait a few moments."
+    },
+    "require_token": {
+      "description": "The token you are looking for is not available?",
+      "button": "Request it"
+    },
+    "no_connection_banner": {
+      "disclaimer": "No connection"
+    },
+    "search_bar": {
+      "placeholder": "Search"
     }
   },
   "users": {
@@ -407,6 +417,7 @@
       "terms": {
         "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
         "i_have_read": "I have read and agree to ",
+        "you_have_accepted": "You have accepted in the first transaction the ",
         "link_to_terms": "2PI's Terms and Conditions."
       }
     },
@@ -490,7 +501,8 @@
       },
       "transaction_fees": {
         "label": "Estimated transaction fee",
-        "advice": "Insufficient funds"
+        "advice": "Insufficient funds",
+        "faucet": "this occasion, it's on us \ud83d\ude0e"
       },
       "filter_tab": {
         "conservative": "Conservative profile",
@@ -638,6 +650,14 @@
         },
         "2pi": {
           "title": "2pi"
+        },
+        "remove_tyc": {
+          "title": "Remove signature",
+          "message_to_kripton": "You will need to sign the terms and conditions and privacy policies again to operate with this provider.",
+          "message_others_providers": "You will have to sign the terms and conditions again to operate with this provider.",
+          "cancel_button": "Cancel",
+          "confirm_button": "Confirm",
+          "alert": "Permission successfully revoked"
         }
       },
       "community": "Join our community",
@@ -717,6 +737,7 @@
       "toggle_description": "Activate to access your wallet and approve your transactions.",
       "password_title": "Your safety matters to us",
       "password_description": "To activate your biometric data, enter your Xcapit wallet's password.",
+      "alternative_password_description": "To change the inactivity logout time, enter your Xcapit wallet password.",
       "password_button": "Confirm",
       "password_error": "The password entered is not valid.",
       "options": {
@@ -742,7 +763,11 @@
       "header": "Configuration",
       "inactivity": {
         "title": "Inactivity logout",
-        "message": "Select the amount of time you want to allow for inactivity before you are logged out."
+        "message": "Select the amount of time you want to allow for inactivity before you are logged out.",
+        "option_1": "Never log out",
+        "option_2": "Log out every time the app is in the background",
+        "option_3": "2 minutes",
+        "option_4": "5 minutes"
       },
       "password_change": {
         "title": "Password",
@@ -859,7 +884,7 @@
       "p9": "Indicate that you are an individual, not a company.",
       "p10": "Consider the Bitex requirements to operate locally",
       "ul1li1": "Valid ID (in color and fully legible)",
-      "ul1li2": "Support of income and savings (last 3 salary receipts or invoices issued in the last month or Declared Jurisdictions of personal assets or profits).",
+      "ul1li2": "Support of income and savings (last 3 salary receipts or invoices issued in the last month or Declared Jurisdictions of personal tokens or profits).",
       "ul1li3": "Activity declaration",
       "ul1li4": "Service to your name",
       "p11": "Now we will continue with the account verification, remember that all the fields are required, there are four steps:",
@@ -867,7 +892,7 @@
       "p13": "There are several fields, here you must upload an image of your ID in front and one on the back, keep in mind that the images have to be clear, in color and not have cuts or areas that can not be read.",
       "p14": "In step two, you will complete the contact information",
       "p15": "Here you must upload a phone bill, prepaid or any other service to your name with your current address and click next",
-      "p16": "As a third step, Bitex needs to verify where the money comes from, to do this complete the fields and you must provide a scan or an image such as the receipt of wages, invoices, contracts, liquidation of investments or affidavits of personal assets. Choose the file and click on next.",
+      "p16": "As a third step, Bitex needs to verify where the money comes from, to do this complete the fields and you must provide a scan or an image such as the receipt of wages, invoices, contracts, liquidation of investments or affidavits of personal tokens. Choose the file and click on next.",
       "p17": "Last step is to wait for account validation, it may take up to 4 days.",
       "p18": "In case of any error or missing information, Bitex will contact you through the email with which you registered. Stay tuned to this medium.",
       "p19": "When the account is approved you can make transfers in pesos or dollars to your account to buy BTC (Bitcoins)",
@@ -1490,6 +1515,10 @@
         }
       }
     },
+    "token_selection": {
+      "header": "Donations",
+      "title": "Select the currency you wish to donate"
+    },
     "send_donations": {
       "alias": "Address or alias",
       "destiny_wallet": "Destination wallet",
@@ -1498,7 +1527,7 @@
       "currency": "Currency",
       "network": "Network",
       "label": "Amount to donate",
-      "disclaimer": "The network you selected is {{network}}. Make sure that the target wallet uses this same network. Otherwise, you will lose your assets.",
+      "disclaimer": "The network you selected is {{network}}. Make sure that the target wallet uses this same network. Otherwise, you will lose your tokens.",
       "summary": {
         "title": "Transaction data",
         "destination_address": "Destination address",
@@ -1671,12 +1700,12 @@
       "title": "Select the currency you want to receive"
     },
     "experimental_onboarding": {
-      "titile": "Welcome to {{username}} 🚀",
+      "title": "Welcome {{username}} \ud83d\ude80",
       "init_wallet": "Init wallet",
       "complete_steps": "1 of 2 steps complete",
       "next_step": "next step",
       "progress": "Your progress",
-      "completed": "completado",
+      "completed": "Complete",
       "steps": {
         "step_one": {
           "title": "buy tokens",
@@ -1687,7 +1716,7 @@
           "subtitle": "Add USDC from other wallet."
         },
         "step_three": {
-          "title": "Creación de wallet"
+          "title": "Wallet creation"
         }
       }
     },
@@ -1702,7 +1731,7 @@
       "header": "Remove wallet",
       "title": "When removing your wallet remember",
       "item1": "You will not lose your past transactions, they are stored by the network.",
-      "item2": "If you remove your wallet and do not have a copy of your backup phrase, you could lose your assets.",
+      "item2": "If you remove your wallet and do not have a copy of your backup phrase, you could lose your tokens.",
       "item3": "You will be able to again create a new wallet in Xcapit or import an existing one.",
       "tos": "I read and understand that I will remove my wallet.",
       "button_text": "Continue",
@@ -1762,7 +1791,7 @@
       "header": "Recovery phrase",
       "text1": "You still do not have a recovery phrase.",
       "text2": "Create or import your wallet to be able to view it.",
-      "text3": "As long as you have your 12 word phrase you will be able to recover your wallet and all your assets.",
+      "text3": "As long as you have your 12 word phrase you will be able to recover your wallet and all your tokens.",
       "button_import": "Import Wallet",
       "button_create": "Create Wallet",
       "button_faq": "What is the recovery phrase?"
@@ -1790,7 +1819,7 @@
     "home": {
       "available_money": "Available balance in wallet",
       "invested": "Amount invested",
-      "tab_assets": "Assets",
+      "tab_assets": "Tokens",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",
       "wallet_transaction_title": "LATEST",
@@ -1814,19 +1843,23 @@
       },
       "transaction_in_progress": {
         "badge": "In progress",
-        "swap_title": "Swap"
+        "swap_title": "Swap",
+        "send_title": "Send",
+        "solana-send_title": "Send",
+        "title": "Operations"
       }
     },
     "select_coin": {
       "header": "Create Wallet",
-      "header_edit": "Edit assets",
-      "title": "Select assets",
-      "subtitle": "Choose the assets you want to view in your wallet. Remember that to operate on each network you must have its native currency",
+      "header_edit": "Edit tokens",
+      "title": "Select tokens",
+      "subtitle": "Choose the tokens you want to view in your wallet. Remember that to operate on each network you must have its native currency",
       "suite": "Suite {{suiteName}}",
       "native": "NATIVE",
       "submit_edit": "Save changes",
       "toggle_all_text": "Select all",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "no_result_search": "No results"
     },
     "success_creation": {
       "title": "Congratulations!\nYou have created your wallet",
@@ -2028,6 +2061,10 @@
         "expand_button": "Expand",
         "reduce_button": "Reduce"
       },
+      "wallet_transaction_card":{
+        "expand_button": "Expand",
+        "reduce_button": "Reduce"
+      },
       "share_transaction_detail": {
         "text": "Hello! I sent you ",
         "text2": "For more information: ",
@@ -2039,10 +2076,12 @@
         "text": "Start investing"
       },
       "address_input_card": {
+        "agenda": "Agenda",
+        "remove_contact": "Remove contact",
         "scan_error": "Error scanning QR code",
         "placeholder": "Press and hold to paste",
         "scan_unauthorized": "You have no permission to scan",
-        "disclaimer": "The network you selected is {{network}}. Make sure that the destination wallet uses this same network. Otherwise, you will lose your assets"
+        "disclaimer": "The network you selected is {{network}}. Make sure that the destination wallet uses this same network. Otherwise, you will lose your tokens"
       },
       "wallet_password": {
         "title": "Enter your password",
@@ -2123,7 +2162,7 @@
     },
     "asset_detail": {
       "header": "Asset Detail",
-      "wallet_transaction_title": "Transactions",
+      "wallet_transaction_title": "Latest transactions",
       "available": "Balance available",
       "invest_button": "Invest"
     },
@@ -2135,7 +2174,8 @@
     "success_wallet_recovery": {
       "title": "Congratulations!",
       "subtitle": "You imported your wallet successfully.",
-      "button": "Personalize wallet"
+      "button": "Personalize wallet",
+      "button_home": "Go to wallet"
     },
     "wallet_connect": {
       "header": "WalletConnect",
@@ -2286,7 +2326,8 @@
       "declined": "Rejected",
       "confirmed": "Confirmed",
       "link": "View in explorer",
-      "title_wallet": "Target wallet",
+      "from_wallet": "Source wallet",
+      "to_wallet": "Target wallet",
       "title_fee": "Transaction fee",
       "title_date": "Date",
       "OUT": "Sent",
@@ -2417,7 +2458,13 @@
       "no_operations_message": "Once you have made your purchases, you will be able to see them in this section.",
       "link": "login to Kripton Market",
       "button_show_less": "Show less",
-      "button_show_more": "Show more"
+      "button_show_more": "Show more",
+      "log_out_modal": {
+        "title":"Do you want to log out?",
+        "description": "You will need to log in again with your email address to view your purchases.",
+        "confirm_button": "Confirm",
+        "cancel_button": "Cancel"
+      }
     },
     "moonpay_purchases": {
       "title": "Purchases in Moonpay",
@@ -2527,6 +2574,7 @@
       "thirdPartyKYC": "I understand that Xcapit does not store KYC information.",
       "thirdPartyTransaction": "I understand that the terms and conditions of the third party provider (Kripton Market) are independent of Xcapit.",
       "privacyPolicyAndTOS": "I accept the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>.",
+      "acceptedprivacyPolicyAndTOS": "You have accepted in the first transaction to the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>",
       "next_button": "Next"
     },
     "register": {
@@ -2975,6 +3023,23 @@
         "title": "Your Kripton Market account has been verified.",
         "message": "You can now make your purchases with this provider."
       }
+    },
+    "bitrefill": {
+      "header": "Buy with crypto",
+      "exit_button": "Exit",
+      "toasts": {
+        "success": "Payment successfully credited! Soon you will be receiving the voucher in your email.",
+        "error": "Payment error. Please try again."
+      },
+      "modal": {
+        "title": "Attention",
+        "description": "Do you wish to exit? Your progress will be lost and you will have to start over.",
+        "cancel_button": "Cancel",
+        "confirm_button": "Confirm"
+      },
+      "token_selection": {
+        "title": "Which token do you want to pay with?"
+      }
     }
   },
   "home": {
@@ -3025,8 +3090,8 @@
         "table_label1": "Pair",
         "table_label2": "Last price",
         "table_label3": "Change % 24 h",
-        "more_button": "See more",
-        "less_button": "See less"
+        "more_button": "Expand",
+        "less_button": "Reduce"
       }
     },
     "shared": {
@@ -3151,7 +3216,8 @@
       "condition_2": "The conditions of token exchange depend on the provider.",
       "condition_3": "Exchanges have associated transaction costs.",
       "terms": {
-        "i_have_read": "I have read and agree to the",
+        "i_have_read": "I have read and agree to ",
+        "you_have_accepted": "You have accepted in the first transaction the ",
         "link_to_terms": "terms and conditions",
         "of": "of 1inch"
       },
@@ -3200,21 +3266,26 @@
     },
     "register": {
       "header": "Save wallet",
+      "header_edit": "Edit wallet",
       "title": "Enter the details of the wallet you wish to save.",
       "address_label": "Address",
       "address_sublabel": "Paste the address or scan the QR code.",
       "address_placeholder": "Press and hold to paste",
       "name_label": "Name",
       "submit_text": "Save wallet",
+      "button_edit": "Confirmar",
       "name_placeholder": "Ex: Laura's Wallet",
       "text_invalid": "The wallet address is incorrect",
       "text_valid": "The wallet address is correct",
+      "repeated_address": "The address is already added",
       "loading": "Saving",
-      "success_toast": "Excellent! Wallet successfully saved"
+      "success_toast": "Excellent! Wallet successfully saved",
+      "success_edit": "Excellent! Wallet successfully edited"
     },
     "shared_contacts": {
       "network_selector": {
-        "label": "Network"
+        "label": "Network",
+        "placeholder": "Select an option"
       },
       "network_selector_modal": {
         "title": "Select network"
@@ -3224,6 +3295,17 @@
       "title": "Scan the QR code of the address you wish to save",
       "scan_error": "Error scanning QR code",
       "scan_unauthorized": "You do not have permission to scan"
+    },
+    "detail": {
+      "header": "Contact",
+      "subtitle_network": "Network",
+      "subtitle_address": "Address",
+      "alert": {
+        "title": "Do you want to delete?",
+        "description": "The data entered will be permanently lost.",
+        "confirm_button": "Confirm",
+        "cancel_button": "Cancel"
+      }
     }
   }
 }

@@ -25,11 +25,13 @@ import { SwapInProgressModalComponent } from './components/swap-in-progress-moda
 import { ShareTransactionDetailComponent } from './components/share-transaction-detail/share-transaction-detail.component';
 import { AccordionTokensComponent } from './components/accordion-tokens/accordion-tokens.component';
 import { NoActiveTokensCardComponent } from './components/no-active-tokens-card/no-active-tokens-card.component';
-import { TransactionInProgressCardComponent } from './components/transaction-in-progress-card/transaction-in-progress-card.component';
+import { TransactionInProgressCardComponent } from './components/transaction-in-progress/transaction-in-progress-card/transaction-in-progress-card.component';
 import { SwiperModule } from 'swiper/angular';
 import { HomeSlidesComponent } from './components/home-slides/home-slides.component';
 import { InitiationWalletStepCardComponent } from './components/initiation-wallet-step-card/initiation-wallet-step-card.component';
 import { WalletTransactionSkeletonCardComponent } from './components/wallet-transaction-card/wallet-transaction-skeleton-card/wallet-transaction-skeleton-card.component';
+import { TransactionInProgressComponent } from './components/transaction-in-progress/transaction-in-progress.component';
+import { WalletPasswordWithValidatorComponent } from './components/wallet-password-with-validator/wallet-password-with-validator.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { WalletTransactionSkeletonCardComponent } from './components/wallet-tran
     HomeSlidesComponent,
     InitiationWalletStepCardComponent,
     WalletTransactionSkeletonCardComponent,
+    TransactionInProgressComponent,
+    WalletPasswordWithValidatorComponent,
   ],
   imports: [SharedModule, SwiperModule],
   exports: [
@@ -95,6 +99,8 @@ import { WalletTransactionSkeletonCardComponent } from './components/wallet-tran
     HomeSlidesComponent,
     InitiationWalletStepCardComponent,
     WalletTransactionSkeletonCardComponent,
+    TransactionInProgressComponent,
+    WalletPasswordWithValidatorComponent,
   ],
 })
 export class SharedWalletsModule {}

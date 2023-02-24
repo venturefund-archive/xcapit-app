@@ -99,8 +99,10 @@ describe('KriptonOperationDetailPage', () => {
     });
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
-      get: Promise.resolve('test@test.com'),
+      get: Promise.resolve(),
     });
+    kriptonStorageSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageSpy.get.withArgs('access_token').and.resolveTo('test');
 
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
@@ -151,7 +153,7 @@ describe('KriptonOperationDetailPage', () => {
 
   it('should show operation details on init', async () => {
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     const currency = fixture.debugElement.query(By.css('.kod__card-container__card__coin__content__name > ion-text'))
       .nativeElement.innerText;
@@ -200,14 +202,14 @@ describe('KriptonOperationDetailPage', () => {
   it('should navigate back to operations if operation does not exist', async () => {
     fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(throwError('error'));
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/fiat-ramps/purchases']);
   });
 
   it('should show info modal when info button is clicked', async () => {
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -216,7 +218,7 @@ describe('KriptonOperationDetailPage', () => {
   it('should show correct text when info button is clicked and status is incomplete', async () => {
     testOperation.status = 'request';
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -227,7 +229,7 @@ describe('KriptonOperationDetailPage', () => {
   it('should show correct text when info button is clicked and status is in progress', async () => {
     testOperation.status = 'received';
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -236,7 +238,7 @@ describe('KriptonOperationDetailPage', () => {
   it('should show correct text when info button is clicked and status is nullified', async () => {
     testOperation.status = 'refund';
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -246,7 +248,7 @@ describe('KriptonOperationDetailPage', () => {
   it('should show correct text when info button is clicked and status is cancelled', async () => {
     testOperation.status = 'cancel';
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -257,7 +259,7 @@ describe('KriptonOperationDetailPage', () => {
     const incompleteOperation: FiatRampOperation = { ...testOperation, status: 'request' };
     fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([incompleteOperation]));
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-operation-status-alert')).triggerEventHandler('goToPurchaseOrder');
     await fixture.whenStable();
@@ -272,7 +274,7 @@ describe('KriptonOperationDetailPage', () => {
     const completeOperation: FiatRampOperation = { ...testOperation, status: 'complete' };
     fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([completeOperation]));
     component.ionViewWillEnter();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     const infoIcon = fixture.debugElement.query(By.css('ion-icon[name="information-circle"]'));
     expect(infoIcon).toBeNull();

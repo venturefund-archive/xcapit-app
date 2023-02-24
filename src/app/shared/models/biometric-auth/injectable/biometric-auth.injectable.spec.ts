@@ -2,7 +2,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { DefaultBiometricAuth } from '../default/default-biometric-auth';
-import { BiometricAuthInjectable } from './biometric-auth-injectable';
+import { BiometricAuthInjectable } from './biometric-auth.injectable';
 
 describe('BiometricAuthInjectable', () => {
   let service: BiometricAuthInjectable;

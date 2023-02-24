@@ -10,6 +10,8 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { Contact } from '../shared-contacts/interfaces/contact.interface';
+import { ContactDataService } from '../shared-contacts/services/contact-data/contact-data.service';
 import { ContactsHomePage } from './contacts-home.page';
 
 describe('ContactsHomePage', () => {
@@ -22,6 +24,7 @@ describe('ContactsHomePage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
 
   const contacts = [
     {
@@ -29,6 +32,11 @@ describe('ContactsHomePage', () => {
       name: 'TestWallet',
       networks: ['ERC20', 'RSK'],
     },
+    {
+      address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+      name: 'Test',
+      networks: ['MATIC'],
+    }
   ];
 
   const route = {
@@ -36,6 +44,12 @@ describe('ContactsHomePage', () => {
     blockchain: 'ERC20',
     token: '0x0000000000000000000000000000000000001010',
     amount: '1',
+  };
+
+  const contact: Contact = {
+    address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+    name: 'Test',
+    networks: ['MATIC'],
   };
   beforeEach(waitForAsync(() => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
@@ -51,6 +65,10 @@ describe('ContactsHomePage', () => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
+    contactDataServiceSpy = jasmine.createSpyObj('ContactDataService', {
+      getContact: contact,
+      updateContact: {},
+    });
 
     TestBed.configureTestingModule({
       declarations: [ContactsHomePage, FakeTrackClickDirective],
@@ -60,6 +78,7 @@ describe('ContactsHomePage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: ContactDataService, useValue: contactDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -89,10 +108,8 @@ describe('ContactsHomePage', () => {
   it('should render contacts', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    const imgEl = fixture.debugElement.query(By.css('img.ch__content__item__wrapper__img'));
-    const nameEl = fixture.debugElement.query(By.css('div.ch__content__item__wrapper__data__title > ion-text'));
-    expect(imgEl.attributes.src).toContain('/assets/img/contacts/wallet.svg');
-    expect(nameEl.nativeElement.innerHTML).toContain(contacts[0].name);
+    const contactEl = fixture.debugElement.query(By.css('app-contact-item'));
+    expect(contactEl).toBeTruthy();
   });
 
   it('should call trackEvent on trackService when ux_address_new button was clicked', () => {
@@ -121,16 +138,30 @@ describe('ContactsHomePage', () => {
     const contactEl = fixture.debugElement.query(By.css('div.ch__content__item'));
     contactEl.nativeElement.click();
     fixture.detectChanges();
+    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith([
       '/wallets/send/detail/blockchain',
       route.blockchain,
       'token',
       route.token,
-      'address',
-      contacts[0].address,
       'amount',
       route.amount,
     ]);
+  });
+
+  it('should navigate forward to contact detail and update contact when contact was clicked and mode was not select', async () => {
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(contacts));
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.queryAll(By.css('div.ch__content__item'))[1].nativeElement.click();
+    fixture.detectChanges();
+    expect(contactDataServiceSpy.updateContact).toHaveBeenCalledOnceWith({
+      address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+      name: 'Test',
+      networks: ['MATIC'],
+      index: 1
+    });
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/contacts/detail');
   });
 
   it('should track event when contact was clicked and mode was select', async () => {
@@ -141,6 +172,30 @@ describe('ContactsHomePage', () => {
     const contactEl = fixture.debugElement.query(By.css('div.ch__content__item'));
     contactEl.nativeElement.click();
     fixture.detectChanges();
-    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(2);
+  });
+
+  it('should go back to send detail page if is selecting', async () => {
+    fakeActivatedRoute.modifySnapshotParams(route);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const backButton = fixture.debugElement.query(By.css('ion-back-button'));
+    backButton.nativeElement.click();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith([
+      '/wallets/send/detail/blockchain',
+      route.blockchain,
+      'token',
+      route.token,
+      'amount',
+      route.amount,
+    ]);
+  });
+
+  it('should go back to menu profile page if is not selecting', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const backButton = fixture.debugElement.query(By.css('ion-back-button'));
+    backButton.nativeElement.click();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/profiles/menu');
   });
 });

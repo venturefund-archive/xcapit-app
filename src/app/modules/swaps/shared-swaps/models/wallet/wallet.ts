@@ -3,7 +3,7 @@ import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { BlockchainTx } from '../blockchain-tx';
 import { IBlockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
-import { Connection, Transaction } from '@solana/web3.js';
+import { Connection, sendAndConfirmTransaction, Transaction } from '@solana/web3.js';
 import { FakeConnection } from '../fakes/fake-connection';
 import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
 
@@ -67,12 +67,14 @@ export class DefaultWallet implements Wallet {
     return aEthersWallet.connect(new this._ethersProviders.JsonRpcProvider(this._aBlockchain.rpc()));
   }
 }
+
 export class SendTxsError extends Error {
   constructor(message: string, private url: string) {
     super(message);
     this.url = url;
   }
 }
+
 export class FakeWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
@@ -117,7 +119,8 @@ export class SolanaWallet implements Wallet {
     private _rawData: any,
     private _aBlockchain: IBlockchain,
     private _connection: Connection | FakeConnection,
-    private _ethersWallet: any = EthersWallet
+    private _ethersWallet: any = EthersWallet,
+    private _sendAndConfirm: any = sendAndConfirmTransaction
   ) {}
 
   public static create(_rawData: any, _aBlockchain: IBlockchain): SolanaWallet {
@@ -134,7 +137,11 @@ export class SolanaWallet implements Wallet {
 
   private async _sendTxs(transactions: BlockchainTx[], wallet: SolanaDerivedWallet): Promise<void> {
     for (const tx of transactions) {
-      await this._connection.sendTransaction((await tx.value()) as Transaction, [wallet.value()]);
+      await this._sendAndConfirm(
+        this._connection as Connection,
+        (await tx.value()) as Transaction,
+        [wallet.value()]
+      );
     }
   }
 

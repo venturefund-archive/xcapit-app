@@ -40,6 +40,9 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 import { format } from 'date-fns';
 import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
+import { DefiInvestmentsService } from '../../shared-defi-investments/services/defi-investments-service/defi-investments.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -52,8 +55,8 @@ import { LocalNotificationInjectable } from 'src/app/shared/models/local-notific
         <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content *ngIf="this.product">
-      <ion-card class="ux-card">
+    <ion-content class="ic" *ngIf="this.product">
+      <ion-card class="ux-card no-border">
         <app-expandable-investment-info
           fbPrefix="ux_invest"
           [investmentProduct]="this.product"
@@ -69,16 +72,21 @@ import { LocalNotificationInjectable } from 'src/app/shared/models/local-notific
                 >{{ this.amount.value | formattedAmount }} {{ this.amount.token }}</ion-text
               >
               <ion-text class="ux-font-text-base summary__amount__qty__quoteAmount"
-                >{{ this.quoteAmount.value | formattedAmount: 10:2 }} {{ this.quoteAmount.token }}
+                >{{ this.quoteAmount.value | formattedAmount : 10 : 2 }} {{ this.quoteAmount.token }}
               </ion-text>
             </div>
           </div>
-          <app-transaction-fee [fee]="this.fee" [quoteFee]="this.quoteFee" [balance]="this.nativeTokenBalance">
+          <app-transaction-fee
+            [fee]="this.fee"
+            [quoteFee]="this.quoteFee"
+            [balance]="this.nativeTokenBalance"
+            [showErrors]="!this.isElegibleToFund"
+          >
           </app-transaction-fee>
         </div>
       </ion-card>
       <form [formGroup]="this.form" class="ion-padding-horizontal ion-padding-bottom">
-        <ion-item class="term-item ion-no-padding ion-no-margin">
+        <ion-item *ngIf="!this.agreement" class="term-item ion-no-padding ion-no-margin">
           <ion-checkbox
             appTrackClick
             formControlName="thirdPartyDisclaimer"
@@ -93,7 +101,7 @@ import { LocalNotificationInjectable } from 'src/app/shared/models/local-notific
           </ion-label>
         </ion-item>
 
-        <ion-item class="term-item ion-no-padding ion-no-margin">
+        <ion-item *ngIf="!this.agreement" class="term-item ion-no-padding ion-no-margin">
           <ion-checkbox
             appTrackClick
             formControlName="termsAndConditions"
@@ -110,7 +118,18 @@ import { LocalNotificationInjectable } from 'src/app/shared/models/local-notific
             }}</ion-text>
           </ion-label>
         </ion-item>
+        <ion-item *ngIf="this.agreement" class="term-item ion-no-padding ion-no-margin">
+          <ion-label class="ion-no-padding ion-no-margin">
+            <ion-text name="ux_tyc_accepted" class="ux-font-text-xxs" color="neutral80">{{
+              'defi_investments.confirmation.terms.you_have_accepted' | translate
+            }}</ion-text>
+            <ion-text class="ux-link-xs" (click)="this.openTOS()">{{
+              'defi_investments.confirmation.terms.link_to_terms' | translate
+            }}</ion-text>
+          </ion-label>
+        </ion-item>
       </form>
+
       <ion-button
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.confirmation.submit_loading' | translate"
@@ -136,12 +155,15 @@ export class InvestmentConfirmationPage {
     termsAndConditions: [false, Validators.requiredTrue],
   });
   product: InvestmentProduct;
+  agreement: boolean;
   token: Coin;
   available: number;
   nativeToken: Coin;
   nativeTokenBalance: number;
   amount: Amount;
   quoteAmount: Amount;
+  isElegibleToFund: boolean;
+  isFeatureFlagFaucet: boolean;
   fee: Amount = { value: undefined, token: 'MATIC' };
   quoteFee: Amount = { value: undefined, token: 'USD' };
   loading = false;
@@ -171,18 +193,23 @@ export class InvestmentConfirmationPage {
     private localNotificationInjectable: LocalNotificationInjectable,
     private gasStation: GasStationOfFactory,
     private blockchains: BlockchainsFactory,
-    private navController: NavController
+    private navController: NavController,
+    private defiInvesmentService: DefiInvestmentsService,
+    private remoteConfig: RemoteConfigService,
+    private trackService: TrackService
   ) {}
 
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.checkFeatureFlagFaucet();
+    this.checkTwoPiAgreement();
     this.updateTexts();
     await this.setInvestmentInfo();
     this.dynamicPrice();
-    this.checkTwoPiAgreement();
     await this.walletService.walletExist();
     await this.getNativeTokenBalance();
+    this.setIsElegibleToFund();
     await this.checkNativeTokenBalance();
   }
 
@@ -334,8 +361,31 @@ export class InvestmentConfirmationPage {
     return this.nativeTokenBalance;
   }
 
+  async fundWallet() {
+    if (this.isElegibleToFund) {
+      await this.defiInvesmentService.fundWallet().toPromise();
+      this.sendEvent();
+    }
+  }
+
+  checkFeatureFlagFaucet() {
+    this.isFeatureFlagFaucet = this.remoteConfig.getFeatureFlag('ff_fundFaucet');
+  }
+
+  sendEvent() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_faucet_request',
+    });
+  }
+
+  setIsElegibleToFund() {
+    this.isFeatureFlagFaucet
+      ? (this.isElegibleToFund = this.nativeTokenBalance === 0.0)
+      : (this.isElegibleToFund = false);
+  }
+
   async checkNativeTokenBalance() {
-    if (this.nativeTokenBalance <= this.fee.value) {
+    if (this.nativeTokenBalance <= this.fee.value && !this.isElegibleToFund) {
       await this.openModalNativeTokenBalance();
       this.isNegativeBalance = true;
     } else {
@@ -364,8 +414,10 @@ export class InvestmentConfirmationPage {
 
   async invest() {
     this.disable = true;
+    await this.fundWallet();
     await this.getTokenBalanceAvailable();
     const wallet = await this.wallet();
+    await this.saveTwoPiAgreement();
     if (wallet) {
       if (this.checkTokenBalance()) {
         await this.openInProgressModal();
@@ -377,7 +429,6 @@ export class InvestmentConfirmationPage {
             .then(() => this.createNotification('success'))
             .then(() => this.setActionListener())
             .then(() => this.notification.send());
-          await this.saveTwoPiAgreement();
         } catch {
           this.createNotification('error');
           this.notification.send();
@@ -440,8 +491,8 @@ export class InvestmentConfirmationPage {
   }
 
   async checkTwoPiAgreement(): Promise<void> {
-    const agreement = await this.storage.get('_agreement_2PI_T&C');
-    if (agreement) {
+    this.agreement = await this.storage.get('_agreement_2PI_T&C');
+    if (this.agreement) {
       this.form.patchValue({ thirdPartyDisclaimer: true, termsAndConditions: true });
     }
   }

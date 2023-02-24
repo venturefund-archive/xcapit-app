@@ -40,7 +40,7 @@ export class WalletBackupService {
     const modal = await this.modalController.create({
       component: WarningBackupModalComponent,
       componentProps: {},
-      cssClass: 'ux-md-modal-informative',
+      cssClass: 'modal',
       backdropDismiss: false,
     });
     await modal.present();

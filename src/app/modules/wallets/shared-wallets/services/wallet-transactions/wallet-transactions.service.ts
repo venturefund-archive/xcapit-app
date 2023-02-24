@@ -16,9 +16,9 @@ import { NetworkConfig } from '../../models/network-config/network-config';
 import { NativeFeeOf } from 'src/app/modules/defi-investments/shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
-import { ERC20ProviderController } from '../../../../defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
-import { ERC20ContractController } from '../../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
-import { ERC20TokenController } from '../../../../defi-investments/shared-defi-investments/models/erc20-token/controller/erc20-token.controller';
+import { Erc20ProviderInjectable } from '../../../../defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
+import { ERC20ContractInjectable } from '../../../../defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
+import { ERC20TokenInjectable } from '../../../../defi-investments/shared-defi-investments/models/erc20-token/injectable/erc20-token.injectable';
 import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.interface';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
@@ -41,9 +41,9 @@ export class WalletTransactionsService {
     private storageService: StorageService,
     private http: CustomHttpService,
     private apiWalletService: ApiWalletService,
-    private erc20ProviderController: ERC20ProviderController,
-    private erc20ContractController: ERC20ContractController,
-    private erc20TokenController: ERC20TokenController,
+    private erc20ProviderInjectable: Erc20ProviderInjectable,
+    private erc20ContractInjectable: ERC20ContractInjectable,
+    private erc20TokenInjectable: ERC20TokenInjectable,
     private gasFeeOfFactory: GasFeeOfFactory,
     private nativeGasOfFactory: NativeGasOfFactory,
     private blockchains: BlockchainsFactory,
@@ -295,14 +295,14 @@ export class WalletTransactionsService {
 
   erc20Contract(coin: Coin, address?: string): ERC20Contract {
     const signer = address ? new VoidSigner(address) : undefined;
-    return this.erc20ContractController.new(this.erc20Provider(coin), signer);
+    return this.erc20ContractInjectable.create(this.erc20Provider(coin), signer);
   }
 
   erc20Provider(coin: Coin): ERC20Provider {
-    return this.erc20ProviderController.new(coin);
+    return this.erc20ProviderInjectable.create(coin);
   }
 
   erc20Token(contract: ERC20Contract): ERC20Token {
-    return this.erc20TokenController.new(contract);
+    return this.erc20TokenInjectable.create(contract);
   }
 }

@@ -28,7 +28,6 @@ import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.compon
 import { UxTextareaComponent } from './components/ux-textarea/ux-textarea.component';
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
 import { NeedHelpComponent } from './components/need-help/need-help.component';
-import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
 import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-alert.component';
 import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
 import { UxListCardComponent } from './components/ux-list-card/ux-list-card.component';
@@ -88,7 +87,6 @@ import { RuleCardComponent } from '../modules/financial-education/shared-financi
 import { CircleProgressComponent } from './components/circle-progress/circle-progress.component';
 import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
 import { EyeComponent } from './components/eye/eye.component';
-import { TokenWithBlockchainLogoComponent } from './components/token-with-blockchain-logo/token-with-blockchain-logo.component';
 import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/components/skip-profile-test/skip-profile-test.component';
 import { InformationAlertComponent } from '../modules/users/shared-users/components/information-alert/information-alert.component';
 import { HelpItemCardComponent } from '../modules/users/shared-users/components/help-item-card/help-item-card.component';
@@ -103,6 +101,11 @@ import { CommaToDotDirective } from './directives/comma-to-dot/comma-to-dot.dire
 import { InProgressTransactionModalComponent } from './components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 import { AssetDetailComponent } from './components/asset-detail/asset-detail.component';
 import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/components/address-input-card/address-input-card.component';
+import { ContactItemComponent } from './components/contact-item/contact-item.component';
+import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-alert.component';
+import { RequireTokenComponent } from './components/require-token/require-token.component';
+import { HideEmailPipe } from './pipes/hide-email/hide-email.pipe';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -127,9 +130,10 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     EyeComponent,
-    TokenWithBlockchainLogoComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
+    ContactItemComponent,
+    ModalAsAlertComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
@@ -192,9 +196,11 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     OperationStatusChipComponent,
     AssetDetailComponent,
     AddressInputCardComponent,
+    RequireTokenComponent,
+    SearchBarComponent,
     // Pipes
     LocalizedDatePipe,
-    HideReferralPipe,
+    HideEmailPipe,
     SafeURLPipe,
     HideTextPipe,
     SplitStringPipe,
@@ -207,7 +213,7 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     ButtonSpinnerDirective,
     FeatureFlagDirective,
     BuyCryptoFeatureFlagDirective,
-    CommaToDotDirective
+    CommaToDotDirective,
   ],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
@@ -241,9 +247,10 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     EyeComponent,
-    TokenWithBlockchainLogoComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
+    ContactItemComponent,
+    ModalAsAlertComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
@@ -302,9 +309,11 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     OperationStatusChipComponent,
     AssetDetailComponent,
     AddressInputCardComponent,
+    RequireTokenComponent,
+    SearchBarComponent,
     // Pipes
     LocalizedDatePipe,
-    HideReferralPipe,
+    HideEmailPipe,
     SafeURLPipe,
     HideTextPipe,
     SplitStringPipe,
@@ -317,7 +326,7 @@ import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/com
     FeatureFlagDirective,
     SelectStyleDirective,
     BuyCryptoFeatureFlagDirective,
-    CommaToDotDirective
+    CommaToDotDirective,
   ],
 })
 export class SharedModule {}

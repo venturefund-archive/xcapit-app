@@ -107,7 +107,8 @@ describe('SolanaWallet', () => {
       rawWalletData,
       blockchain,
       new FakeConnection(),
-      new FakeEthersWallet()
+      new FakeEthersWallet(),
+      () => {}
     );
     testObject = { testMethod: () => Promise.resolve(passEncryptedWallet) };
     spyOn(testObject, 'testMethod').and.callThrough();
@@ -118,8 +119,7 @@ describe('SolanaWallet', () => {
   });
 
   it('create', () => {
-    wallet = SolanaWallet.create(rawWalletData, blockchain);
-    expect(wallet).toBeTruthy();
+    expect(SolanaWallet.create(rawWalletData, blockchain)).toBeTruthy();
   });
 
   it('address access', () => {
@@ -134,6 +134,31 @@ describe('SolanaWallet', () => {
 
   it('sendTx', async () => {
     const result = await wallet.sendTxs([new FakeBlockchainTx()]);
+
     expect(result).toBeTrue();
+  });
+
+  it('notify need pass on send tx with fakes', async () => {
+    wallet.onNeedPass().subscribe(() => testObject.testMethod());
+
+    const result = await wallet.sendTxs([]);
+
+    expect(result).toEqual(true);
+    expect(testObject.testMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('notify wallet was decrypted', async () => {
+    wallet.onNeedPass().subscribe(() => testObject.testMethod());
+    wallet.onDecryptedWallet().subscribe(() => testObject.testMethod());
+
+    await wallet.sendTxs([]);
+
+    expect(testObject.testMethod).toHaveBeenCalledTimes(2);
+  });
+
+  it('send a few transactions', async () => {
+    const result = await wallet.sendTxs([new FakeBlockchainTx(), new FakeBlockchainTx()]);
+
+    expect(result).toEqual(true);
   });
 });

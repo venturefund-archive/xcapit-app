@@ -3,7 +3,7 @@
     margin-top: 8px;
     padding: 24px 12px 16px;
     box-shadow: none;
-    border: 0.5px solid var(--ion-color-neutral50);
+    filter: drop-shadow(0 2px 8px rgb(28 45 94 / 10%));
     background: var(--ion-color-white);
 
     &__title {

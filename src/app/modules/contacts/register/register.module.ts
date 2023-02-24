@@ -9,7 +9,7 @@ const routes: Routes = [
     component: RegisterPage,
   },
   {
-    path: ':mode/blockchain/:blockchain/address/:address',
+    path: ':mode',
     component: RegisterPage,
   },
 ];

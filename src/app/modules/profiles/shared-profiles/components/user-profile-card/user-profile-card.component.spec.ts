@@ -9,23 +9,23 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { UserProfileCardComponent } from './user-profile-card.component';
 
-const testProfiles = {
-  conservative: {
-    email: 'example@mail.com',
-    investor_category: 'wealth_managements.profiles.conservative',
-  },
-  noTest: {
-    email: 'example@mail.com',
-    investor_category: 'wealth_managements.profiles.no_category',
-  },
-};
-
 describe('UserProfileCardComponent', () => {
   let component: UserProfileCardComponent;
   let fixture: ComponentFixture<UserProfileCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfileCardComponent>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  
+  const testProfiles = {
+    conservative: {
+      email: 'example@mail.com',
+      investor_category: 'wealth_managements.profiles.conservative',
+    },
+    noTest: {
+      email: 'example@mail.com',
+      investor_category: 'wealth_managements.profiles.no_category',
+    },
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -62,7 +62,7 @@ describe('UserProfileCardComponent', () => {
 
   it('should navigate to investments page when Investor Profile button is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_go_to_investor_profile"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/investments']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/investments']);
   });
 
   it('should hide Investor Profile button when user has not taken Investor Test', () => {

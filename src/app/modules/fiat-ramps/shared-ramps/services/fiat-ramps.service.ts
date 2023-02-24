@@ -14,6 +14,7 @@ import { HttpParams } from '@angular/common/http';
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
   private provider = '1';
+ 
 
   constructor(private providersFactory: ProvidersFactory, private http: CustomHttpService) {}
 
@@ -74,11 +75,14 @@ export class FiatRampsService {
     return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/login`, data, undefined, false);
   }
 
-  getUserOperations(data: { email: string }): Observable<FiatRampOperation[]> {
+  getUserOperations(data: { email: string; auth_token: string }): Observable<FiatRampOperation[]> {
     return this.http.post(`${environment.apiUrl}/${this.entity}/get_all_operations`, data, undefined, true);
   }
 
-  getUserSingleOperation(operationId: string | number, data: { email: string }): Observable<FiatRampOperation[]> {
+  getUserSingleOperation(
+    operationId: string | number,
+    data: { email: string; auth_token: string }
+  ): Observable<FiatRampOperation[]> {
     return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/get_user_operation/${operationId}`,
       data,
@@ -111,7 +115,7 @@ export class FiatRampsService {
       data,
       undefined,
       false
-    )
+    );
   }
 
   getLink(apikeyId: number): Observable<any> {
@@ -189,5 +193,9 @@ export class FiatRampsService {
 
   private providers(): Providers {
     return this.providersFactory.create();
+  }
+
+  getKriptonAvailableCurrencies(): Observable<any>{
+    return this.http.get(`${environment.apiUrl}/on_off_ramps/kripton/available_currencies`, undefined, undefined, undefined);
   }
 }

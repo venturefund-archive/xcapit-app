@@ -6,9 +6,12 @@
   margin-top: 8px;
   margin-right: 10px;
   margin-left: 10px;
-  border: 0.5px solid var(--ion-color-neutral50);
   padding: 8px 16px 12px;
   background-size: cover !important;
+
+  .description {
+    color: var(--ion-color-neutral80);
+  }
 
   &__image {
     justify-content: center;
