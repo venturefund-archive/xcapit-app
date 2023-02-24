@@ -155,7 +155,7 @@ export class OperationsNewPage implements AfterViewInit {
     private providers: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
     private modalController: ModalController,
-    private kriptonStorageService: KriptonStorageService,
+    private kriptonStorageService: KriptonStorageService
   ) {}
 
   ngAfterViewInit() {
@@ -190,9 +190,11 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   async availableCoins() {
-    this.providerTokens = await new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins(), this.fiatRampsService).byAlias(
-      'kripton'
-    );
+    this.providerTokens = await new ProviderTokensOf(
+      this.getProviders(),
+      this.apiWalletService.getCoins(),
+      this.fiatRampsService
+    ).byAlias('kripton');
   }
 
   getProviders() {
@@ -211,7 +213,8 @@ export class OperationsNewPage implements AfterViewInit {
   private async cryptoAmountChange(value: any) {
     value = parseFloat(value);
     this.form.patchValue(
-      { fiatAmount: new RoundedNumber((value + this.fee.value) * this.fiatPrice).value() }, { emitEvent: false, onlySelf: true }
+      { fiatAmount: new RoundedNumber((value + this.fee.value) * this.fiatPrice).value() },
+      { emitEvent: false, onlySelf: true }
     );
     await this.getUpdatedValues();
   }
@@ -256,9 +259,8 @@ export class OperationsNewPage implements AfterViewInit {
     const response = await this.fiatRampsService.getKriptonMinimumAmount(this.fiatCurrency, data).toPromise();
     this.minimumFiatAmount = parseFloat(response.minimun_general);
     this.addGreaterThanValidator(this.minimumFiatAmount);
-    await this.getUpdatedValues(this.minimumFiatAmount)
+    await this.getUpdatedValues(this.minimumFiatAmount);
   }
-
 
   createKriptonDynamicPrice(currency = this.fiatCurrency): DynamicKriptonPrice {
     return this.kriptonDynamicPrice.new(
@@ -269,15 +271,13 @@ export class OperationsNewPage implements AfterViewInit {
 
   async getUpdatedValues(fiatAmount?: number) {
     const fiatAmountAux = fiatAmount ? fiatAmount : this.form.value.fiatAmount;
-    this.fiatRampsService
+    const kriptonFeeResponse = await this.fiatRampsService
       .getKriptonFee(this.fiatCurrency, fiatAmountAux, this.selectedCurrency.value, this._network())
-      .toPromise()
-      .then((res) => {
-        this.fee.value = parseFloat(res.data.costs);
-        this.form.patchValue({ fiatAmount: parseFloat(res.data.amount_in) }, { emitEvent: false, onlySelf: true });
-        this.form.patchValue({ cryptoAmount: parseFloat(res.data.amount_out) }, { emitEvent: false, onlySelf: true });
-        this.setFiatFee(this.fee);
-      });
+      .toPromise();
+    this.fee.value = parseFloat(kriptonFeeResponse.data.costs);
+    this.form.patchValue( { fiatAmount: parseFloat(kriptonFeeResponse.data.amount_in) }, { emitEvent: false, onlySelf: true } );
+    this.form.patchValue( { cryptoAmount: parseFloat(kriptonFeeResponse.data.amount_out) }, { emitEvent: false, onlySelf: true } );
+    this.setFiatFee(this.fee);
   }
 
   setCountry() {

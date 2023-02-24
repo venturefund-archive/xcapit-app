@@ -173,11 +173,9 @@ export class PurchaseOrderPage {
     const auth_token = await this.kriptonStorageService.get('access_token');
     this.operationData = await this.fiatRampsService
       .getUserSingleOperation(this.data.operation_id, { email: email, auth_token: auth_token })
-      .toPromise()
-      .then((res) => {
-        this.data.amount_in = res[0].amount_in;
-        this.isLoading = false;
-      });
+      .toPromise();
+    this.data.amount_in = this.operationData[0].amount_in;
+    this.isLoading = false;
   }
 
   copyToClipboard(clipboardInfo) {
