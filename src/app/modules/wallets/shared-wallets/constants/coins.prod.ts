@@ -479,7 +479,7 @@ export const PROD_COINS: Coin[] = [
     id: 39,
     name: 'USDT - Tether',
     logoRoute:
-    'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB/logo.svg',
+    'assets/img/coins/USDT-SOLANA.svg',
     value: 'USDT',
     network: 'SOLANA',
     contract: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
