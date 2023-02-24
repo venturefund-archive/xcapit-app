@@ -14,6 +14,7 @@ export const rawETHData = {
   decimals: 18,
   native: true,
   symbol: 'ETHUSDT',
+  bitrefillCode: 'ethereum'
 };
 
 export const rawUSDTData = {
@@ -29,6 +30,7 @@ export const rawUSDTData = {
   contract: '0xdac17f958d2ee523a2206206994597c13d831ec7',
   abi: '',
   decimals: 6,
+  bitrefillCode: 'usdt_erc20'
 };
 
 export const rawUSDCData = {
@@ -45,7 +47,8 @@ export const rawUSDCData = {
   abi: '',
   decimals: 6,
   symbol: 'USDCUSDT',
-  canInvest: true
+  canInvest: true,
+  bitrefillCode: 'usdc_polygon'
 };
 
 export const rawMATICData = {

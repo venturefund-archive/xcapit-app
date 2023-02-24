@@ -4,7 +4,7 @@ import { rawBlockchainsData } from "src/app/modules/swaps/shared-swaps/models/fi
 import { rawETHData, rawTokensData } from "src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data";
 import { TokenRepo } from "src/app/modules/swaps/shared-swaps/models/token-repo/token-repo";
 import { DefaultTokens } from "src/app/modules/swaps/shared-swaps/models/tokens/tokens";
-import { rawNativeEvent, rawNonNativeEvent } from "../../fixtures/raw-bitrefill-operation-data";
+import {  rawNativeEventInvoice, rawNonNativeEventInvoice } from "../../fixtures/raw-bitrefill-operation-data";
 import { DefaultBitrefillOperation } from "./default-bitrefill-operation";
 
 describe('DefaultBitrefillOperation', () => {
@@ -13,7 +13,7 @@ describe('DefaultBitrefillOperation', () => {
   const tokens = new DefaultTokens(new TokenRepo(rawTokensData));
   
   beforeEach(() => {
-    operation = new DefaultBitrefillOperation(rawNativeEvent, tokens, blockchains);
+    operation = new DefaultBitrefillOperation(rawNativeEventInvoice, tokens, blockchains);
   });
 
   it('new', () => {
@@ -21,7 +21,7 @@ describe('DefaultBitrefillOperation', () => {
   });
 
   it('address', () => {
-    expect(operation.address()).toEqual('0xD148C6735e1777BE439519B32A1a6Ef9c8853944');
+    expect(operation.address()).toEqual('0x58A7311cB3ce28DF2Eb5304128F7038e90F636d4');
   });
 
   it('paymentMethod', () => {
@@ -29,7 +29,7 @@ describe('DefaultBitrefillOperation', () => {
   });
 
   it('amount', async () => {
-    expect((await operation.amount()).value()).toEqual(0.2);
+    expect(operation.amount()).toEqual(0.025737);
   });
 
   it('token', async () => {
@@ -37,20 +37,20 @@ describe('DefaultBitrefillOperation', () => {
   });
 
   it('non native address', () => {
-    const operation = new DefaultBitrefillOperation(rawNonNativeEvent, tokens, blockchains);
+    const operation = new DefaultBitrefillOperation(rawNonNativeEventInvoice, tokens, blockchains);
 
-    expect(operation.address()).toEqual('0xD148C6735e1777BE439519B32A1a6Ef9c8853945');
+    expect(operation.address()).toEqual('0x2FcA4930b3B59338bc57b9196eEae196e6A4Da42');
   });
 
   it('non native token', async () => {
-    const operation = new DefaultBitrefillOperation(rawNonNativeEvent, tokens, blockchains);
+    const operation = new DefaultBitrefillOperation(rawNonNativeEventInvoice, tokens,blockchains);
 
     expect((await operation.token()).address()).toEqual('0x2791bca1f2de4661ed88a30c99a7a9449aa84174');
   });
 
   it('non native amount', async () => {
-    const operation = new DefaultBitrefillOperation(rawNonNativeEvent, tokens, blockchains);
+    const operation = new DefaultBitrefillOperation(rawNonNativeEventInvoice, tokens, blockchains);
 
-    expect((await operation.amount()).value()).toEqual(0.58);
+    expect(operation.amount()).toEqual(41.05);
   });
 });
