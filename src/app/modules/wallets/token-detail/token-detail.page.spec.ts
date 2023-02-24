@@ -49,11 +49,12 @@ import { SpyProperty } from 'src/testing/spy-property.spec';
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
 import { of } from 'rxjs';
 import { Transfers } from '../shared-wallets/models/transfers/transfers';
+import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 
 describe('TokenDetailPage', () => {
   let component: TokenDetailPage;
   let fixture: ComponentFixture<TokenDetailPage>;
-
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
@@ -75,7 +76,12 @@ describe('TokenDetailPage', () => {
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
   let transfersSpy: jasmine.SpyObj<Transfers>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
-
+  const availableKriptonCurrencies = [
+    {
+      network: 'MATIC',
+      currencies: ['USDC', 'MATIC', 'DAI'],
+    },
+  ];
   const rawTransfer = {
     block_height: 31071581,
     block_signed_at: '2023-01-17T16:50:57Z',
@@ -119,6 +125,10 @@ describe('TokenDetailPage', () => {
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: rawTokensData,
+    });
+
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
     });
 
     fakeNavController = new FakeNavController();
@@ -206,6 +216,7 @@ describe('TokenDetailPage', () => {
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
         { provide: Transfers, useValue: transfersSpy },
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -233,7 +244,9 @@ describe('TokenDetailPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ blockchain: rawSolanaData.name, token: rawSAMOData.contract });
 
     await component.ionViewWillEnter();
+  
     await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
 
     expect(component.enabledToBuy).toBeFalse();

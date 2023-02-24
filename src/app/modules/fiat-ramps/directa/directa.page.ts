@@ -124,13 +124,13 @@ export class DirectaPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.destroy$ = new Subject<void>();
     const providerAlias = this.route.snapshot.paramMap.get('alias');
     this.provider = this.getProviders().byAlias(providerAlias);
     this.setCountry();
     this.setFiatToken();
-    this.setCryptoToken();
+    await this.setCryptoToken();
     this.cryptoPrice();
     this.usdCryptoPrice();
     this.setPaymentType();
@@ -154,13 +154,13 @@ export class DirectaPage implements OnInit {
     this.fee.token = this.fiatCurrency;
   }
 
-  setCryptoToken() {
+  async setCryptoToken() {
     const { asset, network } = this.tokenOperationDataService.tokenOperationData;
-    this.selectedCurrency = this.providerTokens().find((token) => token.value === asset && token.network === network);
+    this.selectedCurrency = (await this.providerTokens()).find((token) => token.value === asset && token.network === network);
   }
 
-  providerTokens() {
-    return new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
+  async providerTokens() {
+    return await new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins(), this.fiatRampsService).byAlias(this.provider.alias);
   }
 
   depositLinkRequest(depositCreationData: DirectaDepositCreationData): DepositLinkRequest {

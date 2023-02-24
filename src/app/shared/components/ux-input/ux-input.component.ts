@@ -147,7 +147,7 @@ export class UxInputComponent implements OnInit {
   @Input() pasteType = false;
   @Input() textClass: string;
   @Input() infoIcon = false;
-  @Input() labelColor = undefined;
+  @Input() labelColor= undefined;
   @Output() infoIconClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() qrScannerOpened: EventEmitter<void> = new EventEmitter<void>();
   typeSetted: string;

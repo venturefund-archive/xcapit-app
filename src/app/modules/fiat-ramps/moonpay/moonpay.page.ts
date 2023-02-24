@@ -111,9 +111,9 @@ export class MoonpayPage {
     this.setCountry();
     this.setFiatToken();
     this.setCryptoToken();
+    await this.initAssetsForm();
     this.cryptoPrice();
     this.getLimits();
-    await this.initAssetsForm();
     this.setInitValue();
     this.subscribeToFormChanges();
   }
@@ -129,7 +129,7 @@ export class MoonpayPage {
 
   async initAssetsForm() {
     await this.walletMaintenance.getEncryptedWalletFromStorage();
-    this.coins = this.providerTokens();
+    this.coins = await this.providerTokens();
   }
 
   getLimits() {
@@ -161,8 +161,10 @@ export class MoonpayPage {
     this.form.get('fiatAmount').updateValueAndValidity();
   }
 
-  providerTokens() {
-    return new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
+  async providerTokens() {
+    return await new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins(), this.fiatRampsService).byAlias(
+      this.provider.alias
+    );
   }
 
   getProviders(): Providers {
@@ -211,9 +213,9 @@ export class MoonpayPage {
     this.fee.token = this.fiatCurrency;
   }
 
-  setCryptoToken() {
+  async setCryptoToken() {
     const { asset, network } = this.tokenOperationDataService.tokenOperationData;
-    this.selectedCurrency = this.providerTokens().find((token) => token.value === asset && token.network === network);
+    this.selectedCurrency = (await this.providerTokens()).find((token) => token.value === asset && token.network === network);
   }
 
   subscribeToFormChanges() {

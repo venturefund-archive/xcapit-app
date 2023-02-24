@@ -32,6 +32,7 @@ import { TokenByAddress } from '../../swaps/shared-swaps/models/token-by-address
 import { Token } from '../../swaps/shared-swaps/models/token/token';
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
+import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 
 @Component({
   selector: 'app-asset-detail',
@@ -178,7 +179,8 @@ export class TokenDetailPage {
     private covalentBalancesInjectable: CovalentBalancesInjectable,
     private tokenPricesInjectable: TokenPricesInjectable,
     private tokenDetailInjectable: TokenDetailInjectable,
-    private refreshTimeoutService: RefreshTimeoutService
+    private refreshTimeoutService: RefreshTimeoutService,
+    private fiatRampsService: FiatRampsService
   ) {}
 
   async ionViewWillEnter() {
@@ -187,7 +189,7 @@ export class TokenDetailPage {
     await this.setWallet();
     await this.setTokenDetail();
     this.setButtonName();
-    this.setAllowedOperations();
+    await this.setAllowedOperations();
     await this.getTransfers();
     this.getAvailableDefiProducts();
     await this.getInvestments();
@@ -280,8 +282,9 @@ export class TokenDetailPage {
     }
   }
 
-  private setAllowedOperations() {
-    this.enabledToBuy = !!new ProviderTokensOf(this.providers.create(), [this.token.json()]).all().length;
+  private async setAllowedOperations() {
+    const providerTokens = await new ProviderTokensOf(this.providers.create(), [this.token.json()], this.fiatRampsService).all()
+    this.enabledToBuy = !!(providerTokens).length;
     this.enabledToOperate = true;
   }
 

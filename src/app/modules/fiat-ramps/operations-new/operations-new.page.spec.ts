@@ -1,7 +1,7 @@
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { OperationsNewPage } from './operations-new.page';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
@@ -27,7 +27,39 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
-const links =
+
+
+describe('OperationsNewPage', () => {
+  let component: OperationsNewPage;
+  let fixture: ComponentFixture<OperationsNewPage>;
+  let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsNewPage>;
+  let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let coinsSpy: jasmine.SpyObj<Coin>[];
+  let dynamicKriptonPriceSpy: jasmine.SpyObj<DynamicKriptonPrice>;
+  let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<DynamicKriptonPriceFactory>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
+  let priceSubject: Subject<number>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
+  let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
+
+  const availableKriptonCurrencies = [
+    {
+      network: 'MATIC',
+      currencies: ['USDC', 'MATIC', 'DAI'],
+    },
+  ];
+
+  const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
 
 const validForm = {
@@ -54,29 +86,6 @@ const data = {
   auth_token: 'test',
 };
 
-describe('OperationsNewPage', () => {
-  let component: OperationsNewPage;
-  let fixture: ComponentFixture<OperationsNewPage>;
-  let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
-  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
-  let navControllerSpy: jasmine.SpyObj<NavController>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsNewPage>;
-  let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
-  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
-  let fakeActivatedRoute: FakeActivatedRoute;
-  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
-  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
-  let coinsSpy: jasmine.SpyObj<Coin>[];
-  let dynamicKriptonPriceSpy: jasmine.SpyObj<DynamicKriptonPrice>;
-  let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<DynamicKriptonPriceFactory>;
-  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
-  let providersSpy: jasmine.SpyObj<Providers>;
-  let priceSubject: Subject<number>;
-  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
-  let modalControllerSpy: jasmine.SpyObj<ModalController>;
-  let fakeModalController: FakeModalController;
-  let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
-
   beforeEach(waitForAsync(() => {
     navControllerSpy = new FakeNavController().createSpy();
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
@@ -90,6 +99,7 @@ describe('OperationsNewPage', () => {
       setProvider: null,
       createOperation: of({ id: 335 }),
       getKriptonMinimumAmount: of({ minimun_general: 2913 }),
+      getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
     });
 
     coinsSpy = [
@@ -181,14 +191,15 @@ describe('OperationsNewPage', () => {
 
   it('should set properly fiatAmount form value with minimum fiat amount', async () => {
     dynamicKriptonPriceSpy.value.and.returnValue(of(1));
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     expect(component.form.controls.fiatAmount.value).toEqual(2913);
   });
 
-  it('should set country, default currency, provider and price on init', () => {
-    component.ionViewWillEnter();
+  it('should set country, default currency, provider and price on init', async () => {
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledOnceWith('1');
     expect(component.providerTokens).toEqual(coinsSpy);
     expect(component.country).toEqual({
@@ -218,7 +229,7 @@ describe('OperationsNewPage', () => {
   it('should create and save operation and redirect to purchase order when valid form is submitted', async () => {
     kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
     kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -239,26 +250,29 @@ describe('OperationsNewPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should show form validation errors when form submitted is not valid', () => {
+  it('should show form validation errors when form submitted is not valid', async () => {
     const spy = spyOn(component.form, 'markAsTouched').and.callThrough();
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should update fiat amount when price changes', fakeAsync(() => {
+  it('should update fiat amount when price changes', async () => {
     component.fiatPrice = 10;
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     component.form.patchValue({ cryptoAmount: 1 });
     fixture.detectChanges();
     expect(component.form.value.fiatAmount).toEqual(10);
+    
     priceSubject.next(35);
     fixture.detectChanges();
     expect(component.form.value.fiatAmount).toEqual(35);
-  }));
+  });
 
-  it('should show modal', () => {
-    component.ionViewWillEnter();
+  it('should show modal', async () => {
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement
       .query(By.css('app-provider-new-operation-card'))
@@ -266,8 +280,8 @@ describe('OperationsNewPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should unsubscribe when leave', () => {
-    component.ionViewWillEnter();
+  it('should unsubscribe when leave', async () => {
+    await component.ionViewWillEnter();
     const nextSpy = spyOn(component.destroy$, 'next');
     const completeSpy = spyOn(component.destroy$, 'complete');
     component.ionViewWillLeave();
@@ -277,7 +291,7 @@ describe('OperationsNewPage', () => {
 
   it('should validate that the fiat amount equals the minimum value in fiat currency', async () => {
     dynamicKriptonPriceSpy.value.and.returnValue(of(1));
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     component.form.patchValue({ fiatAmount: 1 });

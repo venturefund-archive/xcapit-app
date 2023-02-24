@@ -52,7 +52,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
             </app-ux-list-inverted>
           </ion-list>
         </div>
-        <div class="qc__content__button">
+        <div class="qc__content__button" *ngIf="!this.lessThanFourItems">
           <ion-button
             *ngIf="!this.openedAccordion"
             name="Open Accordion"
@@ -86,6 +86,7 @@ export class QuotesCardComponent implements OnInit {
   @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
   openedAccordion: boolean;
   walletExist: boolean;
+  lessThanFourItems: boolean;
   completeData;
   filteredData: Quotes[];
   coins: Coin[];
@@ -144,6 +145,7 @@ export class QuotesCardComponent implements OnInit {
     });
     this.firstQuotes = quotes?.slice(0, 3);
     this.remainingQuotes = quotes?.slice(3, allQuotes.length);
+    this.lessThanFourItems = quotes.length >= 4 ? false : true;
     this.waitingQuotes = false;
   }
 
