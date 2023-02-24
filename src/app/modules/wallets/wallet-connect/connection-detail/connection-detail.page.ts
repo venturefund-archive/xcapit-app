@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc.service';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2';
 
 @Component({
   selector: 'app-connection-detail',
@@ -11,7 +13,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/home" (click)="this.backNavigation()"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/home" (click)="this.navigateBack()"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">
           {{ 'wallets.wallet_connect.connection_detail.header' | translate }}
@@ -33,11 +35,11 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       <div class="ux_content">
         <div class="wcdc">
           <div class="wcdc__logo">
-            <img src="{{ this.peerMeta?.icons[0] }}" />
+            <img src="{{ this.peerMetadata?.icons[0] }}" />
           </div>
           <div class="wcdc__provider_name">
             <ion-label>
-              {{ this.peerMeta?.name }}
+              {{ this.peerMetadata?.name }}
             </ion-label>
           </div>
           <div class="wcdc__connection">
@@ -57,9 +59,10 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
           </div>
 
           <div class="wcdc__provider_detail">
-            <ion-label> URL: {{ this.peerMeta?.url }} </ion-label>
-            <ion-label *ngIf="this.peerMeta?.description">
-              {{ 'wallets.wallet_connect.connection_detail.description' | translate }}: {{ this.peerMeta?.description }}
+            <ion-label> URL: {{ this.peerMetadata?.url }} </ion-label>
+            <ion-label *ngIf="this.peerMetadata?.description">
+              {{ 'wallets.wallet_connect.connection_detail.description' | translate }}:
+              {{ this.peerMetadata?.description }}
             </ion-label>
           </div>
 
@@ -78,7 +81,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
           name="ux_wc_connect"
           color="secondary"
           size="large"
-          (click)="approveSession()"
+          (click)="connect()"
           *ngIf="!this.connectionStatus"
         >
           {{ 'wallets.wallet_connect.button_connect' | translate }}
@@ -108,75 +111,89 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
   `,
   styleUrls: ['./connection-detail.page.scss'],
 })
-export class ConnectionDetailPage implements OnInit {
-  public peerMeta;
-  public connectionStatus = false;
+export class ConnectionDetailPage {
+  protected peerMetadata;
+  connectionStatus = false;
 
   constructor(
     private walletConnectService: WalletConnectService,
+    private wcConnectionV2: WCConnectionV2,
     private navController: NavController,
     private alertController: AlertController,
     private translate: TranslateService,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private WCService: WCService
   ) {}
 
   ionViewWillEnter() {
-    this.checkProtocolInfo();
+    this.WCService.uri().isV2() ? this.setTemplateData() : this.checkProtocolInfo();
     this.checkConnectionStatus();
   }
 
-  ngOnInit() {}
+  private async setTemplateData(): Promise<void> {
+    this.peerMetadata = this.wcConnectionV2.proposal().peerMetadata();
+  }
 
   async checkProtocolInfo() {
     if (!this.walletConnectService.peerMeta) {
       await this.walletConnectService.killSession();
-      this.backNavigation();
+      this.navigateBack();
     } else {
-      this.peerMeta = this.walletConnectService.peerMeta;
+      this.peerMetadata = this.walletConnectService.peerMeta;
     }
   }
 
-  async backNavigation() {
-    if (this.walletConnectService.connected) {
+  async checkConnectionStatus() {
+    this.connectionStatus = this.WCService.connected();
+  }
+
+  protected async navigateBack(): Promise<void> {
+    if (this.WCService.connected()) {
       this.navController.navigateBack(['/tab/home']);
     } else {
       this.navController.pop();
     }
   }
 
-  async checkConnectionStatus() {
-    this.connectionStatus = this.walletConnectService.connected;
+  protected async connect() {
+    try {
+      if (this.WCService.uri().isV2()) {
+        await this.wcConnectionV2.approveSession();
+      } else {
+        await this.walletConnectService.approveSession();
+      }
+      this.connectionStatus = true;
+      this.trackWCConnectionEvent();
+    } catch (error) {
+      await this.showErrorAlert();
+    }
   }
 
-  public async approveSession(): Promise<void> {
-    try {
-      await this.walletConnectService.approveSession();
-      this.connectionStatus = true;
-      this.trackService.trackEvent(
+  private trackWCConnectionEvent(): void {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      eventCategory: window.location.href,
+      eventLabel: 'ux_wc_screenview_connected',
+      provider: this.peerMetadata?.name,
+      provider_url: this.peerMetadata?.url,
+      provider_description: this.peerMetadata?.description.substring(0, 100),
+    });
+  }
+
+  private async showErrorAlert(): Promise<void> {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('wallets.wallet_connect.connection_detail.errors.header'),
+      message: this.translate.instant('wallets.wallet_connect.connection_detail.errors.message'),
+      cssClass: 'ux-alert-small-text',
+      buttons: [
         {
-        eventAction: 'screenview',
-        eventCategory: window.location.href,
-        eventLabel: 'ux_wc_screenview_connected', 
-        provider: this.peerMeta?.name,
-        provider_url: this.peerMeta?.url,
-        provider_description: this.peerMeta?.description.substring(0,100)
+          text: this.translate.instant('wallets.wallet_connect.connection_detail.errors.close_button'),
+          role: 'cancel',
+          cssClass: 'ux-link-xs',
         },
-      );
-    } catch (error) {
-      const alert = await this.alertController.create({
-        header: this.translate.instant('wallets.wallet_connect.connection_detail.errors.header'),
-        message: this.translate.instant('wallets.wallet_connect.connection_detail.errors.message'),
-        cssClass: 'ux-alert-small-text',
-        buttons: [
-          {
-            text: this.translate.instant('wallets.wallet_connect.connection_detail.errors.close_button'),
-            role: 'cancel',
-            cssClass: 'ux-link-xs',
-          },
-        ],
-      });
-      await alert.present();
-    }
+      ],
+    });
+    await alert.present();
   }
 
   public async disconnectSession() {
@@ -201,7 +218,9 @@ export class ConnectionDetailPage implements OnInit {
   public async killSession() {
     try {
       this.connectionStatus = false;
-      await this.walletConnectService.killSession();
+      this.WCService.uri().isV2()
+        ? await this.wcConnectionV2.closeSession()
+        : await this.walletConnectService.killSession();
     } catch (error) {
       console.log('Wallet Connect - killSession error: ', error);
     } finally {
@@ -209,7 +228,11 @@ export class ConnectionDetailPage implements OnInit {
     }
   }
 
-  supportHelp() {
+  protected supportHelp() {
     this.navController.navigateForward('/tickets/create-support-ticket');
+  }
+
+  ionViewDidLeave() {
+    this.checkConnectionStatus();
   }
 }

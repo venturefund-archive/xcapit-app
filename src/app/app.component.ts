@@ -28,6 +28,8 @@ import { NotificationsService } from './modules/notifications/shared-notificatio
 import { BrowserService } from './shared/services/browser/browser.service';
 import { NetworkInjectable } from './shared/models/network/injectable/network.injectable';
 import { AppExpirationTimeService } from './shared/models/app-session/injectable/app-expiration-time.service';
+import { WCConnectionV2 } from './modules/wallets/shared-wallets/services/wallet-connect/wc-connection-v2';
+import { WCService } from './modules/wallets/shared-wallets/services/wallet-connect/wc.service';
 
 @Component({
   selector: 'app-root',
@@ -64,6 +66,7 @@ export class AppComponent implements OnInit {
     private platformService: PlatformService,
     private zone: NgZone,
     private walletConnectService: WalletConnectService,
+    private walletConnectServiceV2: WCConnectionV2,
     private walletBackupService: WalletBackupService,
     private localNotificationsService: LocalNotificationsService,
     private storage: IonicStorageService,
@@ -78,7 +81,8 @@ export class AppComponent implements OnInit {
     private notificationsService: NotificationsService,
     private browserService: BrowserService,
     private networkInjectable: NetworkInjectable,
-    private navController: NavController
+    private navController: NavController,
+    private wcService: WCService
   ) {}
 
   ngOnInit() {
@@ -171,6 +175,7 @@ export class AppComponent implements OnInit {
   }
 
   private async checkWalletConnectAndDynamicLinks() {
+    await this.walletConnectServiceV2.subscribeToAllEvents();
     await this.walletConnectService.checkConnection();
     await this.walletConnectService.retrieveWalletConnect();
 
@@ -206,15 +211,17 @@ export class AppComponent implements OnInit {
 
   async walletConnectDeepLinks(event) {
     let url = event.url.split('?uri=').pop();
-
     if (url) {
       url = url.includes('wc%3A') || url.includes('wc%3a') ? decodeURIComponent(url) : url;
 
       if (url.includes('wc:')) {
-        this.walletConnectService.setUri(url);
-
-        if (await new LoggedIn(this.storage).value()) {
-          this.walletConnectService.checkDeeplinkUrl();
+        const loggedIn = await new LoggedIn(this.storage).value();
+        this.wcService.initialize(url);
+        if (!this.wcService.uri().isV2()) {
+          this.walletConnectService.setUri(url);
+          if (loggedIn) this.walletConnectService.checkDeeplinkUrl();
+        } else {
+          if (loggedIn) await this.navController.navigateForward(['wallets/wallet-connect/new-connection']);
         }
       }
     }

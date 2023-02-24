@@ -4,11 +4,11 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { TOOLS_CARDS } from '../shared-tools/components/tools-card/tools-card-content.constant';
 import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
-import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { AppVersionInjectable } from '../../../shared/models/app-version/injectable/app-version.injectable';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { ToolsCard } from '../shared-tools/interfaces/tools-card.interface';
+import { WCService } from '../../wallets/shared-wallets/services/wallet-connect/wc.service';
 
 @Component({
   selector: 'app-tool',
@@ -57,7 +57,7 @@ import { ToolsCard } from '../shared-tools/interfaces/tools-card.interface';
       </div>
     </ion-content>
   `,
-  styleUrls: ['./tools-page.page.scss'],
+  styleUrls: ['./tools.page.scss'],
 })
 export class ToolsPage implements OnInit {
   plannerData: any;
@@ -72,10 +72,10 @@ export class ToolsPage implements OnInit {
     private appStorage: AppStorageService,
     private trackService: TrackService,
     private walletBackupService: WalletBackupService,
-    private walletConnectService: WalletConnectService,
     private remoteConfigService: RemoteConfigService,
     private appVersion: AppVersionInjectable,
-    private platform: PlatformService
+    private platform: PlatformService,
+    private wcService: WCService
   ) {}
 
   ngOnInit() {}
@@ -146,7 +146,7 @@ export class ToolsPage implements OnInit {
   }
 
   checkConnectionOfWalletConnect() {
-    this.connected = this.walletConnectService.connected;
+    this.connected = this.wcService.connected();
   }
 
   goToWalletConnect() {

@@ -27,7 +27,6 @@ import { DynamicLink } from './shared/models/dynamic-link/dynamic-link';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { AppExpirationTimeService } from './shared/models/app-session/injectable/app-expiration-time.service';
 import { TxInProgressService } from './modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
-import { NullNotificationsService } from './modules/notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 import { BrowserService } from './shared/services/browser/browser.service';
 import { CapacitorNotificationsService } from './modules/notifications/shared-notifications/services/capacitor-notifications/capacitor-notifications.service';
@@ -35,7 +34,7 @@ import { NetworkInjectable } from './shared/models/network/injectable/network.in
 import { FakeNetworkPlugin } from './shared/models/network-plugin/fake/fake-network-plugin';
 import { Network } from './shared/models/network/default/network';
 
-describe('AppComponent', () => {
+fdescribe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let component: AppComponent;

@@ -17,6 +17,21 @@ import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc.service';
+import { rawWalletConnectUriV1, rawWalletConnectUriV2 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
+import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
+import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
+import { SessionRequest } from '../../../../shared/models/wallet-connect/session-request/session-request.interface';
+import { RequestMethod } from 'src/app/shared/models/wallet-connect/request-method/request-method';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2';
+import { WCSession } from '../../../../shared/models/wallet-connect/wc-session/wc-session';
+import { rawPeerMetadata } from '../../shared-wallets/fixtures/raw-proposal.fixture';
+import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
+import { rawEthereumData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { rawPersonalSignRequest } from '../../shared-wallets/fixtures/raw-wallet-connect-requests';
+import { SpyProperty } from '../../../../../testing/spy-property.spec';
+import { SimpleSubject } from 'src/app/shared/models/simple-subject/simple-subject';
 
 const requestSendTransaction = {
   method: 'eth_sendTransaction',
@@ -26,11 +41,6 @@ const requestSendTransaction = {
       value: '5',
     },
   ],
-};
-
-const requestSign = {
-  method: 'personal_sign',
-  params: ['0x48656c6c6f20576f726c64', '0x48656c6c6f20576f726c64'],
 };
 
 const requestTypedData = {
@@ -54,217 +64,157 @@ describe('OperationDetailPage', () => {
   let fakeConnectedWallet: FakeConnectedWallet;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationDetailPage>;
+  let wcServiceSpy: jasmine.SpyObj<WCService>;
+  let requestMethodSpy: jasmine.SpyObj<RequestMethod>;
+  let sessionRequestSpy: jasmine.SpyObj<SessionRequest>;
+  let sessionRequestInjectableSpy: jasmine.SpyObj<SessionRequestInjectable>;
+  let walletSpy: jasmine.SpyObj<Wallet>;
+  let wcSessionSpy: jasmine.SpyObj<WCSession>;
+  let wcConnectionV2Spy: jasmine.SpyObj<WCConnectionV2>;
+  let requestSign: any;
+  let onNeedPassSubject: SimpleSubject;
 
-  beforeEach(
-    waitForAsync(() => {
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
-        connected: false,
-        peerMeta: { url: 'testUrl', description: 'testDescription', name: 'testName', icons: ['testIcon'] },
-        providerSymbol: 'ETH',
-        requestInfo: requestSendTransaction,
+  beforeEach(waitForAsync(() => {
+    requestSign = {
+      method: 'personal_sign',
+      params: ['0x48656c6c6f20576f726c64', '0x48656c6c6f20576f726c64'],
+    };
+    walletConnectServiceSpy = jasmine.createSpyObj(
+      'WalletConnectService',
+      {
         getTransactionType: Promise.resolve(null),
-        getGasPrice: Promise.resolve(ethers.BigNumber.from('10')),
+        getGasPrice: Promise.resolve(ethers.BigNumber.from('100000000')),
         killSession: Promise.resolve({}),
         rejectRequest: Promise.resolve({}),
-        network: 'ETH',
-        rpcUrl: 'https://rpc_test.com/',
         checkRequest: Promise.resolve({ error: false }),
-      });
+      },
+      {
+        connected: false,
+        peerMeta: { url: 'testUrl', description: 'testDescription', name: 'testName', icons: ['testIcon'] },
+        requestInfo: requestSendTransaction,
+        providerSymbol: 'ETH',
+        rpcUrl: 'https://rpc_test.com/',
+        network: 'ETH',
+      }
+    );
 
-      navControllerSpy = jasmine.createSpyObj('NavController', {
-        pop: Promise.resolve(null),
-      });
+    navControllerSpy = jasmine.createSpyObj('NavController', {
+      pop: Promise.resolve(null),
+    });
 
-      fakeModalController = new FakeModalController({ data: 'fake_password' });
-      modalControllerSpy = fakeModalController.createSpy();
+    fakeModalController = new FakeModalController({ data: 'fake_password' });
+    modalControllerSpy = fakeModalController.createSpy();
 
-      alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
+    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
 
-      fakeConnectedWallet = new FakeConnectedWallet();
-      connectedWalletSpy = fakeConnectedWallet.createSpy();
+    fakeConnectedWallet = new FakeConnectedWallet();
+    connectedWalletSpy = fakeConnectedWallet.createSpy();
 
-      walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getDecryptedWalletForNetwork: Promise.resolve(
-          jasmine.createSpyObj('Wallet', { connect: () => connectedWalletSpy })
-        ),
-      });
+    walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
+      getDecryptedWalletForNetwork: Promise.resolve(
+        jasmine.createSpyObj('Wallet', { connect: () => connectedWalletSpy })
+      ),
+    });
 
-      toastServiceSpy = jasmine.createSpyObj('ToastService', {
-        showErrorToast: Promise.resolve(),
-      });
+    toastServiceSpy = jasmine.createSpyObj('ToastService', {
+      showErrorToast: Promise.resolve(),
+    });
 
-      TestBed.configureTestingModule({
-        declarations: [OperationDetailPage,FakeTrackClickDirective, FormattedAmountPipe],
-        imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
-        providers: [
-          UrlSerializer,
-          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-          { provide: AlertController, useValue: alertControllerSpy },
-          { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-          { provide: ToastService, useValue: toastServiceSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    wcServiceSpy = jasmine.createSpyObj('WCService', {
+      connected: true,
+      uri: new WCUri(rawWalletConnectUriV2),
+    });
 
-      fixture = TestBed.createComponent(OperationDetailPage);
-      component = fixture.componentInstance;
-      component.peerMeta = null;
-      component.providerSymbol = '';
-      component.transactionDetail = null;
-      component.loadingText = '';
-      fixture.detectChanges();
+    requestMethodSpy = jasmine.createSpyObj('RequestMethod', {
+      isSignRequest: true,
+    });
 
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    sessionRequestSpy = jasmine.createSpyObj('SessionRequest', {
+      method: requestMethodSpy,
+      raw: rawPersonalSignRequest,
+      message: 'test message',
+      reject: Promise.resolve(),
+      approve: Promise.resolve(),
+    });
+
+    sessionRequestInjectableSpy = jasmine.createSpyObj('SessionRequestInjectable', {
+      request: sessionRequestSpy,
+    });
+
+    onNeedPassSubject = new SimpleSubject();
+
+    walletSpy = jasmine.createSpyObj('Wallet', {
+      blockchain: new Blockchain(rawEthereumData),
+      onNeedPass: onNeedPassSubject,
+    });
+
+    wcSessionSpy = jasmine.createSpyObj('WCSession', {
+      peerMetadata: rawPeerMetadata,
+      wallet: walletSpy,
+    });
+
+    wcConnectionV2Spy = jasmine.createSpyObj('WCConnectionV2', {
+      session: wcSessionSpy,
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [OperationDetailPage, FakeTrackClickDirective, FormattedAmountPipe],
+      imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
+      providers: [
+        UrlSerializer,
+        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: AlertController, useValue: alertControllerSpy },
+        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        { provide: ToastService, useValue: toastServiceSpy },
+        { provide: WCService, useValue: wcServiceSpy },
+        { provide: SessionRequestInjectable, useValue: sessionRequestInjectableSpy },
+        { provide: WCConnectionV2, useValue: wcConnectionV2Spy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(OperationDetailPage);
+    component = fixture.componentInstance;
+    component.peerMeta = null;
+    component.providerSymbol = '';
+    component.transactionDetail = null;
+    component.loadingText = '';
+    fixture.detectChanges();
+
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call checkProtocolInfo on ionViewWillEnter', () => {
-    const spy = spyOn(component, 'checkProtocolInfo');
+  it('should track ux_wc_sign when button is clicked and is a sign operation', async () => {
     component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call walletConnect killSession when checkProtocolInfo is called and walletConnect peerMeta is null', async () => {
-    walletConnectServiceSpy.peerMeta = null;
-    fixture.detectChanges();
-    component.checkProtocolInfo();
-    await fixture.whenStable();
-    expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
-  });
-
-  it('should asign all the data needed, call checkRequestInfo and getActualDateTime when checkProtocolInfo is called and walletConnect peerMate is not null', async () => {
-    const spyCheckRequestInfo = spyOn(component, 'checkRequestInfo');
-    const spyGetActualDateTime = spyOn(component, 'getActualDateTime');
-    component.checkProtocolInfo();
-    await fixture.whenStable();
-    expect(component.peerMeta).toEqual(walletConnectServiceSpy.peerMeta);
-    expect(component.providerSymbol).toEqual(walletConnectServiceSpy.providerSymbol);
-    expect(component.transactionDetail).toEqual(walletConnectServiceSpy.requestInfo);
-    expect(spyCheckRequestInfo).toHaveBeenCalledTimes(1);
-    expect(spyGetActualDateTime).toHaveBeenCalledTimes(1);
-  });
-
-  it('should asign totalFeeAmount when getTotalFeeAmount is called', async () => {
-    component.getTotalFeeAmount('21000');
-    await fixture.whenStable();
-    expect(component.totalFeeAmount).toEqual(2.1e-13);
-  });
-
-  it('should call getTotalFeeAmount when checkRequestInfo is called with a sendTransaction method', async () => {
-    const spy = spyOn(component, 'getTotalFeeAmount');
-    component.checkRequestInfo(requestSendTransaction);
-    await fixture.whenStable();
-    expect(walletConnectServiceSpy.getTransactionType).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should decode the message to sign when checkRequestInf is called with a personal_sign method', () => {
-    component.checkRequestInfo(requestSign);
-    expect(component.message).toEqual('Hello World');
-  });
-
-  it('should decode the message to sign when checkRequestInf is called with a eth_sign method', () => {
-    requestSign.method = 'eth_sign';
-    fixture.detectChanges();
-    component.checkRequestInfo(requestSign);
-    expect(component.message).toEqual('Hello World');
-  });
-
-  it('should call htmlFormatParse when checkRequestInfo is called with any eth_signTypedData method', () => {
-    const spy = spyOn(component, 'htmlFormatParse').and.callThrough();
-    const messageDiv = document.createElement('div');
-    messageDiv.id = 'message';
-    const documentSpy = spyOn(document, 'getElementById');
-    documentSpy.and.returnValue(messageDiv);
-
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
 
-    component.checkRequestInfo(requestTypedData);
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should open confirmation modal when confirmOperation is called', async () => {
-    component.confirmOperation();
-    await fixture.whenStable();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should create an alert when cancelOperation is called', async () => {
-    component.cancelOperation();
-    await fixture.whenStable();
-    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call walletConnect rejectTransaction and navigate back when cancelOperation is called and the alert is confirmed', async () => {
-    component.transactionDetail = { id: 1 };
-    fixture.detectChanges();
-    component.cancelOperation();
-    await fixture.whenStable();
-    const { buttons } = alertControllerSpy.create.calls.first().args[0];
-    await buttons[1].handler();
-    expect(walletConnectServiceSpy.rejectRequest).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call setLoadingText when confirmOperation is called', async () => {
-    const spy = spyOn(component, 'setLoadingText');
-    component.confirmOperation();
-    await fixture.whenStable();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set the loadingText to sign_loading when setLoadingText and isSignRequest is true', async () => {
-    await component.setLoadingText();
-    expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.sign_loading');
-  });
-
-  it('should set the loadingText to approve_loading when setLoadingText and isApproval is true', async () => {
-    component.isSignRequest = false;
-    component.isApproval = true;
-    fixture.detectChanges();
-    await component.setLoadingText();
-    expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.approve_loading');
-  });
-
-  it('should set the loadingText to confirmation_loading when setLoadingText and isSignRequest and isApproval are false', async () => {
-    component.isSignRequest = false;
-    component.isApproval = false;
-    fixture.detectChanges();
-    await component.setLoadingText();
-    expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.confirmation_loading');
-  });
-
-  it('should track ux_wc_sign when button is clicked and is a sign operation', () => {
-    spyOn(component, 'checkProtocolInfo');
-    component.ionViewWillEnter();
-    fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button.ux_button'));
     const directive = trackClickDirectiveHelper.getDirective(buttonEl);
     const spy = spyOn(directive, 'clickEvent');
     buttonEl.nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(directive.dataToTrack.eventLabel).toEqual('ux_wc_sign')
+    expect(directive.dataToTrack.eventLabel).toEqual('ux_wc_sign');
   });
 
-  it('should track ux_wc_confirm when button is clicked and is a confirmation operation', () => {
-    spyOn(component, 'checkProtocolInfo');
-    component.isSignRequest = false;
-    component.isApproval = false;
+  it('should track ux_wc_confirm when button is clicked and is a confirmation operation', async () => {
+    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
     component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
+
     const buttonEl = fixture.debugElement.query(By.css('ion-button.ux_button'));
     const directive = trackClickDirectiveHelper.getDirective(buttonEl);
     const spy = spyOn(directive, 'clickEvent');
     buttonEl.nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(directive.dataToTrack.eventLabel).toEqual('ux_wc_confirm')
+    expect(directive.dataToTrack.eventLabel).toEqual('ux_wc_confirm');
   });
 
   it('should track ux_wc_approve when button is clicked and is an approval operation', () => {
@@ -278,37 +228,257 @@ describe('OperationDetailPage', () => {
     const spy = spyOn(directive, 'clickEvent');
     buttonEl.nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(directive.dataToTrack.eventLabel).toEqual('ux_wc_approve')
+    expect(directive.dataToTrack.eventLabel).toEqual('ux_wc_approve');
   });
 
-  it('should call decryptedWallet function when confirmOperation is called', async () => {
-    const spy = spyOn(component, 'decryptedWallet');
-    await component.confirmOperation();
-    expect(spy).toHaveBeenCalledTimes(1);
+  it('should set the loadingText to sign_loading when setLoadingText and isSignRequest is true', async () => {
+    component.setLoadingText();
+    expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.sign_loading');
   });
 
-  it('should call showAlertTxError when checkRequest returns an error', async () => {
-    walletConnectServiceSpy.checkRequest.and.returnValues(Promise.resolve({ error: true }));
+  it('should set the loadingText to approve_loading when setLoadingText and isApproval is true', async () => {
+    component.isSignRequest = false;
+    component.isApproval = true;
     fixture.detectChanges();
-    await component.confirmOperation();
-    expect(alertControllerSpy.create).toHaveBeenCalled();
+    component.setLoadingText();
+    expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.approve_loading');
   });
 
-  it('should show error toast when decryptedWallet is called and getDecryptedWalletForNetwork fails', async () => {
-    walletEncryptionServiceSpy.getDecryptedWalletForNetwork.and.returnValue(Promise.reject());
+  it('should set the loadingText to confirmation_loading when setLoadingText and isSignRequest and isApproval are false', async () => {
+    component.isSignRequest = false;
+    component.isApproval = false;
     fixture.detectChanges();
-    await component.decryptedWallet('1234');
-    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
-      message: 'wallets.wallet_connect.operation_detail.password_error',
+    component.setLoadingText();
+    expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.confirmation_loading');
+  });
+
+  describe('Wallet Connect V2', () => {
+    it('should set templateData on ionViewWillEnter', async () => {
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      const peerNameEl = fixture.debugElement.query(By.css('div.wcod__provider_name > ion-label'));
+      const peerIconEl = fixture.debugElement.query(By.css('div.wcod__logo > img'));
+      expect(peerNameEl.nativeElement.innerHTML).toContain(rawPeerMetadata.name);
+      expect(peerIconEl.attributes.src).toEqual(rawPeerMetadata.icons[0]);
+    });
+
+    it('should show the message to sign if its a sign request', async () => {
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      const signRequestEl = fixture.debugElement.query(By.css('app-sign-request'));
+      expect(signRequestEl.nativeElement.message).toEqual('test message');
+      expect(signRequestEl.nativeElement.dateInfo).toBeTruthy();
+    });
+
+    it('should not show message if request has an unsupported request method', async () => {
+      requestMethodSpy.isSignRequest.and.returnValue(false);
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      const signRequestEl = fixture.debugElement.query(By.css('app-sign-request'));
+      expect(signRequestEl).toBeFalsy();
+    });
+
+    it('should go back if the app isnt connected to a peer', async () => {
+      wcServiceSpy.connected.and.returnValue(false);
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
+    });
+
+    it('should reject the transaction and navigate back when user cancels the operation and the alert is confirmed', async () => {
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      component.cancelOperation();
+
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      const { buttons } = alertControllerSpy.create.calls.first().args[0];
+      await buttons[1].handler();
+      expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+      expect(sessionRequestSpy.reject).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
+    });
+
+    it('should confirm the operation and navigate back when user clicks on confirm operation', async () => {
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css('div.wcod__button_section > ion-button')).nativeElement.click();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(sessionRequestSpy.approve).toHaveBeenCalledTimes(1);
+      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show error toast on confirmation when password is incorrect', async () => {
+      sessionRequestSpy.approve.and.rejectWith();
+
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css('div.wcod__button_section > ion-button')).nativeElement.click();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+      const button: any = alertControllerSpy.create.calls.first().args[0].buttons[0];
+      await button.handler();
+      expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should dismiss the modal when is pressed accept button on showAlertTxError', async () => {
-    walletConnectServiceSpy.checkRequest.and.returnValues(Promise.resolve({ error: true }));
-    fixture.detectChanges();
-    await component.confirmOperation();
-    const button: any = alertControllerSpy.create.calls.first().args[0].buttons[0];
-    await button.handler();
-    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
+  describe('Wallet Connect V1', () => {
+    it('should set templateData on ionViewWillEnter', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      const peerNameEl = fixture.debugElement.query(By.css('div.wcod__provider_name > ion-label'));
+      const peerIconEl = fixture.debugElement.query(By.css('div.wcod__logo > img'));
+      expect(peerNameEl.nativeElement.innerHTML).toContain('testName');
+      expect(peerIconEl.attributes.src).toEqual('testIcon');
+    });
+
+    it('should close session when peer metadata is not found on ion view will enter', async () => {
+      wcServiceSpy.connected.and.returnValue(false);
+      new SpyProperty(walletConnectServiceSpy, 'peerMeta').value().and.returnValue(null);
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show the fee amount on request different than sign requests (transactions)', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      const feeAmountEl = fixture.debugElement.query(
+        By.css('div.wcod__transaction_detail__container__content > ion-label')
+      );
+      expect(walletConnectServiceSpy.getTransactionType).toHaveBeenCalledTimes(1);
+      expect(walletConnectServiceSpy.getGasPrice).toHaveBeenCalledTimes(1);
+      expect(feeAmountEl.nativeElement.innerHTML).toContain('0.0000021 ETH');
+    });
+
+    it('should show the message to sign when the request is a personal sign request', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      new SpyProperty(walletConnectServiceSpy, 'requestInfo').value().and.returnValue(requestSign);
+
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      const signRequestEl = fixture.debugElement.query(By.css('app-sign-request'));
+      expect(signRequestEl.nativeElement.message).toEqual('Hello World');
+      expect(signRequestEl.nativeElement.dateInfo).toBeTruthy();
+    });
+
+    it('should show the message to sign when the request is a eth sign request', async () => {
+      requestSign.method = 'eth_sign';
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      new SpyProperty(walletConnectServiceSpy, 'requestInfo').value().and.returnValue(requestSign);
+
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      const signRequestEl = fixture.debugElement.query(By.css('app-sign-request'));
+      expect(signRequestEl.nativeElement.message).toEqual('Hello World');
+    });
+
+    it('should reject the transaction and navigate back when user cancels the operation and the alert is confirmed', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      component.transactionDetail = { id: 1 };
+      fixture.detectChanges();
+      fixture.debugElement.query(By.css('div.disconnect_link > a')).nativeElement.click();
+      await fixture.whenStable();
+      const { buttons } = alertControllerSpy.create.calls.first().args[0];
+      await buttons[1].handler();
+      expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+      expect(walletConnectServiceSpy.rejectRequest).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
+    });
+
+    it('should confirm the operation and navigate back when user clicks on confirm operation', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css('div.wcod__button_section > ion-button')).nativeElement.click();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(walletEncryptionServiceSpy.getDecryptedWalletForNetwork).toHaveBeenCalledTimes(1);
+      expect(walletConnectServiceSpy.checkRequest).toHaveBeenCalledTimes(1);
+      expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show error toast on confirmation when password is incorrect', async () => {
+      walletEncryptionServiceSpy.getDecryptedWalletForNetwork.and.returnValue(Promise.reject());
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css('div.wcod__button_section > ion-button')).nativeElement.click();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+        message: 'wallets.wallet_connect.operation_detail.password_error',
+      });
+    });
+
+    it('should call htmlFormatParse when checkRequestInfo is called with any eth_signTypedData method', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      new SpyProperty(walletConnectServiceSpy, 'requestInfo').value().and.returnValue(requestTypedData);
+      const spy = spyOn(component, 'htmlFormatParse').and.callThrough();
+      const messageDiv = document.createElement('div');
+      messageDiv.id = 'message';
+      const documentSpy = spyOn(document, 'getElementById');
+      documentSpy.and.returnValue(messageDiv);
+
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should show an alert of error when confirmation of request returns an error and it can be dismissed', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      walletConnectServiceSpy.checkRequest.and.returnValues(Promise.resolve({ error: true }));
+      fixture.detectChanges();
+      await component.confirmOperation();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(alertControllerSpy.create).toHaveBeenCalled();
+      const button: any = alertControllerSpy.create.calls.first().args[0].buttons[0];
+      await button.handler();
+      expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
+    });
   });
 });
