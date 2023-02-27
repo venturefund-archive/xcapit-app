@@ -7,10 +7,17 @@ import { Blockchains } from '../blockchains/blockchains';
 import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
 import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
 import { BlockchainMM } from '../blockchain-mm/blockchain-mm';
-
+import { MnemonicOf } from 'src/app/modules/wallets/shared-wallets/models/mnemonic-of/mnemonic-of';
+import { SimpleSubject, Subscribable } from 'src/app/shared/models/simple-subject/simple-subject';
 
 export class Wallets {
-  constructor(private _dataRepo: DataRepo, private _blockchains: Blockchains, private _ethersWallet: any = EthersWallet) {}
+  private _onUpgraded: SimpleSubject = new SimpleSubject();
+
+  constructor(
+    private _dataRepo: DataRepo,
+    private _blockchains: Blockchains,
+    private _ethersWallet: any = EthersWallet
+  ) {}
 
   async oneBy(aBlockchain: Blockchain): Promise<Wallet> {
     const creationMethod = await this._dataRepo.creationMethod();
@@ -27,11 +34,7 @@ export class Wallets {
     return new DefaultWallet(rawData, new BlockchainMM(aBlockchain));
   }
 
-  async createFrom(
-    aPhrase: string,
-    aPassword: Password,
-    creationMethod: WalletCreationMethod
-  ): Promise<void> {
+  async createFrom(aPhrase: string, aPassword: Password, creationMethod: WalletCreationMethod): Promise<void> {
     await this._dataRepo.save(
       this._addressesFrom(aPhrase, creationMethod),
       await this._erc20Wallet(aPhrase).encrypt(aPassword.value(), {
@@ -76,5 +79,23 @@ export class Wallets {
       address: await this._dataRepo.addressByName(aBlockchain.name()),
       encryptedWallet: await this._dataRepo.encryptedRootWallet(),
     };
+  }
+
+  public onUpgraded(): Subscribable {
+    return this._onUpgraded;
+  }
+
+  public async upgrade(aPassword: Password): Promise<void> {
+    for (const blockchain of this._blockchains.value()) {
+      if (!(await this.oneBy(blockchain)).address()) {
+        await this.createFrom(
+          await new MnemonicOf(aPassword, await this._dataRepo.encryptedRootWallet(), this._ethersWallet).phrase(),
+          aPassword,
+          await this._dataRepo.creationMethod()
+        );
+        await this._onUpgraded.notify();
+        break;
+      }
+    }
   }
 }

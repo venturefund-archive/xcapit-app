@@ -133,6 +133,8 @@ describe('SolanaWallet', () => {
   });
 
   it('sendTx', async () => {
+    wallet.onNeedPass().subscribe(() => testObject.testMethod());
+
     const result = await wallet.sendTxs([new FakeBlockchainTx()]);
 
     expect(result).toBeTrue();
@@ -157,6 +159,8 @@ describe('SolanaWallet', () => {
   });
 
   it('send a few transactions', async () => {
+    wallet.onNeedPass().subscribe(() => testObject.testMethod());
+
     const result = await wallet.sendTxs([new FakeBlockchainTx(), new FakeBlockchainTx()]);
 
     expect(result).toEqual(true);

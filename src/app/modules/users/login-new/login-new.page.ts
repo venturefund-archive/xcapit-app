@@ -23,6 +23,11 @@ import { AuthService } from '../shared-users/services/auth/auth.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { AppSessionInjectable } from 'src/app/shared/models/app-session/injectable/app-session.injectable';
 import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
+import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { AppStorageService } from '../../../shared/services/app-storage/app-storage.service';
+import { WalletRepo } from '../../swaps/shared-swaps/models/wallet-repo/wallet-repo';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { UpgradeWallets } from '../../wallets/shared-wallets/models/upgrade-wallets/upgrade-wallets';
 
 @Component({
   selector: 'app-login-new',
@@ -116,13 +121,13 @@ export class LoginNewPage {
   constructor(
     private toastService: ToastService,
     private formBuilder: UntypedFormBuilder,
-    private storage: IonicStorageService,
+    private storage: IonicStorageService, // TODO
     private navController: NavController,
     private translate: TranslateService,
     private modalController: ModalController,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private trackService: TrackService,
-    private ionicStorageService: IonicStorageService,
+    private ionicStorageService: IonicStorageService, // TODO: repeated
     private walletBackupService: WalletBackupService,
     private platformService: PlatformService,
     private loginBiometricActivationService: LoginBiometricActivationModalService,
@@ -132,7 +137,8 @@ export class LoginNewPage {
     private authService: AuthService,
     private walletConnectService: WalletConnectService,
     private appSession: AppSessionInjectable,
-    private appExpirationTimeService: AppExpirationTimeService
+    private appExpirationTimeService: AppExpirationTimeService,
+    private upgradeWallets: UpgradeWallets
   ) {}
 
   async ionViewWillEnter() {
@@ -248,12 +254,14 @@ export class LoginNewPage {
       try {
         await this.loginMigrationService.migrate(password);
         await this._loggedIn();
+        await this.upgradeWallets.run(new Password(password));
         this._goToWallet();
       } catch {
         this._showInvalidPasswordToast();
       }
     } else if (await this._loginToken(password).valid()) {
       await this._loggedIn();
+      await this.upgradeWallets.run(new Password(password));
       if (this._biometricAuthFeatureEnabled() && this.platformService.isNative()) {
         if (!(await this.biometricAuth.enabled()) && this.form.value.password && this.biometricAuth.available()) {
           if ((await this.showLoginBiometricActivation()) === 'confirm') {

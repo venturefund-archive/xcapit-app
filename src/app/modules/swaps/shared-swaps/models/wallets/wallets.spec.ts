@@ -4,28 +4,32 @@ import { Blockchain } from '../blockchain/blockchain';
 import { Blockchains, DefaultBlockchains } from '../blockchains/blockchains';
 import { FakeEthersWallet } from '../fakes/fake-ethers-wallet';
 import { rawBlockchainsData, rawPolygonData, rawSolanaData } from '../fixtures/raw-blockchains-data';
-import { rawStoredWalletData, rawStoredWalletDataNew } from '../fixtures/raw-stored-wallet-data';
+import {
+  rawStoredWalletData,
+  rawStoredWalletDataNew,
+  rawStoredWalletDataNew2,
+} from '../fixtures/raw-stored-wallet-data';
 import { Password } from '../password/password';
 import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
 import { WalletRepo } from '../wallet-repo/wallet-repo';
 import { SolanaWallet } from '../wallet/wallet';
 import { Wallets } from './wallets';
+import { solanaAddress4 } from '../../../../wallets/shared-wallets/fixtures/raw-address-data';
 
 describe('Wallets', () => {
   let wallets: Wallets;
+  let testObject: any;
   let storageSpy: jasmine.SpyObj<AppStorageService>;
   const blockchains: Blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(() => {
-    storageSpy = jasmine.createSpyObj('StorageService',  {
+    testObject = { testMethod: () => Promise.resolve() };
+    spyOn(testObject, 'testMethod').and.callThrough();
+    storageSpy = jasmine.createSpyObj('StorageService', {
       get: Promise.resolve(rawStoredWalletDataNew.enc_wallet),
-      set: Promise.resolve()
+      set: Promise.resolve(),
     });
-    wallets = new Wallets(
-      new WalletRepo(storageSpy),
-      blockchains,
-      new FakeEthersWallet()
-    );
+    wallets = new Wallets(new WalletRepo(storageSpy), blockchains, new FakeEthersWallet());
   });
 
   it('new', () => {
@@ -88,5 +92,32 @@ describe('Wallets', () => {
 
     expect((await wallets.oneBy(aBlockchain)).address()).toEqual(expectedResult);
     expect(await wallets.oneBy(aBlockchain)).toBeInstanceOf(SolanaWallet);
+  });
+
+  it('upgrade', async () => {
+    const fakeStorage = new FakeAppStorage(rawStoredWalletDataNew2);
+    const wallets = new Wallets(new WalletRepo(fakeStorage), blockchains, new FakeEthersWallet());
+
+    await wallets.upgrade(new Password('TestPass123'));
+
+    expect((await wallets.oneBy(blockchains.oneByName(rawSolanaData.name))).address()).toEqual(solanaAddress4);
+  });
+
+  it('notify wallets was upgraded', async () => {
+    const fakeStorage = new FakeAppStorage(rawStoredWalletDataNew2);
+    const wallets = new Wallets(new WalletRepo(fakeStorage), blockchains, new FakeEthersWallet());
+    wallets.onUpgraded().subscribe(() => testObject.testMethod());
+
+    await wallets.upgrade(new Password('TestPass123'));
+
+    expect(testObject.testMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not notify when no upgraded', async () => {
+    wallets.onUpgraded().subscribe(() => testObject.testMethod());
+
+    await wallets.upgrade(new Password('TestPass123'));
+
+    expect(testObject.testMethod).not.toHaveBeenCalled();
   });
 });

@@ -23,7 +23,15 @@ export class WalletRepo implements DataRepo {
   }
 
   async save(addresses: any, encryptedWallet: string): Promise<void> {
-    await this._anStorage.set(this._storageKey, { addresses, wallet: encryptedWallet });
+    const wallet = await this._storedData();
+    await this._anStorage.set(
+      this._storageKey,
+      wallet ? { ...wallet, addresses } : { wallet: encryptedWallet, addresses }
+    );
+  }
+
+  public async storedData(): Promise<StorageWallet> {
+    return await this._anStorage.get(this._storageKey);
   }
 
   private async _storedData(): Promise<StorageWallet> {
