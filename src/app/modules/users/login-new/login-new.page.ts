@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { LoginToken } from '../shared-users/models/login-token/login-token';
