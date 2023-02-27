@@ -48,6 +48,7 @@ import { firebaseInitializer } from './shared/factories/app-initializers/firebas
 import { ContactsModule } from './modules/contacts/contacts.module';
 import { NoConnectionBannerComponent } from './shared/components/no-connection-banner/no-connection-banner.component';
 import { WarrantiesModule } from './modules/warranties/warranties.module';
+import { KriptonLogOutInterceptorService } from './modules/fiat-ramps/shared-ramps/services/kripton-log-out-interceptor/kripton-log-out-interceptor.service';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -119,6 +120,11 @@ registerLocaleData(localeEn, 'en');
     {
       provide: HTTP_INTERCEPTORS,
       useClass: XAuthTokenInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: KriptonLogOutInterceptorService,
       multi: true,
     },
     updateServiceProvider,
