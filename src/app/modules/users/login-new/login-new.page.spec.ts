@@ -27,6 +27,7 @@ import { AuthService } from '../shared-users/services/auth/auth.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { BehaviorSubject } from 'rxjs';
 import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
+import { AppSessionInjectable } from 'src/app/shared/models/app-session/injectable/app-session.injectable';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -53,6 +54,7 @@ describe('LoginNewPage', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let appExpirationTimeServiceSpy: jasmine.SpyObj<AppExpirationTimeService>;
+  let appSessionInjectableSpy: jasmine.SpyObj<AppSessionInjectable>;
 
   beforeEach(waitForAsync(() => {
     fakeBiometricAuth = new FakeBiometricAuth();
@@ -121,6 +123,10 @@ describe('LoginNewPage', () => {
       disableExpirationModal: Promise.resolve()
     });
 
+    appSessionInjectableSpy = jasmine.createSpyObj('AppSessionInjectable', {
+      create: { save: () => null }
+    });
+
     TestBed.configureTestingModule({
       declarations: [LoginNewPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -140,6 +146,7 @@ describe('LoginNewPage', () => {
         { provide: AuthService, useValue: authServiceSpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: AppExpirationTimeService, useValue: appExpirationTimeServiceSpy },
+        { provide: AppSessionInjectable, useValue: appSessionInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
