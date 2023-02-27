@@ -4,7 +4,12 @@ export class FakeEthersWallet {
 
   private _addresses = addressByDerivedPath;
   private _address: string;
-  mnemonic: any = { phrase: '' };
+
+  constructor(private _mnemonicReturned: any = { phrase: '' }) {}
+
+  get mnemonic() {
+    return this._mnemonicReturned;
+  }
 
   get address() {
     return this._address;
