@@ -41,15 +41,6 @@ describe('DefaultWallet', () => {
     expect(testObject.testMethod).toHaveBeenCalledTimes(1);
   });
 
-  it('notify wallet was decrypted', async () => {
-    wallet.onNeedPass().subscribe(() => testObject.testMethod());
-    wallet.onDecryptedWallet().subscribe(() => testObject.testMethod());
-
-    await wallet.sendTxs([]);
-
-    expect(testObject.testMethod).toHaveBeenCalledTimes(2);
-  });
-
   it('send a few transactions', async () => {
     wallet.onNeedPass().subscribe(() => testObject.testMethod());
     const result = await wallet.sendTxs([new FakeBlockchainTx(), new FakeBlockchainTx()]);
@@ -79,15 +70,6 @@ describe('DefaultWallet', () => {
       expect(wallet.address()).toEqual(addressTestValue);
     });
 
-    it('notify wallet was decrypted', async () => {
-      fakeWallet.onNeedPass().subscribe(() => testObject.testMethod());
-      fakeWallet.onDecryptedWallet().subscribe(() => testObject.testMethod());
-
-      await fakeWallet.sendTxs([]);
-
-      expect(testObject.testMethod).toHaveBeenCalledTimes(2);
-    });
-
     it('send a few transactions', async () => {
       fakeWallet.onNeedPass().subscribe(() => testObject.testMethod());
       const result = await fakeWallet.sendTxs([new FakeBlockchainTx(), new FakeBlockchainTx()]);
@@ -103,13 +85,7 @@ describe('SolanaWallet', () => {
   const blockchain = new Blockchain(rawSolanaData);
 
   beforeEach(() => {
-    wallet = new SolanaWallet(
-      rawWalletData,
-      blockchain,
-      new FakeConnection(),
-      new FakeEthersWallet(),
-      () => {}
-    );
+    wallet = new SolanaWallet(rawWalletData, blockchain, new FakeConnection(), new FakeEthersWallet(), () => {});
     testObject = { testMethod: () => Promise.resolve(passEncryptedWallet) };
     spyOn(testObject, 'testMethod').and.callThrough();
   });
@@ -133,6 +109,8 @@ describe('SolanaWallet', () => {
   });
 
   it('sendTx', async () => {
+    wallet.onNeedPass().subscribe(() => testObject.testMethod());
+
     const result = await wallet.sendTxs([new FakeBlockchainTx()]);
 
     expect(result).toBeTrue();
@@ -147,16 +125,9 @@ describe('SolanaWallet', () => {
     expect(testObject.testMethod).toHaveBeenCalledTimes(1);
   });
 
-  it('notify wallet was decrypted', async () => {
-    wallet.onNeedPass().subscribe(() => testObject.testMethod());
-    wallet.onDecryptedWallet().subscribe(() => testObject.testMethod());
-
-    await wallet.sendTxs([]);
-
-    expect(testObject.testMethod).toHaveBeenCalledTimes(2);
-  });
-
   it('send a few transactions', async () => {
+    wallet.onNeedPass().subscribe(() => testObject.testMethod());
+
     const result = await wallet.sendTxs([new FakeBlockchainTx(), new FakeBlockchainTx()]);
 
     expect(result).toEqual(true);

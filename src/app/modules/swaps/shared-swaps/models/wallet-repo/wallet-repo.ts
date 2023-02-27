@@ -9,24 +9,28 @@ export class WalletRepo implements DataRepo {
   constructor(private _anStorage: StorageService) {}
 
   async creationMethod(): Promise<WalletCreationMethod> {
-    const creationMethod = (await this._storedData()).creationMethod;
+    const creationMethod = (await this.storedData()).creationMethod;
 
     return creationMethod ? creationMethod : 'legacy';
   }
 
   async addressByName(aBlockchainName: string): Promise<string> {
-    return (await this._storedData()).addresses[aBlockchainName];
+    return (await this.storedData()).addresses[aBlockchainName];
   }
 
   async encryptedRootWallet(): Promise<string> {
-    return (await this._storedData()).wallet;
+    return (await this.storedData()).wallet;
   }
 
   async save(addresses: any, encryptedWallet: string): Promise<void> {
-    await this._anStorage.set(this._storageKey, { addresses, wallet: encryptedWallet });
+    const wallet = await this.storedData();
+    await this._anStorage.set(
+      this._storageKey,
+      wallet ? { ...wallet, addresses } : { wallet: encryptedWallet, addresses }
+    );
   }
 
-  private async _storedData(): Promise<StorageWallet> {
+  public async storedData(): Promise<StorageWallet> {
     return await this._anStorage.get(this._storageKey);
   }
 }

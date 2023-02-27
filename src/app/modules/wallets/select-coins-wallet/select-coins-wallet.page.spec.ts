@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync, fakeAsync, tick, flush } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController, NavController, Platform } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -23,6 +23,10 @@ import { SELECT_COINS_FORM_DATA } from './form-data.spec';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StorageAsset } from '../shared-wallets/interfaces/storage-asset.interface';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { UpgradeWallets } from '../shared-wallets/models/upgrade-wallets/upgrade-wallets';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
+import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
+import { SimpleSubject } from '../../../shared/models/simple-subject/simple-subject';
 
 describe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
@@ -31,6 +35,13 @@ describe('SelectCoinsWalletPage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let platformSpy: jasmine.SpyObj<Platform>;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let upgradeWalletsSpy: jasmine.SpyObj<UpgradeWallets>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let onNeedPassSubject: SimpleSubject;
 
   const testDynamicFormValue = {
     test1: {
@@ -78,6 +89,28 @@ describe('SelectCoinsWalletPage', () => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
+
+    platformSpy = jasmine.createSpyObj(
+      'Platform',
+      {},
+      {
+        backButton: { subscribeWithPriority: () => Promise.resolve() },
+      }
+    );
+
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
+
+    onNeedPassSubject = new SimpleSubject();
+    upgradeWalletsSpy = jasmine.createSpyObj('UpgradeWallets', {
+      run: Promise.resolve(),
+      onNeedPass: onNeedPassSubject,
+    });
+    upgradeWalletsSpy.run.and.callFake(() => onNeedPassSubject.notify());
+
     TestBed.configureTestingModule({
       declarations: [SelectCoinsWalletPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, ReactiveFormsModule],
@@ -86,6 +119,10 @@ describe('SelectCoinsWalletPage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: Platform, useValue: platformSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: UpgradeWallets, useValue: upgradeWalletsSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -252,5 +289,13 @@ describe('SelectCoinsWalletPage', () => {
     fixture.detectChanges();
     expect(component.coins.length).toEqual(1);
     expect(component.coins[0].value).toEqual('ETH');
+  });
+
+  it('navigateBack', async () => {
+    component.ionViewWillEnter();
+    await component.navigateBack();
+
+    expect(upgradeWalletsSpy.run).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/tabs/home']);
   });
 });
