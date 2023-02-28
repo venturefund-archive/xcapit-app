@@ -6,6 +6,7 @@ import { WalletMaintenanceService } from '../shared-wallets/services/wallet-main
 import { debounce } from 'rxjs/operators';
 import { interval } from 'rxjs';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { LINKS } from '../../../config/static-links';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -37,7 +38,9 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
               <img src="assets/img/wallets/no-results.svg" />
             </div>
             <div>
-              <ion-text class="ux-font-text-xxs" color="neutral80"> {{ 'wallets.select_coin.no_result_search' | translate }}</ion-text>
+              <ion-text class="ux-font-text-xxs" color="neutral80">
+                {{ 'wallets.select_coin.no_result_search' | translate }}</ion-text
+              >
             </div>
           </div>
           <ion-item lines="none" class="sc__toggle_all ux-font-title-xs ion-no-padding" *ngIf="!this.disableSelectAll">
@@ -60,7 +63,10 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
             [natives]="this.natives"
           ></app-items-coin-group>
           <div class="sc__require-token">
-            <app-require-token buttonEventName="ux_exp_addtoken_select"></app-require-token>
+            <app-require-token
+              [url]="this.staticLinks.requireToken"
+              buttonEventName="ux_exp_addtoken_select"
+            ></app-require-token>
           </div>
         </div>
       </form>
@@ -76,6 +82,7 @@ export class SelectCoinsWalletPage {
   natives: Coin[] = [];
   disableSelectAll: boolean;
   eventEmitted = false;
+  staticLinks = LINKS;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
