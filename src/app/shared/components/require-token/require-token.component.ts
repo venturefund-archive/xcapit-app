@@ -1,5 +1,4 @@
-import { Component, Input  } from '@angular/core';
-import { LINKS } from '../../../config/static-links';
+import { Component, Input } from '@angular/core';
 import { BrowserService } from '../../services/browser/browser.service';
 
 @Component({
@@ -21,11 +20,12 @@ import { BrowserService } from '../../services/browser/browser.service';
   styleUrls: ['./require-token.component.scss'],
 })
 export class RequireTokenComponent {
+  @Input() url: string;
   @Input() buttonEventName: string;
   constructor(private browserService: BrowserService) {}
   openRequireTokenForm() {
     this.browserService.open({
-      url: LINKS.requireToken,
+      url: this.url,
     });
   }
 }
