@@ -111,14 +111,17 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   async goToBuy() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
       const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
-      if (!conditionsPurchasesAccepted) {
-        return this.navController.navigateForward(['fiat-ramps/buy-conditions']);
-      } else {
-        if (this.asset) {
-          this.tokenOperationDataService.tokenOperationData = { asset: this.asset, network: this.network };
-        }
-        this.navController.navigateForward(['fiat-ramps/purchases']);
+      if (conditionsPurchasesAccepted) {
+        this.asset
+          ? this.tokenOperationDataService.set({
+              asset: this.asset,
+              network: this.network,
+              isFirstTime: true,
+            })
+          : this.tokenOperationDataService.clean();
+        return this.navController.navigateForward(['fiat-ramps/purchases']);
       }
+      return this.navController.navigateForward(['fiat-ramps/buy-conditions']);
     }
   }
 

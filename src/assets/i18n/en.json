@@ -2408,7 +2408,11 @@
     "home_of_purchases": {
       "header": "My purchases",
       "question": "How do purchases work?",
-      "button": "Make new purchase"
+      "footer":{
+        "title":"What do you want to do?",
+        "buy_button":"Buy",
+        "sell_button":"Sell"
+      }
     },
     "buy_conditions": {
       "title": "What do you need to know before you buy?",

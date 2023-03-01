@@ -3,6 +3,10 @@
     --background: var(--ion-color-background);
   }
 
+  ion-footer {
+    background-color: var(--ion-color-background);
+  }
+
   .hop {
     &__question {
       margin-top: 24px;
@@ -10,10 +14,18 @@
       justify-content: center;
     }
 
-    &__button {
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
+    &__footer {
+      border: 0.5px solid var(--ion-color-neutral50);
+      border-radius: 16px 16px 0 0;
+      padding: 24px 32px 22px;
       box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+
+      &__actions {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 19px;
+      }
     }
   }
 }
