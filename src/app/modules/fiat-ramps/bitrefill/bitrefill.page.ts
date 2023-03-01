@@ -31,6 +31,8 @@ import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
+import { BitrefillURL } from '../shared-ramps/models/bitrefill-url/bitrefill-url';
+import { EnvService } from '../../../shared/services/env/env.service';
 
 @Component({
   selector: 'app-bitrefill',
@@ -65,7 +67,6 @@ import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchai
   styleUrls: ['./bitrefill.page.scss'],
 })
 export class BitrefillPage {
-  rootURL = 'https://www.bitrefill.com/embed/';
   url: SafeResourceUrl;
   operation: BitrefillOperation;
   rawOperationData: RawBitrefillOperation;
@@ -98,7 +99,8 @@ export class BitrefillPage {
     private tokenDetailInjectable: TokenDetailInjectable,
     private tokenPricesFactory: TokenPricesInjectable,
     private covalentBalancesFactory: CovalentBalancesInjectable,
-    private walletsFactory: WalletsFactory
+    private walletsFactory: WalletsFactory,
+    private envService: EnvService
   ) {}
 
   async ionViewWillEnter() {
@@ -137,8 +139,9 @@ export class BitrefillPage {
   async setURL() {
     const paymentMethod = this.route.snapshot.paramMap.get('paymentMethod');
     const languageCode = await this.languageService.getSelectedLanguage();
-    const rawURL = `${this.rootURL}?paymentMethod=${paymentMethod}&hl=${languageCode}`;
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(rawURL);
+    const affiliateCode = this.envService.byKey('bitrefillAffiliateCode');
+    const rawBitrefillURL = new BitrefillURL(paymentMethod, languageCode, affiliateCode);
+    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(rawBitrefillURL.value());
   }
 
   addListener() {
