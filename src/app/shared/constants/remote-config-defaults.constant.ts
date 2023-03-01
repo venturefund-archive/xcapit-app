@@ -16,6 +16,6 @@ export const REMOTE_CONFIG_DEFAULTS = {
   lastVersion: undefined,
   ff_address_list: false,
   ff_experimentOnboarding: false,
-  ff_fundFaucet: true,
   ff_sellEnabled: true,
+  ff_fundFaucet: false,
 };

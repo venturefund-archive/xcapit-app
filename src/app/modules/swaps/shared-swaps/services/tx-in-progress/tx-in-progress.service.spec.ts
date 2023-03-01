@@ -114,6 +114,11 @@ describe('TxInProgressService', () => {
     expect(await fakeStorage.get(storageKey)).toEqual(null);
   });
 
+  it('clean in progress transactions', async ()=>{
+    await service.clean();
+    expect(await fakeStorage.get(storageKey)).toEqual([]);
+  })
+
   it('multiple tx', async () => {
     let txCount = 0;
     subscription$ = service.inProgress().subscribe((value) => {

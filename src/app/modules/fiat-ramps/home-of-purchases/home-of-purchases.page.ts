@@ -15,7 +15,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
   template: ` <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
+          <ion-back-button defaultHref="" (click)="this.back()"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.home_of_purchases.header' | translate }}
@@ -43,7 +43,11 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
         class="hop__operations-list ion-padding-start ion-padding-end ion-padding-top"
         *ngIf="this.isLogged !== undefined && this.enabledProviders && this.enabledProviders.includes('kripton')"
       >
-        <app-operations-list [operationsList]="this.operationsList" [isLogged]="this.isLogged"></app-operations-list>
+        <app-operations-list
+          [operationsList]="this.operationsList"
+          [isLogged]="this.isLogged"
+          (loggedOut)="loggedOut()"
+        ></app-operations-list>
       </div>
       <div
         *ngIf="this.enabledProviders && this.enabledProviders.includes('moonpay')"
@@ -69,7 +73,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
             name="ux_buy_new"
             color="secondary"
             expand="block"
-            (click)="this.handler('buy')"
+            (click)="this.buy()"
           >
             {{ 'fiat_ramps.home_of_purchases.footer.buy_button' | translate }}
           </ion-button>
@@ -80,7 +84,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
             name="ux_sell_new"
             color="secondary"
             expand="block"
-            (click)="this.handler('sell')"
+            (click)="this.sell()"
           >
             {{ 'fiat_ramps.home_of_purchases.footer.sell_button' | translate }}
           </ion-button>
@@ -115,7 +119,7 @@ export class HomeOfPurchasesPage {
     private translate: TranslateService,
     private kriptonStorage: KriptonStorageService,
     private kriptonUser: KriptonUserInjectable,
-    private trackService: TrackService,
+    private trackService: TrackService
   ) {}
 
   async ionViewWillEnter() {
@@ -124,7 +128,6 @@ export class HomeOfPurchasesPage {
     await this.getUserEmail();
     this.getUserOperations();
     await this.getUserStatus();
-    console.log(this.tokenOperationDataService.tokenOperationData);
   }
 
   async ionViewDidEnter() {
@@ -157,10 +160,20 @@ export class HomeOfPurchasesPage {
   goToFaqs() {
     this.navController.navigateForward('/support/faqs/buy');
   }
-
-  handler(mode: string) {
-    this.tokenOperationDataService.add({ mode: mode === 'sell' ? 'sell' : 'buy' });
-    this.trackEventByMode(mode);
+  
+  buy(){
+    this.tokenOperationDataService.add({ mode: 'buy' });
+    this.trackEventByMode('buy');
+    this.navigateBy()
+  }
+  
+  sell(){
+    this.tokenOperationDataService.add({ mode: 'sell'  });
+    this.trackEventByMode('sell');
+    this.navigateBy()
+  }
+  
+  navigateBy() {
     if (this.tokenOperationDataService.tokenOperationData.isFirstTime) {
       this.navController.navigateForward(
         this.tokenOperationDataService.hasAssetInfo() ? '/fiat-ramps/select-provider' : '/fiat-ramps/token-selection'
@@ -209,7 +222,13 @@ export class HomeOfPurchasesPage {
     });
   }
 
-  checkStartingPoint() {
-    // if (!this.tokenOperationDataService.tokenOperationData?.isFromTokenDetail) this.tokenOperationDataService.clean();
+  back() {
+    return this.navController.navigateBack('/tabs/wallets');
+  }
+
+  loggedOut() {
+    this.isLogged = false;
+    this.userStatus = null;
+    this.email = null;
   }
 }

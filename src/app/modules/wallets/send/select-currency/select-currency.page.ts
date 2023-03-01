@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { LINKS } from '../../../../config/static-links';
 
 @Component({
   selector: 'app-select-currency',
@@ -35,7 +36,10 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
       </div>
 
       <div class="sc__require-token">
-        <app-require-token buttonEventName="ux_exp_addtoken_select"></app-require-token>
+        <app-require-token
+          [url]="this.staticLinks.requireToken"
+          buttonEventName="ux_exp_addtoken_select"
+        ></app-require-token>
       </div>
     </ion-content>
   `,
@@ -44,6 +48,7 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 export class SelectCurrencyPage implements OnInit {
   coins: Coin[];
   hasAssets: boolean;
+  staticLinks = LINKS;
   constructor(private navController: NavController, private storageService: StorageService) {}
 
   ngOnInit() {}

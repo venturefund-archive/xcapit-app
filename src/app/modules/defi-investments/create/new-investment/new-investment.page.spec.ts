@@ -24,7 +24,26 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 
-const testVault = {
+describe('NewInvestmentPage', () => {
+  let component: NewInvestmentPage;
+  let fixture: ComponentFixture<NewInvestmentPage>;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NewInvestmentPage>;
+  let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
+  let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
+  let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
+  let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
+  let coinsSpy: jasmine.SpyObj<Coin>[];
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+
+  const testVault = {
   apy: 0.227843965358873,
   balances: [],
   contract_address: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
@@ -61,25 +80,6 @@ const no_moonpay_token = {
   symbol: 'NMUSDT',
 };
 
-describe('NewInvestmentPage', () => {
-  let component: NewInvestmentPage;
-  let fixture: ComponentFixture<NewInvestmentPage>;
-  let fakeActivatedRoute: FakeActivatedRoute;
-  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
-  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
-  let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
-  let fakeNavController: FakeNavController;
-  let navControllerSpy: jasmine.SpyObj<NavController>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NewInvestmentPage>;
-  let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
-  let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
-  let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
-  let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
-  let coinsSpy: jasmine.SpyObj<Coin>[];
-  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
-  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
-  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
-
   beforeEach(
     waitForAsync(() => {
       investmentDataServiceSpy = jasmine.createSpyObj(
@@ -91,7 +91,9 @@ describe('NewInvestmentPage', () => {
           investment: {},
         }
       );
-      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
+      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{
+        set: {}
+      },{
         tokenOperationData: {}
       })
       fakeActivatedRoute = new FakeActivatedRoute({ vault: 'polygon_usdc', mode: 'invest' });

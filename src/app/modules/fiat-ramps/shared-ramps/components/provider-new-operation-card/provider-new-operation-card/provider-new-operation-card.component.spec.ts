@@ -49,6 +49,7 @@ describe('ProviderNewOperationCardComponent', () => {
     component.provider = rawProvidersData[1];
     component.coin = coinSpy;
     component.minimumFiatAmount = 10;
+    component.fee = { value: 10, token: 'ARS'}
     fixture.detectChanges();
   }));
 

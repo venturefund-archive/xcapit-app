@@ -71,7 +71,6 @@ export class SelectProviderPage {
   ) {}
 
   ionViewWillEnter() {
-    console.log(this.tokenOperationDataService.tokenOperationData);
     this.setCoin();
   }
 
@@ -102,7 +101,6 @@ export class SelectProviderPage {
   goToRoute() {
     this.tokenOperationDataService.add({ country: this.form.value.country.isoCodeAlpha3 });
     this.trackEvent(this.form.value.country.isoCodeAlpha3);
-    console.log(this.tokenOperationDataService.tokenOperationData);
     this.navController.navigateForward([this.newOperationRoute]);
   }
 

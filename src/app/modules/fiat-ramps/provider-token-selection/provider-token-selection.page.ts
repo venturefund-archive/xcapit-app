@@ -8,6 +8,7 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { LINKS } from '../../../config/static-links';
 
 @Component({
   selector: 'app-provider-token-selection',
@@ -34,13 +35,14 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       </div>
 
       <div class="sc__require-token">
-        <app-require-token buttonEventName="ux_exp_addtoken_buy"></app-require-token>
+        <app-require-token [url]="staticLinks.requireTokenBuy" buttonEventName="ux_exp_addtoken_buy"></app-require-token>
       </div>
     </ion-content> `,
   styleUrls: ['./provider-token-selection.page.scss'],
 })
 export class ProviderTokenSelectionPage implements OnInit {
   coins: Coin[];
+  staticLinks = LINKS;
   constructor(
     private navController: NavController,
     private apiWalletService: ApiWalletService,
