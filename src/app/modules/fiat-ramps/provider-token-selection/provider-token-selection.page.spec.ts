@@ -64,7 +64,9 @@ describe('ProviderTokenSelectionPage', () => {
 
     tokenOperationDataServiceSpy = jasmine.createSpyObj(
       'TokenOperationDataService',
-      {},
+      {
+        add:null
+      },
       {
         tokenOperationData: {},
       }

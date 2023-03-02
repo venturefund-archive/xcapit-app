@@ -64,7 +64,7 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
           name="ux_buy_kripton_new"
           color="secondary"
           expand="block"
-          (click)="this.handler()"
+          (click)="this.handler('sell')"
         >
           {{ 'fiat_ramps.home_of_purchases.button' | translate }}
         </ion-button>
@@ -139,8 +139,9 @@ export class HomeOfPurchasesPage {
     this.navController.navigateForward('/support/faqs/buy');
   }
 
-  handler() {
+  handler(mode: string) {
     this.tokenOperationDataService.clean();
+    this.tokenOperationDataService.set({ mode: mode === 'sell' ? 'sell' : 'buy' });
     this.navController.navigateForward('fiat-ramps/token-selection');
   }
 

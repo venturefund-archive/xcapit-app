@@ -2491,6 +2491,8 @@
       "krypton_description": "Buy with bank transfer",
       "disclaimer": "* Quotes may vary slightly at the time of purchase.",
       "description": "Buy with {{providerName}} {{token}} at ${{quote}} {{fiatCode}}.",
+      "kripton_sell_description":"Deposits can take up to 72 hours.",
+      "bitrefill_description": "Access exclusive benefits!",
       "directa24": {
         "platform_description": "Buy through the platform",
         "nearest_store_description": "Buy at your nearest store",
@@ -2507,6 +2509,7 @@
         "subtitle_available_tokens": "What tokens can you buy?",
         "subtitle_more_information": "More information:",
         "subtitle_time_tokens": "Token crediting time:",
+        "subtitule_need_know":"What do you need to know?",
         "kyc_required": "Requires KYC or registration process.",
         "button": "Understood",
         "kripton": {
@@ -2515,6 +2518,13 @@
           "minimum_amount": "25 USD per purchase.",
           "delivery_time_1": "Up to 48 hours.",
           "delivery_time_2": "Deliveries are made from Monday to Friday from 9:00 am to 6:00 pm.",
+          "more_information": "Kriptonmarket.com"
+        },
+        "kripton_sell": {
+          "provider_name": "Kripton Market",
+          "header": "It is an authorized provider for the purchase/sale of cryptocurrencies in Latam.",
+          "minimum_amount": "There is no minimum amount.",
+          "delivery_time_1": "The bank account must belong to the same person who performed the registration or KYC process. Funds cannot be sent to third parties.",
           "more_information": "Kriptonmarket.com"
         },
         "moonpay": {
@@ -2530,6 +2540,15 @@
           "description_1": "Cash purchase",
           "description_2": "10 USD.",
           "description_3": "Working days from 9 a.m. to 6 p.m. approx. The maximum accreditation time is 3 hours."
+        },
+        "bitrefill": {
+          "name":"Bitrefill",
+          "header":"It is an authorized provider for the sale of cryptocurrencies.",
+          "erc20_tokens":"ETH, USDT and USDC",
+          "polygon_tokens":"USDC",
+          "credit_card":"Credit card.*",
+          "delivery_time":"Depends on the external supplier on a case-by-case basis.",
+          "disclaimer":"*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
         }
       }
     },
@@ -2722,7 +2741,8 @@
           "directa24_credit_card": "Credit or debit card",
           "directa24_voucher": "Nearest store",
           "kripton": "Bank transfer",
-          "moonpay": "Credit card"
+          "moonpay": "Credit card",
+          "bitrefill":"Vouchers in stores"
         },
         "providers": {
           "kripton": {

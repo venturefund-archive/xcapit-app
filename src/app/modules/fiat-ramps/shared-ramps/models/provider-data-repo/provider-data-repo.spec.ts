@@ -22,22 +22,22 @@ describe('ProviderDataRepo', () => {
   });
 
   it('new', () => {
-    expect(new ProviderDataRepo(remoteConfigSpy)).toBeTruthy();
+    expect(new ProviderDataRepo(remoteConfigSpy , 'buy')).toBeTruthy();
   });
 
   it('all', () => {
-    expect(new ProviderDataRepo(remoteConfigSpy).all()).toEqual(rawProvidersData);
+    expect(new ProviderDataRepo(remoteConfigSpy , 'buy').all()).toEqual(rawProvidersData);
   });
 
   it('byCountry', () => {
     const country = rawProviderCountriesData.find((country) => country.name === 'Honduras');
     const expectedProviders = rawProvidersData.filter((provider) => provider.alias === 'moonpay');
-    expect(new ProviderDataRepo(remoteConfigSpy).byCountry(country)).toEqual(expectedProviders);
+    expect(new ProviderDataRepo(remoteConfigSpy , 'buy' ).byCountry(country)).toEqual(expectedProviders);
   });
 
   it('byCountryAndCoin', () => {
     const country = rawProviderCountriesData.find((country) => country.name === 'Honduras');
     const expectedProviders = rawProvidersData.filter((provider) => provider.alias === 'moonpay');
-    expect(new ProviderDataRepo(remoteConfigSpy).byCountryAndCoin(country, coinSpy)).toEqual(expectedProviders);
+    expect(new ProviderDataRepo(remoteConfigSpy , 'buy').byCountryAndCoin(country, coinSpy)).toEqual(expectedProviders);
   });
 });

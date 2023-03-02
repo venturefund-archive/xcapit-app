@@ -50,6 +50,7 @@ describe('HomeOfPurchasesPage', () => {
 
     tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
       clean: null,
+      set:null
     });
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
@@ -115,10 +116,12 @@ describe('HomeOfPurchasesPage', () => {
     expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(0);
   });
 
-  it('should navigate to select provider page when ux_buy_kripton_new is clicked', () => {
+  it('should navigate to select provider page when ux_buy_kripton_new is clicked', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css("ion-button[name='ux_buy_kripton_new']")).nativeElement.click();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/token-selection');
     expect(tokenOperationDataServiceSpy.clean).toHaveBeenCalledTimes(1);
   });

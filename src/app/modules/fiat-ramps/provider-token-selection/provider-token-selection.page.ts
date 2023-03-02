@@ -55,19 +55,23 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   selectCurrency(currency: Coin) {
-    this.tokenOperationDataService.tokenOperationData = {
+    this.tokenOperationDataService.add({
       asset: currency.value,
       network: currency.network,
       country: this.tokenOperationDataService?.tokenOperationData?.country,
-    };
+    });
     this.navController.navigateForward(['fiat-ramps/select-provider']);
   }
 
   async availableCoins() {
-    this.coins = await new ProviderTokensOf(this.providers(), this.apiWalletService.getCoins(), this.fiatRampsService).all();
+    this.coins = await new ProviderTokensOf(
+      this.providers(),
+      this.apiWalletService.getCoins(),
+      this.fiatRampsService
+    ).all();
   }
 
   providers(): Providers {
-    return this.providersFactory.create();
+    return this.providersFactory.create(this.tokenOperationDataService.tokenOperationData.mode);
   }
 }

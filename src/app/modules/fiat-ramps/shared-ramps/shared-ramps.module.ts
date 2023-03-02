@@ -31,6 +31,8 @@ import { TimerCountdownComponent } from './components/timer-countdown/timer-coun
 import { KYCStatusCardComponent } from './components/kyc-status-card/kyc-status-card.component';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { VoucherModalComponent } from './components/voucher-modal/voucher-modal.component';
+import { KriptonOffInfoProviderComponent } from './components/kripton-off-info-provider/kripton-off-info-provider.component';
+import { BitrefillInfoComponent } from './components/bitrefill-info/bitrefill-info.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,8 @@ import { VoucherModalComponent } from './components/voucher-modal/voucher-modal.
     KYCStatusCardComponent,
     VoucherCardComponent,
     VoucherModalComponent,
+    KriptonOffInfoProviderComponent,
+    BitrefillInfoComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -102,6 +106,8 @@ import { VoucherModalComponent } from './components/voucher-modal/voucher-modal.
     KYCStatusCardComponent,
     VoucherCardComponent,
     VoucherModalComponent,
+    KriptonOffInfoProviderComponent,
+    BitrefillInfoComponent
   ],
 })
 export class SharedRampsModule {}
