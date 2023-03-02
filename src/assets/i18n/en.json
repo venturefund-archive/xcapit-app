@@ -2874,6 +2874,7 @@
         "SOLANA": "Solana Explorer"
       },
       "quotation": "Quotation",
+      "fee":"Fee transaction",
       "address": "Destination address (your wallet)",
       "provider": "Provider",
       "operation": "Operation",
