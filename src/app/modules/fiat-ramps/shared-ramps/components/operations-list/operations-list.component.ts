@@ -150,7 +150,7 @@ export class OperationsListComponent implements OnChanges {
   async showLogoutAlert() {
     const modal = await this.modalController.create({
       component: TwoButtonsAlertComponent,
-      cssClass: 'modal',
+      cssClass: 'modal two-button-xl',
       backdropDismiss: false,
       componentProps: {
         title: this.translate.instant('fiat_ramps.operations_list.log_out_modal.title'),
