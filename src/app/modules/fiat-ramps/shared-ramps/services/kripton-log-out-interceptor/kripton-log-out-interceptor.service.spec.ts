@@ -24,7 +24,7 @@ describe('KriptonLogOutInterceptorService', () => {
 
   beforeEach(() => {
     handlerSpy = jasmine.createSpyObj('HttpHandler', {
-      handle: throwError(new HttpErrorResponse({ url: urlKripton, status: 500 })),
+      handle: throwError(new HttpErrorResponse({ url: urlKripton, status: 401 })),
     });
     requestMock = new HttpRequest('GET', urlKripton);
     storageSpy = jasmine.createSpyObj('KriptonStorageService', {
@@ -68,7 +68,7 @@ describe('KriptonLogOutInterceptorService', () => {
     handlerSpy.handle.and.throwError(new HttpErrorResponse({ url: urlOther, status: 500 }));
     try {
       await service.intercept(requestMock, handlerSpy).toPromise();
-    } catch (error) {}
+    } catch (error) {undefined}
     expect(storageSpy.removeCredentials).not.toHaveBeenCalled();
     expect(navControllerSpy.navigateRoot).not.toHaveBeenCalled();
     expect(toastServiceSpy.showWarningToast).not.toHaveBeenCalled();
