@@ -8,9 +8,8 @@ export const solanaSeedPhrase2 = 'neither lonely flavor argue grass remind eye t
 
 export const solanaAddress3 = 'H8VeStfXPSCgECu3J4qcGSmvJJQEwoxW1W9XSX56oEzu';
 
-export const solanaAddresses = [
-  solanaAddress0,
-  solanaAddress1,
-  solanaAddress2,
-  solanaAddress3
-];
+export const solanaAddress4 = '4VGbxoF4wJjnqugQVFaYmCUxTP6MNXfWidKHTjqry63W';
+
+export const solanaSeedPhrase4 = '';
+
+export const solanaAddresses = [solanaAddress0, solanaAddress1, solanaAddress2, solanaAddress3];

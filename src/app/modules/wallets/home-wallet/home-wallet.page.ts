@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonAccordionGroup, IonContent, ModalController, NavController } from '@ionic/angular';
+import { IonAccordionGroup, IonContent, NavController } from '@ionic/angular';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TotalBalance } from '../shared-wallets/models/balance/total-balance/total-balance';
 import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
@@ -85,7 +85,7 @@ import { ContactDataService } from '../../contacts/shared-contacts/services/cont
           <div class="wt__amount-and-eye">
             <div class="wt__amount-and-eye__amount">
               <ion-text *ngIf="this.balance !== undefined">
-                {{ this.balance ?? 0.0 | number: '1.2-2' | hideText: this.hideFundText }}
+                {{ this.balance ?? 0.0 | number : '1.2-2' | hideText : this.hideFundText }}
               </ion-text>
               <ion-text class="ux-font-text-lg" *ngIf="this.balance !== undefined">USD</ion-text>
             </div>
@@ -103,7 +103,7 @@ import { ContactDataService } from '../../contacts/shared-contacts/services/cont
           ></ion-spinner>
           <ion-text *ngIf="this.totalInvested !== undefined" class="wt__total-invested__text ux-font-title-xs"
             >{{ 'wallets.home.invested' | translate }}
-            {{ this.totalInvested ?? 0.0 | number: '1.2-2' | hideText: this.hideFundText }} USD</ion-text
+            {{ this.totalInvested ?? 0.0 | number : '1.2-2' | hideText : this.hideFundText }} USD</ion-text
           >
         </div>
       </div>
@@ -113,6 +113,7 @@ import { ContactDataService } from '../../contacts/shared-contacts/services/cont
       <div>
         <app-home-slides *ngIf="this.slides.length > 0" [slides]="this.slides"></app-home-slides>
       </div>
+
       <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
           [text]="'wallets.home.backup_card_component.text'"
@@ -246,7 +247,7 @@ export class HomeWalletPage implements OnInit {
     private updateNewsService: UpdateNewsService,
     private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable,
     private base64ImageFactory: Base64ImageFactory,
-    private contactService: ContactDataService,
+    private contactService: ContactDataService
   ) {}
 
   ngOnInit() {}
@@ -295,7 +296,7 @@ export class HomeWalletPage implements OnInit {
     this.setInvestedBalance();
   }
 
-  private cleanContact(){
+  private cleanContact() {
     this.contactService.updateContact(null);
   }
 

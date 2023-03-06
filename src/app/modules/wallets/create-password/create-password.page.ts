@@ -22,6 +22,7 @@ import { ethers } from 'ethers';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { AddressesToSave } from '../shared-wallets/models/addresses-to-save/addresses-to-save';
 
 @Component({
   selector: 'app-create-password',
@@ -234,7 +235,9 @@ export class CreatePasswordPage implements OnInit {
   }
 
   private async saveWallets(): Promise<void> {
-    return this.apiWalletService.saveWalletAddresses(this.formattedWallets(await this.encryptedWallet())).toPromise();
+    return this.apiWalletService
+      .saveWalletAddresses(new AddressesToSave(await this.encryptedWallet()).toJson())
+      .toPromise();
   }
 
   async handleSubmit() {
@@ -306,13 +309,6 @@ export class CreatePasswordPage implements OnInit {
         this.walletBackupService.disableModal(),
       ]);
     }
-  }
-
-  private formattedWallets(encryptedWallet: any): any {
-    return Object.keys(encryptedWallet.addresses).map((network) => ({
-      network,
-      address: encryptedWallet.addresses[network],
-    }));
   }
 
   navigateByMode() {

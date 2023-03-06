@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { LoginToken } from '../shared-users/models/login-token/login-token';
@@ -23,6 +23,7 @@ import { AuthService } from '../shared-users/services/auth/auth.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { AppSessionInjectable } from 'src/app/shared/models/app-session/injectable/app-session.injectable';
 import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
+import { UpgradeWallets } from '../../wallets/shared-wallets/models/upgrade-wallets/upgrade-wallets';
 
 @Component({
   selector: 'app-login-new',
@@ -122,7 +123,6 @@ export class LoginNewPage {
     private modalController: ModalController,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private trackService: TrackService,
-    private ionicStorageService: IonicStorageService,
     private walletBackupService: WalletBackupService,
     private platformService: PlatformService,
     private loginBiometricActivationService: LoginBiometricActivationModalService,
@@ -132,7 +132,8 @@ export class LoginNewPage {
     private authService: AuthService,
     private walletConnectService: WalletConnectService,
     private appSession: AppSessionInjectable,
-    private appExpirationTimeService: AppExpirationTimeService
+    private appExpirationTimeService: AppExpirationTimeService,
+    private upgradeWallets: UpgradeWallets
   ) {}
 
   async ionViewWillEnter() {
@@ -164,7 +165,7 @@ export class LoginNewPage {
 
   async enablePushNotificationsByDefault() {
     if ((await this.enabledPushNotifications()) === null) {
-      await this.ionicStorageService.set(this._aKey, true);
+      await this.storage.set(this._aKey, true);
     }
   }
 
@@ -207,7 +208,7 @@ export class LoginNewPage {
   }
 
   async enabledPushNotifications(): Promise<boolean> {
-    return await this.ionicStorageService.get(this._aKey).then((status) => status);
+    return await this.storage.get(this._aKey).then((status) => status);
   }
 
   pushNotificationsService() {
@@ -244,16 +245,19 @@ export class LoginNewPage {
 
   async handleSubmit(isBiometricAuth: boolean) {
     const password = isBiometricAuth ? await this.biometricAuth.password() : this.form.value.password;
+    this.upgradeWallets.onNeedPass().subscribe(() => new Password(password));
     if (!(await this._loginToken(password).exist())) {
       try {
         await this.loginMigrationService.migrate(password);
         await this._loggedIn();
+        await this.upgradeWallets.run();
         this._goToWallet();
       } catch {
         this._showInvalidPasswordToast();
       }
     } else if (await this._loginToken(password).valid()) {
       await this._loggedIn();
+      await this.upgradeWallets.run();
       if (this._biometricAuthFeatureEnabled() && this.platformService.isNative()) {
         if (!(await this.biometricAuth.enabled()) && this.form.value.password && this.biometricAuth.available()) {
           if ((await this.showLoginBiometricActivation()) === 'confirm') {
