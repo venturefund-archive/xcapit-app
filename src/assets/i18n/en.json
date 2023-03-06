@@ -1831,7 +1831,7 @@
       "subheader_buttons_component": {
         "send_card": "Send",
         "receive_card": "Receive",
-        "buy_card": "Buy",
+        "buy_card": "Buy <br/> Sell",
         "swap_card": "Swap"
       },
       "backup_card_component": {
@@ -2406,7 +2406,7 @@
       "button_secondary": "Return to my purchases"
     },
     "home_of_purchases": {
-      "header": "My purchases",
+      "header": "Buy - Sell",
       "question": "How do purchases work?",
       "footer":{
         "title":"What do you want to do?",
