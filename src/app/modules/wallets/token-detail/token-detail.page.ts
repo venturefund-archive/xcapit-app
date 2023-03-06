@@ -35,7 +35,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
 import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 
 @Component({
-  selector: 'app-asset-detail',
+  selector: 'app-token-detail',
   template: `
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">

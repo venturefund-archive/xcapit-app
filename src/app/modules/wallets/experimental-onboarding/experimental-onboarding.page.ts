@@ -99,6 +99,7 @@ export class ExperimentalOnboardingPage {
         asset: 'USDC',
         network: 'MATIC',
         country: this.tokenOperationDataService?.tokenOperationData?.country,
+        mode: 'buy'
       };
     }
   }

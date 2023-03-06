@@ -40,9 +40,11 @@ describe('WalletSubheaderButtonsComponent', () => {
       presentModal: Promise.resolve('skip'),
     });
 
-    tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
-      tokenOperationData: {},
-    });
+    tokenOperationDataServiceSpy = jasmine.createSpyObj(
+      'TokenOperationDataService',
+      { clean: {}, set: {} },
+      { tokenOperationData: {} }
+    );
 
     TestBed.configureTestingModule({
       declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
@@ -143,12 +145,28 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/buy-conditions']);
   });
 
-  it('should navigate to purchases home page when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage', async () => {
+  it('should navigate to purchases home page and clean asset data when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage and is from tabs/walllet', async () => {
     ionicStorageServiceSpy.get.and.resolveTo(true);
     fixture.detectChanges();
     fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_buy']")).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/purchases']);
+    expect(tokenOperationDataServiceSpy.clean).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to purchases home page and set asset data when ux_go_to_buy button is clicked, conditionsPurchasesAccepted is set on storage and is from token detail', async () => {
+    component.asset = rawUSDTData.value;
+    component.network = rawUSDTData.network;
+    ionicStorageServiceSpy.get.and.resolveTo(true);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_buy']")).nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/purchases']);
+    expect(tokenOperationDataServiceSpy.set).toHaveBeenCalledOnceWith({
+      asset: 'USDT',
+      network: 'ERC20',
+      isFirstTime: true,
+    });
   });
 
   it('should save data into service when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage and there is asset', async () => {

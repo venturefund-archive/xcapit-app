@@ -15,6 +15,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { of } from 'rxjs';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 describe('ProviderTokenSelectionPage', () => {
   let component: ProviderTokenSelectionPage;
@@ -26,6 +27,7 @@ describe('ProviderTokenSelectionPage', () => {
   let providersSpy: jasmine.SpyObj<Providers>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   const coinClicked = {
     id: 1,
@@ -62,12 +64,14 @@ describe('ProviderTokenSelectionPage', () => {
       ],
     });
 
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
+
     tokenOperationDataServiceSpy = jasmine.createSpyObj(
       'TokenOperationDataService',
-      {},
-      {
-        tokenOperationData: {},
-      }
+      { add: {} },
+      { tokenOperationData: { mode: 'buy' } }
     );
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
@@ -92,6 +96,7 @@ describe('ProviderTokenSelectionPage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -105,7 +110,7 @@ describe('ProviderTokenSelectionPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render a list of coins',  fakeAsync(() => {
+  it('should render a list of coins', fakeAsync(() => {
     component.ionViewWillEnter();
     tick();
     fixture.detectChanges();
@@ -118,6 +123,11 @@ describe('ProviderTokenSelectionPage', () => {
     tick();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
+    expect(tokenOperationDataServiceSpy.add).toHaveBeenCalledOnceWith({
+      asset: coinClicked.value,
+      network: coinClicked.network,
+    });
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/select-provider');
   }));
 });

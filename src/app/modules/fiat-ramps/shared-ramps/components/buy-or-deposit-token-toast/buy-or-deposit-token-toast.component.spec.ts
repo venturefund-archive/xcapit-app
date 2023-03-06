@@ -56,8 +56,8 @@ describe('BuyOrDepositTokenToastComponent', () => {
     coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' });
     tokenOperationDataServiceSpy = jasmine.createSpyObj(
       'TokenOperationDataService',
-      {},
-      { tokenOperationData: undefined }
+      { add: {}},
+      { tokenOperationData: { mode: 'buy' } }
     );
     spyOn(ProviderTokensOf.prototype, 'all').and.resolveTo([coinSpy]);
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoins: [] });
@@ -90,7 +90,7 @@ describe('BuyOrDepositTokenToastComponent', () => {
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
-        {provide: FiatRampsService, useValue: fiatRampsServiceSpy}
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -124,6 +124,7 @@ describe('BuyOrDepositTokenToastComponent', () => {
     const tokenOperationData = {
       asset: 'USDC',
       network: 'MATIC',
+      mode: 'buy'
     };
     fixture.debugElement.query(By.css('app-toast-with-buttons')).triggerEventHandler('primaryActionEvent');
     tick();

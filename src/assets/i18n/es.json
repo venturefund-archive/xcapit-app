@@ -2380,7 +2380,11 @@
     "home_of_purchases": {
       "header": "Mis compras",
       "question": "¿Cómo funcionan las compras?",
-      "button": "Realizar nueva compra"
+      "footer":{
+        "title":"¿Qué deseas hacer?",
+        "buy_button":"Comprar",
+        "sell_button":"Vender"
+      }
     },
     "buy_conditions": {
       "title": "¿Qué necesitas saber antes de comprar?",

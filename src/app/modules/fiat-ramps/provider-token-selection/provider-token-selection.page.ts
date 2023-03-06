@@ -7,6 +7,7 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { LINKS } from '../../../config/static-links';
 
 @Component({
@@ -14,7 +15,7 @@ import { LINKS } from '../../../config/static-links';
   template: `<ion-header>
       <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/wallets" ></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'fiat_ramps.token_selection.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -47,7 +48,8 @@ export class ProviderTokenSelectionPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private providersFactory: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
-    private fiatRampsService: FiatRampsService
+    private fiatRampsService: FiatRampsService,
+    private trackService: TrackService
   ) {}
 
   ngOnInit() {}
@@ -57,19 +59,31 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   selectCurrency(currency: Coin) {
-    this.tokenOperationDataService.tokenOperationData = {
+    this.tokenOperationDataService.add({
       asset: currency.value,
       network: currency.network,
-      country: this.tokenOperationDataService?.tokenOperationData?.country,
-    };
-    this.navController.navigateForward(['fiat-ramps/select-provider']);
+    });
+    this.trackEvent(currency.value);
+    this.navController.navigateForward('fiat-ramps/select-provider');
   }
 
   async availableCoins() {
-    this.coins = await new ProviderTokensOf(this.providers(), this.apiWalletService.getCoins(), this.fiatRampsService).all();
+    this.coins = await new ProviderTokensOf(
+      this.providers(),
+      this.apiWalletService.getCoins(),
+      this.fiatRampsService
+    ).all();
   }
 
   providers(): Providers {
     return this.providersFactory.create();
+  }
+
+  trackEvent(currency: string) {
+    this.trackService.trackEvent({
+      eventAction: 'click',
+      description: window.location.href,
+      eventLabel: `ux_${this.tokenOperationDataService.tokenOperationData.mode}_${currency}`,
+    });
   }
 }
