@@ -2986,6 +2986,7 @@
         "SOLANA": "Solana Explorer"
       },
       "quotation": "Cotización",
+      "fee":"Tarifa de transacción",
       "address": "Dirección de destino (tu wallet)",
       "provider": "Proveedor",
       "operation": "Operación",
