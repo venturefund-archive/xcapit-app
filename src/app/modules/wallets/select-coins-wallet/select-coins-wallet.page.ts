@@ -7,12 +7,19 @@ import { debounce } from 'rxjs/operators';
 import { interval } from 'rxjs';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { LINKS } from '../../../config/static-links';
+import { ModalController, NavController, Platform } from '@ionic/angular';
+import { UpgradeWallets } from '../shared-wallets/models/upgrade-wallets/upgrade-wallets';
+import { Password } from '../../swaps/shared-swaps/models/password/password';
+import { WalletPasswordWithValidatorComponent } from '../shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
+
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+          <ion-button (click)="this.navigateBack()">
+            <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+          </ion-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.select_coin.header_edit' | translate }}</ion-title>
       </ion-toolbar>
@@ -88,11 +95,18 @@ export class SelectCoinsWalletPage {
     private formBuilder: UntypedFormBuilder,
     private apiWalletService: ApiWalletService,
     private walletMaintenanceService: WalletMaintenanceService,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private platform: Platform,
+    private navController: NavController,
+    private upgradeWallets: UpgradeWallets,
+    private modalController: ModalController
   ) {}
 
   ionViewWillEnter() {
     this.userCoinsLoaded = false;
+    this.platform.backButton.subscribeWithPriority(10, async () => {
+      await this.navigateBack();
+    });
     this.setNetworks();
     this.createForm();
     this.getUserCoins();
@@ -100,6 +114,25 @@ export class SelectCoinsWalletPage {
 
   ionViewDidLeave() {
     this.walletMaintenanceService.wipeDataFromService();
+  }
+
+  async navigateBack() {
+    this.upgradeWallets.onNeedPass().subscribe(() => this._requestPassword());
+    await this.upgradeWallets.run();
+    await this.navController.navigateBack(['/tabs/home']);
+  }
+
+  async _requestPassword(): Promise<Password> {
+    const modal = await this.modalController.create({
+      component: WalletPasswordWithValidatorComponent,
+      cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
+      componentProps: {
+        state: 'send',
+      },
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    return data;
   }
 
   private setNetworks(): void {

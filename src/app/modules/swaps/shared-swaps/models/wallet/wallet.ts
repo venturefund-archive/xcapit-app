@@ -6,17 +6,17 @@ import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple
 import { Connection, sendAndConfirmTransaction, Transaction } from '@solana/web3.js';
 import { FakeConnection } from '../fakes/fake-connection';
 import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
+import { Password } from '../password/password';
+import { MnemonicOf } from 'src/app/modules/wallets/shared-wallets/models/mnemonic-of/mnemonic-of';
 
 export interface Wallet {
   address: () => string;
   onNeedPass: () => Subscribable;
-  onDecryptedWallet: () => Subscribable;
   sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
 }
 
 export class DefaultWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
-  private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
   constructor(
     private _rawData: any,
@@ -29,16 +29,12 @@ export class DefaultWallet implements Wallet {
     return this._rawData['address'].toLowerCase();
   }
 
-  onDecryptedWallet(): Subscribable {
-    return this._onWalletDecrypted;
-  }
-
   onNeedPass(): Subscribable {
     return this._onNeedPass;
   }
 
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
-    const connectedWallet = this._connectedWallet(this._derivedWallet(await this._decryptedWallet()));
+    const connectedWallet = this._connectedWallet(await this._derivedWallet());
     for (const tx of transactions) {
       await (await connectedWallet.sendTransaction((await tx.value()) as TransactionRequest)).wait();
     }
@@ -49,18 +45,15 @@ export class DefaultWallet implements Wallet {
     return this._rawData['encryptedWallet'];
   }
 
-  private async _decryptedWallet(): Promise<EthersWallet> {
-    const password = await this._onNeedPass.notify();
-    return this._ethersWallet
-      .fromEncryptedJson(this._encryptedWallet(), password)
-      .then((decryptedWallet: EthersWallet) => {
-        this._onWalletDecrypted.notify();
-        return decryptedWallet;
-      });
-  }
-
-  private _derivedWallet(aEthersWallet: EthersWallet): EthersWallet {
-    return this._ethersWallet.fromMnemonic(aEthersWallet.mnemonic.phrase, this._aBlockchain.derivedPath());
+  private async _derivedWallet(): Promise<EthersWallet> {
+    return this._ethersWallet.fromMnemonic(
+      await new MnemonicOf(
+        new Password(await this._onNeedPass.notify()),
+        this._encryptedWallet(),
+        this._ethersWallet
+      ).phrase(),
+      this._aBlockchain.derivedPath()
+    );
   }
 
   private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {
@@ -77,7 +70,6 @@ export class SendTxsError extends Error {
 
 export class FakeWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
-  private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
   constructor(
     private readonly sendTxsResponse: Promise<any> = Promise.resolve(false),
@@ -89,14 +81,9 @@ export class FakeWallet implements Wallet {
     return this._onNeedPass;
   }
 
-  public onDecryptedWallet(): Subscribable {
-    return this._onWalletDecrypted;
-  }
-
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
     await this._onNeedPass.notify();
     this._checkError();
-    await this._onWalletDecrypted.notify();
     return this.sendTxsResponse;
   }
 
@@ -113,7 +100,6 @@ export class FakeWallet implements Wallet {
 
 export class SolanaWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
-  private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
   constructor(
     private _rawData: any,
@@ -128,31 +114,22 @@ export class SolanaWallet implements Wallet {
   }
 
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
-    await this._sendTxs(
-      transactions,
-      new SolanaDerivedWallet((await this._decryptedWallet()).mnemonic.phrase, this._aBlockchain)
-    );
+    await this._sendTxs(transactions, new SolanaDerivedWallet(await this._mnemonicPhrase(), this._aBlockchain));
     return true;
   }
 
   private async _sendTxs(transactions: BlockchainTx[], wallet: SolanaDerivedWallet): Promise<void> {
     for (const tx of transactions) {
-      await this._sendAndConfirm(
-        this._connection as Connection,
-        (await tx.value()) as Transaction,
-        [wallet.value()]
-      );
+      await this._sendAndConfirm(this._connection as Connection, (await tx.value()) as Transaction, [wallet.value()]);
     }
   }
 
-  private async _decryptedWallet(): Promise<EthersWallet> {
-    const password = await this._onNeedPass.notify();
-    return this._ethersWallet
-      .fromEncryptedJson(this._encryptedWallet(), password)
-      .then((decryptedWallet: EthersWallet) => {
-        this._onWalletDecrypted.notify();
-        return decryptedWallet;
-      });
+  private async _mnemonicPhrase(): Promise<string> {
+    return await new MnemonicOf(
+      new Password(await this._onNeedPass.notify()),
+      this._encryptedWallet(),
+      this._ethersWallet
+    ).phrase();
   }
 
   private _encryptedWallet(): string {
@@ -161,10 +138,6 @@ export class SolanaWallet implements Wallet {
 
   address(): string {
     return this._rawData['address'];
-  }
-
-  onDecryptedWallet(): Subscribable {
-    return this._onWalletDecrypted;
   }
 
   onNeedPass(): Subscribable {

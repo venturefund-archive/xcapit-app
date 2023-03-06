@@ -28,6 +28,8 @@ import { WalletConnectService } from '../../wallets/shared-wallets/services/wall
 import { BehaviorSubject } from 'rxjs';
 import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
 import { AppSessionInjectable } from 'src/app/shared/models/app-session/injectable/app-session.injectable';
+import { UpgradeWallets } from '../../wallets/shared-wallets/models/upgrade-wallets/upgrade-wallets';
+import { SimpleSubject } from 'src/app/shared/models/simple-subject/simple-subject';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -55,6 +57,7 @@ describe('LoginNewPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let appExpirationTimeServiceSpy: jasmine.SpyObj<AppExpirationTimeService>;
   let appSessionInjectableSpy: jasmine.SpyObj<AppSessionInjectable>;
+  let upgradeWalletsSpy: jasmine.SpyObj<UpgradeWallets>;
 
   beforeEach(waitForAsync(() => {
     fakeBiometricAuth = new FakeBiometricAuth();
@@ -120,7 +123,11 @@ describe('LoginNewPage', () => {
 
     appExpirationTimeServiceSpy = jasmine.createSpyObj('AppExpirationTimeService', {
       enableExpirationModal: Promise.resolve(),
-      disableExpirationModal: Promise.resolve()
+      disableExpirationModal: Promise.resolve(),
+    });
+    upgradeWalletsSpy = jasmine.createSpyObj('UpgradeWallets', {
+      run: Promise.resolve(),
+      onNeedPass: new SimpleSubject()
     });
 
     appSessionInjectableSpy = jasmine.createSpyObj('AppSessionInjectable', {
@@ -147,6 +154,7 @@ describe('LoginNewPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: AppExpirationTimeService, useValue: appExpirationTimeServiceSpy },
         { provide: AppSessionInjectable, useValue: appSessionInjectableSpy },
+        { provide: UpgradeWallets, useValue: upgradeWalletsSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -210,12 +218,20 @@ describe('LoginNewPage', () => {
   }));
 
   it('should login when password is ok', async () => {
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     component.form.patchValue({ password: aPassword });
 
     await component.handleSubmit(false);
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets', { replaceUrl: true });
+  });
+  it('should upgrade wallet in login', async () => {
+    await component.ionViewWillEnter();
+    component.form.patchValue({ password: aPassword });
+
+    await component.handleSubmit(false);
+
+    expect(upgradeWalletsSpy.run).toHaveBeenCalledTimes(1);
   });
 
   it('should show error toast when password is not ok', async () => {
@@ -383,12 +399,12 @@ describe('LoginNewPage', () => {
 
     expect(appExpirationTimeServiceSpy.disableExpirationModal).toHaveBeenCalledTimes(1);
   }));
-  
+
   it('should enable login expiration modal when leaving login page', async () => {
     component.ionViewWillLeave();
 
     expect(appExpirationTimeServiceSpy.enableExpirationModal).toHaveBeenCalledTimes(1);
-  })
+  });
 
   it('should dismiss instead of redirecting when is expiration modal and password is valid', async () => {
     component.isExpirationModal = true;
@@ -397,5 +413,5 @@ describe('LoginNewPage', () => {
     await component.handleSubmit(false);
 
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
-  })
+  });
 });

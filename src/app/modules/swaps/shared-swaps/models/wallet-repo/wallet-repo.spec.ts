@@ -27,6 +27,8 @@ describe('Wallet Repo', () => {
   });
 
   it('save', async () => {
+    storageSpy.get.and.returnValue(undefined);
+
     await repo.save(rawStoredWalletDataNew.enc_wallet.addresses, rawStoredWalletDataNew.enc_wallet.wallet);
 
     expect(storageSpy.set).toHaveBeenCalledOnceWith('enc_wallet', { addresses: rawStoredWalletDataNew.enc_wallet.addresses, wallet: rawStoredWalletDataNew.enc_wallet.wallet });

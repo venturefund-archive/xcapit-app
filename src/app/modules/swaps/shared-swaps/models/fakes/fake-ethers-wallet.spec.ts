@@ -26,4 +26,15 @@ describe('Fake Ethers Wallet', () => {
   it('encrypt', async () => {
     expect(await fakeWallet.encrypt()).toEqual('');
   });
+
+  it('mnemonic', () => {
+    expect(fakeWallet.mnemonic.phrase).toEqual('');
+  });
+
+  it('custom mnemonic', () => {
+    const aPhrase = 'test test';
+    fakeWallet = new FakeEthersWallet({ phrase: aPhrase });
+
+    expect(fakeWallet.mnemonic.phrase).toEqual(aPhrase);
+  });
 });
