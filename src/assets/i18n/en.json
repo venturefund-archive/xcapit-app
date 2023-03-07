@@ -3331,5 +3331,16 @@
         "cancel_button": "Cancel"
       }
     }
+  },
+  "warranty": {
+    "modal_info": {
+      "subtitle":"What do you need to know?",
+      "description1": "No minimum amount",
+      "description2": "The bank account must belong to the same person who performed the registration or KYC process. Funds cannot be sent to third parties.",
+      "information": "More information",
+      "firstButton": "Make up warranty",
+      "secondButton": "Withdraw warranty"
+
+    }
   }
 }
