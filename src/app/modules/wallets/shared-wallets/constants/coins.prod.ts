@@ -28,6 +28,7 @@ export const PROD_COINS: Coin[] = [
     symbol: 'ETHUSDT',
     contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
     decimals: 18,
+    bitrefillCode: 'ethereum',
   },
   {
     id: 2,
@@ -55,6 +56,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0xdac17f958d2ee523a2206206994597c13d831ec7',
     abi: usdtAbi,
     decimals: 6,
+    bitrefillCode: 'usdt_erc20',
   },
   {
     id: 4,
@@ -315,6 +317,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 6,
     symbol: 'USDCUSDT',
     canInvest: true,
+    bitrefillCode: 'usdc_polygon',
   },
   {
     id: 25,
@@ -448,6 +451,7 @@ export const PROD_COINS: Coin[] = [
     abi: linkAbi,
     decimals: 6,
     symbol: 'USDCUSDT',
+    bitrefillCode: 'usdc_erc20',
   },
   {
     id: 37,
