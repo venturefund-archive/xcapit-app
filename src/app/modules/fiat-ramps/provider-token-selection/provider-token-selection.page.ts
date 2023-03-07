@@ -76,7 +76,7 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   providers(): Providers {
-    return this.providersFactory.create();
+    return this.providersFactory.create(this.tokenOperationDataService.tokenOperationData.mode);
   }
 
   trackEvent(currency: string) {

@@ -56,6 +56,7 @@ describe('HomeOfPurchasesPage', () => {
         clean: {},
         add: {},
         hasAssetInfo: false,
+        set: null
       },
       {
         tokenOperationData: { isFirstTime: false },
