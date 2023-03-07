@@ -79,9 +79,9 @@ describe('BitrefillPage', () => {
   const tokens = new DefaultTokens(new TokenRepo(rawTokensData));
   const token = new DefaultToken(rawETHData);
   const nativeToken = new DefaultToken({ ...rawEthereumData.nativeToken, network: 'ERC20' });
-  const nativeOperation = new DefaultBitrefillOperation(rawNativeEvent, tokens, blockchains);
-  const nativeNonValidOperation = new DefaultBitrefillOperation(rawNativeNonValidTokenEvent, tokens, blockchains);
-  const nonNativeOperation = new DefaultBitrefillOperation(rawNonNativeEvent, tokens, blockchains);
+  const nativeOperation = new DefaultBitrefillOperation(rawNativeEvent, tokens);
+  const nativeNonValidOperation = new DefaultBitrefillOperation(rawNativeNonValidTokenEvent, tokens);
+  const nonNativeOperation = new DefaultBitrefillOperation(rawNonNativeEvent, tokens);
   const route = { paymentMethod: 'usdc_polygon' };
 
   const insufficientBalance = {
@@ -259,7 +259,7 @@ describe('BitrefillPage', () => {
     component.ionViewWillEnter();
     _dispatchEvent(nonNativeEventInvoice);
     tick();
-    expect(bitrefillOperationFactorySpy.create).toHaveBeenCalledOnceWith(rawNonNativeEventInvoice, tokens, blockchains);
+    expect(bitrefillOperationFactorySpy.create).toHaveBeenCalledOnceWith(rawNonNativeEventInvoice, tokens);
     expect(component.operation).toBeInstanceOf(DefaultBitrefillOperation);
     component.ionViewWillLeave();
   }));
@@ -268,7 +268,7 @@ describe('BitrefillPage', () => {
     component.ionViewWillEnter();
     _dispatchEvent(nativeEventInvoice);
     tick();
-    expect(bitrefillOperationFactorySpy.create).toHaveBeenCalledOnceWith(rawNativeEventInvoice, tokens, blockchains);
+    expect(bitrefillOperationFactorySpy.create).toHaveBeenCalledOnceWith(rawNativeEventInvoice, tokens);
     expect(component.operation).toBeInstanceOf(DefaultBitrefillOperation);
 
     component.ionViewWillLeave();

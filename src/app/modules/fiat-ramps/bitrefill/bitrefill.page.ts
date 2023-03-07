@@ -166,7 +166,6 @@ export class BitrefillPage {
     return this.bitrefillOperation.create(
       this.rawOperationData,
       new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())),
-      this.blockchains.create()
     );
   }
 

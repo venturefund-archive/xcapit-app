@@ -1,6 +1,3 @@
-import { BlockchainRepo } from "src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo";
-import { DefaultBlockchains } from "src/app/modules/swaps/shared-swaps/models/blockchains/blockchains";
-import { rawBlockchainsData } from "src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data";
 import { rawETHData, rawTokensData } from "src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data";
 import { TokenRepo } from "src/app/modules/swaps/shared-swaps/models/token-repo/token-repo";
 import { DefaultTokens } from "src/app/modules/swaps/shared-swaps/models/tokens/tokens";
@@ -9,11 +6,10 @@ import { DefaultBitrefillOperation } from "./default-bitrefill-operation";
 
 describe('DefaultBitrefillOperation', () => {
   let operation: DefaultBitrefillOperation;
-  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const tokens = new DefaultTokens(new TokenRepo(rawTokensData));
   
   beforeEach(() => {
-    operation = new DefaultBitrefillOperation(rawNativeEventInvoice, tokens, blockchains);
+    operation = new DefaultBitrefillOperation(rawNativeEventInvoice, tokens);
   });
 
   it('new', () => {
@@ -37,19 +33,19 @@ describe('DefaultBitrefillOperation', () => {
   });
 
   it('non native address', () => {
-    const operation = new DefaultBitrefillOperation(rawNonNativeEventInvoice, tokens, blockchains);
+    const operation = new DefaultBitrefillOperation(rawNonNativeEventInvoice, tokens);
 
     expect(operation.address()).toEqual('0x2FcA4930b3B59338bc57b9196eEae196e6A4Da42');
   });
 
   it('non native token', async () => {
-    const operation = new DefaultBitrefillOperation(rawNonNativeEventInvoice, tokens,blockchains);
+    const operation = new DefaultBitrefillOperation(rawNonNativeEventInvoice, tokens);
 
     expect((await operation.token()).address()).toEqual('0x2791bca1f2de4661ed88a30c99a7a9449aa84174');
   });
 
   it('non native amount', async () => {
-    const operation = new DefaultBitrefillOperation(rawNonNativeEventInvoice, tokens, blockchains);
+    const operation = new DefaultBitrefillOperation(rawNonNativeEventInvoice, tokens);
 
     expect(operation.amount()).toEqual(41.05);
   });
