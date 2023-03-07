@@ -14,7 +14,6 @@ export class DefaultBitrefillOperation implements BitrefillOperation {
   constructor(
     private readonly _rawData: any,
     private readonly _tokens: Tokens,
-    private readonly _blockchains: Blockchains
   ) {}
 
   address(): string {
@@ -30,11 +29,12 @@ export class DefaultBitrefillOperation implements BitrefillOperation {
   }
 
   async token(): Promise<Token> {
-    return (await this._tokens.value()).find((t) => {
-      return t.json().bitrefillCode === this.paymentMethod()
+    const tokens : Token[] = await this._tokens.value()
+    return tokens.find((token) => {
+      return token.json().bitrefillCode === this.paymentMethod();
     });
   }
-  
+
   private _uriParams(): URLSearchParams {
     return new URLSearchParams(this._rawData.paymentUri.split('?')[1]);
   }
