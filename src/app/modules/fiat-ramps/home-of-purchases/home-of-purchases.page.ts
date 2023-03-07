@@ -8,13 +8,14 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injectable/kripton-user.injectable';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-home-of-purchases',
   template: ` <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
+          <ion-back-button defaultHref="" (click)="this.back()"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.home_of_purchases.header' | translate }}
@@ -42,7 +43,11 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
         class="hop__operations-list ion-padding-start ion-padding-end ion-padding-top"
         *ngIf="this.isLogged !== undefined && this.enabledProviders && this.enabledProviders.includes('kripton')"
       >
-        <app-operations-list [operationsList]="this.operationsList" [isLogged]="this.isLogged"></app-operations-list>
+        <app-operations-list
+          [operationsList]="this.operationsList"
+          [isLogged]="this.isLogged"
+          (loggedOut)="loggedOut()"
+        ></app-operations-list>
       </div>
       <div
         *ngIf="this.enabledProviders && this.enabledProviders.includes('moonpay')"
@@ -56,19 +61,35 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
         }}</ion-text>
       </div>
     </ion-content>
-    <ion-footer>
-      <div class="hop__button ion-padding">
-        <ion-button
-          class="ux_button"
-          appTrackClick
-          name="ux_buy_kripton_new"
-          color="secondary"
-          expand="block"
-          (click)="this.handler('sell')"
-        >
-          {{ 'fiat_ramps.home_of_purchases.button' | translate }}
-        </ion-button>
-      </div>
+    <ion-footer class="ion-no-border">
+      <ion-toolbar class="hop__footer">
+        <ion-label class="hop__footer__title ux-font-text-lg">{{
+          'fiat_ramps.home_of_purchases.footer.title' | translate
+        }}</ion-label>
+        <div class="hop__footer__actions">
+          <ion-button
+            class="ux_button"
+            appTrackClick
+            name="ux_buy_new"
+            color="secondary"
+            expand="block"
+            (click)="this.buy()"
+          >
+            {{ 'fiat_ramps.home_of_purchases.footer.buy_button' | translate }}
+          </ion-button>
+          <ion-button
+            *appFeatureFlag="'ff_sellEnabled'"
+            class="ux_button"
+            appTrackClick
+            name="ux_sell_new"
+            color="secondary"
+            expand="block"
+            (click)="this.sell()"
+          >
+            {{ 'fiat_ramps.home_of_purchases.footer.sell_button' | translate }}
+          </ion-button>
+        </div>
+      </ion-toolbar>
     </ion-footer>`,
   styleUrls: ['./home-of-purchases.page.scss'],
 })
@@ -97,7 +118,8 @@ export class HomeOfPurchasesPage {
     private navController: NavController,
     private translate: TranslateService,
     private kriptonStorage: KriptonStorageService,
-    private kriptonUser: KriptonUserInjectable
+    private kriptonUser: KriptonUserInjectable,
+    private trackService: TrackService
   ) {}
 
   async ionViewWillEnter() {
@@ -138,11 +160,28 @@ export class HomeOfPurchasesPage {
   goToFaqs() {
     this.navController.navigateForward('/support/faqs/buy');
   }
-
-  handler(mode: string) {
-    this.tokenOperationDataService.clean();
-    this.tokenOperationDataService.set({ mode: mode === 'sell' ? 'sell' : 'buy' });
-    this.navController.navigateForward('fiat-ramps/token-selection');
+  
+  buy(){
+    this.tokenOperationDataService.add({ mode: 'buy' });
+    this.trackEventByMode('buy');
+    this.navigateBy()
+  }
+  
+  sell(){
+    this.tokenOperationDataService.add({ mode: 'sell'  });
+    this.trackEventByMode('sell');
+    this.navigateBy()
+  }
+  
+  navigateBy() {
+    if (this.tokenOperationDataService.tokenOperationData.isFirstTime) {
+      this.navController.navigateForward(
+        this.tokenOperationDataService.hasAssetInfo() ? '/fiat-ramps/select-provider' : '/fiat-ramps/token-selection'
+      );
+      this.tokenOperationDataService.add({ isFirstTime: false });
+    } else {
+      this.navController.navigateForward('/fiat-ramps/token-selection');
+    }
   }
 
   private async getUserEmail() {
@@ -173,5 +212,23 @@ export class HomeOfPurchasesPage {
       this.message = this.translate.instant('fiat_ramps.kyc_status.approving.message');
       this.style = 'approving';
     }
+  }
+
+  trackEventByMode(mode: string) {
+    this.trackService.trackEvent({
+      eventAction: 'click',
+      description: window.location.href,
+      eventLabel: `ux_${mode}_new`,
+    });
+  }
+
+  back() {
+    return this.navController.navigateBack('/tabs/wallets');
+  }
+
+  loggedOut() {
+    this.isLogged = false;
+    this.userStatus = null;
+    this.email = null;
   }
 }

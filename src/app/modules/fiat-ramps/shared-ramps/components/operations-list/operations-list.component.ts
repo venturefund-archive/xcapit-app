@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { TwoButtonsAlertComponent } from 'src/app/shared/components/two-buttons-alert/two-buttons-alert.component';
@@ -62,6 +62,7 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
 export class OperationsListComponent implements OnChanges {
   @Input() operationsList: FiatRampOperation[];
   @Input() isLogged: boolean;
+  @Output() loggedOut: EventEmitter<void> = new EventEmitter<void>();
   private readonly numberOfOperationsToShow = 3;
   firstOperations: FiatRampOperation[];
   remainingOperations: FiatRampOperation[];
@@ -136,6 +137,7 @@ export class OperationsListComponent implements OnChanges {
   kriptonLogout() {
     this.removeKeys();
     this.isLogged = false;
+    this.loggedOut.emit();
   }
 
   removeKeys() {
@@ -148,7 +150,7 @@ export class OperationsListComponent implements OnChanges {
   async showLogoutAlert() {
     const modal = await this.modalController.create({
       component: TwoButtonsAlertComponent,
-      cssClass: 'modal',
+      cssClass: 'modal two-button-xl',
       backdropDismiss: false,
       componentProps: {
         title: this.translate.instant('fiat_ramps.operations_list.log_out_modal.title'),

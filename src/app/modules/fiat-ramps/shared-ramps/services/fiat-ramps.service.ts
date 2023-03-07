@@ -118,6 +118,16 @@ export class FiatRampsService {
     );
   }
 
+  getKriptonFee(fiatCurrency: string, amount_in: number, currency_out: string, network: string): Observable<any> {
+    return this.http.post('https://app.kriptonmarket.com/public/calculate_amount_out', {
+      currency_in: fiatCurrency,
+      amount_in: amount_in,
+      currency_out: currency_out,
+      type: 'cash-in',
+      network_out: network,
+    });
+  }
+
   getLink(apikeyId: number): Observable<any> {
     return this.http.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
   }

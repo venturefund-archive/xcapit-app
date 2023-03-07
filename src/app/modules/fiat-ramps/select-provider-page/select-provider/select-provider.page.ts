@@ -75,7 +75,7 @@ export class SelectProviderPage {
 
   ionViewWillEnter() {    
     this.setTransactionMode();
-    this.trackScreenViewEvent();
+    this.setCoin();
   }
 
   ionViewDidEnter() {
@@ -97,12 +97,7 @@ export class SelectProviderPage {
         );
   }
 
-  trackScreenViewEvent() {
-    this.trackService.trackEvent({
-      eventAction: 'screenview',
-      description: window.location.href,
-      eventLabel: 'ux_screenview_buy',
-    });
+  setCoin() {
     const { asset, network } = this.tokenOperationDataService.tokenOperationData;
     this.coin = this.apiWalletService.getCoin(asset, network);
   }
@@ -113,7 +108,7 @@ export class SelectProviderPage {
 
   goToRoute() {
     this.setEvent();
-    this.tokenOperationDataService.tokenOperationData.country = this.form.value.country.isoCodeAlpha3;
+    this.tokenOperationDataService.add({ country: this.form.value.country.isoCodeAlpha3 });
     this.navController.navigateForward([this.newOperationRoute]);
   }
 
@@ -125,5 +120,14 @@ export class SelectProviderPage {
 
   resetForm() {
     this.form.get('provider').reset();
+    this.trackEvent(this.form.value.country.isoCodeAlpha3);
+  }
+
+  trackEvent(country: string) {
+    this.trackService.trackEvent({
+      eventAction: 'click',
+      description: window.location.href,
+      eventLabel: `ux_${this.tokenOperationDataService.tokenOperationData.mode}_select_country_${country}`,
+    });
   }
 }

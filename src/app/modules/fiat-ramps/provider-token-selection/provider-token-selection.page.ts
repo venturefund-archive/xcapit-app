@@ -7,13 +7,15 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
+import { LINKS } from '../../../config/static-links';
 
 @Component({
   selector: 'app-provider-token-selection',
   template: `<ion-header>
       <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/wallets" ></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'fiat_ramps.token_selection.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -33,19 +35,21 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
       </div>
 
       <div class="sc__require-token">
-        <app-require-token buttonEventName="ux_exp_addtoken_buy"></app-require-token>
+        <app-require-token [url]="staticLinks.requireTokenBuy" buttonEventName="ux_exp_addtoken_buy"></app-require-token>
       </div>
     </ion-content> `,
   styleUrls: ['./provider-token-selection.page.scss'],
 })
 export class ProviderTokenSelectionPage implements OnInit {
   coins: Coin[];
+  staticLinks = LINKS;
   constructor(
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providersFactory: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
-    private fiatRampsService: FiatRampsService
+    private fiatRampsService: FiatRampsService,
+    private trackService: TrackService
   ) {}
 
   ngOnInit() {}
@@ -58,9 +62,9 @@ export class ProviderTokenSelectionPage implements OnInit {
     this.tokenOperationDataService.add({
       asset: currency.value,
       network: currency.network,
-      country: this.tokenOperationDataService?.tokenOperationData?.country,
     });
-    this.navController.navigateForward(['fiat-ramps/select-provider']);
+    this.trackEvent(currency.value);
+    this.navController.navigateForward('fiat-ramps/select-provider');
   }
 
   async availableCoins() {
@@ -73,5 +77,13 @@ export class ProviderTokenSelectionPage implements OnInit {
 
   providers(): Providers {
     return this.providersFactory.create(this.tokenOperationDataService.tokenOperationData.mode);
+  }
+
+  trackEvent(currency: string) {
+    this.trackService.trackEvent({
+      eventAction: 'click',
+      description: window.location.href,
+      eventLabel: `ux_${this.tokenOperationDataService.tokenOperationData.mode}_${currency}`,
+    });
   }
 }

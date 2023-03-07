@@ -21,6 +21,6 @@ export class TokenOperationDataService {
   }
 
   hasAssetInfo(){
-    return !!this.tokenOperationData.asset
+    return !!this.tokenOperationData?.asset
   }
 }

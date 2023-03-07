@@ -22,7 +22,7 @@ describe('ExperimentalOnboardingPage', () => {
   const anERC20Address = '0x0123456789101112131415';
 
   beforeEach(waitForAsync(() => {
-    operationData = { asset: 'USDC', network: 'MATIC', country: undefined };
+    operationData = { asset: 'USDC', network: 'MATIC', country: undefined, mode: 'buy' };
     fakeWalletService = new FakeWalletService(true, {}, { ERC20: anERC20Address });
     walletServiceSpy = fakeWalletService.createSpy();
 

@@ -326,8 +326,8 @@ export class KriptonOperationDetailPage {
     const data: OperationDataInterface = {
       country: this.country.name,
       type: 'cash-in',
-      amount_in: this.operation.amount_in.toString(),
-      amount_out: this.operation.amount_out.toString(),
+      amount_in: this.operation.amount_in,
+      amount_out: this.operation.amount_out,
       currency_in: this.operation.currency_in,
       currency_out: this.operation.currency_out,
       price_in: '',

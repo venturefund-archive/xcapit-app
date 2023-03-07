@@ -47,7 +47,7 @@ import { Amount } from '../../types/amount.type';
           <ion-text
             class="ux-font-text-base tf__fee__qty__quoteFee"
             [ngClass]="{ negative: this.balance < this.fee.value && this.showErrors }"
-            >{{ this.showErrors ? this.quoteFee.value : 0 | formattedAmount : 10 : 2 }}
+            >{{ this.showErrors ? (this.quoteFee.value | formattedAmount: 10:2) : 0 }}
             {{ this.quoteFee.token }}
           </ion-text>
         </div>

@@ -14,6 +14,7 @@ import { BalanceCacheService } from '../../shared-wallets/services/balance-cache
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletBackupService } from '../../shared-wallets/services/wallet-backup/wallet-backup.service';
+import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 
 describe('RemoveWalletPage', () => {
   let component: RemoveWalletPage;
@@ -27,7 +28,7 @@ describe('RemoveWalletPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
-
+  let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
@@ -56,6 +57,10 @@ describe('RemoveWalletPage', () => {
       enableModal: Promise.resolve(),
     });
 
+    txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
+      clean: Promise.resolve(),
+    });
+
     TestBed.configureTestingModule({
       declarations: [RemoveWalletPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
@@ -67,6 +72,7 @@ describe('RemoveWalletPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+        { provide: TxInProgressService, useValue: txInProgressServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -109,6 +115,7 @@ describe('RemoveWalletPage', () => {
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', false);
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('loggedIn', false);
     expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
-    expect(ionicStorageServiceSpy.remove).toHaveBeenCalledTimes(5);
+    expect(ionicStorageServiceSpy.remove).toHaveBeenCalledTimes(4);
+    expect(txInProgressServiceSpy.clean).toHaveBeenCalledTimes(1);
   });
 });

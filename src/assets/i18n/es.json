@@ -1824,7 +1824,7 @@
       "subheader_buttons_component": {
         "send_card": "Enviar",
         "receive_card": "Recibir",
-        "buy_card": "Comprar",
+        "buy_card": "Comprar <br/> Vender",
         "swap_card": "Intercambiar"
       },
       "backup_card_component": {
@@ -2378,9 +2378,13 @@
   },
   "fiat_ramps": {
     "home_of_purchases": {
-      "header": "Mis compras",
+      "header": "Compra - Venta",
       "question": "¿Cómo funcionan las compras?",
-      "button": "Realizar nueva compra"
+      "footer":{
+        "title":"¿Qué deseas hacer?",
+        "buy_button":"Comprar",
+        "sell_button":"Vender"
+      }
     },
     "buy_conditions": {
       "title": "¿Qué necesitas saber antes de comprar?",

@@ -85,6 +85,7 @@ export class BuyOrDepositTokenToastComponent implements OnInit {
     this.tokenOperationDataService.tokenOperationData = {
       asset: this.token.symbol(),
       network: this.token.json().network,
+      mode: 'buy'
     };
 
     this.navController.navigateForward(['/fiat-ramps/select-provider']);
