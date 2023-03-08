@@ -131,16 +131,21 @@
       "of": "de"
     },
     "update_news": {
-      "title": "Boas notícias, Xcapiter!",
+      "title": "Boas notícias!",
       "first": {
         "badge": "Novo recurso",
-        "title": "\ud83d\udc41\ufe0f Autenticação Biométrica",
-        "description": "Agora não só pode entrar com eles na sua carteira, como também pode aprovar as suas transacções!"
+        "title": "Adicionamos a Rede Solana",
+        "description": "Opere na rede Solana com a sua ficha nativa e as opções mais populares!"
       },
       "second": {
         "badge": "Novo recurso",
-        "title": "\ud83d\ude0e Melhorias na experiência",
-        "description": "Activação de fornecedores, fluxos mais suaves e maior clareza nas operações centrais."
+        "title": "Lista de contactos",
+        "description": "Proteja as suas transferências de fraudes! Guarde os seus endereços de confiança para enviar e receber sem problemas."
+      },
+      "third": {
+        "badge": "Novo recurso",
+        "title": "Bitrefill giftcards",
+        "description": "Pode agora converter os seus cryptos em vales para gastar em qualquer comerciante da sua conveniência."
       }
     },
     "transaction_fees": {
