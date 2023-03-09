@@ -5,7 +5,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
   selector: 'app-whatsapp-support',
   template: `<div class="ws__help">
     <div class="ws__help__tertiary-text">
-      <ion-text class="ux-font-text-base">{{ 'warranties.whatsapp_support.textTertiary' | translate }}</ion-text>
+      <ion-text class="ux-font-text-base">{{ 'shared.whatsapp_support.textTertiary' | translate }}</ion-text>
       <img src="/assets/img/warranties/whatsapp_support.svg" alt="Icon" />
     </div>
     <ion-button
@@ -16,7 +16,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
       fill="clear"
       size="small"
     >
-      <ion-text class="ux-link-xs">{{ 'warranties.whatsapp_support.textHelpLink' | translate }}</ion-text>
+      <ion-text class="ux-link-xs">{{ 'shared.whatsapp_support.textHelpLink' | translate }}</ion-text>
     </ion-button>
   </div>`,
   styleUrls: ['./whatsapp-support.component.scss'],

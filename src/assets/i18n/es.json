@@ -91,6 +91,10 @@
         "toast_error": "No se pudo copiar la dirección al portapapeles"
       }
     },
+    "whatsapp_support": {
+      "textTertiary": "¿Necesitas ayuda?",
+      "textHelpLink": "Escribenos por whatsapp"
+    },
     "update_modal": {
       "title": "¡Actualiza la app!",
       "text": "Descubre nuevas opciones para operar con tus criptomonedas.",

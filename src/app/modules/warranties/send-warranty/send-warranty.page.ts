@@ -109,7 +109,6 @@ export class SendWarrantyPage {
   ) {}
 
   async ionViewWillEnter() {
-    this.modalHref = window.location.href;
     await this.walletService.walletExist();
     this.dynamicPrice();
     await this.tokenBalance();
