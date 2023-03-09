@@ -47,6 +47,7 @@ import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { firebaseInitializer } from './shared/factories/app-initializers/firebase/firebase-initializer';
 import { ContactsModule } from './modules/contacts/contacts.module';
 import { NoConnectionBannerComponent } from './shared/components/no-connection-banner/no-connection-banner.component';
+import { WarrantiesModule } from './modules/warranties/warranties.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -87,6 +88,7 @@ registerLocaleData(localeEn, 'en');
     DefiInvestmentsModule,
     SwapsModule,
     ContactsModule,
+    WarrantiesModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
