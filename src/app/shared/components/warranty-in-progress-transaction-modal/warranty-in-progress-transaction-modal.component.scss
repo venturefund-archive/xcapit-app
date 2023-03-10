@@ -1,0 +1,112 @@
+:host {
+  align-items: center;
+  justify-content: center;
+
+  --max-height: 579.05px;
+
+  .wipt {
+    &__header {
+      background-color: var(--ion-color-infolight);
+      border-radius: 8px 8px 0 0;
+      margin-top: -8px;
+
+      &__close-button {
+        text-align: end !important;
+      }
+
+      &__img {
+        display: flex;
+        justify-content: center;
+
+        img {
+          margin-top: -16px;
+          min-height: 200px;
+        }
+      }
+    }
+
+    &__main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding-left: 8px;
+      padding-right: 8px;
+
+      &__icon {
+        margin-top: -28px;
+      }
+
+      &__primary-title {
+        ion-text {
+          color: var(--ion-color-info);
+        }
+      }
+
+      &__badge {
+        margin-top: 4px;
+
+        ion-badge {
+          background-color: var(--ion-color-warninglight);
+          color: var(--ion-color-warningdark);
+          border-radius: 4px;
+        }
+      }
+
+      &__primary-text {
+        margin-top: 24px;
+      }
+
+      &__secondary-text {
+        margin-top: 4px;
+
+        ion-text {
+          color: var(--ion-color-primary) !important;
+        }
+      }
+
+      &__operation {
+        margin-top: 24px;
+        display: flex;
+        align-items: center;
+        gap: 21px;
+        justify-content: center;
+      }
+    }
+
+    &__footer {
+      margin-top: 24px;
+
+      &__actions {
+        &__primary {
+          padding: 0 16px 16px;
+        }
+
+        &__secondary {
+          text-align: center;
+          margin-bottom: 28.5px;
+
+          ion-label {
+            text-decoration: none;
+          }
+        }
+      }
+
+      &__help {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &__tertiary-text {
+          display: flex;
+          gap: 8px;
+        }
+
+        ion-button {
+          margin-top: -4px;
+        }
+      }
+    }
+  }
+}

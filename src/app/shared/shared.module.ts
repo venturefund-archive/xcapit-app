@@ -107,6 +107,7 @@ import { RequireTokenComponent } from './components/require-token/require-token.
 import { HideEmailPipe } from './pipes/hide-email/hide-email.pipe';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { GeneralModalWithTwoButtonsComponent } from './components/general-modal-with-two-buttons/general-modal-with-two-buttons.component';
+import { WarrantyInProgressTransactionModalComponent } from './components/warranty-in-progress-transaction-modal/warranty-in-progress-transaction-modal.component';
 import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp-support.component';
 import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warranties/components/warranty-summary-card/warranty-summary-card.component';
 
@@ -135,6 +136,7 @@ import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warra
     EyeComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
+    WarrantyInProgressTransactionModalComponent,
     ContactItemComponent,
     ModalAsAlertComponent,
     WhatsappSupportComponent,
@@ -256,6 +258,7 @@ import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warra
     EyeComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
+    WarrantyInProgressTransactionModalComponent,
     ContactItemComponent,
     ModalAsAlertComponent,
     WhatsappSupportComponent,

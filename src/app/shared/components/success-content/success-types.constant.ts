@@ -408,4 +408,37 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'tickets.create_support_ticket_success_new_login.no_wallet.namePrimaryAction',
     urlClose: '/support/options',
   },
+  warrant_success: {
+    image: '/assets/img/fiat-ramps/opeartion-km-in-progress/operation-km-in-progress.svg',
+    urlClose: '/tabs/wallets',
+    icon: '/assets/img/fiat-ramps/opeartion-km-in-progress/operation-icon.svg',
+    textPrimary: 'warranties.success.textPrimary',
+    textSecondary: 'warranties.success.textSecondary',
+    textTertiary: 'warranties.send_warranty.whatsapp_support.textTertiary',
+    iconTertiary: '/assets/img/whatsapp-icon.svg',
+    textHelpLink: 'warranties.send_warranty.whatsapp_support.textHelpLink',
+    textOperation: 'warranties.success.operation',
+    numeration: 'warranties.success.numeration',
+    namePrimaryAction: 'warranties.success.namePrimaryAction',
+    urlPrimaryAction: '/tabs/wallets',
+  },
+  warrant_blockchain_error: {
+    hasToTrackScreenview: true,
+    screenviewEventLabel: 'ux_warranty_start_error_screenview',
+    image: 'assets/img/defi-investments/error-investment.svg',
+    urlClose: '/tabs/wallets',
+    trackClickEventNameCloseAction: 'ux_warranty_start_error_retry',
+    textPrimary: 'warranties.warranty_error_blockchain.title',
+    textSecondary: 'warranties.warranty_error_blockchain.subtitle',
+    textHelp: 'warranties.send_warranty.whatsapp_support.textTertiary',
+    textHelpLink: 'warranties.send_warranty.whatsapp_support.textHelpLink',
+    iconHelp: '/assets/img/whatsapp-icon.svg',
+    namePrimaryAction: 'warranties.warranty_error_blockchain.primaryButton',
+    urlPrimaryAction: '/tabs/wallets',
+    urlHelpAction: '/tabs/wallets',
+    trackClickEventNamePrimaryAction: 'ux_warranty_start_error_retry',
+  },
+  warrant_generic_error: {
+
+  }
 };
