@@ -135,16 +135,21 @@
       "of": "of"
     },
     "update_news": {
-      "title": "Good news, Xcapiter!",
+      "title": "Good news!",
       "first": {
         "badge": "New feature",
-        "title": "\ud83d\udc41\ufe0f Biometric Auth",
-        "description": "Now you will not only be able to log in to your wallet with them, but you will also be able to approve your transactions!"
+        "title": "We added the Solana Network",
+        "description": "Trade on the Solana network with your native token and the most popular options!."
       },
       "second": {
         "badge": "New feature",
-        "title": "\ud83d\ude0e Experience enhancements",
-        "description": "Activation of suppliers, smoother flows and greater clarity in core operations."
+        "title": "Contact list",
+        "description": "Protect your transfers from scams! Save your trusted addresses for hassle-free shipping and receiving."
+      },
+      "third": {
+        "badge": "New feature",
+        "title": "Bitrefill giftcards",
+        "description": "Now you can convert your cryptos to vouchers to spend them at any merchant of your convenience."
       }
     },
     "transaction_fees": {
@@ -2309,7 +2314,8 @@
       "disclaimer_support": "support.",
       "dapp_disconnection": {
         "message": "The connection to {{dapp}} was lost. This can happen if you disconnect manually or if the connection is unstable."
-      }
+      },
+      "eip712_invalid": "The signature was rejected because the chainId of the EIP-712 object is not the same as the chainId of the active blockchain."
     },
     "export_private_key": {
       "header": "Private key",

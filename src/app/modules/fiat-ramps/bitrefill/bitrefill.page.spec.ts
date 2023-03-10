@@ -47,6 +47,7 @@ import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { SpyProperty } from 'src/testing/spy-property.spec';
 import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
+import { EnvService } from 'src/app/shared/services/env/env.service';
 
 describe('BitrefillPage', () => {
   let component: BitrefillPage;
@@ -71,15 +72,16 @@ describe('BitrefillPage', () => {
   let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
+  let envServiceSpy: jasmine.SpyObj<EnvService>;
 
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const tokens = new DefaultTokens(new TokenRepo(rawTokensData));
   const token = new DefaultToken(rawETHData);
   const nativeToken = new DefaultToken({ ...rawEthereumData.nativeToken, network: 'ERC20' });
-  const nativeOperation = new DefaultBitrefillOperation(rawNativeEvent, tokens, blockchains);
-  const nativeNonValidOperation = new DefaultBitrefillOperation(rawNativeNonValidTokenEvent, tokens, blockchains);
-  const nonNativeOperation = new DefaultBitrefillOperation(rawNonNativeEvent, tokens, blockchains);
+  const nativeOperation = new DefaultBitrefillOperation(rawNativeEvent, tokens);
+  const nativeNonValidOperation = new DefaultBitrefillOperation(rawNativeNonValidTokenEvent, tokens);
+  const nonNativeOperation = new DefaultBitrefillOperation(rawNonNativeEvent, tokens);
   const route = { paymentMethod: 'usdc_polygon' };
 
   const insufficientBalance = {
@@ -182,6 +184,10 @@ describe('BitrefillPage', () => {
       create: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
 
+    envServiceSpy = jasmine.createSpyObj('EnvService', {
+      byKey: 'testAffiliateCode',
+    });
+
     TestBed.configureTestingModule({
       declarations: [BitrefillPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -202,6 +208,7 @@ describe('BitrefillPage', () => {
         { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
+        { provide: EnvService, useValue: envServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -222,7 +229,7 @@ describe('BitrefillPage', () => {
     fixture.detectChanges();
     const iframeEl = fixture.debugElement.query(By.css('iframe'));
     expect(iframeEl.attributes.src).toEqual(
-      `https://www.bitrefill.com/embed/?paymentMethod=${route.paymentMethod}&hl=pt`
+      `https://www.bitrefill.com/embed/?paymentMethod=${route.paymentMethod}&hl=pt&ref=testAffiliateCode&utm_source=xcapit`
     );
     component.ionViewWillLeave();
   });
@@ -252,7 +259,7 @@ describe('BitrefillPage', () => {
     component.ionViewWillEnter();
     _dispatchEvent(nonNativeEventInvoice);
     tick();
-    expect(bitrefillOperationFactorySpy.create).toHaveBeenCalledOnceWith(rawNonNativeEventInvoice, tokens, blockchains);
+    expect(bitrefillOperationFactorySpy.create).toHaveBeenCalledOnceWith(rawNonNativeEventInvoice, tokens);
     expect(component.operation).toBeInstanceOf(DefaultBitrefillOperation);
     component.ionViewWillLeave();
   }));
@@ -261,7 +268,7 @@ describe('BitrefillPage', () => {
     component.ionViewWillEnter();
     _dispatchEvent(nativeEventInvoice);
     tick();
-    expect(bitrefillOperationFactorySpy.create).toHaveBeenCalledOnceWith(rawNativeEventInvoice, tokens, blockchains);
+    expect(bitrefillOperationFactorySpy.create).toHaveBeenCalledOnceWith(rawNativeEventInvoice, tokens);
     expect(component.operation).toBeInstanceOf(DefaultBitrefillOperation);
 
     component.ionViewWillLeave();

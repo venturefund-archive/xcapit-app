@@ -31,6 +31,8 @@ import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
+import { BitrefillURL } from '../shared-ramps/models/bitrefill-url/bitrefill-url';
+import { EnvService } from '../../../shared/services/env/env.service';
 
 @Component({
   selector: 'app-bitrefill',
@@ -65,7 +67,6 @@ import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchai
   styleUrls: ['./bitrefill.page.scss'],
 })
 export class BitrefillPage {
-  rootURL = 'https://www.bitrefill.com/embed/';
   url: SafeResourceUrl;
   operation: BitrefillOperation;
   rawOperationData: RawBitrefillOperation;
@@ -98,7 +99,8 @@ export class BitrefillPage {
     private tokenDetailInjectable: TokenDetailInjectable,
     private tokenPricesFactory: TokenPricesInjectable,
     private covalentBalancesFactory: CovalentBalancesInjectable,
-    private walletsFactory: WalletsFactory
+    private walletsFactory: WalletsFactory,
+    private envService: EnvService
   ) {}
 
   async ionViewWillEnter() {
@@ -137,8 +139,9 @@ export class BitrefillPage {
   async setURL() {
     const paymentMethod = this.route.snapshot.paramMap.get('paymentMethod');
     const languageCode = await this.languageService.getSelectedLanguage();
-    const rawURL = `${this.rootURL}?paymentMethod=${paymentMethod}&hl=${languageCode}`;
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(rawURL);
+    const affiliateCode = this.envService.byKey('bitrefillAffiliateCode');
+    const rawBitrefillURL = new BitrefillURL(paymentMethod, languageCode, affiliateCode);
+    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(rawBitrefillURL.value());
   }
 
   addListener() {
@@ -147,14 +150,10 @@ export class BitrefillPage {
 
   async messageHandler(event) {
     this.rawOperationData = JSON.parse(event.data);
-
     if (this.rawOperationData.event === 'invoice_created') {
       this.operation = this.dataOf();
-
       this.tplToken = (await this.operation.token()).json();
-
       this.setBlockchain(this.tplToken.network);
-
       await this.setWallet();
       await this.setTokenDetail();
       await this.checksBeforeSendTx();
@@ -167,7 +166,6 @@ export class BitrefillPage {
     return this.bitrefillOperation.create(
       this.rawOperationData,
       new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())),
-      this.blockchains.create()
     );
   }
 
@@ -203,7 +201,7 @@ export class BitrefillPage {
 
   private async checksBeforeSendTx(): Promise<boolean> {
     if (!(await this.userCanAffordTx())) {
-      this.showInsufficientBalanceModal();
+      await this.showInsufficientBalanceModal();
       return false;
     }
     if (!(await this.userCanAffordFees())) {
@@ -216,7 +214,6 @@ export class BitrefillPage {
   private async setTokenDetail() {
     const token = await this.operation.token();
     this.nativeToken = this.blockchains.create().oneById(this.tplToken.chainId.toString()).nativeToken();
-
     this.tokenDetail = await this.tokenDetailOf(token);
     this.balance = this.tokenDetail.balance;
   }
@@ -224,19 +221,19 @@ export class BitrefillPage {
   private async userCanAffordFees(): Promise<boolean> {
     return this.walletTransactionsService.canAffordSendFee(
       this.operation.address(),
-      (await this.operation.amount()).value(),
+      this.operation.amount(),
       (await this.operation.token()).json() as Coin
     );
   }
 
   private async userCanAffordTx(): Promise<boolean> {
-    return this.balance >= (await this.operation.amount()).value();
+    return this.balance >= this.operation.amount();
   }
 
   private async send(password: string) {
     const response = await this.walletTransactionsService.send(
       password,
-      (await this.operation.amount()).value(),
+      this.operation.amount(),
       this.operation.address(),
       (await this.operation.token()).json() as Coin
     );
@@ -280,7 +277,7 @@ export class BitrefillPage {
 
   private async showErrorToast() {
     await this.toastService.showErrorToast({
-      message: this.translate.instant('fiat_ramps.bitrefill.toast.error'),
+      message: this.translate.instant('fiat_ramps.bitrefill.toasts.error'),
     });
   }
 
