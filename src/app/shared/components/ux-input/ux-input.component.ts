@@ -10,7 +10,7 @@ import { ToastService } from '../../services/toast/toast.service';
     <div class="ux_input_container">
       <div class="ux_input_container__label">
         <div class="ux_input_container__labels">
-          <ion-label class="ux-font-titulo-xs" [ngStyle]="{ color: this.labelColor ? this.labelColor : '' }"
+          <ion-label class="ux-font-titulo-xs" [ngClass]="this.labelColor ? this.labelColor : ''"
             >{{ this.label }}
           </ion-label>
           <ion-label *ngIf="this.subLabel" class="ux-font-text-xxs">{{ this.subLabel }}</ion-label>
@@ -147,7 +147,7 @@ export class UxInputComponent implements OnInit {
   @Input() pasteType = false;
   @Input() textClass: string;
   @Input() infoIcon = false;
-  @Input() labelColor= undefined;
+  @Input() labelColor = undefined;
   @Output() infoIconClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() qrScannerOpened: EventEmitter<void> = new EventEmitter<void>();
   typeSetted: string;

@@ -86,6 +86,10 @@
         "copy_text": "The subscription link has been copied to the clipboard.",
         "share_error": "Text was copied to the clipboard"
       },
+      "whatsapp_support": {
+        "textTertiary": "Need help?",
+        "textHelpLink": "Write us by whatsapp"
+      },
       "update_pwa_service": {
         "alert_header": "Update available",
         "alert_message": "A new version of the app is available!",
@@ -3330,6 +3334,17 @@
         "confirm_button": "Confirm",
         "cancel_button": "Cancel"
       }
+    }
+  },
+  "warranties": {
+    "send_warranty": {
+      "header": "Make a Warranty",
+      "text_dni": "Identity card number",
+      "deposit_amount": "Deposit amount"
+    },
+    "whatsapp_support": {
+      "textTertiary": "Need help?",
+      "textHelpLink": "Write us by whatsapp"
     }
   }
 }

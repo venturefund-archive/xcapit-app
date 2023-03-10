@@ -91,6 +91,10 @@
         "toast_error": "No se pudo copiar la dirección al portapapeles"
       }
     },
+    "whatsapp_support": {
+      "textTertiary": "¿Necesitas ayuda?",
+      "textHelpLink": "Escribenos por whatsapp"
+    },
     "update_modal": {
       "title": "¡Actualiza la app!",
       "text": "Descubre nuevas opciones para operar con tus criptomonedas.",
@@ -2380,10 +2384,10 @@
     "home_of_purchases": {
       "header": "Compra - Venta",
       "question": "¿Cómo funcionan las compras?",
-      "footer":{
-        "title":"¿Qué deseas hacer?",
-        "buy_button":"Comprar",
-        "sell_button":"Vender"
+      "footer": {
+        "title": "¿Qué deseas hacer?",
+        "buy_button": "Comprar",
+        "sell_button": "Vender"
       }
     },
     "buy_conditions": {
@@ -2417,7 +2421,7 @@
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más",
       "log_out_modal": {
-        "title":"¿Deseas cerrar sesión?",
+        "title": "¿Deseas cerrar sesión?",
         "description": "Deberás ingresar nuevamente con tu email para ver tus compras.",
         "confirm_button": "Confirmar",
         "cancel_button": "Cancelar"
@@ -3494,6 +3498,17 @@
         "confirm_button": "Confirmar",
         "cancel_button": "Cancelar"
       }
+    }
+  },
+  "warranties": {
+    "send_warranty": {
+      "header": "Confeccionar garantia",
+      "text_dni": "Ingresar DNI",
+      "deposit_amount": "Monto a depositar"
+    },
+    "whatsapp_support": {
+      "textTertiary": "¿Necesitas ayuda?",
+      "textHelpLink": "Escribenos por whatsapp"
     }
   }
 }
