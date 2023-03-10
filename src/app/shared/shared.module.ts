@@ -106,6 +106,7 @@ import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-aler
 import { RequireTokenComponent } from './components/require-token/require-token.component';
 import { HideEmailPipe } from './pipes/hide-email/hide-email.pipe';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp-support.component';
 
 @NgModule({
   declarations: [
@@ -134,6 +135,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     InProgressTransactionModalComponent,
     ContactItemComponent,
     ModalAsAlertComponent,
+    WhatsappSupportComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
@@ -198,6 +200,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     AddressInputCardComponent,
     RequireTokenComponent,
     SearchBarComponent,
+
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,
@@ -251,6 +254,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     InProgressTransactionModalComponent,
     ContactItemComponent,
     ModalAsAlertComponent,
+    WhatsappSupportComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
