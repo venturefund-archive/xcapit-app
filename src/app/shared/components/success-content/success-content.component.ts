@@ -73,21 +73,8 @@ import { TrackService } from '../../services/track/track.service';
       <div class="main__disclaimer" *ngIf="this.data.disclaimer">
         <ion-text class="ux-font-text-xs">{{ this.data.disclaimer | translate }}</ion-text>
       </div>
-      <div class="main__help" *ngIf="this.data?.textHelp">
-        <div class="main__help__text-help">
-          <ion-text class="ux-font-text-base">{{ this.data?.textHelp | translate }}</ion-text>
-          <img [src]="this.data?.iconHelp" alt="Icon" />
-        </div>
-        <ion-button
-          class="main__help__open-support"
-          name="whatsApp"
-          (click)="this.helpAction()"
-          appTrackClick
-          fill="clear"
-          size="small"
-        >
-          <ion-text class="ux-link-xs">{{ this.data?.textHelpLink | translate }}</ion-text>
-        </ion-button>
+      <div class="main__support" *ngIf="this.data?.hasWhatsappSupport">
+        <app-whatsapp-support></app-whatsapp-support>
       </div>
     </div>
   `,
@@ -100,7 +87,6 @@ export class SuccessContentComponent implements OnInit {
   @Output() primaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() secondaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() thirdActionEvent: EventEmitter<void> = new EventEmitter<void>();
-  @Output() helpActionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private navController: NavController, private trackService: TrackService) {}
 
@@ -137,12 +123,5 @@ export class SuccessContentComponent implements OnInit {
       this.navController.navigateForward([this.data.urlThirdAction]);
     }
     this.secondaryActionEvent.emit();
-  }
-
-  helpAction() {
-    if (this.data.urlHelpAction) {
-      this.navController.navigateForward([this.data.urlHelpAction]);
-    }
-    this.helpActionEvent.emit();
   }
 }

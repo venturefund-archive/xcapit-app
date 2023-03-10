@@ -3380,6 +3380,23 @@
     "whatsapp_support": {
       "textTertiary": "Need help?",
       "textHelpLink": "Write us by whatsapp"
+    },
+    "success": {
+      "textPrimary": "Your order is on its way!",
+      "textSecondary": "The financial institution will contact you through the usual channels.",
+      "operation": "Operation",
+      "numeration": "No.",
+      "namePrimaryAction": "Back to Home"
+    },
+    "warranty_error_blockchain": {
+      "title": "Your operation could not be completed.",
+      "subtitle": "An error occurred in the blockchain",
+      "primaryButton": "Retry"
+    },
+    "warranty_error_generic": {
+      "title": "Your operation could not be completed.",
+      "subtitle": "A communication error occurred with the server",
+      "primaryButton": "Retry"
     }
   }
 }

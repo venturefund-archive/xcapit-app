@@ -86,19 +86,8 @@
       }
     }
 
-    &__help {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      &__text-help {
-        display: flex;
-        gap: 8px;
-      }
-
-      ion-button {
-        margin-top: -4px;
-      }
+    &__support {
+      margin-top: 16px;
     }
   }
 }

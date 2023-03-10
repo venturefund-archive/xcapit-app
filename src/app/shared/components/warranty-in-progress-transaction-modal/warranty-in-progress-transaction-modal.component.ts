@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { TrackService } from '../../services/track/track.service';
+import { SUCCESS_TYPES } from '../success-content/success-types.constant';
 
 @Component({
   selector: 'app-warranty-in-progress-transaction-modal',
@@ -19,63 +20,54 @@ import { TrackService } from '../../services/track/track.service';
       <div class="wipt__main">
         <div class="wipt__main__icon">
           <img [src]="this.data?.icon" alt="Icon" />
-        <div class="wipt__main__primary-text">
-          <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
-        </div>
-        <div class="wipt__main__secondary-text">
-          <ion-text class="ux-font-text-base">{{ this.data?.textSecondary | translate }}</ion-text>
-        </div>
-        <div class="wipt__main__operation">
-          <ion-text class="ux-font-titulo-xs">{{ this.data?.textOperation | translate }}</ion-text>
-          <ion-text class="ux-font-text-base-black">{{ this.data?.numeration | translate }} {{ this.operationNumber }}</ion-text>
-        </div>
-      </div>
-      
-      <ion-footer class="wipt__footer">
-        <div class="wipt__footer__actions">
-          <div class="wipt__footer__actions__primary">
-            <ion-button
-              class="ux_button"
-              color="secondary"
-              expand="block"
-              name="Success Action Primary"
-              (click)="this.primaryAction()"
+          <div class="wipt__main__primary-text">
+            <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
+          </div>
+          <div class="wipt__main__secondary-text">
+            <ion-text class="ux-font-text-base">{{ this.data?.textSecondary | translate }}</ion-text>
+          </div>
+          <div class="wipt__main__operation">
+            <ion-text class="ux-font-titulo-xs">{{ this.data?.textOperation | translate }}</ion-text>
+            <ion-text class="ux-font-text-base-black"
+              >{{ this.data?.numeration | translate }} {{ this.operationNumber }}</ion-text
             >
-              {{ this.data?.namePrimaryAction | translate }}
-            </ion-button>
           </div>
         </div>
-        <div class="wipt__footer__help" *ngIf="this.data?.textTertiary">
-          <div class="wipt__footer__help__tertiary-text">
-            <ion-text class="ux-font-text-base">{{ this.data?.textTertiary | translate }}</ion-text>
-            <img [src]="this.data?.iconTertiary" alt="Icon"/>
+
+        <ion-footer class="wipt__footer">
+          <div class="wipt__footer__actions">
+            <div class="wipt__footer__actions__primary">
+              <ion-button
+                class="ux_button"
+                color="secondary"
+                expand="block"
+                name="Success Action Primary"
+                (click)="this.primaryAction()"
+              >
+                {{ this.data?.namePrimaryAction | translate }}
+              </ion-button>
+            </div>
           </div>
-          <ion-button
-            class="wipt__footer__help__open-support"
-            name="WhatsApp"
-            (click)="this.openSupport()"
-            appTrackClick
-            fill="clear"
-            size="small"
-          >
-            <ion-text class="ux-link-xs">{{ this.data?.textHelpLink | translate }}</ion-text>
-          </ion-button>
-        </div>
-      </ion-footer>
+          <div class="wipt__footer__support">
+            <app-whatsapp-support></app-whatsapp-support>
+          </div>
+        </ion-footer>
+      </div>
     </div>
   `,
   styleUrls: ['./warranty-in-progress-transaction-modal.component.scss'],
 })
 export class WarrantyInProgressTransactionModalComponent implements OnInit {
   data;
-  operationNumber = 3456;
+  @Input() operationNumber: number
   constructor(
     private modalController: ModalController,
     private navController: NavController,
-    private trackService: TrackService,
+    private trackService: TrackService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.data = SUCCESS_TYPES.warrant_success;
     this.trackScreenViewEvent();
   }
 

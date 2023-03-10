@@ -78,11 +78,4 @@ describe('WarrantyInProgressTransactionModalComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlPrimaryAction]);
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
-
-  it('should router navigate to whatsapp support when whatsapp is clicked', () => {
-    const supportButtonEl = fixture.debugElement.query(By.css("ion-button[name='WhatsApp']"));
-    supportButtonEl.nativeElement.click();
-    fixture.detectChanges();
-    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
-  })
 });
