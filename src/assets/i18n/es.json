@@ -91,6 +91,10 @@
         "toast_error": "No se pudo copiar la dirección al portapapeles"
       }
     },
+    "whatsapp_support": {
+      "textTertiary": "¿Necesitas ayuda?",
+      "textHelpLink": "Escribenos por whatsapp"
+    },
     "update_modal": {
       "title": "¡Actualiza la app!",
       "text": "Descubre nuevas opciones para operar con tus criptomonedas.",
@@ -2380,10 +2384,10 @@
     "home_of_purchases": {
       "header": "Compra - Venta",
       "question": "¿Cómo funcionan las compras?",
-      "footer":{
-        "title":"¿Qué deseas hacer?",
-        "buy_button":"Comprar",
-        "sell_button":"Vender"
+      "footer": {
+        "title": "¿Qué deseas hacer?",
+        "buy_button": "Comprar",
+        "sell_button": "Vender"
       }
     },
     "buy_conditions": {
@@ -2417,7 +2421,7 @@
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más",
       "log_out_modal": {
-        "title":"¿Deseas cerrar sesión?",
+        "title": "¿Deseas cerrar sesión?",
         "description": "Deberás ingresar nuevamente con tu email para ver tus compras.",
         "confirm_button": "Confirmar",
         "cancel_button": "Cancelar"
@@ -2459,7 +2463,7 @@
       "disclaimer": "* Las cotizaciones pueden variar ligeramente al momento de la compra.",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
-      "kripton_sell_description":"Los depositos pueden demorar hasta 72hs",
+      "kripton_sell_description": "Los depositos pueden demorar hasta 72hs",
       "bitrefill_description": "¡Accede a beneficios exclusivos!",
       "directa24": {
         "platform_description": "Compra a través de la plataforma",
@@ -2477,7 +2481,7 @@
         "subtitle_available_tokens": "¿Qué tokens puedes comprar?",
         "subtitle_more_information": "Más información:",
         "subtitle_time_tokens": "Tiempo de acreditación de tokens:",
-        "subtitule_need_know":"¿Qué necesitas saber?",
+        "subtitule_need_know": "¿Qué necesitas saber?",
         "kyc_required": "Requiere KYC o proceso de registración.",
         "button": "Entendido",
         "kripton": {
@@ -2510,13 +2514,13 @@
           "description_3": "Días hábiles de 9 a 18hs aprox. El tiempo máximo de acreditación es de 3hs."
         },
         "bitrefill": {
-          "name":"Bitrefill",
-          "header":"Es un proveedor habilitado para la venta de criptomonedas.",
-          "erc20_tokens":"ETH, USDT y UNI",
-          "polygon_tokens":"USDC y MATIC",
-          "credit_card":"Tarjeta de crédito.*",
-          "delivery_time":"Depende del proveedor externo según el caso.",
-          "disclaimer":"*Por retricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
+          "name": "Bitrefill",
+          "header": "Es un proveedor habilitado para la venta de criptomonedas.",
+          "erc20_tokens": "ETH, USDT y UNI",
+          "polygon_tokens": "USDC y MATIC",
+          "credit_card": "Tarjeta de crédito.*",
+          "delivery_time": "Depende del proveedor externo según el caso.",
+          "disclaimer": "*Por retricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
         }
       }
     },
@@ -2718,7 +2722,7 @@
           "directa24_voucher": "Tienda física más cercana",
           "kripton": "Transferencia Bancaria",
           "moonpay": "Tarjeta de crédito",
-          "bitrefill":"Vouchers en locales"
+          "bitrefill": "Vouchers en locales"
         },
         "providers": {
           "kripton": {
@@ -3006,7 +3010,7 @@
         "SOLANA": "Solana Explorer"
       },
       "quotation": "Cotización",
-      "fee":"Tarifa de transacción",
+      "fee": "Tarifa de transacción",
       "address": "Dirección de destino (tu wallet)",
       "provider": "Proveedor",
       "operation": "Operación",
@@ -3496,14 +3500,18 @@
       }
     }
   },
-  "warranty": {
+  "warranties": {
     "modal_info": {
-      "highlightedHeader":"Más crédito para tu tarjeta",
+      "highlightedHeader": "Más crédito para tu tarjeta",
       "header": "Deja tus criptomonedas como garantía para aumentar el límite de tu tarjeta.",
       "information": "Más información",
       "firstButton": "Confeccionar garantía",
       "secondButton": "Retirar garantía"
-
+    },
+    "send_warranty": {
+      "header": "Confeccionar garantia",
+      "text_dni": "Ingresar DNI",
+      "deposit_amount": "Monto a depositar"
     }
   }
 }
