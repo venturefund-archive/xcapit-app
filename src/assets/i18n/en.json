@@ -3334,11 +3334,10 @@
   },
   "warranty": {
     "modal_info": {
-      "subtitle":"What do you need to know?",
-      "description1": "No minimum amount",
-      "description2": "The bank account must belong to the same person who performed the registration or KYC process. Funds cannot be sent to third parties.",
+      "highlightedHeader": "More credit for your card",
+      "header": "Leave your cryptocurrencies as collateral to increase your card limit.",
       "information": "More information",
-      "firstButton": "Make up warranty",
+      "firstButton": "Make a warranty",
       "secondButton": "Withdraw warranty"
 
     }

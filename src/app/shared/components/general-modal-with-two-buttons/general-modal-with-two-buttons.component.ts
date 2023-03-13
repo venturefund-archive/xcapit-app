@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from '../../services/browser/browser.service';
 import { TrackService } from '../../services/track/track.service';
@@ -27,26 +27,12 @@ import { TrackService } from '../../services/track/track.service';
               <img src="assets/img/warranty/naranjax.svg" />
             </div>
             <div class="ux-text-base main__body__content__header">
-              <ion-text>{{ this.header }}</ion-text>
+              <ion-text class="highlighted">{{ this.highlightedHeader }}</ion-text>
+              <div>
+                <ion-text>{{ this.header }}</ion-text>
+              </div>
             </div>
-            <div class="ux-font-header-titulo main__body__content__subtitle">
-              <ion-text>{{ this.subtitle }}</ion-text>
-            </div>
-            <div class="main__body__content__description">
-              <ul>
-                <li>
-                  <ion-text class="ux-font-text-base">
-                    {{ this.description1 }}
-                  </ion-text>
-                </li>
-                <li>
-                  <ion-text class="ux-font-text-base">
-                    {{ this.description2 }}
-                  </ion-text>
-                </li>
-              </ul>
-            </div>
-            <div class="ux-font-header-titulo main__body__content__subtitle">
+            <div class="ux-font-header-titulo main__body__content__link">
               <ion-text>{{ this.information }}</ion-text>
             </div>
             <div class="main__body__content__link">
@@ -91,10 +77,8 @@ import { TrackService } from '../../services/track/track.service';
   styleUrls: ['./general-modal-with-two-buttons.component.scss'],
 })
 export class GeneralModalWithTwoButtonsComponent {
+  highlightedHeader: string;
   header: string;
-  subtitle: string;
-  description1: string;
-  description2: string;
   information: string;
   link: string;
   firstButton: string;
@@ -105,7 +89,8 @@ export class GeneralModalWithTwoButtonsComponent {
   constructor(
     private modalController: ModalController,
     private browserService: BrowserService,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private navController: NavController
   ) {}
 
   close() {
@@ -118,10 +103,12 @@ export class GeneralModalWithTwoButtonsComponent {
 
   actionFirstButton() {
     this.setEvent(this.eventFirstButton);
+    this.navController.navigateForward('warranties/send-warranty');
   }
-
+  
   actionSecondButton() {
     this.setEvent(this.eventSecondButton);
+    this.navController.navigateForward('');
   }
 
   setEvent(event) {

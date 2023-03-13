@@ -3498,9 +3498,8 @@
   },
   "warranty": {
     "modal_info": {
-      "subtitle":"¿Qué necesitas saber?",
-      "description1": "No hay monto mínimo",
-      "description2": "La cuenta bancaria debe pertenecer a la misma persona que realizó el proceso de registro o KYC. No se pueden enviar fondos a terceros.",
+      "highlightedHeader":"Más crédito para tu tarjeta",
+      "header": "Deja tus criptomonedas como garantía para aumentar el límite de tu tarjeta.",
       "information": "Más información",
       "firstButton": "Confeccionar garantía",
       "secondButton": "Retirar garantía"

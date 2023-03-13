@@ -80,16 +80,14 @@ export class HomeSlidesComponent implements OnInit {
       cssClass: 'modal',
       backdropDismiss: false,
       componentProps: {
-        header: 'Lorem ipsun',
-        subtitle: this.translate.instant('warranty.modal_info.subtitle'),
-        description1: this.translate.instant('warranty.modal_info.description1'),
-        description2: this.translate.instant('warranty.modal_info.description2'),
+        highlightedHeader: this.translate.instant('warranty.modal_info.highlightedHeader'),
+        header: this.translate.instant('warranty.modal_info.header'),
         information: this.translate.instant('warranty.modal_info.information'),
         link: LINKS.naranjax,
         firstButton: this.translate.instant('warranty.modal_info.firstButton'),
-        eventFirstButton:'ux_warranty_start',
+        eventFirstButton: 'ux_warranty_start',
         secondButton: this.translate.instant('warranty.modal_info.secondButton'),
-        eventSecondButton:'ux_warranty_withdraw',
+        eventSecondButton: 'ux_warranty_withdraw',
       },
     });
 

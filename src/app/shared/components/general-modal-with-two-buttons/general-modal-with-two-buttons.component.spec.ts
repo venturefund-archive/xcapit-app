@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { BrowserService } from '../../services/browser/browser.service';
@@ -17,6 +18,8 @@ describe('GeneralModalWithTwoButtonsComponent', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
 
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController();
@@ -29,6 +32,9 @@ describe('GeneralModalWithTwoButtonsComponent', () => {
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
       open: Promise.resolve(),
     });
+
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
       declarations: [GeneralModalWithTwoButtonsComponent, FakeTrackClickDirective],
       imports: [IonicModule.forRoot()],
@@ -36,6 +42,7 @@ describe('GeneralModalWithTwoButtonsComponent', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
       ],
     }).compileComponents();
 
@@ -85,5 +92,17 @@ describe('GeneralModalWithTwoButtonsComponent', () => {
     fixture.debugElement.query(By.css('ion-button[name="secondButton"]')).nativeElement.click();
     fixture.detectChanges();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to page when first button is clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="firstButton"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('warranties/send-warranty');
+  });
+
+  it('should navigate to page when second button is clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="secondButton"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('');
   });
 });
