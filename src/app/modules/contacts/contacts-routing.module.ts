@@ -18,10 +18,6 @@ const routes: Routes = [
         path: 'detail',
         loadChildren: () => import('./contact-detail/contact-detail.module').then( m => m.ContactDetailPageModule)
       },    
-      {
-        path: 'warranty-summary',
-        loadChildren: () => import('./warranty-summary/warranty-summary.module').then( m => m.WarrantySummaryPageModule)
-      },
     ],
   },
 

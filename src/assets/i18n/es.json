@@ -3506,9 +3506,13 @@
       "text_dni": "Ingresar DNI",
       "deposit_amount": "Monto a depositar"
     },
-    "whatsapp_support": {
-      "textTertiary": "¿Necesitas ayuda?",
-      "textHelpLink": "Escribenos por whatsapp"
+    "summary": {
+      "header": "Confeccionar garantia",
+      "title":"Datos de tu depósito",
+      "dniLabel":"DNI garante",
+      "amountLabel":"Monto de garantía",
+      "serviceLabel":"Costo de servicio",
+      "buttonName":"Confeccionar garantia"
     }
   }
 }

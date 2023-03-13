@@ -15,8 +15,8 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
-
 import { SendWarrantyPage } from './send-warranty.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -53,8 +53,10 @@ describe('SendWarrantyPage', () => {
     });
 
     formBuilder = new UntypedFormBuilder();
+
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getPrices: of({ prices: { USDC: 1 } }),
+      getCoins: [rawUSDCData],
     });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -85,6 +87,7 @@ describe('SendWarrantyPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SendWarrantyPage);
@@ -103,7 +106,7 @@ describe('SendWarrantyPage', () => {
     tick();
     component.form.patchValue(formDataSpy.valid);
     fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_amount"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['warranties/warranty-summary']);
     discardPeriodicTasks();
   }));
 
@@ -135,4 +138,12 @@ describe('SendWarrantyPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should get USDC token on init', fakeAsync(() => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
+    expect(component.token.value).toEqual('USDC');
+    discardPeriodicTasks();
+  }));
 });

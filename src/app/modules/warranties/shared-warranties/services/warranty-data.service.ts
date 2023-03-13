@@ -4,7 +4,7 @@ import { SummaryWarrantyData } from '../../send-warranty/interfaces/summary-warr
 @Injectable({
   providedIn: 'root',
 })
-export class SendWarrantyDataService {
+export class WarrantyDataService {
   data: SummaryWarrantyData;
 
   constructor() {}

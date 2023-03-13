@@ -1,7 +1,6 @@
 :host {
   .ws {
-    --background: var(--ion-color-neutral10);
-
+    --background: var(--ion-color-background);
 
     app-warranty-summary-card {
       margin-top: 0;
@@ -19,6 +18,10 @@
           flex-grow: 1;
         }
       }
+    }
+
+    &__support {
+      margin-top: 24px;
     }
   }
 }

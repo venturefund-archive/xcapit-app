@@ -6,10 +6,11 @@ import { takeUntil } from 'rxjs/operators';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
-import { SendWarrantyDataService } from '../shared-warranties/services/send-warranty-data.service';
+import { WarrantyDataService } from '../shared-warranties/services/warranty-data.service';
 
 @Component({
   selector: 'app-send-warranty',
@@ -26,9 +27,9 @@ import { SendWarrantyDataService } from '../shared-warranties/services/send-warr
       <form [formGroup]="this.form">
         <div class="sw__send-amount-card ux-card ion-padding no-border">
           <app-asset-detail
-            [blockchain]="this.token.network"
-            [token]="this.token.value"
-            [tokenLogo]="this.token.logoRoute"
+            [blockchain]="this.coin.blockchain"
+            [token]="this.coin.value"
+            [tokenLogo]="this.coin.logoRoute"
           ></app-asset-detail>
           <div class="content__input">
             <app-ux-input
@@ -46,12 +47,11 @@ import { SendWarrantyDataService } from '../shared-warranties/services/send-warr
             *ngIf="this.balance !== undefined"
             [label]="'warranties.send_warranty.deposit_amount' | translate"
             [header]="'defi_investments.shared.amount_input_card.available' | translate"
-            [baseCurrency]="this.token"
+            [baseCurrency]="this.coin"
             [quotePrice]="this.quotePrice"
             [showRange]="false"
             [disclaimer]="false"
             [max]="this.balance"
-            [feeToken]="this.token"
           ></app-amount-input-card>
           <app-amount-input-card-skeleton
             *ngIf="this.balance === undefined"
@@ -87,12 +87,12 @@ export class SendWarrantyPage {
   });
   modalHref: string;
   leave$ = new Subject<void>();
-  token = {
+  coin = {
     value: 'USDC',
-    network: 'MATIC',
+    blockchain: 'MATIC',
     logoRoute: 'assets/img/coins/USDC-POLYGON.svg',
-    native: false,
   };
+  token: Coin;
   balance: number;
   quotePrice: number;
   private readonly priceRefreshInterval = 15000;
@@ -103,24 +103,25 @@ export class SendWarrantyPage {
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
     private navController: NavController,
-    private sendWarrantyDataService: SendWarrantyDataService,
+    private WarrantyDataService: WarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
     private trackService: TrackService
   ) {}
 
   async ionViewWillEnter() {
+    this.setToken();
     await this.walletService.walletExist();
     this.dynamicPrice();
     await this.tokenBalance();
   }
 
   private async userWallet(): Promise<string> {
-    return await this.storageService.getWalletsAddresses(this.token.network);
+    return await this.storageService.getWalletsAddresses(this.coin.blockchain);
   }
 
   private dynamicPrice() {
     this.dynamicPriceFactory
-      .new(this.priceRefreshInterval, this.token, this.apiWalletService)
+      .new(this.priceRefreshInterval, this.coin, this.apiWalletService)
       .value()
       .pipe(takeUntil(this.leave$))
       .subscribe((price: number) => {
@@ -136,7 +137,7 @@ export class SendWarrantyPage {
 
   async tokenBalance() {
     const tokenBalance = parseFloat(
-      await this.walletService.balanceOf(await this.userWallet(), this.token.value, this.token.network)
+      await this.walletService.balanceOf(await this.userWallet(), this.coin.value, this.coin.blockchain)
     );
     this.balance = tokenBalance;
     this.addLowerThanValidator();
@@ -147,9 +148,8 @@ export class SendWarrantyPage {
   }
 
   private saveWarrantyData() {
-    this.sendWarrantyDataService.data = {
-      blockchain: this.token.network,
-      token: this.token.value,
+    this.WarrantyDataService.data = {
+      coin: this.token,
       amount: parseFloat(this.form.value.amount),
       quoteAmount: this.form.value.quoteAmount,
       dni: this.form.value.dni,
@@ -157,7 +157,7 @@ export class SendWarrantyPage {
   }
 
   goToSummary() {
-    this.navController.navigateForward(['']);
+    this.navController.navigateForward(['warranties/warranty-summary']);
   }
 
   submitForm() {
@@ -166,6 +166,12 @@ export class SendWarrantyPage {
       this.setEvent();
       this.goToSummary();
     }
+  }
+
+  setToken() {
+    this.token = this.apiWalletService
+      .getCoins()
+      .find((coin: Coin) => coin.value === this.coin.value && coin.network === this.coin.blockchain);
   }
 
   ionViewWillLeave() {
