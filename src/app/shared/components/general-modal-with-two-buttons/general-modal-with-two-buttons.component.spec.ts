@@ -94,15 +94,17 @@ describe('GeneralModalWithTwoButtonsComponent', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to page when first button is clicked', async () => {
+  it('should navigate to page when first button is clicked and dismiss modal', async () => {
     fixture.debugElement.query(By.css('ion-button[name="firstButton"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('warranties/send-warranty');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(component.urlFirstButton);
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
-
+  
   it('should navigate to page when second button is clicked', async () => {
     fixture.debugElement.query(By.css('ion-button[name="secondButton"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(component.urlSecondButton);
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 });

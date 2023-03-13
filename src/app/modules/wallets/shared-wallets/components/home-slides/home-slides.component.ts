@@ -59,7 +59,7 @@ export class HomeSlidesComponent implements OnInit {
 
   async open(_aSlide) {
     if (_aSlide.isModalOpen) {
-      this.warrantyOptions();
+      this.openModal();
     } else {
       this.navigateTo(_aSlide);
     }
@@ -74,20 +74,22 @@ export class HomeSlidesComponent implements OnInit {
     }
   }
 
-  async warrantyOptions() {
+  async openModal() {
     const modal = await this.modalController.create({
       component: GeneralModalWithTwoButtonsComponent,
       cssClass: 'modal',
       backdropDismiss: false,
       componentProps: {
-        highlightedHeader: this.translate.instant('warranty.modal_info.highlightedHeader'),
-        header: this.translate.instant('warranty.modal_info.header'),
-        information: this.translate.instant('warranty.modal_info.information'),
+        highlightedHeader: this.translate.instant('warranties.modal_info.highlightedHeader'),
+        header: this.translate.instant('warranties.modal_info.header'),
+        information: this.translate.instant('warranties.modal_info.information'),
         link: LINKS.naranjax,
-        firstButton: this.translate.instant('warranty.modal_info.firstButton'),
+        firstButton: this.translate.instant('warranties.modal_info.firstButton'),
         eventFirstButton: 'ux_warranty_start',
-        secondButton: this.translate.instant('warranty.modal_info.secondButton'),
+        urlFirstButton: 'warranties/send-warranty',
+        secondButton: this.translate.instant('warranties.modal_info.secondButton'),
         eventSecondButton: 'ux_warranty_withdraw',
+        urlSecondButton: '',
       },
     });
 

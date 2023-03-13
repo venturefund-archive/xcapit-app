@@ -82,9 +82,11 @@ export class GeneralModalWithTwoButtonsComponent {
   information: string;
   link: string;
   firstButton: string;
+  urlFirstButton: string;
   eventFirstButton: string;
   secondButton: string;
   eventSecondButton: string;
+  urlSecondButton: string;
 
   constructor(
     private modalController: ModalController,
@@ -103,12 +105,15 @@ export class GeneralModalWithTwoButtonsComponent {
 
   actionFirstButton() {
     this.setEvent(this.eventFirstButton);
-    this.navController.navigateForward('warranties/send-warranty');
+    this.navController.navigateForward(this.urlFirstButton);
+    this.close();
   }
-  
+
   actionSecondButton() {
     this.setEvent(this.eventSecondButton);
-    this.navController.navigateForward('');
+    console.log()
+    this.navController.navigateForward(this.urlSecondButton);
+    this.close();
   }
 
   setEvent(event) {
