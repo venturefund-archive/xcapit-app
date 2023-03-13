@@ -8,6 +8,7 @@ import { WarrantyDataService } from '../shared-warranties/services/warranty-data
 import { isAddress } from 'ethers/lib/utils';
 import { WalletPasswordWithValidatorComponent } from '../../wallets/shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
+import { environment } from 'variables.env';
 
 @Component({
   selector: 'app-warranty-summary',
@@ -55,6 +56,7 @@ export class WarrantySummaryPage {
   warrantyData: SummaryWarrantyData;
   isSending: boolean;
   loading: boolean;
+  warrantyAddress = environment.warrantyAddress
 
   constructor(
     private trackService: TrackService,
@@ -134,7 +136,7 @@ export class WarrantySummaryPage {
     await this.walletTransactionsService.send(
       password.value(),
       this.warrantyData.amount,
-      '0xdd3c288e12f2bc0207b15e609519832378f588d5',
+      this.warrantyAddress,
       this.warrantyData.coin
     );
     this.openSuccesModal();

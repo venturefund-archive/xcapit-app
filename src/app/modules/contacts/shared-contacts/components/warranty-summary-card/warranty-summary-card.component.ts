@@ -43,11 +43,6 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
           </div>
         </div>
       </div>
-      <!-- <app-asset-detail
-        [blockchain]="this.token.network"
-        [token]="this.token.value"
-        [tokenLogo]="this.token.logoRoute"
-      ></app-asset-detail> -->
       <div class="list-divider"></div>
     </div>
     <div class="wsc__item">

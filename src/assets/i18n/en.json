@@ -3345,6 +3345,14 @@
     "whatsapp_support": {
       "textTertiary": "Need help?",
       "textHelpLink": "Write us by whatsapp"
+    },
+    "summary": {
+      "header": "Make a warranty",
+      "title":"Data of your deposit",
+      "dniLabel":"Guarantor ID card",
+      "amountLabel":"Guarantee amount",
+      "serviceLabel":"Cost of service",
+      "buttonName":"Make Warranty"
     }
   }
 }

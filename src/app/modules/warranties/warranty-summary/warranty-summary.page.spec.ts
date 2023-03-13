@@ -7,7 +7,6 @@ import { constants } from 'ethers';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-import { SpyProperty } from 'src/testing/spy-property.spec';
 import { rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
@@ -15,7 +14,7 @@ import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warrant
 import { WarrantyDataService } from '../shared-warranties/services/warranty-data.service';
 import { WarrantySummaryPage } from './warranty-summary.page';
 
-fdescribe('WarrantySummaryPage', () => {
+describe('WarrantySummaryPage', () => {
   let component: WarrantySummaryPage;
   let fixture: ComponentFixture<WarrantySummaryPage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
