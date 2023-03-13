@@ -280,7 +280,7 @@ export class BitrefillPage {
 
   private async showErrorToast() {
     await this.toastService.showErrorToast({
-      message: this.translate.instant('fiat_ramps.bitrefill.toast.error'),
+      message: this.translate.instant('fiat_ramps.bitrefill.toasts.error'),
     });
   }
 
@@ -289,6 +289,7 @@ export class BitrefillPage {
     const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
     const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
     this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
+    console.log(text,primaryButtonText,secondaryButtonText)
   }
 
   async showInsufficientBalanceModal() {
@@ -296,6 +297,7 @@ export class BitrefillPage {
     const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
     const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
     this.openModalBalance(await this.operation.token(), text, primaryButtonText, secondaryButtonText);
+    console.log(text,primaryButtonText,secondaryButtonText)
   }
 
   async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
