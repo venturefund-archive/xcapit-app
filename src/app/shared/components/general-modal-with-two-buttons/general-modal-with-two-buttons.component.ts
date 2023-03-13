@@ -111,7 +111,6 @@ export class GeneralModalWithTwoButtonsComponent {
 
   actionSecondButton() {
     this.setEvent(this.eventSecondButton);
-    console.log()
     this.navController.navigateForward(this.urlSecondButton);
     this.close();
   }
