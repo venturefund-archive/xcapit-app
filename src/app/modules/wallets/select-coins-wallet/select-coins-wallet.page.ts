@@ -6,6 +6,7 @@ import { WalletMaintenanceService } from '../shared-wallets/services/wallet-main
 import { debounce } from 'rxjs/operators';
 import { interval } from 'rxjs';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { LINKS } from '../../../config/static-links';
 import { ModalController, NavController, Platform } from '@ionic/angular';
 import { UpgradeWallets } from '../shared-wallets/models/upgrade-wallets/upgrade-wallets';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
@@ -69,7 +70,10 @@ import { WalletPasswordWithValidatorComponent } from '../shared-wallets/componen
             [natives]="this.natives"
           ></app-items-coin-group>
           <div class="sc__require-token">
-            <app-require-token buttonEventName="ux_exp_addtoken_select"></app-require-token>
+            <app-require-token
+              [url]="this.staticLinks.requireToken"
+              buttonEventName="ux_exp_addtoken_select"
+            ></app-require-token>
           </div>
         </div>
       </form>
@@ -85,6 +89,7 @@ export class SelectCoinsWalletPage {
   natives: Coin[] = [];
   disableSelectAll: boolean;
   eventEmitted = false;
+  staticLinks = LINKS;
 
   constructor(
     private formBuilder: UntypedFormBuilder,

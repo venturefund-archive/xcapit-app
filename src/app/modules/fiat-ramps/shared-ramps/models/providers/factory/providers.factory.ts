@@ -8,7 +8,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 @Injectable({ providedIn: 'root' })
 export class ProvidersFactory {
   constructor(private remoteConfig: RemoteConfigService, private http: HttpClient) {}
-  public create(env: any = environment): DefaultProviders {
-    return new DefaultProviders(new ProviderDataRepo(this.remoteConfig), this.http, env);
+  public create(mode: string = 'buy', env: any = environment): DefaultProviders {
+    return new DefaultProviders(new ProviderDataRepo(this.remoteConfig, mode), this.http, env);
   }
 }

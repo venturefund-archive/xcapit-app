@@ -7,6 +7,7 @@ import { WalletConnectService } from '../../shared-wallets/services/wallet-conne
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletBackupService } from '../../shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LoggedIn } from '../../../users/shared-users/models/logged-in/logged-in';
+import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 
 @Component({
   selector: 'app-remove-wallet',
@@ -111,7 +112,8 @@ export class RemoveWalletPage implements OnInit {
     private queueService: QueueService,
     private walletConnectService: WalletConnectService,
     private ionicStorageService: IonicStorageService,
-    private walletBackupService: WalletBackupService
+    private walletBackupService: WalletBackupService, 
+    private txInProgressService: TxInProgressService
   ) {}
 
   ngOnInit() {}
@@ -128,7 +130,7 @@ export class RemoveWalletPage implements OnInit {
     await this.goToSuccessPage();
     this.disableLoading();
     this.removeTyCofStorage();
-    this.removeInProgressTransactions();
+    await this.removeInProgressTransactions();
   }
 
   private cleanProtectedWallet(): Promise<void> {
@@ -158,7 +160,7 @@ export class RemoveWalletPage implements OnInit {
     this.ionicStorageService.remove('userAcceptedToS');
   }
 
-  removeInProgressTransactions() {
-    this.ionicStorageService.remove('in_progress_transactions');
+  async removeInProgressTransactions() {
+    await this.txInProgressService.clean();
   }
 }

@@ -33,6 +33,11 @@ export class TxInProgressService {
     await this.save(updatedTransactions);
     this._inProgress.next(updatedTransactions);
   }
+  
+  async clean(){
+    this._inProgress.next([]);
+    await this.save([]);
+  }
 
   async save(currentTxs: TxInProgress[]) {
     await this.ionicStorage.set(

@@ -160,7 +160,7 @@ export class NewInvestmentPage implements OnInit {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
       const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
       const url = conditionsPurchasesAccepted ? 'fiat-ramps/select-provider' : 'fiat-ramps/buy-conditions';
-      this.tokenOperationDataService.tokenOperationData = { asset: this.token.value, network: this.token.network };
+      this.tokenOperationDataService.set({ asset: this.token.value, network: this.token.network, mode: 'buy' });
       this.navController.navigateForward([url]);
     }
   }

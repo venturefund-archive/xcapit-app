@@ -12,11 +12,11 @@ export class DefaultProviders implements Providers {
   constructor(
     private readonly dataRepo: ProviderDataRepo,
     private readonly http: HttpClient | FakeHttpClient,
-    private readonly env: any = environment
+    private readonly env: any = environment,
   ) {}
 
   public all(): FiatRampProvider[] {
-    return this.dataRepo.all();
+    return this.dataRepo.all()
   }
 
   public async availablesBy(aCountry: FiatRampProviderCountry, aCoin: Coin): Promise<FiatRampProvider[]> {
@@ -28,7 +28,6 @@ export class DefaultProviders implements Providers {
         (provider) => directaProviders.some((dp) => dp.code === provider.alias) || provider.providerName !== 'directa24'
       );
     }
-
     return providers;
   }
 

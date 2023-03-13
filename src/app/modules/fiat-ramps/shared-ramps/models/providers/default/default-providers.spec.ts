@@ -21,7 +21,7 @@ describe('DefaultProviders', () => {
     usdcCoinSpy = jasmine.createSpyObj('Coin', {}, { name: 'USDC', value: 'USDC', network: 'MATIC' });
     ethCoinSpy = jasmine.createSpyObj('Coin', {}, { name: 'ETH', value: 'ETH', network: 'ERC20' });
     fakeHttpClient = new FakeHttpClient(rawPaymentMethodsResponse);
-    providers = new DefaultProviders(new ProviderDataRepo(remoteConfigSpy), fakeHttpClient);
+    providers = new DefaultProviders(new ProviderDataRepo(remoteConfigSpy, 'buy'), fakeHttpClient);
   });
 
   it('new', () => {

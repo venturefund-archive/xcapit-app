@@ -114,6 +114,26 @@
   }
 }
 
+.ux-lg-modal-kripton-sell {
+  --max-height: 500px;
+  --max-width: 328px;
+  --background: var(--ion-color-white);
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
+.ux-lg-modal-bitrefill {
+  --max-height: 569px;
+  --max-width: 328px;
+  --background: var(--ion-color-white);
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
 .ux-lg-modal-informative-provider-moonpay {
   --max-height: 587px;
   --max-width: 328px;

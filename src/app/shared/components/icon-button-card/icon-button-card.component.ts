@@ -13,7 +13,7 @@ import { Component, Input, OnInit } from '@angular/core';
         </div>
       </div>
       <div class="rc__text">
-        <ion-text class="ux-font-num-subtitulo">{{ this.text }}</ion-text>
+        <ion-text class="ux-font-num-subtitulo" [innerHTML]="this.text"></ion-text>
       </div>
     </div>
   `,

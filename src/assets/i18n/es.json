@@ -91,6 +91,10 @@
         "toast_error": "No se pudo copiar la dirección al portapapeles"
       }
     },
+    "whatsapp_support": {
+      "textTertiary": "¿Necesitas ayuda?",
+      "textHelpLink": "Escribenos por whatsapp"
+    },
     "update_modal": {
       "title": "¡Actualiza la app!",
       "text": "Descubre nuevas opciones para operar con tus criptomonedas.",
@@ -122,16 +126,21 @@
       "of": "de"
     },
     "update_news": {
-      "title": "¡Buenas nuevas, Xcapiter!",
+      "title": "¡Buenas noticias!",
       "first": {
         "badge": "Nueva función",
-        "title": "\ud83d\udc41\ufe0f Datos biométricos",
-        "description": "Ahora no sólo podrás ingresar con ellos a tu wallet, ¡además podrás aprobar tus transacciones!"
+        "title": "Sumamos la Red Solana",
+        "description": "Opera en la red Solana con su token nativo y las opciones más populares!"
       },
       "second": {
         "badge": "Nueva función",
-        "title": "\ud83d\ude0e Mejoras en la experiencia",
-        "description": "Activación de proveedores, flujos más ágiles y mayor claridad en las operaciones principales."
+        "title": "Agenda de contactos",
+        "description": "¡Protege tus envíos de estafas! Guarda tus direcciones de confianza para envios y recepciones sin complicaciones."
+      },
+      "third": {
+        "badge": "Nueva función",
+        "title": "Bitrefill giftcards",
+        "description": "Ahora puedes pasar tus cryptos a vouchers para gastarlos en cualquier comercio de tu conveniencia."
       }
     },
     "transaction_fees": {
@@ -1824,7 +1833,7 @@
       "subheader_buttons_component": {
         "send_card": "Enviar",
         "receive_card": "Recibir",
-        "buy_card": "Comprar",
+        "buy_card": "Comprar <br/> Vender",
         "swap_card": "Intercambiar"
       },
       "backup_card_component": {
@@ -2379,9 +2388,13 @@
   },
   "fiat_ramps": {
     "home_of_purchases": {
-      "header": "Mis compras",
+      "header": "Compra - Venta",
       "question": "¿Cómo funcionan las compras?",
-      "button": "Realizar nueva compra"
+      "footer": {
+        "title": "¿Qué deseas hacer?",
+        "buy_button": "Comprar",
+        "sell_button": "Vender"
+      }
     },
     "buy_conditions": {
       "title": "¿Qué necesitas saber antes de comprar?",
@@ -2414,7 +2427,7 @@
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más",
       "log_out_modal": {
-        "title":"¿Deseas cerrar sesión?",
+        "title": "¿Deseas cerrar sesión?",
         "description": "Deberás ingresar nuevamente con tu email para ver tus compras.",
         "confirm_button": "Confirmar",
         "cancel_button": "Cancelar"
@@ -2456,6 +2469,8 @@
       "disclaimer": "* Las cotizaciones pueden variar ligeramente al momento de la compra.",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
+      "kripton_sell_description":"Los depositos pueden demorar hasta 72hs",
+      "bitrefill_description": "¡Accede a beneficios exclusivos!",
       "directa24": {
         "platform_description": "Compra a través de la plataforma",
         "nearest_store_description": "Compra en tu tienda más cercana",
@@ -2472,6 +2487,7 @@
         "subtitle_available_tokens": "¿Qué tokens puedes comprar?",
         "subtitle_more_information": "Más información:",
         "subtitle_time_tokens": "Tiempo de acreditación de tokens:",
+        "subtitule_need_know":"¿Qué necesitas saber?",
         "kyc_required": "Requiere KYC o proceso de registración.",
         "button": "Entendido",
         "kripton": {
@@ -2482,19 +2498,35 @@
           "delivery_time_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs.",
           "more_information": "Kriptonmarket.com"
         },
+        "kripton_sell": {
+          "provider_name": "Kripton Market",
+          "header": "Es un proveedor habilitado para la compra/venta de criptomonedas en Latam.",
+          "minimum_amount": "No hay monto mínimo.",
+          "delivery_time_1": "La cuenta bancaria debe pertenecer a la misma persona que realizó el proceso de registro o KYC. No se pueden enviar fondos a terceros.",
+          "more_information": "Kriptonmarket.com"
+        },
         "moonpay": {
           "provider_name": "Moonpay",
           "header": "Es un proveedor habilitado para la venta de criptomonedas.",
           "payment_methods": "Tarjeta de crédito.*",
           "delivery_time": "Depende del proveedor externo según el caso.",
           "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
-          "available_tokens_1": "ETH, USDT y UNI",
-          "available_tokens_2": "USDC y MATIC"
+          "available_tokens_1": "ETH, USDT y USDC",
+          "available_tokens_2": "USDC"
         },
         "directa24": {
           "description_1": "Compra en efectivo",
           "description_2": "10 USD.",
           "description_3": "Días hábiles de 9 a 18hs aprox. El tiempo máximo de acreditación es de 3hs."
+        },
+        "bitrefill": {
+          "name":"Bitrefill",
+          "header":"Es un proveedor habilitado para la venta de criptomonedas.",
+          "erc20_tokens":"ETH, USDT y UNI",
+          "polygon_tokens":"USDC y MATIC",
+          "credit_card":"Tarjeta de crédito.*",
+          "delivery_time":"Depende del proveedor externo según el caso.",
+          "disclaimer":"*Por retricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
         }
       }
     },
@@ -2695,7 +2727,8 @@
           "directa24_credit_card": "Tarjeta de crédito o débito",
           "directa24_voucher": "Tienda física más cercana",
           "kripton": "Transferencia Bancaria",
-          "moonpay": "Tarjeta de crédito"
+          "moonpay": "Tarjeta de crédito",
+          "bitrefill":"Vouchers en locales"
         },
         "providers": {
           "kripton": {
@@ -2983,6 +3016,7 @@
         "SOLANA": "Solana Explorer"
       },
       "quotation": "Cotización",
+      "fee":"Tarifa de transacción",
       "address": "Dirección de destino (tu wallet)",
       "provider": "Proveedor",
       "operation": "Operación",
@@ -3470,6 +3504,17 @@
         "confirm_button": "Confirmar",
         "cancel_button": "Cancelar"
       }
+    }
+  },
+  "warranties": {
+    "send_warranty": {
+      "header": "Confeccionar garantia",
+      "text_dni": "Ingresar DNI",
+      "deposit_amount": "Monto a depositar"
+    },
+    "whatsapp_support": {
+      "textTertiary": "¿Necesitas ayuda?",
+      "textHelpLink": "Escribenos por whatsapp"
     }
   }
 }

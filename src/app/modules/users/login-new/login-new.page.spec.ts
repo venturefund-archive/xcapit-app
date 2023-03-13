@@ -27,6 +27,7 @@ import { AuthService } from '../shared-users/services/auth/auth.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { BehaviorSubject } from 'rxjs';
 import { AppExpirationTimeService } from 'src/app/shared/models/app-session/injectable/app-expiration-time.service';
+import { AppSessionInjectable } from 'src/app/shared/models/app-session/injectable/app-session.injectable';
 import { UpgradeWallets } from '../../wallets/shared-wallets/models/upgrade-wallets/upgrade-wallets';
 import { SimpleSubject } from 'src/app/shared/models/simple-subject/simple-subject';
 
@@ -55,6 +56,7 @@ describe('LoginNewPage', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let appExpirationTimeServiceSpy: jasmine.SpyObj<AppExpirationTimeService>;
+  let appSessionInjectableSpy: jasmine.SpyObj<AppSessionInjectable>;
   let upgradeWalletsSpy: jasmine.SpyObj<UpgradeWallets>;
 
   beforeEach(waitForAsync(() => {
@@ -128,6 +130,10 @@ describe('LoginNewPage', () => {
       onNeedPass: new SimpleSubject()
     });
 
+    appSessionInjectableSpy = jasmine.createSpyObj('AppSessionInjectable', {
+      create: { save: () => null }
+    });
+
     TestBed.configureTestingModule({
       declarations: [LoginNewPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -147,6 +153,7 @@ describe('LoginNewPage', () => {
         { provide: AuthService, useValue: authServiceSpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: AppExpirationTimeService, useValue: appExpirationTimeServiceSpy },
+        { provide: AppSessionInjectable, useValue: appSessionInjectableSpy },
         { provide: UpgradeWallets, useValue: upgradeWalletsSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
