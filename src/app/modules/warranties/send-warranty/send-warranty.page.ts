@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
-import { TrackService } from 'src/app/shared/services/track/track.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -72,7 +71,7 @@ import { SendWarrantyDataService } from '../shared-warranties/services/send-warr
           color="secondary"
           expand="block"
           (click)="this.submitForm()"
-          [disabled]="!this.form.valid"
+          [disabled]="!this.form.valid && !this.isLoading"
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
       </div>
@@ -95,6 +94,7 @@ export class SendWarrantyPage {
   };
   balance: number;
   quotePrice: number;
+  isLoading = false;
   private readonly priceRefreshInterval = 15000;
 
   constructor(
@@ -105,7 +105,6 @@ export class SendWarrantyPage {
     private navController: NavController,
     private sendWarrantyDataService: SendWarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private trackService: TrackService
   ) {}
 
   async ionViewWillEnter() {
@@ -126,12 +125,6 @@ export class SendWarrantyPage {
       .subscribe((price: number) => {
         this.quotePrice = price;
       });
-  }
-
-  setEvent() {
-    this.trackService.trackEvent({
-      eventLabel: 'ux_warranty_start_amount',
-    });
   }
 
   async tokenBalance() {
@@ -161,11 +154,12 @@ export class SendWarrantyPage {
   }
 
   submitForm() {
+    this.isLoading = true;
     if (this.form.valid) {
       this.saveWarrantyData();
-      this.setEvent();
       this.goToSummary();
     }
+    this.isLoading = false;
   }
 
   ionViewWillLeave() {
