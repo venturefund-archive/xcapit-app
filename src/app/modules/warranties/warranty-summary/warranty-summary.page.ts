@@ -56,7 +56,7 @@ export class WarrantySummaryPage {
   warrantyData: SummaryWarrantyData;
   isSending: boolean;
   loading: boolean;
-  warrantyAddress = environment.warrantyAddress
+  warrantyAddress = environment.warrantyAddress;
 
   constructor(
     private trackService: TrackService,
@@ -140,6 +140,7 @@ export class WarrantySummaryPage {
       this.warrantyData.coin
     );
     this.openSuccesModal();
+    this.loading = false;
   }
 
   openSuccesModal() {}
@@ -148,18 +149,18 @@ export class WarrantySummaryPage {
 
   private userCanAffordTx(): Promise<boolean> {
     return this.walletTransactionsService.canAffordSendTx(
-      '0xdd3c288e12f2bc0207b15e609519832378f588d5',
+      this.warrantyAddress,
       this.warrantyData.amount,
       this.warrantyData.coin
     );
   }
 
   private addressIsValid() {
-    return isAddress('0xdd3c288e12f2bc0207b15e609519832378f588d5');
+    return isAddress(this.warrantyAddress);
   }
 
   private async handleInvalidAddress() {
-    await this.navController.navigateForward(['']);
+    this.openErrorModal();
   }
 
   private async handleUserCantAffordTx() {
@@ -167,6 +168,6 @@ export class WarrantySummaryPage {
   }
 
   private async handleNotEnoughBalance() {
-    await this.navController.navigateForward(['']);
+    this.openErrorModal();
   }
 }
