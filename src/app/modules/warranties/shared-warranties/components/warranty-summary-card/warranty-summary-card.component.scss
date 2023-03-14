@@ -30,6 +30,11 @@
         ion-text {
           color: var(--ion-color-neutral90);
         }
+
+        &__amount {
+          display: flex;
+          justify-content: space-between;
+        }
       }
 
       &__container {

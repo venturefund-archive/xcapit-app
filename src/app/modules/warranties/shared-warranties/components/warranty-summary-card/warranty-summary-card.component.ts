@@ -46,19 +46,19 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
       <div class="list-divider"></div>
     </div>
     <div class="wsc__item">
-      <div class="wsc__item__title">
+      <div class="wsc__item__title__dni">
         <ion-text class="ux-font-titulo-xs">{{ this.documentTitle }}</ion-text>
       </div>
-      <div class="wsc__item__content">
+      <div class="wsc__item__content__dni">
         <ion-text class="ux-font-text-base">{{ this.warrantyData?.dni }}</ion-text>
       </div>
       <div class="list-divider"></div>
     </div>
     <div class="wsc__item">
-      <div class="wsc__item__title">
+      <div class="wsc__item__title__amount">
         <ion-text class="ux-font-titulo-xs">{{ this.amountTitle }}</ion-text>
       </div>
-      <div class="wsc__item__content">
+      <div class="wsc__item__content__amount">
         <ion-text class="ux-font-text-base"
           >{{ this.warrantyData.amountWithoutCost | formattedAmount }} {{ this.token.value }}</ion-text
         >
@@ -69,10 +69,10 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
       <div class="list-divider"></div>
     </div>
     <div class="wsc__item">
-      <div class="wsc__item__title">
+      <div class="wsc__item__title__service-cost">
         <ion-text class="ux-font-titulo-xs">{{ this.serviceCost }}</ion-text>
       </div>
-      <div class="wsc__item__content">
+      <div class="wsc__item__content__amount-service-cost">
         <ion-text class="ux-font-text-base">{{ this.warrantyData?.serviceCost }} {{ this.token.value }}</ion-text>
       </div>
     </div>

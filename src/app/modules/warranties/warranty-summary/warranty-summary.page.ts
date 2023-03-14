@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
-import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { ModalController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warranty-data.interface';
@@ -62,8 +61,7 @@ export class WarrantySummaryPage {
     private trackService: TrackService,
     private modalController: ModalController,
     private walletTransactionsService: WalletTransactionsService,
-    private warrantyDataService: WarrantyDataService,
-    private navController: NavController
+    private warrantyDataService: WarrantyDataService
   ) {}
 
   ionViewWillEnter() {
@@ -77,10 +75,8 @@ export class WarrantySummaryPage {
   }
 
   async handleSubmit(skipChecksBeforeSend: boolean = false) {
-    if (!skipChecksBeforeSend) {
-      if (!(await this.checksBeforeSend())) {
-        return;
-      }
+    if (!skipChecksBeforeSend && !(await this.checksBeforeSend())) {
+      return;
     }
     try {
       const password = await this.askForPassword();

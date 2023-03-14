@@ -107,6 +107,7 @@ import { RequireTokenComponent } from './components/require-token/require-token.
 import { HideEmailPipe } from './pipes/hide-email/hide-email.pipe';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp-support.component';
+import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warranties/components/warranty-summary-card/warranty-summary-card.component';
 
 @NgModule({
   declarations: [
@@ -200,7 +201,7 @@ import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp
     AddressInputCardComponent,
     RequireTokenComponent,
     SearchBarComponent,
-
+    WarrantySummaryCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,
@@ -315,6 +316,7 @@ import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp
     AddressInputCardComponent,
     RequireTokenComponent,
     SearchBarComponent,
+    WarrantySummaryCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,
