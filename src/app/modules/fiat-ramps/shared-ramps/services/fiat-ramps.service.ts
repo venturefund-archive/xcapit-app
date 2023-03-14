@@ -14,7 +14,6 @@ import { HttpParams } from '@angular/common/http';
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
   private provider = '1';
- 
 
   constructor(private providersFactory: ProvidersFactory, private http: CustomHttpService) {}
 
@@ -100,9 +99,18 @@ export class FiatRampsService {
     );
   }
 
-  confirmOperation(operationId, operationData): Observable<any> {
+  confirmCashInOperation(operationId, operationData): Observable<any> {
     return this.http.post(
-      `${environment.apiUrl}/${this.entity}/${this.provider}/confirm_operation/${operationId}`,
+      `${environment.apiUrl}/${this.entity}/${this.provider}/confirm_operation/cash-in/${operationId}`,
+      operationData,
+      undefined,
+      false
+    );
+  }
+
+  confirmCashOutOperation(operationId, operationData): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/${this.provider}/confirm_operation/cash-out/${operationId}`,
       operationData,
       undefined,
       false
@@ -205,7 +213,12 @@ export class FiatRampsService {
     return this.providersFactory.create();
   }
 
-  getKriptonAvailableCurrencies(): Observable<any>{
-    return this.http.get(`${environment.apiUrl}/on_off_ramps/kripton/available_currencies`, undefined, undefined, undefined);
+  getKriptonAvailableCurrencies(): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/on_off_ramps/kripton/available_currencies`,
+      undefined,
+      undefined,
+      undefined
+    );
   }
 }

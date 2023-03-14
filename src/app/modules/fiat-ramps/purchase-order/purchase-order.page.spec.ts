@@ -112,7 +112,7 @@ describe('PurchaseOrderPage', () => {
       showInfoToast: Promise.resolve(),
     });
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      confirmOperation: of({}),
+      confirmCashInOperation: of({}),
       getUserSingleOperation: of([testOperation]),
     });
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
@@ -273,7 +273,7 @@ describe('PurchaseOrderPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, expectedData);
+    expect(fiatRampsServiceSpy.confirmCashInOperation).toHaveBeenCalledOnceWith(component.data.operation_id, expectedData);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
   });
@@ -282,7 +282,7 @@ describe('PurchaseOrderPage', () => {
     kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
     kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
     const expectedData = { file: photo.dataUrl, email: 'test@test.com', auth_token: 'test' };
-    fiatRampsServiceSpy.confirmOperation.and.returnValue(throwError('Test'));
+    fiatRampsServiceSpy.confirmCashInOperation.and.returnValue(throwError('Test'));
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -292,7 +292,7 @@ describe('PurchaseOrderPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, expectedData);
+    expect(fiatRampsServiceSpy.confirmCashInOperation).toHaveBeenCalledOnceWith(component.data.operation_id, expectedData);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/error-operation-km']);
     expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
   });
