@@ -23,6 +23,7 @@ export const NONPROD_COINS: Coin[] = [
     native: true,
     symbol: 'ETHUSDT',
     contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    bitrefillCode: 'ethereum',
   },
   {
     id: 2,
@@ -50,6 +51,7 @@ export const NONPROD_COINS: Coin[] = [
     contract: '0x07de306ff27a2b630b1141956844eb1552b956b5',
     abi: usdtAbi,
     decimals: 6,
+    bitrefillCode: 'usdt_erc20',
   },
   {
     id: 4,
@@ -290,6 +292,7 @@ export const NONPROD_COINS: Coin[] = [
     decimals: 6,
     symbol: 'USDCUSDT',
     canInvest: true,
+    bitrefillCode: 'usdc_polygon',
   },
   {
     id: 25,
@@ -432,6 +435,7 @@ export const NONPROD_COINS: Coin[] = [
     abi: linkAbi,
     decimals: 6,
     symbol: 'USDCUSDT',
+    bitrefillCode: 'usdc_erc20',
   },
   {
     id: 36,

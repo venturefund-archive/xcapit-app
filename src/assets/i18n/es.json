@@ -126,16 +126,21 @@
       "of": "de"
     },
     "update_news": {
-      "title": "¡Buenas nuevas, Xcapiter!",
+      "title": "¡Buenas noticias!",
       "first": {
         "badge": "Nueva función",
-        "title": "\ud83d\udc41\ufe0f Datos biométricos",
-        "description": "Ahora no sólo podrás ingresar con ellos a tu wallet, ¡además podrás aprobar tus transacciones!"
+        "title": "Sumamos la Red Solana",
+        "description": "Opera en la red Solana con su token nativo y las opciones más populares!"
       },
       "second": {
         "badge": "Nueva función",
-        "title": "\ud83d\ude0e Mejoras en la experiencia",
-        "description": "Activación de proveedores, flujos más ágiles y mayor claridad en las operaciones principales."
+        "title": "Agenda de contactos",
+        "description": "¡Protege tus envíos de estafas! Guarda tus direcciones de confianza para envios y recepciones sin complicaciones."
+      },
+      "third": {
+        "badge": "Nueva función",
+        "title": "Bitrefill giftcards",
+        "description": "Ahora puedes pasar tus cryptos a vouchers para gastarlos en cualquier comercio de tu conveniencia."
       }
     },
     "transaction_fees": {
@@ -2296,7 +2301,8 @@
       "disclaimer_support": "soporte.",
       "dapp_disconnection": {
         "message": "Se perdió la conexión con {{dapp}}. Esto puede suceder si te desconectas manualmente o si la conexión es inestable."
-      }
+      },
+      "eip712_invalid": "La firma ha sido rechazada porque el chainId del objeto EIP-712 no coincide con el chainId de la blockchain activa."
     },
     "export_private_key": {
       "header": "Clave privada",
@@ -2463,7 +2469,7 @@
       "disclaimer": "* Las cotizaciones pueden variar ligeramente al momento de la compra.",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
-      "kripton_sell_description":"Los depositos pueden demorar hasta 72hs",
+      "kripton_sell_description": "Los depositos pueden demorar hasta 72hs",
       "bitrefill_description": "¡Accede a beneficios exclusivos!",
       "directa24": {
         "platform_description": "Compra a través de la plataforma",
@@ -2481,7 +2487,7 @@
         "subtitle_available_tokens": "¿Qué tokens puedes comprar?",
         "subtitle_more_information": "Más información:",
         "subtitle_time_tokens": "Tiempo de acreditación de tokens:",
-        "subtitule_need_know":"¿Qué necesitas saber?",
+        "subtitule_need_know": "¿Qué necesitas saber?",
         "kyc_required": "Requiere KYC o proceso de registración.",
         "button": "Entendido",
         "kripton": {
@@ -2514,13 +2520,13 @@
           "description_3": "Días hábiles de 9 a 18hs aprox. El tiempo máximo de acreditación es de 3hs."
         },
         "bitrefill": {
-          "name":"Bitrefill",
-          "header":"Es un proveedor habilitado para la venta de criptomonedas.",
-          "erc20_tokens":"ETH, USDT y UNI",
-          "polygon_tokens":"USDC y MATIC",
-          "credit_card":"Tarjeta de crédito.*",
-          "delivery_time":"Depende del proveedor externo según el caso.",
-          "disclaimer":"*Por retricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
+          "name": "Bitrefill",
+          "header": "Es un proveedor habilitado para la venta de criptomonedas.",
+          "erc20_tokens": "ETH, USDT y UNI",
+          "polygon_tokens": "USDC y MATIC",
+          "credit_card": "Tarjeta de crédito.*",
+          "delivery_time": "Depende del proveedor externo según el caso.",
+          "disclaimer": "*Por retricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
         }
       }
     },
@@ -2722,7 +2728,7 @@
           "directa24_voucher": "Tienda física más cercana",
           "kripton": "Transferencia Bancaria",
           "moonpay": "Tarjeta de crédito",
-          "bitrefill":"Vouchers en locales"
+          "bitrefill": "Vouchers en locales"
         },
         "providers": {
           "kripton": {
@@ -3010,7 +3016,7 @@
         "SOLANA": "Solana Explorer"
       },
       "quotation": "Cotización",
-      "fee":"Tarifa de transacción",
+      "fee": "Tarifa de transacción",
       "address": "Dirección de destino (tu wallet)",
       "provider": "Proveedor",
       "operation": "Operación",
@@ -3501,6 +3507,13 @@
     }
   },
   "warranties": {
+    "modal_info": {
+      "highlightedHeader": "Más crédito para tu tarjeta",
+      "header": "Deja tus criptomonedas como garantía para aumentar el límite de tu tarjeta.",
+      "information": "Más información",
+      "firstButton": "Confeccionar garantía",
+      "secondButton": "Retirar garantía"
+    },
     "send_warranty": {
       "header": "Confeccionar garantia",
       "text_dni": "Ingresar DNI",

@@ -15,6 +15,7 @@ export type RawToken = {
   native?: boolean;
   symbol?: string;
   moonpayCode?: string;
+  bitrefillCode?: string;
 }
 
 
