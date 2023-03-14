@@ -58,6 +58,10 @@ export class FiatRampsService {
     );
   }
 
+  getCashOutFormFields(country = 'common'):Observable<any>{
+    return this.http.get(`https://app.kriptonmarket.com/public/config_forms?resource=bank&country=${country}`)
+  }
+
   registerUserImages(data): Observable<any> {
     return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/save_user_image`,

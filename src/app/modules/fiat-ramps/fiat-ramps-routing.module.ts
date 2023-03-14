@@ -109,6 +109,10 @@ const routes: Routes = [
         loadChildren: () => import('./user-email/user-email.module').then((m) => m.UserEmailPageModule),
       },
       {
+        path: 'user-bank-account',
+        loadChildren: () => import('./user-bank-account/user-bank-account.module').then( m => m.UserBankAccountPageModule)
+      },
+      {
         canActivate: [LoggedInKriptonGuard],
         path: 'user-register',
         loadChildren: () => import('./user-register/user-register.module').then((m) => m.UserRegisterPageModule),
@@ -192,6 +196,7 @@ const routes: Routes = [
       },
     ],
   },
+
 ];
 
 @NgModule({

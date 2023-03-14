@@ -2400,6 +2400,11 @@
     "tools": "Tools"
   },
   "fiat_ramps": {
+    "cash_out": {
+      "header": "Buy - Sell",
+      "title": "Enter the account holder's information",
+      "disclaimer": "The account holder must be the same person who performed the registration or KYC process. Transfers to third parties are not allowed."
+    },
     "operation_km_in_progress": {
       "text_primary": "Your order is on its way!",
       "text_secondary": "We will be informing you about changes in the status of your purchase.",
