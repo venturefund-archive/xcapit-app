@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SummaryWarrantyData } from '../../send-warranty/interfaces/summary-warranty-data.interface';
+import { SummaryWarrantyData } from '../../../send-warranty/interfaces/summary-warranty-data.interface';
 
 @Injectable({
   providedIn: 'root',
