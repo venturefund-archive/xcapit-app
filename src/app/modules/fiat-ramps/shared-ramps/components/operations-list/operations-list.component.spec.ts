@@ -40,12 +40,9 @@ describe('OperationsListComponent', () => {
       create: providersSpy,
     });
 
-    ionicStorageServiceSpy = jasmine.createSpyObj('StorageService', {
-      get: Promise.resolve('kripton_email'),
-    });
-
     kriptonStorageServiceSpy = jasmine.createSpyObj('KriptonStorageService', {
-      remove: Promise.resolve(),
+      get: Promise.resolve('email@ejemplo'),
+      removeCredentials: Promise.resolve(),
     });
 
     TestBed.configureTestingModule({
@@ -146,7 +143,7 @@ describe('OperationsListComponent', () => {
     await fixture.whenRenderingDone();
     fixture.detectChanges();
 
-    expect(kriptonStorageServiceSpy.remove).toHaveBeenCalledTimes(4);
+    expect(kriptonStorageServiceSpy.removeCredentials).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledTimes(1);
   });

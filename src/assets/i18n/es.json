@@ -82,6 +82,9 @@
   },
   "shared": {
     "services": {
+      "kripton_interceptor": {
+        "session_expired_toast": "Tu sesión en Kripton Market ha expirado."
+      }, 
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles",
         "share_error": "El texto se copió en el portapapeles"
