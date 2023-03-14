@@ -3,11 +3,13 @@ import { ModalController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warranty-data.interface';
-import { WarrantyDataService } from '../shared-warranties/services/warranty-data.service';
 import { isAddress } from 'ethers/lib/utils';
 import { WalletPasswordWithValidatorComponent } from '../../wallets/shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { environment } from 'variables.env';
+import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
+import { WarrantiesService } from '../shared-warranties/services/warranties.service';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Component({
   selector: 'app-warranty-summary',
@@ -56,21 +58,26 @@ export class WarrantySummaryPage {
   isSending: boolean;
   loading: boolean;
   warrantyAddress = environment.warrantyAddress;
+  walletAddress: string;
+  transactionData: SummaryWarrantyData;
 
   constructor(
     private trackService: TrackService,
     private modalController: ModalController,
     private walletTransactionsService: WalletTransactionsService,
-    private warrantyDataService: WarrantyDataService
+    private warrantyDataService: WarrantyDataService,
+    private warrantyService: WarrantiesService,
+    private storageService: StorageService
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_warranty_start_confirm_screenview',
     });
     this.warrantyData = this.warrantyDataService.data;
+    await this.userWalletAddress();
     this.calculateWarrantyAmounts();
   }
 
@@ -95,9 +102,25 @@ export class WarrantySummaryPage {
     const amountWithoutCost = this.warrantyData.amount - cost;
     this.warrantyData = Object.assign({
       ...this.warrantyData,
-      serviceCost: cost,
+      service_cost: cost,
       amountWithoutCost: amountWithoutCost,
       quoteAmountWithoutCost: amountWithoutCost,
+    });
+  }
+
+  async userWalletAddress() {
+    this.walletAddress = await this.storageService.getWalletsAddresses(this.warrantyData.coin.network);
+  }
+
+  updateDataBeforeSend(res) {
+    this.transactionData = Object.assign({
+      wallet: this.walletAddress,
+      currency: this.warrantyData.coin.value,
+      status: 'IN',
+      amount: this.warrantyData.amount,
+      service_cost: this.warrantyData.service_cost,
+      transaction_hash: res.transactionHash,
+      user_dni: this.warrantyData.user_dni,
     });
   }
 
@@ -129,14 +152,22 @@ export class WarrantySummaryPage {
   }
 
   private async send(password: Password) {
-    await this.walletTransactionsService.send(
+    const response = await this.walletTransactionsService.send(
       password.value(),
       this.warrantyData.amount,
       this.warrantyAddress,
       this.warrantyData.coin
     );
-    this.openSuccesModal();
-    this.loading = false;
+    response
+      .wait()
+      .then((res) => {
+        this.updateDataBeforeSend(res);
+        this.warrantyService.createWarranty(this.transactionData);
+      })
+      .then(() => {
+        this.openSuccesModal();
+        this.loading = false;
+      });
   }
 
   openSuccesModal() {}

@@ -1,11 +1,15 @@
 import { Coin } from "src/app/modules/wallets/shared-wallets/interfaces/coin.interface";
 
 export interface SummaryWarrantyData {
+  wallet?: string;
+  currency?: string;
+  status?: string;
   amount: number;
-  coin: Coin;
-  dni: number;
-  quoteAmount: number;
+  coin?: Coin;
+  user_dni: number;
+  quoteAmount?: number;
   quoteAmountWithoutCost?: number;
-  serviceCost?: number;
+  service_cost?: number;
   amountWithoutCost?: number;
+  transaction_hash?: string,
 }

@@ -3,13 +3,16 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warranty-data.interface';
-import { WarrantyDataService } from '../shared-warranties/services/warranty-data.service';
+import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
+import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { WarrantySummaryPage } from './warranty-summary.page';
 
 describe('WarrantySummaryPage', () => {
@@ -20,15 +23,26 @@ describe('WarrantySummaryPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let warrantyDataServiceSpy: jasmine.SpyObj<WarrantyDataService>;
+  let warrantyServiceSpy: jasmine.SpyObj<WarrantiesService>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
   const aPassword = new Password('aPassword');
   const summaryData: SummaryWarrantyData = {
     amount: 10,
     coin: rawUSDCData,
-    dni: 1234567,
+    user_dni: 1234567,
     quoteAmount: 10,
     quoteAmountWithoutCost: 9.8,
-    serviceCost: 0.2,
+    service_cost: 0.2,
     amountWithoutCost: 9.8,
+  };
+  const transactionData: SummaryWarrantyData = {
+    wallet: '0x00001',
+    currency: 'USDC',
+    status: 'IN',
+    amount: 10,
+    service_cost: 0.2,
+    transaction_hash: 'someHash',
+    user_dni: 1234567,
   };
   beforeEach(waitForAsync(() => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
@@ -44,6 +58,12 @@ describe('WarrantySummaryPage', () => {
     });
 
     warrantyDataServiceSpy = jasmine.createSpyObj('WarrantyDataService', {}, { data: summaryData });
+
+    warrantyServiceSpy = jasmine.createSpyObj('WarrantyService', { createWarranty: of({ transactionData }) });
+
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getWalletsAddresses: Promise.resolve('0x00001'),
+    });
     TestBed.configureTestingModule({
       declarations: [WarrantySummaryPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -52,12 +72,15 @@ describe('WarrantySummaryPage', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
         { provide: WarrantyDataService, useValue: warrantyDataServiceSpy },
+        { provide: WarrantiesService, useValue: warrantyServiceSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WarrantySummaryPage);
     component = fixture.componentInstance;
+    component.warrantyAddress = '0xdd3c288e12f2bc0207b15e609519832378f588d5';
     fixture.detectChanges();
   }));
 
@@ -84,7 +107,7 @@ describe('WarrantySummaryPage', () => {
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       aPassword.value(),
       10,
-      '0xdd3c288e12f2bc0207b15e609519832378f588d5',
+      component.warrantyAddress,
       summaryData.coin
     );
   });
@@ -99,5 +122,16 @@ describe('WarrantySummaryPage', () => {
     await fixture.whenStable();
 
     expect(component.loading).toBeFalsy();
+  });
+
+  it('should create warranty when ux_warranty_start_confirm button is clicked and password is correct', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+
+    expect(warrantyServiceSpy.createWarranty).toHaveBeenCalledOnceWith(transactionData);
   });
 });

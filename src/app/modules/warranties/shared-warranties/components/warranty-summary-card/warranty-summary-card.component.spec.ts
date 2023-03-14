@@ -13,10 +13,10 @@ describe('WarrantySummaryCardComponent', () => {
   const summaryData: SummaryWarrantyData = {
     amount: 10,
     coin: rawUSDCData,
-    dni: 1234567,
+    user_dni: 1234567,
     quoteAmount: 10,
     quoteAmountWithoutCost: 9.8,
-    serviceCost: 0.2,
+    service_cost: 0.2,
     amountWithoutCost: 9.8,
   };
 

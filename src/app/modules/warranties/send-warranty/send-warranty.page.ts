@@ -152,7 +152,7 @@ export class SendWarrantyPage {
       coin: this.token,
       amount: parseFloat(this.form.value.amount),
       quoteAmount: this.form.value.quoteAmount,
-      dni: this.form.value.dni,
+      user_dni: this.form.value.dni,
     };
   }
 
