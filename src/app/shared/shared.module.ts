@@ -106,6 +106,7 @@ import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-aler
 import { RequireTokenComponent } from './components/require-token/require-token.component';
 import { HideEmailPipe } from './pipes/hide-email/hide-email.pipe';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { GeneralModalWithTwoButtonsComponent } from './components/general-modal-with-two-buttons/general-modal-with-two-buttons.component';
 import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp-support.component';
 
 @NgModule({
@@ -200,6 +201,7 @@ import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp
     AddressInputCardComponent,
     RequireTokenComponent,
     SearchBarComponent,
+    GeneralModalWithTwoButtonsComponent,
 
     // Pipes
     LocalizedDatePipe,
@@ -315,6 +317,7 @@ import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp
     AddressInputCardComponent,
     RequireTokenComponent,
     SearchBarComponent,
+    GeneralModalWithTwoButtonsComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,

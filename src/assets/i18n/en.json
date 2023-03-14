@@ -3343,14 +3343,17 @@
     }
   },
   "warranties": {
+    "modal_info": {
+      "highlightedHeader": "More credit for your card",
+      "header": "Leave your cryptocurrencies as collateral to increase your card limit.",
+      "information": "More information",
+      "firstButton": "Make a warranty",
+      "secondButton": "Withdraw warranty"
+    },
     "send_warranty": {
       "header": "Make a Warranty",
       "text_dni": "Identity card number",
       "deposit_amount": "Deposit amount"
-    },
-    "whatsapp_support": {
-      "textTertiary": "Need help?",
-      "textHelpLink": "Write us by whatsapp"
     }
   }
 }
