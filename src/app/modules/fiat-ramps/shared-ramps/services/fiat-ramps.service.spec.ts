@@ -84,8 +84,14 @@ describe('FiatRampsService', () => {
     });
   });
 
-  it('should call post on http when confirmOperation', () => {
-    fiatRampsService.confirmOperation(0, {}).subscribe(() => {
+  it('should call post on http when confirmCashInOperation', () => {
+    fiatRampsService.confirmCashInOperation(0, {}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when confirmCashOutOperation', () => {
+    fiatRampsService.confirmCashOutOperation(0, {}).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });

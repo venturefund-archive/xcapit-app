@@ -229,7 +229,7 @@ export class PurchaseOrderPage {
     const email = await this.kriptonStorageService.get('email');
     const auth_token = await this.kriptonStorageService.get('access_token');
     const data = { file: this.voucher.dataUrl, email, auth_token };
-    this.fiatRampsService.confirmOperation(this.data.operation_id, data).subscribe({
+    this.fiatRampsService.confirmCashInOperation(this.data.operation_id, data).subscribe({
       next: () => {
         this.data.voucher = true;
         this.openSuccessModal();

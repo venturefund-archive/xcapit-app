@@ -10,7 +10,7 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
-import { WarrantyDataService } from '../shared-warranties/services/warranty-data.service';
+import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 
 @Component({
   selector: 'app-send-warranty',
