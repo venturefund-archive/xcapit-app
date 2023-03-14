@@ -36,6 +36,8 @@ import { UpdateNewsService } from '../../../shared/services/update-news/update-n
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
+declare var gapi: any;
+declare var google: any;
 
 @Component({
   selector: 'app-home-wallet',
@@ -114,6 +116,9 @@ import { ContactDataService } from '../../contacts/shared-contacts/services/cont
         <app-home-slides *ngIf="this.slides.length > 0" [slides]="this.slides"></app-home-slides>
       </div>
 
+      <ion-button expand="block" (click)="gapiLoaded()">Init gapi</ion-button>
+      <ion-button expand="block" (click)="gisLoaded()">Init GIS</ion-button>
+      <ion-button expand="block" (click)="handleAuthClick()">Handle auth</ion-button>
       <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
           [text]="'wallets.home.backup_card_component.text'"
@@ -224,6 +229,21 @@ export class HomeWalletPage implements OnInit {
   connected: boolean;
   allLoaded = false;
 
+  // TODO(developer): Set to client ID and API key from the Developer Console
+  CLIENT_ID = '247745125245-urjh6e3u9hpgde770c2tap1jp10cm2oi.apps.googleusercontent.com';
+  API_KEY = 'AIzaSyARCXM1L40_9TnQYUEZZsffBZ_glbekU2U';
+
+  // Discovery doc URL for APIs used by the quickstart
+  DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
+
+  // Authorization scopes required by the API; multiple scopes can be
+  // included, separated by spaces.
+  SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+
+  tokenClient;
+  gapiInited = false;
+  gisInited = false;
+
   constructor(
     private navController: NavController,
     private formBuilder: UntypedFormBuilder,
@@ -251,6 +271,75 @@ export class HomeWalletPage implements OnInit {
   ) {}
 
   ngOnInit() {}
+
+  gapiLoaded() {
+    gapi.load('client', () => this.initializeGapiClient());
+  }
+
+  async initializeGapiClient() {
+    await gapi.client.init({
+      apiKey: this.API_KEY,
+      discoveryDocs: [this.DISCOVERY_DOC],
+    });
+    this.gapiInited = true;
+    console.log('Gapi inited, Token client: ');
+    // maybeEnableButtons();
+  }
+
+  gisLoaded() {
+    this.tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: this.CLIENT_ID,
+      scope: this.SCOPES,
+      callback: '', // defined later
+    });
+    this.gisInited = true;
+    console.log('GIS inited, Token client: ', this.tokenClient);
+    // maybeEnableButtons();
+  }
+
+  handleAuthClick() {
+    this.tokenClient.callback = async (resp) => {
+      if (resp.error !== undefined) {
+        throw resp;
+      }
+      // document.getElementById('signout_button').style.visibility = 'visible';
+      // document.getElementById('authorize_button').innerText = 'Refresh';
+      await this.listFiles();
+    };
+
+    if (gapi.client.getToken() === null) {
+      // Prompt the user to select a Google Account and ask for consent to share their data
+      // when establishing a new session.
+      this.tokenClient.requestAccessToken({ prompt: 'consent' });
+    } else {
+      // Skip display of account chooser and consent dialog for an existing session.
+      this.tokenClient.requestAccessToken({ prompt: '' });
+    }
+  }
+
+  async listFiles() {
+    let response;
+    try {
+      response = await gapi.client.drive.files.list({
+        pageSize: 10,
+        fields: 'files(id, name)',
+      });
+    } catch (err) {
+      document.getElementById('content').innerText = err.message;
+      return;
+    }
+    const files = response.result.files;
+    if (!files || files.length == 0) {
+      // document.getElementById('content').innerText = 'No files found.';
+      console.log('No files found');
+      return;
+    }
+    // Flatten to string to display
+    const output = files.reduce((str, file) => `${str}${file.name} (${file.id})\n`, 'Files:\n');
+    console.log('Files');
+    console.log(output);
+    // document.getElementById('content').innerText = output;
+  }
 
   ionViewWillEnter() {
     this.getSliderImages();
