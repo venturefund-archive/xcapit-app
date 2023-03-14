@@ -7,15 +7,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 
-export class WarrantyService {
+export class WarrantiesService {
   entity = 'scrow';
 
   constructor(private http: CustomHttpService) {}
 
   createWarranty(data: any): Observable<any> {
-    // TODO: Reemplazar la ruta por environment.apiUrl
     return this.http.post(
-      `localhost:9050/v1/api/${this.entity}/create-warranty`,
+      `${environment.apiUrl}/${this.entity}/create-warranty`,
       data,
       undefined,
       false

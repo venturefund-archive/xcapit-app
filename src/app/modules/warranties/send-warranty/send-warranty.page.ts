@@ -9,7 +9,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
-import { SendWarrantyDataService } from '../shared-warranties/services/send-warranty-data.service';
+import { SendWarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 
 @Component({
   selector: 'app-send-warranty',

@@ -1,10 +1,10 @@
 import { TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { CustomHttpService } from "src/app/shared/services/custom-http/custom-http.service";
-import { WarrantyService } from "./warranty.service";
+import { WarrantiesService } from "./warranties.service";
 
-describe('WarrantyService', ()=>{
-  let warrantyService: WarrantyService;
+describe('WarrantiesService', ()=>{
+  let warrantiesService: WarrantiesService;
   let customHttpServiceSpy: jasmine.SpyObj<CustomHttpService>;
 
   beforeEach(() => {
@@ -17,15 +17,15 @@ describe('WarrantyService', ()=>{
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
       ],
     });
-    warrantyService = TestBed.inject(WarrantyService);
+    warrantiesService = TestBed.inject(WarrantiesService);
   });
 
   it('should be created', () => {
-    expect(warrantyService).toBeTruthy();
+    expect(warrantiesService).toBeTruthy();
   });
 
   it('should call post on http when createWarranty', () => {
-    warrantyService.createWarranty({}).subscribe(() => {
+    warrantiesService.createWarranty({}).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
