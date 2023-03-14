@@ -11,8 +11,13 @@ const routes: Routes = [
         path: 'send-warranty',
         loadChildren: () => import('./send-warranty/send-warranty.module').then((m) => m.SendWarrantyPageModule),
       },
+      {
+        path: 'withdraw-warranty',
+        loadChildren: () => import('./withdraw-warranty/withdraw-warranty.module').then( m => m.WithdrawWarrantyPageModule)
+      },
     ],
   },
+
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
