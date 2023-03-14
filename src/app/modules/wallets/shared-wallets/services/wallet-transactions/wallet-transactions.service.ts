@@ -27,6 +27,7 @@ import { NativeGasOfFactory } from '../../../../../shared/models/native-gas-of/f
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { GasStationOf } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/gas-station-of';
+import { EIP712Data } from '../../models/eip-712-data/eip-712-data';
 
 @Injectable({
   providedIn: 'root',
@@ -77,12 +78,11 @@ export class WalletTransactionsService {
     return transactionResponse;
   }
 
-  async signTypedData(wallet: Wallet, dataToSign: any) {
-    const privKey = wallet.privateKey.replace('0x', '');
-
-    const result = signTypedData_v4(Buffer.from(privKey.toString(), 'hex'), { data: JSON.parse(dataToSign) });
-
-    return result;
+  async signTypedData(wallet: Wallet, dataToSign: EIP712Data) {
+    return signTypedData_v4(
+      Buffer.from(wallet.privateKey.replace('0x', '').toString(), 'hex'),
+      { data: dataToSign.toJSON() }
+    );
   }
 
   async personalSign(wallet: Wallet, dataToSign: any) {

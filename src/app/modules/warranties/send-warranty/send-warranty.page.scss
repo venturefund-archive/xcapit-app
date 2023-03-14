@@ -1,0 +1,35 @@
+:host {
+  .sw {
+    --background: var(--ion-color-background);
+
+    &__send-amount-card {
+      margin-top: 8px;
+
+      &__title {
+        margin-bottom: 8px;
+      }
+    }
+
+    &__support {
+      margin-top: 24px;
+    }
+
+    &__footer {
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+      border-radius: 8px;
+
+      &__submit-button {
+        display: flex;
+
+        &__button {
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+
+  .no-border {
+    border: none;
+    box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+  }
+}

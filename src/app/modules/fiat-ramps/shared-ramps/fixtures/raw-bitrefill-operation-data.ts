@@ -1,18 +1,18 @@
 import { RawBitrefillOperation } from '../interfaces/raw-bitrefill-operation.interface';
 
 export const nativeEventPayment =
-  '{"event":"payment_intent", "invoiceId": "123-456-789-012","paymentMethod": "ethereum","paymentUri":"ethereum:0xD148C6735e1777BE439519B32A1a6Ef9c8853944@1?value=2e17&gasPrice=18&label=Bitrefill%20cebbd003-912e-4232-95a2-7f4d5e4bc5a5"}';
+  '{"event":"payment_intent","invoiceId":"83a65332-6d70-4ef2-85c2-1002cde24060","paymentUri":"ethereum:0x58A7311cB3ce28DF2Eb5304128F7038e90F636d4?amount=0.025737","paymentMethod":"ethereum"}';
 export const nonNativeEventPayment =
-  '{"event":"payment_intent", "invoiceId": "123-456-789-012","paymentMethod": "usdc_polygon","paymentUri":"ethereum:0x2791bca1f2de4661ed88a30c99a7a9449aa84174@137/transfer?address=0xD148C6735e1777BE439519B32A1a6Ef9c8853945&uint256=5.8e5"}';
+  '{"event":"payment_intent","invoiceId":"db0f152c-fd72-4d68-b1c7-0612190afab4","paymentUri":"ethereum:0x2FcA4930b3B59338bc57b9196eEae196e6A4Da42?amount=41.05","paymentMethod":"usdc_polygon"}';
 export const nativeNonValidEventPayment =
-  '{"event":"payment_intent", "invoiceId": "123-456-789-012","paymentMethod": "bitcoin","paymentUri":"bitcoin:0xD148C6735e1777BE439519B32A1a6Ef9c8853944@1?value=2e17&gasPrice=18&label=Bitrefill%20cebbd003-912e-4232-95a2-7f4d5e4bc5a5"}';
+  '{"event":"payment_intent","invoiceId":"db0f152c-fd72-4d68-b1c7-0612190afab4","paymentUri":"bitcoin:0x2FcA4930b3B59338bc57b9196eEae196e6A4Da42?amount=41.05","paymentMethod":"bitcoin"}';
 
 export const nativeEventInvoice =
-  '{"event":"invoice_created", "invoiceId": "123-456-789-012","paymentMethod": "ethereum","paymentUri":"ethereum:0xD148C6735e1777BE439519B32A1a6Ef9c8853944@1?value=2e17&gasPrice=18&label=Bitrefill%20cebbd003-912e-4232-95a2-7f4d5e4bc5a5"}';
+  '{"event":"invoice_created","invoiceId":"83a65332-6d70-4ef2-85c2-1002cde24060","paymentUri":"ethereum:0x58A7311cB3ce28DF2Eb5304128F7038e90F636d4?amount=0.025737","paymentMethod":"ethereum"}';
 export const nonNativeEventInvoice =
-  '{"event":"invoice_created", "invoiceId": "123-456-789-012","paymentMethod": "usdc_polygon","paymentUri":"ethereum:0x2791bca1f2de4661ed88a30c99a7a9449aa84174@137/transfer?address=0xD148C6735e1777BE439519B32A1a6Ef9c8853945&uint256=5.8e5"}';
-export const nativeNonValidEventInvoice =
-  '{"event":"invoice_created", "invoiceId": "123-456-789-012","paymentMethod": "bitcoin","paymentUri":"bitcoin:0xD148C6735e1777BE439519B32A1a6Ef9c8853944@1?value=2e17&gasPrice=18&label=Bitrefill%20cebbd003-912e-4232-95a2-7f4d5e4bc5a5"}';
+  '{"event":"invoice_created","invoiceId":"db0f152c-fd72-4d68-b1c7-0612190afab4","paymentUri":"ethereum:0x2FcA4930b3B59338bc57b9196eEae196e6A4Da42?amount=41.05","paymentMethod":"usdc_polygon"}';
+  export const nativeNonValidEventInvoice =
+  '{"event":"invoice_created","invoiceId":"db0f152c-fd72-4d68-b1c7-0612190afab4","paymentUri":"bitcoin:0x2FcA4930b3B59338bc57b9196eEae196e6A4Da42?amount=41.05","paymentMethod":"bitcoin"}';
 
 export const rawNativeEvent: RawBitrefillOperation = JSON.parse(nativeEventPayment);
 export const rawNonNativeEvent: RawBitrefillOperation = JSON.parse(nonNativeEventPayment);

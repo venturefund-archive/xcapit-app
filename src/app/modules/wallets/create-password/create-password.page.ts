@@ -311,13 +311,6 @@ export class CreatePasswordPage implements OnInit {
     }
   }
 
-  private formattedWallets(encryptedWallet: any): any {
-    return Object.keys(encryptedWallet.addresses).map((network) => ({
-      network,
-      address: encryptedWallet.addresses[network],
-    }));
-  }
-
   navigateByMode() {
     const remoteConfig = this.remoteConfig.getFeatureFlag('ff_experimentOnboarding');
     let url = '/wallets/recovery/success';

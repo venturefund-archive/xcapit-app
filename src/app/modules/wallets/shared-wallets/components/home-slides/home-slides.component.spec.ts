@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { SwiperModule } from 'swiper/angular';
 import { HomeSlidesComponent } from './home-slides.component';
@@ -11,16 +13,19 @@ const testSliders = [
     image: 'test-image-3',
     url: '/wallets/receive/select-currency',
     isBrowserOpen: false,
+    isModalOpen: false,
   },
   {
     image: 'test-image-2',
     url: 'test.com',
-    isBrowserOpen: true,
+    isBrowserOpen: false,
+    isModalOpen: true,
   },
   {
     image: 'test-image-3',
     url: 'test.com',
     isBrowserOpen: true,
+    isModalOpen: false,
   },
 ]
 describe('HomeSlidesComponent', () => {
@@ -30,6 +35,9 @@ describe('HomeSlidesComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+
   beforeEach(waitForAsync(() => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
@@ -39,13 +47,17 @@ describe('HomeSlidesComponent', () => {
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
       open: Promise.resolve(),
     });
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
+
     TestBed.configureTestingModule({
       declarations: [HomeSlidesComponent],
-      imports: [IonicModule.forRoot(), SwiperModule],
+      imports: [IonicModule.forRoot(), SwiperModule, TranslateModule.forRoot()],
       providers: [
         { provide: BrowserService, useValue: browserServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: TrackService, useValue: trackServiceSpy }
+        { provide: TrackService, useValue: trackServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
       ],
 
     }).compileComponents();
@@ -82,7 +94,7 @@ describe('HomeSlidesComponent', () => {
     slider3.nativeElement.click();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledWith('/wallets/receive/select-currency')
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'test.com' });
-    expect(browserServiceSpy.open).toHaveBeenCalledTimes(2);
+    expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
    });
 
    it('should track event when slider is clicked', () => {

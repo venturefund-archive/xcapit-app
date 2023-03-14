@@ -37,6 +37,7 @@ export const environment = {
   coinGeckoApiUrl:"https://coingecko.url",
   solanaApiUrl: 'https://solana.url',
   twoPiReferralAddress: '0x0001',
+  bitrefillAffiliateCode: 'testAffiliateCode',
   derivedPaths: {
     ERC20: "m/44'/60'/0'/0/0",
     RSK: "m/44'/37310'/0'/0/0",
