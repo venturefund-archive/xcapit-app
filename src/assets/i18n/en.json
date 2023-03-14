@@ -3369,6 +3369,16 @@
       "amountLabel":"Guarantee amount",
       "serviceLabel":"Cost of service",
       "buttonName":"Make Warranty"
+    },
+    "withdraw_warranty": {
+      "header": "Withdraw warranty",
+      "title": "Warranty balance verification",
+      "text_dni": "Identity card number",
+      "subtitle": "Enter your Identity card number to verify the deposits accumulated through this wallet in your warranty"
+    },
+    "whatsapp_support": {
+      "textTertiary": "Need help?",
+      "textHelpLink": "Write us by whatsapp"
     }
   }
 }

@@ -3529,6 +3529,16 @@
       "amountLabel":"Monto de garantía",
       "serviceLabel":"Costo de servicio",
       "buttonName":"Confeccionar garantia"
+    },
+    "withdraw_warranty": {
+      "header": "Retirar garantía",
+      "title": "Verificación de saldo en garantia",
+      "text_dni": "Ingresar DNI",
+      "subtitle": "Ingresa tu DNI para verificar los depósitos acumulados a través de esta wallet en tu garantía."
+    },
+    "whatsapp_support": {
+      "textTertiary": "¿Necesitas ayuda?",
+      "textHelpLink": "Escribenos por whatsapp"
     }
   }
 }
