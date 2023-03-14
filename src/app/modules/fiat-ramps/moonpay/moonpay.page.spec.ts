@@ -115,7 +115,7 @@ describe('MoonpayPage', () => {
       'TokenOperationDataService',
       {},
       {
-        tokenOperationData: { asset: 'ETH', network: 'ERC20', country: 'ARS' },
+        tokenOperationData: { asset: 'ETH', network: 'ERC20', country: 'ARG' },
       }
     );
 
