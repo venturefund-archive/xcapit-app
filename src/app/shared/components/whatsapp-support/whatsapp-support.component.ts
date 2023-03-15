@@ -25,6 +25,6 @@ export class WhatsappSupportComponent {
   constructor(private browserService: BrowserService) {}
 
   async openSupport() {
-    await this.browserService.open({ url: 'wa.link/jidvc3nk' });
+    await this.browserService.open({ url: 'https://wa.link/jidvc3' });
   }
 }

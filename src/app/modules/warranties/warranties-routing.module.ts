@@ -11,6 +11,11 @@ const routes: Routes = [
         path: 'send-warranty',
         loadChildren: () => import('./send-warranty/send-warranty.module').then((m) => m.SendWarrantyPageModule),
       },
+      {
+        path: 'warranty-summary',
+        loadChildren: () =>
+          import('../warranties/warranty-summary/warranty-summary.module').then((m) => m.WarrantySummaryPageModule),
+      },
     ],
   },
 ];

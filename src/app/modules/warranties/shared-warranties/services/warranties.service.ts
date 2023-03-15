@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 
 export class WarrantiesService {
-  entity = 'scrow';
+  entity = 'xscrow';
 
   constructor(private http: CustomHttpService) {}
 

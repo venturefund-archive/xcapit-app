@@ -17,8 +17,7 @@ const routes: Routes = [
       {
         path: 'detail',
         loadChildren: () => import('./contact-detail/contact-detail.module').then( m => m.ContactDetailPageModule)
-      },
-    
+      },    
     ],
   },
 

@@ -23,8 +23,7 @@ export class ProviderDataRepo {
   }
 
   private providers(): FiatRampProvider[] {
-    const variable = this.transactionMode === 'sell' ? 'offRampsProviders' : 'onRampsProviders'
-    return this.remoteConfig.getObject(variable);   
+    const variable = this.transactionMode === 'sell' ? 'offRampsProviders' : 'onRampsProviders';
+    return this.remoteConfig.getObject(variable);
   }
-  
 }
