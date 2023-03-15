@@ -38,6 +38,7 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 declare var gapi: any;
 declare var google: any;
+import { Readable } from 'readable-stream';
 
 @Component({
   selector: 'app-home-wallet',
@@ -119,6 +120,8 @@ declare var google: any;
       <ion-button expand="block" (click)="gapiLoaded()">Init gapi</ion-button>
       <ion-button expand="block" (click)="gisLoaded()">Init GIS</ion-button>
       <ion-button expand="block" (click)="handleAuthClick()">Handle auth</ion-button>
+      <ion-button expand="block" (click)="getFile()">Get file</ion-button>
+      <ion-button expand="block" (click)="createFile()">Create file</ion-button>
       <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
           [text]="'wallets.home.backup_card_component.text'"
@@ -238,7 +241,7 @@ export class HomeWalletPage implements OnInit {
 
   // Authorization scopes required by the API; multiple scopes can be
   // included, separated by spaces.
-  SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+  SCOPES = 'https://www.googleapis.com/auth/drive';
 
   tokenClient;
   gapiInited = false;
@@ -339,6 +342,48 @@ export class HomeWalletPage implements OnInit {
     console.log('Files');
     console.log(output);
     // document.getElementById('content').innerText = output;
+  }
+
+  async createFile() {
+    // const res = await gapi.client.drive.files.create({
+    //   name: 'a name 4',
+    //   mimeType: 'text/plain',
+    //   body: '1234',
+    // });
+    // console.log('Files: ', res);
+    const res = await gapi.client.drive.files.create({
+      name: 'a name 5',
+      mimeType: 'text/plain',
+      body: new Readable({
+        read() {
+          this.push('12345asdfg');
+          this.push(null);
+        },
+      }),
+    });
+    console.log('Files: ', res);
+    const res2 = res.result.id;
+  }
+
+  async getFile() {
+    try {
+      // const response = await gapi.client.drive.files.get({ fileId: '1XHs_mwJVh27TrTtb-RqPHGDG6FQNVp77' });
+      const files = await gapi.client.drive.files.list({
+        q: "name='a name 3'",
+        fields: 'files(id, name)',
+        spaces: 'drive',
+      });
+      console.log('Files: ', files.result.files[0].id);
+      const response = await gapi.client.drive.files.get({ fileId: files.result.files[0].id });
+      console.log('File:', response);
+      const result = await gapi.client.drive.files.export({
+        fileId: files.result.files[0].id,
+        mimeType: 'application/pdf',
+      });
+      console.log(result);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   ionViewWillEnter() {
