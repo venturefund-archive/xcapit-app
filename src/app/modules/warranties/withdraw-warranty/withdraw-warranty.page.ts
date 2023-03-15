@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 
 @Component({
   selector: 'app-withdraw-warranty',
@@ -15,7 +18,9 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
     <ion-content class="ww ion-padding">
       <form [formGroup]="this.form">
         <div class="ww__withdraw-amount-card ux-card ion-padding no-border">
-          <div class="ww__withdraw-amount-card__title ux-font-text-xl">{{ 'warranties.withdraw_warranty.title' | translate }}</div>
+          <div class="ww__withdraw-amount-card__title ux-font-text-xl">
+            {{ 'warranties.withdraw_warranty.title' | translate }}
+          </div>
           <div class="ww__withdraw-amount-card__input">
             <app-ux-input
               type="number"
@@ -25,7 +30,9 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
               [label]="'warranties.withdraw_warranty.text_dni' | translate"
               [placeholder]="'DNI'"
             ></app-ux-input>
-            <div class="ww__withdraw-amount-card__subtitle ux-font-text-base">{{ 'warranties.withdraw_warranty.subtitle' | translate }}</div>
+            <div class="ww__withdraw-amount-card__subtitle ux-font-text-base">
+              {{ 'warranties.withdraw_warranty.subtitle' | translate }}
+            </div>
           </div>
         </div>
       </form>
@@ -52,16 +59,24 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 export class WithdrawWarrantyPage implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
     dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(9), Validators.pattern('[0-9]*$')]],
-  })
+  });
+  warrantyBalance: any;
   constructor(
     private formBuilder: UntypedFormBuilder,
+    private warrantiesService: WarrantiesService,
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
 
-  }
-
-  submitForm() {
-    return null
+  async submitForm() {
+    this.warrantyBalance = await this.warrantiesService.verifyWarranty({ user_dni: this.form.value.dni }).toPromise();
+    if (this.warrantyBalance.amount === 0) {
+      await this.toastService.showErrorToast({
+        message: this.translate.instant('warranties.withdraw_warranty.toast_no_deposits_found'),
+      });
+      return;
+    }
   }
 }

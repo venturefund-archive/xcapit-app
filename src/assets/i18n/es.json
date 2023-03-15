@@ -3534,7 +3534,8 @@
       "header": "Retirar garantía",
       "title": "Verificación de saldo en garantia",
       "text_dni": "Ingresar DNI",
-      "subtitle": "Ingresa tu DNI para verificar los depósitos acumulados a través de esta wallet en tu garantía."
+      "subtitle": "Ingresa tu DNI para verificar los depósitos acumulados a través de esta wallet en tu garantía.",
+      "toast_no_deposits_found": "No hemos encontrado depósitos de garantía asociados a este DNI y esta wallet. Por favor verifica el dato ingresado e intenta nuevamente."
     },
     "whatsapp_support": {
       "textTertiary": "¿Necesitas ayuda?",

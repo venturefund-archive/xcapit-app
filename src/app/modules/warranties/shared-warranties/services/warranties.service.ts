@@ -21,4 +21,13 @@ export class WarrantiesService {
     );
   }
 
+  verifyWarranty(dni: any): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/verify-warranty`,
+      dni,
+      undefined,
+      false
+    );
+  }
+
 }
