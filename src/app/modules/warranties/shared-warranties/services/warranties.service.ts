@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 
 export class WarrantiesService {
-  entity = 'scrow';
+  entity = 'xscrow';
 
   constructor(private http: CustomHttpService) {}
 
@@ -16,6 +16,15 @@ export class WarrantiesService {
     return this.http.post(
       `${environment.apiUrl}/${this.entity}/create-warranty`,
       data,
+      undefined,
+      false
+    );
+  }
+
+  verifyWarranty(dni: any): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/verify-warranty`,
+      dni,
       undefined,
       false
     );

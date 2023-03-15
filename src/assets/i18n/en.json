@@ -3359,7 +3359,8 @@
       "header": "Withdraw warranty",
       "title": "Warranty balance verification",
       "text_dni": "Identity card number",
-      "subtitle": "Enter your Identity card number to verify the deposits accumulated through this wallet in your warranty"
+      "subtitle": "Enter your Identity card number to verify the deposits accumulated through this wallet in your warranty",
+      "toast_no_deposits_found": "We have not found any warranty deposits associated with this ID and wallet. Please verify the data entered and try again."
     },
     "whatsapp_support": {
       "textTertiary": "Need help?",
