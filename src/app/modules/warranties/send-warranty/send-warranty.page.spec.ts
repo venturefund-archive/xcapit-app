@@ -6,7 +6,6 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
-import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -29,7 +28,6 @@ describe('SendWarrantyPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
-  let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let formBuilder: UntypedFormBuilder;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let formDataSpy: jasmine.SpyObj<any>;
@@ -69,9 +67,6 @@ describe('SendWarrantyPage', () => {
       new: dynamicPriceSpy,
     });
 
-    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
-      trackEvent: Promise.resolve(true),
-    });
 
     coinsSpy = [jasmine.createSpyObj('Coin', {}, rawMATICData), jasmine.createSpyObj('Coin', {}, rawUSDCData)];
 
@@ -85,7 +80,6 @@ describe('SendWarrantyPage', () => {
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
