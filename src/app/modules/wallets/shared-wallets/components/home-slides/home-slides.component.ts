@@ -89,7 +89,7 @@ export class HomeSlidesComponent implements OnInit {
         urlFirstButton: 'warranties/send-warranty',
         secondButton: this.translate.instant('warranties.modal_info.secondButton'),
         eventSecondButton: 'ux_warranty_withdraw',
-        urlSecondButton: '',
+        urlSecondButton: 'warranties/withdraw-warranty',
       },
     });
 
