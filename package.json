@@ -64,6 +64,7 @@
     "@solana/spl-token": "^0.3.6",
     "@solana/web3.js": "^1.53.0",
     "@typeform/embed": "^1.35.1",
+    "@types/gapi": "^0.0.44",
     "@walletconnect/client": "^1.6.5",
     "abi-decoder": "^2.4.0",
     "assert": "1.5.0",
@@ -77,6 +78,7 @@
     "eth-sig-util": "^3.0.1",
     "ethers": "^5.4.3",
     "firebase": "9.6.2",
+    "googleapis": "^113.0.0",
     "ionic": "^5.4.16",
     "ionicons": "^5.5.0",
     "moment": "^2.29.4",
@@ -89,6 +91,7 @@
     "stylelint-config-standard-scss": "^3.0.0",
     "swiper": "^7.3.2",
     "tslib": "^2.0.0",
+    "web-streams-polyfill": "^3.2.1",
     "yarn": "^1.22.17",
     "zone.js": "0.11.7"
   },

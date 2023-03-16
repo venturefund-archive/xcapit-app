@@ -5,7 +5,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TotalBalance } from '../shared-wallets/models/balance/total-balance/total-balance';
 import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
@@ -38,7 +38,6 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 declare var gapi: any;
 declare var google: any;
-import { Readable } from 'readable-stream';
 
 @Component({
   selector: 'app-home-wallet',
@@ -293,7 +292,7 @@ export class HomeWalletPage implements OnInit {
     this.tokenClient = google.accounts.oauth2.initTokenClient({
       client_id: this.CLIENT_ID,
       scope: this.SCOPES,
-      callback: '', // defined later
+      callback: '',
     });
     this.gisInited = true;
     console.log('GIS inited, Token client: ', this.tokenClient);
@@ -305,9 +304,10 @@ export class HomeWalletPage implements OnInit {
       if (resp.error !== undefined) {
         throw resp;
       }
-      // document.getElementById('signout_button').style.visibility = 'visible';
-      // document.getElementById('authorize_button').innerText = 'Refresh';
-      await this.listFiles();
+      // this.getFile();
+      this.getFilePorApi();
+      // this.listFiles();
+      // this.createFile();
     };
 
     if (gapi.client.getToken() === null) {
@@ -320,70 +320,69 @@ export class HomeWalletPage implements OnInit {
     }
   }
 
-  async listFiles() {
-    let response;
-    try {
-      response = await gapi.client.drive.files.list({
-        pageSize: 10,
-        fields: 'files(id, name)',
-      });
-    } catch (err) {
-      document.getElementById('content').innerText = err.message;
-      return;
-    }
-    const files = response.result.files;
-    if (!files || files.length == 0) {
-      // document.getElementById('content').innerText = 'No files found.';
-      console.log('No files found');
-      return;
-    }
-    // Flatten to string to display
-    const output = files.reduce((str, file) => `${str}${file.name} (${file.id})\n`, 'Files:\n');
-    console.log('Files');
-    console.log(output);
-    // document.getElementById('content').innerText = output;
-  }
-
   async createFile() {
-    // const res = await gapi.client.drive.files.create({
-    //   name: 'a name 4',
-    //   mimeType: 'text/plain',
-    //   body: '1234',
-    // });
-    // console.log('Files: ', res);
-    const res = await gapi.client.drive.files.create({
-      name: 'a name 5',
-      mimeType: 'text/plain',
-      body: new Readable({
-        read() {
-          this.push('12345asdfg');
-          this.push(null);
+    const metadata = {
+      name: 'sample-file-via-js', // Filename at Google Drive
+      mimeType: 'text/plain', // mimeType at Google Drive
+    };
+
+    const form = new FormData();
+    form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+    form.append('file', new Blob(['12345asdzxcqwrfgkxm'], { type: 'text/plain' }));
+
+    this.http
+      .post('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', form, {
+        headers: {
+          authorization: `Bearer ${gapi.client.getToken().access_token}`,
         },
-      }),
-    });
-    console.log('Files: ', res);
-    const res2 = res.result.id;
+      })
+      .subscribe((res) => {
+        console.log('REs', res);
+      });
   }
 
   async getFile() {
     try {
-      // const response = await gapi.client.drive.files.get({ fileId: '1XHs_mwJVh27TrTtb-RqPHGDG6FQNVp77' });
       const files = await gapi.client.drive.files.list({
-        q: "name='a name 3'",
+        q: "name='test.txt'",
         fields: 'files(id, name)',
         spaces: 'drive',
       });
-      console.log('Files: ', files.result.files[0].id);
-      const response = await gapi.client.drive.files.get({ fileId: files.result.files[0].id });
+
+      const response = await gapi.client.drive.files.get({ fileId: files.result.files[0].id, alt: 'media' });
       console.log('File:', response);
-      const result = await gapi.client.drive.files.export({
-        fileId: files.result.files[0].id,
-        mimeType: 'application/pdf',
-      });
-      console.log(result);
     } catch (err) {
       console.error(err);
     }
+  }
+
+  async getFilePorApi() {
+    this.http
+      .get('https://www.googleapis.com/drive/v3/files', {
+        params: new HttpParams().set('q', "name='test.txt'"),
+        headers: {
+          authorization: `Bearer ${gapi.client.getToken().access_token}`,
+        },
+      })
+      .subscribe((res: any) => {
+        console.log('files', res);
+        this.getById(res.files[0].id);
+      });
+  }
+
+  getById(id: string) {
+    gapi.client.drive.files.get({ fileId: id, alt: 'media' }).then((res) => console.log('gapi', res));
+    this.http
+      .get(`https://www.googleapis.com/drive/v3/files/${id}`, {
+        params: new HttpParams().set('alt', 'media'),
+        responseType: 'text',
+        headers: {
+          authorization: `Bearer ${gapi.client.getToken().access_token}`,
+        },
+      })
+      .subscribe((res: string) => {
+        console.log('file solo', res);
+      });
   }
 
   ionViewWillEnter() {
