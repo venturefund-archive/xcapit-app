@@ -6,10 +6,13 @@ import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warrant
 import { isAddress } from 'ethers/lib/utils';
 import { WalletPasswordWithValidatorComponent } from '../../wallets/shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
-import { environment } from 'variables.env';
+import { environment } from 'src/environments/environment';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { WarrantyInProgressTransactionModalComponent } from 'src/app/shared/components/warranty-in-progress-transaction-modal/warranty-in-progress-transaction-modal.component';
+import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
+import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
 
 @Component({
   selector: 'app-warranty-summary',
@@ -60,6 +63,7 @@ export class WarrantySummaryPage {
   warrantyAddress = environment.warrantyAddress;
   walletAddress: string;
   transactionData: SummaryWarrantyData;
+  warrantyOperation: any;
 
   constructor(
     private trackService: TrackService,
@@ -158,21 +162,62 @@ export class WarrantySummaryPage {
       this.warrantyAddress,
       this.warrantyData.coin
     );
-    response
-      .wait()
-      .then((res) => {
-        this.updateDataBeforeSend(res);
-        this.warrantyService.createWarranty(this.transactionData);
-      })
-      .then(() => {
-        this.openSuccesModal();
-        this.loading = false;
-      });
+    response.wait().then((res) => {
+      this.updateDataBeforeSend(res);
+      this.warrantyService
+        .createWarranty(this.transactionData)
+        .toPromise()
+        .then((res) => {
+          this.warrantyOperation = res.id;
+          this.openSuccessModal();
+          this.loading = false;
+        });
+    });
   }
 
-  openSuccesModal() {}
+  async openSuccessModal() {
+    const modal = await this.modalController.create({
+      component: WarrantyInProgressTransactionModalComponent,
+      cssClass: 'ux-lg-modal-informative',
+      backdropDismiss: false,
+      componentProps: {
+        operationNumber: this.warrantyOperation,
+      },
+    });
+    await modal.present();
+    const data = await modal.onDidDismiss();
+    modal.dismiss();
+  }
 
-  openErrorModal() {}
+  async openErrorModal() {
+    const modal = await this.modalController.create({
+      component: SuccessContentComponent,
+      cssClass: 'ux-lg-modal-informative',
+      backdropDismiss: false,
+      componentProps: {
+        data: SUCCESS_TYPES.warrant_generic_error,
+        calledAsModal: true,
+      },
+    });
+    await modal.present();
+    const data = await modal.onDidDismiss();
+    modal.dismiss();
+  }
+
+  async openBlockchainErrorModal() {
+    const modal = await this.modalController.create({
+      component: SuccessContentComponent,
+      cssClass: 'ux-lg-modal-informative',
+      backdropDismiss: false,
+      componentProps: {
+        data: SUCCESS_TYPES.warrant_blockchain_error,
+        calledAsModal: true,
+      },
+    });
+    await modal.present();
+    const data = await modal.onDidDismiss();
+    modal.dismiss();
+  }
 
   private userCanAffordTx(): Promise<boolean> {
     return this.walletTransactionsService.canAffordSendTx(
@@ -195,6 +240,6 @@ export class WarrantySummaryPage {
   }
 
   private async handleNotEnoughBalance() {
-    this.openErrorModal();
+    this.openBlockchainErrorModal();
   }
 }
