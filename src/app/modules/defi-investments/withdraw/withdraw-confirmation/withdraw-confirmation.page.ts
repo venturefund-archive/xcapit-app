@@ -41,7 +41,7 @@ import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/am
       </ion-toolbar>
     </ion-header>
     <ion-content *ngIf="this.amount && this.token && this.quoteAmount && this.fee && this.quoteFee">
-      <ion-card class="ux-card wp__card">
+      <ion-card class="ux-card wp__card no-border">
         <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
         <div class="wp">
           <div class="wp__amount">
