@@ -13,7 +13,7 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     registerPlugin(FirebaseAnalytics.class);
-    this.registerPlugin(GoogleAuth.class);
+    registerPlugin(GoogleAuth.class);
     SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
     super.onCreate(savedInstanceState);
   }
