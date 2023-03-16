@@ -16,10 +16,12 @@
 		},
 		"GoogleAuth": {
 			"scopes": [
-				"profile",
-				"email"
+				"https://www.googleapis.com/auth/drive.file"
 			],
-			"serverClientId": "840751586681-6mrinfnm1o42lge5pdbb64l5h57mjtqv.apps.googleusercontent.com",
+			"androidClientId": "247745125245-urjh6e3u9hpgde770c2tap1jp10cm2oi.apps.googleusercontent.com",
+			"clientId": "247745125245-urjh6e3u9hpgde770c2tap1jp10cm2oi.apps.googleusercontent.com",
+			"serverClientId": "247745125245-urjh6e3u9hpgde770c2tap1jp10cm2oi.apps.googleusercontent.com",
+			"grantOfflineAccess": true,
 			"forceCodeForRefreshToken": true
 		},
 		"SplashScreen": {

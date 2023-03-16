@@ -36,6 +36,7 @@ import { UpdateNewsService } from '../../../shared/services/update-news/update-n
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 declare var gapi: any;
 declare var google: any;
 
@@ -115,7 +116,7 @@ declare var google: any;
       <div>
         <app-home-slides *ngIf="this.slides.length > 0" [slides]="this.slides"></app-home-slides>
       </div>
-
+      <ion-button expand="block" (click)="googleAuth()"> Google Auth</ion-button>
       <ion-button expand="block" (click)="gapiLoaded()">Init gapi</ion-button>
       <ion-button expand="block" (click)="gisLoaded()">Init GIS</ion-button>
       <ion-button expand="block" (click)="handleAuthClick()">Handle auth</ion-button>
@@ -240,8 +241,9 @@ export class HomeWalletPage implements OnInit {
 
   // Authorization scopes required by the API; multiple scopes can be
   // included, separated by spaces.
-  SCOPES = 'https://www.googleapis.com/auth/drive';
+  SCOPES = ['https://www.googleapis.com/auth/drive.file']; // TODO: Probar: https://www.googleapis.com/auth/drive.file
 
+  accessToken: string;
   tokenClient;
   gapiInited = false;
   gisInited = false;
@@ -272,7 +274,21 @@ export class HomeWalletPage implements OnInit {
     private contactService: ContactDataService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    GoogleAuth.initialize({
+      clientId: this.CLIENT_ID,
+      scopes: this.SCOPES,
+      grantOfflineAccess: true,
+    });
+  }
+
+  async googleAuth() {
+    const user = await GoogleAuth.signIn();
+    console.log(user);
+    this.accessToken = user.authentication.accessToken;
+    await this.getFilePorApi();
+    await this.createFile();
+  }
 
   gapiLoaded() {
     gapi.load('client', () => this.initializeGapiClient());
@@ -333,7 +349,7 @@ export class HomeWalletPage implements OnInit {
     this.http
       .post('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', form, {
         headers: {
-          authorization: `Bearer ${gapi.client.getToken().access_token}`,
+          authorization: `Bearer ${this.accessToken}`,
         },
       })
       .subscribe((res) => {
@@ -361,7 +377,7 @@ export class HomeWalletPage implements OnInit {
       .get('https://www.googleapis.com/drive/v3/files', {
         params: new HttpParams().set('q', "name='test.txt'"),
         headers: {
-          authorization: `Bearer ${gapi.client.getToken().access_token}`,
+          authorization: `Bearer ${this.accessToken}`,
         },
       })
       .subscribe((res: any) => {
@@ -371,13 +387,13 @@ export class HomeWalletPage implements OnInit {
   }
 
   getById(id: string) {
-    gapi.client.drive.files.get({ fileId: id, alt: 'media' }).then((res) => console.log('gapi', res));
+    // gapi.client.drive.files.get({ fileId: id, alt: 'media' }).then((res) => console.log('gapi', res));
     this.http
       .get(`https://www.googleapis.com/drive/v3/files/${id}`, {
         params: new HttpParams().set('alt', 'media'),
         responseType: 'text',
         headers: {
-          authorization: `Bearer ${gapi.client.getToken().access_token}`,
+          authorization: `Bearer ${this.accessToken}`,
         },
       })
       .subscribe((res: string) => {

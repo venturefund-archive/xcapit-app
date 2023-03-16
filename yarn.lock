@@ -1865,6 +1865,11 @@
   resolved "https://registry.yarnpkg.com/@capawesome/capacitor-app-update/-/capacitor-app-update-2.0.1.tgz#f22fa86e0732641970711ceeb0c0cdcae3e81fc8"
   integrity sha512-QTfX/MktEX+pRfiWh0cP1v4Ht0ksnuvFswqeAEGpoL985SuEjXVohFmeN+mCXtsNYMunJnZ/Y45Zx5OHv+8D5w==
 
+"@codetrix-studio/capacitor-google-auth@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@codetrix-studio/capacitor-google-auth/-/capacitor-google-auth-3.2.2.tgz#8ed7efed1ba4e0f838016dc8358c5801468674de"
+  integrity sha512-L0/7qq6e44i9tW2Wg+fN3/JDEGv9sw1LV7lAFwsJmf7/Z+wD1hstzIYO7Rlh5K4cgRPyWkw2m3/zRNX0M5AgCA==
+
 "@colors/colors@1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
