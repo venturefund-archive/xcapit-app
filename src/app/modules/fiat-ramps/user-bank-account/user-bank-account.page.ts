@@ -146,7 +146,7 @@ export class UserBankAccountPage {
   }
 
   sanitizeForm() {
-    for (let key in this.form.value) {
+    for (const key in this.form.value) {
       if (typeof this.form.value[key] === 'object') {
         this.form.value[key] = this.form.value[key].value;
       }
