@@ -106,7 +106,7 @@ describe('OperationsNewPage', () => {
       jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
     ];
 
-    fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'ARS' });
+    fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'ARG' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
@@ -147,7 +147,7 @@ describe('OperationsNewPage', () => {
       'TokenOperationDataService',
       {},
       {
-        tokenOperationData: { asset: 'DAI', network: 'MATIC', country: 'ARS' },
+        tokenOperationData: { asset: 'DAI', network: 'MATIC', country: 'ARG' },
       }
     );
 
@@ -179,7 +179,7 @@ describe('OperationsNewPage', () => {
     fixture = TestBed.createComponent(OperationsNewPage);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'MATIC', country: 'ARS' });
+    fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'MATIC', country: 'ARG' });
     component.fiatPrice = 10;
     fixture.detectChanges();
   });
@@ -206,7 +206,7 @@ describe('OperationsNewPage', () => {
       name: 'Argentina',
       value: 'fiat_ramps.countries_list.argentina',
       fiatCode: 'ars',
-      isoCodeAlpha3: 'ARS',
+      isoCodeAlpha3: 'ARG',
       iso4217CurrencyCode: 'ARS',
       directaCode: 'AR',
       isoCurrencyCodeDirecta: 'ARS',

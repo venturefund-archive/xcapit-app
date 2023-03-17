@@ -2390,6 +2390,11 @@
     "tools": "Herramientas"
   },
   "fiat_ramps": {
+    "cash_out": {
+      "header": "Compra - Venta",
+      "title": "Ingresa los datos del titular de la cuenta",
+      "disclaimer": "El titular de la cuenta debe ser el mismo que realizó el proceso de registro o KYC. No se realizan transferencias a terceros."
+    },
     "home_of_purchases": {
       "header": "Compra - Venta",
       "question": "¿Cómo funcionan las compras?",
