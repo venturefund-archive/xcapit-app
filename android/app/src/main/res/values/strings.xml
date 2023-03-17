@@ -6,5 +6,4 @@
     <string name="fileprovider_authority">com.xcapit.app.fileprovider</string>
     <string name="custom_url_scheme">com.xcapit.app</string>
     <string name="server_client_id">247745125245-urjh6e3u9hpgde770c2tap1jp10cm2oi.apps.googleusercontent.com</string>
-
 </resources>

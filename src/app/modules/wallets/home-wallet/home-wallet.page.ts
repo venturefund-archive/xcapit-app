@@ -241,7 +241,7 @@ export class HomeWalletPage implements OnInit {
 
   // Authorization scopes required by the API; multiple scopes can be
   // included, separated by spaces.
-  SCOPES = ['https://www.googleapis.com/auth/drive.file']; // TODO: Probar: https://www.googleapis.com/auth/drive.file
+  SCOPES = ['https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/drive.appdata']; // TODO: Probar: https://www.googleapis.com/auth/drive.file
 
   accessToken: string;
   tokenClient;
@@ -286,8 +286,8 @@ export class HomeWalletPage implements OnInit {
     const user = await GoogleAuth.signIn();
     console.log(user);
     this.accessToken = user.authentication.accessToken;
-    await this.getFilePorApi();
     await this.createFile();
+    await this.getFilePorApi();
   }
 
   gapiLoaded() {
@@ -338,8 +338,9 @@ export class HomeWalletPage implements OnInit {
 
   async createFile() {
     const metadata = {
-      name: 'sample-file-via-js', // Filename at Google Drive
+      name: 'im-hidden.txt', // Filename at Google Drive
       mimeType: 'text/plain', // mimeType at Google Drive
+      parents: ['appDataFolder'],
     };
 
     const form = new FormData();
@@ -360,9 +361,9 @@ export class HomeWalletPage implements OnInit {
   async getFile() {
     try {
       const files = await gapi.client.drive.files.list({
-        q: "name='test.txt'",
+        q: "name='im-hidden.txt'",
         fields: 'files(id, name)',
-        spaces: 'drive',
+        spaces: 'appDataFolder',
       });
 
       const response = await gapi.client.drive.files.get({ fileId: files.result.files[0].id, alt: 'media' });
@@ -375,7 +376,7 @@ export class HomeWalletPage implements OnInit {
   async getFilePorApi() {
     this.http
       .get('https://www.googleapis.com/drive/v3/files', {
-        params: new HttpParams().set('q', "name='test.txt'"),
+        params: new HttpParams().set('q', "name='im-hidden.txt'").set('spaces', 'appDataFolder'),
         headers: {
           authorization: `Bearer ${this.accessToken}`,
         },
