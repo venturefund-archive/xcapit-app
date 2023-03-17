@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
@@ -94,8 +94,7 @@ describe('WarrantySummaryPage', () => {
     expect(component.warrantyData).toEqual(summaryData);
   });
 
-  it('should send and show succes modal when user can afford fees and password is correct on ux_warranty_start_confirm button clicked', async () => {
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: aPassword }));
+  it('should send and show success modal when user can afford fees and password is correct on ux_warranty_start_confirm button clicked', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
 
@@ -103,7 +102,7 @@ describe('WarrantySummaryPage', () => {
     await fixture.whenRenderingDone();
     await fixture.whenStable();
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       aPassword.value(),
       10,
@@ -133,5 +132,50 @@ describe('WarrantySummaryPage', () => {
     await fixture.whenStable();
 
     expect(warrantyServiceSpy.createWarranty).toHaveBeenCalledOnceWith(transactionData);
+  });
+
+  it('should show generic error modal when handleSubmit and a non-blockchain error happens', async () => {
+    walletTransactionsServiceSpy.send.and.throwError('Test');
+    const spy = spyOn(component, 'openErrorModal').and.callThrough();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+
+    expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
+      aPassword.value(),
+      10,
+      component.warrantyAddress,
+      summaryData.coin
+    );
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show generic error modal when handleSubmit and address is invalid', async () => {
+    const spy = spyOn(component, 'openErrorModal').and.callThrough();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    component.warrantyAddress = '';
+    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it("should show generic error modal when handleSubmit and user can't afford tx fee", async () => {
+    const spy = spyOn(component, 'openBlockchainErrorModal').and.callThrough();
+    walletTransactionsServiceSpy.canAffordSendTx.and.resolveTo(false);
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

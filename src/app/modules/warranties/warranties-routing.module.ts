@@ -15,6 +15,10 @@ const routes: Routes = [
         path: 'withdraw-warranty',
         loadChildren: () => import('./withdraw-warranty/withdraw-warranty.module').then( m => m.WithdrawWarrantyPageModule)
       },
+      {
+        path: 'warranty-summary',
+        loadChildren: () => import('./warranty-summary/warranty-summary.module').then( m => m.WarrantySummaryPageModule)
+      }
     ],
   },
 

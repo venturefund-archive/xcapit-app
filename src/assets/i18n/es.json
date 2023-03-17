@@ -3540,6 +3540,23 @@
     "whatsapp_support": {
       "textTertiary": "¿Necesitas ayuda?",
       "textHelpLink": "Escribenos por whatsapp"
+    },
+    "success": {
+      "textPrimary": "¡Tu orden está en camino!",
+      "textSecondary": "La entidad financiera se pondrá en contacto contigo por los canales habituales",
+      "operation": "Operación",
+      "numeration": "N°",
+      "namePrimaryAction": "Volver al Home"
+    },
+    "warranty_error_blockchain": {
+      "title": "No se pudo completar tu operación.",
+      "subtitle": "Se produjo un error en la blockchain",
+      "primaryButton": "Reintentar"
+    },
+    "warranty_error_generic": {
+      "title": "No se pudo completar tu operación.",
+      "subtitle": "Se produjo un error de comunicacion con el servidor",
+      "primaryButton": "Reintentar"
     }
   }
 }

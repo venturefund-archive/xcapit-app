@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { TrackService } from '../../services/track/track.service';
 
 @Component({
@@ -73,19 +73,23 @@ import { TrackService } from '../../services/track/track.service';
       <div class="main__disclaimer" *ngIf="this.data.disclaimer">
         <ion-text class="ux-font-text-xs">{{ this.data.disclaimer | translate }}</ion-text>
       </div>
+      <div class="main__support" *ngIf="this.data?.hasWhatsappSupport">
+        <app-whatsapp-support></app-whatsapp-support>
+      </div>
     </div>
   `,
   styleUrls: ['./success-content.component.scss'],
 })
 export class SuccessContentComponent implements OnInit {
+  calledAsModal: boolean;
   @Input() data: any;
   @Input() unauth: any = false;
   @Input() imageAlt = 'Success Image';
   @Output() primaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() secondaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() thirdActionEvent: EventEmitter<void> = new EventEmitter<void>();
-
-  constructor(private navController: NavController, private trackService: TrackService) {}
+  
+  constructor(private navController: NavController, private trackService: TrackService, private modalController: ModalController) {}
 
   ngOnInit() {
     if (this.data.hasToTrackScreenview) {
@@ -99,11 +103,13 @@ export class SuccessContentComponent implements OnInit {
 
   close() {
     this.navController.navigateRoot([this.data.urlClose], { animationDirection: 'forward' });
+    this.dismiss();
   }
 
   primaryAction() {
     if (this.data.urlPrimaryAction) {
       this.navController.navigateRoot([this.data.urlPrimaryAction]);
+      this.dismiss();
     }
     this.primaryActionEvent.emit();
   }
@@ -120,5 +126,11 @@ export class SuccessContentComponent implements OnInit {
       this.navController.navigateForward([this.data.urlThirdAction]);
     }
     this.secondaryActionEvent.emit();
+  }
+
+  dismiss() {
+    if (this.calledAsModal) {
+      this.modalController.dismiss();
+    }
   }
 }
