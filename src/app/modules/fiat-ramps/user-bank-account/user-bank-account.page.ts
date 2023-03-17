@@ -133,7 +133,7 @@ export class UserBankAccountPage {
     ];
     this._addFieldsToForm(fields);
   }
-
+  
   private _addFieldsToForm(fields) {
     for (const field of fields) {
       this._createAndAddFieldToForm(field);
