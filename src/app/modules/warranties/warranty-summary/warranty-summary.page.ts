@@ -63,7 +63,7 @@ export class WarrantySummaryPage {
   warrantyAddress = environment.warrantyAddress;
   walletAddress: string;
   transactionData: SummaryWarrantyData;
-  warrantyOperation: any;
+  warantyOperationId: any;
 
   constructor(
     private trackService: TrackService,
@@ -97,7 +97,7 @@ export class WarrantySummaryPage {
       this.loading = true;
       await this.send(password);
     } catch (error) {
-      this.openErrorModal();
+      this.openGenericErrorModal();
     }
   }
 
@@ -168,7 +168,7 @@ export class WarrantySummaryPage {
         .createWarranty(this.transactionData)
         .toPromise()
         .then((res) => {
-          this.warrantyOperation = res.id;
+          this.warantyOperationId = res.id;
           this.openSuccessModal();
           this.loading = false;
         });
@@ -181,42 +181,35 @@ export class WarrantySummaryPage {
       cssClass: 'ux-lg-modal-informative',
       backdropDismiss: false,
       componentProps: {
-        operationNumber: this.warrantyOperation,
+        operationNumber: this.warantyOperationId,
       },
     });
     await modal.present();
-    const data = await modal.onDidDismiss();
+    await modal.onDidDismiss();
     modal.dismiss();
   }
 
-  async openErrorModal() {
+  async openErrorModal(successType) {
     const modal = await this.modalController.create({
       component: SuccessContentComponent,
       cssClass: 'ux-lg-modal-informative',
       backdropDismiss: false,
       componentProps: {
-        data: SUCCESS_TYPES.warrant_generic_error,
+        data: successType,
         calledAsModal: true,
       },
     });
     await modal.present();
-    const data = await modal.onDidDismiss();
+    await modal.onDidDismiss();
     modal.dismiss();
   }
 
   async openBlockchainErrorModal() {
-    const modal = await this.modalController.create({
-      component: SuccessContentComponent,
-      cssClass: 'ux-lg-modal-informative',
-      backdropDismiss: false,
-      componentProps: {
-        data: SUCCESS_TYPES.warrant_blockchain_error,
-        calledAsModal: true,
-      },
-    });
-    await modal.present();
-    const data = await modal.onDidDismiss();
-    modal.dismiss();
+    await this.openErrorModal(SUCCESS_TYPES.warrant_blockchain_error)
+  }
+
+  async openGenericErrorModal() {
+    await this.openErrorModal(SUCCESS_TYPES.warrant_generic_error)
   }
 
   private userCanAffordTx(): Promise<boolean> {
@@ -232,7 +225,7 @@ export class WarrantySummaryPage {
   }
 
   private async handleInvalidAddress() {
-    this.openErrorModal();
+    this.openGenericErrorModal();
   }
 
   private async handleUserCantAffordTx() {

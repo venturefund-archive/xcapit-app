@@ -103,17 +103,13 @@ export class SuccessContentComponent implements OnInit {
 
   close() {
     this.navController.navigateRoot([this.data.urlClose], { animationDirection: 'forward' });
-    if (this.calledAsModal) {
-      this.modalController.dismiss()
-    }
+    this.dismiss();
   }
 
   primaryAction() {
     if (this.data.urlPrimaryAction) {
       this.navController.navigateRoot([this.data.urlPrimaryAction]);
-      if (this.calledAsModal) {
-        this.modalController.dismiss()
-      }
+      this.dismiss();
     }
     this.primaryActionEvent.emit();
   }
@@ -130,5 +126,11 @@ export class SuccessContentComponent implements OnInit {
       this.navController.navigateForward([this.data.urlThirdAction]);
     }
     this.secondaryActionEvent.emit();
+  }
+
+  dismiss() {
+    if (this.calledAsModal) {
+      this.modalController.dismiss();
+    }
   }
 }
