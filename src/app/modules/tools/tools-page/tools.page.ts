@@ -8,7 +8,7 @@ import { RemoteConfigService } from '../../../shared/services/remote-config/remo
 import { AppVersionInjectable } from '../../../shared/models/app-version/injectable/app-version.injectable';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { ToolsCard } from '../shared-tools/interfaces/tools-card.interface';
-import { WCService } from '../../wallets/shared-wallets/services/wallet-connect/wc.service';
+import { WCService } from '../../wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 @Component({
   selector: 'app-tool',

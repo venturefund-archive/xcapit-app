@@ -1,15 +1,15 @@
 import { WCConnectionV2 } from './wc-connection-v2';
-import { SignClientInjectable } from '../../../../../shared/models/wallet-connect/sign-client/injectable/sign-client.injectable';
+import { SignClientInjectable } from '../../../../../../shared/models/wallet-connect/sign-client/injectable/sign-client.injectable';
 import { Router } from '@angular/router';
-import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
+import { FakeNavController } from '../../../../../../../testing/fakes/nav-controller.fake.spec';
 import { NavController } from '@ionic/angular';
-import { SignClientV2 } from '../../../../../shared/models/wallet-connect/sign-client/sign-client';
+import { SignClientV2 } from '../../../../../../shared/models/wallet-connect/sign-client/sign-client';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastService } from '../../../../../shared/services/toast/toast.service';
+import { ToastService } from '../../../../../../shared/services/toast/toast.service';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
-import { rawWalletConnectUriV1 } from '../../fixtures/raw-wallet-connect-uri';
-import { rawProposal } from '../../fixtures/raw-proposal.fixture';
-import { rawSession } from '../../fixtures/raw-session.fixture';
+import { rawWalletConnectUriV1 } from '../../../fixtures/raw-wallet-connect-uri';
+import { rawProposal } from '../../../fixtures/raw-proposal.fixture';
+import { rawSession } from '../../../fixtures/raw-session.fixture';
 import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
@@ -123,26 +123,4 @@ describe('WCConnection', () => {
     wcConnectionV2.closeSession();
     expect(wcConnectionV2.connected()).toBeFalse();
   });
-
-  //   fit('should close session and show toast if connection is terminated by dapp and navigate to new conection if user is in connection detail', fakeAsync(() => {
-  //     const closeSessionSpy = spyOn(wcConnectionV2, 'closeSession');
-  //     triggerPairEvent();
-  //     wcConnectionV2.pairTo(testWCUri, wcWalletSpy);
-  //     tick(3000);
-  //     wcConnectionV2.approveSession();
-  //     tick(3000);
-
-  //     wcConnectionV2.subscribeToAllEvents();
-  //     tick(3000);
-  //     signClientV2Spy.on.and.callFake(async (eventName, callback) => {
-  //       if (eventName === 'session_delete') {
-  //         callback(rawProposal);
-  //       }
-  //     });
-  //     tick(3000);
-
-  //     expect(signClientV2Spy.disconnect).toHaveBeenCalledTimes(1);
-  //     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
-  //   }));
-  // TODO: No funca por tiempo, cambiar todo a test bed e injectar servicio? :thinking
 });

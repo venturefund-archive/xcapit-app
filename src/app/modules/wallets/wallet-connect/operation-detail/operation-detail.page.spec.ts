@@ -5,7 +5,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UrlSerializer } from '@angular/router';
 import { OperationDetailPage } from './operation-detail.page';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { ethers } from 'ethers';
@@ -17,13 +16,11 @@ import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
-import { WCService } from '../../shared-wallets/services/wallet-connect/wc.service';
 import { rawWalletConnectUriV1, rawWalletConnectUriV2 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
 import { SessionRequest } from '../../../../shared/models/wallet-connect/session-request/session-request.interface';
 import { RequestMethod } from 'src/app/shared/models/wallet-connect/request-method/request-method';
-import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2';
 import { WCSession } from '../../../../shared/models/wallet-connect/wc-session/wc-session';
 import { rawPeerMetadata } from '../../shared-wallets/fixtures/raw-proposal.fixture';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
@@ -32,6 +29,8 @@ import { rawEthereumData } from 'src/app/modules/swaps/shared-swaps/models/fixtu
 import { rawPersonalSignRequest } from '../../shared-wallets/fixtures/raw-wallet-connect-requests';
 import { SpyProperty } from '../../../../../testing/spy-property.spec';
 import { SimpleSubject } from 'src/app/shared/models/simple-subject/simple-subject';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 const requestSendTransaction = {
   method: 'eth_sendTransaction',

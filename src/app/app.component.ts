@@ -28,9 +28,8 @@ import { NotificationsService } from './modules/notifications/shared-notificatio
 import { BrowserService } from './shared/services/browser/browser.service';
 import { NetworkInjectable } from './shared/models/network/injectable/network.injectable';
 import { AppExpirationTimeService } from './shared/models/app-session/injectable/app-expiration-time.service';
-import { WCConnectionV2 } from './modules/wallets/shared-wallets/services/wallet-connect/wc-connection-v2';
-import { WCService } from './modules/wallets/shared-wallets/services/wallet-connect/wc.service';
-
+import { WCConnectionV2 } from './modules/wallets/shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { WCService } from './modules/wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 @Component({
   selector: 'app-root',
   template: `

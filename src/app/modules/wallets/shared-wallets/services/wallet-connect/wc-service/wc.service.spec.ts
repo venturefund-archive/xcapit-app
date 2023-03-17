@@ -1,6 +1,6 @@
-import { rawWalletConnectUriV1, rawWalletConnectUriV2 } from '../../fixtures/raw-wallet-connect-uri';
-import { WalletConnectService } from './wallet-connect.service';
-import { WCConnectionV2 } from './wc-connection-v2';
+import { rawWalletConnectUriV1, rawWalletConnectUriV2 } from '../../../fixtures/raw-wallet-connect-uri';
+import { WalletConnectService } from '../wallet-connect.service';
+import { WCConnectionV2 } from '../wc-connection-v2/wc-connection-v2';
 import { WCService } from './wc.service';
 
 describe('WCService', () => {
@@ -42,12 +42,3 @@ describe('WCService', () => {
     expect(wcService.connected()).toBeFalse();
   });
 });
-
-// TODO: List:
-/*
-1. Hacer equivalente de check connection en app.component.ts para cuando se reinicializa la app despues de estar en background
-2. Hacer de retrieveConnection si es que se cerro la app pero sigue conectada a una dapp (guardar en storage? Que guardar?)
-
-5. Tests, tests everywhere
-
-*/

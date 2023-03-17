@@ -13,20 +13,20 @@ import { alertControllerMock } from '../../../../../testing/spies/alert-controll
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { of, BehaviorSubject } from 'rxjs';
-import { WCService } from '../../shared-wallets/services/wallet-connect/wc.service';
 import { rawWalletConnectUriV2, rawWalletConnectUriV1 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
 import { By } from '@angular/platform-browser';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
 import { LoadingService } from '../../../../shared/services/loading/loading.service';
-import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2';
 import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 const formData = {
   valid: {
@@ -297,7 +297,7 @@ describe('NewConnectionPage', () => {
 
   describe('Wallet Connect V2', () => {
     it('should connect and redirect to connection detail when a valid form is submitted and the connection is successful', async () => {
-      let wcUri = new WCUri(rawWalletConnectUriV2);
+      const wcUri = new WCUri(rawWalletConnectUriV2);
       wcServiceSpy.uri.and.returnValue(wcUri);
       await component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);

@@ -4,7 +4,6 @@ import { SpyProperty } from '../../../../../testing/spy-property.spec';
 describe('RequestMethod', () => {
   let requestMethod: RequestMethod;
   let rawRequestSessionSpy: jasmine.SpyObj<any>;
-  let modifyMethodOfRawRequest: (method: string) => void;
 
   beforeEach(() => {
     rawRequestSessionSpy = jasmine.createSpyObj(
@@ -21,7 +20,7 @@ describe('RequestMethod', () => {
     requestMethod = new RequestMethod(rawRequestSessionSpy);
   });
 
-  modifyMethodOfRawRequest = (method: string) => {
+  const modifyMethodOfRawRequest = (method: string) => {
     new SpyProperty(rawRequestSessionSpy, 'params').value().and.returnValue({ request: { method } });
   };
 

@@ -4,8 +4,8 @@ import { WalletConnectService } from '../../shared-wallets/services/wallet-conne
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { WCService } from '../../shared-wallets/services/wallet-connect/wc.service';
-import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 @Component({
   selector: 'app-connection-detail',

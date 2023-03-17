@@ -1,7 +1,7 @@
 import { SignClient } from '@walletconnect/sign-client/dist/types/client';
 import { EnvService } from 'src/app/shared/services/env/env.service';
 import { SignClientV2 } from './sign-client';
-import { Session } from '../wc-session/wc-session';
+import { RawSession } from '../wc-session/wc-session';
 import { EngineTypes, SignClientTypes, SessionTypes } from '@walletconnect/types';
 import { rawPeerMetadata } from '../../../../modules/wallets/shared-wallets/fixtures/raw-proposal.fixture';
 
@@ -62,7 +62,7 @@ describe('SignClientV2', () => {
   });
 
   it('sessions', () => {
-    expect(signClientV2.sessions()).toEqual({} as Session[]);
+    expect(signClientV2.sessions()).toEqual({} as RawSession[]);
   });
 
   it('disconnect', async () => {

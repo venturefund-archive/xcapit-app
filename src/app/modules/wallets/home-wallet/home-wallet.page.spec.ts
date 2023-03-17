@@ -45,7 +45,7 @@ import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-
 import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
-import { WCService } from '../shared-wallets/services/wallet-connect/wc.service';
+import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;

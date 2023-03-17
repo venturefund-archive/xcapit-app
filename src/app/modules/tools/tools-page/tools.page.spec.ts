@@ -13,8 +13,8 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { WCService } from '../../wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { ToolsPage } from './tools.page';
-import { WCService } from '../../wallets/shared-wallets/services/wallet-connect/wc.service';
 
 describe('ToolPage', () => {
   let component: ToolsPage;

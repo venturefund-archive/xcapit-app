@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { WalletConnectService } from './wallet-connect.service';
-import { WCConnectionV2 } from './wc-connection-v2';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
+import { WalletConnectService } from '../wallet-connect.service';
+import { WCConnectionV2 } from '../wc-connection-v2/wc-connection-v2';
 
 @Injectable({ providedIn: 'root' })
 export class WCService {

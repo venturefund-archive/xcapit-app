@@ -1,7 +1,7 @@
 import { HexToUtf8Of } from './hex-to-utf8-of';
 
 describe('HexToUtf8Of', () => {
-  let testHexString = '0x546869732069732061207465787420696e20686578';
+  const testHexString = '0x546869732069732061207465787420696e20686578';
   it('new', () => {
     expect(new HexToUtf8Of(testHexString)).toBeTruthy();
   });

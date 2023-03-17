@@ -1,6 +1,6 @@
-import { Session } from '../../../../shared/models/wallet-connect/wc-session/wc-session';
+import { RawSession } from '../../../../shared/models/wallet-connect/wc-session/wc-session';
 
-export const rawSession: Session = {
+export const rawSession: RawSession = {
   relay: {
     protocol: 'irn',
   },

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignClientTypes } from '@walletconnect/types';
-import { SignClientInjectable } from '../../../../../shared/models/wallet-connect/sign-client/injectable/sign-client.injectable';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastService } from '../../../../../shared/services/toast/toast.service';
-import { PendingProposal } from '../../models/wallet-connect/pending-proposal/pending-proposal';
 import { SignClientV2 } from 'src/app/shared/models/wallet-connect/sign-client/sign-client';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
-import { WCSession } from '../../../../../shared/models/wallet-connect/wc-session/wc-session';
 import { PairTo } from 'src/app/shared/models/wallet-connect/pair-to/pair-to';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
+import { SignClientInjectable } from 'src/app/shared/models/wallet-connect/sign-client/injectable/sign-client.injectable';
+import { WCSession } from 'src/app/shared/models/wallet-connect/wc-session/wc-session';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { PendingProposal } from '../../../models/wallet-connect/pending-proposal/pending-proposal';
 
 @Injectable({ providedIn: 'root' })
 export class WCConnectionV2 {

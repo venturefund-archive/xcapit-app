@@ -3,11 +3,11 @@ import { getSdkError } from '@walletconnect/utils';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SignClientV2 } from 'src/app/shared/models/wallet-connect/sign-client/sign-client';
 
-export type Session = SessionTypes.Struct;
+export type RawSession = SessionTypes.Struct;
 
 export class WCSession {
   constructor(
-    private readonly _rawSession: Session,
+    private readonly _rawSession: RawSession,
     private readonly _signClient: SignClientV2,
     private readonly _aWallet: Wallet
   ) {}

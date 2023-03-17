@@ -1,7 +1,7 @@
 import { SignClientTypes } from '@walletconnect/types';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SignClientV2 } from 'src/app/shared/models/wallet-connect/sign-client/sign-client';
-import { Session } from '../../../../../../shared/models/wallet-connect/wc-session/wc-session';
+import { RawSession } from '../../../../../../shared/models/wallet-connect/wc-session/wc-session';
 import { Namespaces, ValidatedNamespaces } from '../namespaces/namespaces';
 
 export type Proposal = SignClientTypes.EventArguments['session_proposal'];
@@ -17,7 +17,7 @@ export class PendingProposal {
     return this._aWallet;
   }
 
-  public async approve(): Promise<Session> {
+  public async approve(): Promise<RawSession> {
     const approvalPromise = this._signClient.approve({
       id: this._id(),
       relayProtocol: this._protocol(),

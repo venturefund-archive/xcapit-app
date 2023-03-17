@@ -14,7 +14,7 @@ describe('Namespace', () => {
   let rawValidNamespace: RawNamespace;
   let validatedNamespaces: ValidatedNamespaces;
   let namespace: Namespace;
-  let supportedNamespace = 'eip155';
+  const supportedNamespace = 'eip155';
   let fakeWallet: FakeWallet;
 
   beforeEach(() => {

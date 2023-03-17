@@ -10,17 +10,16 @@ import {
 } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { WCService } from '../../shared-wallets/services/wallet-connect/wc.service';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
 import { rawWalletConnectUriV1, rawWalletConnectUriV2 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
 import { By } from '@angular/platform-browser';
-import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2';
 import { PendingProposal } from '../../shared-wallets/models/wallet-connect/pending-proposal/pending-proposal';
 import { rawPeerMetadata } from '../../shared-wallets/fixtures/raw-proposal.fixture';
 import { SpyProperty } from 'src/testing/spy-property.spec';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 describe('ConnectionDetailPage', () => {
   let component: ConnectionDetailPage;

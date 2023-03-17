@@ -9,11 +9,11 @@ import { ethers, Wallet } from 'ethers';
 import * as moment from 'moment';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { EthersService } from '../../shared-wallets/services/ethers/ethers.service';
-import { WCService } from '../../shared-wallets/services/wallet-connect/wc.service';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
-import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2';
 import { SignRequest } from '../../../../shared/models/wallet-connect/session-request/sign-request/sign-request';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 @Component({
   selector: 'app-operation-detail',

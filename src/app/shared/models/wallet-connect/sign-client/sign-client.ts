@@ -19,6 +19,9 @@ export class SignClientV2 {
         url: 'https://xcapit.com/',
         icons: ['https://uploads-ssl.webflow.com/62ae2e5d0eca2586c139e2af/633d847e9aa38e40e7e94c9a_logo-xcapit.svg'],
       },
+      storageOptions: {
+        database: "walletconnect",
+      },
     });
     return new this(aSignClient);
   }
