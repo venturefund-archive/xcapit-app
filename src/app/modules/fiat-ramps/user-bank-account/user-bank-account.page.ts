@@ -13,7 +13,7 @@ import { UserBankDataService } from '../shared-ramps/services/user-bank-data/use
           <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title>
-          {{ 'fiat_ramps.confirm.header' | translate }}
+          {{ 'fiat_ramps.cash_out.header' | translate }}
         </ion-title>
       </ion-toolbar>
     </ion-header>
