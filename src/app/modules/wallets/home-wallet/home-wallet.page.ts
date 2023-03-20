@@ -37,7 +37,8 @@ import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-
+import { ConfigureOptions } from '@capacitor/preferences';
+declare var CloudKit;
 @Component({
   selector: 'app-home-wallet',
   template: ` <ion-header>
@@ -117,6 +118,10 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
       <ion-button expand="block" (click)="googleAuth()">Google Auth</ion-button>
       <ion-button expand="block" (click)="getFilePorApi()">Get file</ion-button>
       <ion-button expand="block" (click)="createFile()">Create file</ion-button>
+      <ion-button color="secondary" expand="block" (click)="apple()">Apple config</ion-button>
+      <ion-button color="secondary" expand="block" id="apple-sign-in-button" (click)="appleSignIn()"
+        >Apple SignIn</ion-button
+      >
       <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
           [text]="'wallets.home.backup_card_component.text'"
@@ -265,6 +270,32 @@ export class HomeWalletPage implements OnInit {
       clientId: this.CLIENT_ID,
       scopes: this.SCOPES,
       grantOfflineAccess: true,
+    });
+  }
+
+  appleSignIn() {}
+
+  apple() {
+    CloudKit.configure({
+      locale: 'en-us',
+      containers: [
+        {
+          containerIdentifier: 'com.xcapit.iosapp.xcapit-container',
+          apiTokenAuth: {
+            apiToken: '',
+            persist: true,
+            signInButton: {
+              id: 'apple-sign-in-button',
+              theme: 'black',
+            },
+            signOutButton: {
+              id: 'apple-sign-out-button',
+              theme: 'black',
+            },
+          },
+          environment: 'development',
+        },
+      ],
     });
   }
 
