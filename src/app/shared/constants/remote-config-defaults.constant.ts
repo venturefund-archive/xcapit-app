@@ -18,4 +18,5 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_experimentOnboarding: false,
   ff_sellEnabled: true,
   ff_fundFaucet: false,
+  ff_fundFaucetOnWarranties: false,
 };
