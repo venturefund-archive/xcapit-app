@@ -37,8 +37,6 @@ import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-declare var gapi: any;
-declare var google: any;
 
 @Component({
   selector: 'app-home-wallet',
@@ -116,11 +114,8 @@ declare var google: any;
       <div>
         <app-home-slides *ngIf="this.slides.length > 0" [slides]="this.slides"></app-home-slides>
       </div>
-      <ion-button expand="block" (click)="googleAuth()"> Google Auth</ion-button>
-      <ion-button expand="block" (click)="gapiLoaded()">Init gapi</ion-button>
-      <ion-button expand="block" (click)="gisLoaded()">Init GIS</ion-button>
-      <ion-button expand="block" (click)="handleAuthClick()">Handle auth</ion-button>
-      <ion-button expand="block" (click)="getFile()">Get file</ion-button>
+      <ion-button expand="block" (click)="googleAuth()">Google Auth</ion-button>
+      <ion-button expand="block" (click)="getFilePorApi()">Get file</ion-button>
       <ion-button expand="block" (click)="createFile()">Create file</ion-button>
       <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
@@ -234,19 +229,10 @@ export class HomeWalletPage implements OnInit {
 
   // TODO(developer): Set to client ID and API key from the Developer Console
   CLIENT_ID = '247745125245-urjh6e3u9hpgde770c2tap1jp10cm2oi.apps.googleusercontent.com';
-  API_KEY = 'AIzaSyARCXM1L40_9TnQYUEZZsffBZ_glbekU2U';
 
-  // Discovery doc URL for APIs used by the quickstart
-  DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
-
-  // Authorization scopes required by the API; multiple scopes can be
-  // included, separated by spaces.
-  SCOPES = ['https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/drive.appdata']; // TODO: Probar: https://www.googleapis.com/auth/drive.file
+  SCOPES = ['https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/drive.appdata'];
 
   accessToken: string;
-  tokenClient;
-  gapiInited = false;
-  gisInited = false;
 
   constructor(
     private navController: NavController,
@@ -284,56 +270,7 @@ export class HomeWalletPage implements OnInit {
 
   async googleAuth() {
     const user = await GoogleAuth.signIn();
-    console.log(user);
     this.accessToken = user.authentication.accessToken;
-    await this.createFile();
-    await this.getFilePorApi();
-  }
-
-  gapiLoaded() {
-    gapi.load('client', () => this.initializeGapiClient());
-  }
-
-  async initializeGapiClient() {
-    await gapi.client.init({
-      apiKey: this.API_KEY,
-      discoveryDocs: [this.DISCOVERY_DOC],
-    });
-    this.gapiInited = true;
-    console.log('Gapi inited, Token client: ');
-    // maybeEnableButtons();
-  }
-
-  gisLoaded() {
-    this.tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: this.CLIENT_ID,
-      scope: this.SCOPES,
-      callback: '',
-    });
-    this.gisInited = true;
-    console.log('GIS inited, Token client: ', this.tokenClient);
-    // maybeEnableButtons();
-  }
-
-  handleAuthClick() {
-    this.tokenClient.callback = async (resp) => {
-      if (resp.error !== undefined) {
-        throw resp;
-      }
-      // this.getFile();
-      this.getFilePorApi();
-      // this.listFiles();
-      // this.createFile();
-    };
-
-    if (gapi.client.getToken() === null) {
-      // Prompt the user to select a Google Account and ask for consent to share their data
-      // when establishing a new session.
-      this.tokenClient.requestAccessToken({ prompt: 'consent' });
-    } else {
-      // Skip display of account chooser and consent dialog for an existing session.
-      this.tokenClient.requestAccessToken({ prompt: '' });
-    }
   }
 
   async createFile() {
@@ -354,23 +291,8 @@ export class HomeWalletPage implements OnInit {
         },
       })
       .subscribe((res) => {
-        console.log('REs', res);
+        console.log('Create file response:', res);
       });
-  }
-
-  async getFile() {
-    try {
-      const files = await gapi.client.drive.files.list({
-        q: "name='im-hidden.txt'",
-        fields: 'files(id, name)',
-        spaces: 'appDataFolder',
-      });
-
-      const response = await gapi.client.drive.files.get({ fileId: files.result.files[0].id, alt: 'media' });
-      console.log('File:', response);
-    } catch (err) {
-      console.error(err);
-    }
   }
 
   async getFilePorApi() {
@@ -382,13 +304,12 @@ export class HomeWalletPage implements OnInit {
         },
       })
       .subscribe((res: any) => {
-        console.log('files', res);
+        console.log('All files response: ', res);
         this.getById(res.files[0].id);
       });
   }
 
   getById(id: string) {
-    // gapi.client.drive.files.get({ fileId: id, alt: 'media' }).then((res) => console.log('gapi', res));
     this.http
       .get(`https://www.googleapis.com/drive/v3/files/${id}`, {
         params: new HttpParams().set('alt', 'media'),
@@ -398,7 +319,7 @@ export class HomeWalletPage implements OnInit {
         },
       })
       .subscribe((res: string) => {
-        console.log('file solo', res);
+        console.log('File content: ', res);
       });
   }
 

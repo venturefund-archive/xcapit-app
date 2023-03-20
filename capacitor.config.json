@@ -1,1 +1,20 @@
-{"appId":"com.xcapit.app","appName":"xcapit","bundledWebRuntime":false,"npmClient":"yarn","webDir":"www","backgroundColor":"#ffffffff","linuxAndroidStudioPath":"/usr/local/android-studio/bin/studio.sh","plugins":{"PushNotifications":{"presentationOptions":["badge","sound","alert"]},"GoogleAuth":{"scopes":["https://www.googleapis.com/auth/drive.file"],"serverClientId":"247745125245-urjh6e3u9hpgde770c2tap1jp10cm2oi.apps.googleusercontent.com","grantOfflineAccess":true,"forceCodeForRefreshToken":true},"SplashScreen":{"launchAutoHide":true,"launchShowDuration":2000},"LocalNotifications":{"smallIcon":"ic_stat_icon_local","iconColor":"#1c2d5e"}}}
+{
+  "appId": "com.xcapit.app",
+  "appName": "xcapit",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www",
+  "backgroundColor": "#ffffffff",
+  "linuxAndroidStudioPath": "/usr/local/android-studio/bin/studio.sh",
+  "plugins": {
+    "PushNotifications": { "presentationOptions": ["badge", "sound", "alert"] },
+    "GoogleAuth": {
+      "scopes": ["https://www.googleapis.com/auth/drive.file"],
+      "serverClientId": "247745125245-urjh6e3u9hpgde770c2tap1jp10cm2oi.apps.googleusercontent.com",
+      "grantOfflineAccess": true,
+      "forceCodeForRefreshToken": true
+    },
+    "SplashScreen": { "launchAutoHide": true, "launchShowDuration": 2000 },
+    "LocalNotifications": { "smallIcon": "ic_stat_icon_local", "iconColor": "#1c2d5e" }
+  }
+}
