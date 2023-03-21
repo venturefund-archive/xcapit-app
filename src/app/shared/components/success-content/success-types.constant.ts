@@ -273,7 +273,7 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/fiat-ramps/token-selection',
     nameSecondaryAction: 'fiat_ramps.error_d24_operation.button_secondary',
     urlSecondaryAction: 'tabs/wallets',
-   },
+  },
   success_d24_operation: {
     image: '/assets/img/fiat-ramps/success-d24-buy/success-buy.svg',
     urlClose: '/tabs/wallets',
@@ -347,7 +347,7 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/wallets',
     titlePrimary: 'wallets.send.send_in_progress.text_title',
     textBadge: 'wallets.send.send_in_progress.text_badge',
-    textSaveWallet:'wallets.send.send_in_progress.text_save'
+    textSaveWallet: 'wallets.send.send_in_progress.text_save',
   },
   withdraw_in_progress: {
     image: 'assets/img/defi-investments/withdraw-in-progress.svg',
@@ -444,5 +444,18 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'warranties.warranty_error_generic.primaryButton',
     urlPrimaryAction: '/warranties/send-warranty',
     trackClickEventNamePrimaryAction: 'ux_warranty_start_error_generic',
-  }
+  },
+  wawithdraw_warranty_error: {
+    hasToTrackScreenview: true,
+    hasWhatsappSupport: true,
+    screenviewEventLabel: 'ux_warranty_withdraw_error_screenview',
+    image: 'assets/img/defi-investments/error-investment.svg',
+    urlClose: 'warranties/withdraw-warranty-summary',
+    trackClickEventNameCloseAction: 'ux_warranty_start_error_generic',
+    textPrimary: 'warranties.withdraw_warranty_error.title',
+    textSecondary: 'warranties.withdraw_warranty_error.subtitle',
+    namePrimaryAction: 'warranties.withdraw_warranty_error.primaryButton',
+    urlPrimaryAction: 'warranties/withdraw-warranty-summary',
+    trackClickEventNamePrimaryAction: 'ux_warranty_withdraw_error_retry',
+  },
 };

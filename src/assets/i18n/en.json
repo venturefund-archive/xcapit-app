@@ -365,7 +365,8 @@
       "others": "Others",
       "referrals": "Referrals",
       "transactions": "Transactions",
-      "kripton_data": "Delete my Krypton data"
+      "kripton_data": "Delete my Krypton data",
+      "warranty": "Warranty"
     }
   },
   "defi_investments": {
@@ -3379,6 +3380,7 @@
       "header": "Withdraw warranty",
       "title": "Warranty balance verification",
       "text_dni": "Identity card number",
+      "text_email": "Enter email",
       "subtitle": "Enter your Identity card number to verify the deposits accumulated through this wallet in your warranty",
       "toast_no_deposits_found": "We have not found any warranty deposits associated with this ID and wallet. Please verify the data entered and try again."
     },
@@ -3402,6 +3404,16 @@
       "title": "Your operation could not be completed.",
       "subtitle": "A communication error occurred with the server",
       "primaryButton": "Retry"
+    },
+    "withdraw_warranty_error": {
+      "title": "Your operation could not be completed.",
+      "subtitle": "An error occurred in the process",
+      "primaryButton": "Retry"
+    },
+    "withdraw_warranty_summary": {
+      "title": "Available warranty",
+      "dniLabel": "Guarantor ID card",
+      "button": "Withdraw warranty"
     }
   }
 }
