@@ -1,4 +1,4 @@
-import { Coin } from "src/app/modules/wallets/shared-wallets/interfaces/coin.interface";
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
 export interface SummaryWarrantyData {
   wallet?: string;
@@ -11,5 +11,6 @@ export interface SummaryWarrantyData {
   quoteAmountWithoutCost?: number;
   service_cost?: number;
   amountWithoutCost?: number;
-  transaction_hash?: string,
+  transaction_hash?: string;
+  email?: string;
 }
