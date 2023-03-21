@@ -2465,7 +2465,7 @@
       "description": "Proveedor: {{providerName}}"
     },
     "select_provider": {
-      "header": "Comprar cripto",
+      "header": "Comprar - Vender",
       "select_label": "Pais en el que vas a operar",
       "select_placeholder": "Selecciona tu país",
       "provider_label": "Selecciona tu medio de pago",
@@ -2479,6 +2479,7 @@
       "krypton_description": "Compra con transferencia bancaria",
       "kripton_sell_description": "Los depositos pueden demorar hasta 72hs",
       "bitrefill_description": "¡Accede a beneficios exclusivos!",
+      "sell_method": "¿Qué método de cobro prefieres?",
       "directa24": {
         "platform_description": "Compra a través de la plataforma",
         "nearest_store_description": "Compra en tu tienda más cercana",
@@ -2698,8 +2699,9 @@
       "footer_description": "Al presionar “Continuar”, serás redirigido al sitio del proveedor externo."
     },
     "token_selection": {
-      "header": "Comprar cripto",
-      "subtitle": "Selecciona la moneda que quieres comprar"
+      "header": "Compra - Venta",
+      "buy_subtitle": "Selecciona el token a comprar",
+      "sell_subtitle": "Selecciona el token a vender"
     },
     "countries_list": {
       "mexico": "México",
