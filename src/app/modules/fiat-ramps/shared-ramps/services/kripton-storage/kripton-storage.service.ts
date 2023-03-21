@@ -28,4 +28,9 @@ export class KriptonStorageService {
     await this.remove('refresh_token');
     await this.remove('access_token');
   }
+
+  async renewTokens(access_token: string, refresh_token: string) {
+    await this.set('access_token', access_token);
+    await this.set('refresh_token', refresh_token);
+  }
 }
