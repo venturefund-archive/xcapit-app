@@ -44,7 +44,7 @@ import { WarrantyDataService } from '../shared-warranties/services/send-warranty
           [disabled]="this.loading"
           [appLoading]="this.loading"
           [loadingText]="'warranties.withdraw_warranty_summary.loader' | translate"
-          (click)="this.witdrawWarranty()"
+          (click)="this.withdrawWarranty()"
           >{{ 'warranties.withdraw_warranty_summary.button' | translate }}</ion-button
         >
       </div>
@@ -67,7 +67,7 @@ export class WithdrawWarrantySummaryPage implements OnInit {
     this.warrantyData = this.warratyDataService.data;
   }
 
-  async witdrawWarranty() {
+  async withdrawWarranty() {
     const password = await this.askForPassword();
     if (!password) {
       return;

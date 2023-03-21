@@ -3413,7 +3413,10 @@
     "withdraw_warranty_summary": {
       "title": "Available warranty",
       "dniLabel": "Guarantor ID card",
-      "button": "Withdraw warranty"
+      "button": "Withdraw warranty",
+      "emailLabel": "Guarantor email",
+      "ticket_message": "I request the withdrawal of my warranty. DNI: {{dni}} - Wallet: {{wallet}}",
+      "loader": "Confirming"
     }
   }
 }

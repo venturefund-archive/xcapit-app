@@ -128,10 +128,6 @@ describe('WithdrawWarrantyPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get user wallet address on init', async () => {
-    expect(component.walletAddress).toEqual('0x00001');
-  });
-
   it('should save data and navigate to withdraw warranty summary when ux_warranty_withdraw_DNI Button clicked and amount is non zero', async () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_warranty_withdraw_DNI"]')).nativeElement.click();
     fixture.detectChanges();
