@@ -23,4 +23,8 @@ export const WHITELIST: { url: string, httpCode: number }[] = [
         url: '1/save_user_image',
         httpCode: 401
     },
+    {
+        url: '1/save_user_bank',
+        httpCode: 401
+    },
 ];
