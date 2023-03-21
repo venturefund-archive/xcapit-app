@@ -13,6 +13,10 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { WarrantyInProgressTransactionModalComponent } from 'src/app/shared/components/warranty-in-progress-transaction-modal/warranty-in-progress-transaction-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { DefiInvestmentsService } from '../../defi-investments/shared-defi-investments/services/defi-investments-service/defi-investments.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-warranty-summary',
@@ -64,6 +68,9 @@ export class WarrantySummaryPage {
   walletAddress: string;
   transactionData: SummaryWarrantyData;
   warantyOperationId: any;
+  isFeatureFlagFaucet: boolean;
+  isElegibleToFund: boolean;
+  nativeTokenBalance: number;
 
   constructor(
     private trackService: TrackService,
@@ -71,18 +78,43 @@ export class WarrantySummaryPage {
     private walletTransactionsService: WalletTransactionsService,
     private warrantyDataService: WarrantyDataService,
     private warrantyService: WarrantiesService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private apiWalletService: ApiWalletService,
+    private walletBalance: WalletBalanceService,
+    private defiInvesmentService: DefiInvestmentsService,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   async ionViewWillEnter() {
+    this.checkFeatureFlagFaucet();
+    this.trackScreenview();
+    this.warrantyData = this.warrantyDataService.data;
+    await this.userWalletAddress();
+    this.calculateWarrantyAmounts();
+    await this.setNativeTokenBalance();
+    this.setIsElegibleToFund();
+  }
+
+  trackScreenview() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_warranty_start_confirm_screenview',
     });
-    this.warrantyData = this.warrantyDataService.data;
-    await this.userWalletAddress();
-    this.calculateWarrantyAmounts();
+  }
+
+  checkFeatureFlagFaucet() {
+    this.isFeatureFlagFaucet = this.remoteConfig.getFeatureFlag('ff_fundFaucetOnWarranties');
+  }
+
+  async setNativeTokenBalance() {
+    this.nativeTokenBalance = await this.walletBalance.balanceOf(
+      this.apiWalletService.getNativeTokenFromNetwork(this.warrantyData.coin.network)
+    );
+  }
+
+  setIsElegibleToFund() {
+    this.isElegibleToFund = this.isFeatureFlagFaucet ? this.nativeTokenBalance === 0.0 : false;
   }
 
   async handleSubmit(skipChecksBeforeSend: boolean = false) {
@@ -95,6 +127,7 @@ export class WarrantySummaryPage {
         return;
       }
       this.loading = true;
+      await this.fundWallet();
       await this.send(password);
     } catch (error) {
       this.openGenericErrorModal();
@@ -148,9 +181,15 @@ export class WarrantySummaryPage {
       return false;
     }
 
-    if (!(await this.userCanAffordTx())) {
-      await this.handleUserCantAffordTx();
-      return false;
+    if (await this.userCanAffordSendFee()) {
+      if (!(await this.userCanAffordTx())) {
+        await this.handleUserCantAffordTx();
+        return false;
+      }
+    } else {
+      if (!this.isElegibleToFund) {
+        return false;
+      }
     }
     return true;
   }
@@ -205,15 +244,23 @@ export class WarrantySummaryPage {
   }
 
   async openBlockchainErrorModal() {
-    await this.openErrorModal(SUCCESS_TYPES.warrant_blockchain_error)
+    await this.openErrorModal(SUCCESS_TYPES.warrant_blockchain_error);
   }
 
   async openGenericErrorModal() {
-    await this.openErrorModal(SUCCESS_TYPES.warrant_generic_error)
+    await this.openErrorModal(SUCCESS_TYPES.warrant_generic_error);
   }
 
   private userCanAffordTx(): Promise<boolean> {
     return this.walletTransactionsService.canAffordSendTx(
+      this.warrantyAddress,
+      this.warrantyData.amount,
+      this.warrantyData.coin
+    );
+  }
+
+  private userCanAffordSendFee(): Promise<boolean> {
+    return this.walletTransactionsService.canAffordSendFee(
       this.warrantyAddress,
       this.warrantyData.amount,
       this.warrantyData.coin
@@ -234,5 +281,18 @@ export class WarrantySummaryPage {
 
   private async handleNotEnoughBalance() {
     this.openBlockchainErrorModal();
+  }
+
+  async fundWallet() {
+    if (this.isElegibleToFund) {
+      await this.defiInvesmentService.fundWallet().toPromise();
+      this.sendFundWalletEvent();
+    }
+  }
+
+  sendFundWalletEvent() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_faucet_request',
+    });
   }
 }
