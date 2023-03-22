@@ -166,7 +166,7 @@ export class WarrantySummaryPage {
       component: WalletPasswordWithValidatorComponent,
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
-        state: 'send',
+        customEvent: "ux_warranty_start_pass",
       },
     });
     await modal.present();
