@@ -110,7 +110,8 @@ const routes: Routes = [
       },
       {
         path: 'user-bank-account',
-        loadChildren: () => import('./user-bank-account/user-bank-account.module').then( m => m.UserBankAccountPageModule)
+        loadChildren: () =>
+          import('./user-bank-account/user-bank-account.module').then((m) => m.UserBankAccountPageModule),
       },
       {
         canActivate: [LoggedInKriptonGuard],
@@ -194,9 +195,13 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'kripton-summary',
+        loadChildren: () =>
+          import('./kripton-sale-summary/kripton-sale-summary.module').then((m) => m.KriptonSaleSummaryPageModule),
+      },
     ],
   },
-
 ];
 
 @NgModule({

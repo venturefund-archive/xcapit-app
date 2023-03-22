@@ -1,0 +1,28 @@
+:host {
+  ion-toolbar {
+    border-radius: 0 0 8px 8px;
+
+    ion-title {
+      padding-inline: 70px;
+    }
+  }
+
+  .kss {
+    --background: var(--ion-color-background);
+
+    &__card-container {
+      &__card {
+        padding: 24px 16px 19px;
+
+        &__title {
+          margin-bottom: 18px;
+        }
+      }
+    }
+  }
+
+  .no-border {
+    border: none;
+    box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+  }
+}
