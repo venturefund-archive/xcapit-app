@@ -282,8 +282,11 @@ export class HomeWalletPage implements OnInit {
   }
 
   appleSignIn() {
-    this.container = CloudKit.getDefaultContainer();
-    console.log(this.container);
+    // this.container = CloudKit.getDefaultContainer();
+    // console.log(this.container);
+    window.addEventListener('message', function (e) {
+      console.log('WEB TOKEN', e.data.ckWebAuthToken);
+    });
     this.demoSetUpAuth();
   }
 
@@ -314,32 +317,56 @@ export class HomeWalletPage implements OnInit {
     this.container.whenUserSignsOut().then((res) => this.gotoUnauthenticatedState(res));
   }
 
+  // demoSetUpAuth() {
+  //   console.log('setUpAuth');
+  //   return this.container.setUpAuth().then((userIdentity) => {
+  //     console.log('Then de setUpAuth');
+  //     // Either a sign-in or a sign-out button was added to the DOM.
+  //
+  //     // userIdentity is the signed-in user or null.
+  //     if (userIdentity) {
+  //       this.gotoAuthenticatedState(userIdentity);
+  //     } else {
+  //       this.gotoUnauthenticatedState({});
+  //     }
+  //   });
+  // }
+
   demoSetUpAuth() {
-    console.log('setUpAuth');
-    return this.container.setUpAuth().then((userIdentity) => {
-      console.log('Then de setUpAuth');
+    // Get the container.
+    const container = CloudKit.getDefaultContainer();
+
+    function gotoAuthenticatedState(userIdentity) {
+      const name = userIdentity.nameComponents;
+      if (name) {
+        console.log(name.givenName + ' ' + name.familyName);
+      } else {
+        console.log('User record name: ' + userIdentity.userRecordName);
+      }
+      console.log('Authenticated');
+      container.whenUserSignsOut().then(gotoUnauthenticatedState);
+    }
+    function gotoUnauthenticatedState(error) {
+      if (error && error.ckErrorCode === 'AUTH_PERSIST_ERROR') {
+        console.log('ERROR');
+      }
+
+      console.log('Unauthenticated User');
+      container.whenUserSignsIn().then(gotoAuthenticatedState).catch(gotoUnauthenticatedState);
+    }
+
+    // Check a user is signed in and render the appropriate button.
+    return container.setUpAuth().then(function (userIdentity) {
       // Either a sign-in or a sign-out button was added to the DOM.
 
       // userIdentity is the signed-in user or null.
       if (userIdentity) {
-        this.gotoAuthenticatedState(userIdentity);
+        gotoAuthenticatedState(userIdentity);
       } else {
-        this.gotoUnauthenticatedState({});
+        gotoUnauthenticatedState(null);
       }
     });
   }
-
-  // demoSetUpAuth() {
-  //   CloudKit.auth({
-  //     persist: true, // Save the authentication token in the browser's localStorage
-  //     onSuccess: function (auth) {
-  //       console.log('Authenticated!', auth);
-  //     },
-  //     onFailure: function (err) {
-  //       console.error('Failed to authenticate!', err);
-  //     },
-  //   });
-  // }
   apple() {
     CloudKit.configure({
       locale: 'en-us',
