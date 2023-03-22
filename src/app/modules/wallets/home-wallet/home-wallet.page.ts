@@ -119,9 +119,15 @@ declare var CloudKit;
       <ion-button expand="block" (click)="getFilePorApi()">Get file</ion-button>
       <ion-button expand="block" (click)="createFile()">Create file</ion-button>
       <ion-button color="secondary" expand="block" (click)="apple()">Apple config</ion-button>
-      <ion-button color="secondary" expand="block" id="apple-sign-in-button" (click)="appleSignIn()"
-        >Apple SignIn</ion-button
-      >
+      <ion-button color="secondary" expand="block" (click)="appleSignIn()">Apple SignIn</ion-button>
+      <div
+        style="width: 100%; display:flex; align-items:center; justify-content:center"
+        id="apple-sign-in-button"
+      ></div>
+      <div
+        style="width: 100%; display:flex; align-items:center; justify-content:center"
+        id="apple-sign-out-button"
+      ></div>
       <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
           [text]="'wallets.home.backup_card_component.text'"
@@ -239,6 +245,8 @@ export class HomeWalletPage implements OnInit {
 
   accessToken: string;
 
+  container;
+
   constructor(
     private navController: NavController,
     private formBuilder: UntypedFormBuilder,
@@ -273,16 +281,73 @@ export class HomeWalletPage implements OnInit {
     });
   }
 
-  appleSignIn() {}
+  appleSignIn() {
+    this.container = CloudKit.getDefaultContainer();
+    console.log(this.container);
+    this.demoSetUpAuth();
+  }
 
+  gotoUnauthenticatedState(error) {
+    if (error && error.ckErrorCode === 'AUTH_PERSIST_ERROR') {
+      console.log('AUTH PERSIST ERROR');
+    }
+
+    console.log('Unauthenticated User', error);
+    this.container
+      .whenUserSignsIn()
+      .then((res) => {
+        console.log('entre al usersSignsIn then', res);
+        this.gotoAuthenticatedState(res);
+      })
+      .catch((err) => {
+        console.log('entre al usersSignsIn catch', err);
+        this.gotoUnauthenticatedState(err);
+      });
+  }
+  gotoAuthenticatedState(userIdentity) {
+    const name = userIdentity.nameComponents;
+    if (name) {
+      console.log(name.givenName + ' ' + name.familyName);
+    } else {
+      console.log('User record name: ' + userIdentity.userRecordName);
+    }
+    this.container.whenUserSignsOut().then((res) => this.gotoUnauthenticatedState(res));
+  }
+
+  demoSetUpAuth() {
+    console.log('setUpAuth');
+    return this.container.setUpAuth().then((userIdentity) => {
+      console.log('Then de setUpAuth');
+      // Either a sign-in or a sign-out button was added to the DOM.
+
+      // userIdentity is the signed-in user or null.
+      if (userIdentity) {
+        this.gotoAuthenticatedState(userIdentity);
+      } else {
+        this.gotoUnauthenticatedState({});
+      }
+    });
+  }
+
+  // demoSetUpAuth() {
+  //   CloudKit.auth({
+  //     persist: true, // Save the authentication token in the browser's localStorage
+  //     onSuccess: function (auth) {
+  //       console.log('Authenticated!', auth);
+  //     },
+  //     onFailure: function (err) {
+  //       console.error('Failed to authenticate!', err);
+  //     },
+  //   });
+  // }
   apple() {
     CloudKit.configure({
       locale: 'en-us',
       containers: [
         {
-          containerIdentifier: 'com.xcapit.iosapp.xcapit-container',
+          containerIdentifier: 'iCloud.com.xcapit.iosapp.wallets',
           apiTokenAuth: {
-            apiToken: '',
+            apiToken: 'fefb17747b0b0aac5ea84f6d01d6385520ecc83d56be0beee38bf336a0b7e2b4',
             persist: true,
             signInButton: {
               id: 'apple-sign-in-button',
