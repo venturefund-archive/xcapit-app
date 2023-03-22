@@ -2754,9 +2754,11 @@
         "quantity": "Cantidad",
         "payment_method": "Medio de Pago",
         "to_pay": "Pagarás*",
-        "input_error": "El monto mínimo de compra es de ${{amount}} {{fiatCurrency}}",
+        "input_error": "El monto mínimo de compra es de ${{amount}} {{currency}}",
         "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día.",
-        "estimated_fee": "Tarifa de transacción estimada"
+        "estimated_fee": "Tarifa de transacción estimada",
+        "estimated_provider_fee": "Tarifa de proveedor estimada"
+
       },
 
       "kyc_disclaimer_modal": {

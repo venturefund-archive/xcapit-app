@@ -112,7 +112,7 @@ describe('UserBankAccountPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_sell_bankdata_continue"]')).nativeElement.click();
     fixture.detectChanges();
     expect(userBankDataServiceSpy.set).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/sell-order']);
   });
 
   it('should not navigate to info page and not save user bank data when button is clicked and form is invalid', async () => {

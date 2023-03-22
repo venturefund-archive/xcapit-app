@@ -13,7 +13,7 @@ import { UserBankDataService } from '../shared-ramps/services/user-bank-data/use
           <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title>
-          {{ 'fiat_ramps.confirm.header' | translate }}
+          {{ 'fiat_ramps.cash_out.header' | translate }}
         </ion-title>
       </ion-toolbar>
     </ion-header>
@@ -133,7 +133,7 @@ export class UserBankAccountPage {
     ];
     this._addFieldsToForm(fields);
   }
-  
+
   private _addFieldsToForm(fields) {
     for (const field of fields) {
       this._createAndAddFieldToForm(field);
@@ -160,6 +160,6 @@ export class UserBankAccountPage {
   }
 
   continue() {
-    this.navController.navigateForward(['']);
+    this.navController.navigateForward(['fiat-ramps/sell-order']);
   }
 }

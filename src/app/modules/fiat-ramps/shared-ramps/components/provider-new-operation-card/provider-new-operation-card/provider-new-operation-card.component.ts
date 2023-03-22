@@ -13,13 +13,19 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
   selector: 'app-provider-new-operation-card',
   template: `
     <ion-card class="ux-card-new pnoc">
-      <div class="pnoc__currency-select">
+      <div *ngIf="coin" class="pnoc__currency-select">
         <app-coin-selector
-          *ngIf="coin"
+          *ngIf="!showToken"
           [selectedCoin]="coin"
           (changeCurrency)="this.emitChangeCurrency()"
           [enabled]="this.coinSelectorEnabled"
         ></app-coin-selector>
+        <app-asset-detail
+          *ngIf="showToken"
+          [blockchain]="blockchain"
+          [token]="coin.value"
+          [tokenLogo]="logoRoute"
+        ></app-asset-detail>
       </div>
       <div *ngIf="this.amountEnabled" class="pnoc__amount-select">
         <div class="pnoc__amount-select__qty-label">
@@ -42,25 +48,25 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
               appCommaToDot
               debounce="500"
               [class.invalid]="
-              !this.form.controls.fiatAmount.valid &&
-              (this.form.controls.cryptoAmount.touched ||
-                this.form.controls.cryptoAmount.dirty ||
-                this.form.controls.fiatAmount.touched ||
-                this.form.controls.fiatAmount.dirty)
-                "
-                formControlName="cryptoAmount"
-                type="text"
-                inputmode="decimal"
-                >
-              </ion-input>
+                !this.form.controls.fiatAmount.valid &&
+                (this.form.controls.cryptoAmount.touched ||
+                  this.form.controls.cryptoAmount.dirty ||
+                  this.form.controls.fiatAmount.touched ||
+                  this.form.controls.fiatAmount.dirty)
+              "
+              formControlName="cryptoAmount"
+              type="text"
+              inputmode="decimal"
+            >
+            </ion-input>
           </div>
           <ion-text class="pnoc__amount-select__inputs__equal ux-fweight-medium ">=</ion-text>
           <div class="pnoc__amount-select__inputs__quoteAmount">
             <ion-input
-            appNumberInput
-            appCommaToDot
-            debounce="500"
-            [class.invalid]="
+              appNumberInput
+              appCommaToDot
+              debounce="500"
+              [class.invalid]="
                 !this.form.controls.fiatAmount.valid &&
                 (this.form.controls.cryptoAmount.touched ||
                   this.form.controls.cryptoAmount.dirty ||
@@ -89,8 +95,8 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
               'fiat_ramps.shared.provider_new_operation_card.input_error'
                 | translate
                   : {
-                      amount: this.minimumFiatAmount | formattedAmount: 10:2,
-                      fiatCurrency: this.fiatCurrency | uppercase
+                      amount: this.minimumAmount | formattedAmount : 10 : 2,
+                      currency: this.minimumCurrency | uppercase
                     }
             }}
           </ion-label>
@@ -106,10 +112,29 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
         </div>
         <div *ngIf="this.fee.value !== undefined" class="pnoc__fee__amount">
           <ion-text class="ux-font-text-base" color="neutral90"
-            >{{ this.fee.value | formattedAmount: 10:2 }} {{ this.fee.token }}</ion-text
+            >{{ this.fee.value | formattedAmount : this.fee.totalDigits: this.fee.maxDecimals }}
+            {{ this.fee.token }}</ion-text
           >
         </div>
         <div *ngIf="this.fee.value === undefined" class="skeleton">
+          <ion-skeleton-text style="width: 100%;" animated> </ion-skeleton-text>
+        </div>
+      </div>
+
+      <div *ngIf="showToken" class="pnoc__fee">
+        <div class="pnoc__fee__label">
+          <ion-text class="ux-font-titulo-xs">{{
+            'fiat_ramps.shared.provider_new_operation_card.estimated_provider_fee' | translate
+          }}</ion-text>
+          <ion-icon name="information-circle" color="info"></ion-icon>
+        </div>
+        <div *ngIf="this.providerFee.value !== undefined" class="pnoc__fee__amount">
+          <ion-text class="ux-font-text-base" color="neutral90"
+            >{{ this.providerFee.value | formattedAmount : this.providerFee.totalDigits: this.providerFee.maxDecimals}}
+            {{ this.providerFee.token }}</ion-text
+          >
+        </div>
+        <div *ngIf="this.providerFee.value === undefined" class="skeleton">
           <ion-skeleton-text style="width: 100%;" animated> </ion-skeleton-text>
         </div>
       </div>
@@ -133,7 +158,8 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
               </div>
               <div class="ux-font-text-xxs">
                 <ion-text class="pnoc__provider__content__body__name_and_description__description">{{
-                  'fiat_ramps.provider_new_operation_card.description' | translate: { providerName: this.provider.name }
+                  'fiat_ramps.provider_new_operation_card.description'
+                    | translate : { providerName: this.provider.name }
                 }}</ion-text>
               </div>
             </div>
@@ -161,13 +187,20 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
 })
 export class ProviderNewOperationCardComponent implements OnInit, OnChanges {
   @Input() coin: Coin;
+  @Input() blockchain: string;
+  @Input() logoRoute: String;
+  @Input() showToken = false;
   @Input() amountEnabled = true;
   @Input() fiatCurrency = 'USD';
   @Input() provider: FiatRampProvider;
   @Input() paymentType: string;
   @Input() coinSelectorEnabled = true;
-  @Input() minimumFiatAmount: number;
-  @Input() fee: { value: number; token: string };
+  @Input() minimumAmount: number;
+  @Input() minimumCurrency: string;
+  @Input() fee: { value: number; token: string; totalDigits: number; maxDecimals: number };
+
+  @Input() providerFee: { value: number; token: string; totalDigits: number; maxDecimals: number };
+
   @Output() changeCurrency = new EventEmitter<void>();
   isInfoModalOpen = false;
   providerInfo: any;
@@ -180,8 +213,8 @@ export class ProviderNewOperationCardComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.minimumFiatAmount && changes.minimumFiatAmount.currentValue !== undefined) {
-      this.minimumFiatAmount = Number(changes.minimumFiatAmount.currentValue);
+    if (changes.minimumAmount && changes.minimumAmount.currentValue !== undefined) {
+      this.minimumAmount = Number(changes.minimumAmount.currentValue);
     }
   }
 

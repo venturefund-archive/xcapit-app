@@ -49,7 +49,8 @@ import { KriptonNetworks } from '../shared-ramps/constants/kripton-networks';
             [fiatCurrency]="this.fiatCurrency"
             [provider]="this.provider"
             [coinSelectorEnabled]="true"
-            [minimumFiatAmount]="this.minimumFiatAmount"
+            [minimumAmount]="this.minimumFiatAmount"
+            [minimumCurrency]="this.fiatCurrency"
             (changeCurrency)="this.openModal($event)"
             paymentType="fiat_ramps.shared.constants.payment_types.kripton"
             [fee]="this.fiatFee"
@@ -256,7 +257,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
   private async getMinimumFiatAmount() {
     const data = { email: await this._getUserEmail() };
-    const response = await this.fiatRampsService.getKriptonMinimumAmount(this.fiatCurrency, data).toPromise();
+    const response = await this.fiatRampsService.getKriptonMinimumAmount(this.fiatCurrency,'cash-in', data).toPromise();
     this.minimumFiatAmount = parseFloat(response.minimun_general);
     this.addGreaterThanValidator(this.minimumFiatAmount);
     await this.getUpdatedValues(this.minimumFiatAmount);
@@ -265,14 +266,14 @@ export class OperationsNewPage implements AfterViewInit {
   createKriptonDynamicPrice(currency = this.fiatCurrency): DynamicKriptonPrice {
     return this.kriptonDynamicPrice.new(
       this.priceRefreshInterval,
-      new DefaultKriptonPrice(currency, this.selectedCurrency, this.http)
+      new DefaultKriptonPrice(currency, this.selectedCurrency, 'cash-in', this.http)
     );
   }
 
   async getUpdatedValues(fiatAmount?: number) {
     const fiatAmountAux = fiatAmount ? fiatAmount : this.form.value.fiatAmount;
     const kriptonFeeResponse = await this.fiatRampsService
-      .getKriptonFee(this.fiatCurrency, fiatAmountAux, this.selectedCurrency.value, this._network())
+      .getKriptonFee(this.fiatCurrency, fiatAmountAux, this.selectedCurrency.value, this._network(), 'cash-in')
       .toPromise();
     this.fee.value = parseFloat(kriptonFeeResponse.data.costs);
     this.form.patchValue( { fiatAmount: parseFloat(kriptonFeeResponse.data.amount_in) }, { emitEvent: false, onlySelf: true } );

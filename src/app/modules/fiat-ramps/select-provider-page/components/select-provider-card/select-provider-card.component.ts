@@ -196,7 +196,7 @@ export class SelectProviderCardComponent implements OnInit {
   }
   async setKriptonQuote(fiatCode: string) {
     if (fiatCode && this.availableProviders.some((p) => p.alias === 'kripton')) {
-      return await this.kriptonPriceFactory.new(fiatCode, this.coin, this.http).value().toPromise();
+      return await this.kriptonPriceFactory.new(fiatCode, this.coin, 'cash-in', this.http).value().toPromise();
     }
     return null;
   }
