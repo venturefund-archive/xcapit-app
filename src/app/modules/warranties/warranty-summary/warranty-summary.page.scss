@@ -13,6 +13,8 @@
       &__submit-button {
         display: flex;
         flex-direction: column;
+        gap: 20px;
+        text-align: center;
 
         &__button {
           flex-grow: 1;

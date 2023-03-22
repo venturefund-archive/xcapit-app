@@ -3536,7 +3536,9 @@
       "dniLabel": "DNI garante",
       "amountLabel": "Monto de garantía",
       "serviceLabel": "Costo de servicio",
-      "buttonName": "Confeccionar garantia"
+      "buttonName": "Confeccionar garantia",
+      "loading": "Confeccionando garantia...",
+      "wait_loading_message": "Solo tomará unos segundos."
     },
     "withdraw_warranty": {
       "header": "Retirar garantía",
