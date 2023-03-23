@@ -105,14 +105,11 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
   }
 
   private _setTrackClickEventName(): void {
+    this.trackClickEventName = 'Confirm Password';
     if (this.state) {
       this.trackClickEventName = `ux_${this.state}_confirm_password`;
-    } else {
-      if (this.customEvent) {
-        this.trackClickEventName = this.customEvent;
-        return;
-      }
-      this.trackClickEventName = 'Confirm Password';
+    } else if (this.customEvent) {
+      this.trackClickEventName = this.customEvent;
     }
   }
 
