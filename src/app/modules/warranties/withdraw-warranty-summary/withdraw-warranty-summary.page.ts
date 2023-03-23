@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { WarrantyInProgressTransactionModalComponent } from 'src/app/shared/components/warranty-in-progress-transaction-modal/warranty-in-progress-transaction-modal.component';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { TICKET_CATEGORIES } from '../../tickets/shared-tickets/constants/ticket-categories';
 import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
 import { WalletPasswordWithValidatorComponent } from '../../wallets/shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
@@ -51,7 +52,7 @@ import { WarrantyDataService } from '../shared-warranties/services/send-warranty
     </ion-footer>`,
   styleUrls: ['./withdraw-warranty-summary.page.scss'],
 })
-export class WithdrawWarrantySummaryPage implements OnInit {
+export class WithdrawWarrantySummaryPage {
   warrantyData: SummaryWarrantyData;
   loading: boolean;
   disable: boolean;
@@ -60,10 +61,12 @@ export class WithdrawWarrantySummaryPage implements OnInit {
     private warratyDataService: WarrantyDataService,
     private modalController: ModalController,
     private translate: TranslateService,
-    private apiTicketsService: ApiTicketsService
+    private apiTicketsService: ApiTicketsService,
+    private trackService: TrackService
   ) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.screenViewEvent();
     this.warrantyData = this.warratyDataService.data;
   }
 
@@ -138,5 +141,13 @@ export class WithdrawWarrantySummaryPage implements OnInit {
     await modal.present();
     await modal.onDidDismiss();
     modal.dismiss();
+  }
+
+  screenViewEvent() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_warranty_withdraw_confirm_screenview',
+    });
   }
 }
