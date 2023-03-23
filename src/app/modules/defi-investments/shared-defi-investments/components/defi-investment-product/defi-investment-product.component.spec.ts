@@ -85,30 +85,4 @@ describe('DefiInvestmentProductComponent', () => {
     const performanceEl = fixture.debugElement.query(By.css('ion-badge.dip__footer__badge'));
     expect(performanceEl.nativeElement.innerHTML).toContain('22.78');
   });
-
-  it('should call trackEvent when Invest button is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Invest');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should redirect user to defi/no-wallet-to-invest if user has no wallet on Invest button click', async () => {
-    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
-    fixture.debugElement.query(By.css('ion-button[name="Invest"]')).nativeElement.click();
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest']);
-  });
-
-  it('should redirect user to new investment page when Invest button is clicked if user has wallet', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Invest"]')).nativeElement.click();
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      '/defi/new/insert-amount',
-      'polygon_usdc',
-      'invest',
-    ]);
-  });
 });

@@ -52,7 +52,7 @@ import { Observable, forkJoin } from 'rxjs';
         </ion-item>
       </ion-card>
       <div class="id__buttons">
-        <div class="id__buttons__add-amount">
+        <div class="id__buttons__add-amount" *ngIf="this.hideButton">
           <app-icon-button-card
             appTrackClick
             name="ux_invest_add_amount"
@@ -117,6 +117,7 @@ import { Observable, forkJoin } from 'rxjs';
   styleUrls: ['./investment-detail.page.scss'],
 })
 export class InvestmentDetailPage implements OnInit {
+  hideButton: boolean = false;
   investmentProduct: InvestmentProduct;
   token: Coin;
   referenceBalance: number;

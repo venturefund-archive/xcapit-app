@@ -84,7 +84,7 @@ import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ra
               </div>
             </div>
             <ion-button
-              *ngIf="this.productBalance >= 0"
+              *ngIf="this.hideButton"
               class="wad__invest-button"
               color="secondary"
               slot="end"
@@ -158,6 +158,7 @@ export class TokenDetailPage {
   tokenDetail: TokenDetail;
   tplToken: RawToken;
   tplBlockchain: RawBlockchain;
+  hideButton: boolean = false;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   private token: Token;
