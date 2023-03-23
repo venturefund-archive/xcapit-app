@@ -6,7 +6,6 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { BuyConditionsPage } from './buy-conditions.page';
 
 describe('BuyConditionsPage', () => {
@@ -16,7 +15,6 @@ describe('BuyConditionsPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
-  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -24,16 +22,13 @@ describe('BuyConditionsPage', () => {
     storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
     });
-    tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
-      tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
-    });
+
     TestBed.configureTestingModule({
       declarations: [BuyConditionsPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: IonicStorageService, useValue: storageServiceSpy },
-        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
       ],
     }).compileComponents();
 
