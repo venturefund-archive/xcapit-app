@@ -78,6 +78,7 @@ import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/in
 })
 export class WalletPasswordWithValidatorComponent implements OnInit {
   @Input() state: string;
+  @Input() customEvent: string;
   form: UntypedFormGroup = this.formBuilder.group({
     password: ['', [Validators.required]],
   });
@@ -85,7 +86,7 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
 
   trackClickEventName: string;
   biometricAuth: BiometricAuth;
-  isBiometricEnabled  = false;
+  isBiometricEnabled = false;
   constructor(
     private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
@@ -104,10 +105,11 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
   }
 
   private _setTrackClickEventName(): void {
+    this.trackClickEventName = 'Confirm Password';
     if (this.state) {
       this.trackClickEventName = `ux_${this.state}_confirm_password`;
-    } else {
-      this.trackClickEventName = 'Confirm Password';
+    } else if (this.customEvent) {
+      this.trackClickEventName = this.customEvent;
     }
   }
 

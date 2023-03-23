@@ -123,6 +123,18 @@ describe('WalletPasswordWithValidatorComponent', () => {
     expect(component.trackClickEventName).toEqual('Confirm Password');
   });
 
+  it('should call customEvent on trackService when provided, no state is declared and Confirm Password button clicked', async () => {
+    component.state = undefined;
+    component.customEvent = 'new_custom_event'
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Confirm Password');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(component.trackClickEventName).toEqual('new_custom_event');
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
   it('should set biometric enabled', async () => {
     await component.ngOnInit();
     expect(component.isBiometricEnabled).toBeTrue();
