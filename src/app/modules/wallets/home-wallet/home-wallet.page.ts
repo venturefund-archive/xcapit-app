@@ -37,8 +37,8 @@ import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { ConfigureOptions } from '@capacitor/preferences';
-declare var CloudKit;
+import { SignInWithApple, SignInWithAppleResponse, SignInWithAppleOptions } from '@capacitor-community/apple-sign-in';
+
 @Component({
   selector: 'app-home-wallet',
   template: ` <ion-header>
@@ -118,16 +118,12 @@ declare var CloudKit;
       <ion-button expand="block" (click)="googleAuth()">Google Auth</ion-button>
       <ion-button expand="block" (click)="getFilePorApi()">Get file</ion-button>
       <ion-button expand="block" (click)="createFile()">Create file</ion-button>
-      <ion-button color="secondary" expand="block" (click)="apple()">Apple config</ion-button>
       <ion-button color="secondary" expand="block" (click)="appleSignIn()">Apple SignIn</ion-button>
-      <div
-        style="width: 100%; display:flex; align-items:center; justify-content:center"
-        id="apple-sign-in-button"
-      ></div>
-      <div
-        style="width: 100%; display:flex; align-items:center; justify-content:center"
-        id="apple-sign-out-button"
-      ></div>
+      <div class="loggedIn">
+        <div class="nada" *ngIf="this.appleLoggedIn === undefined">Nada</div>
+        <div class="loggedIn" style="background-color: green" *ngIf="this.appleLoggedIn === true">Logged in</div>
+        <div class="notLoggedIn" style="background-color: red" *ngIf="this.appleLoggedIn === false">Not logged in</div>
+      </div>
       <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
           [text]="'wallets.home.backup_card_component.text'"
@@ -245,7 +241,9 @@ export class HomeWalletPage implements OnInit {
 
   accessToken: string;
 
-  container;
+  container: any;
+
+  appleLoggedIn: any;
 
   constructor(
     private navController: NavController,
@@ -282,113 +280,20 @@ export class HomeWalletPage implements OnInit {
   }
 
   appleSignIn() {
-    // this.container = CloudKit.getDefaultContainer();
-    // console.log(this.container);
-    window.addEventListener('message', function (e) {
-      console.log('WEB TOKEN', e.data.ckWebAuthToken);
-    });
-    this.demoSetUpAuth();
-  }
+    let options: SignInWithAppleOptions = {
+      clientId: 'com.xcapit.iosapp',
+      redirectURI: 'https://xcapit.com',
+    };
 
-  gotoUnauthenticatedState(error) {
-    if (error && error.ckErrorCode === 'AUTH_PERSIST_ERROR') {
-      console.log('AUTH PERSIST ERROR');
-    }
-
-    console.log('Unauthenticated User', error);
-    this.container
-      .whenUserSignsIn()
-      .then((res) => {
-        console.log('entre al usersSignsIn then', res);
-        this.gotoAuthenticatedState(res);
+    SignInWithApple.authorize(options)
+      .then((result: SignInWithAppleResponse) => {
+        console.log('Result', result);
+        this.appleLoggedIn = true;
       })
-      .catch((err) => {
-        console.log('entre al usersSignsIn catch', err);
-        this.gotoUnauthenticatedState(err);
+      .catch((error) => {
+        this.appleLoggedIn = false;
+        console.log('error', error);
       });
-  }
-  gotoAuthenticatedState(userIdentity) {
-    const name = userIdentity.nameComponents;
-    if (name) {
-      console.log(name.givenName + ' ' + name.familyName);
-    } else {
-      console.log('User record name: ' + userIdentity.userRecordName);
-    }
-    this.container.whenUserSignsOut().then((res) => this.gotoUnauthenticatedState(res));
-  }
-
-  // demoSetUpAuth() {
-  //   console.log('setUpAuth');
-  //   return this.container.setUpAuth().then((userIdentity) => {
-  //     console.log('Then de setUpAuth');
-  //     // Either a sign-in or a sign-out button was added to the DOM.
-  //
-  //     // userIdentity is the signed-in user or null.
-  //     if (userIdentity) {
-  //       this.gotoAuthenticatedState(userIdentity);
-  //     } else {
-  //       this.gotoUnauthenticatedState({});
-  //     }
-  //   });
-  // }
-
-  demoSetUpAuth() {
-    // Get the container.
-    const container = CloudKit.getDefaultContainer();
-
-    function gotoAuthenticatedState(userIdentity) {
-      const name = userIdentity.nameComponents;
-      if (name) {
-        console.log(name.givenName + ' ' + name.familyName);
-      } else {
-        console.log('User record name: ' + userIdentity.userRecordName);
-      }
-      console.log('Authenticated');
-      container.whenUserSignsOut().then(gotoUnauthenticatedState);
-    }
-    function gotoUnauthenticatedState(error) {
-      if (error && error.ckErrorCode === 'AUTH_PERSIST_ERROR') {
-        console.log('ERROR');
-      }
-
-      console.log('Unauthenticated User');
-      container.whenUserSignsIn().then(gotoAuthenticatedState).catch(gotoUnauthenticatedState);
-    }
-
-    // Check a user is signed in and render the appropriate button.
-    return container.setUpAuth().then(function (userIdentity) {
-      // Either a sign-in or a sign-out button was added to the DOM.
-
-      // userIdentity is the signed-in user or null.
-      if (userIdentity) {
-        gotoAuthenticatedState(userIdentity);
-      } else {
-        gotoUnauthenticatedState(null);
-      }
-    });
-  }
-  apple() {
-    CloudKit.configure({
-      locale: 'en-us',
-      containers: [
-        {
-          containerIdentifier: 'iCloud.com.xcapit.iosapp.wallets',
-          apiTokenAuth: {
-            apiToken: 'fefb17747b0b0aac5ea84f6d01d6385520ecc83d56be0beee38bf336a0b7e2b4',
-            persist: true,
-            signInButton: {
-              id: 'apple-sign-in-button',
-              theme: 'black',
-            },
-            signOutButton: {
-              id: 'apple-sign-out-button',
-              theme: 'black',
-            },
-          },
-          environment: 'development',
-        },
-      ],
-    });
   }
 
   async googleAuth() {

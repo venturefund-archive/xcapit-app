@@ -40,6 +40,7 @@ export const environment = {
   bitrefillAffiliateCode: 'testAffiliateCode',
   directa24Url: "https://connect-api-stg.directa24.com/v3/connect/",
   directa24ApiKey: "yUJaLssHZYOHxyzTcUzrweEbaudVdDFMaCMATbXt",
+  warrantyAddress:"0x16e3a371ed8058507098dcf1fa35752011fdbfb3",
   twoPiGraphqlUrl:
     "https://api.thegraph.com/subgraphs/name/2pinetwork/polygon-xcapit",
   solanaApiUrl:
