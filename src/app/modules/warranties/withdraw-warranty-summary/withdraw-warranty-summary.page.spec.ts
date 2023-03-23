@@ -5,6 +5,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
@@ -19,6 +20,7 @@ describe('WithdrawWarrantySummaryPage', () => {
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let apiTicketServiceSpy: jasmine.SpyObj<ApiTicketsService>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
   const summaryData: SummaryWarrantyData = {
     amount: 10,
     coin: rawUSDCData,
@@ -43,6 +45,9 @@ describe('WithdrawWarrantySummaryPage', () => {
     apiTicketServiceSpy = jasmine.createSpyObj('ApiTicketService', {
       createTicket: of({}),
     });
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
     TestBed.configureTestingModule({
       declarations: [WithdrawWarrantySummaryPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -50,8 +55,9 @@ describe('WithdrawWarrantySummaryPage', () => {
         { provide: WarrantyDataService, useValue: warrantyDataServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: ApiTicketsService, useValue: apiTicketServiceSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WithdrawWarrantySummaryPage);
@@ -64,11 +70,12 @@ describe('WithdrawWarrantySummaryPage', () => {
   });
 
   it('should get data of service on init', () => {
+    component.ionViewWillEnter();
     expect(component.warrantyData).toEqual(summaryData);
   });
 
   it('should send ticket to hubspot with correct data and show success modal when button ux_warranty_withdraw_confirm is clicked and password is correct', async () => {
-    component.ngOnInit();
+    component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_warranty_withdraw_confirm"]')).nativeElement.click();
     await fixture.whenRenderingDone();
@@ -79,7 +86,7 @@ describe('WithdrawWarrantySummaryPage', () => {
 
   it('should not send ticket to hubspot when button ux_warranty_withdraw_confirm is clicked and password is invalid', async () => {
     fakeModalController.modifyReturns(null, Promise.resolve({ data: undefined }));
-    component.ngOnInit();
+    component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_warranty_withdraw_confirm"]')).nativeElement.click();
     await fixture.whenRenderingDone();
@@ -90,12 +97,17 @@ describe('WithdrawWarrantySummaryPage', () => {
 
   it('should show error modal when button ux_warranty_withdraw_confirm is clicked and data ticket is incorrect', async () => {
     apiTicketServiceSpy.createTicket.and.returnValue(throwError('Error'));
-    component.ngOnInit();
+    component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_warranty_withdraw_confirm"]')).nativeElement.click();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
     expect(apiTicketServiceSpy.createTicket).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });
