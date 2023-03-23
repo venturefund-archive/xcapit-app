@@ -89,7 +89,6 @@ export class WithdrawWarrantySummaryPage {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    console.log(data);
     if (data === undefined) this.loading = false;
     return data;
   }
