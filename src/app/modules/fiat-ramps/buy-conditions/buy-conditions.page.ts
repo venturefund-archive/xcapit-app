@@ -55,7 +55,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
               expand="block"
               size="large"
               appTrackClick
-              (click)="this.goToSelectProvider()"
+              (click)="this.goToPurhasesHome()"
             >
               {{ 'fiat_ramps.buy_conditions.button' | translate }}
             </ion-button>
@@ -72,7 +72,6 @@ export class BuyConditionsPage implements OnInit {
   constructor(
     private navController: NavController,
     private storage: IonicStorageService,
-    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ngOnInit() {}
@@ -82,10 +81,8 @@ export class BuyConditionsPage implements OnInit {
     this.storage.set(this.key, state.detail.checked);
   }
 
-  goToSelectProvider() {
-    this.tokenOperationDataService.tokenOperationData
-      ? this.navController.navigateForward(['fiat-ramps/select-provider'])
-      : this.navController.navigateForward(['fiat-ramps/token-selection']);
+  goToPurhasesHome() {
+    this.navController.navigateForward(['fiat-ramps/purchases']);
   }
 
   close() {

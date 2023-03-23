@@ -56,7 +56,7 @@ describe('BuyConditionsPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to select-provider and set storage when buy_conditions button is clicked and there is token data', async () => {
+  it('should navigate to home of purchases and set storage when buy_conditions button is clicked', async () => {
     fixture.debugElement
       .query(By.css("ion-checkbox[name='checkbox-condition']"))
       .triggerEventHandler('ionChange', { detail: { checked: true }, target: { checked: true } });
@@ -64,18 +64,7 @@ describe('BuyConditionsPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="buy_conditions"]')).nativeElement.click();
     fixture.detectChanges();
     expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
-  });
-
-  it('should navigate to token-selection and set storage when buy_conditions button is clicked and there is not token data', () => {
-    fixture.debugElement
-      .query(By.css("ion-checkbox[name='checkbox-condition']"))
-      .triggerEventHandler('ionChange', { detail: { checked: true }, target: { checked: true } });
-    tokenOperationDataServiceSpy.tokenOperationData = undefined;
-    fixture.debugElement.query(By.css('ion-button[name="buy_conditions"]')).nativeElement.click();
-    fixture.detectChanges();
-    expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/token-selection']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/purchases']);
   });
 
   it('should navigate to tabs/wallets when Close Success button is clicked', () => {
