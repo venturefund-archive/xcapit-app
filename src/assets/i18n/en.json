@@ -3376,7 +3376,9 @@
       "dniLabel":"Guarantor ID card",
       "amountLabel":"Guarantee amount",
       "serviceLabel":"Cost of service",
-      "buttonName":"Make Warranty"
+      "buttonName":"Make Warranty",
+      "loading": "Making warranty...",
+      "wait_loading_message": "It will only take a few seconds."
     },
     "withdraw_warranty": {
       "header": "Withdraw warranty",

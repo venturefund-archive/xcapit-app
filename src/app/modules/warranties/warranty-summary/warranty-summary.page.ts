@@ -47,14 +47,18 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
       <div class="ws__footer__submit-button ion-padding">
         <ion-button
           [appLoading]="this.loading"
-          [loadingText]="'wallets.send.send_summary.loader' | translate"
+          [disabled]="this.loading"
+          [loadingText]="'warranties.summary.loading' | translate"
           class="ux_button"
           color="secondary"
           appTrackClick
           name="ux_warranty_start_confirm"
           (click)="this.handleSubmit()"
-          >{{ 'warranties.summary.buttonName' | translate }}</ion-button
-        >
+          >{{ 'warranties.summary.buttonName' | translate }}
+        </ion-button>
+        <ion-label *ngIf="this.loading" class="ux-loading-message ux-font-text-xxs" color="neutral80">
+          {{ 'warranties.summary.wait_loading_message' | translate }}
+        </ion-label>
       </div>
     </ion-footer>
   `,
@@ -118,6 +122,7 @@ export class WarrantySummaryPage {
   }
 
   async handleSubmit(skipChecksBeforeSend: boolean = false) {
+    this.loading = true;
     if (!skipChecksBeforeSend && !(await this.checksBeforeSend())) {
       return;
     }
@@ -126,7 +131,6 @@ export class WarrantySummaryPage {
       if (!password) {
         return;
       }
-      this.loading = true;
       await this.fundWallet();
       await this.send(password);
     } catch (error) {
