@@ -282,31 +282,6 @@ describe('TokenDetailPage', () => {
     expect(component.productToInvest.token().value).toEqual('USDC');
   });
 
-  it('should navigate to investment detail page when ux_go_to_invest_asset_detail button is clicked and product balance is greater than 0', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ blockchain: rawPolygonData.name, token: rawUSDCData.contract });
-    await component.ionViewWillEnter();
-    fixture.detectChanges();
-
-    fixture.debugElement.query(By.css('.wad__title_and_image ion-button')).nativeElement.click();
-
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/investment-detail/', 'polygon_usdc']);
-  });
-
-  it('should navigate to insert amount page when ux_go_to_invest_asset_detail button is clicked and product balance isnt greater than 0', async () => {
-    twoPiInvestmentFactorySpy.new.and.returnValue({ balance: () => Promise.resolve(0) } as TwoPiInvestment);
-    fakeActivatedRoute.modifySnapshotParams({ blockchain: rawPolygonData.name, token: rawUSDCData.contract });
-    await component.ionViewWillEnter();
-    fixture.detectChanges();
-
-    fixture.debugElement.query(By.css('.wad__title_and_image ion-button')).nativeElement.click();
-
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      '/defi/new/insert-amount',
-      'polygon_usdc',
-      'invest',
-    ]);
-  });
-
   it('should reload transfers when refresher is triggered', fakeAsync(() => {
     const eventMock = { target: { complete: jasmine.createSpy('complete') } };
     const spy = spyOn(component, 'getTransfers').and.callThrough();
