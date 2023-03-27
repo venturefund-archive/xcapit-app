@@ -117,7 +117,7 @@ import { Observable, forkJoin } from 'rxjs';
   styleUrls: ['./investment-detail.page.scss'],
 })
 export class InvestmentDetailPage implements OnInit {
-  hideButton: boolean = false;
+  hideButton = false;
   investmentProduct: InvestmentProduct;
   token: Coin;
   referenceBalance: number;

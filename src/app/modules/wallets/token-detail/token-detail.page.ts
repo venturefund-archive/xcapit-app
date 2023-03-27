@@ -158,7 +158,7 @@ export class TokenDetailPage {
   tokenDetail: TokenDetail;
   tplToken: RawToken;
   tplBlockchain: RawBlockchain;
-  hideButton: boolean = false;
+  hideButton = false;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   private token: Token;
