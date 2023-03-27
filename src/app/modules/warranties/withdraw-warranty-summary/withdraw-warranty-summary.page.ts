@@ -84,7 +84,7 @@ export class WithdrawWarrantySummaryPage {
       component: WalletPasswordWithValidatorComponent,
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
-        state: 'send',
+        state: 'withdraw_warranty',
       },
     });
     await modal.present();
@@ -121,6 +121,10 @@ export class WithdrawWarrantySummaryPage {
       component: WarrantyInProgressTransactionModalComponent,
       cssClass: 'ux-lg-modal-informative',
       backdropDismiss: false,
+      componentProps: {
+        eventName: 'ux_warranty_withdraw_success_screenview',
+      },
+      
     });
     await modal.present();
     await modal.onDidDismiss();
