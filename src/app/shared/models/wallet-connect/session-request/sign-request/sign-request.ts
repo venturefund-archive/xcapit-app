@@ -4,7 +4,7 @@ import { SignClientV2 } from '../../sign-client/sign-client';
 import { formatJsonRpcError, formatJsonRpcResult } from '@json-rpc-tools/utils';
 import { isAddress } from 'ethers/lib/utils';
 import { getSdkError } from '@walletconnect/utils';
-import { HexToUtf8Of } from '../../../hex-to-utf8-of/hex-to-utf8-of';
+import { HexString } from '../../../hex-string/hex-string';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { RequestMethod } from '../../request-method/request-method';
 
@@ -57,6 +57,6 @@ export class SignRequest implements SessionRequest {
   private _getSignParamsMessage(params: string[]) {
     const message = params.filter((param) => !isAddress(param))[0];
 
-    return new HexToUtf8Of(message).value();
+    return new HexString(message).toUtf8();
   }
 }
