@@ -13,7 +13,7 @@ export class Namespace {
     private readonly _aWallet: Wallet
   ) {}
 
-  public validate(): ValidatedNamespaces {
+  public value(): ValidatedNamespaces {
     this._validateOnlyOneNetworkAtTheSameTime();
     this._validateMatchingNetwork();
 

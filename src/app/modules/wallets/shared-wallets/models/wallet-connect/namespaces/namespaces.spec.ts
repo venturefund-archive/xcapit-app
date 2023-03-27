@@ -40,17 +40,17 @@ describe('Namespaces', () => {
   });
 
   it('should return a validated namespace when the required namespaces are valid', () => {
-    expect(namespaces.validate()).toEqual(expectedValidatedNamespaces);
+    expect(namespaces.value()).toEqual(expectedValidatedNamespaces);
   });
 
   it('should throw an error when there are more than one namespace in the required namespaces', () => {
-    expect(() => new Namespaces(rawRequiredNamespacesWithTwoNamespaces, fakeWallet).validate()).toThrow(
+    expect(() => new Namespaces(rawRequiredNamespacesWithTwoNamespaces, fakeWallet).value()).toThrow(
       new Error(new NamespaceErrorMsgs().onlyOneNamespace())
     );
   });
 
   it('should throw an error when selected wallet network does not match the chain in required namespace', () => {
-    expect(() => new Namespaces(rawRequiredNamespacesWithUnsupportedNamespace, fakeWallet).validate()).toThrow(
+    expect(() => new Namespaces(rawRequiredNamespacesWithUnsupportedNamespace, fakeWallet).value()).toThrow(
       new Error(new NamespaceErrorMsgs().notSupportedNamespaces(['bip122']))
     );
   });

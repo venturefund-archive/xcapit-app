@@ -10,12 +10,12 @@ export type ValidatedNamespaces = SessionTypes.Namespaces;
 export class Namespaces {
   constructor(private readonly _rawNamespaces: RawNamespaces, private readonly _aWallet: Wallet) {}
 
-  public validate(): ValidatedNamespaces {
+  public value(): ValidatedNamespaces {
     this._validateOnlyOneNamespacePerSession();
     this._validateSupportedNamespaces();
 
     const supportedNamespace = this._supportedNamespaces()[0];
-    return new Namespace(supportedNamespace, this._rawNamespaces[supportedNamespace], this._aWallet).validate();
+    return new Namespace(supportedNamespace, this._rawNamespaces[supportedNamespace], this._aWallet).value();
   }
 
   private _validateOnlyOneNamespacePerSession(): void {

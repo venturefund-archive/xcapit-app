@@ -36,6 +36,6 @@ export class PendingProposal {
   }
 
   private _namespaces(): ValidatedNamespaces {
-    return new Namespaces(this._rawProposal.params.requiredNamespaces, this._aWallet).validate();
+    return new Namespaces(this._rawProposal.params.requiredNamespaces, this._aWallet).value();
   }
 }

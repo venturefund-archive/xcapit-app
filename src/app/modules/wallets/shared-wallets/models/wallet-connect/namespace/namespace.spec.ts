@@ -45,17 +45,17 @@ describe('Namespace', () => {
   });
 
   it('should return a validated namespace when the required namespace is valid', () => {
-    expect(namespace.validate()).toEqual(validatedNamespaces);
+    expect(namespace.value()).toEqual(validatedNamespaces);
   });
 
   it('should throw an error when there are more than one chain in the required namespace', () => {
-    expect(() => new Namespace(supportedNamespace, rawNamespaceWithTwoChains, fakeWallet).validate()).toThrow(
+    expect(() => new Namespace(supportedNamespace, rawNamespaceWithTwoChains, fakeWallet).value()).toThrow(
       new Error(new NamespaceErrorMsgs().onlyOneChain())
     );
   });
 
   it('should throw an error when selected wallet network does not match the chain in required namespace', () => {
-    expect(() => new Namespace(supportedNamespace, rawNamespaceWithNotMatchingNetwork, fakeWallet).validate()).toThrow(
+    expect(() => new Namespace(supportedNamespace, rawNamespaceWithNotMatchingNetwork, fakeWallet).value()).toThrow(
       new Error(new NamespaceErrorMsgs().notMatchingNetwork())
     );
   });
