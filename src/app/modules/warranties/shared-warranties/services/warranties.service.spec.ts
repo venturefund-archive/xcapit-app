@@ -30,6 +30,12 @@ describe('WarrantiesService', ()=>{
     });
   });
 
+  it('should call post on http when withdrawWarranty', () => {
+    warrantiesService.withdrawWarranty({}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
   it('should call post on http when verifyWarranty', () => {
     warrantiesService.verifyWarranty({}).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
