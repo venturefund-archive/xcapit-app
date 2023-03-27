@@ -9,24 +9,11 @@ import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet'
 import { RequestMethod } from '../../request-method/request-method';
 
 export class SignRequest implements SessionRequest {
-  _id: number;
-  _topic: string;
-  _method: string;
-  _namespace: string;
-  _chainId: string;
-  _params: string[];
-
   constructor(
     private readonly _aRawSessionRequest: RawSessionRequest,
     private readonly _aSignClient: SignClientV2,
     private readonly _aWallet: Wallet
-  ) {
-    this._id = _aRawSessionRequest.id;
-    this._topic = _aRawSessionRequest.topic;
-    this._method = _aRawSessionRequest.params.request.method;
-    [this._namespace, this._chainId] = _aRawSessionRequest.params.chainId.split(':');
-    this._params = _aRawSessionRequest.params.request.params;
-  }
+  ) {}
 
   public raw(): RawSessionRequest {
     return this._aRawSessionRequest;
@@ -38,20 +25,20 @@ export class SignRequest implements SessionRequest {
 
   async approve(): Promise<void> {
     await this._aSignClient.respond({
-      topic: this._topic,
-      response: formatJsonRpcResult(this._id, await this._aWallet.signMessage(this.message())),
+      topic: this._aRawSessionRequest.topic,
+      response: formatJsonRpcResult(this._aRawSessionRequest.id, await this._aWallet.signMessage(this.message())),
     });
   }
 
   async reject(): Promise<void> {
     await this._aSignClient.respond({
-      topic: this._topic,
-      response: formatJsonRpcError(this._id, getSdkError('USER_REJECTED_METHODS').message),
+      topic: this._aRawSessionRequest.topic,
+      response: formatJsonRpcError(this._aRawSessionRequest.id, getSdkError('USER_REJECTED_METHODS').message),
     });
   }
 
   public message(): string {
-    return this._getSignParamsMessage(this._params);
+    return this._getSignParamsMessage(this._aRawSessionRequest.params.request.params);
   }
 
   private _getSignParamsMessage(params: string[]) {
