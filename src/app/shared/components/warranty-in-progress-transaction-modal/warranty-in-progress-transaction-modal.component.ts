@@ -58,8 +58,10 @@ import { SUCCESS_TYPES } from '../success-content/success-types.constant';
   styleUrls: ['./warranty-in-progress-transaction-modal.component.scss'],
 })
 export class WarrantyInProgressTransactionModalComponent implements OnInit {
-  data;
-  @Input() operationNumber: number;
+  data: any;
+  eventName: string;
+  operationNumber: number;
+
   constructor(
     private modalController: ModalController,
     private navController: NavController,
@@ -91,7 +93,7 @@ export class WarrantyInProgressTransactionModalComponent implements OnInit {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'ux_warranty_start_success_screenview',
+      eventLabel: `${this.eventName}`,
     });
   }
 }

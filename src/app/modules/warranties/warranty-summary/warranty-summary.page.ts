@@ -170,7 +170,7 @@ export class WarrantySummaryPage {
       component: WalletPasswordWithValidatorComponent,
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
-        customEvent: "ux_warranty_start_pass",
+        customEvent: 'ux_warranty_start_pass',
       },
     });
     await modal.present();
@@ -225,6 +225,7 @@ export class WarrantySummaryPage {
       backdropDismiss: false,
       componentProps: {
         operationNumber: this.warantyOperationId,
+        eventName: 'ux_warranty_start_success_screenview',
       },
     });
     await modal.present();
