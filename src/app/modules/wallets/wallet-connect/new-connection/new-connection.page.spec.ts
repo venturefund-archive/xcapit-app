@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController, ModalController, AlertController, Platform } from '@ionic/angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,51 +12,43 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
-import { servicesVersion } from 'typescript';
 import { of, BehaviorSubject } from 'rxjs';
-
-const provider = {
-  name: 'ETH',
-  short_name: 'eth',
-  chain: 'ERC20',
-  network: 'testnet',
-  logo: 'TestLogo',
-  chain_id: 1,
-  network_id: 1,
-  rpc_url: 'TestRPC',
-  native_currency: {
-    symbol: 'ETH',
-    name: 'Ether',
-    decimals: '18',
-  },
-}
-
-const walletInfo = {
-  address: '0x00000000001',
-  network: 'ERC20',
-  chainId: 1,
-  name: 'ETH',
-  logo: 'TestLogo',
-  symbol: 'ETH',
-  rpc: 'TestRPC',
-  dataToTrack:'ux_wc_eth'
-}
-
-const testWallet = {
-  name: 'ETH',
-  address: '0x00000000001'
-}
+import { rawWalletConnectUriV2, rawWalletConnectUriV1 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
+import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
+import { By } from '@angular/platform-browser';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
+import { LoadingService } from '../../../../shared/services/loading/loading.service';
+import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 const formData = {
   valid: {
     wallet: 1,
-    uri: 'wc:test&bridge='
+    uri: 'wc:test&bridge=',
   },
   invalid: {
     wallet: null,
-    uri: null
-  }
-}
+    uri: null,
+  },
+};
+
+const selectedWallet = {
+  address: '0x00000000001',
+  network: 'ERC20',
+  chainId: 4,
+  name: 'Ethereum Testnet',
+  logo: 'assets/img/blockchains/ethereum.svg',
+  symbol: 'ETH',
+  rpc: 'https://eth-kovan.alchemyapi.io/v2/tfmomSigQreoKgOjz0W9W-j5SdtKkiZN',
+  dataToTrack: 'ux_wc_eth',
+} as WCWallet;
 
 describe('NewConnectionPage', () => {
   let component: NewConnectionPage;
@@ -70,218 +62,304 @@ describe('NewConnectionPage', () => {
   let alertControllerSpy: any;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let platformSpy: jasmine.SpyObj<Platform>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let wcServiceSpy: jasmine.SpyObj<WCService>;
+  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
+  let wcConnectionV2: jasmine.SpyObj<WCConnectionV2>;
+  let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let fakeWallet: FakeWallet;
 
-  beforeEach(
-    waitForAsync(() => {
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
-        uri: new BehaviorSubject(null),
-        setUri: null,
-        connected: false,
-        setAccountInfo: Promise.resolve({}),
-        initWalletConnect: Promise.resolve({}),
-        checkDappStatus: Promise.resolve(true),
-        approveSession: Promise.resolve({}),
-        killSession: Promise.resolve({})
-      });
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
+  beforeEach(waitForAsync(() => {
+    walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
+      uri: new BehaviorSubject(null),
+      setUri: null,
+      connected: false,
+      setAccountInfo: Promise.resolve({}),
+      initWalletConnect: Promise.resolve({}),
+      checkDappStatus: Promise.resolve(true),
+      approveSession: Promise.resolve({}),
+      killSession: Promise.resolve({}),
+    });
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
 
-      storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getWalletsAddresses: Promise.resolve({ERC20: '0x00000000001'}),
-      });
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getWalletsAddresses: Promise.resolve({ ERC20: '0x00000000001' }),
+    });
 
-      platformSpy = jasmine.createSpyObj('Platform', {}, {
+    platformSpy = jasmine.createSpyObj(
+      'Platform',
+      {},
+      {
         backButton: of({}),
-      })
-      fakeModalController = new FakeModalController();
-      modalControllerSpy = fakeModalController.createSpy();
+      }
+    );
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
 
-      alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
+    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
 
-      toastServiceSpy = jasmine.createSpyObj('ToastService', {
-        showErrorToast: Promise.resolve(),
-      });
+    toastServiceSpy = jasmine.createSpyObj('ToastService', {
+      showErrorToast: Promise.resolve(),
+    });
 
-      TestBed.configureTestingModule({
-        declarations: [NewConnectionPage],
-        imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule],
-        providers: [
-          UrlSerializer,
-          { provide: WalletConnectService, useValue: walletConnectServiceSpy},
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: StorageService, useValue: storageServiceSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-          { provide: AlertController, useValue: alertControllerSpy },
-          { provide: ToastService, useValue: toastServiceSpy },
-          { provide: Platform, useValue: platformSpy}
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    wcServiceSpy = jasmine.createSpyObj('WCService', {
+      connected: false,
+      uri: new WCUri(rawWalletConnectUriV2),
+      initialize: null,
+    });
 
-      fixture = TestBed.createComponent(NewConnectionPage);
-      component = fixture.componentInstance;
-      component.isNative = true;
-      fixture.detectChanges();
-    })
-  );
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+      isNative: true,
+    });
+
+    loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
+      show: Promise.resolve(),
+      dismiss: Promise.resolve(),
+    });
+
+    wcConnectionV2 = jasmine.createSpyObj('WCConnectionV2', {
+      pairTo: Promise.resolve(),
+    });
+
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: {
+        oneById: () => {
+          return new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)).oneByName('ERC20');
+        },
+      },
+    });
+
+    fakeWallet = new FakeWallet();
+
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(fakeWallet) },
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [NewConnectionPage],
+      imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      providers: [
+        UrlSerializer,
+        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: AlertController, useValue: alertControllerSpy },
+        { provide: ToastService, useValue: toastServiceSpy },
+        { provide: Platform, useValue: platformSpy },
+        { provide: WCService, useValue: wcServiceSpy },
+        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: LoadingService, useValue: loadingServiceSpy },
+        { provide: WCConnectionV2, useValue: wcConnectionV2 },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(NewConnectionPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should excecute isConnected on ionViewWillEnter', () => {
-    const spy = spyOn(component, 'isConnected').and.callThrough();
+  it('should navigate to connection detail on ion view will enter and WC is connected', () => {
+    wcServiceSpy.connected.and.returnValue(true);
     component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to connection detail when isConnected is called and WalletConnect is connected', () => {
-    walletConnectServiceSpy.connected = true;
     fixture.detectChanges();
-    component.isConnected();
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['wallets/wallet-connect/connection-detail']);
   });
 
-  it('should excecute setWalletsInfo when isConnected is called and WalletConnect is disconnected', () => {
-    walletConnectServiceSpy.connected = false;
-    walletConnectServiceSpy.uri = new BehaviorSubject(null);
+  it('should initialize page on ion view will enter and WC is disconnected', async () => {
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    const spy = spyOn(component, 'setWalletsInfo');
-    component.isConnected();
-    expect(spy).toHaveBeenCalledTimes(1);
+    const walletRadioButtonEl = fixture.debugElement.query(
+      By.css('div.wcnc__radio_group > ion-radio-group > div.container > ion-item > ion-label')
+    );
+    const uriInput = fixture.debugElement.query(
+      By.css('div.wcnc__qr_input > ion-item > ion-input[formControlName="uri"]')
+    );
+    const qrIconEl = fixture.debugElement.query(By.css('div.wcnc__qr_input > ion-item > ion-icon.qr-code'));
+    expect(walletRadioButtonEl.nativeElement.innerHTML).toContain('Ethereum Testnet');
+    expect(uriInput.nativeElement.value).toEqual(rawWalletConnectUriV2);
+    expect(qrIconEl).toBeTruthy();
   });
 
-  it('should open QR modal when openQRScanner is called', async () => {
+  it('should open QR modal when user click on qr icon and should set the uri when is successful', async () => {
     fakeModalController.modifyReturns({}, { data: 'wc:fakeUri@bridge=fakeBridge', role: 'success' });
-    component.walletsList = [walletInfo];
-    fixture.detectChanges()
-    component.openQRScanner();
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('div.wcnc__qr_input > ion-item > ion-icon.qr-code')).nativeElement.click();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set the selected wallet to selectedWallet variable when setWalletInfo is called', () => {
-    component.setWalletInfo(testWallet);
-    fixture.detectChanges();
-    expect(component.selectedWallet).toEqual(testWallet);
-  });
-
-  it('should initWalletConnect connect when initWallet is excecuted and form is valid', async () => {
-    const spy = spyOn(component, 'initWalletConnect');
-    component.form.patchValue(formData.valid);
-    fixture.detectChanges();
-    component.initWallet();
-    await fixture.whenStable();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('form should be invalid when some fields are null', () => {
-    component.form.patchValue(formData.invalid);
-    fixture.detectChanges();
-    component.initWallet();
-    expect(component.form.valid).toBeFalsy();
-  });
-
-  it('should call walletConnect approveSession when approveSession is excecuted', async () => {
-    component.approveSession();
-    await fixture.whenStable();
-    expect(walletConnectServiceSpy.approveSession).toHaveBeenCalledTimes(1);
-    expect(component.connected).toBeTruthy();
-  });
-
-  it('should call walletConnect killSession when disconnectSession is excecuted', async () => {
-    component.disconnectSession();
-    await fixture.whenStable();
-    expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
-    expect(component.connected).toBeFalsy();
-  });
-
-  it('should call walletConnect killSession when killSession is excecuted', async () => {
-    component.killSession();
-    await fixture.whenStable();
-    expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to connection-detail when initWalletConnect is excecuted', async () => {
-    component.form.patchValue(formData.valid);
-    fixture.detectChanges();
-    await component.initWalletConnect();
-    expect(walletConnectServiceSpy.setAccountInfo).toHaveBeenCalledTimes(1);
-    expect(walletConnectServiceSpy.initWalletConnect).toHaveBeenCalledTimes(1);
-    expect(walletConnectServiceSpy.checkDappStatus).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/wallet-connect/connection-detail']);
-  });
-
-  it('should show an error alert when walletConnect setAccountInfo fails', async () => {
-    const spy = spyOn(component, 'killSession');
-    walletConnectServiceSpy.setAccountInfo.and.returnValue(Promise.reject());
-    await component.initWalletConnect();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should show an error alert when walletConnect initWalletConnect fails', async () => {
-    const spy = spyOn(component, 'killSession');
-    walletConnectServiceSpy.initWalletConnect.and.returnValue(Promise.reject());
-    await component.initWalletConnect();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should show an error alert when walletConnect checkDappStatus fail', async () => {
-    const spy = spyOn(component, 'killSession');
-    walletConnectServiceSpy.checkDappStatus.and.returnValue(Promise.reject());
-    await component.initWalletConnect();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should patchValue to form uri when handleScanRsult is called and the role is success', () => {
-    component.handleScanResult('wc:fakeUri@bridge=fakeBridge', 'success');
-
     expect(component.form.value.uri).toEqual('wc:fakeUri@bridge=fakeBridge');
   });
 
-  it('should call showErrorToast when handleScanRsult is called and the role is unauthorized', () => {
-    const spy = spyOn(component, 'showErrorToast');
-    component.handleScanResult('wc:fakeUri@bridge=fakeBridge', 'unauthorized');
+  it('should show an error toast when QR scan is unauthorized', async () => {
+    fakeModalController.modifyReturns({}, { data: 'wc:fakeUri@bridge=fakeBridge', role: 'unauthorized' });
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('div.wcnc__qr_input > ion-item > ion-icon.qr-code')).nativeElement.click();
+    await fixture.whenStable();
 
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+      message: 'wallets.wallet_connect.scan_qr.errors.permissionDenied',
+    });
   });
 
-  it('should call showErrorToast when handleScanRsult is called and the data is not valid', () => {
-    const spy = spyOn(component, 'showErrorToast');
-    component.handleScanResult('wc:fakeUri', 'success');
+  it('should show an error toast when a uri is scanned but is not valid', async () => {
+    fakeModalController.modifyReturns({}, { data: 'wc:fakeUri', role: 'success' });
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('div.wcnc__qr_input > ion-item > ion-icon.qr-code')).nativeElement.click();
+    await fixture.whenStable();
 
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+      message: 'wallets.wallet_connect.scan_qr.errors.invalidQR',
+    });
   });
 
-  it('should show error toast when showErrorToas is called', () => {
-    component.showErrorToast('fakeMessage');
-    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to create-ticket-support when supportHelp is called', () => {
-    component.supportHelp();
-
+  it('should navigate to create-ticket-support when supportHelp is called', async () => {
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Support Help"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tickets/create-support-ticket');
   });
 
-  it('should clean the form and uri when cleanForm is called', () => {
-    component.form.patchValue(formData.valid);
-    fixture.detectChanges();
-    component.ionViewWillEnter();
-    expect(walletConnectServiceSpy.setUri).toHaveBeenCalledOnceWith('');
-    expect(component.form.value.uri).toEqual('');
-    expect(component.form.value.wallet).toEqual(null);
+  describe('Wallet Connect V1', () => {
+    it('should connect and redirect to connection detail when a valid form is submitted and the connection is successful', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      walletConnectServiceSpy.uri = new BehaviorSubject<any>(rawWalletConnectUriV1);
+      await component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      component.form.patchValue({ wallet: selectedWallet });
+      component.setWalletInfo(selectedWallet);
+
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+      expect(walletConnectServiceSpy.setAccountInfo).toHaveBeenCalledOnceWith(selectedWallet);
+      expect(walletConnectServiceSpy.initWalletConnect).toHaveBeenCalledOnceWith(rawWalletConnectUriV1);
+      expect(walletConnectServiceSpy.checkDappStatus).toHaveBeenCalledTimes(1);
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/wallet-connect/connection-detail']);
+      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show an error alert when connection fail', async () => {
+      walletConnectServiceSpy.initWalletConnect.and.rejectWith('error');
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      walletConnectServiceSpy.uri = new BehaviorSubject<any>(rawWalletConnectUriV1);
+      await component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      component.form.patchValue({ wallet: selectedWallet });
+      component.setWalletInfo(selectedWallet);
+
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(alertControllerSpy.create).toHaveBeenCalledOnceWith({
+        header: 'wallets.wallet_connect.init_wallet.errors.header',
+        message: 'wallets.wallet_connect.init_wallet.errors.message',
+        cssClass: 'ux-alert-small-text',
+        buttons: [
+          {
+            text: 'wallets.wallet_connect.init_wallet.errors.close_button',
+            role: 'cancel',
+            cssClass: 'ux-link-xs',
+          },
+        ],
+      });
+      expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
+    });
   });
 
-  it('should return a wallet list mapped when setWalletsInfo is called', fakeAsync(() => {
-    component.providers = [provider];
+  describe('Wallet Connect V2', () => {
+    it('should connect and redirect to connection detail when a valid form is submitted and the connection is successful', async () => {
+      const wcUri = new WCUri(rawWalletConnectUriV2);
+      wcServiceSpy.uri.and.returnValue(wcUri);
+      await component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      component.form.patchValue({ wallet: selectedWallet });
+      component.setWalletInfo(selectedWallet);
+
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+      expect(wcConnectionV2.pairTo).toHaveBeenCalledOnceWith(wcUri, fakeWallet);
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/wallet-connect/connection-detail']);
+      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show an error alert when connection fail', async () => {
+      wcConnectionV2.pairTo.and.rejectWith('error');
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV2));
+      await component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      component.form.patchValue({ wallet: selectedWallet });
+      component.setWalletInfo(selectedWallet);
+
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(alertControllerSpy.create).toHaveBeenCalledOnceWith({
+        header: 'wallets.wallet_connect.init_wallet.errors.header',
+        message: 'wallets.wallet_connect.init_wallet.errors.message',
+        cssClass: 'ux-alert-small-text',
+        buttons: [
+          {
+            text: 'wallets.wallet_connect.init_wallet.errors.close_button',
+            role: 'cancel',
+            cssClass: 'ux-link-xs',
+          },
+        ],
+      });
+    });
+  });
+
+  it('should not try to connect if the form is invalid', async () => {
+    const spy = spyOn<any>(component, 'initWalletConnect');
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    component.setWalletsInfo();
-    fixture.whenStable();
-    tick();
-    expect(component.walletsList).toEqual([walletInfo]);
-  }))
+    component.form.patchValue(formData.invalid);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+
+    expect(spy).not.toHaveBeenCalled();
+  });
 });

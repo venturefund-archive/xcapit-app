@@ -26,6 +26,10 @@ describe('DefaultWallet', () => {
     expect(wallet.address()).toEqual('0x0');
   });
 
+  it('blockchain access', () => {
+    expect(wallet.blockchain().id()).toEqual('1');
+  });
+
   it('on need pass subscribe', () => {
     wallet.onNeedPass().subscribe(() => 'superpass');
 
@@ -48,6 +52,14 @@ describe('DefaultWallet', () => {
     expect(result).toEqual(true);
   });
 
+  it('sign a message', async () => {
+    wallet.onNeedPass().subscribe(() => testObject.testMethod());
+    const result = await wallet.signMessage('some message');
+
+    expect(testObject.testMethod).toHaveBeenCalledTimes(1);
+    expect(result).toEqual('signed message');
+  });
+
   describe('FakeWallet', () => {
     let fakeWallet: Wallet;
 
@@ -68,6 +80,12 @@ describe('DefaultWallet', () => {
       const wallet = new FakeWallet(Promise.resolve(false), null, addressTestValue);
 
       expect(wallet.address()).toEqual(addressTestValue);
+    });
+
+    it('blockchain', () => {
+      const wallet = new FakeWallet(Promise.resolve(false), null, null, blockchain);
+
+      expect(wallet.blockchain().id()).toEqual('1');
     });
 
     it('send a few transactions', async () => {
@@ -131,5 +149,9 @@ describe('SolanaWallet', () => {
     const result = await wallet.sendTxs([new FakeBlockchainTx(), new FakeBlockchainTx()]);
 
     expect(result).toEqual(true);
+  });
+
+  it('blockchain', () => {
+    expect(wallet.blockchain().id()).toEqual('1399811149');
   });
 });

@@ -11,6 +11,10 @@ describe('Fake Ethers Wallet', () => {
     expect(fakeWallet).toBeTruthy();
   });
 
+  it('address', () => {
+    expect(fakeWallet.address).toBeUndefined();
+  });
+
   it('fromEncryptedJson', async () => {
     expect(await fakeWallet.fromEncryptedJson()).toBeTruthy();
   });
@@ -36,5 +40,9 @@ describe('Fake Ethers Wallet', () => {
     fakeWallet = new FakeEthersWallet({ phrase: aPhrase });
 
     expect(fakeWallet.mnemonic.phrase).toEqual(aPhrase);
+  });
+
+  it('signMessage', async () => {
+    expect(await fakeWallet.signMessage()).toEqual('signed message');
   });
 });

@@ -31,11 +31,11 @@ import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo
 import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { NewTokensAvailable } from '../shared-wallets/models/new-tokens-avalaible/new-tokens-available.model';
 import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
-import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
+import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -243,11 +243,11 @@ export class HomeWalletPage implements OnInit {
     private twoPiApi: TwoPiApi,
     private blockchainsFactory: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
-    private walletConnectService: WalletConnectService,
     private updateNewsService: UpdateNewsService,
     private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable,
     private base64ImageFactory: Base64ImageFactory,
-    private contactService: ContactDataService
+    private contactService: ContactDataService,
+    private wcService: WCService
   ) {}
 
   ngOnInit() {}
@@ -305,7 +305,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   checkConnectionOfWalletConnect() {
-    this.connected = this.walletConnectService.connected;
+    this.connected = this.wcService.connected();
   }
 
   private setAvailableDefiProducts(): void {

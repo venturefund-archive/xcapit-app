@@ -13,6 +13,8 @@ export interface Wallet {
   address: () => string;
   onNeedPass: () => Subscribable;
   sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
+  blockchain: () => IBlockchain;
+  signMessage?: (message: string) => Promise<string>;
 }
 
 export class DefaultWallet implements Wallet {
@@ -29,6 +31,9 @@ export class DefaultWallet implements Wallet {
     return this._rawData['address'].toLowerCase();
   }
 
+  blockchain(): IBlockchain {
+    return this._aBlockchain;
+  }
   onNeedPass(): Subscribable {
     return this._onNeedPass;
   }
@@ -39,6 +44,11 @@ export class DefaultWallet implements Wallet {
       await (await connectedWallet.sendTransaction((await tx.value()) as TransactionRequest)).wait();
     }
     return true;
+  }
+
+  async signMessage(message: string): Promise<string> {
+    const connectedWallet = this._connectedWallet(await this._derivedWallet());
+    return connectedWallet.signMessage(message);
   }
 
   private _encryptedWallet(): string {
@@ -74,7 +84,8 @@ export class FakeWallet implements Wallet {
   constructor(
     private readonly sendTxsResponse: Promise<any> = Promise.resolve(false),
     private error: Error = null,
-    private _address: string = ''
+    private _address: string = '',
+    private _blockchain: IBlockchain = null
   ) {}
 
   public onNeedPass(): Subscribable {
@@ -89,6 +100,10 @@ export class FakeWallet implements Wallet {
 
   address(): string {
     return this._address;
+  }
+
+  blockchain(): IBlockchain {
+    return this._blockchain;
   }
 
   private _checkError() {
@@ -140,6 +155,9 @@ export class SolanaWallet implements Wallet {
     return this._rawData['address'];
   }
 
+  blockchain(): IBlockchain {
+    return this._aBlockchain;
+  }
   onNeedPass(): Subscribable {
     return this._onNeedPass;
   }

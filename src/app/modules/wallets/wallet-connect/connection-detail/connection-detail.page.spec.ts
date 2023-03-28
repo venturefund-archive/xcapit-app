@@ -4,170 +4,286 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UrlSerializer } from '@angular/router';
 import { ConnectionDetailPage } from './connection-detail.page';
-import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import {
+  IPeerMeta,
+  WalletConnectService,
+} from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
+import { rawWalletConnectUriV1, rawWalletConnectUriV2 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
+import { By } from '@angular/platform-browser';
+import { PendingProposal } from '../../shared-wallets/models/wallet-connect/pending-proposal/pending-proposal';
+import { rawPeerMetadata } from '../../shared-wallets/fixtures/raw-proposal.fixture';
+import { SpyProperty } from 'src/testing/spy-property.spec';
+import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 describe('ConnectionDetailPage', () => {
   let component: ConnectionDetailPage;
   let fixture: ComponentFixture<ConnectionDetailPage>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let fakeNavController: FakeNavController;
   let alertControllerSpy: any;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ConnectionDetailPage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let wcServiceSpy: jasmine.SpyObj<WCService>;
+  let wcConnectionV2Spy: jasmine.SpyObj<WCConnectionV2>;
+  let pendingProposalSpy: jasmine.SpyObj<PendingProposal>;
+  let peerMetadataV1: IPeerMeta;
 
-  beforeEach(
-    waitForAsync(() => {
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
+  beforeEach(waitForAsync(() => {
+    peerMetadataV1 = { url: 'testUrl', description: 'testDescription', name: 'testName', icons: ['testIcon'] };
+    walletConnectServiceSpy = jasmine.createSpyObj(
+      'WalletConnectService',
+      { approveSession: Promise.resolve({}), killSession: Promise.resolve({}) },
+      {
         connected: false,
-        peerMeta: { url: 'testUrl', description: 'testDescription', name: 'testName', icons: ['testIcon'] },
-        approveSession: Promise.resolve({}),
-        killSession: Promise.resolve({}),
-      });
-      fakeNavController = new FakeNavController();
-      navControllerSpy = jasmine.createSpyObj('NavController', {
-        pop: Promise.resolve(null),
-        navigateBack: Promise.resolve(null),
-        navigateForward: Promise.resolve(null),
-        navigateRoot: Promise.resolve(null),
-      });
+        peerMeta: peerMetadataV1,
+      }
+    );
+    navControllerSpy = jasmine.createSpyObj('NavController', {
+      pop: Promise.resolve(null),
+      navigateBack: Promise.resolve(null),
+      navigateForward: Promise.resolve(null),
+      navigateRoot: Promise.resolve(null),
+    });
 
-      alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
-      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
-        trackEvent: Promise.resolve(true),
-      })
-      TestBed.configureTestingModule({
-        declarations: [ConnectionDetailPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
-        providers: [
-          UrlSerializer,
-          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: AlertController, useValue: alertControllerSpy },
-          { provide: TrackService, useValue: trackServiceSpy}
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
 
-      fixture = TestBed.createComponent(ConnectionDetailPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    wcServiceSpy = jasmine.createSpyObj('WCService', {
+      uri: new WCUri(rawWalletConnectUriV2),
+      connected: false,
+    });
+
+    pendingProposalSpy = jasmine.createSpyObj('PendingProposal', {
+      peerMetadata: rawPeerMetadata,
+    });
+
+    wcConnectionV2Spy = jasmine.createSpyObj('WCConnectionV2', {
+      proposal: pendingProposalSpy,
+      approveSession: Promise.resolve(),
+      closeSession: null,
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [ConnectionDetailPage, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
+      providers: [
+        UrlSerializer,
+        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: AlertController, useValue: alertControllerSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
+        { provide: WCService, useValue: wcServiceSpy },
+        { provide: WCConnectionV2, useValue: wcConnectionV2Spy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(ConnectionDetailPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should excecute checkProtocolInfo and checkConnectionStatus on ionViewWillEnter', () => {
-    const spyProtocolInfo = spyOn(component, 'checkProtocolInfo');
-    const spyConnectionStatus = spyOn(component, 'checkConnectionStatus');
+  it('should render properly when there is a connection', async () => {
+    wcServiceSpy.connected.and.returnValue(true);
     component.ionViewWillEnter();
-    expect(spyProtocolInfo).toHaveBeenCalledTimes(1);
-    expect(spyConnectionStatus).toHaveBeenCalledTimes(1);
-  });
-
-  it('should get peerMeta info from walletConnect peerMeta when checkProtocolInfo is called', () => {
-    component.checkProtocolInfo();
-    expect(component.peerMeta).toEqual(walletConnectServiceSpy.peerMeta);
-  });
-
-  it('should call killSession from walletConnect and call backNavigate when checkProtocolInfo is called and walletConnect peerMeta is null', async () => {
-    const spy = spyOn(component, 'backNavigation');
-    walletConnectServiceSpy.peerMeta = null;
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    component.checkProtocolInfo();
-    await fixture.whenStable();
-    expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledTimes(1);
+
+    const connectedHelperEl = fixture.debugElement.query(By.css('div.wcdc__connection__connected'));
+    const disconnectLinkEl = fixture.debugElement.query(By.css('div.disconnect_link > a'));
+    expect(connectedHelperEl).toBeTruthy();
+    expect(disconnectLinkEl).toBeTruthy();
   });
 
-  it('should navigate to /tab/home when backNavigation is called and walletConnect is connected', () => {
-    walletConnectServiceSpy.connected = true;
+  it('should render properly when there is not a connection', async () => {
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    component.backNavigation();
+
+    const disconnectedHelperEl = fixture.debugElement.query(By.css('div.wcdc__connection__disconnected'));
+    const connectButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_wc_connect"]'));
+    expect(disconnectedHelperEl).toBeTruthy();
+    expect(connectButtonEl).toBeTruthy();
+  });
+
+  describe('Wallet Connect V2', () => {
+    it('should set the template data on ion view will enter and render properly', async () => {
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      const peericonEl = fixture.debugElement.query(By.css('div.wcdc__logo > img'));
+      const peerNameEl = fixture.debugElement.query(By.css('div.wcdc__provider_name > ion-label'));
+      const [peerUrlEl, peerDescriptionEl] = fixture.debugElement.queryAll(
+        By.css('div.wcdc__provider_detail > ion-label')
+      );
+      expect(peericonEl.attributes.src).toEqual(rawPeerMetadata.icons[0]);
+      expect(peerNameEl.nativeElement.innerHTML).toContain(rawPeerMetadata.name);
+      expect(peerUrlEl.nativeElement.innerHTML).toContain(`URL: ${rawPeerMetadata.url}`);
+      expect(peerDescriptionEl.nativeElement.innerHTML).toContain(rawPeerMetadata.description);
+    });
+
+    it('should connect with dapp when user clicks on connect button', async () => {
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css('ion-button[name="ux_wc_connect"]')).nativeElement.click();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(wcConnectionV2Spy.approveSession).toHaveBeenCalledTimes(1);
+      expect(component.connectionStatus).toBeTruthy();
+      expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show an alert and disconnect from dapp when user clicks on disconnect button and confirm it', async () => {
+      wcServiceSpy.connected.and.returnValue(true);
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css('div.disconnect_link > a')).nativeElement.click();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      const { buttons } = alertControllerSpy.create.calls.first().args[0];
+      await buttons[1].handler();
+
+      expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+      expect(wcConnectionV2Spy.closeSession).toHaveBeenCalledTimes(1);
+      expect(component.connectionStatus).toBeFalsy();
+      expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['wallets/wallet-connect/new-connection']);
+    });
+  });
+
+  describe('Wallet Connect V1', () => {
+    it('should set the template data on ion view will enter and render properly', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      const peericonEl = fixture.debugElement.query(By.css('div.wcdc__logo > img'));
+      const peerNameEl = fixture.debugElement.query(By.css('div.wcdc__provider_name > ion-label'));
+      const [peerUrlEl, peerDescriptionEl] = fixture.debugElement.queryAll(
+        By.css('div.wcdc__provider_detail > ion-label')
+      );
+      expect(peericonEl.attributes.src).toEqual(peerMetadataV1.icons[0]);
+      expect(peerNameEl.nativeElement.innerHTML).toContain(peerMetadataV1.name);
+      expect(peerUrlEl.nativeElement.innerHTML).toContain(`URL: ${peerMetadataV1.url}`);
+      expect(peerDescriptionEl.nativeElement.innerHTML).toContain(peerMetadataV1.description);
+    });
+
+    it('should kill WC session and navigate back when peer metadata isnt found', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      new SpyProperty(walletConnectServiceSpy, 'peerMeta').value().and.returnValue(null);
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
+    });
+
+    it('should connect with dapp when user clicks on connect button', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css('ion-button[name="ux_wc_connect"]')).nativeElement.click();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(walletConnectServiceSpy.approveSession).toHaveBeenCalledTimes(1);
+      expect(component.connectionStatus).toBeTruthy();
+      expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show an alert and disconnect from dapp when user clicks on disconnect button and confirm it', async () => {
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.connected.and.returnValue(true);
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css('div.disconnect_link > a')).nativeElement.click();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      const { buttons } = alertControllerSpy.create.calls.first().args[0];
+      await buttons[1].handler();
+
+      expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+      expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
+      expect(component.connectionStatus).toBeFalsy();
+      expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['wallets/wallet-connect/new-connection']);
+    });
+
+    it('should show an error in console when user clicks on disconnect button and it fails', async () => {
+      console.log = jasmine.createSpy('log');
+      walletConnectServiceSpy.killSession.and.returnValue(Promise.reject('testError'));
+      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.connected.and.returnValue(true);
+      component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      fixture.debugElement.query(By.css('div.disconnect_link > a')).nativeElement.click();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      const { buttons } = alertControllerSpy.create.calls.first().args[0];
+      await buttons[1].handler();
+
+      expect(console.log).toHaveBeenCalledWith('Wallet Connect - killSession error: ', 'testError');
+    });
+  });
+
+  it('should create an error alert when user clicks on connect button and connection fails', async () => {
+    walletConnectServiceSpy.approveSession.and.returnValue(Promise.reject());
+    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('ion-button[name="ux_wc_connect"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+
+    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to home when user triggers the back button and walletConnect is connected', () => {
+    wcServiceSpy.connected.and.returnValue(true);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['/tab/home']);
   });
 
-  it('should navigate back when backNavigation is called and walletConnect is disconnected', () => {
-    walletConnectServiceSpy.connected = false;
+  it('should navigate back when user triggers the back button and walletConnect is disconnected', () => {
+    wcServiceSpy.connected.and.returnValue(false);
     fixture.detectChanges();
-    component.backNavigation();
+    fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
     expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
   });
 
-  it('should set connectionStatus when checkConnectionStatus is called', () => {
-    walletConnectServiceSpy.connected = false;
-    fixture.detectChanges();
-    component.checkConnectionStatus();
-    expect(component.connectionStatus).toBeFalsy();
-  });
-
-  it('should call walletConnect approveSession and set connectionStatus to true when approveSession is called', async () => {
-    component.approveSession();
-    await fixture.whenStable();
-    expect(walletConnectServiceSpy.approveSession).toHaveBeenCalledTimes(1);
-    expect(component.connectionStatus).toBeTruthy();
-    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
-  });
-
-  it('should create an error alert when approveSession is called and walletConnet approveSession fails', async () => {
-    walletConnectServiceSpy.approveSession.and.returnValue(Promise.reject());
-    fixture.detectChanges();
-    component.approveSession();
-    await fixture.whenStable();
-    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call walletConnect killSession, set false connectionStatus and navigate to wallets/wallet-connect/new-connection when killSession is called', async () => {
-    component.killSession();
-    await fixture.whenStable();
-    expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
-    expect(component.connectionStatus).toBeFalsy();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['wallets/wallet-connect/new-connection']);
-  });
-
-  it('should shows in console an error when killSession is called and fails', async () => {
-    console.log = jasmine.createSpy('log');
-    walletConnectServiceSpy.killSession.and.returnValue(Promise.reject('testError'));
-    component.killSession();
-    await fixture.whenStable();
-    expect(console.log).toHaveBeenCalledWith('Wallet Connect - killSession error: ', 'testError');
-  });
-
-  it('should show an alert when disconnectSession is called', async () => {
-    component.disconnectSession();
-    await fixture.whenStable();
-    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call killSession when is pressed Terminate button on disconnection alert', async () => {
-    const spy = spyOn(component, 'killSession');
-    component.disconnectSession();
-    await fixture.whenStable();
-    const { buttons } = alertControllerSpy.create.calls.first().args[0];
-    await buttons[1].handler();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   it('should navigate to create a support ticket when supportHelp is called', () => {
-    component.supportHelp();
+    fixture.debugElement.query(By.css('ion-button[name="Support Help"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tickets/create-support-ticket');
-  })
+  });
 
-  it('should call trackEvent on trackService when ux_wc_connect clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_wc_connect');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
+  it('should re-check the connection status on leaving page', () => {
+    const spy = spyOn(component, 'checkConnectionStatus');
+    component.ionViewDidLeave();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });
