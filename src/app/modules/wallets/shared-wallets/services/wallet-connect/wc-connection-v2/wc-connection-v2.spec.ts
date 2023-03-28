@@ -16,7 +16,7 @@ import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockc
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
 
-describe('WCConnection', () => {
+describe('WCConnectionV2', () => {
   let signClientInjectable: jasmine.SpyObj<SignClientInjectable>;
   let signClientV2Spy: jasmine.SpyObj<SignClientV2>;
   let routerSpy: jasmine.SpyObj<Router>;
@@ -59,7 +59,7 @@ describe('WCConnection', () => {
       disconnect: Promise.resolve(),
     });
     signClientInjectable = jasmine.createSpyObj('SignClientInjectable', {
-      signClient: Promise.resolve(signClientV2Spy),
+      create: Promise.resolve(signClientV2Spy),
     });
 
     wcRequestInjectableSpy = jasmine.createSpyObj('WCRequestInjectable', {

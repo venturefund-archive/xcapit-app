@@ -13,7 +13,7 @@ export class SessionRequestInjectable {
   constructor(private signClientInjectable: SignClientInjectable) {}
 
   public async createRequest(request: RawSessionRequest, wallet: Wallet): Promise<void> {
-    const signClient = await this.signClientInjectable.signClient();
+    const signClient = await this.signClientInjectable.create();
     this.sessionRequest = await new SessionRequestFactory(signClient).createRequest(request, wallet);
   }
 

@@ -13,7 +13,7 @@ describe('SessionRequestInjectable', () => {
 
   beforeEach(() => {
     signClientInjectableSpy = jasmine.createSpyObj('SignClientInjectable', {
-      signClient: signClientSpy,
+      create: signClientSpy,
     });
     sessionRequestInjectable = new SessionRequestInjectable(signClientInjectableSpy);
   });

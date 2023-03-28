@@ -54,7 +54,7 @@ export class WCConnectionV2 {
   }
 
   private signClient(): Promise<SignClientV2> {
-    return this.signClientInjectable.signClient();
+    return this.signClientInjectable.create();
   }
 
   public async subscribeToAllEvents() {
