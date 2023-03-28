@@ -35,7 +35,9 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
             >
           </div>
           <div class="wsc__item__container__amount__conversion">
-            <ion-text class="ux-font-text-xs"> = {{ this.warrantyData?.quoteAmount }} USD </ion-text>
+            <ion-text class="ux-font-text-xs">
+              = {{ this.warrantyData?.quoteAmount | formattedAmount : 10 : 2 }} USD
+            </ion-text>
           </div>
         </div>
       </div>
@@ -67,7 +69,9 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
         <ion-text class="ux-font-text-base"
           >{{ this.warrantyData.amountWithoutCost | formattedAmount }} {{ this.token.value }}</ion-text
         >
-        <ion-text class="ux-font-text-base">{{ this.warrantyData.quoteAmountWithoutCost }} USD</ion-text>
+        <ion-text class="ux-font-text-base"
+          >{{ this.warrantyData.quoteAmountWithoutCost | formattedAmount : 10 : 2 }} USD</ion-text
+        >
       </div>
       <div class="list-divider"></div>
     </div>
