@@ -110,6 +110,12 @@ const routes: Routes = [
       },
       {
         canActivate: [LoggedInKriptonGuard],
+        path: 'user-bank-account',
+        loadChildren: () =>
+          import('./user-bank-account/user-bank-account.module').then((m) => m.UserBankAccountPageModule),
+      },
+      {
+        canActivate: [LoggedInKriptonGuard],
         path: 'user-register',
         loadChildren: () => import('./user-register/user-register.module').then((m) => m.UserRegisterPageModule),
       },

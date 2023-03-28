@@ -6,10 +6,17 @@ import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warrant
 import { isAddress } from 'ethers/lib/utils';
 import { WalletPasswordWithValidatorComponent } from '../../wallets/shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
-import { environment } from 'variables.env';
+import { environment } from 'src/environments/environment';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { WarrantyInProgressTransactionModalComponent } from 'src/app/shared/components/warranty-in-progress-transaction-modal/warranty-in-progress-transaction-modal.component';
+import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
+import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { DefiInvestmentsService } from '../../defi-investments/shared-defi-investments/services/defi-investments-service/defi-investments.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-warranty-summary',
@@ -40,14 +47,18 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
       <div class="ws__footer__submit-button ion-padding">
         <ion-button
           [appLoading]="this.loading"
-          [loadingText]="'wallets.send.send_summary.loader' | translate"
+          [disabled]="this.loading"
+          [loadingText]="'warranties.summary.loading' | translate"
           class="ux_button"
           color="secondary"
           appTrackClick
           name="ux_warranty_start_confirm"
           (click)="this.handleSubmit()"
-          >{{ 'warranties.summary.buttonName' | translate }}</ion-button
-        >
+          >{{ 'warranties.summary.buttonName' | translate }}
+        </ion-button>
+        <ion-label *ngIf="this.loading" class="ux-loading-message ux-font-text-xxs" color="neutral80">
+          {{ 'warranties.summary.wait_loading_message' | translate }}
+        </ion-label>
       </div>
     </ion-footer>
   `,
@@ -60,6 +71,10 @@ export class WarrantySummaryPage {
   warrantyAddress = environment.warrantyAddress;
   walletAddress: string;
   transactionData: SummaryWarrantyData;
+  warantyOperationId: any;
+  isFeatureFlagFaucet: boolean;
+  isElegibleToFund: boolean;
+  nativeTokenBalance: number;
 
   constructor(
     private trackService: TrackService,
@@ -67,21 +82,47 @@ export class WarrantySummaryPage {
     private walletTransactionsService: WalletTransactionsService,
     private warrantyDataService: WarrantyDataService,
     private warrantyService: WarrantiesService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private apiWalletService: ApiWalletService,
+    private walletBalance: WalletBalanceService,
+    private defiInvesmentService: DefiInvestmentsService,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   async ionViewWillEnter() {
+    this.checkFeatureFlagFaucet();
+    this.trackScreenview();
+    this.warrantyData = this.warrantyDataService.data;
+    await this.userWalletAddress();
+    this.calculateWarrantyAmounts();
+    await this.setNativeTokenBalance();
+    this.setIsElegibleToFund();
+  }
+
+  trackScreenview() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_warranty_start_confirm_screenview',
     });
-    this.warrantyData = this.warrantyDataService.data;
-    await this.userWalletAddress();
-    this.calculateWarrantyAmounts();
+  }
+
+  checkFeatureFlagFaucet() {
+    this.isFeatureFlagFaucet = this.remoteConfig.getFeatureFlag('ff_fundFaucetOnWarranties');
+  }
+
+  async setNativeTokenBalance() {
+    this.nativeTokenBalance = await this.walletBalance.balanceOf(
+      this.apiWalletService.getNativeTokenFromNetwork(this.warrantyData.coin.network)
+    );
+  }
+
+  setIsElegibleToFund() {
+    this.isElegibleToFund = this.isFeatureFlagFaucet ? this.nativeTokenBalance === 0.0 : false;
   }
 
   async handleSubmit(skipChecksBeforeSend: boolean = false) {
+    this.loading = true;
     if (!skipChecksBeforeSend && !(await this.checksBeforeSend())) {
       return;
     }
@@ -90,10 +131,10 @@ export class WarrantySummaryPage {
       if (!password) {
         return;
       }
-      this.loading = true;
+      await this.fundWallet();
       await this.send(password);
     } catch (error) {
-      this.openErrorModal();
+      this.openGenericErrorModal();
     }
   }
 
@@ -129,7 +170,7 @@ export class WarrantySummaryPage {
       component: WalletPasswordWithValidatorComponent,
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
-        state: 'send',
+        customEvent: 'ux_warranty_start_pass',
       },
     });
     await modal.present();
@@ -144,9 +185,15 @@ export class WarrantySummaryPage {
       return false;
     }
 
-    if (!(await this.userCanAffordTx())) {
-      await this.handleUserCantAffordTx();
-      return false;
+    if (await this.userCanAffordSendFee()) {
+      if (!(await this.userCanAffordTx())) {
+        await this.handleUserCantAffordTx();
+        return false;
+      }
+    } else {
+      if (!this.isElegibleToFund) {
+        return false;
+      }
     }
     return true;
   }
@@ -158,24 +205,67 @@ export class WarrantySummaryPage {
       this.warrantyAddress,
       this.warrantyData.coin
     );
-    response
-      .wait()
-      .then((res) => {
-        this.updateDataBeforeSend(res);
-        this.warrantyService.createWarranty(this.transactionData);
-      })
-      .then(() => {
-        this.openSuccesModal();
-        this.loading = false;
-      });
+    response.wait().then((res) => {
+      this.updateDataBeforeSend(res);
+      this.warrantyService
+        .createWarranty(this.transactionData)
+        .toPromise()
+        .then((res) => {
+          this.warantyOperationId = res.id;
+          this.openSuccessModal();
+          this.loading = false;
+        });
+    });
   }
 
-  openSuccesModal() {}
+  async openSuccessModal() {
+    const modal = await this.modalController.create({
+      component: WarrantyInProgressTransactionModalComponent,
+      cssClass: 'ux-lg-modal-informative',
+      backdropDismiss: false,
+      componentProps: {
+        operationNumber: this.warantyOperationId,
+        eventName: 'ux_warranty_start_success_screenview',
+      },
+    });
+    await modal.present();
+    await modal.onDidDismiss();
+    modal.dismiss();
+  }
 
-  openErrorModal() {}
+  async openErrorModal(successType) {
+    const modal = await this.modalController.create({
+      component: SuccessContentComponent,
+      cssClass: 'ux-lg-modal-informative',
+      backdropDismiss: false,
+      componentProps: {
+        data: successType,
+        calledAsModal: true,
+      },
+    });
+    await modal.present();
+    await modal.onDidDismiss();
+    modal.dismiss();
+  }
+
+  async openBlockchainErrorModal() {
+    await this.openErrorModal(SUCCESS_TYPES.warrant_blockchain_error);
+  }
+
+  async openGenericErrorModal() {
+    await this.openErrorModal(SUCCESS_TYPES.warrant_generic_error);
+  }
 
   private userCanAffordTx(): Promise<boolean> {
     return this.walletTransactionsService.canAffordSendTx(
+      this.warrantyAddress,
+      this.warrantyData.amount,
+      this.warrantyData.coin
+    );
+  }
+
+  private userCanAffordSendFee(): Promise<boolean> {
+    return this.walletTransactionsService.canAffordSendFee(
       this.warrantyAddress,
       this.warrantyData.amount,
       this.warrantyData.coin
@@ -187,7 +277,7 @@ export class WarrantySummaryPage {
   }
 
   private async handleInvalidAddress() {
-    this.openErrorModal();
+    this.openGenericErrorModal();
   }
 
   private async handleUserCantAffordTx() {
@@ -195,6 +285,19 @@ export class WarrantySummaryPage {
   }
 
   private async handleNotEnoughBalance() {
-    this.openErrorModal();
+    this.openBlockchainErrorModal();
+  }
+
+  async fundWallet() {
+    if (this.isElegibleToFund) {
+      await this.defiInvesmentService.fundWallet().toPromise();
+      this.sendFundWalletEvent();
+    }
+  }
+
+  sendFundWalletEvent() {
+    this.trackService.trackEvent({
+      eventLabel: 'ux_faucet_request',
+    });
   }
 }

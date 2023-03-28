@@ -53,6 +53,7 @@ import { KriptonNetworks } from '../shared-ramps/constants/kripton-networks';
             (changeCurrency)="this.openModal($event)"
             paymentType="fiat_ramps.shared.constants.payment_types.kripton"
             [fee]="this.fiatFee"
+            [debounce]="1500"
           ></app-provider-new-operation-card>
 
           <div *ngIf="!this.agreement" class="aon__disclaimer">
@@ -211,6 +212,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   private async cryptoAmountChange(value: any) {
+		value = value ? value: this.form.value.cryptoAmount
     value = parseFloat(value);
     this.form.patchValue(
       { fiatAmount: new RoundedNumber((value + this.fee.value) * this.fiatPrice).value() },

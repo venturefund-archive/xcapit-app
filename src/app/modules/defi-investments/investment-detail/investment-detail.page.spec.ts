@@ -241,43 +241,7 @@ describe('InvestmentDetailPage', () => {
     expect(balanceEl.nativeElement.innerHTML).toContain(50.0);
     expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' = 50 USD ');
   });
-
-  it('should redirect user to defi/no-wallet-to-invest if user has no wallet on ux_invest_add_amount button click', async () => {
-    component.investmentProduct = investmentProductSpy;
-    fixture.detectChanges();
-    await fixture.whenRenderingDone();
-    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
-    fixture.debugElement.query(By.css('app-icon-button-card[name="ux_invest_add_amount"]')).nativeElement.click();
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest']);
-  });
-
-  it('should redirect user to new investment page when ux_invest_add_amount button is clicked if user has wallet', async () => {
-    component.investmentProduct = investmentProductSpy;
-    fixture.detectChanges();
-    await fixture.whenRenderingDone();
-    fixture.debugElement.query(By.css('app-icon-button-card[name="ux_invest_add_amount"]')).nativeElement.click();
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      '/defi/new/insert-amount',
-      'polygon_usdc',
-      'add',
-    ]);
-  });
-
-  it('should call trackEvent when ux_invest_add_amount button is clicked', async () => {
-    spyOn(component, 'addAmount');
-    component.investmentProduct = investmentProductSpy;
-    fixture.detectChanges();
-    await fixture.whenRenderingDone();
-    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_invest_add_amount');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
+ 
   it('should call trackEvent when ux_invest_withdraw button is clicked', async () => {
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();

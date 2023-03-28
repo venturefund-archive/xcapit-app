@@ -14,7 +14,19 @@ const routes: Routes = [
       {
         path: 'warranty-summary',
         loadChildren: () =>
-          import('../warranties/warranty-summary/warranty-summary.module').then((m) => m.WarrantySummaryPageModule),
+          import('./warranty-summary/warranty-summary.module').then((m) => m.WarrantySummaryPageModule),
+      },
+      {
+        path: 'withdraw-warranty',
+        loadChildren: () =>
+          import('./withdraw-warranty/withdraw-warranty.module').then((m) => m.WithdrawWarrantyPageModule),
+      },
+      {
+        path: 'withdraw-warranty-summary',
+        loadChildren: () =>
+          import('./withdraw-warranty-summary/withdraw-warranty-summary.module').then(
+            (m) => m.WithdrawWarrantySummaryPageModule
+          ),
       },
     ],
   },

@@ -21,4 +21,22 @@ export class WarrantiesService {
     );
   }
 
+  withdrawWarranty(data: any): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/withdraw-warranty`,
+      data,
+      undefined,
+      false
+    );
+  }
+
+  verifyWarranty(dni: any): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/verify-warranty`,
+      dni,
+      undefined,
+      false
+    );
+  }
+
 }

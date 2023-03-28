@@ -18,6 +18,7 @@ describe('WarrantySummaryCardComponent', () => {
     quoteAmountWithoutCost: 9.8,
     service_cost: 0.2,
     amountWithoutCost: 9.8,
+    email: 'test@test.com'
   };
 
   beforeEach(waitForAsync(() => {
@@ -30,6 +31,7 @@ describe('WarrantySummaryCardComponent', () => {
     component = fixture.componentInstance;
     component.warrantyData = summaryData;
     component.title = 'warranties.summary.title';
+    component.emailTitle = 'warranties.summary.emailLabel';
     component.documentTitle = 'warranties.summary.dniLabel';
     component.amountTitle = 'warranties.summary.amountLabel';
     component.serviceCost = 'warranties.summary.serviceLabel';
@@ -46,6 +48,8 @@ describe('WarrantySummaryCardComponent', () => {
     const amountEl = fixture.debugElement.query(By.css('div.wsc__item__container__amount > div > ion-text'));
     const quoteAmountEl = fixture.debugElement.query(By.css('div.wsc__item__container__amount__conversion > ion-text'));
     const dniTitleEl = fixture.debugElement.query(By.css('div.wsc__item__title__dni > ion-text'));
+    const emailTitleEl = fixture.debugElement.query(By.css('div.wsc__item__title__email > ion-text'));
+    const emailEl = fixture.debugElement.query(By.css('div.wsc__item__content__email > ion-text'));
     const dniNumberEl = fixture.debugElement.query(By.css('div.wsc__item__content__dni > ion-text'));
     const amountTitleEl = fixture.debugElement.query(By.css('div.wsc__item__title__amount > ion-text'));
     const [amountWithoutCostEl, quoteAmountWithoutCostEl] = fixture.debugElement.queryAll(By.css('div.wsc__item__content__amount > ion-text'));
@@ -56,6 +60,8 @@ describe('WarrantySummaryCardComponent', () => {
     expect(amountEl.nativeElement.innerHTML).toContain('10 USDC');
     expect(quoteAmountEl.nativeElement.innerHTML).toContain('= 10 USD');
     expect(dniTitleEl.nativeElement.innerHTML).toContain('warranties.summary.dniLabel');
+    expect(emailEl.nativeElement.innerHTML).toContain('test@test.com');
+    expect(emailTitleEl.nativeElement.innerHTML).toContain('warranties.summary.emailLabel');
     expect(dniNumberEl.nativeElement.innerHTML).toContain('1234567');
     expect(amountTitleEl.nativeElement.innerHTML).toContain('warranties.summary.amountLabel');
     expect(amountWithoutCostEl.nativeElement.innerHTML).toContain('9.8 USDC');

@@ -5,11 +5,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { By } from '@angular/platform-browser';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { TrackService } from '../../services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 describe('SuccessContentComponent', () => {
   let component: SuccessContentComponent;
@@ -18,6 +19,8 @@ describe('SuccessContentComponent', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let closeSuccessButton: any;
   let actionPrimaryButton: any;
   let actionSecondaryButton: any;
@@ -49,10 +52,13 @@ describe('SuccessContentComponent', () => {
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
         trackEvent: Promise.resolve(true),
       })
+      fakeModalController = new FakeModalController(null, { role: 'confirm' });
+      modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: TrackService, useValue: trackServiceSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
         ],
         declarations: [SuccessContentComponent, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -159,6 +165,18 @@ describe('SuccessContentComponent', () => {
       actionThirdButton.nativeElement.click();
       expect(spy).toHaveBeenCalledTimes(1);
     });
+
+    it('should dismiss when called as modal and Success Action Primary is clicked', () => {
+      component.calledAsModal = true;
+      closeSuccessButton.nativeElement.click();
+      expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1)
+    })
+  
+    it('should dismiss when called as modal and Close Success is clicked', () => {
+      component.calledAsModal = true;
+      actionPrimaryButton.nativeElement.click();
+      expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1)
+    })
   });
 
   it('should render bottom image when bottomImage attribute is true', () => {

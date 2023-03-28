@@ -117,7 +117,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
           </ion-item>
 
           
-          <ion-item class="kod__card-container__card__fee ion-no-margin ion-no-padding" *ngIf="this.operation.fee">
+          <ion-item class="kod__card-container__card__fee ion-no-margin ion-no-padding" *ngIf="this.operation.fiat_fee">
             <div class="kod__card-container__card__fee__container">
               <div class="kod__card-container__card__fee__container__title">
                 <ion-text class="ux-font-titulo-xs">
@@ -126,7 +126,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
               </div>
               <div class="kod__card-container__card__fee__container__content">
                 <ion-text class="ux-font-text-base">
-                  {{ this.operation.fee }} 
+                  {{ this.operation.fiat_fee }} 
                 </ion-text>
               </div>
             </div>

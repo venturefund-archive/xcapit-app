@@ -12,5 +12,5 @@ export interface FiatRampOperation {
   voucher: boolean;
   tx_hash?: string;
   network?: string;
-  fee?: number;
+  fiat_fee?: number;
 }

@@ -365,7 +365,8 @@
       "others": "Others",
       "referrals": "Referrals",
       "transactions": "Transactions",
-      "kripton_data": "Delete my Krypton data"
+      "kripton_data": "Delete my Krypton data",
+      "warranty": "Warranty"
     }
   },
   "defi_investments": {
@@ -2407,6 +2408,11 @@
     "tools": "Tools"
   },
   "fiat_ramps": {
+    "cash_out": {
+      "header": "Buy - Sell",
+      "title": "Enter the account holder's information",
+      "disclaimer": "The account holder must be the same person who performed the registration or KYC process. Transfers to third parties are not allowed."
+    },
     "operation_km_in_progress": {
       "text_primary": "Your order is on its way!",
       "text_secondary": "We will be informing you about changes in the status of your purchase.",
@@ -2500,7 +2506,7 @@
       "buttonText": "Go to operation detail"
     },
     "select_provider": {
-      "header": "Buy crypto",
+      "header": "Buy - Sell",
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
       "provider_label": "Select your payment method",
@@ -2514,6 +2520,7 @@
       "description": "Buy with {{providerName}} {{token}} at ${{quote}} {{fiatCode}}.",
       "kripton_sell_description":"Deposits can take up to 72 hours.",
       "bitrefill_description": "Access exclusive benefits!",
+      "sell_method": "Which payment method do you prefer?",
       "directa24": {
         "platform_description": "Buy through the platform",
         "nearest_store_description": "Buy at your nearest store",
@@ -2725,8 +2732,9 @@
       "footer_description": "By clicking ”Continue”, you will be redirected to the external provider's site."
     },
     "token_selection": {
-      "header": "Buy crypto",
-      "subtitle": "Select the currency you wish to purchase"
+      "header": "Buy - Sell",
+      "buy_subtitle": "Select the token to purchase",
+      "sell_subtitle": "Select the token to sell"
     },
     "countries_list": {
       "mexico": "México",
@@ -3368,7 +3376,51 @@
       "dniLabel":"Guarantor ID card",
       "amountLabel":"Guarantee amount",
       "serviceLabel":"Cost of service",
-      "buttonName":"Make Warranty"
+      "buttonName":"Make Warranty",
+      "loading": "Making warranty...",
+      "wait_loading_message": "It will only take a few seconds."
+    },
+    "withdraw_warranty": {
+      "header": "Withdraw warranty",
+      "title": "Warranty balance verification",
+      "text_dni": "Identity card number",
+      "text_email": "Enter email",
+      "subtitle": "Enter your Identity card number to verify the deposits accumulated through this wallet in your warranty",
+      "toast_no_deposits_found": "We have not found any warranty deposits associated with this ID and wallet. Please verify the data entered and try again."
+    },
+    "whatsapp_support": {
+      "textTertiary": "Need help?",
+      "textHelpLink": "Write us by whatsapp"
+    },
+    "success": {
+      "textPrimary": "Your order is on its way!",
+      "textSecondary": "The financial institution will contact you through the usual channels.",
+      "operation": "Operation",
+      "numeration": "No.",
+      "namePrimaryAction": "Back to Home"
+    },
+    "warranty_error_blockchain": {
+      "title": "Your operation could not be completed.",
+      "subtitle": "An error occurred in the blockchain",
+      "primaryButton": "Retry"
+    },
+    "warranty_error_generic": {
+      "title": "Your operation could not be completed.",
+      "subtitle": "A communication error occurred with the server",
+      "primaryButton": "Retry"
+    },
+    "withdraw_warranty_error": {
+      "title": "Your operation could not be completed.",
+      "subtitle": "An error occurred in the process",
+      "primaryButton": "Retry"
+    },
+    "withdraw_warranty_summary": {
+      "title": "Available warranty",
+      "dniLabel": "Guarantor ID card",
+      "button": "Withdraw warranty",
+      "emailLabel": "Guarantor email",
+      "ticket_message": "I request the withdrawal of my warranty. DNI: {{dni}} - Wallet: {{wallet}}",
+      "loader": "Confirming"
     }
   }
 }

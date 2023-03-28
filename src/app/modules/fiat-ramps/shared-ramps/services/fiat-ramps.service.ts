@@ -57,6 +57,10 @@ export class FiatRampsService {
     );
   }
 
+  getCashOutFormFields(country = 'common'): Observable<any> {
+    return this.http.get(`https://app.kriptonmarket.com/public/config_forms?resource=bank&country=${country}`);
+  }
+
   registerUserImages(data): Observable<any> {
     return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/save_user_image`,
@@ -220,5 +224,9 @@ export class FiatRampsService {
       undefined,
       undefined
     );
+  }
+
+  refreshToken(data: { access_token: string; refresh_token: string }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/refresh_token`, data, undefined, false);
   }
 }
