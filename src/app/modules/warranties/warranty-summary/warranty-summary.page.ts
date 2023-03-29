@@ -157,8 +157,7 @@ export class WarrantySummaryPage {
     this.transactionData = Object.assign({
       wallet: this.walletAddress,
       currency: this.warrantyData.coin.value,
-      status: 'IN',
-      amount: this.warrantyData.amount,
+      amount: this.warrantyData.amountWithoutCost,
       service_cost: this.warrantyData.service_cost,
       transaction_hash: res.transactionHash,
       user_dni: this.warrantyData.user_dni,
@@ -226,6 +225,7 @@ export class WarrantySummaryPage {
       componentProps: {
         operationNumber: this.warantyOperationId,
         eventName: 'ux_warranty_start_success_screenview',
+        data: SUCCESS_TYPES.warrant_success
       },
     });
     await modal.present();

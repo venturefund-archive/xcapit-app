@@ -47,8 +47,7 @@ describe('WarrantySummaryPage', () => {
   const transactionData: SummaryWarrantyData = {
     wallet: '0x00001',
     currency: 'USDC',
-    status: 'IN',
-    amount: 10,
+    amount: 9.8,
     service_cost: 0.2,
     transaction_hash: 'someHash',
     user_dni: 1234567,

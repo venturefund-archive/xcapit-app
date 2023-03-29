@@ -1,5 +1,7 @@
 :host {
   .wws {
+    --background: var(--ion-color-background);
+
     &__support {
       margin: auto;
       position: absolute;

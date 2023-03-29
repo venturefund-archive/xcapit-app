@@ -3581,6 +3581,13 @@
       "button": "Retirar garantía",
       "ticket_message": "Solicito el retiro de mi garantía. DNI: {{dni}} - Wallet: {{wallet}}",
       "loader": "Confirmando"
+    },
+    "withdraw_success": {
+      "textPrimary": "¡Tu orden está en camino!",
+      "textSecondary": "Posterior a validar el libre de deuda con la entidad financiera se liberarán tus fondos",
+      "operation": "Operación",
+      "numeration": "N°",
+      "namePrimaryAction": "Volver al Home"
     }
   }
 }

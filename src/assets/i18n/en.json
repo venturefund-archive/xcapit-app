@@ -3421,6 +3421,13 @@
       "emailLabel": "Guarantor email",
       "ticket_message": "I request the withdrawal of my warranty. DNI: {{dni}} - Wallet: {{wallet}}",
       "loader": "Confirming"
+    },
+    "withdraw_success": {
+      "textPrimary": "Your order is on its way!",
+      "textSecondary": "After validating the free debt with the financial entity, your funds will be released.",
+      "operation": "Operation",
+      "numeration": "No.",
+      "namePrimaryAction": "Back to Home"
     }
   }
 }
