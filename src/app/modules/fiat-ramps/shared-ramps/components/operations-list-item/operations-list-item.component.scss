@@ -1,4 +1,28 @@
 :host {
+  .oli {
+    &__coin {
+      ion-text {
+        display: flex;
+        gap: 4px;
+      }
+
+      &__wrapper {
+        &__image {
+          margin-bottom: -4px;
+          height: 20px;
+          width: 20px;
+        }
+
+        &__operation-type {
+          position: absolute;
+          z-index: 1000;
+          bottom: 14px;
+          left: 6px;
+        }
+      }
+    }
+  }
+
   .row {
     --padding-end: 0;
     --padding-start: 0;
@@ -21,12 +45,6 @@
 
       ion-text {
         flex: 1;
-      }
-
-      img {
-        margin-bottom: -4px;
-        height: 16px;
-        width: 16px;
       }
     }
 

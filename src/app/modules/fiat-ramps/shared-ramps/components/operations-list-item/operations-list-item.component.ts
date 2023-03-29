@@ -19,18 +19,24 @@ import { FiatRampsService } from '../../services/fiat-ramps.service';
       (click)="viewOperationDetail()"
       [ngClass]="this.highlightClass"
     >
-      <ion-label name="Provider">
+      <ion-label name="Coin" class="oli__coin">
         <ion-text class="ux-font-text-xs">
-          <img [src]="this.coin.logoRoute" alt="{{ this.coin.value }}" />
+          <div class="oli__coin__wrapper">
+            <img
+              class="oli__coin__wrapper__operation-type"
+              [src]="'assets/img/fiat-ramps/operations-list/' + this.operation.operation_type + '.svg'"
+            />
+            <img class="oli__coin__wrapper__image" [src]="this.coin.logoRoute" alt="{{ this.coin.value }}" />
+          </div>
           {{ this.coin.value }}
         </ion-text>
       </ion-label>
       <ion-label name="Amount">
-        <ion-text class="ux-font-titulo-xs">{{ this.amount | formattedAmount: 8:5 }}</ion-text>
+        <ion-text class="ux-font-titulo-xs">{{ this.amount | formattedAmount : 8 : 5 }}</ion-text>
       </ion-label>
       <ion-label>
         <ion-text class="ux-font-text-xs">
-          {{ this.operation.created_at | date: 'dd/MM/yy' }}
+          {{ this.operation.created_at | date : 'dd/MM/yy' }}
         </ion-text>
       </ion-label>
       <ion-label class="end">
@@ -52,10 +58,14 @@ export class OperationsListItemComponent implements OnInit {
     return this.operation.operation_type === 'cash-in';
   }
 
-  constructor(private navController: NavController, private apiWalletService: ApiWalletService, private fiatRampsService: FiatRampsService) {}
+  constructor(
+    private navController: NavController,
+    private apiWalletService: ApiWalletService,
+    private fiatRampsService: FiatRampsService
+  ) {}
 
   ngOnInit() {
-  this.status = this.getOperationStatus();
+    this.status = this.getOperationStatus();
     this.setHighlight();
     this.setCoinAndAmount();
   }
@@ -66,10 +76,11 @@ export class OperationsListItemComponent implements OnInit {
     }
   }
 
-
   private setCoinAndAmount() {
     if (this.isBuy) {
-      const asset = this.fiatRampsService.getProvider(1).currencies.find(c => c.symbol === this.operation.currency_out);
+      const asset = this.fiatRampsService
+        .getProvider(1)
+        .currencies.find((c) => c.symbol === this.operation.currency_out);
       this.coin = this.apiWalletService.getCoin(asset.symbol, asset.network);
       this.amount = this.operation.amount_out;
     }
@@ -80,8 +91,6 @@ export class OperationsListItemComponent implements OnInit {
   }
 
   viewOperationDetail() {
-    this.navController.navigateForward([
-      `/fiat-ramps/kripton-operation-detail/${this.operation.operation_id}`
-    ]);
+    this.navController.navigateForward([`/fiat-ramps/kripton-operation-detail/${this.operation.operation_id}`]);
   }
 }
