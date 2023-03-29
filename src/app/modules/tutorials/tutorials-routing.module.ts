@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
+import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
 
 const routes: Routes = [
   {
@@ -8,18 +8,15 @@ const routes: Routes = [
     children: [
       {
         path: 'first-steps',
-        canActivate: [AuthGuard],
-        loadChildren: () =>
-          import('./first-steps/first-steps.module').then(
-            m => m.FirstStepsPageModule
-          )
-      }
-    ]
-  }
+        canActivate: [AuthNewGuard],
+        loadChildren: () => import('./first-steps/first-steps.module').then((m) => m.FirstStepsPageModule),
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class TutorialsRoutingModule {}

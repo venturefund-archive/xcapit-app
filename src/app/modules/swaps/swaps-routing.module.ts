@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
-import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
+import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
 import { SwapTYCAccepted } from './shared-swaps/guards/swap-tyc-accepted';
-
 
 const routes: Routes = [
   {
     path: 'swaps',
-    canActivate: [AuthGuard, HasWallet],
+    canActivate: [AuthNewGuard, HasWallet], //TODO: Remove HasWallet?
     children: [
       {
         canActivate: [SwapTYCAccepted],

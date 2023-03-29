@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
+import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
 
 const routes: Routes = [
   {
     path: 'profiles',
+    canActivate: [AuthNewGuard],
     children: [
       {
         path: 'user',
-        canActivate: [AuthGuard],
         loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfilePageModule),
       },
       {
         path: 'success',
-        canActivate: [AuthGuard],
         loadChildren: () => import('./success-profile/success-profile.module').then((m) => m.SuccessProfilePageModule),
       },
       {
@@ -50,7 +49,10 @@ const routes: Routes = [
       },
       {
         path: 'security-configuration',
-        loadChildren: () => import('../profiles/security-configuration/security-configuration.module').then((m) => m.SecurityConfigurationPageModule),
+        loadChildren: () =>
+          import('../profiles/security-configuration/security-configuration.module').then(
+            (m) => m.SecurityConfigurationPageModule
+          ),
       },
     ],
   },

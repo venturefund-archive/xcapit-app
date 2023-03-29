@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TabsComponent } from './tabs/tabs.component';
-import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
 import { IntroductionCompletedGuard } from '../financial-education/shared-financial-education/guards/introduction-completed';
 import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
@@ -11,7 +10,7 @@ const routes: Routes = [
   {
     path: 'tabs',
     component: TabsComponent,
-    canActivate: [AuthGuard, AuthNewGuard],
+    canActivate: [AuthNewGuard],
     children: [
       {
         path: 'home',

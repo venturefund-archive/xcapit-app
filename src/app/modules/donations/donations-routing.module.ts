@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
+import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
 import { DonationsIntroductionCompletedGuard } from './shared-donations/guards/donations-introduction-completed';
 
 const routes: Routes = [
   {
     path: 'donations',
-    canActivate: [AuthGuard],
+    canActivate: [AuthNewGuard],
     children: [
       {
         path: 'information',
@@ -58,11 +58,10 @@ const routes: Routes = [
       },
       {
         path: 'token-selection',
-        loadChildren: () => import('./token-selection/token-selection.module').then( m => m.TokenSelectionPageModule)
+        loadChildren: () => import('./token-selection/token-selection.module').then((m) => m.TokenSelectionPageModule),
       },
     ],
   },
-
 ];
 
 @NgModule({

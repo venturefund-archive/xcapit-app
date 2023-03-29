@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
-import { AuthGuard } from '../../users/shared-users/guards/auth/auth.guard';
 import { RouterModule } from '@angular/router';
 
 const routes = [
   {
     path: 'success',
-    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./defi-investment-success-withdraw/defi-investment-success-withdraw.module').then(
         (m) => m.DefiInvestmentSuccessWithdrawPageModule

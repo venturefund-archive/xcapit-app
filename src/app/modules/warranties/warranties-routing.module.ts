@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
+import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
 
 const routes: Routes = [
   {
     path: 'warranties',
-    canActivate: [AuthGuard],
+    canActivate: [AuthNewGuard],
     children: [
       {
         path: 'send-warranty',
