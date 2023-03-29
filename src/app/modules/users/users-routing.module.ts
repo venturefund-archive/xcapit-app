@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthNewGuard } from './shared-users/guards/auth-new/auth-new.guard';
-import { NoAuthNewGuard } from './shared-users/guards/no-auth-new/no-auth-new.guard';
+import { AuthGuard } from './shared-users/guards/auth/auth.guard';
+import { NoAuthGuard } from './shared-users/guards/no-auth/no-auth.guard';
 
 const routes: Routes = [
   {
@@ -9,33 +9,33 @@ const routes: Routes = [
     children: [
       {
         path: 'on-boarding',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () => import('./on-boarding/on-boarding.module').then((m) => m.OnBoardingPageModule),
       },
       {
         path: 'register',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () => import('./register/register.module').then((m) => m.RegisterPageModule),
       },
       {
         path: 'email-validation',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./email-validation/email-validation.module').then((m) => m.EmailValidationPageModule),
       },
       {
         path: 'login',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () => import('./login/login.module').then((m) => m.LoginPageModule),
       },
       {
         path: 'reset-password',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () => import('./reset-password/reset-password.module').then((m) => m.ResetPasswordPageModule),
       },
       {
         path: 'success-reset',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./success-reset-password/success-reset-password.module').then(
             (m) => m.SuccessResetPasswordPageModule
@@ -43,13 +43,13 @@ const routes: Routes = [
       },
       {
         path: 'success-register',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./success-register/success-register.module').then((m) => m.SuccessRegisterPageModule),
       },
       {
         path: 'resend-verification-email',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./resend-verification-email/resend-verification-email.module').then(
             (m) => m.ResendVerificationEmailPageModule
@@ -57,29 +57,29 @@ const routes: Routes = [
       },
       {
         path: 'password-change',
-        canActivate: [AuthNewGuard],
+        canActivate: [AuthGuard],
         loadChildren: () => import('./password-change/password-change.module').then((m) => m.PasswordChangePageModule),
       },
       {
         path: 'login-new',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () => import('./login-new/login-new.module').then((m) => m.LoginNewPageModule),
       },
       {
         path: 'account-recovery',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./account-recovery/account-recovery.module').then((m) => m.AccountRecoveryPageModule),
       },
       {
         path: 'recovery-info',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./account-recovery-info/account-recovery-info.module').then((m) => m.AccountRecoveryInfoPageModule),
       },
       {
         path: 'terms-and-conditions',
-        canActivate: [AuthNewGuard],
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./terms-and-conditions/terms-and-conditions.module').then((m) => m.TermsAndConditionsPageModule),
       },

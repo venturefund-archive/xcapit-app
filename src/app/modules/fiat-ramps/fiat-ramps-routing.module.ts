@@ -5,12 +5,12 @@ import { HasAcceptedBuyConditionsGuard } from './shared-ramps/guards/has-accepte
 import { LoggedInKriptonGuard } from './shared-ramps/guards/logged-in-kripton/logged-in-kripton.guard';
 import { NotLoggedInKriptonGuard } from './shared-ramps/guards/not-logged-in-kripton/not-logged-in-kripton';
 import { KriptonKycCompletedGuard } from './shared-ramps/guards/kripton-kyc-completed/kripton-kyc-completed.guard';
-import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
+import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 
 const routes: Routes = [
   {
     path: 'fiat-ramps',
-    canActivate: [AuthNewGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'new-operation',

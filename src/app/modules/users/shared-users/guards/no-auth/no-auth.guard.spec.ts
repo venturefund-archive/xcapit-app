@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { NavController } from '@ionic/angular';
-import { NoAuthNewGuard } from './no-auth-new.guard';
+import { NoAuthGuard } from './no-auth.guard';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 
-describe('NoAuthNewGuard', () => {
-  let noAuthNewGuard: NoAuthNewGuard;
+describe('NoAuthGuard', () => {
+  let noAuthGuard: NoAuthGuard;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
@@ -17,7 +17,7 @@ describe('NoAuthNewGuard', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        NoAuthNewGuard,
+        NoAuthGuard,
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
       ],
@@ -25,22 +25,22 @@ describe('NoAuthNewGuard', () => {
   });
 
   beforeEach(() => {
-    noAuthNewGuard = TestBed.inject(NoAuthNewGuard);
+    noAuthGuard = TestBed.inject(NoAuthGuard);
   });
 
   it('should create', () => {
-    expect(noAuthNewGuard).toBeTruthy();
+    expect(noAuthGuard).toBeTruthy();
   });
 
   it('should navigate to home wallet when the user is logged in', async () => {
-    expect(await noAuthNewGuard.canActivate()).toBeFalse();
+    expect(await noAuthGuard.canActivate()).toBeFalse();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets');
   });
 
   it('should not navigate to home wallet when the user is not logged in', async () => {
     ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(false));
 
-    expect(await noAuthNewGuard.canActivate()).toBeTrue();
+    expect(await noAuthGuard.canActivate()).toBeTrue();
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
   });
 });

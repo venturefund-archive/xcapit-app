@@ -2,59 +2,59 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AcceptedToSGuard } from './shared-wallets/guards/accepted-tos/accepted-tos.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
-import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
-import { NoAuthNewGuard } from '../users/shared-users/guards/no-auth-new/no-auth-new.guard';
+import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
+import { NoAuthGuard } from '../users/shared-users/guards/no-auth/no-auth.guard';
 
 const routes: Routes = [
   {
     path: 'wallets',
     children: [
       {
-        canActivate: [AuthNewGuard, AcceptedToSGuard],
+        canActivate: [AuthGuard, AcceptedToSGuard],
         path: 'create-first/recovery-phrase',
         loadChildren: () => import('./recovery-phrase/recovery-phrase.module').then((m) => m.RecoveryPhrasePageModule),
       },
       {
-        canActivate: [AuthNewGuard, AcceptedToSGuard],
+        canActivate: [AuthGuard, AcceptedToSGuard],
         path: 'create-first/verify-phrase',
         loadChildren: () => import('./verify-phrase/verify-phrase.module').then((m) => m.VerifyPhrasePageModule),
       },
       {
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         path: 'create-first/disclaimer',
         loadChildren: () =>
           import('./disclaimer-wallet/disclaimer-wallet.module').then((m) => m.DisclaimerWalletPageModule),
       },
       {
-        canActivate: [AuthNewGuard, AcceptedToSGuard],
+        canActivate: [AuthGuard, AcceptedToSGuard],
         path: 'select-coins',
         loadChildren: () =>
           import('./select-coins-wallet/select-coins-wallet.module').then((m) => m.SelectCoinsWalletPageModule),
       },
       {
         path: 'no-wallet',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () => import('./no-wallet/no-wallet.module').then((m) => m.NoWalletPageModule),
       },
       {
-        canActivate: [AuthNewGuard, AcceptedToSGuard],
+        canActivate: [AuthGuard, AcceptedToSGuard],
         path: 'success-creation',
         loadChildren: () =>
           import('./success-creation/success-creation.module').then((m) => m.SuccessCreationPageModule),
       },
       {
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         path: 'failed-mnemonic',
         loadChildren: () => import('./failed-mnemonic/failed-mnemonic.module').then((m) => m.FailedMnemonicPageModule),
       },
       {
-        canActivate: [NoAuthNewGuard, AcceptedToSGuard],
+        canActivate: [NoAuthGuard, AcceptedToSGuard],
         path: 'create-password',
         loadChildren: () => import('./create-password/create-password.module').then((m) => m.CreatePasswordPageModule),
       },
       {
         path: 'receive',
-        canActivate: [AuthNewGuard],
+        canActivate: [AuthGuard],
         children: [
           {
             path: 'select-currency',
@@ -71,7 +71,7 @@ const routes: Routes = [
       },
       {
         path: 'recovery',
-        canActivate: [NoAuthNewGuard, AcceptedToSGuard],
+        canActivate: [NoAuthGuard, AcceptedToSGuard],
         loadChildren: () => import('./recovery-wallet/recovery-wallet.module').then((m) => m.RecoveryWalletPageModule),
       },
       {
@@ -79,7 +79,7 @@ const routes: Routes = [
         children: [
           {
             path: 'error',
-            canActivate: [NoAuthNewGuard],
+            canActivate: [NoAuthGuard],
             loadChildren: () =>
               import('./error-recovery-wallet/error-recovery-wallet.module').then(
                 (m) => m.ErrorRecoveryWalletPageModule
@@ -87,7 +87,7 @@ const routes: Routes = [
           },
           {
             path: 'success',
-            canActivate: [AuthNewGuard, AcceptedToSGuard],
+            canActivate: [AuthGuard, AcceptedToSGuard],
             loadChildren: () =>
               import('./success-recovery-wallet/success-recovery-wallet.module').then(
                 (m) => m.SuccessRecoveryWalletPageModule
@@ -95,7 +95,7 @@ const routes: Routes = [
           },
           {
             path: 'info',
-            canActivate: [AuthNewGuard],
+            canActivate: [AuthGuard],
             loadChildren: () =>
               import('./recovery-phrase-information/recovery-phrase-information.module').then(
                 (m) => m.RecoveryPhraseInformationPageModule
@@ -103,13 +103,13 @@ const routes: Routes = [
           },
           {
             path: 'read',
-            canActivate: [AuthNewGuard],
+            canActivate: [AuthGuard],
             loadChildren: () =>
               import('./recovery-phrase-read/recovery-phrase-read.module').then((m) => m.RecoveryPhraseReadPageModule),
           },
           {
             path: 'info-no-wallet',
-            canActivate: [NoAuthNewGuard],
+            canActivate: [NoAuthGuard],
             loadChildren: () =>
               import('./recovery-phrase-no-wallet/recovery-phrase-no-wallet.module').then(
                 (m) => m.RecoveryPhraseNoWalletPageModule
@@ -119,7 +119,7 @@ const routes: Routes = [
       },
       {
         path: 'send',
-        canActivate: [AuthNewGuard],
+        canActivate: [AuthGuard],
         children: [
           {
             path: 'select-currency',

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
+import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -8,7 +8,7 @@ const routes: Routes = [
     children: [
       {
         path: 'first-steps',
-        canActivate: [AuthNewGuard],
+        canActivate: [AuthGuard],
         loadChildren: () => import('./first-steps/first-steps.module').then((m) => m.FirstStepsPageModule),
       },
     ],

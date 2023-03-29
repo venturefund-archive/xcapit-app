@@ -8,7 +8,7 @@ import { LoggedIn } from '../../models/logged-in/logged-in';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthNewGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   constructor(
     private ionicStorageService: IonicStorageService,
     private storageService: StorageService,

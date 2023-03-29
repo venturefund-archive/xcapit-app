@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NewLogin } from '../users/shared-users/guards/new-login/new-login.guard';
-import { NoAuthNewGuard } from '../users/shared-users/guards/no-auth-new/no-auth-new.guard';
-import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
+import { NoAuthGuard } from '../users/shared-users/guards/no-auth/no-auth.guard';
+import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       {
         path: 'create',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./create-email-validation-ticket/create-email-validation-ticket.module').then(
             (m) => m.CreateEmailValidationTicketPageModule
@@ -18,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'success',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./create-ticket-success/create-ticket-success.module').then((m) => m.CreateTicketSuccessPageModule),
       },
@@ -38,13 +38,13 @@ const routes: Routes = [
       },
       {
         path: 'new-success-wallet',
-        canActivate: [AuthNewGuard],
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./new-success-wallet/new-success-wallet.module').then((m) => m.NewSuccessWalletPageModule),
       },
       {
         path: 'new-success',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./new-success-no-wallet/new-success-no-wallet.module').then((m) => m.NewSuccessNoWalletPageModule),
       },

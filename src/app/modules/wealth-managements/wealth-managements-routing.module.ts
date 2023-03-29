@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
+import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 
 const routes: Routes = [
   {
     path: 'wealth-management',
-    canActivate: [AuthNewGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'investor-test-options',

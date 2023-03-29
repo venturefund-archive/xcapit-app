@@ -7,7 +7,7 @@ import { LoggedIn } from '../../models/logged-in/logged-in';
 @Injectable({
   providedIn: 'root',
 })
-export class NoAuthNewGuard implements CanActivate {
+export class NoAuthGuard implements CanActivate {
   constructor(private ionicStorageService: IonicStorageService, private navController: NavController) {}
 
   async canActivate(): Promise<boolean> {
