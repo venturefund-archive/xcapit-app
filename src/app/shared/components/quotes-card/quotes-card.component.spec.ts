@@ -10,10 +10,17 @@ import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/w
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { QuotesService } from '../../services/quotes.service';
 import { QuotesCardComponent } from './quotes-card.component';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { coins, firstNativeQuotes, remainingNativeQuotes, remainingUserQuotes, totalQuotes, usdcQuote, userQuotes } from '../../fixtures/quotes-card.fixture';
+import {
+  coins,
+  firstNativeQuotes,
+  remainingNativeQuotes,
+  remainingUserQuotes,
+  totalQuotes,
+  usdcQuote,
+} from './fixtures/quotes-card.fixture';
+import { QuotesService } from '../../services/quotes-service/quotes.service';
 
 describe('QuotesCardComponent', () => {
   let component: QuotesCardComponent;
@@ -24,39 +31,37 @@ describe('QuotesCardComponent', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeWalletService: FakeWalletService;
-  beforeEach(
-    waitForAsync(() => {
-      fakeWalletService = new FakeWalletService(true);
-      storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getAssetsSelected: Promise.resolve(coins),
-      });
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getCoins: coins,
-      });
-      quoteServiceSpy = jasmine.createSpyObj('QuotesService', {
-        getAllQuotes: of(totalQuotes),
-        getUsdcQuote: of(usdcQuote)
-      });
-      walletServiceSpy = fakeWalletService.createSpy();
-      TestBed.configureTestingModule({
-        declarations: [QuotesCardComponent, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: WalletService, useValue: walletServiceSpy },
-          { provide: StorageService, useValue: storageServiceSpy },
-          { provide: QuotesService, useValue: quoteServiceSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    fakeWalletService = new FakeWalletService(true);
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getAssetsSelected: Promise.resolve(coins),
+    });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: coins,
+    });
+    quoteServiceSpy = jasmine.createSpyObj('QuotesService', {
+      getAllQuotes: of(totalQuotes),
+      getUsdcQuote: of(usdcQuote),
+    });
+    walletServiceSpy = fakeWalletService.createSpy();
+    TestBed.configureTestingModule({
+      declarations: [QuotesCardComponent, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
+      providers: [
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
+        { provide: QuotesService, useValue: quoteServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(QuotesCardComponent);
-      component = fixture.componentInstance;
-      component.waitingQuotes = true;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    fixture = TestBed.createComponent(QuotesCardComponent);
+    component = fixture.componentInstance;
+    component.waitingQuotes = true;
+    fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -133,7 +138,7 @@ describe('QuotesCardComponent', () => {
     expect(component.remainingQuotes).toEqual(remainingUserQuotes);
   });
 
- it('should delete usdc quote on init when usdc is part of list and dont have usdc-data', fakeAsync( () => {
+  it('should delete usdc quote on init when usdc is part of list and dont have usdc-data', fakeAsync(() => {
     quoteServiceSpy.getUsdcQuote.and.returnValue(of(undefined));
     fakeWalletService.modifyReturns(true, {});
     fixture.detectChanges();

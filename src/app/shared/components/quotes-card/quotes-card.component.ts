@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IonAccordionGroup } from '@ionic/angular';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
-import { Quotes } from '../../interfaces/quotes.interface';
-import { QuotesService } from '../../services/quotes.service';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Observable } from 'rxjs';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+import { QuotesService } from '../../services/quotes-service/quotes.service';
+import { Quotes } from '../../interfaces/quotes.interface';
 
 @Component({
   selector: 'app-quotes-card',

@@ -16,7 +16,6 @@ const routes: Routes = [
         path: 'home',
         canActivate: [NewLogin],
         data: { redirectUrl: '/tabs/wallets' },
-        loadChildren: () => import('../home/home-page/home-page.module').then((m) => m.HomePageModule),
       },
       {
         path: 'tools',

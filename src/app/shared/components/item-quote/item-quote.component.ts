@@ -23,10 +23,12 @@ import { Quotes } from '../../interfaces/quotes.interface';
 
           <ion-text
             class="ux-font-text-xs"
-            [ngClass]="this.quotation.priceChangePercent >= 0 ? 'iq__wrapper__price__positive' : 'iq__wrapper__price__negative'"
+            [ngClass]="
+              this.quotation.priceChangePercent >= 0 ? 'iq__wrapper__price__positive' : 'iq__wrapper__price__negative'
+            "
           >
             {{ this.quotation.priceChangePercent >= 0 ? '+' : ''
-            }}{{ this.quotation.priceChangePercent | number: '1.0-2' }}%
+            }}{{ this.quotation.priceChangePercent | number : '1.0-2' }}%
           </ion-text>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Quotes } from '../interfaces/quotes.interface';
+import { Quotes } from '../../../../shared/interfaces/quotes.interface';
 
 export const totalQuotes: Quotes[] = [
   {
