@@ -1,32 +1,30 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-import { AuthService } from '../../services/auth/auth.service';
+import { NavController } from '@ionic/angular';
+import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { LoggedIn } from '../../models/logged-in/logged-in';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private remoteConfigService: RemoteConfigService) {}
+  constructor(
+    private ionicStorageService: IonicStorageService,
+    private storageService: StorageService,
+    private navController: NavController
+  ) {}
 
   async canActivate(): Promise<boolean> {
-    const isffEnabled = await this.isFeatureFlagEnabled()
-    if (!isffEnabled) {
-      return this.authService.checkToken().then((isValid) => {
-        if (!isValid) {
-          this.authService.checkRefreshToken().then(async (isRefreshed) => {
-            if (!isRefreshed) {
-              await this.authService.sesionExpired();
-            }
-          });
-        }
-        return isValid;
-      });
+    const isLoggedIn = !!(await new LoggedIn(this.ionicStorageService).value());
+    const hasWallet = !!(await this.storageService.getWalletFromStorage());
+    if (!isLoggedIn || !hasWallet) {
+      this.goToOnboarding();
     }
-    return isffEnabled;
+    return isLoggedIn && hasWallet;
   }
 
-  isFeatureFlagEnabled() {
-    return this.remoteConfigService.getFeatureFlag('ff_newLogin');
+  private goToOnboarding() {
+    this.navController.navigateForward('/users/on-boarding');
   }
 }

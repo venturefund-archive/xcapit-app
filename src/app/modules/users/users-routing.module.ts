@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NoAuthGuard } from './shared-users/guards/no-auth/no-auth.guard';
 import { AuthGuard } from './shared-users/guards/auth/auth.guard';
-import { NoAuthNewGuard } from './shared-users/guards/no-auth-new/no-auth-new.guard';
+import { NoAuthGuard } from './shared-users/guards/no-auth/no-auth.guard';
 
 const routes: Routes = [
   {
@@ -10,7 +9,7 @@ const routes: Routes = [
     children: [
       {
         path: 'on-boarding',
-        canActivate: [NoAuthNewGuard],
+        canActivate: [NoAuthGuard],
         loadChildren: () => import('./on-boarding/on-boarding.module').then((m) => m.OnBoardingPageModule),
       },
       {
@@ -63,25 +62,29 @@ const routes: Routes = [
       },
       {
         path: 'login-new',
+        canActivate: [NoAuthGuard],
         loadChildren: () => import('./login-new/login-new.module').then((m) => m.LoginNewPageModule),
       },
       {
         path: 'account-recovery',
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./account-recovery/account-recovery.module').then((m) => m.AccountRecoveryPageModule),
       },
       {
         path: 'recovery-info',
+        canActivate: [NoAuthGuard],
         loadChildren: () =>
           import('./account-recovery-info/account-recovery-info.module').then((m) => m.AccountRecoveryInfoPageModule),
       },
       {
         path: 'terms-and-conditions',
-        loadChildren: () => import('./terms-and-conditions/terms-and-conditions.module').then( m => m.TermsAndConditionsPageModule)
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./terms-and-conditions/terms-and-conditions.module').then((m) => m.TermsAndConditionsPageModule),
       },
     ],
   },
-
 ];
 
 @NgModule({
