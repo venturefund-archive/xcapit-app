@@ -32,7 +32,7 @@ export class CustomHttpService {
     );
   }
 
-  get(url: string, options?: any, errorMsg?: string, loading = true): Observable<any> {
+  get(url: string, options?: any, errorMsg?: string, loading = false): Observable<any> {
     return loading
       ? from(this.loadingService.show().then(() => this.doGet(url, options, errorMsg, loading).toPromise()))
       : this.doGet(url, options, errorMsg, loading);
@@ -49,7 +49,7 @@ export class CustomHttpService {
     );
   }
 
-  post(url: string, data: any, errorMsg?: string, loading = true): Observable<any> {
+  post(url: string, data: any, errorMsg?: string, loading = false): Observable<any> {
     return loading
       ? from(this.loadingService.show().then(() => this.doPost(url, data, errorMsg, loading).toPromise()))
       : this.doPost(url, data, errorMsg, loading);
@@ -66,7 +66,7 @@ export class CustomHttpService {
     );
   }
 
-  put(url: string, data: any, errorMsg?: string, loading = true): Observable<any> {
+  put(url: string, data: any, errorMsg?: string, loading = false): Observable<any> {
     return loading
       ? from(this.loadingService.show().then(() => this.doPut(url, data, errorMsg, loading).toPromise()))
       : this.doPut(url, data, errorMsg, loading);
@@ -83,7 +83,7 @@ export class CustomHttpService {
     );
   }
 
-  delete(url: string, errorMsg?: string, loading = true): Observable<any> {
+  delete(url: string, errorMsg?: string, loading = false): Observable<any> {
     return loading
       ? from(this.loadingService.show().then(() => this.doDelete(url, errorMsg, loading).toPromise()))
       : this.doDelete(url, errorMsg, loading);
@@ -100,7 +100,7 @@ export class CustomHttpService {
     );
   }
 
-  patch(url: string, data: any, errorMsg?: string, loading = true): Observable<any> {
+  patch(url: string, data: any, errorMsg?: string, loading = false): Observable<any> {
     return loading
       ? from(this.loadingService.show().then(() => this.doPatch(url, data, errorMsg, loading).toPromise()))
       : this.doPatch(url, data, errorMsg, loading);

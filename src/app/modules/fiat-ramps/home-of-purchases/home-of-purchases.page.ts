@@ -163,13 +163,11 @@ export class HomeOfPurchasesPage {
   
   buy(){
     this.tokenOperationDataService.add({ mode: 'buy' });
-    this.trackEventByMode('buy');
     this.navigateBy()
   }
   
   sell(){
     this.tokenOperationDataService.add({ mode: 'sell'  });
-    this.trackEventByMode('sell');
     this.navigateBy()
   }
   
@@ -212,14 +210,6 @@ export class HomeOfPurchasesPage {
       this.message = this.translate.instant('fiat_ramps.kyc_status.approving.message');
       this.style = 'approving';
     }
-  }
-
-  trackEventByMode(mode: string) {
-    this.trackService.trackEvent({
-      eventAction: 'click',
-      description: window.location.href,
-      eventLabel: `ux_${mode}_new`,
-    });
   }
 
   back() {

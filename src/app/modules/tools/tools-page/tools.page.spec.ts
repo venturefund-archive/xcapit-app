@@ -13,10 +13,10 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
-import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { ToolsPage } from './tools-page.page';
+import { WCService } from '../../wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
+import { ToolsPage } from './tools.page';
 
-describe('ToolPagePage', () => {
+describe('ToolPage', () => {
   let component: ToolsPage;
   let fixture: ComponentFixture<ToolsPage>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
@@ -24,7 +24,7 @@ describe('ToolPagePage', () => {
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
+  let wcServiceSpy: jasmine.SpyObj<WCService>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let fakeAppVersion: FakeAppVersion;
   let appVersionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
@@ -46,7 +46,7 @@ describe('ToolPagePage', () => {
     appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', { get: dataTest });
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
-    walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
+    wcServiceSpy = jasmine.createSpyObj('WCService', { connected: false });
 
     remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
       getFeatureFlag: true,
@@ -70,7 +70,7 @@ describe('ToolPagePage', () => {
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: AppStorageService, useValue: appStorageServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+        { provide: WCService, useValue: wcServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
@@ -130,7 +130,7 @@ describe('ToolPagePage', () => {
   });
 
   it('should render correct icon if wallet connect is not connected and redirect to new connection page when icon is clicked', async () => {
-    walletConnectServiceSpy.connected = false;
+    wcServiceSpy.connected.and.returnValue(false);
     await component.ionViewWillEnter();
     fixture.detectChanges();
     const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnect"]'));
@@ -140,7 +140,7 @@ describe('ToolPagePage', () => {
   });
 
   it('should render correct icon if wallet connect is connected and redirect to connection detail page when icon is clicked', async () => {
-    walletConnectServiceSpy.connected = true;
+    wcServiceSpy.connected.and.returnValue(true);
     await component.ionViewWillEnter();
     fixture.detectChanges();
     const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnectconnect"]'));

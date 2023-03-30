@@ -24,6 +24,9 @@ describe('OperationsListItemComponent', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fiatRampsService: jasmine.SpyObj<FiatRampsService>;
 
+  const _resetTest = () => {
+    component.operation.operation_type = 'cash-in';
+  };
   const cashIn: FiatRampOperation = {
     operation_id: 53,
     amount_in: 32,
@@ -146,9 +149,21 @@ describe('OperationsListItemComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    const coinEl = fixture.debugElement.query(By.css('ion-label[name="Provider"]')).nativeElement;
+    const coinEl = fixture.debugElement.query(By.css('ion-label[name="Coin"]')).nativeElement;
     const amountEl = fixture.debugElement.query(By.css('ion-label[name="Amount"]')).nativeElement;
     expect(coinEl.innerText).toContain(cashIn.currency_out);
     expect(amountEl.innerText).toContain(cashIn.amount_out);
+  });
+
+  ['cash-out', 'cash-in'].forEach((operation_type) => {
+    it(`should show ${operation_type} arrow img corresponding to operation type ${operation_type}`, async () => {
+      component.operation.operation_type = operation_type;
+      component.ngOnInit();
+      fixture.detectChanges();
+      await fixture.whenRenderingDone();
+      const arrowEl = fixture.debugElement.query(By.css('img.oli__coin__wrapper__operation-type')).nativeElement;
+      expect(arrowEl.src).toContain(operation_type);
+      _resetTest();
+    });
   });
 });

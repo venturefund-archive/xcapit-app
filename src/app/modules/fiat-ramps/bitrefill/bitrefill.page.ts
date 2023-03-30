@@ -72,7 +72,7 @@ export class BitrefillPage {
   rawOperationData: RawBitrefillOperation;
   availablePaymentMethods = ['usdc_polygon', 'ethereum', 'usdt_erc20', 'usdc_erc20'];
   modalHref: string;
-  modalOpened: boolean;
+  openingModal = false;
   tplToken: RawToken;
   tplNativeToken: RawToken;
   balance: number;
@@ -113,7 +113,8 @@ export class BitrefillPage {
   }
 
   async navigateBack() {
-    if (!this.modalOpened) {
+    if (!this.openingModal) {
+      this.openingModal = true;
       const modal = await this.modalController.create({
         component: TwoButtonsAlertComponent,
         cssClass: 'modal',
@@ -125,11 +126,9 @@ export class BitrefillPage {
           cancelButton: this.translate.instant('fiat_ramps.bitrefill.modal.cancel_button'),
         },
       });
-
       await modal.present();
-      this.modalOpened = true;
       const { role } = await modal.onDidDismiss();
-      this.modalOpened = false;
+      this.openingModal = false;
       if (role === 'confirm') {
         await this.navController.navigateBack('/tabs/wallets');
       }
@@ -165,7 +164,7 @@ export class BitrefillPage {
   dataOf(): BitrefillOperation {
     return this.bitrefillOperation.create(
       this.rawOperationData,
-      new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())),
+      new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins()))
     );
   }
 
@@ -296,7 +295,8 @@ export class BitrefillPage {
   }
 
   async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
-    if (!this.modalOpened) {
+    if (!this.openingModal) {
+      this.openingModal = true;
       const modal = await this.modalController.create({
         component: BuyOrDepositTokenToastComponent,
         cssClass: 'ux-toast-warning',
@@ -306,9 +306,8 @@ export class BitrefillPage {
       });
       if (window.location.href === this.modalHref) {
         await modal.present();
-        this.modalOpened = true;
       }
-      await modal.onDidDismiss().then(() => (this.modalOpened = false));
+      await modal.onDidDismiss().then(() => (this.openingModal = false));
     }
   }
 

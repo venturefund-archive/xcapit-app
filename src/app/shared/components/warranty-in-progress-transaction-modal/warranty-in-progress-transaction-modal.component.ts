@@ -26,7 +26,7 @@ import { SUCCESS_TYPES } from '../success-content/success-types.constant';
           <div class="wipt__main__secondary-text">
             <ion-text class="ux-font-text-base">{{ this.data?.textSecondary | translate }}</ion-text>
           </div>
-          <div class="wipt__main__operation">
+          <div class="wipt__main__operation" *ngIf="this.operationNumber">
             <ion-text class="ux-font-titulo-xs">{{ this.data?.textOperation | translate }}</ion-text>
             <ion-text class="ux-font-text-base-black"
               >{{ this.data?.numeration | translate }} {{ this.operationNumber }}</ion-text
@@ -58,8 +58,10 @@ import { SUCCESS_TYPES } from '../success-content/success-types.constant';
   styleUrls: ['./warranty-in-progress-transaction-modal.component.scss'],
 })
 export class WarrantyInProgressTransactionModalComponent implements OnInit {
-  data;
-  @Input() operationNumber: number
+  data: any;
+  eventName: string;
+  operationNumber: number;
+
   constructor(
     private modalController: ModalController,
     private navController: NavController,
@@ -91,7 +93,7 @@ export class WarrantyInProgressTransactionModalComponent implements OnInit {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'ux_warranty_start_success_screenview',
+      eventLabel: `${this.eventName}`,
     });
   }
 }

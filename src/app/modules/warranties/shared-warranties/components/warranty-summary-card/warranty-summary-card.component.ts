@@ -21,27 +21,34 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
               <ion-text class="ux-font-text-lg">{{ this.token.value }}</ion-text>
             </div>
             <div class="wsc__item__container__title_container__badge">
-              <ion-badge
-                [color]="this.networkColors[this.token.network]"
-                class="ux-badge ux-font-num-subtitulo"
-                >{{ this.token.network | formattedNetwork | uppercase }}</ion-badge
-              >
+              <ion-badge [color]="this.networkColors[this.token.network]" class="ux-badge ux-font-num-subtitulo">{{
+                this.token.network | formattedNetwork | uppercase
+              }}</ion-badge>
             </div>
           </div>
         </div>
         <div class="wsc__item__container__amount">
           <div>
             <ion-text class="ux-font-text-lg"
-              >{{ this.warrantyData.amount | formattedAmount }}
+              >{{ this.warrantyData?.amount | formattedAmount }}
               {{ this.token.value | titlecase | uppercase }}</ion-text
             >
           </div>
           <div class="wsc__item__container__amount__conversion">
             <ion-text class="ux-font-text-xs">
-              = {{ this.warrantyData.quoteAmount }} USD
+              = {{ this.warrantyData?.quoteAmount | formattedAmount : 10 : 2 }} USD
             </ion-text>
           </div>
         </div>
+      </div>
+      <div class="list-divider"></div>
+    </div>
+    <div class="wsc__item">
+      <div class="wsc__item__title__email">
+        <ion-text class="ux-font-titulo-xs">{{ this.emailTitle }}</ion-text>
+      </div>
+      <div class="wsc__item__content__email">
+        <ion-text class="ux-font-text-base">{{ this.warrantyData?.email }}</ion-text>
       </div>
       <div class="list-divider"></div>
     </div>
@@ -58,17 +65,17 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
       <div class="wsc__item__title__amount">
         <ion-text class="ux-font-titulo-xs">{{ this.amountTitle }}</ion-text>
       </div>
-      <div class="wsc__item__content__amount">
+      <div class="wsc__item__content__amount" *ngIf="this.warrantyData.amountWithoutCost">
         <ion-text class="ux-font-text-base"
           >{{ this.warrantyData.amountWithoutCost | formattedAmount }} {{ this.token.value }}</ion-text
         >
         <ion-text class="ux-font-text-base"
-          >{{ this.warrantyData.quoteAmountWithoutCost  }} USD</ion-text
+          >{{ this.warrantyData.quoteAmountWithoutCost | formattedAmount : 10 : 2 }} USD</ion-text
         >
       </div>
       <div class="list-divider"></div>
     </div>
-    <div class="wsc__item">
+    <div class="wsc__item" *ngIf="this.warrantyData.service_cost">
       <div class="wsc__item__title__service-cost">
         <ion-text class="ux-font-titulo-xs">{{ this.serviceCost }}</ion-text>
       </div>
@@ -87,6 +94,7 @@ export class WarrantySummaryCardComponent implements OnInit {
   };
   @Input() title: string;
   @Input() documentTitle: string;
+  @Input() emailTitle: string;
   @Input() amountTitle: string;
   @Input() warrantyData: SummaryWarrantyData;
   @Input() serviceCost: string;

@@ -109,6 +109,7 @@ const routes: Routes = [
         loadChildren: () => import('./user-email/user-email.module').then((m) => m.UserEmailPageModule),
       },
       {
+        canActivate: [LoggedInKriptonGuard],
         path: 'user-bank-account',
         loadChildren: () =>
           import('./user-bank-account/user-bank-account.module').then((m) => m.UserBankAccountPageModule),
