@@ -27,13 +27,20 @@ import { DynamicLink } from './shared/models/dynamic-link/dynamic-link';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { AppExpirationTimeService } from './shared/models/app-session/injectable/app-expiration-time.service';
 import { TxInProgressService } from './modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
-import { NullNotificationsService } from './modules/notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 import { BrowserService } from './shared/services/browser/browser.service';
 import { CapacitorNotificationsService } from './modules/notifications/shared-notifications/services/capacitor-notifications/capacitor-notifications.service';
 import { NetworkInjectable } from './shared/models/network/injectable/network.injectable';
 import { FakeNetworkPlugin } from './shared/models/network-plugin/fake/fake-network-plugin';
 import { Network } from './shared/models/network/default/network';
+import {
+  rawWalletConnectUriV1,
+  rawWalletConnectUriV2,
+} from './modules/wallets/shared-wallets/fixtures/raw-wallet-connect-uri';
+import { WCUri } from './shared/models/wallet-connect/wc-uri/WCUri';
+import { WCConnectionV2 } from './modules/wallets/shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { WCService } from './modules/wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
+import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -69,6 +76,9 @@ describe('AppComponent', () => {
   let capacitorNotificationsServiceSpy: jasmine.SpyObj<CapacitorNotificationsService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let networkInjectableSpy: jasmine.SpyObj<NetworkInjectable>;
+  let walletConnectV2Spy: jasmine.SpyObj<WCConnectionV2>;
+  let wcServiceSpy: jasmine.SpyObj<WCService>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   const tapBrowserInApp = {
     actionId: 'tap',
@@ -128,6 +138,8 @@ describe('AppComponent', () => {
       set: Promise.resolve(),
     });
 
+    ionicStorageServiceSpy.get.withArgs('loggedIn').and.resolveTo(true);
+
     trackedWalletAddressSpy = jasmine.createSpyObj('TrackedWalletAddress', {
       value: null,
       isAlreadyTracked: Promise.resolve(false),
@@ -165,13 +177,25 @@ describe('AppComponent', () => {
     fakeModalController = new FakeModalController(null, { role: 'confirm' });
     modalControllerSpy = fakeModalController.createSpy();
 
-
     txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
       checkTransactionStatus: Promise.resolve(),
     });
 
     networkInjectableSpy = jasmine.createSpyObj('NetworkInjectable', {
       create: new Network(new FakeNetworkPlugin()),
+    });
+
+    walletConnectV2Spy = jasmine.createSpyObj('WCConnectionV2', {
+      subscribeToAllEvents: Promise.resolve(),
+    });
+
+    wcServiceSpy = jasmine.createSpyObj('WCService', {
+      initialize: null,
+      uri: new WCUri(rawWalletConnectUriV1),
+    });
+
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: true,
     });
 
     TestBed.configureTestingModule({
@@ -201,6 +225,9 @@ describe('AppComponent', () => {
         { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
         { provide: NetworkInjectable, useValue: networkInjectableSpy },
+        { provide: WCConnectionV2, useValue: walletConnectV2Spy },
+        { provide: WCService, useValue: wcServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
@@ -318,5 +345,52 @@ describe('AppComponent', () => {
 
     expect(dynamicLinkInjectableSpy.create).toHaveBeenCalledOnceWith('testDynamicLink');
     expect(dynamicLinkSpy.redirect).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should initialize wallet connect and check deeplinking when uri is version 1 and user is logged in', fakeAsync(() => {
+    fakeCapacitorApp = new FakeCapacitorApp();
+    spyOn(fakeCapacitorApp, 'onAppUrlOpen').and.callFake((callback) => {
+      callback({ url: rawWalletConnectUriV1 });
+    });
+    capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
+
+    component.ngOnInit();
+    tick();
+
+    expect(wcServiceSpy.initialize).toHaveBeenCalledTimes(1);
+    expect(walletConnectServiceSpy.checkDeeplinkUrl).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should initialize wallet connect and navigate to new connection when uri is version 2 and user is logged in', fakeAsync(() => {
+    fakeCapacitorApp = new FakeCapacitorApp();
+    spyOn(fakeCapacitorApp, 'onAppUrlOpen').and.callFake((callback) => {
+      callback({ url: rawWalletConnectUriV2 });
+    });
+    capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
+    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV2));
+
+    component.ngOnInit();
+    tick();
+
+    expect(wcServiceSpy.initialize).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/wallet-connect/new-connection']);
+    expect(walletConnectV2Spy.subscribeToAllEvents).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should not subscribe wallet connect v2 events neither navigate to new connection when v2 is disabled', fakeAsync(() => {
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
+    fakeCapacitorApp = new FakeCapacitorApp();
+    spyOn(fakeCapacitorApp, 'onAppUrlOpen').and.callFake((callback) => {
+      callback({ url: rawWalletConnectUriV2 });
+    });
+    capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
+    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV2));
+
+    component.ngOnInit();
+    tick();
+
+    expect(wcServiceSpy.initialize).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).not.toHaveBeenCalledOnceWith(['wallets/wallet-connect/new-connection']);
+    expect(walletConnectV2Spy.subscribeToAllEvents).not.toHaveBeenCalled();
   }));
 });

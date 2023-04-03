@@ -10,12 +10,10 @@ describe('KriptonStorageService', () => {
     ionicStorageSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
       get: Promise.resolve('test@test.com'),
-      remove: Promise.resolve()
+      remove: Promise.resolve(),
     });
     TestBed.configureTestingModule({
-      providers: [
-        { provide: IonicStorageService, useValue: ionicStorageSpy },
-      ],
+      providers: [{ provide: IonicStorageService, useValue: ionicStorageSpy }],
     });
     service = TestBed.inject(KriptonStorageService);
   });
@@ -31,25 +29,30 @@ describe('KriptonStorageService', () => {
 
   it('get', async () => {
     const email = await service.get('email');
-    
+
     expect(email).toEqual('test@test.com');
     expect(ionicStorageSpy.get).toHaveBeenCalledOnceWith('kripton_email');
   });
 
   it('remove', async () => {
     await service.remove('email');
-    
+
     expect(ionicStorageSpy.remove).toHaveBeenCalledOnceWith('kripton_email');
   });
 
   it('removeCredentials', async () => {
     await service.removeCredentials();
-    
+
     expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_email');
     expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_access_token');
     expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_refresh_token');
     expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_user_status');
   });
+
+  it('renewTokens', async () => {
+    await service.renewTokens('an_access_token', 'a_refresh_token');
+
+    expect(ionicStorageSpy.set).toHaveBeenCalledWith('kripton_access_token', 'an_access_token');
+    expect(ionicStorageSpy.set).toHaveBeenCalledWith('kripton_refresh_token', 'a_refresh_token');
+  });
 });
-
-

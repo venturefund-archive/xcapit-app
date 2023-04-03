@@ -30,7 +30,8 @@ const routes: Routes = [
       },
       {
         path: 'closed',
-        loadChildren: () => import('./referrals-closed/referrals-closed.module').then( m => m.ReferralsClosedPageModule)
+        loadChildren: () =>
+          import('./referrals-closed/referrals-closed.module').then((m) => m.ReferralsClosedPageModule),
       },
     ],
   },

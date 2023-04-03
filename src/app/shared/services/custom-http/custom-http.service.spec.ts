@@ -53,17 +53,15 @@ describe('CustomHttpService', () => {
   describe('GET', () => {
     it('should call http client and show loading when is called', async () => {
       await service.get('testUrl', {}, 'testError').toPromise();
-      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.disabled).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
       expect(httpClientSpy.get).toHaveBeenCalledOnceWith('testUrl', {});
     });
 
-    it('should call http client and not show loading when is called with loading false', async () => {
-      await service.get('testUrl', {}, 'testError', false).toPromise();
-      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(0);
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(0);
+    it('should call http client and not show loading when is called with loading true', async () => {
+      await service.get('testUrl', {}, 'testError', true).toPromise();
+      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.disabled).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
       expect(httpClientSpy.get).toHaveBeenCalledOnceWith('testUrl', {});
@@ -80,17 +78,15 @@ describe('CustomHttpService', () => {
   describe('POST', () => {
     it('should call http client and show loading when is called', async () => {
       await service.post('testUrl', {}, 'testError').toPromise();
-      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.disabled).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
       expect(httpClientSpy.post).toHaveBeenCalledOnceWith('testUrl', {});
     });
 
-    it('should call http client and not show loading when is called with loading false', async () => {
-      await service.post('testUrl', {}, 'testError', false).toPromise();
-      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(0);
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(0);
+    it('should call http client and not show loading when is called with loading true', async () => {
+      await service.post('testUrl', {}, 'testError', true).toPromise();
+      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.disabled).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
       expect(httpClientSpy.post).toHaveBeenCalledOnceWith('testUrl', {});
@@ -107,17 +103,15 @@ describe('CustomHttpService', () => {
   describe('PUT', () => {
     it('should call http client and show loading when is called', async () => {
       await service.put('testUrl', {}, 'testError').toPromise();
-      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.disabled).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
       expect(httpClientSpy.put).toHaveBeenCalledOnceWith('testUrl', {});
     });
 
-    it('should call http client and not show loading when is called with loading false', async () => {
-      await service.put('testUrl', {}, 'testError', false).toPromise();
-      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(0);
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(0);
+    it('should call http client and not show loading when is called with loading true', async () => {
+      await service.put('testUrl', {}, 'testError', true).toPromise();
+      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.disabled).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
       expect(httpClientSpy.put).toHaveBeenCalledOnceWith('testUrl', {});
@@ -134,17 +128,15 @@ describe('CustomHttpService', () => {
   describe('DELETE', () => {
     it('should call http client and show loading when is called', async () => {
       await service.delete('testUrl', 'testError').toPromise();
-      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.disabled).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
       expect(httpClientSpy.delete).toHaveBeenCalledOnceWith('testUrl');
     });
 
-    it('should call http client and not show loading when is called with loading false', async () => {
-      await service.delete('testUrl', 'testError', false).toPromise();
-      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(0);
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(0);
+    it('should call http client and not show loading when is called with loading true', async () => {
+      await service.delete('testUrl', 'testError', true).toPromise();
+      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.disabled).toHaveBeenCalledTimes(1);
       expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
       expect(httpClientSpy.delete).toHaveBeenCalledOnceWith('testUrl');

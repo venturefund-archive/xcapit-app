@@ -166,4 +166,12 @@ describe('FiatRampsService', () => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('should call post on http when refreshToken', () => {
+    fiatRampsService
+      .refreshToken({ access_token: 'an_access_token', refresh_token: 'a_refresh_token' })
+      .subscribe(() => {
+        expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+      });
+  });
 });

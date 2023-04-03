@@ -50,7 +50,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           <ion-text
             *ngIf="this.fiatProviders.length > 0 && this.txMode === 'sell'"
             class="ux-font-text-lg spc__providers__radio-group__label"
-            >{{ '¿Qué método de cobro prefieres?' | translate }}</ion-text
+            >{{ 'fiat_ramps.select_provider.sell_method' | translate }}</ion-text
           >
           <div *ngFor="let provider of fiatProviders">
             <app-provider-card

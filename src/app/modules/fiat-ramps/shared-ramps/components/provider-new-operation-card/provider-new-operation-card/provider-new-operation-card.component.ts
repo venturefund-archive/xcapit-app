@@ -46,7 +46,7 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
             <ion-input
               appNumberInput
               appCommaToDot
-              debounce="500"
+              [debounce]="this.debounce"
               [class.invalid]="
                 !this.form.controls.fiatAmount.valid &&
                 (this.form.controls.cryptoAmount.touched ||
@@ -65,8 +65,8 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
             <ion-input
               appNumberInput
               appCommaToDot
-              debounce="500"
-              [class.invalid]="
+            [debounce]="this.debounce"
+            [class.invalid]="
                 !this.form.controls.fiatAmount.valid &&
                 (this.form.controls.cryptoAmount.touched ||
                   this.form.controls.cryptoAmount.dirty ||
@@ -188,7 +188,7 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
 export class ProviderNewOperationCardComponent implements OnInit, OnChanges {
   @Input() coin: Coin;
   @Input() blockchain: string;
-  @Input() logoRoute: String;
+  @Input() logoRoute: string;
   @Input() showToken = false;
   @Input() amountEnabled = true;
   @Input() fiatCurrency = 'USD';
@@ -198,9 +198,8 @@ export class ProviderNewOperationCardComponent implements OnInit, OnChanges {
   @Input() minimumAmount: number;
   @Input() minimumCurrency: string;
   @Input() fee: { value: number; token: string; totalDigits: number; maxDecimals: number };
-
   @Input() providerFee: { value: number; token: string; totalDigits: number; maxDecimals: number };
-
+  @Input() debounce = 500;
   @Output() changeCurrency = new EventEmitter<void>();
   isInfoModalOpen = false;
   providerInfo: any;

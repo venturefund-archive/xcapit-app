@@ -231,4 +231,8 @@ export class FiatRampsService {
       undefined
     );
   }
+
+  refreshToken(data: { access_token: string; refresh_token: string }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/refresh_token`, data, undefined, false);
+  }
 }

@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
+import RoundedNumber from 'src/app/shared/models/rounded-number/rounded-number';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -104,7 +105,7 @@ export class SendWarrantyPage {
     private apiWalletService: ApiWalletService,
     private navController: NavController,
     private WarrantyDataService: WarrantyDataService,
-    private dynamicPriceFactory: DynamicPriceFactory,
+    private dynamicPriceFactory: DynamicPriceFactory
   ) {}
 
   async ionViewWillEnter() {
@@ -141,10 +142,12 @@ export class SendWarrantyPage {
   }
 
   private saveWarrantyData() {
+    const roundedAmount = new RoundedNumber(parseFloat(this.form.value.amount), 6).value();
+    const roundedQuoteAmount = new RoundedNumber(parseFloat(this.form.value.quoteAmount), 6).value();
     this.WarrantyDataService.data = {
       coin: this.token,
-      amount: parseFloat(this.form.value.amount),
-      quoteAmount: this.form.value.quoteAmount,
+      amount: roundedAmount,
+      quoteAmount: roundedQuoteAmount,
       user_dni: this.form.value.dni,
     };
   }

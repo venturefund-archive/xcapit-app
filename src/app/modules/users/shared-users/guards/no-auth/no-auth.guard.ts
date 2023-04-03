@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
 import { NavController } from '@ionic/angular';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { LoggedIn } from '../../models/logged-in/logged-in';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NoAuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private navController: NavController) {}
+  constructor(private ionicStorageService: IonicStorageService, private navController: NavController) {}
 
   async canActivate(): Promise<boolean> {
-    let isValid = await this.authService.checkToken();
-    if (isValid) {
-      await this.goToHomePage();
-    } else {
-      isValid = await this.authService.checkRefreshToken();
-      if (isValid) {
-        await this.goToHomePage();
-      }
+    const isLoggedIn = !!(await new LoggedIn(this.ionicStorageService).value());
+    if (isLoggedIn) {
+      this.goToWalletHome();
     }
-    return !isValid;
+    return !isLoggedIn;
   }
 
-  async goToHomePage() {
-    return await this.navController.navigateRoot(['/tabs/home']);
+  private goToWalletHome() {
+    this.navController.navigateForward('/tabs/wallets');
   }
 }

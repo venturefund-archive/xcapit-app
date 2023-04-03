@@ -4,11 +4,10 @@ import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { SwapTYCAccepted } from './shared-swaps/guards/swap-tyc-accepted';
 
-
 const routes: Routes = [
   {
     path: 'swaps',
-    canActivate: [AuthGuard, HasWallet],
+    canActivate: [AuthGuard],
     children: [
       {
         canActivate: [SwapTYCAccepted],

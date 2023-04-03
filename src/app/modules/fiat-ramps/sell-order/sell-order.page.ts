@@ -69,6 +69,7 @@ import { UserBankDataService } from '../shared-ramps/services/user-bank-data/use
             paymentType="fiat_ramps.shared.constants.payment_types.kripton"
             [providerFee]="this.providerFee"
             [fee]="this.dynamicFee"
+            [debounce]="1500"
           ></app-provider-new-operation-card>
         </div>
         <div *ngIf="!this.agreement" class="os__disclaimer">

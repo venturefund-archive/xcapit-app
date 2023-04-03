@@ -84,7 +84,7 @@
     "services": {
       "kripton_interceptor": {
         "session_expired_toast": "Tu sesión en Kripton Market ha expirado."
-      }, 
+      },
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles",
         "share_error": "El texto se copió en el portapapeles"
@@ -352,7 +352,8 @@
       "others": "Otros",
       "referrals": "Referidos",
       "transactions": "Transacciones",
-      "kripton_data": "Eliminar mis datos de Kripton"
+      "kripton_data": "Eliminar mis datos de Kripton",
+      "warranty": "Garantía"
     }
   },
   "defi_investments": {
@@ -2188,10 +2189,13 @@
       "button_disconnect": "Finalizar conexión",
       "card_title": "Configura tu conexión",
       "card_description": "Elige la red de la que quieres tomar los fondos. Luego, escanea el código QR de la Dapp.",
+      "errors": {
+        "invalidUri": "Comprueba que la url que estás ingresando corresponda al protocolo de conexión de WalletConnect."
+      },
       "scan_qr": {
         "header": "Escanea el código QR de tu Dapp",
         "errors": {
-          "invalidQR": "Compruebe que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
+          "invalidQR": "Comprueba que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
           "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado.",
           "close_button": "Aceptar"
         }
@@ -2465,7 +2469,7 @@
       "description": "Proveedor: {{providerName}}"
     },
     "select_provider": {
-      "header": "Comprar cripto",
+      "header": "Comprar - Vender",
       "select_label": "Pais en el que vas a operar",
       "select_placeholder": "Selecciona tu país",
       "provider_label": "Selecciona tu medio de pago",
@@ -2479,6 +2483,7 @@
       "krypton_description": "Compra con transferencia bancaria",
       "kripton_sell_description": "Los depositos pueden demorar hasta 72hs",
       "bitrefill_description": "¡Accede a beneficios exclusivos!",
+      "sell_method": "¿Qué método de cobro prefieres?",
       "directa24": {
         "platform_description": "Compra a través de la plataforma",
         "nearest_store_description": "Compra en tu tienda más cercana",
@@ -2698,8 +2703,9 @@
       "footer_description": "Al presionar “Continuar”, serás redirigido al sitio del proveedor externo."
     },
     "token_selection": {
-      "header": "Comprar cripto",
-      "subtitle": "Selecciona la moneda que quieres comprar"
+      "header": "Compra - Venta",
+      "buy_subtitle": "Selecciona el token a comprar",
+      "sell_subtitle": "Selecciona el token a vender"
     },
     "countries_list": {
       "mexico": "México",
@@ -3531,16 +3537,19 @@
     },
     "summary": {
       "header": "Confeccionar garantia",
-      "title":"Datos de tu depósito",
-      "dniLabel":"DNI garante",
-      "amountLabel":"Monto de garantía",
-      "serviceLabel":"Costo de servicio",
-      "buttonName":"Confeccionar garantia"
+      "title": "Datos de tu depósito",
+      "dniLabel": "DNI garante",
+      "amountLabel": "Monto de garantía",
+      "serviceLabel": "Costo de servicio",
+      "buttonName": "Confeccionar garantia",
+      "loading": "Confeccionando garantia...",
+      "wait_loading_message": "Solo tomará unos segundos."
     },
     "withdraw_warranty": {
       "header": "Retirar garantía",
       "title": "Verificación de saldo en garantia",
       "text_dni": "Ingresar DNI",
+      "text_email": "Ingresar email",
       "subtitle": "Ingresa tu DNI para verificar los depósitos acumulados a través de esta wallet en tu garantía.",
       "toast_no_deposits_found": "No hemos encontrado depósitos de garantía asociados a este DNI y esta wallet. Por favor verifica el dato ingresado e intenta nuevamente."
     },
@@ -3564,6 +3573,19 @@
       "title": "No se pudo completar tu operación.",
       "subtitle": "Se produjo un error de comunicacion con el servidor",
       "primaryButton": "Reintentar"
+    },
+    "withdraw_warranty_error": {
+      "title": "No se pudo completar tu operación.",
+      "subtitle": "Se produjo un error en el proceso",
+      "primaryButton": "Reintentar"
+    },
+    "withdraw_warranty_summary": {
+      "title": "Garantía disponible",
+      "dniLabel": "DNI garante",
+      "emailLabel": "Email garante",
+      "button": "Retirar garantía",
+      "ticket_message": "Solicito el retiro de mi garantía. DNI: {{dni}} - Wallet: {{wallet}}",
+      "loader": "Confirmando"
     }
   }
 }
