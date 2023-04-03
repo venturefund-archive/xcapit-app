@@ -3008,6 +3008,18 @@
         "error": "Se produjo un error. Carga tu comprobante nuevamente."
       }
     },
+    "kripton_sale_summary": {
+      "header":"Detalle de la operación",
+      "title": "Venta",
+      "quote": "Cotización",
+      "transaction_fee":"Tarifa de transacción estimada",
+      "provider_fee":"Tarifa de proveedor estimada",
+      "wallet": "Wallet Kripton Market",
+      "bank_account":"Cuenta bancaria destino",
+      "provider":"Proveedor",
+      "date":"Fecha",
+      "button":"Confirmar envío"
+    },
     "kripton_operation_detail": {
       "header": "Detalle de la operación",
       "title": "Compra",

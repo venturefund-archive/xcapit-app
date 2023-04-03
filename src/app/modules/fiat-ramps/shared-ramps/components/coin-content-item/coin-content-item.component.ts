@@ -1,48 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants/network-colors.constant';
 
 @Component({
   selector: 'app-coin-content-item',
-  template: `    <div class="cci__item">
-  <div class="cci__item__container">
-    <div class="cci__item__container__title_and_image">
-      <div class="cci__item__container__title_and_image__image_container">
-        <img [src]="this.token.logoRoute" alt="Product Image" />
-      </div>
-      <div class="cci__item__container__title_container">
-        <div class="cci__item__container__title_container__title">
-          <ion-text class="ux-font-text-lg">{{ this.token.value }}</ion-text>
+  template: ` <div class="cci__item">
+    <div class="cci__item__container">
+      <div class="cci__item__container__title_and_image">
+        <div class="cci__item__container__title_and_image__image_container">
+          <img [src]="this.logoRoute" alt="Product Image" />
         </div>
-        <div class="cci__item__container__title_container__badge">
-          <ion-badge
-            [color]="this.networkColors[this.token.network]"
-            class="ux-badge ux-font-num-subtitulo"
-            >{{ this.token.network | formattedNetwork | uppercase }}</ion-badge
-          >
+        <div class="cci__item__container__title_container">
+          <div class="cci__item__container__title_container__title">
+            <ion-text class="ux-font-text-lg">{{ this.country }}</ion-text>
+          </div>
+          <div class="cci__item__container__title_container__badge">
+            <ion-badge [color]="this.networkColors[this.network]" class="ux-badge ux-font-num-subtitulo">{{
+              this.network | formattedNetwork | uppercase
+            }}</ion-badge>
+          </div>
+        </div>
+      </div>
+      <div class="cci__item__container__amount">
+        <div>
+          <ion-text class="ux-font-text-lg">{{ this.amount | formattedAmount }}</ion-text>
+        </div>
+        <div class="cci__item__container__amount__conversion">
+          <ion-text class="ux-font-text-xs"> = {{ this.quoteAmount }} {{ this.token }} </ion-text>
         </div>
       </div>
     </div>
-    <div class="cci__item__container__amount">
-      <div>
-        <ion-text class="ux-font-text-lg"
-          >{{ this.warrantyData.amount | formattedAmount }}
-          {{ this.token.value | titlecase | uppercase }}</ion-text
-        >
-      </div>
-      <div class="cci__item__container__amount__conversion">
-        <ion-text class="ux-font-text-xs">
-          = {{ this.warrantyData.quoteAmount }} USD
-        </ion-text>
-      </div>
-    </div>
-  </div>
-  <div class="list-divider"></div>
-</div>`,
+  </div>`,
   styleUrls: ['./coin-content-item.component.scss'],
 })
 export class CoinContentItemComponent implements OnInit {
+  @Input() logoRoute: string;
+  @Input() country: string;
+  @Input() token: string;
+  @Input() network: string;
+  @Input() amount: number;
+  @Input() quoteAmount: number;
+  networkColors = NETWORK_COLORS;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
-
 }

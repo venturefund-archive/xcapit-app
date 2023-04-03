@@ -2904,6 +2904,18 @@
         "operation": "Operation"
       }
     },
+    "kripton_sale_summary": {
+      "header":"Operation detail",
+      "title": "Sale",
+      "quote": "Quotation",
+      "transaction_fee":"Estimated transaction fee",
+      "provider_fee":"Estimated provider fee",
+      "wallet": "Kripton Market Wallet",
+      "bank_account":"Destination bank account",
+      "provider":"Provider",
+      "date":"Date",
+      "button":"Confirm delivery"
+    },
     "kripton_operation_detail": {
       "header": "Operation detail",
       "title": "Buy",
