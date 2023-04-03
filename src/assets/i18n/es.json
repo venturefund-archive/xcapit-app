@@ -2189,10 +2189,13 @@
       "button_disconnect": "Finalizar conexión",
       "card_title": "Configura tu conexión",
       "card_description": "Elige la red de la que quieres tomar los fondos. Luego, escanea el código QR de la Dapp.",
+      "errors": {
+        "invalidUri": "Comprueba que la url que estás ingresando corresponda al protocolo de conexión de WalletConnect."
+      },
       "scan_qr": {
         "header": "Escanea el código QR de tu Dapp",
         "errors": {
-          "invalidQR": "Compruebe que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
+          "invalidQR": "Comprueba que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
           "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado.",
           "close_button": "Aceptar"
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { WalletConnectService, IPeerMeta } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { environment } from 'src/environments/environment';
@@ -16,6 +16,7 @@ import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/facto
 import { BlockchainsFactory } from '../../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-new-connection',
@@ -160,7 +161,8 @@ export class NewConnectionPage {
     private wcService: WCService,
     private wcConnectionV2: WCConnectionV2,
     private wallets: WalletsFactory,
-    private blockchains: BlockchainsFactory
+    private blockchains: BlockchainsFactory,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   async ionViewWillEnter() {
@@ -184,9 +186,7 @@ export class NewConnectionPage {
   }
 
   private async uriSubscription() {
-    const uri = this.wcService.uri().isV2() ? this.wcService.uri().value() : await this.walletConnectService.uri.value;
-
-    this.form.patchValue({ uri });
+    this.form.patchValue({ uri: this.wcService.uri()?.value() });
   }
 
   private async getSupportedWallets() {
@@ -279,7 +279,13 @@ export class NewConnectionPage {
 
   private async initWalletConnect() {
     this.wcService.initialize(this.form.value.uri);
-    this.wcService.uri().isV2() ? this.initWalletConnectV2() : this.legacyInit();
+    if (this.wcService.uri().isV2() && this.remoteConfig.getFeatureFlag('ff_walletConnectV2')) {
+      this.initWalletConnectV2();
+    } else if (!this.wcService.uri().isV2()) {
+      this.legacyInit();
+    } else {
+      await this.showErrorToast('wallets.wallet_connect.errors.invalidUri');
+    }
   }
 
   public async initWalletConnectV2() {
