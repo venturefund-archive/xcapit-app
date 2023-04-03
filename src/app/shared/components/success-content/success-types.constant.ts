@@ -458,4 +458,15 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: 'warranties/withdraw-warranty-summary',
     trackClickEventNamePrimaryAction: 'ux_warranty_withdraw_error_retry',
   },
+  withdraw_warranty_success: {
+    image: '/assets/img/fiat-ramps/opeartion-km-in-progress/operation-km-in-progress.svg',
+    urlClose: '/tabs/wallets',
+    icon: '/assets/img/fiat-ramps/opeartion-km-in-progress/operation-icon.svg',
+    textPrimary: 'warranties.withdraw_success.textPrimary',
+    textSecondary: 'warranties.withdraw_success.textSecondary',
+    textOperation: 'warranties.withdraw_success.operation',
+    numeration: 'warranties.withdraw_success.numeration',
+    namePrimaryAction: 'warranties.withdraw_success.namePrimaryAction',
+    urlPrimaryAction: '/tabs/wallets',
+  },
 };

@@ -43,16 +43,7 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
       </div>
       <div class="list-divider"></div>
     </div>
-    <div class="wsc__item">
-      <div class="wsc__item__title__email">
-        <ion-text class="ux-font-titulo-xs">{{ this.emailTitle }}</ion-text>
-      </div>
-      <div class="wsc__item__content__email">
-        <ion-text class="ux-font-text-base">{{ this.warrantyData?.email }}</ion-text>
-      </div>
-      <div class="list-divider"></div>
-    </div>
-    <div class="wsc__item">
+    <div class="wsc__item" *ngIf="this.documentTitle">
       <div class="wsc__item__title__dni">
         <ion-text class="ux-font-titulo-xs">{{ this.documentTitle }}</ion-text>
       </div>
@@ -61,8 +52,16 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
       </div>
       <div class="list-divider"></div>
     </div>
-    <div class="wsc__item">
-      <div class="wsc__item__title__amount">
+    <div class="wsc__item" *ngIf="this.emailTitle">
+      <div class="wsc__item__title__email">
+        <ion-text class="ux-font-titulo-xs">{{ this.emailTitle }}</ion-text>
+      </div>
+      <div class="wsc__item__content__email">
+        <ion-text class="ux-font-text-base">{{ this.warrantyData?.email }}</ion-text>
+      </div>
+    </div>
+    <div class="wsc__item" *ngIf="this.amountTitle">
+      <div class="wsc__item__title__amount" >
         <ion-text class="ux-font-titulo-xs">{{ this.amountTitle }}</ion-text>
       </div>
       <div class="wsc__item__content__amount" *ngIf="this.warrantyData.amountWithoutCost">

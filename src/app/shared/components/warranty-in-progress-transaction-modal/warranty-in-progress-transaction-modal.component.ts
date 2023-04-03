@@ -69,7 +69,6 @@ export class WarrantyInProgressTransactionModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.data = SUCCESS_TYPES.warrant_success;
     this.trackScreenViewEvent();
   }
 
