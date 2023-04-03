@@ -2206,6 +2206,9 @@
       "button_disconnect": "End connection",
       "card_title": "Configure your connection",
       "card_description": "Choose the network from which you want to take the funds. Then scan the QR code on the Dapp.",
+      "errors": {
+        "invalidUri": "Check that the url you are providing corresponds to the WalletConnect connection protocol."
+      },
       "scan_qr": {
         "header": "Scan your Dapp QR code",
         "errors": {

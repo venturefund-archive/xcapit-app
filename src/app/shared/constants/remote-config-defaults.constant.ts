@@ -19,4 +19,5 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_sellEnabled: true,
   ff_fundFaucet: false,
   ff_fundFaucetOnWarranties: false,
+  ff_walletConnectV2: false,
 };

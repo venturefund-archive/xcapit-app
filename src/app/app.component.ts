@@ -30,6 +30,7 @@ import { NetworkInjectable } from './shared/models/network/injectable/network.in
 import { AppExpirationTimeService } from './shared/models/app-session/injectable/app-expiration-time.service';
 import { WCConnectionV2 } from './modules/wallets/shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from './modules/wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
+import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 @Component({
   selector: 'app-root',
   template: `
@@ -81,7 +82,8 @@ export class AppComponent implements OnInit {
     private browserService: BrowserService,
     private networkInjectable: NetworkInjectable,
     private navController: NavController,
-    private wcService: WCService
+    private wcService: WCService,
+    private remoteConfigService: RemoteConfigService
   ) {}
 
   ngOnInit() {
@@ -174,7 +176,7 @@ export class AppComponent implements OnInit {
   }
 
   private async checkWalletConnectAndDynamicLinks() {
-    await this.walletConnectServiceV2.subscribeToAllEvents();
+    await this.initWalletConnectV2();
     await this.walletConnectService.checkConnection();
     await this.walletConnectService.retrieveWalletConnect();
 
@@ -186,6 +188,10 @@ export class AppComponent implements OnInit {
         });
       });
     }
+  }
+
+  private async initWalletConnectV2(): Promise<void> {
+    if (this.isWalletConnectV2Enabled()) await this.walletConnectServiceV2.subscribeToAllEvents();
   }
 
   private _setBackgroundActions() {
@@ -219,8 +225,8 @@ export class AppComponent implements OnInit {
         if (!this.wcService.uri().isV2()) {
           this.walletConnectService.setUri(url);
           if (loggedIn) this.walletConnectService.checkDeeplinkUrl();
-        } else {
-          if (loggedIn) await this.navController.navigateForward(['wallets/wallet-connect/new-connection']);
+        } else if (this.isWalletConnectV2Enabled() && loggedIn) {
+          await this.navController.navigateForward(['wallets/wallet-connect/new-connection']);
         }
       }
     }
@@ -267,5 +273,9 @@ export class AppComponent implements OnInit {
         await loginModal.dismiss();
       }
     }
+  }
+
+  isWalletConnectV2Enabled(): boolean {
+    return this.remoteConfigService.getFeatureFlag('ff_walletConnectV2');
   }
 }
