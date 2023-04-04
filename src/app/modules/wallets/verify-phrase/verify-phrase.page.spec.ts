@@ -15,21 +15,6 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { SwiperModule } from 'swiper/angular';
 import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wallet-backup.service';
 
-const phraseTrue = [
-  {order:1,value:'test'},
-  {order:2,value:'phrase'},
-  {order:3,value:'other'}
-];
-const phraseFalse = [
-  {order:1,value:'test'},
-  {order:2,value:'phrase'},
-  {order:3,value:'word'}
-];
-const testMnemonic: Mnemonic = {
-  locale: 'en',
-  path: '',
-  phrase: 'test phrase other word number another rooster keyboard confort destroy jingle july',
-};
 
 describe('VerifyPhrasePage', () => {
   let component: VerifyPhrasePage;
@@ -41,6 +26,21 @@ describe('VerifyPhrasePage', () => {
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   
+  const phraseTrue = [
+    {order:1,value:'test'},
+    {order:2,value:'phrase'},
+    {order:3,value:'other'}
+  ];
+  const phraseFalse = [
+    {order:1,value:'test'},
+    {order:2,value:'phrase'},
+    {order:3,value:'word'}
+  ];
+  const testMnemonic: Mnemonic = {
+    locale: 'en',
+    path: '',
+    phrase: 'test phrase other word number another rooster keyboard confort destroy jingle july',
+  };  
 
   beforeEach(
     waitForAsync(() => {
@@ -153,7 +153,7 @@ describe('VerifyPhrasePage', () => {
     expect(walletMnemonicServiceSpy.clearMnemonic).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate /profiles/profile-test when the phrase is valid', async () => {
+  it('should navigate /tabs/wallets when the phrase is valid', async () => {
     storageSpy.get.and.resolveTo()
     component.ionViewWillEnter()
     component.wordsToVerify = phraseTrue;
@@ -164,7 +164,7 @@ describe('VerifyPhrasePage', () => {
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
     
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/profiles/profile-test']);    
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/tabs/wallets']);    
   });
 
 });
