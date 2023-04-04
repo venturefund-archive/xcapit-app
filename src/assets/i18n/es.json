@@ -3591,6 +3591,11 @@
       "operation": "Operación",
       "numeration": "N°",
       "namePrimaryAction": "Volver al Home"
+    },
+    "insufficient_balance": {
+      "text": "No tienes {{token}} en tu cuenta para realizar esta operación.",
+      "buy_button": "Comprar {{token}}",
+      "deposit_button": "Depositar {{token}}"
     }
   }
 }
