@@ -35,8 +35,18 @@ describe('SignRequest', () => {
     expect(signRequest.message()).toEqual('My email is john@doe.com - 1678769188349');
   });
 
-  it('message', () => {
+  it('isSignRequest', () => {
     expect(signRequest.method().isSignRequest()).toBeTrue();
+  });
+
+  it('json', () => {
+    expect(signRequest.json()).toEqual({
+      message: 'My email is john@doe.com - 1678769188349',
+      isSignRequest: true,
+      decodedData: null,
+      isApproval: false,
+      totalFeeAmount: undefined
+    });
   });
 
   it('approve', async () => {

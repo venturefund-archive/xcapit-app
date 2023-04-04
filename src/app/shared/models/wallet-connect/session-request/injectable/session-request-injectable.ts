@@ -17,7 +17,7 @@ export class SessionRequestInjectable {
     this.sessionRequest = await new SessionRequestFactory(signClient).createRequest(request, wallet);
   }
 
-  public request(): SessionRequest | SignRequest {
+  public request(): SessionRequest {
     return this.sessionRequest;
   }
 }

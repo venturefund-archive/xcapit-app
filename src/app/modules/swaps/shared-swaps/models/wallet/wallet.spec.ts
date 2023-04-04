@@ -52,6 +52,13 @@ describe('DefaultWallet', () => {
     expect(result).toEqual(true);
   });
 
+  it('send a single transaction', async () => {
+    wallet.onNeedPass().subscribe(() => testObject.testMethod());
+    const result = await wallet.sendTransaction(new FakeBlockchainTx());
+
+    expect(result.hash).toEqual('aTestHash');
+  });
+
   it('sign a message', async () => {
     wallet.onNeedPass().subscribe(() => testObject.testMethod());
     const result = await wallet.signMessage('some message');
@@ -93,6 +100,18 @@ describe('DefaultWallet', () => {
       const result = await fakeWallet.sendTxs([new FakeBlockchainTx(), new FakeBlockchainTx()]);
 
       expect(result).toEqual(false);
+    });
+
+    it('send a single transaction', async () => {
+      const result = await fakeWallet.sendTransaction(new FakeBlockchainTx());
+
+      expect(result.hash).toEqual('aTxHash');
+    });
+
+    it('sign a message', async () => {
+      const result = await fakeWallet.signMessage('some message');
+
+      expect(result).toEqual('signed message');
     });
   });
 });

@@ -32,7 +32,7 @@ export class FakeEthersWallet {
   }
 
   sendTransaction() {
-    return Promise.resolve({ wait: () => Promise.resolve(true) });
+    return Promise.resolve({ hash: 'aTestHash', wait: () => Promise.resolve(true) });
   }
 
   signMessage() {
