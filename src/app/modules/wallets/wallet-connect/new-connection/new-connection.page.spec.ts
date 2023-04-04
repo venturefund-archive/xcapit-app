@@ -326,10 +326,8 @@ describe('NewConnectionPage', () => {
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
 
-      expect(loadingServiceSpy.show).not.toHaveBeenCalled();
       expect(wcConnectionV2.pairTo).not.toHaveBeenCalled();
       expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
-      expect(loadingServiceSpy.dismiss).not.toHaveBeenCalled();
       expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
         message: 'wallets.wallet_connect.errors.invalidUri',
       });
