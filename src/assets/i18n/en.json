@@ -3431,6 +3431,11 @@
       "operation": "Operation",
       "numeration": "No.",
       "namePrimaryAction": "Back to Home"
+    },
+    "insufficient_balance": {
+      "text": "You do not have {{token}} in your account to perform this operation.",
+      "buy_button": "Buy {{token}}",
+      "deposit_button": "Deposit {{token}}"
     }
   }
 }
