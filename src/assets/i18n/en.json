@@ -3362,8 +3362,8 @@
   },
   "warranties": {
     "modal_info": {
-      "highlightedHeader": "More credit for your card",
-      "header": "Leave your cryptocurrencies as collateral to increase your card limit.",
+      "highlightedHeader": "Improve your credit!",
+      "header": "Leave your cryptocurrencies as collateral to get your card or increase its limit.",
       "information": "More information",
       "firstButton": "Make a warranty",
       "secondButton": "Withdraw warranty"
