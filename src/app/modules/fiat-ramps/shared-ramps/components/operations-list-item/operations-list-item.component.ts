@@ -77,13 +77,11 @@ export class OperationsListItemComponent implements OnInit {
   }
 
   private setCoinAndAmount() {
-    if (this.isBuy) {
-      const asset = this.fiatRampsService
-        .getProvider(1)
-        .currencies.find((c) => c.symbol === this.operation.currency_out);
-      this.coin = this.apiWalletService.getCoin(asset.symbol, asset.network);
-      this.amount = this.operation.amount_out;
-    }
+    const asset = this.fiatRampsService
+      .getProvider(1)
+      .currencies.find((c) => c.symbol === (this.isBuy ? this.operation.currency_out : this.operation.currency_in));
+    this.coin = this.apiWalletService.getCoin(asset.symbol, asset.network);
+    this.amount = this.operation.amount_out;
   }
 
   private getOperationStatus(): OperationStatus {
