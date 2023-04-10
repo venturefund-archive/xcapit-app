@@ -6,7 +6,7 @@ import { Blockchain } from '../../../../../modules/swaps/shared-swaps/models/blo
 import { rawPolygonData } from '../../../../../modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { getSdkError } from '@walletconnect/utils';
 
-fdescribe('SendTransactionRequest', () => {
+describe('SendTransactionRequest', () => {
   let sendTransactionRequest: SendTransactionRequest;
   let signClientSpy: jasmine.SpyObj<SignClientV2>;
   let fakeWallet: Wallet;

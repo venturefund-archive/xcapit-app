@@ -37,12 +37,12 @@ export class SendTransactionRequest implements SessionRequest {
   }
 
   public json(): TplSessionRequest {
-    const decodedData = this._decodedData();
+    const transactionType = this._transactionType();
     return {
       message: undefined,
       isSignRequest: false,
-      decodedData: decodedData,
-      isApproval: this._isApproval(decodedData),
+      decodedData: transactionType,
+      isApproval: this._isApproval(transactionType),
       totalFeeAmount: this._fee(),
     };
   }
@@ -54,19 +54,19 @@ export class SendTransactionRequest implements SessionRequest {
     return decoder;
   }
 
-  private _decodedData() {
+  private _transactionType() {
+    let result = null;
     const decodedData = this._contractsAbi().decodeMethod(this._aRawSessionRequest.params.request.params[0].data);
 
     if (decodedData && decodedData.name) {
       const type = transactionType.filter((type) => type.name === decodedData.name)[0];
       if (type) {
         type.data = decodedData.params;
-
-        return type;
+        result = type;
       }
     }
 
-    return null;
+    return result;
   }
 
   private _fee(): number {
