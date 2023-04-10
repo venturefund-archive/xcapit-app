@@ -1,21 +1,12 @@
 import { SendTransactionRequest } from './send-transaction-request';
 import { SignClientV2 } from '../../sign-client/sign-client';
 import { FakeWallet, Wallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/wallet';
-import {
-  rawPersonalSignRequest,
-  rawSendTransactionRequestDefault,
-} from '../../../../../modules/wallets/shared-wallets/fixtures/raw-wallet-connect-requests';
-import { wallet } from 'ionicons/icons';
-import { DefaultBlockchains } from '../../../../../modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { rawSendTransactionRequestDefault } from '../../../../../modules/wallets/shared-wallets/fixtures/raw-wallet-connect-requests';
 import { Blockchain } from '../../../../../modules/swaps/shared-swaps/models/blockchain/blockchain';
-import {
-  rawEthereumData,
-  rawPolygonData,
-} from '../../../../../modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
-import { rawMATICData } from '../../../../../modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawPolygonData } from '../../../../../modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { getSdkError } from '@walletconnect/utils';
 
-describe('SendTransactionRequest', () => {
+fdescribe('SendTransactionRequest', () => {
   let sendTransactionRequest: SendTransactionRequest;
   let signClientSpy: jasmine.SpyObj<SignClientV2>;
   let fakeWallet: Wallet;

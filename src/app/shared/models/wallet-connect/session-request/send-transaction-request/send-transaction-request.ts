@@ -71,11 +71,11 @@ export class SendTransactionRequest implements SessionRequest {
 
   private _fee(): number {
     return new AmountOf(
-      BigNumber.from(this._aRawSessionRequest.params.request.params[0].gasLimit)
-        .mul(BigNumber.from(this._aRawSessionRequest.params.request.params[0].gasPrice))
-        .toString(),
+      this._aRawSessionRequest.params.request.params[0].gasLimit,
       this._aWallet.blockchain().nativeToken()
-    ).value();
+    )
+      .times(this._aRawSessionRequest.params.request.params[0].gasPrice)
+      .value();
   }
 
   private _isApproval(decodedData: any): boolean {
