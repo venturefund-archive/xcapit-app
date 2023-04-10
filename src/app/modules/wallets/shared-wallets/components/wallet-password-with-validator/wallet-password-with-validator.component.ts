@@ -79,7 +79,6 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 })
 export class WalletPasswordWithValidatorComponent implements OnInit {
   @Input() state: string;
-  @Input() customEvent: string;
   form: UntypedFormGroup = this.formBuilder.group({
     password: ['', [Validators.required]],
   });
@@ -88,7 +87,7 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
   trackClickEventName: string;
   biometricAuth: BiometricAuth;
   isBiometricEnabled = false;
-  biometricAuthEvent: string;
+  customEvent: string;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -173,7 +172,7 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
 
   setBiometricAuthEvent() {
     this.trackService.trackEvent({
-      eventLabel: `${this.biometricAuthEvent}`,
+      eventLabel: `${this.customEvent}`,
     });
   }
 }
