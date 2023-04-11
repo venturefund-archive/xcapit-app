@@ -29,9 +29,9 @@ export class KriptonLogOutInterceptorService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         return this._checkEndpoint(error)
           ? fromPromise(this._refreshTokens()).pipe(
-              mergeMap(({ access_token, refresh_token }) => {
-                this._saveTokens(access_token, refresh_token);
-                return next.handle(this.clonedRequest(req, access_token));
+              mergeMap(({ token, refresh_token }) => {
+                this._saveTokens(token, refresh_token);
+                return next.handle(this.clonedRequest(req, token));
               }),
               catchError((error: HttpErrorResponse) => {
                 this._logOutKripton();
@@ -55,7 +55,7 @@ export class KriptonLogOutInterceptorService implements HttpInterceptor {
     return false;
   }
 
-  private async _refreshTokens(): Promise<{ access_token: string; refresh_token: string }> {
+  private async _refreshTokens(): Promise<{ token: string; refresh_token: string }> {
     return this.fiatRampsService.refreshToken(await this._getTokens()).toPromise();
   }
 
@@ -83,7 +83,7 @@ export class KriptonLogOutInterceptorService implements HttpInterceptor {
   }
 
   clonedRequest(req: HttpRequest<any>, token: string): HttpRequest<any> {
-    const body = Object.assign({ auth_token: token }, req.body);
+    const body = Object.assign( req.body, { auth_token: token });
     return req.clone({ body });
   }
 }

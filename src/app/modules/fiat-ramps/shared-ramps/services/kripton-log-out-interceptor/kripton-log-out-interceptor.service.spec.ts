@@ -28,7 +28,7 @@ describe('KriptonLogOutInterceptorService', () => {
       handle: requestError,
     });
 
-    requestMock = new HttpRequest('GET', urlKripton);
+    requestMock = new HttpRequest('POST', urlKripton, {auth_token: 'an_old_token'});
     storageSpy = jasmine.createSpyObj('KriptonStorageService', {
       removeCredentials: Promise.resolve(),
       renewTokens: Promise.resolve(),
@@ -45,7 +45,7 @@ describe('KriptonLogOutInterceptorService', () => {
       byKey: 'testUrl',
     });
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      refreshToken: of({ access_token: 'an_access_token', refresh_token: 'a_refresh_token' }),
+      refreshToken: of({ token: 'an_access_token', refresh_token: 'a_refresh_token' }),
     });
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
