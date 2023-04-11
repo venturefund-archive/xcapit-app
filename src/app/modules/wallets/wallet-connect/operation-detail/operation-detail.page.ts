@@ -1,22 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { WalletEncryptionService } from '../../shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { WalletPasswordComponent } from '../../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
+import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-password/wallet-password.component';
 import { NavController } from '@ionic/angular';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { BigNumber, ethers, Wallet } from 'ethers';
+import { ethers, Wallet } from 'ethers';
 import * as moment from 'moment';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { EthersService } from '../../shared-wallets/services/ethers/ethers.service';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
-import { SignRequest } from '../../../../shared/models/wallet-connect/session-request/sign-request/sign-request';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
-import { AmountOf } from '../../../swaps/shared-swaps/models/amount-of/amount-of';
-import { DefaultToken } from '../../../swaps/shared-swaps/models/token/token';
-import { TplSessionRequest } from '../../../../shared/models/wallet-connect/session-request/session-request.interface';
+import { HtmlOf } from '../../../../shared/models/wallet-connect/html-of/html-of';
+import { HtmlContentOf } from 'src/app/shared/models/wallet-connect/html-content-of/html-content-of';
 
 @Component({
   selector: 'app-operation-detail',
@@ -104,7 +102,7 @@ import { TplSessionRequest } from '../../../../shared/models/wallet-connect/sess
             <app-sign-request
               [message]="this.message"
               [dateInfo]="this.dateInfo"
-              *ngIf="this.isSignRequest"
+              *ngIf="this.isSignRequest && this.message !== undefined"
             ></app-sign-request>
           </div>
 
@@ -150,7 +148,7 @@ export class OperationDetailPage {
   public decodedData: any = null;
   public transactionConfirmed = false;
   public transactionDetail;
-  public message: any;
+  public message: HTMLElement;
   public dateInfo = {
     date: null,
     time: null,
@@ -200,9 +198,12 @@ export class OperationDetailPage {
     const sessionRequest = this.sessionRequestInjectable.request();
     const session = this.wcConnectionV2.session();
     const sessionTpl = sessionRequest.json();
+
     this.peerMeta = session.peerMetadata();
     this.providerSymbol = session.wallet().blockchain().nativeToken().symbol();
+
     this.transactionDetail = sessionRequest.raw()?.params.request;
+
     this.message = sessionTpl.message;
     this.isSignRequest = sessionTpl.isSignRequest;
     this.decodedData = sessionTpl.decodedData;
@@ -245,79 +246,28 @@ export class OperationDetailPage {
         this.getTotalFeeAmount(gasLimit);
         break;
       }
-      case 'personal_sign': {
-        try {
-          this.message = ethers.utils.toUtf8String(request.params[0]);
-        } catch (e) {
-          this.message = request.params[0];
-        }
-
-        break;
-      }
+      case 'personal_sign':
       case 'eth_sign': {
+        let text = '';
         try {
-          this.message = ethers.utils.toUtf8String(request.params[1]);
+          text = ethers.utils.toUtf8String(request.params[1]);
         } catch (e) {
-          this.message = request.params[1];
+          text = request.params[1];
+        } finally {
+          this.message = new HtmlOf(text).value();
         }
-
         break;
       }
       case 'eth_signTypedData':
       case 'eth_signTypedData_v1':
       case 'eth_signTypedData_v3':
       case 'eth_signTypedData_v4': {
-        const jsonData = JSON.parse(request.params[1]);
-        delete jsonData.types;
-        const finalRes = this.htmlFormatParse(jsonData);
-        document.getElementById('message').appendChild(finalRes);
-
+        const jsonParams = JSON.parse(request.params[1]);
+        delete jsonParams.types;
+        this.message = new HtmlContentOf(jsonParams).value();
         break;
       }
-      default:
-        this.message = '';
     }
-  }
-
-  htmlFormatParse(obj, child = false) {
-    let res;
-    const html = document.createElement('div');
-
-    Object.keys(obj).forEach((key) => {
-      if (typeof obj[key] !== 'object') {
-        res = this.createHtmlElement(child, key, obj[key]);
-      } else {
-        const title = this.createHtmlElement(child, key);
-        const subContent = this.htmlFormatParse(obj[key], true);
-        title.appendChild(subContent);
-        res = title;
-      }
-
-      html.appendChild(res);
-    });
-
-    return html;
-  }
-
-  createHtmlElement(child, key, value = null) {
-    const html = document.createElement('div');
-    const title = document.createElement('span');
-
-    if (child) {
-      html.style.marginLeft = '16px';
-    }
-
-    title.style.fontWeight = '700';
-    title.appendChild(document.createTextNode(key + ': '));
-    html.appendChild(title);
-
-    if (value) {
-      const content = document.createElement('span');
-      content.appendChild(document.createTextNode(value));
-      html.appendChild(content);
-    }
-
-    return html;
   }
 
   public async cancelOperation() {
@@ -371,7 +321,7 @@ export class OperationDetailPage {
     try {
       await this.sessionRequestInjectable.request().approve();
       this.navController.pop();
-    } catch {
+    } catch (err) {
       this.loadingEnabled(false);
       this.showAlertTxError();
     }

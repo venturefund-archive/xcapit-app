@@ -8,6 +8,7 @@ import { FakeConnection } from '../fakes/fake-connection';
 import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
 import { Password } from '../password/password';
 import { MnemonicOf } from 'src/app/modules/wallets/shared-wallets/models/mnemonic-of/mnemonic-of';
+import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer';
 
 export interface Wallet {
   address: () => string;
@@ -16,6 +17,11 @@ export interface Wallet {
   blockchain: () => IBlockchain;
   signMessage?: (message: string) => Promise<string>;
   sendTransaction?: (tx: BlockchainTx) => Promise<any>;
+  signTypedData?: (
+    domain: TypedDataDomain,
+    types: Record<string, Array<TypedDataField>>,
+    value: Record<string, any>
+  ) => any;
 }
 
 export class DefaultWallet implements Wallet {
@@ -56,6 +62,14 @@ export class DefaultWallet implements Wallet {
     return connectedWallet.signMessage(message);
   }
 
+  public async signTypedData(
+    domain: TypedDataDomain,
+    types: Record<string, Array<TypedDataField>>,
+    value: Record<string, any>
+  ) : Promise<any>{
+    return this._connectedWallet(await this._derivedWallet())._signTypedData(domain, types, value);
+  }
+
   private _encryptedWallet(): string {
     return this._rawData['encryptedWallet'];
   }
@@ -74,6 +88,7 @@ export class DefaultWallet implements Wallet {
   private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {
     return aEthersWallet.connect(new this._ethersProviders.JsonRpcProvider(this._aBlockchain.rpc()));
   }
+
 }
 
 export class SendTxsError extends Error {
@@ -118,6 +133,16 @@ export class FakeWallet implements Wallet {
   async signMessage(message: string): Promise<string> {
     return 'signed message';
   }
+
+  public async signTypedData(
+    domain: TypedDataDomain,
+    types: Record<string, Array<TypedDataField>>,
+    value: Record<string, any>
+  ) : Promise<any>{
+    await this._onNeedPass.notify();
+    return Promise.resolve();
+  }
+
 
   private _checkError() {
     if (this.error) {

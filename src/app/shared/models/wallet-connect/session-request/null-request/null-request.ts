@@ -21,7 +21,7 @@ export class NullRequest implements SessionRequest {
 
   json(): TplSessionRequest {
     return {
-      message: '',
+      message: undefined,
       isSignRequest: false,
       decodedData: null,
       isApproval: false,

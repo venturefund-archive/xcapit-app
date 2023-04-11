@@ -31,21 +31,19 @@ describe('SignRequest', () => {
     expect(signRequest.raw()).toEqual(rawPersonalSignRequest);
   });
 
-  it('message', () => {
-    expect(signRequest.message()).toEqual('My email is john@doe.com - 1678769188349');
-  });
-
   it('isSignRequest', () => {
     expect(signRequest.method().isSignRequest()).toBeTrue();
   });
 
   it('json', () => {
+    const message = document.createElement('div');
+    message.appendChild(document.createTextNode('My email is john@doe.com - 1678769188349'));
     expect(signRequest.json()).toEqual({
-      message: 'My email is john@doe.com - 1678769188349',
+      message: message,
       isSignRequest: true,
       decodedData: null,
       isApproval: false,
-      totalFeeAmount: undefined
+      totalFeeAmount: undefined,
     });
   });
 

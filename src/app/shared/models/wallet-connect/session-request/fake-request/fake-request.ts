@@ -15,12 +15,18 @@ export class FakeRequest implements SessionRequest {
 
   json(): TplSessionRequest {
     return {
-      message: 'My email is john@doe.com - 1678769188349',
+      message: this._message(),
       isSignRequest: true,
       decodedData: null,
       isApproval: false,
       totalFeeAmount: undefined,
     };
+  }
+
+  private _message() {
+    const element = document.createElement('div');
+    element.appendChild(document.createTextNode('My email is john@doe.com - 1678769188349'));
+    return element;
   }
 
   method(): RequestMethod {
