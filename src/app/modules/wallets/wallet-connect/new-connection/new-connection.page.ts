@@ -9,7 +9,6 @@ import { NavController } from '@ionic/angular';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { ScanQrModalComponent } from '../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingService } from '../../../../shared/services/loading/loading.service';
 import { ToastService } from '../../../../shared/services/toast/toast.service';
 import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
 import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
@@ -155,7 +154,6 @@ export class NewConnectionPage {
     private modalController: ModalController,
     private alertController: AlertController,
     private translate: TranslateService,
-    private loadingService: LoadingService,
     private toastService: ToastService,
     private platform: Platform,
     private wcService: WCService,
@@ -289,7 +287,6 @@ export class NewConnectionPage {
   }
 
   public async initWalletConnectV2() {
-    await this.loadingService.show();
     try {
       const blockchain = this.blockchains.create().oneById(this.selectedWallet.chainId.toString());
       const wallet = await this.wallets.create().oneBy(blockchain);
@@ -298,14 +295,10 @@ export class NewConnectionPage {
       this.form.patchValue({ wallet: null, uri: '' });
     } catch (error) {
       await this.showAlertOnConnectionError();
-    } finally {
-      await this.loadingService.dismiss();
-    }
+    } 
   }
 
   public async legacyInit(): Promise<void> {
-    await this.loadingService.show();
-
     try {
       await this.walletConnectService.setAccountInfo(this.selectedWallet);
       await this.walletConnectService.initWalletConnect(this.form.value.uri);
@@ -318,8 +311,6 @@ export class NewConnectionPage {
     } catch (error) {
       await this.killSession();
       await this.showAlertOnConnectionError();
-    } finally {
-      await this.loadingService.dismiss();
     }
   }
 
