@@ -72,8 +72,6 @@ export class WarrantySummaryPage {
   walletAddress: string;
   transactionData: SummaryWarrantyData;
   warantyOperationId: any;
-  isFeatureFlagFaucet: boolean;
-  isElegibleToFund: boolean;
   nativeTokenBalance: number;
 
   constructor(
@@ -90,13 +88,11 @@ export class WarrantySummaryPage {
   ) {}
 
   async ionViewWillEnter() {
-    this.checkFeatureFlagFaucet();
     this.trackScreenview();
     this.warrantyData = this.warrantyDataService.data;
     await this.userWalletAddress();
     this.calculateWarrantyAmounts();
     await this.setNativeTokenBalance();
-    this.setIsElegibleToFund();
   }
 
   trackScreenview() {
@@ -107,18 +103,14 @@ export class WarrantySummaryPage {
     });
   }
 
-  checkFeatureFlagFaucet() {
-    this.isFeatureFlagFaucet = this.remoteConfig.getFeatureFlag('ff_fundFaucetOnWarranties');
+  isFaucetActivated() {
+    return this.remoteConfig.getFeatureFlag('ff_fundFaucetOnWarranties');
   }
 
   async setNativeTokenBalance() {
     this.nativeTokenBalance = await this.walletBalance.balanceOf(
       this.apiWalletService.getNativeTokenFromNetwork(this.warrantyData.coin.network)
     );
-  }
-
-  setIsElegibleToFund() {
-    this.isElegibleToFund = this.isFeatureFlagFaucet ? this.nativeTokenBalance === 0.0 : false;
   }
 
   async handleSubmit(skipChecksBeforeSend: boolean = false) {
@@ -189,11 +181,7 @@ export class WarrantySummaryPage {
         await this.handleUserCantAffordTx();
         return false;
       }
-    } else {
-      if (!this.isElegibleToFund) {
-        return false;
-      }
-    }
+    } 
     return true;
   }
 
@@ -289,7 +277,7 @@ export class WarrantySummaryPage {
   }
 
   async fundWallet() {
-    if (this.isElegibleToFund) {
+    if (this.isFaucetActivated()) {
       await this.defiInvesmentService.fundWallet().toPromise();
       this.sendFundWalletEvent();
     }
