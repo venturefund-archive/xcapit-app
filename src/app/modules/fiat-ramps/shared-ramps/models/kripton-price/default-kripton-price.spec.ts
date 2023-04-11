@@ -30,7 +30,7 @@ describe('DefaultKriptonPrice', () => {
     fakeHttpClientSpy = jasmine.createSpyObj('HttpClient', {
       post: of(amountOutResponse),
     });
-    kriptonPrice = new DefaultKriptonPrice('ars', coinSpy, fakeHttpClientSpy);
+    kriptonPrice = new DefaultKriptonPrice('ars',coinSpy,'cash-in', fakeHttpClientSpy);
   });
 
   it('new', () => {

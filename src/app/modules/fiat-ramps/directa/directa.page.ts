@@ -53,7 +53,8 @@ import { D24_PAYMENT_TYPES } from '../shared-ramps/constants/payment-types';
             [fiatCurrency]="this.fiatCurrency"
             [provider]="this.provider"
             [coinSelectorEnabled]="false"
-            [minimumFiatAmount]="this.minimumFiatAmount"
+            [minimumAmount]="this.minimumFiatAmount"
+            [minimumCurrency]="this.fiatCurrency"
             [fee]="this.fee"
             [paymentType]="this.paymentType"
           ></app-provider-new-operation-card>
@@ -103,7 +104,7 @@ export class DirectaPage implements OnInit {
   minimumFiatAmount: number;
   minimumCryptoAmount: number;
   minimumUSDAmount = 10;
-  fee = { value: 0, token: '' };
+  fee = { value: 0, token: '', totalDigits: 10, maxDecimals: 2 };
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -156,11 +157,17 @@ export class DirectaPage implements OnInit {
 
   async setCryptoToken() {
     const { asset, network } = this.tokenOperationDataService.tokenOperationData;
-    this.selectedCurrency = (await this.providerTokens()).find((token) => token.value === asset && token.network === network);
+    this.selectedCurrency = (await this.providerTokens()).find(
+      (token) => token.value === asset && token.network === network
+    );
   }
 
   async providerTokens() {
-    return await new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins(), this.fiatRampsService).byAlias(this.provider.alias);
+    return await new ProviderTokensOf(
+      this.getProviders(),
+      this.apiWalletService.getCoins(),
+      this.fiatRampsService
+    ).byAlias(this.provider.alias);
   }
 
   depositLinkRequest(depositCreationData: DirectaDepositCreationData): DepositLinkRequest {

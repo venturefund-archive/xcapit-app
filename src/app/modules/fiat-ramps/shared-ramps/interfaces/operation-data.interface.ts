@@ -14,4 +14,5 @@ export interface OperationDataInterface {
   operation_id?: number;
   created_at?: Date;
   fee?: string;
+  providerFee?:string;
 }

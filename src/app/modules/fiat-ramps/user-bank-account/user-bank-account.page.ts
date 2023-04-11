@@ -133,7 +133,7 @@ export class UserBankAccountPage {
     ];
     this._addFieldsToForm(fields);
   }
-  
+
   private _addFieldsToForm(fields) {
     for (const field of fields) {
       this._createAndAddFieldToForm(field);
@@ -160,6 +160,6 @@ export class UserBankAccountPage {
   }
 
   continue() {
-    this.navController.navigateForward(['']);
+    this.navController.navigateForward(['fiat-ramps/sell-order']);
   }
 }
