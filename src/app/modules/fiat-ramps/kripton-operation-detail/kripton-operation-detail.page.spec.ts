@@ -22,6 +22,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
+import { ScanUrlOf } from '../../wallets/shared-wallets/models/scan-url-of/scan-url-of';
 
 describe('KriptonOperationDetailPage', () => {
   let component: KriptonOperationDetailPage;
@@ -278,5 +279,17 @@ describe('KriptonOperationDetailPage', () => {
     fixture.detectChanges();
     const infoIcon = fixture.debugElement.query(By.css('ion-icon[name="information-circle"]'));
     expect(infoIcon).toBeNull();
+  });
+  
+  it('should open scan when link is clicked', async () => {
+    const completeOperation: FiatRampOperation = { ...testOperation, status: 'complete' };
+    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([completeOperation]));
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-item.kod__card-container__card__state')).nativeElement.click();
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({
+      url: ScanUrlOf.create(component.operation.tx_hash, component.operation.network).value(),
+    });
   });
 });
