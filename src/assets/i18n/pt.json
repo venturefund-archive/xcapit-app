@@ -15,7 +15,7 @@
       "api_keys_managment": "Gerenciar chaves de API",
       "change_language": "Linguagem",
       "payment": "Planos",
-      "wallet_connect": "Wallet Connect",
+      "wallet_connect": "WalletConnect",
       "pull_to_refresh": "Próxima atualização disponível em {{seconds}} s"
     }
   },
@@ -183,7 +183,7 @@
       "resend_email_button": "não recebi o e-mail",
       "referral_code_text": "Código de Referencia",
       "manual_referral": "Digite o código de referência",
-      "referral_code_label": "Código de indicação (opcional)",
+      "referral_code_label": "Código de referência (opcional)",
       "back_login": "Já tem conta? Entrar no Xcapit",
       "accept_tos": "Concordo",
       "link_tos": "Termos e Condições",
@@ -339,7 +339,7 @@
     "withdraw_notifications": {
       "success": { "title": "💸 Retirada com sucesso", "body": "Você retirou {{amount}} {{token}} em {{date}}." },
       "error": {
-        "title": "🚨 Erro de retirada",
+        "title": "🚨 Erro de saque",
         "body": "Ocorreu um erro na retirada de {{amount}} {{token}} em {{date}}."
       }
     },
@@ -614,7 +614,7 @@
       "language": "Linguagem",
       "logout": "Sair",
       "new_badge": "Novo",
-      "category_walletconnect": "Wallet Connect",
+      "category_walletconnect": "WalletConnect",
       "connected_walletconnect": "Conectado",
       "disconnected_walletconnect": "Desconectado",
       "category_contacts": "lista de carteiras",
@@ -894,7 +894,7 @@
       "p32": "Quando estiver dentro da sua conta, clique em saldos",
       "p33": "Clique em Baixar USD",
       "p34": "Selecione onde deseja receber el dinero, fazendo clique sobre “tengo nuevas instrucciones”",
-      "p35": "Selecione o país de sua conta bancária",
+      "p35": "Selecione o país da sua conta bancária",
       "p36": "e o método de pagamento",
       "p37": "Luego completa todos os campos do formulário que se despliega",
       "p38": "Por último, clique em Descargar e bitex se comunicará",
@@ -945,7 +945,7 @@
     "to-NF": "Mudando para {{ca}}.",
     "toUSDT": "Alterado para USDT",
     "toBTC": "Alterado para BTC",
-    "finalizado": "Finalizado"
+    "finalizado": "finalizado"
   },
   "errorCodes": {
     "funds": {
@@ -958,7 +958,7 @@
         "creatingSubscriber": "Erro ao inscrever-se no fundo.",
         "creatingPartialsBalance": "Você não tem fundos suficientes na conta.",
         "invalidData": "Dados inválidos.",
-        "notLinkedApiKeys": "Você não tem chave API/Secret para criar um novo fundo.",
+        "notLinkedApiKeys": "Você não tem API/chave secreta para criar um novo fundo.",
         "cantUpdateKeys": "Não podemos vincular a chave da API ao novo fundo.",
         "hasSpecialCharacters": "O nome do fundo tem caracteres proibidos.",
         "accountBalanceIsNotEnough": "Você não tem capital suficiente para criar o fundo.",
@@ -1263,7 +1263,7 @@
     },
     "result_objetive": {
       "saving": "Salvar",
-      "saving_description": "Dependendo de suas receitas e despesas mensais, você pode economizar {{savings}} USD por mês. Você atingiria seu objetivo em {{weeks}} semanas.",
+      "saving_description": "Dependendo de suas receitas e despesas mensais, você pode economizar {{saving}} USD por mês. Você atingiria seu objetivo em {{weeks}} semanas.",
       "invest": "Investir",
       "invest_description": "Se você investir mensalmente em DeFi, obterá retornos. Assim, você alcançaria seu objetivo em:",
       "disclaimer": "*Esses resultados são apenas uma simulação e podem variar de um dia para o outro. Eles não incluem juros compostos e não são conselhos financeiros.",
@@ -1625,7 +1625,7 @@
       "copied_text": "A frase de recuperação foi copiada para a área de transferência",
       "copy_error_text": "A frase de recuperação não pôde ser copiada para a área de transferência",
       "protected": "backup completo",
-      "not_protected": "Nenhuma cópia de segurança",
+      "not_protected": "Nenhuma cópia de backup",
       "loading_text": "Descriptografar carteira",
       "loading_label": "Aguarde alguns segundos...",
       "error_toast": "a senha que você digitou está incorreta"
@@ -1736,7 +1736,7 @@
       "toast_success": "Copiado para a área de transferência"
     },
     "nft_detail": {
-      "title": "Detalhe da NFT",
+      "title": "Detalhe NFT",
       "label1": "Criado por",
       "label2": "Informações da Cadeia",
       "label_input1": "Endereço do contrato",
@@ -1964,7 +1964,7 @@
       "button_home": "Ir para a carteira"
     },
     "wallet_connect": {
-      "header": "Wallet Connect",
+      "header": "WalletConnect",
       "title": "Nova conexão",
       "text_before": "Carteira",
       "QR_label": "Iniciar conexão de",
@@ -2347,7 +2347,7 @@
       "title": "O que significa este estado?",
       "button": "Entendido",
       "incomplete": {
-        "description": "Sua solicitação de compra foi recebida com sucesso pelo provedor. <b>Isso não significa que a compra foi feita.</b> Para tal, deverá realizar os restantes passos: anexar o comprovativo da transferência e enviar-nos.",
+        "description": "Sua solicitação de compra foi recebida com sucesso pelo provedor. <b>Isso não significa que a compra foi feita.</b> Para tal, deverá cumprir os restantes passos: anexar o comprovativo da transferência e enviar-nos.",
         "description2": "Tem até 72 horas para o fazer, caso contrário a sua encomenda será cancelada."
       },
       "in_progress": {
@@ -2536,7 +2536,7 @@
         "complete": {
           "title": "Parabéns! 🎉 Cadastro concluído",
           "subtitle": "⏱ O Kripton Market está validando sua conta. Esse processo pode levar até 48 horas",
-          "subtitle_2": "🛒 Depois de validar a sua conta, poderá fazer as suas compras com este fornecedor"
+          "subtitle_2": "🛒 Assim que tiver a sua conta validada, poderá efetuar as suas compras com este fornecedor"
         }
       },
       "validation_content": {
