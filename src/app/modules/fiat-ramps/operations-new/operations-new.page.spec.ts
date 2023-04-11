@@ -27,7 +27,39 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
+  const availableKriptonCurrencies = [
+    {
+      network: 'MATIC',
+      currencies: ['USDC', 'MATIC', 'DAI'],
+    },
+  ];
 
+  const links =
+  "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
+
+const validForm = {
+  cryptoAmount: 10,
+  fiatAmount: 10,
+  thirdPartyKYC: true,
+  thirdPartyTransaction: true,
+  acceptTOSAndPrivacyPolicy: true,
+};
+
+const data = {
+  email: 'test@test.com',
+  auth_token: 'test',
+  country: 'country',
+  type: 'cash-in',
+  amount_in: 105,
+  amount_out: 100,
+  currency_in: 'ARS',
+  currency_out: 'USDT',
+  price_in: '1',
+  price_out: '100',
+  wallet: '0x000000000000000000000dead',
+  provider: '1',
+  network: 'MATIC',
+};
 
 describe('OperationsNewPage', () => {
   let component: OperationsNewPage;
@@ -52,40 +84,6 @@ describe('OperationsNewPage', () => {
   let fakeModalController: FakeModalController;
   let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
 
-  const availableKriptonCurrencies = [
-    {
-      network: 'MATIC',
-      currencies: ['USDC', 'MATIC', 'DAI'],
-    },
-  ];
-
-  const links =
-  "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
-
-const validForm = {
-  cryptoAmount: 10,
-  fiatAmount: 10,
-  thirdPartyKYC: true,
-  thirdPartyTransaction: true,
-  acceptTOSAndPrivacyPolicy: true,
-};
-
-const data = {
-  email: 'test@test.com',
-  country: 'country',
-  type: 'cash-in',
-  amount_in: '100',
-  amount_out: '100',
-  currency_in: 'ARS',
-  currency_out: 'USDT',
-  price_in: '1',
-  price_out: '100',
-  wallet: '0x000000000000000000000dead',
-  provider: '1',
-  network: 'MATIC',
-  auth_token: 'test',
-};
-
   beforeEach(waitForAsync(() => {
     navControllerSpy = new FakeNavController().createSpy();
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
@@ -100,6 +98,7 @@ const data = {
       createOperation: of({ id: 335 }),
       getKriptonMinimumAmount: of({ minimun_general: 2913 }),
       getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
+      getKriptonFee: of({ data: { costs: '0.50', amount_in: '100', amount_out: '200' } })
     });
 
     coinsSpy = [
@@ -107,7 +106,7 @@ const data = {
       jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
     ];
 
-    fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'ARS' });
+    fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'ARG' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
@@ -148,7 +147,7 @@ const data = {
       'TokenOperationDataService',
       {},
       {
-        tokenOperationData: { asset: 'DAI', network: 'MATIC', country: 'ARS' },
+        tokenOperationData: { asset: 'DAI', network: 'MATIC', country: 'ARG' },
       }
     );
 
@@ -180,7 +179,7 @@ const data = {
     fixture = TestBed.createComponent(OperationsNewPage);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'MATIC', country: 'ARS' });
+    fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'MATIC', country: 'ARG' });
     component.fiatPrice = 10;
     fixture.detectChanges();
   });
@@ -191,6 +190,7 @@ const data = {
 
   it('should set properly fiatAmount form value with minimum fiat amount', async () => {
     dynamicKriptonPriceSpy.value.and.returnValue(of(1));
+    fiatRampsServiceSpy.getKriptonFee.and.returnValue(of({data: { costs: '0.50', amount_in: '2913', amount_out: '100' }}))
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
@@ -206,7 +206,7 @@ const data = {
       name: 'Argentina',
       value: 'fiat_ramps.countries_list.argentina',
       fiatCode: 'ars',
-      isoCodeAlpha3: 'ARS',
+      isoCodeAlpha3: 'ARG',
       iso4217CurrencyCode: 'ARS',
       directaCode: 'AR',
       isoCurrencyCodeDirecta: 'ARS',
@@ -257,18 +257,20 @@ const data = {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should update fiat amount when price changes', async () => {
+  it('should update fiat fee when price changes', fakeAsync(() => {
+    component.minimumFiatAmount = 2913
     component.fiatPrice = 10;
-    await component.ionViewWillEnter();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.ionViewWillEnter();
+    tick();
     component.form.patchValue({ cryptoAmount: 1 });
+    tick();
     fixture.detectChanges();
-    expect(component.form.value.fiatAmount).toEqual(10);
-    
+    expect(component.fiatFee.value).toEqual(5)
     priceSubject.next(35);
+    tick();
     fixture.detectChanges();
-    expect(component.form.value.fiatAmount).toEqual(35);
-  });
+    expect(component.fiatFee.value).toEqual(17.5)
+  }));
 
   it('should show modal', async () => {
     await component.ionViewWillEnter();

@@ -15,4 +15,7 @@ export const LINKS = {
   twoPiPage: 'https://dashboard.2pi.network/',
   kriptonPage: 'https://kriptonmarket.com',
   requireToken: 'https://docs.google.com/forms/d/e/1FAIpQLSc1dW8XVW6wIBasrymzYvdDrOkSnrKpYdyGrO6ol5NKHKLP0w/viewform',
+  requireTokenBuy:
+    'https://docs.google.com/forms/d/e/1FAIpQLScyuYtvSFYC67BJ5q1ohadaY7gnUioXcbN2Eh90X-XruXuorA/viewform',
+  naranjax: 'https://www.naranjax.com/',
 };

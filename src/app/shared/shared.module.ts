@@ -48,13 +48,9 @@ import { UxRadioItemComponent } from './components/ux-radio-item/ux-radio-item.c
 import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-radio-item-group.component';
 import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
-import { WalletTotalBalanceCardComponent } from '../modules/home/shared-home/components/wallet-total-balance-card/wallet-total-balance-card.component';
 import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
-import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
-import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
-import { WalletConnectCardComponent } from '../modules/home/shared-home/components/wallet-connect-card/wallet-connect-card.component';
-import { QuotesCardComponent } from '../modules/home/shared-home/components/quotes-card/quotes-card.component';
-import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-quote/item-quote.component';
+import { QuotesCardComponent } from './components/quotes-card/quotes-card.component';
+import { ItemQuoteComponent } from './components/item-quote/item-quote.component';
 import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
 import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
 import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinner.directive';
@@ -106,6 +102,10 @@ import { ModalAsAlertComponent } from './components/modal-as-alert/modal-as-aler
 import { RequireTokenComponent } from './components/require-token/require-token.component';
 import { HideEmailPipe } from './pipes/hide-email/hide-email.pipe';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { GeneralModalWithTwoButtonsComponent } from './components/general-modal-with-two-buttons/general-modal-with-two-buttons.component';
+import { WarrantyInProgressTransactionModalComponent } from './components/warranty-in-progress-transaction-modal/warranty-in-progress-transaction-modal.component';
+import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp-support.component';
+import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warranties/components/warranty-summary-card/warranty-summary-card.component';
 
 @NgModule({
   declarations: [
@@ -119,9 +119,6 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     ScanQrModalComponent,
     EmbedVideoComponent,
     LoadingModalComponent,
-    NeedHelpCardComponent,
-    InvestorTestCardsComponent,
-    WalletConnectCardComponent,
     QuotesCardComponent,
     ItemQuoteComponent,
     TokenSelectionListComponent,
@@ -132,8 +129,10 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     EyeComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
+    WarrantyInProgressTransactionModalComponent,
     ContactItemComponent,
     ModalAsAlertComponent,
+    WhatsappSupportComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
@@ -176,7 +175,6 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
-    WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     UpdateAppModalComponent,
     NetworkSelectCardComponent,
@@ -198,6 +196,9 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     AddressInputCardComponent,
     RequireTokenComponent,
     SearchBarComponent,
+    WarrantySummaryCardComponent,
+    GeneralModalWithTwoButtonsComponent,
+
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,
@@ -234,9 +235,6 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     ScanQrModalComponent,
     LoadingModalComponent,
     UpdateAppModalComponent,
-    NeedHelpCardComponent,
-    InvestorTestCardsComponent,
-    WalletConnectCardComponent,
     QuotesCardComponent,
     ItemQuoteComponent,
     NetworkSelectCardComponent,
@@ -249,8 +247,10 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     EyeComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
+    WarrantyInProgressTransactionModalComponent,
     ContactItemComponent,
     ModalAsAlertComponent,
+    WhatsappSupportComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
@@ -292,7 +292,6 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
-    WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     NoWalletComponent,
     UpdateNewsComponent,
@@ -311,6 +310,8 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     AddressInputCardComponent,
     RequireTokenComponent,
     SearchBarComponent,
+    WarrantySummaryCardComponent,
+    GeneralModalWithTwoButtonsComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,

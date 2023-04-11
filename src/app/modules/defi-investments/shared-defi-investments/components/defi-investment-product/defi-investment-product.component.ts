@@ -44,7 +44,7 @@ import { DefiInvestment } from '../../interfaces/defi-investment.interface';
         </div>
         <div class="dip__footer__button" [ngClass]="{ 'single-row-footer': this.investment.isComing }">
           <ion-button
-            *ngIf="!this.investment.isComing"
+            *ngIf="this.investment.isComing"
             appTrackClick
             (click)="this.invest()"
             name="Invest"

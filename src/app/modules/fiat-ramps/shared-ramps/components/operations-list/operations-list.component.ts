@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { TwoButtonsAlertComponent } from 'src/app/shared/components/two-buttons-alert/two-buttons-alert.component';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { KriptonStorageService } from '../../services/kripton-storage/kripton-storage.service';
 import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-provider-kripton.component';
@@ -74,7 +73,6 @@ export class OperationsListComponent implements OnChanges {
   constructor(
     private modalController: ModalController,
     private navController: NavController,
-    private ionicStorageService: IonicStorageService,
     private kriptonStorageService: KriptonStorageService,
     private translate: TranslateService
   ) {}
@@ -131,7 +129,7 @@ export class OperationsListComponent implements OnChanges {
   }
 
   async setEmail() {
-    this.loggedEmail = await this.ionicStorageService.get('kripton_email');
+    this.loggedEmail = await this.kriptonStorageService.get('email');
   }
 
   kriptonLogout() {
@@ -141,16 +139,13 @@ export class OperationsListComponent implements OnChanges {
   }
 
   removeKeys() {
-    this.kriptonStorageService.remove('access_token');
-    this.kriptonStorageService.remove('email');
-    this.kriptonStorageService.remove('user_status');
-    this.kriptonStorageService.remove('refresh_token');
+    this.kriptonStorageService.removeCredentials();
   }
 
   async showLogoutAlert() {
     const modal = await this.modalController.create({
       component: TwoButtonsAlertComponent,
-      cssClass: 'modal',
+      cssClass: 'modal two-button-xl',
       backdropDismiss: false,
       componentProps: {
         title: this.translate.instant('fiat_ramps.operations_list.log_out_modal.title'),

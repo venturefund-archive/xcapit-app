@@ -155,6 +155,7 @@ export class CreateTicketFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.notShowWarrantyCategorie()
     this.form.patchValue({ email: this.userEmail });
     if (this.category) {
       const filteredCategories = TICKET_CATEGORIES.filter((category) => category.name === this.category);
@@ -163,6 +164,9 @@ export class CreateTicketFormComponent implements OnInit {
     }
   }
 
+  notShowWarrantyCategorie(){
+    this.ticketCategories = TICKET_CATEGORIES.filter((category) => category.name !== 'Garantía')
+  }
   async handleSubmit() {
     const parsedValues = await this.getParsedValues(this.form.value);
 

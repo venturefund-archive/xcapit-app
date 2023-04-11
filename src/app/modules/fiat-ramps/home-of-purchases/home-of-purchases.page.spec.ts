@@ -15,8 +15,10 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { HomeOfPurchasesPage } from './home-of-purchases.page';
 import { rawOperationData } from '../shared-ramps/fixtures/raw-operation-data';
-
-const user_status = { kyc_approved: false, registration_status: 'USER_INFORMATION' };
+import { TrackService } from 'src/app/shared/services/track/track.service';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 describe('HomeOfPurchasesPage', () => {
   let component: HomeOfPurchasesPage;
@@ -30,6 +32,10 @@ describe('HomeOfPurchasesPage', () => {
   let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
   let kriptonUserSpy: jasmine.SpyObj<KriptonUser>;
   let kriptonUserInjectableSpy: jasmine.SpyObj<KriptonUserInjectable>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeOfPurchasesPage>;
+
+  const user_status = { kyc_approved: false, registration_status: 'USER_INFORMATION' };
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -48,9 +54,18 @@ describe('HomeOfPurchasesPage', () => {
       create: providersSpy,
     });
 
-    tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
-      clean: null,
-    });
+    tokenOperationDataServiceSpy = jasmine.createSpyObj(
+      'TokenOperationDataService',
+      {
+        clean: {},
+        add: {},
+        hasAssetInfo: false,
+        set: null
+      },
+      {
+        tokenOperationData: { isFirstTime: false },
+      }
+    );
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
       get: Promise.resolve(),
@@ -66,8 +81,10 @@ describe('HomeOfPurchasesPage', () => {
       create: kriptonUserSpy,
     });
 
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) });
+
     TestBed.configureTestingModule({
-      declarations: [HomeOfPurchasesPage],
+      declarations: [HomeOfPurchasesPage, FakeTrackClickDirective, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
@@ -76,6 +93,7 @@ describe('HomeOfPurchasesPage', () => {
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: KriptonStorageService, useValue: kriptonStorageSpy },
         { provide: KriptonUserInjectable, useValue: kriptonUserInjectableSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -83,6 +101,7 @@ describe('HomeOfPurchasesPage', () => {
     fixture = TestBed.createComponent(HomeOfPurchasesPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
   it('should create', () => {
@@ -115,12 +134,32 @@ describe('HomeOfPurchasesPage', () => {
     expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(0);
   });
 
-  it('should navigate to select provider page when ux_buy_kripton_new is clicked', () => {
+  it('should navigate to token selection page when ux_buy_new is clicked and there is not asset info', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css("ion-button[name='ux_buy_kripton_new']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/token-selection');
-    expect(tokenOperationDataServiceSpy.clean).toHaveBeenCalledTimes(1);
+    fixture.debugElement.query(By.css("ion-button[name='ux_buy_new']")).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/token-selection');
+    expect(tokenOperationDataServiceSpy.add).toHaveBeenCalledOnceWith({ mode: 'buy' });
+  });
+
+  it('should navigate to select provider page when ux_buy_new is clicked, there is asset info and is first time', () => {
+    tokenOperationDataServiceSpy.tokenOperationData.isFirstTime = true;
+    tokenOperationDataServiceSpy.hasAssetInfo.and.returnValue(true);
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css("ion-button[name='ux_buy_new']")).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/select-provider');
+    expect(tokenOperationDataServiceSpy.add).toHaveBeenCalledTimes(2);
+  });
+
+  it('should navigate to token selection page when ux_buy_new is clicked, there is asset info and is not first time', () => {
+    tokenOperationDataServiceSpy.tokenOperationData.isFirstTime = false;
+    tokenOperationDataServiceSpy.hasAssetInfo.and.returnValue(true);
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css("ion-button[name='ux_buy_new']")).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/token-selection');
+    expect(tokenOperationDataServiceSpy.add).toHaveBeenCalledOnceWith({mode: 'buy'});
   });
 
   it('should navigate to faqs when support link is clicked', () => {
@@ -214,4 +253,26 @@ describe('HomeOfPurchasesPage', () => {
     fixture.detectChanges();
     expect(component.userStatus).toBeNull();
   })
+
+  it('should call trackEvent when ux_buy_new button is clicked', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_new');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent when ux_sell_new button is clicked', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_sell_new');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });

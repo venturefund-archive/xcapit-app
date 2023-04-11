@@ -13,6 +13,7 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth.injectable';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-wallet-password-with-validator',
@@ -85,7 +86,9 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
 
   trackClickEventName: string;
   biometricAuth: BiometricAuth;
-  isBiometricEnabled  = false;
+  isBiometricEnabled = false;
+  customEvent: string;
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
@@ -93,7 +96,8 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
     private biometricAuthInjectable: BiometricAuthInjectable,
     private remoteConfig: RemoteConfigService,
     private toastService: ToastService,
-    private storage: IonicStorageService
+    private storage: IonicStorageService,
+    private trackService: TrackService
   ) {}
 
   async ngOnInit() {
@@ -104,10 +108,11 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
   }
 
   private _setTrackClickEventName(): void {
+    this.trackClickEventName = 'Confirm Password';
     if (this.state) {
       this.trackClickEventName = `ux_${this.state}_confirm_password`;
-    } else {
-      this.trackClickEventName = 'Confirm Password';
+    } else if (this.customEvent) {
+      this.trackClickEventName = this.customEvent;
     }
   }
 
@@ -128,6 +133,7 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
       const verifyResult: VerifyResult = await this.biometricAuth.verified();
       if (verifyResult.verified) {
         const password = new Password(await this.biometricAuth.password());
+        this.setBiometricAuthEvent();
         await this._success(password);
       }
       if (verifyResult.message === 'Authentication failed.') {
@@ -162,5 +168,11 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
 
   private _isValidPassword(): Promise<boolean> {
     return new LoginToken(new Password(this.form.value.password), this.storage).valid();
+  }
+
+  setBiometricAuthEvent() {
+    this.trackService.trackEvent({
+      eventLabel: `${this.customEvent}`,
+    });
   }
 }

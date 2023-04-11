@@ -4,8 +4,8 @@ import { NetworkSelectorModalComponent } from './components/network-selector-mod
 import { NetworkSelectorComponent } from './components/network-selector/network-selector.component';
 
 @NgModule({
-  declarations: [ NetworkSelectorComponent, NetworkSelectorModalComponent],
+  declarations: [NetworkSelectorComponent, NetworkSelectorModalComponent],
   imports: [SharedModule],
-  exports: [SharedModule,  NetworkSelectorComponent, NetworkSelectorModalComponent],
+  exports: [SharedModule, NetworkSelectorComponent, NetworkSelectorModalComponent],
 })
 export class SharedContactsModule {}

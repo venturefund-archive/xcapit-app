@@ -7,6 +7,7 @@ import { RegistrationStatus } from '../enums/registration-status.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { KriptonLoginSuccessResponse } from '../shared-ramps/interfaces/kripton-login-success-response';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
 @Component({
   selector: 'app-user-email',
@@ -135,7 +136,8 @@ export class UserEmailPage implements OnInit {
     private navController: NavController,
     private toastService: ToastService,
     private translate: TranslateService,
-    private kriptonStorage: KriptonStorageService
+    private kriptonStorage: KriptonStorageService,
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ngOnInit() {
@@ -173,9 +175,14 @@ export class UserEmailPage implements OnInit {
     !this.validatedEmail ? this.validateEmailAndSendToken() : this.validateTokenAndLogIn();
   }
 
-  redirectByStatus(registrationStatus: string): void {
+  redirectByStatus(registrationStatus: string) {
+    if (!this.tokenOperationDataService.tokenOperationData?.mode) {
+      return this.navController.navigateRoot('/fiat-ramps/purchases');
+    } else if (this.tokenOperationDataService.tokenOperationData.mode === 'sell' && registrationStatus === 'COMPLETE') {
+      return this.navController.navigateRoot('/fiat-ramps/user-bank-account');
+    }
     const url = RegistrationStatus[registrationStatus];
-    this.navController.navigateRoot(url);
+    return this.navController.navigateRoot(url);
   }
 
   private addTokenValidators(): void {

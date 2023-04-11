@@ -11,6 +11,7 @@ import { UserEmailPage } from './user-email.page';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
 describe('UserEmailPage', () => {
   let component: UserEmailPage;
@@ -19,6 +20,7 @@ describe('UserEmailPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
 
   const STATUS = Object.keys(RegistrationStatus);
 
@@ -29,6 +31,13 @@ describe('UserEmailPage', () => {
       kriptonLogin: of({ token: 'someToken', refresh_token: 'refreshToken' }),
     });
 
+    tokenOperationDataServiceSpy = jasmine.createSpyObj(
+      'TokenOperationDataService',
+      {},
+      {
+        tokenOperationData: { mode: 'buy' },
+      }
+    );
     navControllerSpy = new FakeNavController().createSpy();
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
@@ -47,6 +56,7 @@ describe('UserEmailPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: KriptonStorageService, useValue: kriptonStorageSpy },
         { provide: ToastService, useValue: toastServiceSpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -63,6 +73,7 @@ describe('UserEmailPage', () => {
   STATUS.forEach((registrationStatus) => {
     const URL = RegistrationStatus[registrationStatus];
     it(`should redirect to ${URL} when user status is ${registrationStatus}`, fakeAsync(() => {
+      tokenOperationDataServiceSpy.tokenOperationData.mode = 'buy';
       fiatRampServiceSpy.getOrCreateUser.and.returnValue(of({ registration_status: registrationStatus }));
       component.form.patchValue({ email: 'test@test.com', token: '12345' });
       fixture.debugElement.query(By.css('ion-button[name="ux_user_mail_continue"]')).nativeElement.click();
@@ -155,5 +166,27 @@ describe('UserEmailPage', () => {
     expect(
       fixture.debugElement.query(By.css('div.ue__container__form__token_error__description > ion-text'))
     ).toBeFalsy();
+  }));
+
+  it(`should redirect to user bank account when user status is COMPLETE and mode is sell`, fakeAsync(() => {
+    tokenOperationDataServiceSpy.tokenOperationData.mode = 'sell';
+    fiatRampServiceSpy.getOrCreateUser.and.returnValue(of({ registration_status: 'COMPLETE' }));
+    component.form.patchValue({ email: 'test@test.com', token: '12345' });
+    fixture.debugElement.query(By.css('ion-button[name="ux_user_mail_continue"]')).nativeElement.click();
+    tick();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_user_mail_continue"]')).nativeElement.click();
+    tick();
+    fixture.detectChanges();
+    expect(kriptonStorageSpy.set.calls.allArgs()).toEqual([
+      ['email', 'test@test.com'],
+      ['access_token', 'someToken'],
+      ['refresh_token', 'refreshToken'],
+      ['user_status', 'COMPLETE'],
+    ]);
+    expect(fiatRampServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@test.com' });
+    expect(fiatRampServiceSpy.getKriptonAccessToken).toHaveBeenCalledOnceWith({ email: 'test@test.com' });
+    expect(fiatRampServiceSpy.kriptonLogin).toHaveBeenCalledOnceWith({ email: 'test@test.com', token: '12345' });
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/fiat-ramps/user-bank-account');
   }));
 });

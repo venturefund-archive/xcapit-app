@@ -1,40 +1,58 @@
+import { TestBed } from '@angular/core/testing';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { KriptonStorageService } from './kripton-storage.service';
 
 describe('KriptonStorageService', () => {
-  let kriptonStorageService: KriptonStorageService;
+  let service: KriptonStorageService;
   let ionicStorageSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(() => {
     ionicStorageSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
       get: Promise.resolve('test@test.com'),
-      remove: Promise.resolve()
+      remove: Promise.resolve(),
     });
-    kriptonStorageService = new KriptonStorageService(ionicStorageSpy);
+    TestBed.configureTestingModule({
+      providers: [{ provide: IonicStorageService, useValue: ionicStorageSpy }],
+    });
+    service = TestBed.inject(KriptonStorageService);
   });
 
   it('new', () => {
-    expect(kriptonStorageService).toBeTruthy();
+    expect(service).toBeTruthy();
   });
 
-  it('set', () => {
-    kriptonStorageService.set('email', 'test@test.com');
+  it('set', async () => {
+    await service.set('email', 'test@test.com');
     expect(ionicStorageSpy.set).toHaveBeenCalledOnceWith('kripton_email', 'test@test.com');
   });
 
   it('get', async () => {
-    const email = await kriptonStorageService.get('email');
-    
+    const email = await service.get('email');
+
     expect(email).toEqual('test@test.com');
     expect(ionicStorageSpy.get).toHaveBeenCalledOnceWith('kripton_email');
   });
 
-  it('remove', () => {
-    kriptonStorageService.remove('email');
-    
+  it('remove', async () => {
+    await service.remove('email');
+
     expect(ionicStorageSpy.remove).toHaveBeenCalledOnceWith('kripton_email');
   });
+
+  it('removeCredentials', async () => {
+    await service.removeCredentials();
+
+    expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_email');
+    expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_access_token');
+    expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_refresh_token');
+    expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_user_status');
+  });
+
+  it('renewTokens', async () => {
+    await service.renewTokens('an_access_token', 'a_refresh_token');
+
+    expect(ionicStorageSpy.set).toHaveBeenCalledWith('kripton_access_token', 'an_access_token');
+    expect(ionicStorageSpy.set).toHaveBeenCalledWith('kripton_refresh_token', 'a_refresh_token');
+  });
 });
-
-

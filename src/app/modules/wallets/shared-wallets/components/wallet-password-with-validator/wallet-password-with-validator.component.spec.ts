@@ -16,6 +16,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { LoginToken } from 'src/app/modules/users/shared-users/models/login-token/login-token';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth.injectable';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 describe('WalletPasswordWithValidatorComponent', () => {
   let component: WalletPasswordWithValidatorComponent;
@@ -28,6 +29,7 @@ describe('WalletPasswordWithValidatorComponent', () => {
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let storageSpy: jasmine.SpyObj<IonicStorageService>; 
   let loginTokenSpy: jasmine.Spy;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(() => {
     fakeModalController = new FakeModalController();
@@ -42,6 +44,10 @@ describe('WalletPasswordWithValidatorComponent', () => {
     });
     loginTokenSpy = spyOn(LoginToken.prototype, 'valid').and.resolveTo(true);
 
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
+
     TestBed.configureTestingModule({
       declarations: [WalletPasswordWithValidatorComponent, FakeTrackClickDirective],
       imports: [IonicModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
@@ -51,6 +57,7 @@ describe('WalletPasswordWithValidatorComponent', () => {
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: IonicStorageService, useValue: storageSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -123,6 +130,18 @@ describe('WalletPasswordWithValidatorComponent', () => {
     expect(component.trackClickEventName).toEqual('Confirm Password');
   });
 
+  it('should call customEvent on trackService when provided, no state is declared and Confirm Password button clicked', async () => {
+    component.state = undefined;
+    component.customEvent = 'new_custom_event'
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Confirm Password');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(component.trackClickEventName).toEqual('new_custom_event');
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
   it('should set biometric enabled', async () => {
     await component.ngOnInit();
     expect(component.isBiometricEnabled).toBeTrue();
@@ -169,6 +188,20 @@ describe('WalletPasswordWithValidatorComponent', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Use Biometric Data Password Modal"]'));
     expect(buttonEl).toBeFalsy();
+  });
+
+  it('should track event when biometric auth is verified ', async () => {
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(
+        Promise.resolve(true),
+        Promise.resolve(true),
+        Promise.resolve({
+          verified: true,
+        })
+      )
+    );
+    await component.ngOnInit();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
 });

@@ -31,7 +31,6 @@ import { updateServiceProvider } from './shared/providers/update/update.provider
 import { httpLoaderFactory } from './shared/factories/translate/translate.factory';
 import { jwtOptionsFactory } from './shared/factories/jwt-options/jwt-options.factory';
 import { WalletsModule } from './modules/wallets/wallets.module';
-import { HomeModule } from './modules/home/home.module';
 import { SupportModule } from './modules/support/support.module';
 import { WealthManagementsModule } from './modules/wealth-managements/wealth-managements.module';
 import { trackServiceProvider } from './shared/providers/track-service/track-service.provider';
@@ -47,6 +46,8 @@ import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { firebaseInitializer } from './shared/factories/app-initializers/firebase/firebase-initializer';
 import { ContactsModule } from './modules/contacts/contacts.module';
 import { NoConnectionBannerComponent } from './shared/components/no-connection-banner/no-connection-banner.component';
+import { WarrantiesModule } from './modules/warranties/warranties.module';
+import { KriptonLogOutInterceptorService } from './modules/fiat-ramps/shared-ramps/services/kripton-log-out-interceptor/kripton-log-out-interceptor.service';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -80,13 +81,13 @@ registerLocaleData(localeEn, 'en');
     TicketsModule,
     FiatRampsModule,
     WalletsModule,
-    HomeModule,
     LinksModule,
     SupportModule,
     WealthManagementsModule,
     DefiInvestmentsModule,
     SwapsModule,
     ContactsModule,
+    WarrantiesModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
@@ -119,6 +120,11 @@ registerLocaleData(localeEn, 'en');
       useClass: XAuthTokenInterceptorService,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: KriptonLogOutInterceptorService,
+      multi: true,
+    },
     updateServiceProvider,
     trackServiceProvider,
     {
@@ -135,6 +141,6 @@ registerLocaleData(localeEn, 'en');
     },
   ],
   bootstrap: [AppComponent],
-  exports: [NoConnectionBannerComponent]
+  exports: [NoConnectionBannerComponent],
 })
 export class AppModule {}

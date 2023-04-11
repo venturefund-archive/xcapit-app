@@ -86,6 +86,7 @@ describe('ProviderCardComponent', () => {
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     component = fixture.componentInstance;
     component.provider = kriptonProvider;
+    component.txMode = 'buy';
     fixture.detectChanges();
   });
 
@@ -164,6 +165,32 @@ describe('ProviderCardComponent', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should show informative modal of kripton sell when information_modal clicked', async () => {
+    component.provider.showInfo = true;
+    component.provider.name = 'Kripton';
+    component.provider.providerName = 'kripton';
+    component.txMode = 'sell'
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show informative modal of bitrefill sell when information_modal clicked', async () => {
+    component.provider.showInfo = true;
+    component.provider.name = 'Bitrefill';
+    component.provider.providerName = 'bitrefill';
+    component.txMode = 'sell'
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  
+
+  
 
   it('should show informative modal of Moonpay provider when information_modal clicked', async () => {
     component.provider.showInfo = true;

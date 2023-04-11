@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { BitrefillInfoComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/bitrefill-info/bitrefill-info.component';
 import { InfoProviderKriptonComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-kripton/info-provider-kripton.component';
 import { InfoProviderMoonpayComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-moonpay/info-provider-moonpay.component';
 import { InfoProviderComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider/info-provider.component';
+import { KriptonOffInfoProviderComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/kripton-off-info-provider/kripton-off-info-provider.component';
 import { INFO_PROVIDER } from 'src/app/modules/fiat-ramps/shared-ramps/constants/info-provider';
 import { D24_PAYMENT_TYPES } from 'src/app/modules/fiat-ramps/shared-ramps/constants/payment-types';
 import { FiatRampProviderCountry } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider-country';
@@ -13,7 +15,7 @@ import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models
   selector: 'app-provider-card',
   template: `
     <div class="pcc ux-card ion-padding" [ngClass]="{ pcc: !this.disabled, 'card-off': this.disabled }">
-      <ion-badge *ngIf="this.provider.isBestQuote" class="pcc__badge ux-font-num-subtitulo">{{
+      <ion-badge *ngIf="this.provider.isBestQuote && this.txMode !== 'sell'" class="pcc__badge ux-font-num-subtitulo">{{
         'fiat_ramps.select_provider.best_quote' | translate
       }}</ion-badge>
       <div class="pcc__content">
@@ -38,7 +40,15 @@ import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models
               <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
             </ion-button>
           </div>
-          <div class="pcc__content__body__description">
+          <div class="pcc__content__body__description" *ngIf="this.txMode === 'sell'">
+            <ion-text class="ux-font-text-xxs description" color="neutral80">{{ this.provider.description | translate }}</ion-text>
+            <ion-skeleton-text
+              *ngIf="!this.provider.description"
+              width="100%"
+              animated
+            ></ion-skeleton-text>
+          </div>
+          <div class="pcc__content__body__description" *ngIf="this.txMode === 'buy'">
             <ion-text
               *ngIf="this.provider.quote || this.provider.usdQuote"
               class="ux-font-text-xxs description"
@@ -50,14 +60,14 @@ import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models
                         providerName: this.provider.name,
                         token: this.tokenValue,
                         quote: this.provider.quote
-                          ? (this.provider.quote | formattedAmount: 10:2)
-                          : (this.provider.usdQuote | formattedAmount: 10:2),
+                          ? (this.provider.quote | formattedAmount : 10 : 2)
+                          : (this.provider.usdQuote | formattedAmount : 10 : 2),
                         fiatCode: this.fiatCode
                       }
               }}</ion-text
             >
             <ion-skeleton-text
-              *ngIf="!this.provider.quote && !this.provider.usdQuote"
+              *ngIf="!this.provider.quote && !this.provider.usdQuote "
               width="100%"
               animated
             ></ion-skeleton-text>
@@ -93,6 +103,7 @@ export class ProviderCardComponent implements OnInit {
   @Input() selectedCountry: FiatRampProviderCountry;
   @Input() fiatCode: string;
   @Input() tokenValue: string;
+  @Input() txMode: string;
   @Output() selectedProvider: EventEmitter<any> = new EventEmitter<any>();
   isInfoModalOpen = false;
   providerInfo: any;
@@ -125,7 +136,7 @@ export class ProviderCardComponent implements OnInit {
   }
 
   providers() {
-    return this.providersFactory.create();
+    return this.providersFactory.create(this.txMode);
   }
 
   sendProviderData(provider: FiatRampProvider) {
@@ -136,17 +147,35 @@ export class ProviderCardComponent implements OnInit {
     if (!this.isInfoModalOpen) {
       this.isInfoModalOpen = true;
       if (this.provider.providerName === 'kripton') {
-        await this.createKriptonInfoModal();
+        if(this.txMode !== 'sell'){
+          await this.createKriptonInfoModal();
+        }else{
+          await this.createSellKriptonInfoModal();
+        }
       }
       if (this.provider.providerName === 'moonpay') {
         await this.createMoonpayInfoModal();
       }
-      if (this.provider.providerName !== 'kripton' && this.provider.providerName !== 'moonpay') {
+      if (this.provider.providerName === 'bitrefill') {
+        await this.createBitrefillInfoModal();
+      }
+      if (this.provider.providerName !== 'kripton' && this.provider.providerName !== 'moonpay' && this.provider.providerName !== 'bitrefill') {
         await this.createOtherProviderInfoModal();
       }
       this.isInfoModalOpen = false;
     }
   }
+
+
+  async createSellKriptonInfoModal(){
+    const modal = await this.modalController.create({
+      component: KriptonOffInfoProviderComponent,
+      cssClass: 'ux-lg-modal-kripton-sell',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
+
 
   async createOtherProviderInfoModal() {
     const modal = await this.modalController.create({
@@ -164,6 +193,15 @@ export class ProviderCardComponent implements OnInit {
         buttonText: 'fiat_ramps.select_provider.modal_info.button',
       },
       cssClass: 'modal',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
+
+  async createBitrefillInfoModal() {
+    const modal = await this.modalController.create({
+      component: BitrefillInfoComponent,
+      cssClass: 'ux-lg-modal-bitrefill',
       backdropDismiss: false,
     });
     await modal.present();

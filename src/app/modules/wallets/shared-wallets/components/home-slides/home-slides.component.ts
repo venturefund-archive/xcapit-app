@@ -1,5 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { LINKS } from 'src/app/config/static-links';
+import { GeneralModalWithTwoButtonsComponent } from 'src/app/shared/components/general-modal-with-two-buttons/general-modal-with-two-buttons.component';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import SwiperCore, { SwiperOptions, Virtual } from 'swiper';
@@ -36,20 +39,30 @@ export class HomeSlidesComponent implements OnInit {
   constructor(
     private browserService: BrowserService,
     private navController: NavController,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private modalController: ModalController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {}
 
   selectSlide(slide, index) {
     this.sendEvent(index);
-    this.navigateTo(slide);
+    this.open(slide);
   }
 
   sendEvent(index) {
     this.trackService.trackEvent({
       eventLabel: `ux_banner0${index}`,
     });
+  }
+
+  async open(_aSlide) {
+    if (_aSlide.isModalOpen) {
+      this.openModal();
+    } else {
+      this.navigateTo(_aSlide);
+    }
   }
 
   async navigateTo(slide) {
@@ -59,5 +72,27 @@ export class HomeSlidesComponent implements OnInit {
     } else {
       this.navController.navigateBack(url);
     }
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: GeneralModalWithTwoButtonsComponent,
+      cssClass: 'modal',
+      backdropDismiss: false,
+      componentProps: {
+        highlightedHeader: this.translate.instant('warranties.modal_info.highlightedHeader'),
+        header: this.translate.instant('warranties.modal_info.header'),
+        information: this.translate.instant('warranties.modal_info.information'),
+        link: LINKS.naranjax,
+        firstButton: this.translate.instant('warranties.modal_info.firstButton'),
+        eventFirstButton: 'ux_warranty_start',
+        urlFirstButton: 'warranties/send-warranty',
+        secondButton: this.translate.instant('warranties.modal_info.secondButton'),
+        eventSecondButton: 'ux_warranty_withdraw',
+        urlSecondButton: 'warranties/withdraw-warranty',
+      },
+    });
+
+    await modal.present();
   }
 }

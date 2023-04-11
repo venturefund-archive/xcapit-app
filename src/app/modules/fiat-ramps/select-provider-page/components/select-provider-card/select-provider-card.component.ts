@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { DefaultDirectaPriceFactory } from '../../../shared-ramps/models/directa-price/factory/default-directa-price-factory';
 import { DefaultKriptonPriceFactory } from '../../../shared-ramps/models/kripton-price/factory/default-kripton-price-factory';
 import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay-price/factory/default-moonpay-price-factory';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-select-provider-card',
@@ -33,7 +34,7 @@ import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay
         </div>
       </div>
       <div class="spc__providers" *ngIf="!this.disabled">
-        <div class="spc__select__label-provider" *ngIf="this.availableProviders.length">
+        <div class="spc__select__label-provider" *ngIf="this.availableProviders.length && this.txMode !== 'sell'">
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.select_provider.provider_label' | translate }}</ion-text>
         </div>
         <ion-radio-group
@@ -41,9 +42,16 @@ import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay
           [formControlName]="this.controlNameProvider"
           [value]="this.bestProvider"
         >
-          <ion-text *ngIf="this.fiatProviders.length > 0" class="ux-font-text-xxs spc__providers__radio-group__label">{{
-            'fiat_ramps.select_provider.pay_in_fiat' | translate
-          }}</ion-text>
+          <ion-text
+            *ngIf="this.fiatProviders.length > 0 && this.txMode !== 'sell'"
+            class="ux-font-text-xxs spc__providers__radio-group__label"
+            >{{ 'fiat_ramps.select_provider.pay_in_fiat' | translate }}</ion-text
+          >
+          <ion-text
+            *ngIf="this.fiatProviders.length > 0 && this.txMode === 'sell'"
+            class="ux-font-text-lg spc__providers__radio-group__label"
+            >{{ 'fiat_ramps.select_provider.sell_method' | translate }}</ion-text
+          >
           <div *ngFor="let provider of fiatProviders">
             <app-provider-card
               [disabled]="this.disabled"
@@ -52,11 +60,14 @@ import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay
               [fiatCode]="this.country.iso4217CurrencyCode"
               [tokenValue]="this.coin.value"
               (selectedProvider)="this.selectedProvider($event)"
+              [txMode]="this.txMode"
             ></app-provider-card>
           </div>
-          <ion-text *ngIf="this.usdProviders.length > 0" class="ux-font-text-xxs spc__providers__radio-group__label">{{
-            'fiat_ramps.select_provider.pay_in_usd' | translate
-          }}</ion-text>
+          <ion-text
+            *ngIf="this.usdProviders.length > 0 && this.txMode !== 'sell'"
+            class="ux-font-text-xxs spc__providers__radio-group__label"
+            >{{ 'fiat_ramps.select_provider.pay_in_usd' | translate }}</ion-text
+          >
           <div *ngFor="let provider of usdProviders">
             <app-provider-card
               [disabled]="this.disabled"
@@ -65,16 +76,17 @@ import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay
               [tokenValue]="this.coin.value"
               [selectedCountry]="this.country"
               (selectedProvider)="this.selectedProvider($event)"
+              [txMode]="this.txMode"
             ></app-provider-card>
           </div>
         </ion-radio-group>
         <div class="spc__no_providers" *ngIf="!this.availableProviders.length">
           <img src="assets/img/fiat-ramps/select-provider/no-providers.svg" />
           <ion-text class="ux-font-text-xxs" color="neutral80">{{
-            'fiat_ramps.select_provider.no_provider' | translate: { coinName: this.coin.value }
+            'fiat_ramps.select_provider.no_provider' | translate : { coinName: this.coin.value }
           }}</ion-text>
         </div>
-        <div class="spc__disclaimer" *ngIf="this.availableProviders.length">
+        <div class="spc__disclaimer" *ngIf="this.availableProviders.length && this.txMode !== 'sell'">
           <ion-text class="ux-font-text-xs"> {{ 'fiat_ramps.select_provider.disclaimer' | translate }} </ion-text>
         </div>
       </div>
@@ -92,6 +104,7 @@ export class SelectProviderCardComponent implements OnInit {
   @Input() controlNameProvider = '';
   @Input() controlNameSelect = '';
   @Input() coin: Coin;
+  @Input() txMode: string;
   @Output() route: EventEmitter<any> = new EventEmitter<any>();
   @Output() changedCountry: EventEmitter<any> = new EventEmitter<any>();
   form: UntypedFormGroup;
@@ -112,7 +125,8 @@ export class SelectProviderCardComponent implements OnInit {
     private kriptonPriceFactory: DefaultKriptonPriceFactory,
     private moonpayFactory: DefaultMoonpayPriceFactory,
     private http: HttpClient,
-    private fiatRampsService: FiatRampsService
+    private fiatRampsService: FiatRampsService,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   ngOnInit() {
@@ -132,8 +146,26 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   selectedProvider(provider) {
-    const params = provider.providerName === 'directa24' ? provider.alias : '';
+    let params = '';
+    switch (provider.providerName) {
+      case 'directa24':
+        params = provider.alias;
+        break;
+      case 'bitrefill':
+        params = this.bitrefillCode();
+        break;
+      default:
+        params = '';
+        break;
+    }
     this.route.emit(`${provider.newOperationRoute}/${params}`);
+  }
+
+  bitrefillCode() {
+    const availableBitrefillPaymentMethods = this.remoteConfig.getObject('bitrefill_payment_methods');
+    return availableBitrefillPaymentMethods.find(
+      (abpm) => abpm.value === this.coin.value && abpm.network === this.coin.network
+    ).code;
   }
 
   async selectedCountry(country: FiatRampProviderCountry) {
@@ -153,7 +185,7 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   providers() {
-    return this.providersFactory.create();
+    return this.providersFactory.create(this.txMode);
   }
 
   async setDirectaQuote(fiatCode: string) {

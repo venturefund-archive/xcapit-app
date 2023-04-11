@@ -96,7 +96,11 @@
   }
 
   .primary {
-    color: var(--ion-color-primary);
+    color: var(--ion-color-primary) !important;
+  }
+
+  .white {
+    color: var(--ion-color-white) !important;
   }
 
   .valid {

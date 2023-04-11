@@ -116,6 +116,22 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
             </div>
           </ion-item>
 
+          
+          <ion-item class="kod__card-container__card__fee ion-no-margin ion-no-padding" *ngIf="this.operation.fiat_fee">
+            <div class="kod__card-container__card__fee__container">
+              <div class="kod__card-container__card__fee__container__title">
+                <ion-text class="ux-font-titulo-xs">
+                  {{ 'fiat_ramps.kripton_operation_detail.fee' | translate }}
+                </ion-text>
+              </div>
+              <div class="kod__card-container__card__fee__container__content">
+                <ion-text class="ux-font-text-base">
+                  {{ this.operation.fiat_fee }} 
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+
           <ion-item class="kod__card-container__card__address ion-no-margin ion-no-padding">
             <div class="kod__card-container__card__address__container">
               <div class="kod__card-container__card__address__container__title">
@@ -326,8 +342,8 @@ export class KriptonOperationDetailPage {
     const data: OperationDataInterface = {
       country: this.country.name,
       type: 'cash-in',
-      amount_in: this.operation.amount_in.toString(),
-      amount_out: this.operation.amount_out.toString(),
+      amount_in: this.operation.amount_in,
+      amount_out: this.operation.amount_out,
       currency_in: this.operation.currency_in,
       currency_out: this.operation.currency_out,
       price_in: '',

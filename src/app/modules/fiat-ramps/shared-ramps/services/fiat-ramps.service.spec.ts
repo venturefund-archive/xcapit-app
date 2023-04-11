@@ -84,8 +84,14 @@ describe('FiatRampsService', () => {
     });
   });
 
-  it('should call post on http when confirmOperation', () => {
-    fiatRampsService.confirmOperation(0, {}).subscribe(() => {
+  it('should call post on http when confirmCashInOperation', () => {
+    fiatRampsService.confirmCashInOperation(0, {}).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when confirmCashOutOperation', () => {
+    fiatRampsService.confirmCashOutOperation(0, {}).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
@@ -159,5 +165,13 @@ describe('FiatRampsService', () => {
     fiatRampsService.getMoonpayLimitOfBuyQuote('eth', 'usd').subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('should call post on http when refreshToken', () => {
+    fiatRampsService
+      .refreshToken({ access_token: 'an_access_token', refresh_token: 'a_refresh_token' })
+      .subscribe(() => {
+        expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+      });
   });
 });

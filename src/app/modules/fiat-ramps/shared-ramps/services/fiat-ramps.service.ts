@@ -14,7 +14,6 @@ import { HttpParams } from '@angular/common/http';
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
   private provider = '1';
- 
 
   constructor(private providersFactory: ProvidersFactory, private http: CustomHttpService) {}
 
@@ -56,6 +55,10 @@ export class FiatRampsService {
       undefined,
       false
     );
+  }
+
+  getCashOutFormFields(country = 'common'): Observable<any> {
+    return this.http.get(`https://app.kriptonmarket.com/public/config_forms?resource=bank&country=${country}`);
   }
 
   registerUserImages(data): Observable<any> {
@@ -100,9 +103,18 @@ export class FiatRampsService {
     );
   }
 
-  confirmOperation(operationId, operationData): Observable<any> {
+  confirmCashInOperation(operationId, operationData): Observable<any> {
     return this.http.post(
-      `${environment.apiUrl}/${this.entity}/${this.provider}/confirm_operation/${operationId}`,
+      `${environment.apiUrl}/${this.entity}/${this.provider}/confirm_operation/cash-in/${operationId}`,
+      operationData,
+      undefined,
+      false
+    );
+  }
+
+  confirmCashOutOperation(operationId, operationData): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/${this.entity}/${this.provider}/confirm_operation/cash-out/${operationId}`,
       operationData,
       undefined,
       false
@@ -116,6 +128,16 @@ export class FiatRampsService {
       undefined,
       false
     );
+  }
+
+  getKriptonFee(fiatCurrency: string, amount_in: number, currency_out: string, network: string): Observable<any> {
+    return this.http.post('https://app.kriptonmarket.com/public/calculate_amount_out', {
+      currency_in: fiatCurrency,
+      amount_in: amount_in,
+      currency_out: currency_out,
+      type: 'cash-in',
+      network_out: network,
+    });
   }
 
   getLink(apikeyId: number): Observable<any> {
@@ -195,7 +217,16 @@ export class FiatRampsService {
     return this.providersFactory.create();
   }
 
-  getKriptonAvailableCurrencies(): Observable<any>{
-    return this.http.get(`${environment.apiUrl}/on_off_ramps/kripton/available_currencies`, undefined, undefined, undefined);
+  getKriptonAvailableCurrencies(): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/on_off_ramps/kripton/available_currencies`,
+      undefined,
+      undefined,
+      undefined
+    );
+  }
+
+  refreshToken(data: { access_token: string; refresh_token: string }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/refresh_token`, data, undefined, false);
   }
 }

@@ -1,25 +1,24 @@
 import { TestBed } from '@angular/core/testing';
-
-import { NoAuthGuard } from './no-auth.guard';
-import { AuthService } from '../../services/auth/auth.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
 import { NavController } from '@ionic/angular';
-import { navControllerMock } from '../../../../../../testing/spies/nav-controller-mock.spec';
+import { NoAuthGuard } from './no-auth.guard';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 
 describe('NoAuthGuard', () => {
   let noAuthGuard: NoAuthGuard;
-  let authServiceSpy: any;
-  let navControllerSpy: any;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(() => {
-    authServiceSpy = jasmine.createSpyObj('AuthService', ['checkToken', 'checkRefreshToken']);
-    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', { get: Promise.resolve(true) });
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
+      imports: [],
       providers: [
         NoAuthGuard,
-        { provide: AuthService, useValue: authServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
       ],
     });
@@ -29,33 +28,19 @@ describe('NoAuthGuard', () => {
     noAuthGuard = TestBed.inject(NoAuthGuard);
   });
 
-  it('should ...', () => {
+  it('should create', () => {
     expect(noAuthGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when checkToken is false and checkRefreshToken is false ', async () => {
-    authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
-    authServiceSpy.checkRefreshToken.and.returnValue(of(false).toPromise());
-    await expectAsync(noAuthGuard.canActivate()).toBeResolvedTo(true);
+  it('should navigate to home wallet when the user is logged in', async () => {
+    expect(await noAuthGuard.canActivate()).toBeFalse();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets');
   });
 
-  it('should not be able to hit route when checkToken is true', async () => {
-    authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
-    await expectAsync(noAuthGuard.canActivate()).toBeResolvedTo(false);
-  });
+  it('should not navigate to home wallet when the user is not logged in', async () => {
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(false));
 
-  it('should call navigateRoot with ["/tabs/home"] on navController when checkToken is true', async () => {
-    authServiceSpy.checkToken.and.returnValue(of(true).toPromise());
-    await noAuthGuard.canActivate();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['/tabs/home']);
-  });
-
-  it('should call navigateRoot with ["/tabs/home"] on navController when checkToken is false and checkRefreshToken is true', async () => {
-    authServiceSpy.checkToken.and.returnValue(of(false).toPromise());
-    authServiceSpy.checkRefreshToken.and.returnValue(of(true).toPromise());
-    await noAuthGuard.canActivate();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['/tabs/home']);
+    expect(await noAuthGuard.canActivate()).toBeTrue();
+    expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
   });
 });

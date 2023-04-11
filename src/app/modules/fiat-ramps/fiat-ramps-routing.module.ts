@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 import { HasAcceptedBuyConditionsGuard } from './shared-ramps/guards/has-accepted-buy-conditions/has-accepted-buy-conditions.guard';
 import { LoggedInKriptonGuard } from './shared-ramps/guards/logged-in-kripton/logged-in-kripton.guard';
 import { NotLoggedInKriptonGuard } from './shared-ramps/guards/not-logged-in-kripton/not-logged-in-kripton';
 import { KriptonKycCompletedGuard } from './shared-ramps/guards/kripton-kyc-completed/kripton-kyc-completed.guard';
+import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -107,6 +107,12 @@ const routes: Routes = [
         canActivate: [NotLoggedInKriptonGuard],
         path: 'user-email',
         loadChildren: () => import('./user-email/user-email.module').then((m) => m.UserEmailPageModule),
+      },
+      {
+        canActivate: [LoggedInKriptonGuard],
+        path: 'user-bank-account',
+        loadChildren: () =>
+          import('./user-bank-account/user-bank-account.module').then((m) => m.UserBankAccountPageModule),
       },
       {
         canActivate: [LoggedInKriptonGuard],

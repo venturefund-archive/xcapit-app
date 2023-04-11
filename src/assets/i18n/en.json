@@ -82,9 +82,16 @@
   },
   "shared": {
     "services": {
+      "kripton_interceptor": {
+        "session_expired_toast": "Your session in Kripton Market has expired."
+      }, 
       "share": {
         "copy_text": "The subscription link has been copied to the clipboard.",
         "share_error": "Text was copied to the clipboard"
+      },
+      "whatsapp_support": {
+        "textTertiary": "Need help?",
+        "textHelpLink": "Write us by whatsapp"
       },
       "update_pwa_service": {
         "alert_header": "Update available",
@@ -99,6 +106,10 @@
         "toast_success": "Copied to the clipboard",
         "toast_error": "Could not be copied to the clipboard"
       }
+    },
+    "whatsapp_support": {
+      "textTertiary": "Do you need help?",
+      "textHelpLink": "Write us by whatsapp"
     },
     "update_modal": {
       "title": "Update the app!",
@@ -354,7 +365,8 @@
       "others": "Others",
       "referrals": "Referrals",
       "transactions": "Transactions",
-      "kripton_data": "Delete my Krypton data"
+      "kripton_data": "Delete my Krypton data",
+      "warranty": "Warranty"
     }
   },
   "defi_investments": {
@@ -1836,7 +1848,7 @@
       "subheader_buttons_component": {
         "send_card": "Send",
         "receive_card": "Receive",
-        "buy_card": "Buy",
+        "buy_card": "Buy <br/> Sell",
         "swap_card": "Swap"
       },
       "backup_card_component": {
@@ -2194,6 +2206,9 @@
       "button_disconnect": "End connection",
       "card_title": "Configure your connection",
       "card_description": "Choose the network from which you want to take the funds. Then scan the QR code on the Dapp.",
+      "errors": {
+        "invalidUri": "Check that the url you are providing corresponds to the WalletConnect connection protocol."
+      },
       "scan_qr": {
         "header": "Scan your Dapp QR code",
         "errors": {
@@ -2396,6 +2411,11 @@
     "tools": "Tools"
   },
   "fiat_ramps": {
+    "cash_out": {
+      "header": "Buy - Sell",
+      "title": "Enter the account holder's information",
+      "disclaimer": "The account holder must be the same person who performed the registration or KYC process. Transfers to third parties are not allowed."
+    },
     "operation_km_in_progress": {
       "text_primary": "Your order is on its way!",
       "text_secondary": "We will be informing you about changes in the status of your purchase.",
@@ -2412,9 +2432,13 @@
       "button_secondary": "Return to my purchases"
     },
     "home_of_purchases": {
-      "header": "My purchases",
+      "header": "Buy - Sell",
       "question": "How do purchases work?",
-      "button": "Make new purchase"
+      "footer":{
+        "title":"What do you want to do?",
+        "buy_button":"Buy",
+        "sell_button":"Sell"
+      }
     },
     "buy_conditions": {
       "title": "What do you need to know before you buy?",
@@ -2485,7 +2509,7 @@
       "buttonText": "Go to operation detail"
     },
     "select_provider": {
-      "header": "Buy crypto",
+      "header": "Buy - Sell",
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
       "provider_label": "Select your payment method",
@@ -2497,6 +2521,9 @@
       "krypton_description": "Buy with bank transfer",
       "disclaimer": "* Quotes may vary slightly at the time of purchase.",
       "description": "Buy with {{providerName}} {{token}} at ${{quote}} {{fiatCode}}.",
+      "kripton_sell_description":"Deposits can take up to 72 hours.",
+      "bitrefill_description": "Access exclusive benefits!",
+      "sell_method": "Which payment method do you prefer?",
       "directa24": {
         "platform_description": "Buy through the platform",
         "nearest_store_description": "Buy at your nearest store",
@@ -2513,6 +2540,7 @@
         "subtitle_available_tokens": "What tokens can you buy?",
         "subtitle_more_information": "More information:",
         "subtitle_time_tokens": "Token crediting time:",
+        "subtitule_need_know":"What do you need to know?",
         "kyc_required": "Requires KYC or registration process.",
         "button": "Understood",
         "kripton": {
@@ -2521,6 +2549,13 @@
           "minimum_amount": "25 USD per purchase.",
           "delivery_time_1": "Up to 48 hours.",
           "delivery_time_2": "Deliveries are made from Monday to Friday from 9:00 am to 6:00 pm.",
+          "more_information": "Kriptonmarket.com"
+        },
+        "kripton_sell": {
+          "provider_name": "Kripton Market",
+          "header": "It is an authorized provider for the purchase/sale of cryptocurrencies in Latam.",
+          "minimum_amount": "There is no minimum amount.",
+          "delivery_time_1": "The bank account must belong to the same person who performed the registration or KYC process. Funds cannot be sent to third parties.",
           "more_information": "Kriptonmarket.com"
         },
         "moonpay": {
@@ -2536,6 +2571,15 @@
           "description_1": "Cash purchase",
           "description_2": "10 USD.",
           "description_3": "Working days from 9 a.m. to 6 p.m. approx. The maximum accreditation time is 3 hours."
+        },
+        "bitrefill": {
+          "name":"Bitrefill",
+          "header":"It is an authorized provider for the sale of cryptocurrencies.",
+          "erc20_tokens":"ETH, USDT and USDC",
+          "polygon_tokens":"USDC",
+          "credit_card":"Credit card.*",
+          "delivery_time":"Depends on the external supplier on a case-by-case basis.",
+          "disclaimer":"*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
         }
       }
     },
@@ -2691,8 +2735,9 @@
       "footer_description": "By clicking ”Continue”, you will be redirected to the external provider's site."
     },
     "token_selection": {
-      "header": "Buy crypto",
-      "subtitle": "Select the currency you wish to purchase"
+      "header": "Buy - Sell",
+      "buy_subtitle": "Select the token to purchase",
+      "sell_subtitle": "Select the token to sell"
     },
     "countries_list": {
       "mexico": "México",
@@ -2728,7 +2773,8 @@
           "directa24_credit_card": "Credit or debit card",
           "directa24_voucher": "Nearest store",
           "kripton": "Bank transfer",
-          "moonpay": "Credit card"
+          "moonpay": "Credit card",
+          "bitrefill":"Vouchers in stores"
         },
         "providers": {
           "kripton": {
@@ -2880,6 +2926,7 @@
         "SOLANA": "Solana Explorer"
       },
       "quotation": "Quotation",
+      "fee":"Transaction fee",
       "address": "Destination address (your wallet)",
       "provider": "Provider",
       "operation": "Operation",
@@ -3311,6 +3358,84 @@
         "confirm_button": "Confirm",
         "cancel_button": "Cancel"
       }
+    }
+  },
+  "warranties": {
+    "modal_info": {
+      "highlightedHeader": "Improve your credit!",
+      "header": "Leave your cryptocurrencies as collateral to get your card or increase its limit.",
+      "information": "More information",
+      "firstButton": "Make a warranty",
+      "secondButton": "Withdraw warranty"
+    },
+    "send_warranty": {
+      "header": "Make a Warranty",
+      "text_dni": "Identity card number",
+      "deposit_amount": "Deposit amount"
+    },
+    "summary": {
+      "header": "Make a warranty",
+      "title":"Data of your deposit",
+      "dniLabel":"Guarantor ID card",
+      "amountLabel":"Guarantee amount",
+      "serviceLabel":"Cost of service",
+      "buttonName":"Make Warranty",
+      "loading": "Making warranty...",
+      "wait_loading_message": "It will only take a few seconds."
+    },
+    "withdraw_warranty": {
+      "header": "Withdraw warranty",
+      "title": "Warranty balance verification",
+      "text_dni": "Identity card number",
+      "text_email": "Enter email",
+      "subtitle": "Enter your Identity card number to verify the deposits accumulated through this wallet in your warranty",
+      "toast_no_deposits_found": "We have not found any warranty deposits associated with this ID and wallet. Please verify the data entered and try again."
+    },
+    "whatsapp_support": {
+      "textTertiary": "Need help?",
+      "textHelpLink": "Write us by whatsapp"
+    },
+    "success": {
+      "textPrimary": "Your order is on its way!",
+      "textSecondary": "The financial institution will contact you through the usual channels.",
+      "operation": "Operation",
+      "numeration": "No.",
+      "namePrimaryAction": "Back to Home"
+    },
+    "warranty_error_blockchain": {
+      "title": "Your operation could not be completed.",
+      "subtitle": "An error occurred in the blockchain",
+      "primaryButton": "Retry"
+    },
+    "warranty_error_generic": {
+      "title": "Your operation could not be completed.",
+      "subtitle": "A communication error occurred with the server",
+      "primaryButton": "Retry"
+    },
+    "withdraw_warranty_error": {
+      "title": "Your operation could not be completed.",
+      "subtitle": "An error occurred in the process",
+      "primaryButton": "Retry"
+    },
+    "withdraw_warranty_summary": {
+      "title": "Available warranty",
+      "dniLabel": "Guarantor ID card",
+      "button": "Withdraw warranty",
+      "emailLabel": "Guarantor email",
+      "ticket_message": "I request the withdrawal of my warranty. DNI: {{dni}} - Wallet: {{wallet}}",
+      "loader": "Confirming"
+    },
+    "withdraw_success": {
+      "textPrimary": "Your order is on its way!",
+      "textSecondary": "After validating the free debt with the financial entity, your funds will be released.",
+      "operation": "Operation",
+      "numeration": "No.",
+      "namePrimaryAction": "Back to Home"
+    },
+    "insufficient_balance": {
+      "text": "You do not have {{token}} in your account to perform this operation.",
+      "buy_button": "Buy {{token}}",
+      "deposit_button": "Deposit {{token}}"
     }
   }
 }

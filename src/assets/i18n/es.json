@@ -82,6 +82,9 @@
   },
   "shared": {
     "services": {
+      "kripton_interceptor": {
+        "session_expired_toast": "Tu sesión en Kripton Market ha expirado."
+      },
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles",
         "share_error": "El texto se copió en el portapapeles"
@@ -90,6 +93,10 @@
         "toast_success": "Se copió al portapapeles",
         "toast_error": "No se pudo copiar la dirección al portapapeles"
       }
+    },
+    "whatsapp_support": {
+      "textTertiary": "¿Necesitas ayuda?",
+      "textHelpLink": "Escribenos por whatsapp"
     },
     "update_modal": {
       "title": "¡Actualiza la app!",
@@ -345,7 +352,8 @@
       "others": "Otros",
       "referrals": "Referidos",
       "transactions": "Transacciones",
-      "kripton_data": "Eliminar mis datos de Kripton"
+      "kripton_data": "Eliminar mis datos de Kripton",
+      "warranty": "Garantía"
     }
   },
   "defi_investments": {
@@ -1829,7 +1837,7 @@
       "subheader_buttons_component": {
         "send_card": "Enviar",
         "receive_card": "Recibir",
-        "buy_card": "Comprar",
+        "buy_card": "Comprar <br/> Vender",
         "swap_card": "Intercambiar"
       },
       "backup_card_component": {
@@ -2181,10 +2189,13 @@
       "button_disconnect": "Finalizar conexión",
       "card_title": "Configura tu conexión",
       "card_description": "Elige la red de la que quieres tomar los fondos. Luego, escanea el código QR de la Dapp.",
+      "errors": {
+        "invalidUri": "Comprueba que la url que estás ingresando corresponda al protocolo de conexión de WalletConnect."
+      },
       "scan_qr": {
         "header": "Escanea el código QR de tu Dapp",
         "errors": {
-          "invalidQR": "Compruebe que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
+          "invalidQR": "Comprueba que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
           "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado.",
           "close_button": "Aceptar"
         }
@@ -2383,10 +2394,19 @@
     "tools": "Herramientas"
   },
   "fiat_ramps": {
+    "cash_out": {
+      "header": "Compra - Venta",
+      "title": "Ingresa los datos del titular de la cuenta",
+      "disclaimer": "El titular de la cuenta debe ser el mismo que realizó el proceso de registro o KYC. No se realizan transferencias a terceros."
+    },
     "home_of_purchases": {
-      "header": "Mis compras",
+      "header": "Compra - Venta",
       "question": "¿Cómo funcionan las compras?",
-      "button": "Realizar nueva compra"
+      "footer": {
+        "title": "¿Qué deseas hacer?",
+        "buy_button": "Comprar",
+        "sell_button": "Vender"
+      }
     },
     "buy_conditions": {
       "title": "¿Qué necesitas saber antes de comprar?",
@@ -2419,7 +2439,7 @@
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más",
       "log_out_modal": {
-        "title":"¿Deseas cerrar sesión?",
+        "title": "¿Deseas cerrar sesión?",
         "description": "Deberás ingresar nuevamente con tu email para ver tus compras.",
         "confirm_button": "Confirmar",
         "cancel_button": "Cancelar"
@@ -2449,7 +2469,7 @@
       "description": "Proveedor: {{providerName}}"
     },
     "select_provider": {
-      "header": "Comprar cripto",
+      "header": "Comprar - Vender",
       "select_label": "Pais en el que vas a operar",
       "select_placeholder": "Selecciona tu país",
       "provider_label": "Selecciona tu medio de pago",
@@ -2461,6 +2481,9 @@
       "disclaimer": "* Las cotizaciones pueden variar ligeramente al momento de la compra.",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
+      "kripton_sell_description": "Los depositos pueden demorar hasta 72hs",
+      "bitrefill_description": "¡Accede a beneficios exclusivos!",
+      "sell_method": "¿Qué método de cobro prefieres?",
       "directa24": {
         "platform_description": "Compra a través de la plataforma",
         "nearest_store_description": "Compra en tu tienda más cercana",
@@ -2477,6 +2500,7 @@
         "subtitle_available_tokens": "¿Qué tokens puedes comprar?",
         "subtitle_more_information": "Más información:",
         "subtitle_time_tokens": "Tiempo de acreditación de tokens:",
+        "subtitule_need_know": "¿Qué necesitas saber?",
         "kyc_required": "Requiere KYC o proceso de registración.",
         "button": "Entendido",
         "kripton": {
@@ -2487,19 +2511,35 @@
           "delivery_time_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs.",
           "more_information": "Kriptonmarket.com"
         },
+        "kripton_sell": {
+          "provider_name": "Kripton Market",
+          "header": "Es un proveedor habilitado para la compra/venta de criptomonedas en Latam.",
+          "minimum_amount": "No hay monto mínimo.",
+          "delivery_time_1": "La cuenta bancaria debe pertenecer a la misma persona que realizó el proceso de registro o KYC. No se pueden enviar fondos a terceros.",
+          "more_information": "Kriptonmarket.com"
+        },
         "moonpay": {
           "provider_name": "Moonpay",
           "header": "Es un proveedor habilitado para la venta de criptomonedas.",
           "payment_methods": "Tarjeta de crédito.*",
           "delivery_time": "Depende del proveedor externo según el caso.",
           "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
-          "available_tokens_1": "ETH, USDT y UNI",
-          "available_tokens_2": "USDC y MATIC"
+          "available_tokens_1": "ETH, USDT y USDC",
+          "available_tokens_2": "USDC"
         },
         "directa24": {
           "description_1": "Compra en efectivo",
           "description_2": "10 USD.",
           "description_3": "Días hábiles de 9 a 18hs aprox. El tiempo máximo de acreditación es de 3hs."
+        },
+        "bitrefill": {
+          "name": "Bitrefill",
+          "header": "Es un proveedor habilitado para la venta de criptomonedas.",
+          "erc20_tokens": "ETH, USDT y UNI",
+          "polygon_tokens": "USDC y MATIC",
+          "credit_card": "Tarjeta de crédito.*",
+          "delivery_time": "Depende del proveedor externo según el caso.",
+          "disclaimer": "*Por retricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
         }
       }
     },
@@ -2663,8 +2703,9 @@
       "footer_description": "Al presionar “Continuar”, serás redirigido al sitio del proveedor externo."
     },
     "token_selection": {
-      "header": "Comprar cripto",
-      "subtitle": "Selecciona la moneda que quieres comprar"
+      "header": "Compra - Venta",
+      "buy_subtitle": "Selecciona el token a comprar",
+      "sell_subtitle": "Selecciona el token a vender"
     },
     "countries_list": {
       "mexico": "México",
@@ -2700,7 +2741,8 @@
           "directa24_credit_card": "Tarjeta de crédito o débito",
           "directa24_voucher": "Tienda física más cercana",
           "kripton": "Transferencia Bancaria",
-          "moonpay": "Tarjeta de crédito"
+          "moonpay": "Tarjeta de crédito",
+          "bitrefill": "Vouchers en locales"
         },
         "providers": {
           "kripton": {
@@ -2988,6 +3030,7 @@
         "SOLANA": "Solana Explorer"
       },
       "quotation": "Cotización",
+      "fee": "Tarifa de transacción",
       "address": "Dirección de destino (tu wallet)",
       "provider": "Proveedor",
       "operation": "Operación",
@@ -3200,7 +3243,7 @@
       "question2": "¿Cuál es el riesgo de invertir con Xcapit?",
       "answer2": "Cada producto de inversión que ofrecemos tiene su métrica correspondiente de riesgo a la cual debes estar seguro que quieras tomarlo, puedes ver los términos y condiciones de cada producto al momento de invertir tus tokens.",
       "question3": "¿Por qué usar la wallet de Xcapit?",
-      "answer3": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Puedes acceder ágilmente a productos de inversión descentralizados.</li><li>Acceso al intercambio de tus NFTs favoritos.</li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
+      "answer3": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Acceso al intercambio de tus NFTs favoritos.</li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
       "question4": "¿Cómo importar una wallet?",
       "answer4": "<b>1.</b> Dentro de la app, Se accede a la opción: “Importar wallet”.<br><b>2.</b> Ingresar las 12 palabras de la wallet que se desea importar.<br><b>3.</b> Seleccionar los tokens a visualizar.<br><b>4.</b> Crear nueva contraseña para la firma de transacciones con la nueva wallet.",
       "question5": "¿Qué es la “ruta de derivación” de la frase semilla (en inglés = ”Derivation path”)?",
@@ -3233,20 +3276,12 @@
       "answer5": "<ol><li>Buscar en la billetera el token que necesitan transferir.</li><li>Copiar la dirección de depósito correspondiente al mismo.</li><li>Enviar la dirección a la persona que te va a transferir.</li></ol>",
       "question6": "¿Cómo transferir mi dinero?",
       "answer6": "<ol><li>Debes seleccionar el token que desea transferir.</li><li>Pegar en el campo de dirección, la dirección a la cual quiere enviar los mismos. Para transferir, necesitas la dirección de depósito específica del destinatario para el token que deseas transferir.</li><li>Ingresar el monto que quieres transferir.</li><li>Verificar que los datos sean correctos.</li></ol>",
-      "question7": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
-      "answer7": "Puedes generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit. Estos productos de inversión se encontrarán en la blockchain de Polygon y variará en rendimientos, riesgos y protocolos de inversión. El rendimiento es continuo para las inversiones en USDC, se actualiza cada 30 segundos.",
-      "question8": "¿Qué opciones tengo para invertir dentro de la App de Xcapit?",
-      "answer8": "Actualmente puedes invertir en Productos de inversión descentralizados a través de los tokens USDC y  DAI, todos sobre la Blockchain de Polygon.",
-      "question9": "¿Cómo invierto?",
-      "answer9": "Necesitarás tener USDC, DAI, WBTC o MATIC en tu Wallet de Xcapit. Asegúrate de tener algunos MATIC para poder pagar las tarifas de transacción. Ingresa a “Inversiones DeFi” desde la pantalla de inicio de la app, o desde el menú “Inversiones” (ubicado en la parte inferior de la app).",
-      "question10": "¿Qué costo tiene mi inversión?",
-      "answer10": "Deberás pagar al protocolo las tarifas de transacción y las comisiones de inversión.<br>Xcapit no cobra por ofrecer Inversiones DeFi.",
-      "question11": "¿En qué protocolo estoy invirtiendo?",
-      "answer11": "Estás invirtiendo en Vaults de protocolos descentralizados. Tus tokens van a un pool de liquidez, donde una estrategia inteligente determina a qué protocolos de inversión destinarlos, según los rendimientos que están dando. Esto puede dar lugar a que tus tokens estén en diversos protocolos descentralizados, tales como Lending o Farming. ",
-      "question12": "¿Por qué no veo el dinero en mi Wallet cuando lo tengo invertido en un producto DeFi?",
-      "answer12": "Cuando estás invirtiendo en un protocolo descentralizado, tus tokens no están en tu Wallet. Se encuentran en el protocolo, resguardados por un contrato inteligente. Este contrato inteligente sabe qué tokens te pertenecen y qué ganancia mereces por ellos.<br>Si retiras tu inversión, los tokens volverán a tu Wallet y podrás verlos en el balance.",
-      "question13": "¿Por qué no puedo activar mis inversiones?",
-      "answer13": "Es normal que a veces no puedas invertir al primer intento aunque tengas tokens para invertir y para pagar las fees, ya que se suele tener problemas no esperados con la blockchain. Reintentar nuevamente y, si el problema persiste, crea un ticket a soporte indicando tu address pública de la Blockchain en la que deseas invertir así podremos analizar el caso más rápidamente."
+      "question7": "¿Qué opciones tengo para invertir dentro de la App de Xcapit?",
+      "answer7": "Actualmente las estrategias de inversión se encuentran inhabilitadas.",
+      "question8": "¿Por qué no veo el dinero en mi Wallet cuando lo tengo invertido en un producto DeFi?",
+      "answer8": "Cuando estás invirtiendo en un protocolo descentralizado, tus tokens no están en tu Wallet. Se encuentran en el protocolo, resguardados por un contrato inteligente. Este contrato inteligente sabe qué tokens te pertenecen y qué ganancia mereces por ellos.<br>Si retiras tu inversión, los tokens volverán a tu Wallet y podrás verlos en el balance. En estos momentos las estrategias de inversión se encuentran inhabilitadas, las únicas transacciones habilitadas son las de extracción de inversión",
+      "question9": "¿Por qué no puedo activar mis inversiones?",
+      "answer9": "Actualmente las estrategias de inversión se encuentran inhabilitadas."
     },
     "support_buy": {
       "header": "Ayuda",
@@ -3475,6 +3510,84 @@
         "confirm_button": "Confirmar",
         "cancel_button": "Cancelar"
       }
+    }
+  },
+  "warranties": {
+    "modal_info": {
+      "highlightedHeader": "¡Mejora tu crédito!",
+      "header": "Deja tus criptomonedas como garantía para conseguir tu tarjeta o aumentar su límite.",
+      "information": "Más información",
+      "firstButton": "Confeccionar garantía",
+      "secondButton": "Retirar garantía"
+    },
+    "send_warranty": {
+      "header": "Confeccionar garantia",
+      "text_dni": "Ingresar DNI",
+      "deposit_amount": "Monto a depositar"
+    },
+    "summary": {
+      "header": "Confeccionar garantia",
+      "title": "Datos de tu depósito",
+      "dniLabel": "DNI garante",
+      "amountLabel": "Monto de garantía",
+      "serviceLabel": "Costo de servicio",
+      "buttonName": "Confeccionar garantia",
+      "loading": "Confeccionando garantia...",
+      "wait_loading_message": "Solo tomará unos segundos."
+    },
+    "withdraw_warranty": {
+      "header": "Retirar garantía",
+      "title": "Verificación de saldo en garantia",
+      "text_dni": "Ingresar DNI",
+      "text_email": "Ingresar email",
+      "subtitle": "Ingresa tu DNI para verificar los depósitos acumulados a través de esta wallet en tu garantía.",
+      "toast_no_deposits_found": "No hemos encontrado depósitos de garantía asociados a este DNI y esta wallet. Por favor verifica el dato ingresado e intenta nuevamente."
+    },
+    "whatsapp_support": {
+      "textTertiary": "¿Necesitas ayuda?",
+      "textHelpLink": "Escribenos por whatsapp"
+    },
+    "success": {
+      "textPrimary": "¡Tu orden está en camino!",
+      "textSecondary": "La entidad financiera se pondrá en contacto contigo por los canales habituales",
+      "operation": "Operación",
+      "numeration": "N°",
+      "namePrimaryAction": "Volver al Home"
+    },
+    "warranty_error_blockchain": {
+      "title": "No se pudo completar tu operación.",
+      "subtitle": "Se produjo un error en la blockchain",
+      "primaryButton": "Reintentar"
+    },
+    "warranty_error_generic": {
+      "title": "No se pudo completar tu operación.",
+      "subtitle": "Se produjo un error de comunicacion con el servidor",
+      "primaryButton": "Reintentar"
+    },
+    "withdraw_warranty_error": {
+      "title": "No se pudo completar tu operación.",
+      "subtitle": "Se produjo un error en el proceso",
+      "primaryButton": "Reintentar"
+    },
+    "withdraw_warranty_summary": {
+      "title": "Garantía disponible",
+      "dniLabel": "DNI garante",
+      "emailLabel": "Email garante",
+      "button": "Retirar garantía",
+      "ticket_message": "Solicito el retiro de mi garantía. DNI: {{dni}} - Wallet: {{wallet}}",
+      "loader": "Confirmando"
+    },
+    "withdraw_success": {
+      "textPrimary": "¡Tu orden está en camino!",
+      "textSecondary": "Posterior a validar el libre de deuda con la entidad financiera se liberarán tus fondos",
+      "operation": "Operación",
+      "numeration": "N°",
+      "namePrimaryAction": "Volver al Home"
+    },
+    "insufficient_balance": {
+      "text": "No tienes {{token}} en tu cuenta para realizar esta operación.",
+      "buy_button": "Comprar {{token}}",
+      "deposit_button": "Depositar {{token}}"
     }
   }
 }

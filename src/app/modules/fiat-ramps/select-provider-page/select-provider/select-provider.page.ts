@@ -23,11 +23,13 @@ import { TokenOperationDataService } from '../../shared-ramps/services/token-ope
         <div class="ux_content">
           <form [formGroup]="this.form">
             <app-select-provider-card
+              *ngIf="this.mode"
               (route)="this.receiveRoute($event)"
               (changedCountry)="this.resetForm()"
               controlNameProvider="provider"
               controlNameSelect="country"
               [coin]="this.coin"
+              [txMode]="this.mode"
             ></app-select-provider-card>
           </form>
         </div>
@@ -57,6 +59,7 @@ export class SelectProviderPage {
     country: ['', [Validators.required]],
     provider: ['', [Validators.required]],
   });
+  mode:string;
   newOperationRoute: string;
   disabled: boolean;
   coin: Coin;
@@ -67,15 +70,20 @@ export class SelectProviderPage {
     private formBuilder: UntypedFormBuilder,
     private trackService: TrackService,
     private apiWalletService: ApiWalletService,
-    private tokenOperationDataService: TokenOperationDataService
+    private tokenOperationDataService: TokenOperationDataService,
   ) {}
 
-  ionViewWillEnter() {
-    this.trackScreenViewEvent();
+  ionViewWillEnter() {    
+    this.setTransactionMode();
+    this.setCoin();
   }
 
   ionViewDidEnter() {
     this.checkSelectedCountry();
+  }
+  
+  setTransactionMode(){
+    this.mode = this.tokenOperationDataService.tokenOperationData.mode;
   }
 
   checkSelectedCountry() {
@@ -89,12 +97,7 @@ export class SelectProviderPage {
         );
   }
 
-  trackScreenViewEvent() {
-    this.trackService.trackEvent({
-      eventAction: 'screenview',
-      description: window.location.href,
-      eventLabel: 'ux_screenview_buy',
-    });
+  setCoin() {
     const { asset, network } = this.tokenOperationDataService.tokenOperationData;
     this.coin = this.apiWalletService.getCoin(asset, network);
   }
@@ -104,11 +107,27 @@ export class SelectProviderPage {
   }
 
   goToRoute() {
-    this.tokenOperationDataService.tokenOperationData.country = this.form.value.country.isoCodeAlpha3;
+    this.setEvent();
+    this.tokenOperationDataService.add({ country: this.form.value.country.isoCodeAlpha3 });
     this.navController.navigateForward([this.newOperationRoute]);
+  }
+
+  setEvent() {
+    this.trackService.trackEvent({
+      eventLabel: `ux_${this.mode}_provider_continue`,
+    });
   }
 
   resetForm() {
     this.form.get('provider').reset();
+    this.trackEvent(this.form.value.country.isoCodeAlpha3);
+  }
+
+  trackEvent(country: string) {
+    this.trackService.trackEvent({
+      eventAction: 'click',
+      description: window.location.href,
+      eventLabel: `ux_${this.tokenOperationDataService.tokenOperationData.mode}_select_country_${country}`,
+    });
   }
 }

@@ -66,7 +66,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
         (removePhoto)="this.removePhoto()"
       ></app-voucher-card>
       <app-kripton-account-info-card
-        *ngIf="this.isFirstStep"
+        *ngIf="this.isFirstStep && !this.isLoading"
         [country]="this.data.country.toLowerCase()"
         [amount]="this.data.amount_in"
         [currency]="this.data.currency_in.toUpperCase()"
@@ -123,6 +123,9 @@ export class PurchaseOrderPage {
   filesystemPlugin = Filesystem;
   cameraPlugin = Camera;
   isSending = false;
+  totalAmountIn: string;
+  operationData: any;
+  isLoading = false;
 
   constructor(
     private clipboardService: ClipboardService,
@@ -140,9 +143,9 @@ export class PurchaseOrderPage {
 
   ionViewWillEnter() {
     this.getStep();
-    this.getOperationData();
-    this.getOperationCreationDate();
+    this.getStorageOperationData();
     this.getCurrencyOut();
+    this.getOperationCreationDate();
   }
 
   private getCurrencyOut() {
@@ -159,9 +162,20 @@ export class PurchaseOrderPage {
     this.dDay = addHours(created_at, 72);
   }
 
-  private getOperationData() {
+  private getStorageOperationData() {
     this.data = this.storageOperationService.getData();
     this.voucher = this.storageOperationService.getVoucher();
+    this.getKriptonOperationData();
+  }
+
+  private async getKriptonOperationData() {
+    const email = await this.kriptonStorageService.get('email');
+    const auth_token = await this.kriptonStorageService.get('access_token');
+    this.operationData = await this.fiatRampsService
+      .getUserSingleOperation(this.data.operation_id, { email: email, auth_token: auth_token })
+      .toPromise();
+    this.data.amount_in = this.operationData[0].amount_in;
+    this.isLoading = false;
   }
 
   copyToClipboard(clipboardInfo) {
@@ -215,7 +229,7 @@ export class PurchaseOrderPage {
     const email = await this.kriptonStorageService.get('email');
     const auth_token = await this.kriptonStorageService.get('access_token');
     const data = { file: this.voucher.dataUrl, email, auth_token };
-    this.fiatRampsService.confirmOperation(this.data.operation_id, data).subscribe({
+    this.fiatRampsService.confirmCashInOperation(this.data.operation_id, data).subscribe({
       next: () => {
         this.data.voucher = true;
         this.openSuccessModal();

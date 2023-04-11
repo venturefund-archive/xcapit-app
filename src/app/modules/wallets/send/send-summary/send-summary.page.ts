@@ -53,7 +53,6 @@ import { WalletPasswordWithValidatorComponent } from '../../shared-wallets/compo
           (phrasetransactionFeeInfoClicked)="this.showPhrasereferenceFeeInfo()"
         ></app-transaction-summary-card>
       </div>
-
       <div class="ss__send_button">
         <ion-button
           [appLoading]="this.loading"

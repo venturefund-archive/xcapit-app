@@ -1,0 +1,29 @@
+:host {
+  .ws {
+    --background: var(--ion-color-background);
+
+    app-warranty-summary-card {
+      margin-top: 0;
+    }
+
+    &__footer {
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+      border-radius: 8px;
+
+      &__submit-button {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+
+        &__button {
+          flex-grow: 1;
+        }
+      }
+    }
+
+    &__support {
+      margin-top: 24px;
+    }
+  }
+}

@@ -36,6 +36,16 @@
   line-height: 18.77px;
 }
 
+.two-button-xl {
+  ion-label {
+    font-size: var(--ux-fsize-22);
+  }
+
+  ion-text {
+    color: var(--ion-color-neutral90) !important;
+  }
+}
+
 // Texto normal
 .ux-font-text-base {
   font-family: var(--ux-font-lato);

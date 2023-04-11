@@ -1,0 +1,14 @@
+:host {
+  .wws {
+    --background: var(--ion-color-background);
+
+    &__support {
+      margin: auto;
+      position: absolute;
+      text-align: center;
+      bottom: 20px;
+      width: 100%;
+      margin-left: -16px;
+    }
+  }
+}

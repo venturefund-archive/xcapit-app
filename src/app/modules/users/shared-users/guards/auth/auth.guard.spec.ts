@@ -1,68 +1,57 @@
 import { TestBed } from '@angular/core/testing';
-
+import { NavController } from '@ionic/angular';
 import { AuthGuard } from './auth.guard';
-import { AuthService } from '../../services/auth/auth.service';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
+import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
-  let authServiceMock: any;
-  let authService: any;
-  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
-  beforeEach(() => {
-    authServiceMock = {
-      checkToken: () => Promise.resolve(true),
-      checkRefreshToken: () => Promise.resolve(true),
-      sesionExpired: () => null,
-    };
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
-    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
-      getFeatureFlag: Promise.resolve(),
+  beforeEach(() => {
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', { get: Promise.resolve(true) });
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getWalletFromStorage: Promise.resolve({ addresses: {} }),
     });
     TestBed.configureTestingModule({
+      imports: [],
       providers: [
         AuthGuard,
-        { provide: AuthService, useValue: authServiceMock },
-        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
       ],
     });
   });
 
   beforeEach(() => {
     authGuard = TestBed.inject(AuthGuard);
-    authService = TestBed.inject(AuthService);
   });
 
-  it('should ...', () => {
+  it('should create', () => {
     expect(authGuard).toBeTruthy();
   });
 
-  it('should be able to hit route when checkToken is true', async () => {
-    const checkTokenSpy = spyOn(authService, 'checkToken');
-    checkTokenSpy.and.returnValue(Promise.resolve(true));
-    await expectAsync(authGuard.canActivate()).toBeResolvedTo(true);
+  it('should navigate to onboarding when user is not logged in', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    expect(await authGuard.canActivate()).toBeFalse();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/users/on-boarding');
   });
 
-  it('should not be able to hit route when checkToken is false', async () => {
-    const checkTokenSpy = spyOn(authService, 'checkToken');
-    const checkRefreshTokenSpy = spyOn(authService, 'checkRefreshToken');
-    checkTokenSpy.and.returnValue(Promise.resolve(false));
-    checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
-    await expectAsync(authGuard.canActivate()).toBeResolvedTo(false);
+  it('should navigate to onboarding when user is not logged in', async () => {
+    storageServiceSpy.getWalletFromStorage.and.resolveTo(undefined);
+    expect(await authGuard.canActivate()).toBeFalse();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/users/on-boarding');
   });
-  
-  it('should call sesionExpired on authService when checkToken is false', async () => {
-    const checkTokenSpy = spyOn(authService, 'checkToken');
-    const checkRefreshTokenSpy = spyOn(authService, 'checkRefreshToken');
-    const sesionExpiredSpy = spyOn(authService, 'sesionExpired');
-    checkTokenSpy.and.returnValue(Promise.resolve(false));
-    checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
-    await authGuard.canActivate();
-    expect(sesionExpiredSpy).toHaveBeenCalledTimes(1);
-  });
-  
-  it('should skip token verification if feature flag is enabled', async() => {
-    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
-    await expectAsync(authGuard.canActivate()).toBeResolvedTo(true);
+
+  it('should let continue navigation when user is logged in and has wallet ', async () => {
+    expect(await authGuard.canActivate()).toBeTrue();
+    expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
   });
 });
