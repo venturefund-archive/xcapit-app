@@ -1,6 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  discardPeriodicTasks,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -291,15 +299,9 @@ describe('SwapHomePage', () => {
     expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('true');
   });
 
-  it('should show null swap info on invalid from token amount value', fakeAsync(() => {
+  it('should show null swap info and swap info with 0 value on invalid from token amount value', fakeAsync(() => {
     _setTokenAmountArrange(0);
-
     expect(component.tplSwapInfo).toEqual(new NullJSONSwapInfo().value());
-  }));
-
-  it('should show swap fee info with 0 value on invalid from token amount value', fakeAsync(() => {
-    _setTokenAmountArrange(0);
-
     expect(component.tplFee.value).toEqual(0);
     expect(component.tplFee.token).toEqual(rawBlockchain.nativeToken.value);
   }));
@@ -527,6 +529,7 @@ describe('SwapHomePage', () => {
 
   it('should set max amount from swap', async () => {
     await component.ionViewDidEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     await component.setMaxAmount();
 
