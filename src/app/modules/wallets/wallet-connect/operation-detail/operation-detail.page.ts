@@ -5,7 +5,7 @@ import { WalletPasswordComponent } from '../../../wallets/shared-wallets/compone
 import { NavController } from '@ionic/angular';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { ethers, Wallet } from 'ethers';
+import { BigNumber, ethers, Wallet } from 'ethers';
 import * as moment from 'moment';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { EthersService } from '../../shared-wallets/services/ethers/ethers.service';
@@ -14,6 +14,9 @@ import { SignRequest } from '../../../../shared/models/wallet-connect/session-re
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
+import { AmountOf } from '../../../swaps/shared-swaps/models/amount-of/amount-of';
+import { DefaultToken } from '../../../swaps/shared-swaps/models/token/token';
+import { TplSessionRequest } from '../../../../shared/models/wallet-connect/session-request/session-request.interface';
 
 @Component({
   selector: 'app-operation-detail',
@@ -193,19 +196,18 @@ export class OperationDetailPage {
     this.wcService.uri().isV2() ? this.setTemplateDataFromRequest() : await this.checkProtocolInfo();
   }
 
-  setTemplateDataFromRequest() {
-    const sessionRequest = this.sessionRequestInjectable.request() as SignRequest;
+  async setTemplateDataFromRequest() {
+    const sessionRequest = this.sessionRequestInjectable.request();
     const session = this.wcConnectionV2.session();
+    const sessionTpl = sessionRequest.json();
     this.peerMeta = session.peerMetadata();
     this.providerSymbol = session.wallet().blockchain().nativeToken().symbol();
-    this.transactionDetail = sessionRequest.raw();
-
-    if (sessionRequest.method().isSignRequest()) {
-      this.message = sessionRequest.message();
-    } else {
-      this.isSignRequest = false;
-      this.message = '';
-    }
+    this.transactionDetail = sessionRequest.raw()?.params.request;
+    this.message = sessionTpl.message;
+    this.isSignRequest = sessionTpl.isSignRequest;
+    this.decodedData = sessionTpl.decodedData;
+    this.isApproval = sessionTpl.isApproval;
+    this.totalFeeAmount = sessionTpl.totalFeeAmount;
   }
 
   async checkProtocolInfo() {
@@ -240,9 +242,7 @@ export class OperationDetailPage {
         this.decodedData = await this.walletConnectService.getTransactionType(request);
         this.isApproval = this.decodedData && this.decodedData.name === 'approve';
         const gasLimit = !request.params[0].gas ? '70000' : request.params[0].gas;
-
         this.getTotalFeeAmount(gasLimit);
-
         break;
       }
       case 'personal_sign': {

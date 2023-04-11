@@ -1,17 +1,31 @@
 import { RequestMethod } from '../../request-method/request-method';
 import { RawSessionRequest } from '../raw-session-request.type';
-import { SessionRequest } from '../session-request.interface';
+import { SessionRequest, TplSessionRequest } from '../session-request.interface';
 
 export class NullRequest implements SessionRequest {
   public raw(): RawSessionRequest {
-    return {} as RawSessionRequest;
+    return undefined as RawSessionRequest;
   }
 
   public method(): RequestMethod {
-    return {} as RequestMethod;
+    return undefined as RequestMethod;
   }
 
-  public approve() {}
+  public approve() {
+    return Promise.resolve();
+  }
 
-  public reject() {}
+  public reject(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  json(): TplSessionRequest {
+    return {
+      message: '',
+      isSignRequest: false,
+      decodedData: null,
+      isApproval: false,
+      totalFeeAmount: undefined,
+    };
+  }
 }
