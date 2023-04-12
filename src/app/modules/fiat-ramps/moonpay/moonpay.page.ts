@@ -41,9 +41,10 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
           *ngIf="this.selectedCurrency"
           [coin]="this.selectedCurrency"
           [fiatCurrency]="this.fiatCurrency"
+          [minimumCurrency]="this.fiatCurrency"
           [provider]="this.provider"
           [coinSelectorEnabled]="true"
-          [minimumFiatAmount]="this.minimumFiatAmount"
+          [minimumAmount]="this.minimumFiatAmount"
           (changeCurrency)="this.openModal($event)"
           paymentType="fiat_ramps.shared.constants.payment_types.moonpay"
           [fee]="this.fee"
@@ -83,7 +84,7 @@ export class MoonpayPage {
   country: FiatRampProviderCountry;
   fiatCurrency = 'USD';
   countries = COUNTRIES;
-  fee = { value: 0, token: '' };
+  fee = { value: 0, token: '', totalDigits: 10, maxDecimals: 2 };
   price: number;
   milliseconds = 15000;
   destroy$: Subject<void>;

@@ -213,9 +213,7 @@ export class VerifyPhrasePage implements OnInit {
   }
 
   navigateToPage(){
-    this.profileTestComplete
-        ? this.navController.navigateForward(['/tabs/wallets'])
-        : this.navController.navigateForward(['/profiles/profile-test']);
+    return this.navController.navigateForward(['/tabs/wallets'])
   }
 
   getActiveIndex() {

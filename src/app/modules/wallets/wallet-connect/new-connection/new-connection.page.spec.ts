@@ -18,7 +18,6 @@ import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
 import { By } from '@angular/platform-browser';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
-import { LoadingService } from '../../../../shared/services/loading/loading.service';
 import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
@@ -27,6 +26,7 @@ import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
+import { RemoteConfigService } from '../../../../shared/services/remote-config/remote-config.service';
 
 const formData = {
   valid: {
@@ -64,11 +64,11 @@ describe('NewConnectionPage', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let wcServiceSpy: jasmine.SpyObj<WCService>;
-  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let wcConnectionV2: jasmine.SpyObj<WCConnectionV2>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let fakeWallet: FakeWallet;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(waitForAsync(() => {
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
@@ -103,7 +103,9 @@ describe('NewConnectionPage', () => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showErrorToast: Promise.resolve(),
     });
-
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: true,
+    });
     wcServiceSpy = jasmine.createSpyObj('WCService', {
       connected: false,
       uri: new WCUri(rawWalletConnectUriV2),
@@ -112,11 +114,6 @@ describe('NewConnectionPage', () => {
 
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
       isNative: true,
-    });
-
-    loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
-      show: Promise.resolve(),
-      dismiss: Promise.resolve(),
     });
 
     wcConnectionV2 = jasmine.createSpyObj('WCConnectionV2', {
@@ -151,10 +148,10 @@ describe('NewConnectionPage', () => {
         { provide: Platform, useValue: platformSpy },
         { provide: WCService, useValue: wcServiceSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
-        { provide: LoadingService, useValue: loadingServiceSpy },
         { provide: WCConnectionV2, useValue: wcConnectionV2 },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -253,12 +250,10 @@ describe('NewConnectionPage', () => {
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
 
-      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
       expect(walletConnectServiceSpy.setAccountInfo).toHaveBeenCalledOnceWith(selectedWallet);
       expect(walletConnectServiceSpy.initWalletConnect).toHaveBeenCalledOnceWith(rawWalletConnectUriV1);
       expect(walletConnectServiceSpy.checkDappStatus).toHaveBeenCalledTimes(1);
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/wallet-connect/connection-detail']);
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
     });
 
     it('should show an error alert when connection fail', async () => {
@@ -311,10 +306,31 @@ describe('NewConnectionPage', () => {
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
 
-      expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
       expect(wcConnectionV2.pairTo).toHaveBeenCalledOnceWith(wcUri, fakeWallet);
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/wallet-connect/connection-detail']);
-      expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show invalid uri error message when v2 is disabled', async () => {
+      remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
+      const wcUri = new WCUri(rawWalletConnectUriV2);
+      wcServiceSpy.uri.and.returnValue(wcUri);
+      await component.ionViewWillEnter();
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      component.form.patchValue({ wallet: selectedWallet });
+      component.setWalletInfo(selectedWallet);
+
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+      fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+      fixture.detectChanges();
+
+      expect(wcConnectionV2.pairTo).not.toHaveBeenCalled();
+      expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
+      expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+        message: 'wallets.wallet_connect.errors.invalidUri',
+      });
     });
 
     it('should show an error alert when connection fail', async () => {

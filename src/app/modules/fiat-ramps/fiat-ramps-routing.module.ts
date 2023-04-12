@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 import { HasAcceptedBuyConditionsGuard } from './shared-ramps/guards/has-accepted-buy-conditions/has-accepted-buy-conditions.guard';
 import { LoggedInKriptonGuard } from './shared-ramps/guards/logged-in-kripton/logged-in-kripton.guard';
 import { NotLoggedInKriptonGuard } from './shared-ramps/guards/not-logged-in-kripton/not-logged-in-kripton';
 import { KriptonKycCompletedGuard } from './shared-ramps/guards/kripton-kyc-completed/kripton-kyc-completed.guard';
+import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -44,6 +44,7 @@ const routes: Routes = [
         path: 'user-bank',
         loadChildren: () => import('./user-bank/user-bank.module').then((m) => m.UserBankPageModule),
       },
+      
       {
         path: 'user-images',
         loadChildren: () => import('./user-images/user-images.module').then((m) => m.UserImagesPageModule),
@@ -113,6 +114,10 @@ const routes: Routes = [
         path: 'user-bank-account',
         loadChildren: () =>
           import('./user-bank-account/user-bank-account.module').then((m) => m.UserBankAccountPageModule),
+      },
+      {
+        path: 'sell-order',
+        loadChildren: () => import('./sell-order/sell-order.module').then( m => m.SellOrderPageModule)
       },
       {
         canActivate: [LoggedInKriptonGuard],

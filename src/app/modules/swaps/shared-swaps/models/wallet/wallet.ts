@@ -1,5 +1,5 @@
 import { Wallet as EthersWallet, providers } from 'ethers';
-import { TransactionRequest } from '@ethersproject/abstract-provider';
+import { TransactionRequest, TransactionResponse } from '@ethersproject/abstract-provider';
 import { BlockchainTx } from '../blockchain-tx';
 import { IBlockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
@@ -15,6 +15,7 @@ export interface Wallet {
   sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
   blockchain: () => IBlockchain;
   signMessage?: (message: string) => Promise<string>;
+  sendTransaction?: (tx: BlockchainTx) => Promise<any>;
 }
 
 export class DefaultWallet implements Wallet {
@@ -44,6 +45,10 @@ export class DefaultWallet implements Wallet {
       await (await connectedWallet.sendTransaction((await tx.value()) as TransactionRequest)).wait();
     }
     return true;
+  }
+
+  async sendTransaction(tx: BlockchainTx): Promise<TransactionResponse> {
+    return this._connectedWallet(await this._derivedWallet()).sendTransaction((await tx.value()) as TransactionRequest);
   }
 
   async signMessage(message: string): Promise<string> {
@@ -104,6 +109,14 @@ export class FakeWallet implements Wallet {
 
   blockchain(): IBlockchain {
     return this._blockchain;
+  }
+
+  async sendTransaction(tx: BlockchainTx): Promise<TransactionResponse> {
+    return { hash: 'aTxHash' } as TransactionResponse;
+  }
+
+  async signMessage(message: string): Promise<string> {
+    return 'signed message';
   }
 
   private _checkError() {

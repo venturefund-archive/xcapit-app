@@ -48,13 +48,9 @@ import { UxRadioItemComponent } from './components/ux-radio-item/ux-radio-item.c
 import { UxRadioItemGroupComponent } from './components/ux-radio-item-group/ux-radio-item-group.component';
 import { AvatarProfileComponent } from './components/avatar-profile/avatar-profile/avatar-profile.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
-import { WalletTotalBalanceCardComponent } from '../modules/home/shared-home/components/wallet-total-balance-card/wallet-total-balance-card.component';
 import { HideTextPipe } from './pipes/hide-text/hide-text.pipe';
-import { NeedHelpCardComponent } from '../modules/home/shared-home/components/need-help-card/need-help-card.component';
-import { InvestorTestCardsComponent } from '../modules/home/shared-home/components/investor-test-cards/investor-test-cards.component';
-import { WalletConnectCardComponent } from '../modules/home/shared-home/components/wallet-connect-card/wallet-connect-card.component';
-import { QuotesCardComponent } from '../modules/home/shared-home/components/quotes-card/quotes-card.component';
-import { ItemQuoteComponent } from '../modules/home/shared-home/components/item-quote/item-quote.component';
+import { QuotesCardComponent } from './components/quotes-card/quotes-card.component';
+import { ItemQuoteComponent } from './components/item-quote/item-quote.component';
 import { NetworkSelectCardComponent } from '../modules/wallets/shared-wallets/components/network-select-card/network-select-card.component';
 import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
 import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinner.directive';
@@ -124,9 +120,6 @@ import { CoinContentItemComponent } from '../modules/fiat-ramps/shared-ramps/com
     ScanQrModalComponent,
     EmbedVideoComponent,
     LoadingModalComponent,
-    NeedHelpCardComponent,
-    InvestorTestCardsComponent,
-    WalletConnectCardComponent,
     QuotesCardComponent,
     ItemQuoteComponent,
     TokenSelectionListComponent,
@@ -184,7 +177,6 @@ import { CoinContentItemComponent } from '../modules/fiat-ramps/shared-ramps/com
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
-    WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     UpdateAppModalComponent,
     NetworkSelectCardComponent,
@@ -245,9 +237,6 @@ import { CoinContentItemComponent } from '../modules/fiat-ramps/shared-ramps/com
     ScanQrModalComponent,
     LoadingModalComponent,
     UpdateAppModalComponent,
-    NeedHelpCardComponent,
-    InvestorTestCardsComponent,
-    WalletConnectCardComponent,
     QuotesCardComponent,
     ItemQuoteComponent,
     NetworkSelectCardComponent,
@@ -306,7 +295,6 @@ import { CoinContentItemComponent } from '../modules/fiat-ramps/shared-ramps/com
     ContactSupportComponent,
     FaqComponent,
     TestOptionItemComponent,
-    WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
     NoWalletComponent,
     UpdateNewsComponent,

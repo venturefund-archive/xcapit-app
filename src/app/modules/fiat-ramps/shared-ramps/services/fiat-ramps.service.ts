@@ -121,21 +121,27 @@ export class FiatRampsService {
     );
   }
 
-  getKriptonMinimumAmount(fiatCurrency: string, data: any): Observable<any> {
+  getKriptonMinimumAmount(currency: string, mode: string, data: any): Observable<any> {
     return this.http.post(
-      `${environment.apiUrl}/on_off_ramps/kripton/users/get_user_limits/${fiatCurrency}`,
+      `${environment.apiUrl}/on_off_ramps/kripton/users/get_user_limits/${mode}/${currency}`,
       data,
       undefined,
       false
     );
   }
 
-  getKriptonFee(fiatCurrency: string, amount_in: number, currency_out: string, network: string): Observable<any> {
+  getKriptonFee(
+    currency_in: string,
+    amount_in: number,
+    currency_out: string,
+    network: string,
+    type: string
+  ): Observable<any> {
     return this.http.post('https://app.kriptonmarket.com/public/calculate_amount_out', {
-      currency_in: fiatCurrency,
-      amount_in: amount_in,
-      currency_out: currency_out,
-      type: 'cash-in',
+      currency_in,
+      amount_in,
+      currency_out,
+      type,
       network_out: network,
     });
   }

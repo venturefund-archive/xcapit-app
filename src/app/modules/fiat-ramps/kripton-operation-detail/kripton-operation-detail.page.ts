@@ -317,7 +317,7 @@ export class KriptonOperationDetailPage {
   }
 
   getCoin() {
-    const asset = this.fiatRampsService.getProvider(1).currencies.find((c) => c.symbol === this.operation.currency_out);
+    const asset = this.fiatRampsService.getProvider(1).currencies.find((c) => c.symbol === (this.operation.operation_type === 'cash-in' ? this.operation.currency_out : this.operation.currency_in));
     this.token = this.apiWalletService.getCoin(asset.symbol, asset.network);
   }
 

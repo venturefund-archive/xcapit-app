@@ -58,11 +58,10 @@ const routes: Routes = [
       },
       {
         path: 'token-selection',
-        loadChildren: () => import('./token-selection/token-selection.module').then( m => m.TokenSelectionPageModule)
+        loadChildren: () => import('./token-selection/token-selection.module').then((m) => m.TokenSelectionPageModule),
       },
     ],
   },
-
 ];
 
 @NgModule({

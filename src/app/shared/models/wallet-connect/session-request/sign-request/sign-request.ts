@@ -1,4 +1,4 @@
-import { SessionRequest } from '../session-request.interface';
+import { SessionRequest, TplSessionRequest } from '../session-request.interface';
 import { RawSessionRequest } from '../raw-session-request.type';
 import { SignClientV2 } from '../../sign-client/sign-client';
 import { formatJsonRpcError, formatJsonRpcResult } from '@json-rpc-tools/utils';
@@ -7,13 +7,22 @@ import { getSdkError } from '@walletconnect/utils';
 import { HexString } from '../../../hex-string/hex-string';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { RequestMethod } from '../../request-method/request-method';
-
 export class SignRequest implements SessionRequest {
   constructor(
     private readonly _aRawSessionRequest: RawSessionRequest,
     private readonly _aSignClient: SignClientV2,
     private readonly _aWallet: Wallet
   ) {}
+
+  public json(): TplSessionRequest {
+    return {
+      message: this.message(),
+      isSignRequest: true,
+      decodedData: null,
+      isApproval: false,
+      totalFeeAmount: undefined,
+    };
+  }
 
   public raw(): RawSessionRequest {
     return this._aRawSessionRequest;

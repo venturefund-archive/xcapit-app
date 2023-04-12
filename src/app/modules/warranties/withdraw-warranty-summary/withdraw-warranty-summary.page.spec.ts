@@ -11,6 +11,7 @@ import { rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens
 import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
 import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warranty-data.interface';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
+import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { WithdrawWarrantySummaryPage } from './withdraw-warranty-summary.page';
 
 describe('WithdrawWarrantySummaryPage', () => {
@@ -21,6 +22,7 @@ describe('WithdrawWarrantySummaryPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let apiTicketServiceSpy: jasmine.SpyObj<ApiTicketsService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let warrantyServiceSpy: jasmine.SpyObj<WarrantiesService>;
   const summaryData: SummaryWarrantyData = {
     amount: 10,
     coin: rawUSDCData,
@@ -48,6 +50,9 @@ describe('WithdrawWarrantySummaryPage', () => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
+
+    warrantyServiceSpy = jasmine.createSpyObj('WarrantyService', { withdrawWarranty: of({ summaryData }) });
+
     TestBed.configureTestingModule({
       declarations: [WithdrawWarrantySummaryPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -56,6 +61,7 @@ describe('WithdrawWarrantySummaryPage', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: ApiTicketsService, useValue: apiTicketServiceSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: WarrantiesService, useValue: warrantyServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

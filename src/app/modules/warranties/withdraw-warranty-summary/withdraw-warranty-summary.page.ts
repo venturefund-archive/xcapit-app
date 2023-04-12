@@ -10,6 +10,7 @@ import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tic
 import { WalletPasswordWithValidatorComponent } from '../../wallets/shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
 import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warranty-data.interface';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
+import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 
 @Component({
   selector: 'app-withdraw-warranty-summary',
@@ -62,7 +63,8 @@ export class WithdrawWarrantySummaryPage {
     private modalController: ModalController,
     private translate: TranslateService,
     private apiTicketsService: ApiTicketsService,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private warrantyService: WarrantiesService,
   ) {}
 
   ionViewWillEnter() {
@@ -76,7 +78,7 @@ export class WithdrawWarrantySummaryPage {
       return;
     }
     this.loading = true;
-    this.sendTicket();
+    await this.createWithdraw();
   }
 
   async askForPassword() {
@@ -93,7 +95,23 @@ export class WithdrawWarrantySummaryPage {
     return data;
   }
 
-  sendTicket() {
+  async createWithdraw() {
+    const withdrawData = {
+      user_dni: this.warrantyData.user_dni,
+      wallet: this.warrantyData.wallet,
+      amount: this.warrantyData.amount,
+      currency: 'USDC'
+    }
+    await this.warrantyService
+        .withdrawWarranty(withdrawData)
+        .toPromise()
+        .then(({id}) => {
+          this.sendTicket(id);
+        });
+
+  }
+
+  sendTicket(operationNumber) {
     const category = TICKET_CATEGORIES.find((category) => category.name === 'Garantía');
     const data = {
       email: this.warrantyData.email,
@@ -106,7 +124,7 @@ export class WithdrawWarrantySummaryPage {
     };
     this.apiTicketsService.createTicket(data).subscribe(
       () => {
-        this.goToSuccessModal();
+        this.goToSuccessModal(operationNumber);
         this.loading = false;
       },
       () => {
@@ -116,12 +134,14 @@ export class WithdrawWarrantySummaryPage {
     );
   }
 
-  async goToSuccessModal() {
+  async goToSuccessModal(operationNumber) {
     const modal = await this.modalController.create({
       component: WarrantyInProgressTransactionModalComponent,
       cssClass: 'ux-lg-modal-informative',
       backdropDismiss: false,
       componentProps: {
+        data: SUCCESS_TYPES.withdraw_warranty_success,
+        operationNumber,
         eventName: 'ux_warranty_withdraw_success_screenview',
       },
       

@@ -64,20 +64,6 @@ describe('SkipBackupModalComponent', () => {
     expect(buttonEl.nativeNode.disabled).toBeTruthy();
   });
 
-  it('should navigate to profile test and close modal when form is valid and skip button is clicked', async () => {
-    component.skipBackUpForm.patchValue({
-      agreeSkipBackUp: true,
-    });
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    fixture.debugElement.query(By.css('ion-button[name="ux_create_skip_warning"]')).nativeElement.click();
-
-    
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/profiles/profile-test']);
-    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
-  });
-
   it('should not navigate when form is not valid and skip button is clicked', async () => {
     fixture.detectChanges();
     await fixture.whenStable();

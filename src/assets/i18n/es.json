@@ -2189,10 +2189,13 @@
       "button_disconnect": "Finalizar conexión",
       "card_title": "Configura tu conexión",
       "card_description": "Elige la red de la que quieres tomar los fondos. Luego, escanea el código QR de la Dapp.",
+      "errors": {
+        "invalidUri": "Comprueba que la url que estás ingresando corresponda al protocolo de conexión de WalletConnect."
+      },
       "scan_qr": {
         "header": "Escanea el código QR de tu Dapp",
         "errors": {
-          "invalidQR": "Compruebe que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
+          "invalidQR": "Comprueba que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
           "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado.",
           "close_button": "Aceptar"
         }
@@ -2757,9 +2760,11 @@
         "quantity": "Cantidad",
         "payment_method": "Medio de Pago",
         "to_pay": "Pagarás*",
-        "input_error": "El monto mínimo de compra es de ${{amount}} {{fiatCurrency}}",
+        "input_error": "El monto mínimo de compra es de ${{amount}} {{currency}}",
         "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día.",
-        "estimated_fee": "Tarifa de transacción estimada"
+        "estimated_fee": "Tarifa de transacción estimada",
+        "estimated_provider_fee": "Tarifa de proveedor estimada"
+
       },
 
       "kyc_disclaimer_modal": {
@@ -3252,7 +3257,7 @@
       "question2": "¿Cuál es el riesgo de invertir con Xcapit?",
       "answer2": "Cada producto de inversión que ofrecemos tiene su métrica correspondiente de riesgo a la cual debes estar seguro que quieras tomarlo, puedes ver los términos y condiciones de cada producto al momento de invertir tus tokens.",
       "question3": "¿Por qué usar la wallet de Xcapit?",
-      "answer3": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Puedes acceder ágilmente a productos de inversión descentralizados.</li><li>Acceso al intercambio de tus NFTs favoritos.</li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
+      "answer3": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Acceso al intercambio de tus NFTs favoritos.</li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
       "question4": "¿Cómo importar una wallet?",
       "answer4": "<b>1.</b> Dentro de la app, Se accede a la opción: “Importar wallet”.<br><b>2.</b> Ingresar las 12 palabras de la wallet que se desea importar.<br><b>3.</b> Seleccionar los tokens a visualizar.<br><b>4.</b> Crear nueva contraseña para la firma de transacciones con la nueva wallet.",
       "question5": "¿Qué es la “ruta de derivación” de la frase semilla (en inglés = ”Derivation path”)?",
@@ -3285,20 +3290,12 @@
       "answer5": "<ol><li>Buscar en la billetera el token que necesitan transferir.</li><li>Copiar la dirección de depósito correspondiente al mismo.</li><li>Enviar la dirección a la persona que te va a transferir.</li></ol>",
       "question6": "¿Cómo transferir mi dinero?",
       "answer6": "<ol><li>Debes seleccionar el token que desea transferir.</li><li>Pegar en el campo de dirección, la dirección a la cual quiere enviar los mismos. Para transferir, necesitas la dirección de depósito específica del destinatario para el token que deseas transferir.</li><li>Ingresar el monto que quieres transferir.</li><li>Verificar que los datos sean correctos.</li></ol>",
-      "question7": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
-      "answer7": "Puedes generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit. Estos productos de inversión se encontrarán en la blockchain de Polygon y variará en rendimientos, riesgos y protocolos de inversión. El rendimiento es continuo para las inversiones en USDC, se actualiza cada 30 segundos.",
-      "question8": "¿Qué opciones tengo para invertir dentro de la App de Xcapit?",
-      "answer8": "Actualmente puedes invertir en Productos de inversión descentralizados a través de los tokens USDC y  DAI, todos sobre la Blockchain de Polygon.",
-      "question9": "¿Cómo invierto?",
-      "answer9": "Necesitarás tener USDC, DAI, WBTC o MATIC en tu Wallet de Xcapit. Asegúrate de tener algunos MATIC para poder pagar las tarifas de transacción. Ingresa a “Inversiones DeFi” desde la pantalla de inicio de la app, o desde el menú “Inversiones” (ubicado en la parte inferior de la app).",
-      "question10": "¿Qué costo tiene mi inversión?",
-      "answer10": "Deberás pagar al protocolo las tarifas de transacción y las comisiones de inversión.<br>Xcapit no cobra por ofrecer Inversiones DeFi.",
-      "question11": "¿En qué protocolo estoy invirtiendo?",
-      "answer11": "Estás invirtiendo en Vaults de protocolos descentralizados. Tus tokens van a un pool de liquidez, donde una estrategia inteligente determina a qué protocolos de inversión destinarlos, según los rendimientos que están dando. Esto puede dar lugar a que tus tokens estén en diversos protocolos descentralizados, tales como Lending o Farming. ",
-      "question12": "¿Por qué no veo el dinero en mi Wallet cuando lo tengo invertido en un producto DeFi?",
-      "answer12": "Cuando estás invirtiendo en un protocolo descentralizado, tus tokens no están en tu Wallet. Se encuentran en el protocolo, resguardados por un contrato inteligente. Este contrato inteligente sabe qué tokens te pertenecen y qué ganancia mereces por ellos.<br>Si retiras tu inversión, los tokens volverán a tu Wallet y podrás verlos en el balance.",
-      "question13": "¿Por qué no puedo activar mis inversiones?",
-      "answer13": "Es normal que a veces no puedas invertir al primer intento aunque tengas tokens para invertir y para pagar las fees, ya que se suele tener problemas no esperados con la blockchain. Reintentar nuevamente y, si el problema persiste, crea un ticket a soporte indicando tu address pública de la Blockchain en la que deseas invertir así podremos analizar el caso más rápidamente."
+      "question7": "¿Qué opciones tengo para invertir dentro de la App de Xcapit?",
+      "answer7": "Actualmente las estrategias de inversión se encuentran inhabilitadas.",
+      "question8": "¿Por qué no veo el dinero en mi Wallet cuando lo tengo invertido en un producto DeFi?",
+      "answer8": "Cuando estás invirtiendo en un protocolo descentralizado, tus tokens no están en tu Wallet. Se encuentran en el protocolo, resguardados por un contrato inteligente. Este contrato inteligente sabe qué tokens te pertenecen y qué ganancia mereces por ellos.<br>Si retiras tu inversión, los tokens volverán a tu Wallet y podrás verlos en el balance. En estos momentos las estrategias de inversión se encuentran inhabilitadas, las únicas transacciones habilitadas son las de extracción de inversión",
+      "question9": "¿Por qué no puedo activar mis inversiones?",
+      "answer9": "Actualmente las estrategias de inversión se encuentran inhabilitadas."
     },
     "support_buy": {
       "header": "Ayuda",
@@ -3531,8 +3528,8 @@
   },
   "warranties": {
     "modal_info": {
-      "highlightedHeader": "Más crédito para tu tarjeta",
-      "header": "Deja tus criptomonedas como garantía para aumentar el límite de tu tarjeta.",
+      "highlightedHeader": "¡Mejora tu crédito!",
+      "header": "Deja tus criptomonedas como garantía para conseguir tu tarjeta o aumentar su límite.",
       "information": "Más información",
       "firstButton": "Confeccionar garantía",
       "secondButton": "Retirar garantía"
@@ -3593,6 +3590,18 @@
       "button": "Retirar garantía",
       "ticket_message": "Solicito el retiro de mi garantía. DNI: {{dni}} - Wallet: {{wallet}}",
       "loader": "Confirmando"
+    },
+    "withdraw_success": {
+      "textPrimary": "¡Tu orden está en camino!",
+      "textSecondary": "Posterior a validar el libre de deuda con la entidad financiera se liberarán tus fondos",
+      "operation": "Operación",
+      "numeration": "N°",
+      "namePrimaryAction": "Volver al Home"
+    },
+    "insufficient_balance": {
+      "text": "No tienes {{token}} en tu cuenta para realizar esta operación.",
+      "buy_button": "Comprar {{token}}",
+      "deposit_button": "Depositar {{token}}"
     }
   }
 }

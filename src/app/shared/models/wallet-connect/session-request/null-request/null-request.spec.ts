@@ -8,18 +8,18 @@ describe('NullRequest', () => {
   });
 
   it('raw', () => {
-    expect(new NullRequest().raw()).toEqual({} as RawSessionRequest);
+    expect(new NullRequest().raw()).toEqual(undefined as RawSessionRequest);
   });
 
   it('method', () => {
-    expect(new NullRequest().method()).toEqual({} as RequestMethod);
+    expect(new NullRequest().method()).toEqual(undefined as RequestMethod);
   });
 
-  it('approve', () => {
-    expect(new NullRequest().approve()).toBeUndefined();
+  it('approve', async () => {
+    await expectAsync(new NullRequest().approve()).toBeResolved();
   });
 
-  it('reject', () => {
-    expect(new NullRequest().reject()).toBeUndefined();
+  it('reject', async () => {
+    await expectAsync(new NullRequest().reject()).toBeResolved();
   });
 });

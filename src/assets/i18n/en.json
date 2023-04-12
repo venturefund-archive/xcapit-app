@@ -2206,6 +2206,9 @@
       "button_disconnect": "End connection",
       "card_title": "Configure your connection",
       "card_description": "Choose the network from which you want to take the funds. Then scan the QR code on the Dapp.",
+      "errors": {
+        "invalidUri": "Check that the url you are providing corresponds to the WalletConnect connection protocol."
+      },
       "scan_qr": {
         "header": "Scan your Dapp QR code",
         "errors": {
@@ -2789,9 +2792,10 @@
         "quantity": "Amount",
         "payment_method": "Payment method",
         "to_pay": "You will pay*",
-        "input_error": "The minimum purchase amount is ${{amount}} {{fiatCurrency}}",
+        "input_error": "The minimum purchase amount is ${{amount}} {{currency}}",
         "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day.",
-        "estimated_fee": "Estimated transaction fee"
+        "estimated_fee": "Estimated transaction fee",
+        "estimated_provider_fee": "Estimated provider fee"
       },
       "kyc_disclaimer_modal": {
         "title": "Krypton account registration",
@@ -3371,8 +3375,8 @@
   },
   "warranties": {
     "modal_info": {
-      "highlightedHeader": "More credit for your card",
-      "header": "Leave your cryptocurrencies as collateral to increase your card limit.",
+      "highlightedHeader": "Improve your credit!",
+      "header": "Leave your cryptocurrencies as collateral to get your card or increase its limit.",
       "information": "More information",
       "firstButton": "Make a warranty",
       "secondButton": "Withdraw warranty"
@@ -3433,6 +3437,18 @@
       "emailLabel": "Guarantor email",
       "ticket_message": "I request the withdrawal of my warranty. DNI: {{dni}} - Wallet: {{wallet}}",
       "loader": "Confirming"
+    },
+    "withdraw_success": {
+      "textPrimary": "Your order is on its way!",
+      "textSecondary": "After validating the free debt with the financial entity, your funds will be released.",
+      "operation": "Operation",
+      "numeration": "No.",
+      "namePrimaryAction": "Back to Home"
+    },
+    "insufficient_balance": {
+      "text": "You do not have {{token}} in your account to perform this operation.",
+      "buy_button": "Buy {{token}}",
+      "deposit_button": "Deposit {{token}}"
     }
   }
 }

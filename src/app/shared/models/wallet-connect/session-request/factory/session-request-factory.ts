@@ -5,6 +5,7 @@ import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet'
 import { SignClientV2 } from '../../sign-client/sign-client';
 import { RequestMethod } from '../../request-method/request-method';
 import { NullRequest } from '../null-request/null-request';
+import { SendTransactionRequest } from '../send-transaction-request/send-transaction-request';
 
 export const EIP155_SIGNING_METHODS = {
   PERSONAL_SIGN: 'personal_sign',
@@ -25,6 +26,8 @@ export class SessionRequestFactory {
 
     if (requestMethod.isSignRequest()) {
       return new SignRequest(_aRawSessionRequest, this.signClient, _aWallet);
+    } else if (requestMethod.isSendTransactionRequest()) {
+      return new SendTransactionRequest(_aRawSessionRequest, this.signClient, _aWallet);
     } else {
       return new NullRequest();
     }

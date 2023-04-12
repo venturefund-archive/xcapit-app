@@ -31,7 +31,6 @@ import { updateServiceProvider } from './shared/providers/update/update.provider
 import { httpLoaderFactory } from './shared/factories/translate/translate.factory';
 import { jwtOptionsFactory } from './shared/factories/jwt-options/jwt-options.factory';
 import { WalletsModule } from './modules/wallets/wallets.module';
-import { HomeModule } from './modules/home/home.module';
 import { SupportModule } from './modules/support/support.module';
 import { WealthManagementsModule } from './modules/wealth-managements/wealth-managements.module';
 import { trackServiceProvider } from './shared/providers/track-service/track-service.provider';
@@ -82,7 +81,6 @@ registerLocaleData(localeEn, 'en');
     TicketsModule,
     FiatRampsModule,
     WalletsModule,
-    HomeModule,
     LinksModule,
     SupportModule,
     WealthManagementsModule,
@@ -143,6 +141,6 @@ registerLocaleData(localeEn, 'en');
     },
   ],
   bootstrap: [AppComponent],
-  exports: [NoConnectionBannerComponent]
+  exports: [NoConnectionBannerComponent],
 })
 export class AppModule {}

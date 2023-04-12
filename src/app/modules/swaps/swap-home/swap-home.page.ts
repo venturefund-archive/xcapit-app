@@ -54,6 +54,8 @@ import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-
 import { SwapError } from '../shared-swaps/models/swap-error/swap-error';
 import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-in-progress.interface';
 import { SwapTxInProgress } from '../../users/shared-users/models/tx-in-progress/swap/swap-tx-in-progress';
+import { BigNumber } from 'ethers';
+import { WeiOf } from '../shared-swaps/models/wei-of/wei-of';
 
 @Component({
   selector: 'app-swap-home',
@@ -118,7 +120,7 @@ import { SwapTxInProgress } from '../../users/shared-users/models/tx-in-progress
                   ></ion-input>
                   <ion-button
                     (click)="this.setMaxAmount()"
-                    [disabled]="this.sameTokens"
+                    [disabled]="this.sameTokens || this.isMaxLoading"
                     slot="end"
                     fill="clear"
                     size="small"
@@ -265,6 +267,8 @@ export class SwapHomePage {
   modalOpened: boolean;
   txInProgress: TxInProgress;
   disableInput: boolean;
+  fromTokenCoin: Coin;
+  isMaxLoading = false;
 
   constructor(
     private apiWalletService: ApiWalletService,
@@ -299,9 +303,12 @@ export class SwapHomePage {
   }
 
   private async setFeeInfo() {
-    this.tplFee = (await this.gasPrice()).times(this.tplSwapInfo.estimatedGas).json();
+    const originalFee = (await this.gasPrice()).times(this.tplSwapInfo.estimatedGas);
     if (this._isNativeToken()) {
-      this.tplFee.value *= 1.30;
+      const weiAmount = BigNumber.from(originalFee.weiValue());
+      this.tplFee = new AmountOf(weiAmount.mul(13).div(10).toString(), this.fromToken).json();
+    } else {
+      this.tplFee = originalFee.json();
     }
   }
 
@@ -412,12 +419,8 @@ export class SwapHomePage {
           this.showInsufficientBalanceModal();
           this.disableMainButton();
         }
-        this.setNullFeeInfo();
-        await this.setSwapInfo(value);
-        await this.setFeeInfo();
-        await this.balanceAvailableOf(this.fromToken.symbol(), this.activeBlockchain.name());
-        this.setUSDPrices(value);
-        this.checkFee(parseFloat(value));
+        await this.setFeeAndSwapInfo(value);
+        await this.recalculateQuoteAndBalance(value);
       });
   }
 
@@ -466,7 +469,6 @@ export class SwapHomePage {
     this.fromToken = await new TokenByAddress(fromTokenAddress, this.tokens).value();
 
     this.tplFromToken = this.fromToken.json();
-    
     this.toToken = await new TokenByAddress(toTokenAddress, this.tokens).value();
     this.tplToToken = this.toToken.json();
     this.checkTokens();
@@ -624,12 +626,26 @@ export class SwapHomePage {
   }
 
   async setMaxAmount() {
-    if (this._isNativeToken()) {
-      await this.setSwapInfo(this.swapBalance.toString());
-      await this.setFeeInfo();
-    }
-    this.form.get('fromTokenAmount').setValue(this._maxAmount());
+    this.isMaxLoading = true;
+    if (this._isNativeToken()) await this.setFeeAndSwapInfo(this.swapBalance.toString());
+    const maxValue = this._maxAmount();
+    this.form.patchValue({ fromTokenAmount: maxValue }, { emitEvent: false, onlySelf: true });
+    await this.recalculateQuoteAndBalance(maxValue);
     this.form.updateValueAndValidity();
+    this.checkBalance(maxValue);
+    this.isMaxLoading = false;
+  }
+
+  async setFeeAndSwapInfo(value: string) {
+    this.setNullFeeInfo();
+    await this.setSwapInfo(value);
+    await this.setFeeInfo();
+  }
+
+  async recalculateQuoteAndBalance(value: number) {
+    await this.balanceAvailableOf(this.fromToken.symbol(), this.activeBlockchain.name());
+    this.setUSDPrices(value);
+    this.checkFee(value);
   }
 
   private _maxAmount() {
@@ -651,7 +667,10 @@ export class SwapHomePage {
   checkFee(value: number) {
     if (value <= this.swapBalance) {
       if (this.fromToken.json().native) {
-        if (value + this.tplFee.value > this.swapBalance) {
+        const weiValue = new WeiOf(value, this.fromToken).value();
+        const weiFee = new WeiOf(this.tplFee.value, this.fromToken).value();
+        const feePlusValueResult = new AmountOf(weiValue.add(weiFee).toString(), this.fromToken).value();
+        if (feePlusValueResult > this.swapBalance) {
           this.showInsufficientBalanceFeeModal();
         } else {
           this.enabledMainButton();
@@ -687,6 +706,7 @@ export class SwapHomePage {
 
   async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
     if (!this.modalOpened) {
+      this.modalOpened = true;
       const modal = await this.modalController.create({
         component: BuyOrDepositTokenToastComponent,
         cssClass: 'ux-toast-warning-with-margin',
@@ -696,7 +716,6 @@ export class SwapHomePage {
       });
       if (window.location.href === this.modalHref) {
         await modal.present();
-        this.modalOpened = true;
       }
       await modal.onDidDismiss().then(() => (this.modalOpened = false));
     }

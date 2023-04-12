@@ -2,7 +2,7 @@ import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitF
 import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -16,6 +16,7 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { SendWarrantyPage } from './send-warranty.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -31,6 +32,8 @@ describe('SendWarrantyPage', () => {
   let formBuilder: UntypedFormBuilder;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let formDataSpy: jasmine.SpyObj<any>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
 
   beforeEach(waitForAsync(() => {
     formDataSpy = jasmine.createSpyObj(
@@ -39,6 +42,11 @@ describe('SendWarrantyPage', () => {
       {
         valid: {
           amount: 0.01,
+          quoteAmount: 29,
+          dni: 33333333,
+        },
+        insufficient_balance: {
+          amount: 50,
           quoteAmount: 29,
           dni: 33333333,
         },
@@ -67,11 +75,14 @@ describe('SendWarrantyPage', () => {
       new: dynamicPriceSpy,
     });
 
-
     coinsSpy = [jasmine.createSpyObj('Coin', {}, rawMATICData), jasmine.createSpyObj('Coin', {}, rawUSDCData)];
 
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
+
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
+
     TestBed.configureTestingModule({
       declarations: [SendWarrantyPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -80,6 +91,7 @@ describe('SendWarrantyPage', () => {
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -138,6 +150,15 @@ describe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
     expect(component.token.value).toEqual('USDC');
+    discardPeriodicTasks();
+  }));
+
+  it('should open insufficient balance modal when enter amount is greater than balance', fakeAsync(() => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
+    component.form.patchValue(formDataSpy.insufficient_balance);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     discardPeriodicTasks();
   }));
 });

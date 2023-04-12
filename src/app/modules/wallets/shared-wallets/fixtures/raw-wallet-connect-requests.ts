@@ -27,3 +27,25 @@ export const rawEthSignRequest = {
     chainId: 'eip155:80001',
   },
 };
+
+export const rawSendTransactionRequestDefault = {
+  id: 1680621651042152,
+  topic: '15a430a13a6af8ce64a1f556ee24912b2774b5e8d33b457419ebe088d4c20d8d',
+  params: {
+    request: {
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          from: '0xcf8c0b1212d7eee3fff6d868cb7c86a97dc19a56',
+          to: '0xcf8c0b1212d7eee3fff6d868cb7c86a97dc19a56',
+          data: '0x',
+          nonce: '0x93',
+          gasPrice: '0x33f29d8041',
+          gasLimit: '0x5208',
+          value: '0x00',
+        },
+      ],
+    },
+    chainId: 'eip155:137',
+  },
+};

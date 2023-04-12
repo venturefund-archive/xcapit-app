@@ -47,8 +47,7 @@ describe('WarrantySummaryPage', () => {
   const transactionData: SummaryWarrantyData = {
     wallet: '0x00001',
     currency: 'USDC',
-    status: 'IN',
-    amount: 10,
+    amount: 9.8,
     service_cost: 0.2,
     transaction_hash: 'someHash',
     user_dni: 1234567,
@@ -162,20 +161,7 @@ describe('WarrantySummaryPage', () => {
     expect(defiInvesmentServiceSpy.fundWallet).toHaveBeenCalledTimes(0);
   });
 
-  it('should create warranty without fund wallet when ux_warranty_start_confirm button is clicked, password is correct and native token balance is greater than 0', async () => {
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-
-    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
-    await fixture.whenRenderingDone();
-    await fixture.whenStable();
-
-    expect(defiInvesmentServiceSpy.fundWallet).toHaveBeenCalledTimes(0);
-    expect(warrantyServiceSpy.createWarranty).toHaveBeenCalledOnceWith(transactionData);
-  });
-
-  it('should fund wallet and create warranty when ux_warranty_start_confirm button is clicked, password is correct and native token balance is equal to 0', async () => {
-    walletBalanceServiceSpy.balanceOf.and.resolveTo(0.0);
+  it('should fund wallet and create warranty when ux_warranty_start_confirm button is clicked and password is correct', async () => {
     walletTransactionsServiceSpy.canAffordSendFee.and.resolveTo(false);
     await component.ionViewWillEnter();
     fixture.detectChanges();

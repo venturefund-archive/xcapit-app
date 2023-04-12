@@ -176,7 +176,9 @@ export class UserEmailPage implements OnInit {
   }
 
   redirectByStatus(registrationStatus: string) {
-    if (this.tokenOperationDataService.tokenOperationData.mode === 'sell' && registrationStatus === 'COMPLETE') {
+    if (!this.tokenOperationDataService.tokenOperationData?.mode) {
+      return this.navController.navigateRoot('/fiat-ramps/purchases');
+    } else if (this.tokenOperationDataService.tokenOperationData.mode === 'sell' && registrationStatus === 'COMPLETE') {
       return this.navController.navigateRoot('/fiat-ramps/user-bank-account');
     }
     const url = RegistrationStatus[registrationStatus];

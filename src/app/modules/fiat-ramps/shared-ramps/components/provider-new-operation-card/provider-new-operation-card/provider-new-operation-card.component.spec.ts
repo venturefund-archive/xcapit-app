@@ -48,8 +48,8 @@ describe('ProviderNewOperationCardComponent', () => {
 
     component.provider = rawProvidersData[1];
     component.coin = coinSpy;
-    component.minimumFiatAmount = 10;
-    component.fee = { value: 10, token: 'ARS'}
+    component.minimumAmount = 10;
+    component.fee = { value: 10.4278, token: 'USD', totalDigits: 4, maxDecimals: 6 }
     fixture.detectChanges();
   }));
 
@@ -83,7 +83,7 @@ describe('ProviderNewOperationCardComponent', () => {
 
   it('should show skeleton when fee is undefined', () => {
     component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');
-    component.fee = { value: undefined, token: undefined };
+    component.fee = { value: undefined, token: undefined, totalDigits: 4, maxDecimals: 6  };
     fixture.detectChanges();
     const skeleton = fixture.debugElement.query(By.css('div.skeleton > ion-skeleton-text'));
 
@@ -92,7 +92,7 @@ describe('ProviderNewOperationCardComponent', () => {
 
   it('should show fee when fee is defined', () => {
     component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');
-    component.fee = { value: 10.4278, token: 'USD' };
+    component.fee = { value: 10.4278, token: 'USD', totalDigits: 4, maxDecimals: 6 };
     fixture.detectChanges();
     const feeLabelEl = fixture.debugElement.query(By.css('div.pnoc__fee__label > ion-text'));
     const feeInfoIconEl = fixture.debugElement.query(
@@ -107,7 +107,7 @@ describe('ProviderNewOperationCardComponent', () => {
 
   it('should show modal when fee info icon is clicked', async () => {
     component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');
-    component.fee = { value: 10.4278, token: 'USD' };
+    component.fee = { value: 10.4278, token: 'USD', totalDigits: 4, maxDecimals: 6 };
     fixture.detectChanges();
 
     fixture.debugElement
@@ -120,7 +120,7 @@ describe('ProviderNewOperationCardComponent', () => {
   it('should show directa24 modal when info provider icon is clicked', async () => {
     component.isInfoModalOpen = false;
     component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');
-    component.fee = { value: 10.4278, token: 'USD' };
+    component.fee = { value: 10.4278, token: 'USD', totalDigits: 4, maxDecimals: 6 };
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -134,7 +134,7 @@ describe('ProviderNewOperationCardComponent', () => {
   it('should show kripton modal when info provider icon is clicked', async () => {
     component.isInfoModalOpen = false;
     component.provider = rawProvidersData.find((provider) => provider.alias === 'kripton');
-    component.fee = { value: 10.4278, token: 'USD' };
+    component.fee = { value: 10.4278, token: 'USD', totalDigits: 4, maxDecimals: 6 };
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -148,7 +148,7 @@ describe('ProviderNewOperationCardComponent', () => {
   it('should show moonpay modal when info provider icon is clicked', async () => {
     component.isInfoModalOpen = false;
     component.provider = rawProvidersData.find((provider) => provider.alias === 'moonpay');
-    component.fee = { value: 10.4278, token: 'USD' };
+    component.fee = { value: 10.4278, token: 'USD',totalDigits: 4, maxDecimals: 6 };
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -160,9 +160,9 @@ describe('ProviderNewOperationCardComponent', () => {
   });
 
   it('should set minimum fiat amount on ngOnChanges', () => {
-    const change: SimpleChanges = { minimumFiatAmount: new SimpleChange('0', '2913', false)}
+    const change: SimpleChanges = { minimumAmount: new SimpleChange('0', '2913', false)}
     component.ngOnChanges(change);
 
-    expect(component.minimumFiatAmount).toEqual(2913);
+    expect(component.minimumAmount).toEqual(2913);
   });
 });

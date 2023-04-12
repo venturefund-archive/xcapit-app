@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { WalletConnectService, IPeerMeta } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { environment } from 'src/environments/environment';
@@ -9,13 +9,13 @@ import { NavController } from '@ionic/angular';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { ScanQrModalComponent } from '../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingService } from '../../../../shared/services/loading/loading.service';
 import { ToastService } from '../../../../shared/services/toast/toast.service';
 import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
 import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from '../../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-new-connection',
@@ -154,13 +154,13 @@ export class NewConnectionPage {
     private modalController: ModalController,
     private alertController: AlertController,
     private translate: TranslateService,
-    private loadingService: LoadingService,
     private toastService: ToastService,
     private platform: Platform,
     private wcService: WCService,
     private wcConnectionV2: WCConnectionV2,
     private wallets: WalletsFactory,
-    private blockchains: BlockchainsFactory
+    private blockchains: BlockchainsFactory,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   async ionViewWillEnter() {
@@ -184,9 +184,7 @@ export class NewConnectionPage {
   }
 
   private async uriSubscription() {
-    const uri = this.wcService.uri().isV2() ? this.wcService.uri().value() : await this.walletConnectService.uri.value;
-
-    this.form.patchValue({ uri });
+    this.form.patchValue({ uri: this.wcService.uri()?.value() });
   }
 
   private async getSupportedWallets() {
@@ -279,11 +277,16 @@ export class NewConnectionPage {
 
   private async initWalletConnect() {
     this.wcService.initialize(this.form.value.uri);
-    this.wcService.uri().isV2() ? this.initWalletConnectV2() : this.legacyInit();
+    if (this.wcService.uri().isV2() && this.remoteConfig.getFeatureFlag('ff_walletConnectV2')) {
+      this.initWalletConnectV2();
+    } else if (!this.wcService.uri().isV2()) {
+      this.legacyInit();
+    } else {
+      await this.showErrorToast('wallets.wallet_connect.errors.invalidUri');
+    }
   }
 
   public async initWalletConnectV2() {
-    await this.loadingService.show();
     try {
       const blockchain = this.blockchains.create().oneById(this.selectedWallet.chainId.toString());
       const wallet = await this.wallets.create().oneBy(blockchain);
@@ -292,14 +295,10 @@ export class NewConnectionPage {
       this.form.patchValue({ wallet: null, uri: '' });
     } catch (error) {
       await this.showAlertOnConnectionError();
-    } finally {
-      await this.loadingService.dismiss();
-    }
+    } 
   }
 
   public async legacyInit(): Promise<void> {
-    await this.loadingService.show();
-
     try {
       await this.walletConnectService.setAccountInfo(this.selectedWallet);
       await this.walletConnectService.initWalletConnect(this.form.value.uri);
@@ -312,8 +311,6 @@ export class NewConnectionPage {
     } catch (error) {
       await this.killSession();
       await this.showAlertOnConnectionError();
-    } finally {
-      await this.loadingService.dismiss();
     }
   }
 

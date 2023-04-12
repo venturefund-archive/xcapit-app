@@ -1,6 +1,5 @@
 import { ViewContainerRef, TemplateRef } from '@angular/core';
 import { FeatureFlag } from '../feature-flag.interface';
-import { RemoteConfigService } from '../../../services/remote-config/remote-config.service';
 
 export default class DefaultFeatureFlag implements FeatureFlag {
   constructor(
