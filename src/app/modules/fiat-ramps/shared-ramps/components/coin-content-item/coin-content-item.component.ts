@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants/network-colors.constant';
 
 @Component({
@@ -7,11 +7,11 @@ import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants
     <div class="cci__item__container">
       <div class="cci__item__container__title_and_image">
         <div class="cci__item__container__title_and_image__image_container">
-          <img [src]="this.logoRoute" alt="Product Image" />
+          <img [src]="this.flagRoute" alt="Product Image" />
         </div>
         <div class="cci__item__container__title_container">
           <div class="cci__item__container__title_container__title">
-            <ion-text class="ux-font-text-lg">{{ this.country }}</ion-text>
+            <ion-text class="ux-font-text-lg">{{ this.fiatCurrency | uppercase }}</ion-text>
           </div>
           <div class="cci__item__container__title_container__badge">
             <ion-badge [color]="this.networkColors[this.network]" class="ux-badge ux-font-num-subtitulo">{{
@@ -32,9 +32,9 @@ import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants
   </div>`,
   styleUrls: ['./coin-content-item.component.scss'],
 })
-export class CoinContentItemComponent implements OnInit {
-  @Input() logoRoute: string;
-  @Input() country: string;
+export class CoinContentItemComponent {
+  @Input() flagRoute: string;
+  @Input() fiatCurrency: string;
   @Input() token: string;
   @Input() network: string;
   @Input() amount: number;
@@ -43,5 +43,4 @@ export class CoinContentItemComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
 }

@@ -97,6 +97,18 @@ export class UserBankAccountPage {
     this.cleanFields();
     this.buildForm();
     this.addFormFieldFromTokenOperation();
+    this.form.patchValue({
+      "account_number": "x    ",
+      "account_type": {key: "Ahorro", value: "Ahorro"},
+      "alias": "test",
+      "cbu_cvu": "test",
+      "country": "ARG",
+      "currency": "ars",
+      "mail": "test@gmail.com",
+      "name": "Santander",
+      "number_of_document": "99999999",
+      "type_of_document": {key: "DNI", value: "DNI"}
+  })
   }
 
   async setFields() {

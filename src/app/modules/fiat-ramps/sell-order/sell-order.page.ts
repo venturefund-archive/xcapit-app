@@ -155,6 +155,7 @@ export class SellOrderPage {
   fiatPrice: number;
   minimumCryptoAmount: number;
   blockchain: Blockchain;
+  paymentMethodId: number;
 
   constructor(
     private fiatRampsService: FiatRampsService,
@@ -400,12 +401,12 @@ export class SellOrderPage {
       currency_in: this.selectedCurrency.value,
       currency_out: this.fiatCurrency,
       price_in: '1',
-      price_out: this.fiatPrice.toString(),
+      price_out: this.fiatPrice,
       wallet: await this.walletAddress(),
       provider: this.provider.id.toString(),
       network: this.selectedCurrency.network,
-      fee: this.fee.value.toString(),
-      providerFee: this.providerFee.value.toString(),
+      fee: this.fee.value,
+      providerFee: this.providerFee.value,
     };
     this.storageOperationService.updateData(data);
   }
@@ -423,6 +424,7 @@ export class SellOrderPage {
       const userBankData = Object.assign({ email, auth_token }, this.userBankDataService.userBankData);
       await this.createUserBank(userBankData)
         .then(async ({ id }) => {
+          this.paymentMethodId = id
           const operationData = Object.assign(
             { email, auth_token, payment_method_id: id },
             this.storageOperationService.getData()
@@ -433,11 +435,11 @@ export class SellOrderPage {
         })
         .then((operationResponse) => {
           const newData = Object.assign(
-            { operation_id: operationResponse.id, created_at: operationResponse.created_at },
+            { operation_id: operationResponse.id, created_at: operationResponse.created_at, payment_method_id: this.paymentMethodId },
             this.storageOperationService.getData()
           );
           this.storageOperationService.updateData(newData);
-          this.navController.navigateRoot('');
+          this.navController.navigateRoot('fiat-ramps/kripton-summary');
         });
     }
   }

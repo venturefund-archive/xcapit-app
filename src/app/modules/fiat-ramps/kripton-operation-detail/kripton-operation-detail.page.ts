@@ -348,7 +348,7 @@ export class KriptonOperationDetailPage {
       currency_out: this.operation.currency_out,
       price_in: '',
       wallet: '',
-      price_out: (this.operation.amount_in / this.operation.amount_out).toString(),
+      price_out: (this.operation.amount_in / this.operation.amount_out),
       provider: this.provider.id.toString(),
       network: this.token.network,
       operation_id: this.operation.operation_id,

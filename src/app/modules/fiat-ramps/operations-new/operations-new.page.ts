@@ -333,11 +333,11 @@ export class OperationsNewPage implements AfterViewInit {
       currency_in: this.fiatCurrency,
       currency_out: this.selectedCurrency.value,
       price_in: '1',
-      price_out: this.fiatPrice.toString(),
+      price_out: this.fiatPrice,
       wallet: await this.walletAddress(),
       provider: this.provider.id.toString(),
       network: this.selectedCurrency.network,
-      fee: this.fiatFee.value.toString(),
+      fee: this.fiatFee.value,
     };
     this.storageOperationService.updateData(data);
   }

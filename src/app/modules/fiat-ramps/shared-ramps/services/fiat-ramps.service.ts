@@ -235,4 +235,9 @@ export class FiatRampsService {
   refreshToken(data: { access_token: string; refresh_token: string }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/refresh_token`, data, undefined, false);
   }
+
+  
+  getUserBank(data: { email: string; auth_token: string; payment_method_id: number }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/get_user_bank`, data, undefined, false);
+  }
 }

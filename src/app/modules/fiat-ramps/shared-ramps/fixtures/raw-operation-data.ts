@@ -8,7 +8,7 @@ export const rawOperationData: OperationDataInterface = {
   currency_in: 'ARS',
   currency_out: 'USDC',
   price_in: '1',
-  price_out: '100',
+  price_out: 100,
   wallet: '0x000000000000000000000dead',
   provider: '1',
   network: 'MATIC'
