@@ -109,7 +109,7 @@ describe('NewConnectionPage', () => {
     wcServiceSpy = jasmine.createSpyObj('WCService', {
       connected: false,
       uri: new WCUri(rawWalletConnectUriV2),
-      initialize: null,
+      set: null,
     });
 
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {

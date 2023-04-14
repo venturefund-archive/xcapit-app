@@ -58,6 +58,7 @@ describe('ConnectionDetailPage', () => {
     wcServiceSpy = jasmine.createSpyObj('WCService', {
       uri: new WCUri(rawWalletConnectUriV2),
       connected: false,
+      set: null,
     });
 
     pendingProposalSpy = jasmine.createSpyObj('PendingProposal', {
@@ -162,6 +163,7 @@ describe('ConnectionDetailPage', () => {
 
       expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
       expect(wcConnectionV2Spy.closeSession).toHaveBeenCalledTimes(1);
+      expect(wcServiceSpy.set).toHaveBeenCalledOnceWith(undefined);
       expect(component.connectionStatus).toBeFalsy();
       expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['wallets/wallet-connect/new-connection']);
     });
@@ -225,6 +227,7 @@ describe('ConnectionDetailPage', () => {
 
       expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
       expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
+      expect(wcServiceSpy.set).toHaveBeenCalledOnceWith(undefined);
       expect(component.connectionStatus).toBeFalsy();
       expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['wallets/wallet-connect/new-connection']);
     });

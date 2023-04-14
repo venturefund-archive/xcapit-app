@@ -8,8 +8,8 @@ export class WCService {
   private _uri: WCUri;
   constructor(private walletConnectV1: WalletConnectService, private walletConnectV2: WCConnectionV2) {}
 
-  public initialize(uri: string): void {
-    this._uri = new WCUri(uri);
+  public set(_aUri: string): void {
+    this._uri = _aUri ? new WCUri(_aUri) : undefined;
   }
 
   public uri(): WCUri {

@@ -185,6 +185,7 @@ export class NewConnectionPage {
 
   private async uriSubscription() {
     this.form.patchValue({ uri: this.wcService.uri()?.value() });
+    this.form.controls.uri.setErrors(null);
   }
 
   private async getSupportedWallets() {
@@ -254,6 +255,7 @@ export class NewConnectionPage {
 
   cleanForm() {
     this.walletConnectService.setUri('');
+    this.wcService.set(undefined);
     this.form.patchValue({ wallet: null, uri: '' });
   }
 
@@ -276,7 +278,7 @@ export class NewConnectionPage {
   }
 
   private async initWalletConnect() {
-    this.wcService.initialize(this.form.value.uri);
+    this.wcService.set(this.form.value.uri);
     if (this.wcService.uri().isV2() && this.remoteConfig.getFeatureFlag('ff_walletConnectV2')) {
       this.initWalletConnectV2();
     } else if (!this.wcService.uri().isV2()) {
@@ -295,7 +297,7 @@ export class NewConnectionPage {
       this.form.patchValue({ wallet: null, uri: '' });
     } catch (error) {
       await this.showAlertOnConnectionError();
-    } 
+    }
   }
 
   public async legacyInit(): Promise<void> {

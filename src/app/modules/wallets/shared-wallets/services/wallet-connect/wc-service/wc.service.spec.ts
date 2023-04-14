@@ -27,7 +27,7 @@ describe('WCService', () => {
   });
 
   it('should initialize and get uri', () => {
-    wcService.initialize('testUri');
+    wcService.set('testUri');
     expect(wcService.uri().value()).toEqual('testUri');
   });
 
@@ -36,9 +36,9 @@ describe('WCService', () => {
   });
 
   it('should return connection status based on uri version when uri is initialized', () => {
-    wcService.initialize(rawWalletConnectUriV1);
+    wcService.set(rawWalletConnectUriV1);
     expect(wcService.connected()).toBeTrue();
-    wcService.initialize(rawWalletConnectUriV2);
+    wcService.set(rawWalletConnectUriV2);
     expect(wcService.connected()).toBeFalse();
   });
 });

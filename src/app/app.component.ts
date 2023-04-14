@@ -221,7 +221,7 @@ export class AppComponent implements OnInit {
 
       if (url.includes('wc:')) {
         const loggedIn = await new LoggedIn(this.storage).value();
-        this.wcService.initialize(url);
+        this.wcService.set(url);
         if (!this.wcService.uri().isV2()) {
           this.walletConnectService.setUri(url);
           if (loggedIn) this.walletConnectService.checkDeeplinkUrl();

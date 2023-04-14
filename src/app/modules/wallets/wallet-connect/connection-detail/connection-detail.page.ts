@@ -218,9 +218,8 @@ export class ConnectionDetailPage {
   public async killSession() {
     try {
       this.connectionStatus = false;
-      this.WCService.uri().isV2()
-        ? await this.wcConnectionV2.closeSession()
-        : await this.walletConnectService.killSession();
+      this.WCService.uri().isV2() ? this.wcConnectionV2.closeSession() : await this.walletConnectService.killSession();
+      this.WCService.set(undefined);
     } catch (error) {
       console.log('Wallet Connect - killSession error: ', error);
     } finally {

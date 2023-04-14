@@ -190,7 +190,7 @@ describe('AppComponent', () => {
     });
 
     wcServiceSpy = jasmine.createSpyObj('WCService', {
-      initialize: null,
+      set: null,
       uri: new WCUri(rawWalletConnectUriV1),
     });
 
@@ -357,7 +357,7 @@ describe('AppComponent', () => {
     component.ngOnInit();
     tick();
 
-    expect(wcServiceSpy.initialize).toHaveBeenCalledTimes(1);
+    expect(wcServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(walletConnectServiceSpy.checkDeeplinkUrl).toHaveBeenCalledTimes(1);
   }));
 
@@ -372,7 +372,7 @@ describe('AppComponent', () => {
     component.ngOnInit();
     tick();
 
-    expect(wcServiceSpy.initialize).toHaveBeenCalledTimes(1);
+    expect(wcServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/wallet-connect/new-connection']);
     expect(walletConnectV2Spy.subscribeToAllEvents).toHaveBeenCalledTimes(1);
   }));
@@ -389,7 +389,7 @@ describe('AppComponent', () => {
     component.ngOnInit();
     tick();
 
-    expect(wcServiceSpy.initialize).toHaveBeenCalledTimes(1);
+    expect(wcServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalledOnceWith(['wallets/wallet-connect/new-connection']);
     expect(walletConnectV2Spy.subscribeToAllEvents).not.toHaveBeenCalled();
   }));
