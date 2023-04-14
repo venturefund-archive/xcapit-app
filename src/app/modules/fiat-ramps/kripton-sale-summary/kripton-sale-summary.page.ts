@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
@@ -23,6 +23,7 @@ import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ModalController } from '@ionic/angular';
+import { EnvService } from 'src/app/shared/services/env/env.service';
 
 @Component({
   selector: 'app-kripton-sale-summary',
@@ -45,7 +46,8 @@ import { ModalController } from '@ionic/angular';
             </ion-text>
           </div>
           <div class="kss__card-container__card__coin-content">
-            <app-coin-content-item *ngIf="this.country"
+            <app-coin-content-item
+              *ngIf="this.country"
               [flagRoute]="this.country.flagRoute"
               [fiatCurrency]="this.data.currency_out"
               [network]="this.data.network"
@@ -57,52 +59,67 @@ import { ModalController } from '@ionic/angular';
           <div class="list-divider"></div>
           <div class="kss__card-container__card__quote">
             <div class="kss__card-container__card__quote__title">
-              <ion-text class="ux-font-titulo-xs">{{'fiat_ramps.kripton_sale_summary.quote' | translate}}</ion-text>
+              <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.kripton_sale_summary.quote' | translate }}</ion-text>
             </div>
             <div class="kss__card-container__card__quote__description">
-              <ion-text class="ux-font-text-base"> 1 {{this.data.currency_in}} = {{this.data.price_out | formattedAmount: 10:2}} {{this.data.currency_out | uppercase}}</ion-text>
+              <ion-text class="ux-font-text-base">
+                1 {{ this.data.currency_in }} = {{ this.data.price_out | formattedAmount : 10 : 2 }}
+                {{ this.data.currency_out | uppercase }}</ion-text
+              >
             </div>
           </div>
           <div class="list-divider"></div>
           <div class="kss__card-container__card__transaction-fee">
             <div class="kss__card-container__card__transaction-fee__title">
-              <ion-text class="ux-font-titulo-xs">{{'fiat_ramps.kripton_sale_summary.transaction_fee' | translate}}</ion-text>
+              <ion-text class="ux-font-titulo-xs">{{
+                'fiat_ramps.kripton_sale_summary.transaction_fee' | translate
+              }}</ion-text>
             </div>
             <div class="kss__card-container__card__transaction-fee__description">
-              <ion-text class="ux-font-text-base">{{this.data.fee | formattedAmount}} {{this.nativeToken.network}}</ion-text>
+              <ion-text class="ux-font-text-base"
+                >{{ this.data.fee | formattedAmount }} {{ this.nativeToken.network }}</ion-text
+              >
             </div>
           </div>
           <div class="list-divider"></div>
           <div class="kss__card-container__card__provider-fee">
             <div class="kss__card-container__card__provider-fee__title">
-              <ion-text class="ux-font-titulo-xs">{{'fiat_ramps.kripton_sale_summary.provider_fee' | translate}}</ion-text>
+              <ion-text class="ux-font-titulo-xs">{{
+                'fiat_ramps.kripton_sale_summary.provider_fee' | translate
+              }}</ion-text>
             </div>
             <div class="kss__card-container__card__provider-fee__description">
-              <ion-text class="ux-font-text-base">{{this.data.providerFee | formattedAmount}} {{this.data.currency_in}}</ion-text>
+              <ion-text class="ux-font-text-base"
+                >{{ this.data.providerFee | formattedAmount }} {{ this.data.currency_in }}</ion-text
+              >
             </div>
           </div>
           <div class="list-divider"></div>
           <div class="kss__card-container__card__wallet">
             <div class="kss__card-container__card__wallet__title">
-              <ion-text class="ux-font-titulo-xs">{{'fiat_ramps.kripton_sale_summary.wallet' | translate}}</ion-text>
+              <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.kripton_sale_summary.wallet' | translate }}</ion-text>
             </div>
             <div class="kss__card-container__card__wallet__description">
-              <ion-text class="ux-font-text-base">1GR75NstyyLrtuR...NN89Ug5QkK87c2</ion-text>
+              <ion-text class="ux-font-text-base">{{ this.walletToSend }}</ion-text>
             </div>
           </div>
           <div class="list-divider"></div>
           <div class="kss__card-container__card__bank-account">
             <div class="kss__card-container__card__bank-account__title">
-              <ion-text class="ux-font-titulo-xs">{{'fiat_ramps.kripton_sale_summary.bank_account' | translate}}</ion-text>
+              <ion-text class="ux-font-titulo-xs">{{
+                'fiat_ramps.kripton_sale_summary.bank_account' | translate
+              }}</ion-text>
             </div>
             <div class="kss__card-container__card__bank-account__description" *ngIf="this.userBank">
-              <ion-text class="ux-font-text-base">{{this.userBank.account_number}}</ion-text>
+              <ion-text class="ux-font-text-base">{{ this.userBank.account_number }}</ion-text>
             </div>
           </div>
           <div class="list-divider"></div>
           <div class="kss__card-container__card__provider">
             <div class="kss__card-container__card__provider__title">
-              <ion-text class="ux-font-titulo-xs">{{'fiat_ramps.kripton_sale_summary.provider' | translate}}</ion-text>
+              <ion-text class="ux-font-titulo-xs">{{
+                'fiat_ramps.kripton_sale_summary.provider' | translate
+              }}</ion-text>
             </div>
             <div class="kss__card-container__card__provider__description">
               <img src="assets/img/provider-logos/KriptonMarket.svg" />
@@ -112,16 +129,18 @@ import { ModalController } from '@ionic/angular';
           <div class="list-divider"></div>
           <div class="kss__card-container__card__date">
             <div class="kss__card-container__card__date__title">
-              <ion-text class="ux-font-titulo-xs">{{'fiat_ramps.kripton_sale_summary.date' | translate}}</ion-text>
+              <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.kripton_sale_summary.date' | translate }}</ion-text>
             </div>
             <div class="kss__card-container__card__date__description">
-            <div class="kss__card-container__card__date__description__date">
-              <ion-text class="ux-font-text-base">{{ this.data.created_at | date : 'dd/MM/YYYY' }}</ion-text>
-            </div>
-            <div class="kss__card-container__card__date__description__hour">
-              <ion-text class="ux-font-text-base">{{ this.data.created_at | date : 'HH:mm'
-                    }}{{ 'fiat_ramps.kripton_operation_detail.hours' | translate }}</ion-text>
-            </div>
+              <div class="kss__card-container__card__date__description__date">
+                <ion-text class="ux-font-text-base">{{ this.data.created_at | date : 'dd/MM/YYYY' }}</ion-text>
+              </div>
+              <div class="kss__card-container__card__date__description__hour">
+                <ion-text class="ux-font-text-base"
+                  >{{ this.data.created_at | date : 'HH:mm'
+                  }}{{ 'fiat_ramps.kripton_operation_detail.hours' | translate }}</ion-text
+                >
+              </div>
             </div>
           </div>
         </ion-card>
@@ -135,7 +154,6 @@ import { ModalController } from '@ionic/angular';
           appTrackClick
           name="ux_sell_send_confirm"
           (click)="this.handleSubmit()"
-          
           >{{ 'fiat_ramps.kripton_sale_summary.button' | translate }}
         </ion-button>
       </div>
@@ -143,19 +161,22 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./kripton-sale-summary.page.scss'],
 })
 export class KriptonSaleSummaryPage {
+  
   nativeToken: Token;
-  walletToSend = '0xd148c6735e1777be439519b32a1a6ef9c8853934';
+  walletToSend: string;
   userBank: BankAccount;
   data: OperationDataInterface;
   country: FiatRampProviderCountry;
   isSending: boolean;
   coin: Coin;
   loading: boolean;
-  txInProgress:TxInProgress;
+  txInProgress: TxInProgress;
   blockchain: Blockchain;
   openingModal: boolean;
   modalHref: string;
-  constructor(private storageOperationService: StorageOperationService,
+
+  constructor(
+    private storageOperationService: StorageOperationService,
     private fiatRampsService: FiatRampsService,
     private kriptonStorage: KriptonStorageService,
     private blockchains: BlockchainsFactory,
@@ -163,7 +184,9 @@ export class KriptonSaleSummaryPage {
     private walletTransactionsService: WalletTransactionsService,
     private apiWalletService: ApiWalletService,
     private modalController: ModalController,
-    private txInProgressService: TxInProgressService,) { }
+    private txInProgressService: TxInProgressService,
+    private envService: EnvService
+  ) {}
 
   async ionViewWillEnter() {
     this.modalHref = window.location.href;
@@ -171,6 +194,7 @@ export class KriptonSaleSummaryPage {
     this.getNativeToken();
     this.getCountry();
     this.setToken();
+    this.lookupWallet();
     await this.getUserBank();
   }
 
@@ -179,6 +203,10 @@ export class KriptonSaleSummaryPage {
     const email = await this.kriptonStorage.get('email');
     const payment_method_id = this.data.payment_method_id;
     this.userBank = await this.fiatRampsService.getUserBank({ email, auth_token, payment_method_id }).toPromise();
+  }
+
+  lookupWallet() {
+    this.walletToSend = this.envService.byKey('KRIPTON_WALLETS')[this.data.network];
   }
 
   getKriptonSaleOperation() {
@@ -191,22 +219,16 @@ export class KriptonSaleSummaryPage {
   }
 
   getCountry() {
-    this.country = COUNTRIES.find(
-      (country) => country.name === this.data.country
-    );
+    this.country = COUNTRIES.find((country) => country.name === this.data.country);
   }
 
   async handleSubmit() {
-    console.log('inicio operacion')
     await this.startTx();
-
 
     if (!(await this.checksBeforeSend())) {
       await this.endTx();
       return;
     }
-
-    console.log('chequeo ok')
 
     try {
       const password = await this.askForPassword();
@@ -215,11 +237,9 @@ export class KriptonSaleSummaryPage {
       }
 
       this.loading = true;
-      console.log('tengo password')
       await this.send(password);
     } catch (error) {
-      //ver que hacer
-     throw error
+      throw error;
     } finally {
       await this.endTx();
     }
@@ -236,7 +256,6 @@ export class KriptonSaleSummaryPage {
   }
 
   private async checksBeforeSend(): Promise<boolean> {
-    
     if (!(await this.userCanAffordFees())) {
       await this.showInsufficientBalanceFeeModal();
       return false;
@@ -246,136 +265,101 @@ export class KriptonSaleSummaryPage {
       await this.showInsufficientBalanceModal();
       return false;
     }
-  
 
-  return true;
-}
+    return true;
+  }
 
-private userCanAffordFees(): Promise<boolean> {
-  console.log('coin',this.coin)
-  return this.walletTransactionsService.canAffordSendFee(
-    //this.data.wallet,
-    this.walletToSend,
-    this.data.amount_in,
-    this.coin
-  );
-}
+  private userCanAffordFees(): Promise<boolean> {
+    return this.walletTransactionsService.canAffordSendFee(this.walletToSend, this.data.amount_in, this.coin);
+  }
 
-private userCanAffordTx(): Promise<boolean> {
-  return this.walletTransactionsService.canAffordSendTx(
-    //this.data.wallet,
-    this.walletToSend,
-    this.data.amount_in,
-    this.coin
-  );
-}
+  private userCanAffordTx(): Promise<boolean> {
+    return this.walletTransactionsService.canAffordSendTx(this.walletToSend, this.data.amount_in, this.coin);
+  }
 
-setToken() {
-  this.coin = this.apiWalletService
-    .getCoins()
-    .find((coin: Coin) => coin.value === this.data.currency_in && coin.network === this.data.network);
-}
+  setToken() {
+    this.coin = this.apiWalletService
+      .getCoins()
+      .find((coin: Coin) => coin.value === this.data.currency_in && coin.network === this.data.network);
+  }
 
-async showInsufficientBalanceFeeModal() {
-  const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
-  const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
-  const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
-  await this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
-}
+  async showInsufficientBalanceFeeModal() {
+    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
+    await this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
+  }
 
-async showInsufficientBalanceModal() {
-  const text = 'swaps.home.balance_modal.insufficient_balance.text';
-  const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
-  const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
-  await this.openModalBalance(new DefaultToken(this.coin as RawToken), text, primaryButtonText, secondaryButtonText);
-}
+  async showInsufficientBalanceModal() {
+    const text = 'swaps.home.balance_modal.insufficient_balance.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
+    await this.openModalBalance(new DefaultToken(this.coin as RawToken), text, primaryButtonText, secondaryButtonText);
+  }
 
-async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
-  if (!this.openingModal) {
-    this.openingModal = true;
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: { token, text, primaryButtonText, secondaryButtonText },
-    });
-    if (window.location.href === this.modalHref) {
-      await modal.present();
+  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
+    if (!this.openingModal) {
+      this.openingModal = true;
+      const modal = await this.modalController.create({
+        component: BuyOrDepositTokenToastComponent,
+        cssClass: 'ux-toast-warning',
+        showBackdrop: false,
+        id: 'feeModal',
+        componentProps: { token, text, primaryButtonText, secondaryButtonText },
+      });
+      if (window.location.href === this.modalHref) {
+        await modal.present();
+      }
+      await modal.onDidDismiss().then(() => (this.openingModal = false));
     }
-    await modal.onDidDismiss().then(() => (this.openingModal = false));
-  }
-}
-
-
-async askForPassword(): Promise<Password> {
-  await this.loadingService.dismiss();
-  const modal = await this.modalController.create({
-    component: WalletPasswordWithValidatorComponent,
-    cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
-    componentProps: {
-      state: 'send',
-    },
-  });
-  await modal.present();
-  const { data } = await modal.onDidDismiss();
-
-  if (data === undefined) {
-    this.loading = false;
   }
 
-  return data;
-}
+  async askForPassword(): Promise<Password> {
+    await this.loadingService.dismiss();
+    const modal = await this.modalController.create({
+      component: WalletPasswordWithValidatorComponent,
+      cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
+      componentProps: {
+        state: 'send',
+        trackClickEventName: 'ux_sell_send_password',
+      },
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
 
-private async send(password: Password) {
-  const response = await this.walletTransactionsService.send(
-    password.value(),
-    this.data.amount_in,
-    this.walletToSend,
-    //this.data.wallet,
-    this.coin
-  );
-  console.log('response', response)
-  this.txInProgress = new SendTxInProgress(this.blockchain, new DefaultTxHash(response.hash));
-  this.txInProgressService.startTx(this.txInProgress);
-  //this.openInProgressModal();
-  this.confirmOperationWhenTransactionMined(response);
-}
+    if (data === undefined) {
+      this.loading = false;
+    }
 
-private confirmOperationWhenTransactionMined(response:TransactionResponse) {
-  response.wait()
-    .then(async (result:TransactionReceipt) => await this.confirmOperation(result.blockHash))
-    .finally(() => {
-      console.log('termine operacion')
-      this.txInProgressService.finishTx(this.txInProgress)});
-}
+    return data;
+  }
 
-private async successTransaction() {
-  
-}
+  private async send(password: Password) {
+    const response = await this.walletTransactionsService.send(
+      password.value(),
+      this.data.amount_in,
+      this.walletToSend,
+      this.coin
+    );
+    this.txInProgress = new SendTxInProgress(this.blockchain, new DefaultTxHash(response.hash));
+    this.txInProgressService.startTx(this.txInProgress);
+    this.confirmOperationWhenTransactionMined(response);
+  }
 
-private async failedTransaction() {
+  private confirmOperationWhenTransactionMined(response: TransactionResponse) {
+    response
+      .wait()
+      .then(async (result: TransactionReceipt) => await this.confirmOperation(result.transactionHash))
+      .finally(() => {
+        this.txInProgressService.finishTx(this.txInProgress);
+      });
+  }
 
-}
-
-async openInProgressModal() {
-/*   const modal = await this.modalController.create({
-    component: InProgressTransactionModalComponent,
-    componentProps: {
-      data: SUCCESS_TYPES.send_in_progress,
-      address: this.summaryData.address,
-      blockchain: this.blockchain,
-    },
-    cssClass: 'modal',
-    backdropDismiss: false,
-  });
-  await modal.present(); */
-}
-
-  async confirmOperation(tx_hash:string) {
-    console.log('tx_hash',tx_hash)
+  async confirmOperation(tx_hash: string) {
     const email = await this.kriptonStorage.get('email');
     const auth_token = await this.kriptonStorage.get('access_token');
-    await this.fiatRampsService.confirmCashOutOperation(this.data.operation_id, {email, auth_token, tx_hash}).toPromise();
+    await this.fiatRampsService
+      .confirmCashOutOperation(this.data.operation_id, { email, auth_token, tx_hash })
+      .toPromise();
   }
 }

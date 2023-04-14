@@ -21,7 +21,7 @@ import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants
         </div>
       </div>
       <div class="cci__item__container__amount">
-        <div>
+        <div class="cci__item__container__amount__base">
           <ion-text class="ux-font-text-lg">{{ this.amount | formattedAmount }}</ion-text>
         </div>
         <div class="cci__item__container__amount__conversion">
