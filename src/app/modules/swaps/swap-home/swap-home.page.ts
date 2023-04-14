@@ -632,6 +632,7 @@ export class SwapHomePage {
     this.form.patchValue({ fromTokenAmount: maxValue }, { emitEvent: false, onlySelf: true });
     await this.recalculateQuoteAndBalance(maxValue);
     this.form.updateValueAndValidity();
+    this.swapBalance = this._maxAmount();
     this.checkBalance(maxValue);
     this.isMaxLoading = false;
   }

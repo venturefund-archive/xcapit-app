@@ -24,6 +24,9 @@ import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo'
 import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ModalController } from '@ionic/angular';
 import { EnvService } from 'src/app/shared/services/env/env.service';
+import { Countries } from '../shared-ramps/models/countries/countries';
+import { CountryRepo } from '../shared-ramps/models/country-repo/country-repo';
+import { Country } from '../shared-ramps/models/country/country';
 
 @Component({
   selector: 'app-kripton-sale-summary',
@@ -161,12 +164,12 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
   styleUrls: ['./kripton-sale-summary.page.scss'],
 })
 export class KriptonSaleSummaryPage {
-  
   nativeToken: Token;
   walletToSend: string;
   userBank: BankAccount;
   data: OperationDataInterface;
-  country: FiatRampProviderCountry;
+  country: Country;
+  flagRoute: string;
   isSending: boolean;
   coin: Coin;
   loading: boolean;
@@ -219,7 +222,8 @@ export class KriptonSaleSummaryPage {
   }
 
   getCountry() {
-    this.country = COUNTRIES.find((country) => country.name === this.data.country);
+    this.country = new Countries(new CountryRepo(COUNTRIES)).findByName(this.data.country);
+    this.flagRoute = this.country.flagRoute();
   }
 
   async handleSubmit() {
@@ -238,8 +242,6 @@ export class KriptonSaleSummaryPage {
 
       this.loading = true;
       await this.send(password);
-    } catch (error) {
-      throw error;
     } finally {
       await this.endTx();
     }
