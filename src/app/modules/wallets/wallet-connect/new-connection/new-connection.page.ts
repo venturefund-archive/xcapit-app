@@ -16,6 +16,8 @@ import { BlockchainsFactory } from '../../../swaps/shared-swaps/models/blockchai
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { NullWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/null/null-wc-uri';
+import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 
 @Component({
   selector: 'app-new-connection',
@@ -255,7 +257,7 @@ export class NewConnectionPage {
 
   cleanForm() {
     this.walletConnectService.setUri('');
-    this.wcService.set(undefined);
+    this.wcService.set(new NullWCUri());
     this.form.patchValue({ wallet: null, uri: '' });
   }
 
@@ -278,7 +280,7 @@ export class NewConnectionPage {
   }
 
   private async initWalletConnect() {
-    this.wcService.set(this.form.value.uri);
+    this.wcService.set(new DefaultWCUri(this.form.value.uri));
     if (this.wcService.uri().isV2() && this.remoteConfig.getFeatureFlag('ff_walletConnectV2')) {
       this.initWalletConnectV2();
     } else if (!this.wcService.uri().isV2()) {

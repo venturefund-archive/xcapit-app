@@ -17,7 +17,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { rawWalletConnectUriV1, rawWalletConnectUriV2 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
-import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
+import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
 import { RequestMethod } from 'src/app/shared/models/wallet-connect/request-method/request-method';
 import { WCSession } from '../../../../shared/models/wallet-connect/wc-session/wc-session';
@@ -122,7 +122,7 @@ describe('OperationDetailPage', () => {
 
     wcServiceSpy = jasmine.createSpyObj('WCService', {
       connected: true,
-      uri: new WCUri(rawWalletConnectUriV2),
+      uri: new DefaultWCUri(rawWalletConnectUriV2),
     });
 
     requestMethodSpy = jasmine.createSpyObj('RequestMethod', {
@@ -187,7 +187,7 @@ describe('OperationDetailPage', () => {
   });
 
   it('should track ux_wc_sign when button is clicked and is a sign operation', async () => {
-    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+    wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
     spyOn(component, 'checkProtocolInfo');
     component.isApproval = false;
     component.isSignRequest = true;
@@ -204,7 +204,7 @@ describe('OperationDetailPage', () => {
   });
 
   it('should track ux_wc_confirm when button is clicked and is a confirmation operation', async () => {
-    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+    wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
     component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
@@ -218,7 +218,7 @@ describe('OperationDetailPage', () => {
   });
 
   it('should track ux_wc_approve when button is clicked and is an approval operation', () => {
-    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+    wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
     spyOn(component, 'checkProtocolInfo');
     component.isSignRequest = false;
     component.isApproval = true;
@@ -341,7 +341,7 @@ describe('OperationDetailPage', () => {
 
   describe('Wallet Connect V1', () => {
     it('should set templateData on ionViewWillEnter', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
@@ -355,7 +355,7 @@ describe('OperationDetailPage', () => {
     it('should close session when peer metadata is not found on ion view will enter', async () => {
       wcServiceSpy.connected.and.returnValue(false);
       new SpyProperty(walletConnectServiceSpy, 'peerMeta').value().and.returnValue(null);
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
@@ -365,7 +365,7 @@ describe('OperationDetailPage', () => {
     });
 
     it('should show the fee amount on request different than sign requests (transactions)', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
@@ -379,7 +379,7 @@ describe('OperationDetailPage', () => {
     });
 
     it('should show the message to sign when the request is a personal sign request', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       new SpyProperty(walletConnectServiceSpy, 'requestInfo').value().and.returnValue(requestSign);
 
       component.ionViewWillEnter();
@@ -393,7 +393,7 @@ describe('OperationDetailPage', () => {
 
     it('should show the message to sign when the request is a eth sign request', async () => {
       requestSign.method = 'eth_sign';
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       new SpyProperty(walletConnectServiceSpy, 'requestInfo').value().and.returnValue(requestSign);
 
       component.ionViewWillEnter();
@@ -405,7 +405,7 @@ describe('OperationDetailPage', () => {
     });
 
     it('should reject the transaction and navigate back when user cancels the operation and the alert is confirmed', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       component.transactionDetail = { id: 1 };
       fixture.detectChanges();
       fixture.debugElement.query(By.css('div.disconnect_link > a')).nativeElement.click();
@@ -418,7 +418,7 @@ describe('OperationDetailPage', () => {
     });
 
     it('should confirm the operation and navigate back when user clicks on confirm operation', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
 
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -436,7 +436,7 @@ describe('OperationDetailPage', () => {
 
     it('should show error toast on confirmation when password is incorrect', async () => {
       walletEncryptionServiceSpy.getDecryptedWalletForNetwork.and.returnValue(Promise.reject());
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
 
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -452,7 +452,7 @@ describe('OperationDetailPage', () => {
     });
 
     it('should call htmlFormatParse when checkRequestInfo is called with any eth_signTypedData method', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       new SpyProperty(walletConnectServiceSpy, 'requestInfo').value().and.returnValue(requestTypedData);
       const spy = spyOn(component, 'htmlFormatParse').and.callThrough();
       const messageDiv = document.createElement('div');
@@ -467,7 +467,7 @@ describe('OperationDetailPage', () => {
     });
 
     it('should show an alert of error when confirmation of request returns an error and it can be dismissed', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       walletConnectServiceSpy.checkRequest.and.returnValues(Promise.resolve({ error: true }));
       fixture.detectChanges();
       await component.confirmOperation();

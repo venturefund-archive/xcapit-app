@@ -12,7 +12,7 @@ import { alertControllerMock } from '../../../../../testing/spies/alert-controll
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
+import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { rawWalletConnectUriV1, rawWalletConnectUriV2 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
 import { By } from '@angular/platform-browser';
 import { PendingProposal } from '../../shared-wallets/models/wallet-connect/pending-proposal/pending-proposal';
@@ -20,6 +20,7 @@ import { rawPeerMetadata } from '../../shared-wallets/fixtures/raw-proposal.fixt
 import { SpyProperty } from 'src/testing/spy-property.spec';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
+import { NullWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/null/null-wc-uri';
 
 describe('ConnectionDetailPage', () => {
   let component: ConnectionDetailPage;
@@ -56,7 +57,7 @@ describe('ConnectionDetailPage', () => {
     });
 
     wcServiceSpy = jasmine.createSpyObj('WCService', {
-      uri: new WCUri(rawWalletConnectUriV2),
+      uri: new DefaultWCUri(rawWalletConnectUriV2),
       connected: false,
       set: null,
     });
@@ -163,7 +164,7 @@ describe('ConnectionDetailPage', () => {
 
       expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
       expect(wcConnectionV2Spy.closeSession).toHaveBeenCalledTimes(1);
-      expect(wcServiceSpy.set).toHaveBeenCalledOnceWith(undefined);
+      expect(wcServiceSpy.set).toHaveBeenCalledOnceWith(new NullWCUri());
       expect(component.connectionStatus).toBeFalsy();
       expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['wallets/wallet-connect/new-connection']);
     });
@@ -171,7 +172,7 @@ describe('ConnectionDetailPage', () => {
 
   describe('Wallet Connect V1', () => {
     it('should set the template data on ion view will enter and render properly', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
@@ -188,7 +189,7 @@ describe('ConnectionDetailPage', () => {
     });
 
     it('should kill WC session and navigate back when peer metadata isnt found', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       new SpyProperty(walletConnectServiceSpy, 'peerMeta').value().and.returnValue(null);
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -198,7 +199,7 @@ describe('ConnectionDetailPage', () => {
     });
 
     it('should connect with dapp when user clicks on connect button', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
@@ -213,7 +214,7 @@ describe('ConnectionDetailPage', () => {
     });
 
     it('should show an alert and disconnect from dapp when user clicks on disconnect button and confirm it', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       wcServiceSpy.connected.and.returnValue(true);
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -227,7 +228,7 @@ describe('ConnectionDetailPage', () => {
 
       expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
       expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
-      expect(wcServiceSpy.set).toHaveBeenCalledOnceWith(undefined);
+      expect(wcServiceSpy.set).toHaveBeenCalledOnceWith(new NullWCUri());
       expect(component.connectionStatus).toBeFalsy();
       expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith(['wallets/wallet-connect/new-connection']);
     });
@@ -235,7 +236,7 @@ describe('ConnectionDetailPage', () => {
     it('should show an error in console when user clicks on disconnect button and it fails', async () => {
       console.log = jasmine.createSpy('log');
       walletConnectServiceSpy.killSession.and.returnValue(Promise.reject('testError'));
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       wcServiceSpy.connected.and.returnValue(true);
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -253,7 +254,7 @@ describe('ConnectionDetailPage', () => {
 
   it('should create an error alert when user clicks on connect button and connection fails', async () => {
     walletConnectServiceSpy.approveSession.and.returnValue(Promise.reject());
-    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+    wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
     component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();

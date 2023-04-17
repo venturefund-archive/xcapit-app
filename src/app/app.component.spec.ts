@@ -37,7 +37,7 @@ import {
   rawWalletConnectUriV1,
   rawWalletConnectUriV2,
 } from './modules/wallets/shared-wallets/fixtures/raw-wallet-connect-uri';
-import { WCUri } from './shared/models/wallet-connect/wc-uri/WCUri';
+import { DefaultWCUri } from './shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { WCConnectionV2 } from './modules/wallets/shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from './modules/wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
@@ -191,7 +191,7 @@ describe('AppComponent', () => {
 
     wcServiceSpy = jasmine.createSpyObj('WCService', {
       set: null,
-      uri: new WCUri(rawWalletConnectUriV1),
+      uri: new DefaultWCUri(rawWalletConnectUriV1),
     });
 
     remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
@@ -367,7 +367,7 @@ describe('AppComponent', () => {
       callback({ url: rawWalletConnectUriV2 });
     });
     capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
-    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV2));
+    wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV2));
 
     component.ngOnInit();
     tick();
@@ -384,7 +384,7 @@ describe('AppComponent', () => {
       callback({ url: rawWalletConnectUriV2 });
     });
     capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
-    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV2));
+    wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV2));
 
     component.ngOnInit();
     tick();

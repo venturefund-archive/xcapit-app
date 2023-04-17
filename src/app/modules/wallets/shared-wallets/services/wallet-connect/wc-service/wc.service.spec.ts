@@ -1,3 +1,4 @@
+import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { rawWalletConnectUriV1, rawWalletConnectUriV2 } from '../../../fixtures/raw-wallet-connect-uri';
 import { WalletConnectService } from '../wallet-connect.service';
 import { WCConnectionV2 } from '../wc-connection-v2/wc-connection-v2';
@@ -27,7 +28,7 @@ describe('WCService', () => {
   });
 
   it('should initialize and get uri', () => {
-    wcService.set('testUri');
+    wcService.set(new DefaultWCUri('testUri'));
     expect(wcService.uri().value()).toEqual('testUri');
   });
 
@@ -36,9 +37,9 @@ describe('WCService', () => {
   });
 
   it('should return connection status based on uri version when uri is initialized', () => {
-    wcService.set(rawWalletConnectUriV1);
+    wcService.set(new DefaultWCUri(rawWalletConnectUriV1));
     expect(wcService.connected()).toBeTrue();
-    wcService.set(rawWalletConnectUriV2);
+    wcService.set(new DefaultWCUri(rawWalletConnectUriV2));
     expect(wcService.connected()).toBeFalse();
   });
 });
