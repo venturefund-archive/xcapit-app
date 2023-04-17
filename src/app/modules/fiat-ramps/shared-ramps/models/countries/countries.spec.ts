@@ -19,4 +19,8 @@ describe('Countries', () => {
   it('findByAlpha3', () => {
     expect(countries.findByAlpha3(rawCountry.isoCodeAlpha3).name()).toEqual(rawCountry.name);
   });
+
+  it('findByName', () => {
+    expect(countries.findByName(rawCountry.name).name()).toEqual(rawCountry.name);
+  });
 });

@@ -1,0 +1,64 @@
+:host {
+  .cci {
+    &__item {
+      margin-top: 16px;
+
+      &__title {
+        display: flex;
+        align-items: center;
+      }
+
+      &__content {
+        margin-top: 4px;
+        margin-bottom: 21px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        ion-text {
+          color: var(--ion-color-neutral90);
+        }
+
+        &__amount {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+
+      &__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        &__amount {
+          padding-right: 16px;
+          text-align: end;
+
+          &__conversion {
+            ion-text {
+              color: var(--ion-color-neutral80);
+            }
+          }
+        }
+
+        &__title_and_image {
+          margin: 0 6px;
+          display: flex;
+          align-items: center;
+
+          &__image_container {
+            display: inline-flex;
+            align-items: center;
+            padding-right: 8px;
+
+            img {
+              width: 40px;
+              height: 40px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

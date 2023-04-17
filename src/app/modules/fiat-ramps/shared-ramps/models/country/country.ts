@@ -7,6 +7,7 @@ export type RawCountry = {
   directaCode?: string;
   isoCurrencyCodeDirecta?: string;
   isoCurrencyCodeMoonpay?: string;
+  flagRoute?: string;
 }
 
 export class Country {
@@ -19,5 +20,9 @@ export class Country {
 
   isoCodeAlpha3(): string {
     return this._rawData.isoCodeAlpha3;
+  }
+
+  flagRoute(): string {
+    return this._rawData.flagRoute;
   }
 }

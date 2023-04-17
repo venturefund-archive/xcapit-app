@@ -201,6 +201,11 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'kripton-summary',
+        loadChildren: () =>
+          import('./kripton-sale-summary/kripton-sale-summary.module').then((m) => m.KriptonSaleSummaryPageModule),
+      },
     ],
   },
 ];

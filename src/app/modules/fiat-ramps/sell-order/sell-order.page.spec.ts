@@ -365,6 +365,6 @@ describe('SellOrderPage', () => {
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(2);
     expect(fiatRampsServiceSpy.registerUserBank).toHaveBeenCalledOnceWith(userBankData);
     expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledOnceWith(operationData);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('');
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('fiat-ramps/kripton-summary');
   });
 });
