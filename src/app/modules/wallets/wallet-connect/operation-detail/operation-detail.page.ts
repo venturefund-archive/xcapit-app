@@ -247,15 +247,10 @@ export class OperationDetailPage {
         break;
       }
       case 'personal_sign':
+        this._setSignMessageOf(request.params[0]);
+        break;
       case 'eth_sign': {
-        let text = '';
-        try {
-          text = ethers.utils.toUtf8String(request.params[1]);
-        } catch (e) {
-          text = request.params[1];
-        } finally {
-          this.message = new HtmlOf(text).value();
-        }
+        this._setSignMessageOf(request.params[1]);
         break;
       }
       case 'eth_signTypedData':
@@ -267,6 +262,15 @@ export class OperationDetailPage {
         this.message = new HtmlContentOf(jsonParams).value();
         break;
       }
+    }
+  }
+
+  private _setSignMessageOf(aParam: string) {
+    let text = aParam;
+    try {
+      text = ethers.utils.toUtf8String(aParam);
+    } finally {
+      this.message = new HtmlOf(text).value();
     }
   }
 
