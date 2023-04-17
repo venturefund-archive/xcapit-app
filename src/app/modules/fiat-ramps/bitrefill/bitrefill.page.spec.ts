@@ -43,7 +43,7 @@ import { FakeBalances } from '../../wallets/shared-wallets/models/balances/fake-
 import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
+import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 import { SpyProperty } from 'src/testing/spy-property.spec';
 import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';

@@ -3,10 +3,10 @@ import { rawMATICData, rawUSDCData } from "../fixtures/raw-tokens-data";
 import { rawWalletData } from "../fixtures/raw-wallet-data";
 import { Swap } from "../swap/swap";
 import { DefaultToken } from "../token/token";
-import { DefaultWallet } from "../wallet/wallet";
+import { DefaultWallet } from "../wallet/default/default-wallet";
 import { FakeOneInch } from "../fakes/fake-one-inch";
 import { rawAllowanceData, rawNotAllowanceData } from "../fixtures/raw-one-inch-response-data";
-import { SwapTransactions } from "./swpa-transactions";
+import { SwapTransactions } from "./swap-transactions";
 import { Blockchain } from "../blockchain/blockchain";
 
 

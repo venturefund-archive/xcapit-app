@@ -4,10 +4,10 @@ import {
   rawPersonalSignRequest,
   rawEthSignRequest,
 } from '../../../../../modules/wallets/shared-wallets/fixtures/raw-wallet-connect-requests';
-import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SignRequest } from '../sign-request/sign-request';
 import { NullRequest } from '../null-request/null-request';
 import { RawSessionRequest } from '../raw-session-request.type';
+import { FakeWallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 describe('SessionRequestFactory', () => {
   let signClientSpy: jasmine.SpyObj<SignClientV2>;

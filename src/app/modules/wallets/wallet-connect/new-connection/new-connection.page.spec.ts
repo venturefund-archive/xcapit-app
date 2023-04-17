@@ -18,7 +18,6 @@ import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/defaul
 import { By } from '@angular/platform-browser';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
-import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
@@ -27,6 +26,7 @@ import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fi
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { RemoteConfigService } from '../../../../shared/services/remote-config/remote-config.service';
+import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 const formData = {
   valid: {

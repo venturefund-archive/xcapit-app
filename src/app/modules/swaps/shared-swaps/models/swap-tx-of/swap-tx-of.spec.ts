@@ -10,7 +10,7 @@ import { Slippage } from "../slippage/slippage";
 import { Swap } from "../swap/swap";
 import { SwapTxOf } from "./swap-tx-of";
 import { DefaultToken } from "../token/token";
-import { DefaultWallet } from "../wallet/wallet";
+import { DefaultWallet } from "../wallet/default/default-wallet";
 import { Blockchain } from "../blockchain/blockchain";
 import { BigNumber } from "ethers";
 

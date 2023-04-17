@@ -6,10 +6,10 @@ import {
   rawRequiredNamespacesWithUnsupportedNamespace,
   rawValidRequiredNamespaces,
 } from '../../../fixtures/raw-namespaces.fixture';
-import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { FakeWallet } from '../../../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 describe('Namespaces', () => {
   let expectedValidatedNamespaces: ValidatedNamespaces;

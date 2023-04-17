@@ -1,10 +1,11 @@
 import { SendTransactionRequest } from './send-transaction-request';
 import { SignClientV2 } from '../../sign-client/sign-client';
-import { FakeWallet, Wallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/wallet';
 import { rawSendTransactionRequestDefault } from '../../../../../modules/wallets/shared-wallets/fixtures/raw-wallet-connect-requests';
 import { Blockchain } from '../../../../../modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { rawPolygonData } from '../../../../../modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { getSdkError } from '@walletconnect/utils';
+import { FakeWallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 describe('SendTransactionRequest', () => {
   let sendTransactionRequest: SendTransactionRequest;

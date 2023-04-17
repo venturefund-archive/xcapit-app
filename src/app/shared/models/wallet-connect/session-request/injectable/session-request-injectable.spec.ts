@@ -1,9 +1,9 @@
 import { SessionRequestInjectable } from './session-request-injectable';
 import { rawPersonalSignRequest } from 'src/app/modules/wallets/shared-wallets/fixtures/raw-wallet-connect-requests';
 import { SignRequest } from '../sign-request/sign-request';
-import { FakeWallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/wallet';
 import { SignClientInjectable } from '../../sign-client/injectable/sign-client.injectable';
 import { SignClientV2 } from '../../sign-client/sign-client';
+import { FakeWallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 describe('SessionRequestInjectable', () => {
   let signClientSpy: jasmine.SpyObj<SignClientV2>;

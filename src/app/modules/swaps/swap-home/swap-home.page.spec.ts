@@ -32,7 +32,6 @@ import { IntersectedTokensFactory } from '../shared-swaps/models/intersected-tok
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 import { WalletsFactory } from '../shared-swaps/models/wallets/factory/wallets.factory';
-import { FakeWallet, SendTxsError } from '../shared-swaps/models/wallet/wallet';
 import { OneInchFactory } from '../shared-swaps/models/one-inch/factory/one-inch.factory';
 import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transactions/factory/swap-transactions.factory';
 import { FakeBlockchainTx } from '../shared-swaps/models/fakes/fake-blockchain-tx';
@@ -55,6 +54,8 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { of } from 'rxjs';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
+import { FakeWallet } from '../shared-swaps/models/wallet/fake/fake-wallet';
+import { SendTxsError } from '../shared-swaps/models/wallet/send-txs-error';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
