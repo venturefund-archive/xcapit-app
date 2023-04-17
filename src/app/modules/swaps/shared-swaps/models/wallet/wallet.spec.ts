@@ -67,6 +67,13 @@ describe('DefaultWallet', () => {
     expect(result).toEqual('signed message');
   });
 
+  it('sign typed data', async () => {
+    wallet.onNeedPass().subscribe(() => testObject.testMethod());
+
+    await expectAsync(wallet.signTypedData(null, null, null)).toBeResolved();
+    expect(testObject.testMethod).toHaveBeenCalledTimes(1);
+  });
+
   describe('FakeWallet', () => {
     let fakeWallet: Wallet;
 
@@ -112,6 +119,13 @@ describe('DefaultWallet', () => {
       const result = await fakeWallet.signMessage('some message');
 
       expect(result).toEqual('signed message');
+    });
+
+    it('sign typed data', async () => {
+      fakeWallet.onNeedPass().subscribe(() => testObject.testMethod());
+
+      await expectAsync(fakeWallet.signTypedData(null, null, null)).toBeResolved();
+      expect(testObject.testMethod).toHaveBeenCalledTimes(1);
     });
   });
 });

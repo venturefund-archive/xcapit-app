@@ -2,7 +2,7 @@ import { RawSessionRequest } from './raw-session-request.type';
 import { RequestMethod } from '../request-method/request-method';
 
 export type TplSessionRequest = {
-  message: string;
+  message: HTMLElement;
   isSignRequest: boolean;
   decodedData: any;
   isApproval: boolean;

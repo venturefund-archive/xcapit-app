@@ -33,6 +33,8 @@ import { WCService } from '../../shared-wallets/services/wallet-connect/wc-servi
 import { SignClientV2 } from '../../../../shared/models/wallet-connect/sign-client/sign-client';
 import { NullRequest } from '../../../../shared/models/wallet-connect/session-request/null-request/null-request';
 import { FakeRequest } from '../../../../shared/models/wallet-connect/session-request/fake-request/fake-request';
+import { HtmlOf } from '../../../../shared/models/wallet-connect/html-of/html-of';
+import { HtmlContentOf } from '../../../../shared/models/wallet-connect/html-content-of/html-content-of';
 
 const requestSendTransaction = {
   method: 'eth_sendTransaction',
@@ -271,7 +273,7 @@ describe('OperationDetailPage', () => {
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
       const signRequestEl = fixture.debugElement.query(By.css('app-sign-request'));
-      expect(signRequestEl.nativeElement.message).toEqual('My email is john@doe.com - 1678769188349');
+      expect(signRequestEl.nativeElement.message).toEqual(new HtmlOf('My email is john@doe.com - 1678769188349').value());
       expect(signRequestEl.nativeElement.dateInfo).toBeTruthy();
     });
 
@@ -387,7 +389,7 @@ describe('OperationDetailPage', () => {
       fixture.detectChanges();
 
       const signRequestEl = fixture.debugElement.query(By.css('app-sign-request'));
-      expect(signRequestEl.nativeElement.message).toEqual('Hello World');
+      expect(signRequestEl.nativeElement.message).toEqual(new HtmlOf('Hello World').value());
       expect(signRequestEl.nativeElement.dateInfo).toBeTruthy();
     });
 
@@ -401,7 +403,7 @@ describe('OperationDetailPage', () => {
       fixture.detectChanges();
 
       const signRequestEl = fixture.debugElement.query(By.css('app-sign-request'));
-      expect(signRequestEl.nativeElement.message).toEqual('Hello World');
+      expect(signRequestEl.nativeElement.message).toEqual(new HtmlOf('Hello World').value());
     });
 
     it('should reject the transaction and navigate back when user cancels the operation and the alert is confirmed', async () => {
@@ -454,7 +456,6 @@ describe('OperationDetailPage', () => {
     it('should call htmlFormatParse when checkRequestInfo is called with any eth_signTypedData method', async () => {
       wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
       new SpyProperty(walletConnectServiceSpy, 'requestInfo').value().and.returnValue(requestTypedData);
-      const spy = spyOn(component, 'htmlFormatParse').and.callThrough();
       const messageDiv = document.createElement('div');
       messageDiv.id = 'message';
       const documentSpy = spyOn(document, 'getElementById');
@@ -463,7 +464,9 @@ describe('OperationDetailPage', () => {
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
-      expect(spy).toHaveBeenCalled();
+      const jsonParams = JSON.parse(requestTypedData.params[1]);
+      delete jsonParams.types;
+      expect(component.message).toEqual(new HtmlContentOf(jsonParams).value())
     });
 
     it('should show an alert of error when confirmation of request returns an error and it can be dismissed', async () => {

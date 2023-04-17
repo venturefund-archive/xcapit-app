@@ -20,8 +20,10 @@ describe('FakeRequest', () => {
   });
 
   it('json', () => {
+    const message = document.createElement('div');
+    message.appendChild(document.createTextNode('My email is john@doe.com - 1678769188349'));
     expect(fakeRequest.json()).toEqual({
-      message: 'My email is john@doe.com - 1678769188349',
+      message: message,
       isSignRequest: true,
       decodedData: null,
       isApproval: false,
