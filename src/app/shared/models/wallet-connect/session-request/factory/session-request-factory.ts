@@ -7,6 +7,7 @@ import { RequestMethod } from '../../request-method/request-method';
 import { NullRequest } from '../null-request/null-request';
 import { SendTransactionRequest } from '../send-transaction-request/send-transaction-request';
 import { SignTypedDataRequest } from '../sign-typed-data-request/sign-typed-data-request';
+import { SignTransactionRequest } from '../sign-transaction-request/sign-transaction-request';
 
 export const EIP155_SIGNING_METHODS = {
   PERSONAL_SIGN: 'personal_sign',
@@ -24,13 +25,14 @@ export class SessionRequestFactory {
 
   async createRequest(_aRawSessionRequest: RawSessionRequest, _aWallet: Wallet): Promise<SessionRequest> {
     const requestMethod = new RequestMethod(_aRawSessionRequest);
-
     if (requestMethod.isSignRequest()) {
       return new SignRequest(_aRawSessionRequest, this.signClient, _aWallet);
     } else if (requestMethod.isSendTransactionRequest()) {
       return new SendTransactionRequest(_aRawSessionRequest, this.signClient, _aWallet);
     } else if (requestMethod.isSignTypedRequest()) {
       return new SignTypedDataRequest(_aRawSessionRequest, this.signClient, _aWallet);
+    } else if (requestMethod.isSignTransactionRequest()) {
+      return new SignTransactionRequest(_aRawSessionRequest, this.signClient, _aWallet);
     } else {
       return new NullRequest();
     }

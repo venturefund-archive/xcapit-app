@@ -59,6 +59,11 @@ describe('DefaultWallet', () => {
     expect(result.hash).toEqual('aTestHash');
   });
 
+  it('sign a transaction', async () => {
+    wallet.onNeedPass().subscribe(() => testObject.testMethod());
+    expect(await wallet.signTransaction(new FakeBlockchainTx())).toEqual('a signed tx');
+  });
+
   it('sign a message', async () => {
     wallet.onNeedPass().subscribe(() => testObject.testMethod());
     const result = await wallet.signMessage('some message');
@@ -91,15 +96,15 @@ describe('DefaultWallet', () => {
 
     it('address', () => {
       const addressTestValue = 'x';
-      const wallet = new FakeWallet(Promise.resolve(false), null, addressTestValue);
+      fakeWallet = new FakeWallet(Promise.resolve(false), null, addressTestValue);
 
-      expect(wallet.address()).toEqual(addressTestValue);
+      expect(fakeWallet.address()).toEqual(addressTestValue);
     });
 
     it('blockchain', () => {
-      const wallet = new FakeWallet(Promise.resolve(false), null, null, blockchain);
+      fakeWallet = new FakeWallet(Promise.resolve(false), null, null, blockchain);
 
-      expect(wallet.blockchain().id()).toEqual('1');
+      expect(fakeWallet.blockchain().id()).toEqual('1');
     });
 
     it('send a few transactions', async () => {
@@ -113,6 +118,10 @@ describe('DefaultWallet', () => {
       const result = await fakeWallet.sendTransaction(new FakeBlockchainTx());
 
       expect(result.hash).toEqual('aTxHash');
+    });
+
+    it('sign a transaction', async () => {
+      expect(await fakeWallet.signTransaction(new FakeBlockchainTx())).toEqual('a signed tx');
     });
 
     it('sign a message', async () => {

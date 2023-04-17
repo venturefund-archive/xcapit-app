@@ -65,3 +65,24 @@ export const rawSignTypedDataRequest = {
   },
 };
 
+export const rawSignTransactionRequestDefault = {
+  id: 1681744470654406,
+  topic: '1f0d642c24c673a36d14057243ef0a72b4c609bd7b5a0b86b21df2e3a53534ea',
+  params: {
+    request: {
+      method: 'eth_signTransaction',
+      params: [
+        {
+          from: '0x917686f79e211c24b8426d169fb77161fbe20b07',
+          to: '0x917686f79e211c24b8426d169fb77161fbe20b07',
+          data: '0x',
+          nonce: '0x00',
+          gasPrice: '0x9502f90f',
+          gasLimit: '0x5208',
+          value: '0x00',
+        },
+      ],
+    },
+    chainId: 'eip155:80001',
+  },
+};

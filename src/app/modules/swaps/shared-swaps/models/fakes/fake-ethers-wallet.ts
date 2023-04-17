@@ -47,4 +47,8 @@ export class FakeEthersWallet {
   ): any {
     return undefined;
   }
+
+  signTransaction(): Promise<string> {
+    return Promise.resolve('a signed tx');
+  }
 }

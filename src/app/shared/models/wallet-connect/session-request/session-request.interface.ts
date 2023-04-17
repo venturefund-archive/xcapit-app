@@ -13,6 +13,5 @@ export interface SessionRequest {
   method: () => RequestMethod;
   approve: () => Promise<void>;
   reject: () => Promise<void>;
-
   json: () => TplSessionRequest;
 }

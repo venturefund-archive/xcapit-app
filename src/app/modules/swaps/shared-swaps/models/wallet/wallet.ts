@@ -22,6 +22,7 @@ export interface Wallet {
     types: Record<string, Array<TypedDataField>>,
     value: Record<string, any>
   ) => any;
+  signTransaction?: (tx: BlockchainTx) => Promise<any>;
 }
 
 export class DefaultWallet implements Wallet {
@@ -66,8 +67,12 @@ export class DefaultWallet implements Wallet {
     domain: TypedDataDomain,
     types: Record<string, Array<TypedDataField>>,
     value: Record<string, any>
-  ) : Promise<any>{
+  ): Promise<any> {
     return this._connectedWallet(await this._derivedWallet())._signTypedData(domain, types, value);
+  }
+
+  async signTransaction(tx: BlockchainTx): Promise<string> {
+    return this._connectedWallet(await this._derivedWallet()).signTransaction((await tx.value()) as TransactionRequest);
   }
 
   private _encryptedWallet(): string {
@@ -88,7 +93,6 @@ export class DefaultWallet implements Wallet {
   private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {
     return aEthersWallet.connect(new this._ethersProviders.JsonRpcProvider(this._aBlockchain.rpc()));
   }
-
 }
 
 export class SendTxsError extends Error {
@@ -138,11 +142,15 @@ export class FakeWallet implements Wallet {
     domain: TypedDataDomain,
     types: Record<string, Array<TypedDataField>>,
     value: Record<string, any>
-  ) : Promise<any>{
+  ): Promise<any> {
     await this._onNeedPass.notify();
     return Promise.resolve();
   }
 
+  async signTransaction(tx: BlockchainTx): Promise<string> {
+    await this._onNeedPass.notify();
+    return Promise.resolve('a signed tx');
+  }
 
   private _checkError() {
     if (this.error) {
