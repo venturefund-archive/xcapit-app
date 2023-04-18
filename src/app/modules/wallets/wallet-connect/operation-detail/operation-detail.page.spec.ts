@@ -18,8 +18,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { rawWalletConnectUriV1, rawWalletConnectUriV2 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
 import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
-import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
-import { RequestMethod } from 'src/app/shared/models/wallet-connect/request-method/request-method';
+import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
 import { WCSession } from '../../../../shared/models/wallet-connect/wc-session/wc-session';
 import { rawPeerMetadata } from '../../shared-wallets/fixtures/raw-proposal.fixture';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
@@ -31,10 +30,11 @@ import { SimpleSubject } from 'src/app/shared/models/simple-subject/simple-subje
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { SignClientV2 } from '../../../../shared/models/wallet-connect/sign-client/sign-client';
-import { NullRequest } from '../../../../shared/models/wallet-connect/session-request/null-request/null-request';
-import { FakeRequest } from '../../../../shared/models/wallet-connect/session-request/fake-request/fake-request';
+import { NullRequest } from '../../../../shared/models/wallet-connect/wallet-connect-request/null-request/null-request';
+import { FakeRequest } from '../../../../shared/models/wallet-connect/wallet-connect-request/fake-request/fake-request';
 import { HtmlOf } from '../../../../shared/models/wallet-connect/html-of/html-of';
 import { HtmlContentOf } from '../../../../shared/models/wallet-connect/html-content-of/html-content-of';
+import { SessionRequest } from '../../../../shared/models/wallet-connect/session-request/session-request';
 
 const requestSendTransaction = {
   method: 'eth_sendTransaction',
@@ -67,7 +67,6 @@ describe('OperationDetailPage', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationDetailPage>;
   let wcServiceSpy: jasmine.SpyObj<WCService>;
-  let requestMethodSpy: jasmine.SpyObj<RequestMethod>;
   let sessionRequestInjectableSpy: jasmine.SpyObj<SessionRequestInjectable>;
   let walletSpy: jasmine.SpyObj<Wallet>;
   let wcSessionSpy: jasmine.SpyObj<WCSession>;
@@ -127,16 +126,12 @@ describe('OperationDetailPage', () => {
       uri: new DefaultWCUri(rawWalletConnectUriV2),
     });
 
-    requestMethodSpy = jasmine.createSpyObj('RequestMethod', {
-      isSignRequest: true,
-    });
-
     signClientSpy = jasmine.createSpyObj('SignClientV2', {
       respond: Promise.resolve(),
     });
 
     sessionRequestInjectableSpy = jasmine.createSpyObj('SessionRequestInjectable', {
-      request: new FakeRequest(rawPersonalSignRequest),
+      request: new FakeRequest(new SessionRequest(rawPersonalSignRequest)),
     });
 
     onNeedPassSubject = new SimpleSubject();
@@ -269,11 +264,13 @@ describe('OperationDetailPage', () => {
     });
 
     it('should show the message to sign if its a sign request', async () => {
-      component.ionViewWillEnter();
+      await component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
       const signRequestEl = fixture.debugElement.query(By.css('app-sign-request'));
-      expect(signRequestEl.nativeElement.message).toEqual(new HtmlOf('My email is john@doe.com - 1678769188349').value());
+      expect(signRequestEl.nativeElement.message).toEqual(
+        new HtmlOf('My email is john@doe.com - 1678769188349').value()
+      );
       expect(signRequestEl.nativeElement.dateInfo).toBeTruthy();
     });
 
@@ -325,7 +322,9 @@ describe('OperationDetailPage', () => {
     });
 
     it('should show error toast on confirmation when password is incorrect', async () => {
-      sessionRequestInjectableSpy.request.and.returnValue(new FakeRequest(rawPersonalSignRequest, Promise.reject()));
+      sessionRequestInjectableSpy.request.and.returnValue(
+        new FakeRequest(new SessionRequest(rawPersonalSignRequest), Promise.reject())
+      );
       component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
@@ -466,7 +465,7 @@ describe('OperationDetailPage', () => {
       fixture.detectChanges();
       const jsonParams = JSON.parse(requestTypedData.params[1]);
       delete jsonParams.types;
-      expect(component.message).toEqual(new HtmlContentOf(jsonParams).value())
+      expect(component.message).toEqual(new HtmlContentOf(jsonParams).value());
     });
 
     it('should show an alert of error when confirmation of request returns an error and it can be dismissed', async () => {

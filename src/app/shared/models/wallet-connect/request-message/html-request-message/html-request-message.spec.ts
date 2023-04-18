@@ -1,5 +1,6 @@
 import { HtmlRequestMessage } from './html-request-message';
 import { RequestMessage } from '../request-message.interface';
+import { SessionRequest } from '../../session-request/session-request';
 
 describe('HtmlRequestMessage', () => {
   let htmlRequestMessage: RequestMessage;
@@ -19,7 +20,7 @@ describe('HtmlRequestMessage', () => {
   };
 
   beforeEach(() => {
-    htmlRequestMessage = new HtmlRequestMessage(simpleHtmlMessageRequest);
+    htmlRequestMessage = new HtmlRequestMessage(new SessionRequest(simpleHtmlMessageRequest));
   });
 
   it('new', () => {

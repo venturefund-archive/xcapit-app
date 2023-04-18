@@ -6,11 +6,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { SignClientV2 } from 'src/app/shared/models/wallet-connect/sign-client/sign-client';
 import { PairTo } from 'src/app/shared/models/wallet-connect/pair-to/pair-to';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
-import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
+import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
 import { SignClientInjectable } from 'src/app/shared/models/wallet-connect/sign-client/injectable/sign-client.injectable';
 import { WCSession } from 'src/app/shared/models/wallet-connect/wc-session/wc-session';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { PendingProposal } from '../../../models/wallet-connect/pending-proposal/pending-proposal';
+import { SessionRequest } from '../../../../../../shared/models/wallet-connect/session-request/session-request';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/wc-uri.interface';
 
 @Injectable({ providedIn: 'root' })
@@ -65,7 +66,7 @@ export class WCConnectionV2 {
     });
 
     signClient.on('session_request', async (request: SignClientTypes.EventArguments['session_request']) => {
-      this.sessionRequestInjectable.createRequest(request, this.session().wallet());
+      this.sessionRequestInjectable.createRequest(new SessionRequest(request), this.session().wallet());
       await this.navController.navigateForward(['wallets/wallet-connect/operation-detail']);
     });
   }

@@ -50,6 +50,48 @@ export const rawSendTransactionRequestDefault = {
   },
 };
 
+export const rawSwapTransactionRequest = {
+  id: 1680621651042152,
+  topic: '15a430a13a6af8ce64a1f556ee24912b2774b5e8d33b457419ebe088d4c20d8d',
+  params: {
+    request: {
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          data: '0x8803dbee000000000000000000000000000000000000000000000000000041c1dfeeb74100000000000000000000000000000000000000000000000017cfae1d842fe7cb00000000000000000000000000000000000000000000000000000000000000a00000000000000000000000009c7314d0745bf0df80040dabd6ce87efcc5969e8000000000000000000000000000000000000000000000000000000006283f1ff000000000000000000000000000000000000000000000000000000000000000300000000000000000000000019f64674d8a5b4e652319f5e239efd3bc969a1fe00000000000000000000000009b6ca5e4496238a1f176aea6bb607db96c2286e0000000000000000000000004da7997a819bb46b6758b9102234c289dd2ad3bf',
+          from: '0x9c7314d0745bf0df80040dabd6ce87efcc5969e8',
+          gas: '0x3762c',
+          gasPrice: '0x3e252e0',
+          gasLimit: '0x5208',
+          to: '0xf55c496bb1058690db1401c4b9c19f3f44374961',
+        },
+      ],
+    },
+    chainId: 'eip155:137',
+  },
+};
+
+export const rawApproveTransactionRequest = {
+  id: 1680621651042152,
+  topic: '15a430a13a6af8ce64a1f556ee24912b2774b5e8d33b457419ebe088d4c20d8d',
+  params: {
+    request: {
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          data: '0x095ea7b3000000000000000000000000f55c496bb1058690db1401c4b9c19f3f44374961ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+          from: '0x9c7314d0745bf0df80040dabd6ce87efcc5969e8',
+          gas: '0xcd71',
+          gasPrice: '0x3e252e0',
+          gasLimit: '0x5208',
+          to: '0x4da7997a819bb46b6758b9102234c289dd2ad3bf',
+        },
+      ],
+    },
+    chainId: 'eip155:137',
+  },
+};
+
 export const rawSignTypedDataRequest = {
   id: 1681236104977555,
   topic: 'c1e7a3c687b70d06c114be46d08e279be355c814c4614dc049d20dc7257e1782',

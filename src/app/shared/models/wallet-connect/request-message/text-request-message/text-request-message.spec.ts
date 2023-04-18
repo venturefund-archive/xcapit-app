@@ -1,12 +1,13 @@
 import { rawPersonalSignRequest } from '../../../../../modules/wallets/shared-wallets/fixtures/raw-wallet-connect-requests';
 import { TextRequestMessage } from './text-request-message';
 import { HtmlOf } from '../../html-of/html-of';
+import { SessionRequest } from '../../session-request/session-request';
 
 describe('TextRequestMessage', () => {
   let textRequestMessage: TextRequestMessage;
 
   beforeEach(() => {
-    textRequestMessage = new TextRequestMessage(rawPersonalSignRequest);
+    textRequestMessage = new TextRequestMessage(new SessionRequest(rawPersonalSignRequest));
   });
 
   it('new', () => {

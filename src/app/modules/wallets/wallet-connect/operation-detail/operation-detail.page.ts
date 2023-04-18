@@ -9,7 +9,7 @@ import { ethers, Wallet } from 'ethers';
 import * as moment from 'moment';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { EthersService } from '../../shared-wallets/services/ethers/ethers.service';
-import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
+import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
@@ -146,7 +146,6 @@ export class OperationDetailPage {
   public isSignRequest = true;
   public isApproval = false;
   public decodedData: any = null;
-  public transactionConfirmed = false;
   public transactionDetail;
   public message: HTMLElement;
   public dateInfo = {
@@ -191,24 +190,25 @@ export class OperationDetailPage {
   }
 
   async setTemplateData() {
+    console.log('V2???' ,this.wcService.uri().isV2())
     this.wcService.uri().isV2() ? this.setTemplateDataFromRequest() : await this.checkProtocolInfo();
   }
 
   async setTemplateDataFromRequest() {
     const sessionRequest = this.sessionRequestInjectable.request();
     const session = this.wcConnectionV2.session();
-    const sessionTpl = sessionRequest.json();
+    const requestData = sessionRequest.data();
 
     this.peerMeta = session.peerMetadata();
     this.providerSymbol = session.wallet().blockchain().nativeToken().symbol();
 
-    this.transactionDetail = sessionRequest.raw()?.params.request;
+    this.transactionDetail = sessionRequest.request();
 
-    this.message = sessionTpl.message;
-    this.isSignRequest = sessionTpl.isSignRequest;
-    this.decodedData = sessionTpl.decodedData;
-    this.isApproval = sessionTpl.isApproval;
-    this.totalFeeAmount = sessionTpl.totalFeeAmount;
+    this.message = requestData.message().value();
+    this.isSignRequest = requestData.isSignRequest();
+    this.decodedData = requestData.decodedData();
+    this.isApproval = requestData.isApproval();
+    this.totalFeeAmount = requestData.fee();
   }
 
   async checkProtocolInfo() {

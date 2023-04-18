@@ -13,8 +13,8 @@ import { rawSession } from '../../../fixtures/raw-session.fixture';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
-import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/wc-uri.interface';
+import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
 import { FakeWallet } from '../../../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 describe('WCConnectionV2', () => {
