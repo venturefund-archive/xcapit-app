@@ -687,6 +687,7 @@
       "security_phrase": "Security phrase",
       "category_preferences": "Preferences",
       "security_configuration": "Configuration",
+      "google_drive_backup": "Google Drive backup",
       "push_notifications": "Push notifications",
       "language": "Language",
       "logout": "Log Out",
@@ -790,6 +791,11 @@
         "title": "Password",
         "button": "Change"
       }
+    },
+    "backup": {
+      "header": "Backup",
+      "title": "Google Drive backup",
+      "toggle_text": "Create an encrypted backup of your wallet so you can restore it whenever you need it."
     },
     "shared": {
       "remove_account_modal": {
