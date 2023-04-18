@@ -676,6 +676,7 @@
       "security_phrase": "Frase de seguridad",
       "category_preferences": "Preferencias",
       "security_configuration": "Configuración",
+      "google_drive_backup": "Copia de seguridad Google Drive",
       "push_notifications": "Notificaciones push",
       "language": "Idioma",
       "logout": "Cerrar Sesión",
@@ -779,6 +780,11 @@
         "title": "Contraseña",
         "button": "Cambiar"
       }
+    },
+    "backup": {
+      "header": "Copia de seguridad",
+      "title": "Copia de seguridad en Google Drive",
+      "toggle_text": "Crea una copia de seguridad encriptada de tu wallet para poder restaurarla cuando la necesites."
     },
     "shared": {
       "remove_account_modal": {
