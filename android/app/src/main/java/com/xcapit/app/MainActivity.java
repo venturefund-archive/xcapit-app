@@ -3,7 +3,7 @@ package com.xcapit.app;
 import android.os.Bundle;
 
 import androidx.core.splashscreen.SplashScreen;
-
+import com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth;
 import com.getcapacitor.community.firebaseanalytics.FirebaseAnalytics;
 import com.getcapacitor.BridgeActivity;
 
@@ -15,3 +15,4 @@ public class MainActivity extends BridgeActivity {
     SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
     super.onCreate(savedInstanceState);
   }
+}
