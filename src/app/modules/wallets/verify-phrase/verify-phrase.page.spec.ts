@@ -15,7 +15,6 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { SwiperModule } from 'swiper/angular';
 import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wallet-backup.service';
 
-
 describe('VerifyPhrasePage', () => {
   let component: VerifyPhrasePage;
   let fixture: ComponentFixture<VerifyPhrasePage>;
@@ -25,61 +24,59 @@ describe('VerifyPhrasePage', () => {
   let fakeNavController: FakeNavController;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
-  
+
   const phraseTrue = [
-    {order:1,value:'test'},
-    {order:2,value:'phrase'},
-    {order:3,value:'other'}
+    { order: 1, value: 'test' },
+    { order: 2, value: 'phrase' },
+    { order: 3, value: 'other' },
   ];
   const phraseFalse = [
-    {order:1,value:'test'},
-    {order:2,value:'phrase'},
-    {order:3,value:'word'}
+    { order: 1, value: 'test' },
+    { order: 2, value: 'phrase' },
+    { order: 3, value: 'word' },
   ];
   const testMnemonic: Mnemonic = {
     locale: 'en',
     path: '',
     phrase: 'test phrase other word number another rooster keyboard confort destroy jingle july',
-  };  
+  };
 
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      walletMnemonicServiceSpy = jasmine.createSpyObj(
-        'WalletMnemonicService',
-        {
-          getMnemonic: testMnemonic,
-          clearMnemonic: ''
-        },
-        { mnemonic: testMnemonic }
-      );
-      storageSpy = jasmine.createSpyObj('IonicStorageService', {
-        set: Promise.resolve(),
-        get: Promise.resolve(true),
-      });
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    walletMnemonicServiceSpy = jasmine.createSpyObj(
+      'WalletMnemonicService',
+      {
+        getMnemonic: testMnemonic,
+        clearMnemonic: '',
+      },
+      { mnemonic: testMnemonic }
+    );
+    storageSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(),
+      get: Promise.resolve(true),
+    });
 
-      walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
-        disableModal: Promise.resolve(),
-      });
+    walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+      disableModal: Promise.resolve(),
+    });
 
-      TestBed.configureTestingModule({
-        declarations: [VerifyPhrasePage, FakeTrackClickDirective, RecoveryPhraseCardComponent],
-        imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot(), SwiperModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
-          { provide: IonicStorageService, useValue: storageSpy },
-          { provide: WalletBackupService, useValue: walletBackupServiceSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-      fixture = TestBed.createComponent(VerifyPhrasePage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    TestBed.configureTestingModule({
+      declarations: [VerifyPhrasePage, FakeTrackClickDirective, RecoveryPhraseCardComponent],
+      imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot(), SwiperModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
+        { provide: IonicStorageService, useValue: storageSpy },
+        { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+    fixture = TestBed.createComponent(VerifyPhrasePage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -90,8 +87,8 @@ describe('VerifyPhrasePage', () => {
     fixture.detectChanges();
     expect(component.wordsToVerify.length).toEqual(3);
   });
-  
-  it('should push word in verificationPhrase when addWord is called',  () => {
+
+  it('should push word in verificationPhrase when addWord is called', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-recovery-phrase-card')).triggerEventHandler('useButtonClicked', 'test');
@@ -108,21 +105,21 @@ describe('VerifyPhrasePage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Remove Word"]')).nativeElement.click();
     fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.verificationPhrase).toEqual([]);
     expect(component.allWordsSelected).toBeFalse();
   });
 
   it('should navigate to wallets/success-creation, set protectedWallet into storage and clear mnemonic from service if the phrase is valid', async () => {
-    component.ionViewWillEnter()
+    component.ionViewWillEnter();
     component.wordsToVerify = phraseTrue;
     component.allWordsSelected = true;
     component.phrase = testMnemonic.phrase.split(' ');
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_protect_finalize"]')).nativeElement.click();
     fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
 
     expect(storageSpy.set).toHaveBeenCalledOnceWith('protectedWallet', true);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/success-creation');
@@ -153,18 +150,17 @@ describe('VerifyPhrasePage', () => {
     expect(walletMnemonicServiceSpy.clearMnemonic).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate /tabs/wallets when the phrase is valid', async () => {
-    storageSpy.get.and.resolveTo()
-    component.ionViewWillEnter()
+  it('should navigate /wallets/success-creation when the phrase is valid', async () => {
+    storageSpy.get.and.resolveTo();
+    component.ionViewWillEnter();
     component.wordsToVerify = phraseTrue;
     component.allWordsSelected = true;
     component.phrase = testMnemonic.phrase.split(' ');
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_protect_finalize"]')).nativeElement.click();
     fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
-    
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/tabs/wallets']);    
-  });
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
 
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/success-creation');
+  });
 });
