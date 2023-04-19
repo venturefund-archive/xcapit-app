@@ -1,6 +1,6 @@
 {
-	"appId": "com.xcapit.app",
-	"appName": "xcapit",
+	"appId": "com.xcapit.iosapp",
+	"appName": "Xcapit",
 	"bundledWebRuntime": false,
 	"npmClient": "yarn",
 	"webDir": "www",
@@ -25,9 +25,10 @@
 		"SplashScreen": {
 			"launchAutoHide": true,
 			"launchShowDuration": 2000
+		},
+		"LocalNotifications": {
+			"smallIcon": "ic_stat_icon_local",
+			"iconColor": "#1c2d5e"
 		}
-	},
-	"server": {
-		"cleartext": true
 	}
 }
