@@ -84,7 +84,7 @@
     "services": {
       "kripton_interceptor": {
         "session_expired_toast": "Your session in Kripton Market has expired."
-      }, 
+      },
       "share": {
         "copy_text": "The subscription link has been copied to the clipboard.",
         "share_error": "Text was copied to the clipboard"
@@ -1712,6 +1712,20 @@
     }
   },
   "wallets": {
+    "wallet_imports": {
+      "header": "Import wallet",
+      "title": "Import your wallet",
+      "subtitle": "Select the method you wish to use to import your wallet.",
+      "support": "What method should I choose?",
+      "key": {
+        "title": "Import with the recovery phrase",
+        "subtitle": "Use your recovery phrase from Xcapit or another crypto wallet."
+      },
+      "cloud": {
+        "title": "Import copy from Google Drive",
+        "subtitle": "Restore your wallet using this option if you have previously made a backup."
+      }
+    },
     "receive_select_currency": {
       "header": "Receive",
       "title": "Select the currency you want to receive"
@@ -2078,7 +2092,7 @@
         "expand_button": "Expand",
         "reduce_button": "Reduce"
       },
-      "wallet_transaction_card":{
+      "wallet_transaction_card": {
         "expand_button": "Expand",
         "reduce_button": "Reduce"
       },
@@ -2434,10 +2448,10 @@
     "home_of_purchases": {
       "header": "Buy - Sell",
       "question": "How do purchases work?",
-      "footer":{
-        "title":"What do you want to do?",
-        "buy_button":"Buy",
-        "sell_button":"Sell"
+      "footer": {
+        "title": "What do you want to do?",
+        "buy_button": "Buy",
+        "sell_button": "Sell"
       }
     },
     "buy_conditions": {
@@ -2489,7 +2503,7 @@
       "button_show_less": "Show less",
       "button_show_more": "Show more",
       "log_out_modal": {
-        "title":"Do you want to log out?",
+        "title": "Do you want to log out?",
         "description": "You will need to log in again with your email address to view your purchases.",
         "confirm_button": "Confirm",
         "cancel_button": "Cancel"
@@ -2521,7 +2535,7 @@
       "krypton_description": "Buy with bank transfer",
       "disclaimer": "* Quotes may vary slightly at the time of purchase.",
       "description": "Buy with {{providerName}} {{token}} at ${{quote}} {{fiatCode}}.",
-      "kripton_sell_description":"Deposits can take up to 72 hours.",
+      "kripton_sell_description": "Deposits can take up to 72 hours.",
       "bitrefill_description": "Access exclusive benefits!",
       "sell_method": "Which payment method do you prefer?",
       "directa24": {
@@ -2540,7 +2554,7 @@
         "subtitle_available_tokens": "What tokens can you buy?",
         "subtitle_more_information": "More information:",
         "subtitle_time_tokens": "Token crediting time:",
-        "subtitule_need_know":"What do you need to know?",
+        "subtitule_need_know": "What do you need to know?",
         "kyc_required": "Requires KYC or registration process.",
         "button": "Understood",
         "kripton": {
@@ -2573,13 +2587,13 @@
           "description_3": "Working days from 9 a.m. to 6 p.m. approx. The maximum accreditation time is 3 hours."
         },
         "bitrefill": {
-          "name":"Bitrefill",
-          "header":"It is an authorized provider for the sale of cryptocurrencies.",
-          "erc20_tokens":"ETH, USDT and USDC",
-          "polygon_tokens":"USDC",
-          "credit_card":"Credit card.*",
-          "delivery_time":"Depends on the external supplier on a case-by-case basis.",
-          "disclaimer":"*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
+          "name": "Bitrefill",
+          "header": "It is an authorized provider for the sale of cryptocurrencies.",
+          "erc20_tokens": "ETH, USDT and USDC",
+          "polygon_tokens": "USDC",
+          "credit_card": "Credit card.*",
+          "delivery_time": "Depends on the external supplier on a case-by-case basis.",
+          "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
         }
       }
     },
@@ -2774,7 +2788,7 @@
           "directa24_voucher": "Nearest store",
           "kripton": "Bank transfer",
           "moonpay": "Credit card",
-          "bitrefill":"Vouchers in stores"
+          "bitrefill": "Vouchers in stores"
         },
         "providers": {
           "kripton": {
@@ -2909,16 +2923,16 @@
       }
     },
     "kripton_sale_summary": {
-      "header":"Operation detail",
+      "header": "Operation detail",
       "title": "Sale",
       "quote": "Quotation",
-      "transaction_fee":"Estimated transaction fee",
-      "provider_fee":"Estimated provider fee",
+      "transaction_fee": "Estimated transaction fee",
+      "provider_fee": "Estimated provider fee",
       "wallet": "Kripton Market Wallet",
-      "bank_account":"Destination bank account",
-      "provider":"Provider",
-      "date":"Date",
-      "button":"Confirm delivery"
+      "bank_account": "Destination bank account",
+      "provider": "Provider",
+      "date": "Date",
+      "button": "Confirm delivery"
     },
     "kripton_operation_detail": {
       "header": "Operation detail",
@@ -2939,7 +2953,7 @@
         "SOLANA": "Solana Explorer"
       },
       "quotation": "Quotation",
-      "fee":"Transaction fee",
+      "fee": "Transaction fee",
       "address": "Destination address (your wallet)",
       "provider": "Provider",
       "operation": "Operation",
@@ -3388,11 +3402,11 @@
     },
     "summary": {
       "header": "Make a warranty",
-      "title":"Data of your deposit",
-      "dniLabel":"Guarantor ID card",
-      "amountLabel":"Guarantee amount",
-      "serviceLabel":"Cost of service",
-      "buttonName":"Make Warranty",
+      "title": "Data of your deposit",
+      "dniLabel": "Guarantor ID card",
+      "amountLabel": "Guarantee amount",
+      "serviceLabel": "Cost of service",
+      "buttonName": "Make Warranty",
       "loading": "Making warranty...",
       "wait_loading_message": "It will only take a few seconds."
     },

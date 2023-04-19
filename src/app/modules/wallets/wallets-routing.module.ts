@@ -53,6 +53,11 @@ const routes: Routes = [
         loadChildren: () => import('./create-password/create-password.module').then((m) => m.CreatePasswordPageModule),
       },
       {
+        canActivate: [NoAuthGuard],
+        path: 'wallet-imports',
+        loadChildren: () => import('./wallet-imports/wallet-imports/wallet-imports.module').then( m => m.WalletImportsPageModule)
+      },
+      {
         path: 'receive',
         canActivate: [AuthGuard],
         children: [
@@ -260,6 +265,8 @@ const routes: Routes = [
       },
     ],
   },
+  
+
 ];
 
 @NgModule({
