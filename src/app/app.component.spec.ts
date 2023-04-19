@@ -41,6 +41,7 @@ import { DefaultWCUri } from './shared/models/wallet-connect/wc-uri/default/defa
 import { WCConnectionV2 } from './modules/wallets/shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from './modules/wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
+import { GoogleAuthService } from './shared/services/google-auth/google-auth.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -79,6 +80,7 @@ describe('AppComponent', () => {
   let walletConnectV2Spy: jasmine.SpyObj<WCConnectionV2>;
   let wcServiceSpy: jasmine.SpyObj<WCService>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
+  let googleAuthServiceSpy: jasmine.SpyObj<GoogleAuthService>
 
   const tapBrowserInApp = {
     actionId: 'tap',
@@ -99,6 +101,7 @@ describe('AppComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    googleAuthServiceSpy= jasmine.createSpyObj('googleAuthSpy',{init: Promise.resolve()})
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
     submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
     trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
@@ -228,6 +231,7 @@ describe('AppComponent', () => {
         { provide: WCConnectionV2, useValue: walletConnectV2Spy },
         { provide: WCService, useValue: wcServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+        {provide: GoogleAuthService, useValue: googleAuthServiceSpy}
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
@@ -244,6 +248,7 @@ describe('AppComponent', () => {
   it('should set up app on init', async () => {
     component.ngOnInit();
     await fixture.whenStable();
+    expect(googleAuthServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
     expect(updateServiceSpy.checkForUpdate).toHaveBeenCalledTimes(1);
     expect(trackServiceSpy.startTracker).toHaveBeenCalledTimes(1);
