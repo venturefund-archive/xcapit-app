@@ -51,7 +51,7 @@ describe('ImportMethodOptionsComponent', () => {
     expect(subtitleEl.nativeElement.innerHTML).toContain(fakeData.subtitle);
   });
 
-  it('should call trackEvent if item is not disabled and was clicked', () => {
+  it('should call trackEvent method is was clicked', () => {
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getElement('ion-item');
     const directive = trackClickDirectiveHelper.getDirective(el);

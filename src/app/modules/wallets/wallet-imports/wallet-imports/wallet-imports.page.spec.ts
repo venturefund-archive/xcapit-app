@@ -27,9 +27,9 @@ describe('WalletImportsPage', () => {
     navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
       declarations: [WalletImportsPage],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [{ provide: NavController, useValue: navControllerSpy }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WalletImportsPage);
