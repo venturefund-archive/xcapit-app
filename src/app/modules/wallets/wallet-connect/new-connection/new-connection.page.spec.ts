@@ -14,7 +14,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { of, BehaviorSubject } from 'rxjs';
 import { rawWalletConnectUriV2, rawWalletConnectUriV1 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
-import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
+import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { By } from '@angular/platform-browser';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
@@ -108,8 +108,8 @@ describe('NewConnectionPage', () => {
     });
     wcServiceSpy = jasmine.createSpyObj('WCService', {
       connected: false,
-      uri: new WCUri(rawWalletConnectUriV2),
-      initialize: null,
+      uri: new DefaultWCUri(rawWalletConnectUriV2),
+      set: null,
     });
 
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
@@ -232,7 +232,7 @@ describe('NewConnectionPage', () => {
 
   describe('Wallet Connect V1', () => {
     it('should connect and redirect to connection detail when a valid form is submitted and the connection is successful', async () => {
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       walletConnectServiceSpy.uri = new BehaviorSubject<any>(rawWalletConnectUriV1);
       await component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -258,7 +258,7 @@ describe('NewConnectionPage', () => {
 
     it('should show an error alert when connection fail', async () => {
       walletConnectServiceSpy.initWalletConnect.and.rejectWith('error');
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV1));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV1));
       walletConnectServiceSpy.uri = new BehaviorSubject<any>(rawWalletConnectUriV1);
       await component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -292,7 +292,7 @@ describe('NewConnectionPage', () => {
 
   describe('Wallet Connect V2', () => {
     it('should connect and redirect to connection detail when a valid form is submitted and the connection is successful', async () => {
-      const wcUri = new WCUri(rawWalletConnectUriV2);
+      const wcUri = new DefaultWCUri(rawWalletConnectUriV2);
       wcServiceSpy.uri.and.returnValue(wcUri);
       await component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -312,7 +312,7 @@ describe('NewConnectionPage', () => {
 
     it('should show invalid uri error message when v2 is disabled', async () => {
       remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
-      const wcUri = new WCUri(rawWalletConnectUriV2);
+      const wcUri = new DefaultWCUri(rawWalletConnectUriV2);
       wcServiceSpy.uri.and.returnValue(wcUri);
       await component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -335,7 +335,7 @@ describe('NewConnectionPage', () => {
 
     it('should show an error alert when connection fail', async () => {
       wcConnectionV2.pairTo.and.rejectWith('error');
-      wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV2));
+      wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV2));
       await component.ionViewWillEnter();
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();

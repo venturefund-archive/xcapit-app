@@ -1,13 +1,14 @@
 import { PendingProposal } from 'src/app/modules/wallets/shared-wallets/models/wallet-connect/pending-proposal/pending-proposal';
 
 import { SignClientV2 } from 'src/app/shared/models/wallet-connect/sign-client/sign-client';
-import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
+import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { PairTo } from './pair-to';
 import { rawProposal } from '../../../../modules/wallets/shared-wallets/fixtures/raw-proposal.fixture';
 import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { WCUri } from '../wc-uri/wc-uri.interface';
 
 describe('PairTo', () => {
   let testUri: WCUri;
@@ -15,7 +16,7 @@ describe('PairTo', () => {
   let pairTo: PairTo;
   let fakeWallet: FakeWallet;
   beforeEach(() => {
-    testUri = new WCUri('testUri');
+    testUri = new DefaultWCUri('testUri');
 
     signClientSpy = jasmine.createSpyObj('SignClientV2', {
       pair: Promise.resolve(),

@@ -31,6 +31,7 @@ import { AppExpirationTimeService } from './shared/models/app-session/injectable
 import { WCConnectionV2 } from './modules/wallets/shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from './modules/wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
+import { DefaultWCUri } from './shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 @Component({
   selector: 'app-root',
   template: `
@@ -221,7 +222,7 @@ export class AppComponent implements OnInit {
 
       if (url.includes('wc:')) {
         const loggedIn = await new LoggedIn(this.storage).value();
-        this.wcService.initialize(url);
+        this.wcService.set(new DefaultWCUri(url));
         if (!this.wcService.uri().isV2()) {
           this.walletConnectService.setUri(url);
           if (loggedIn) this.walletConnectService.checkDeeplinkUrl();
