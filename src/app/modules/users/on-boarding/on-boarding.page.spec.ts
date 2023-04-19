@@ -63,7 +63,7 @@ describe('OnBoardingPage', () => {
 
   it('should navigate to Import wallet page when button is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="Import wallet"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer/import']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/wallet-imports']);
   });
 
   it('should track screenview event on init', () => {

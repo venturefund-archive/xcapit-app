@@ -75,6 +75,6 @@ describe('SuccessRemoveWalletPage', () => {
   it('should navigate to import wallet page when go_to_import_wallet is clicked', () => {
     const closeButton = fixture.debugElement.query(By.css("ion-button[name='go_to_import_wallet']"));
     closeButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer/import']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/wallet-imports']);
   });
 });
