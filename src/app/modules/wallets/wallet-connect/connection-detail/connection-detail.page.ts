@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
+import { NullWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/null/null-wc-uri';
 
 @Component({
   selector: 'app-connection-detail',
@@ -218,9 +219,8 @@ export class ConnectionDetailPage {
   public async killSession() {
     try {
       this.connectionStatus = false;
-      this.WCService.uri().isV2()
-        ? await this.wcConnectionV2.closeSession()
-        : await this.walletConnectService.killSession();
+      this.WCService.uri().isV2() ? this.wcConnectionV2.closeSession() : await this.walletConnectService.killSession();
+      this.WCService.set(new NullWCUri());
     } catch (error) {
       console.log('Wallet Connect - killSession error: ', error);
     } finally {
