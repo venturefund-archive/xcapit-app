@@ -24,6 +24,17 @@ describe('UserRegisterStepCardComponent', () => {
     disabled: false,
     completed: false,
   };
+
+  const fakeDataWithAction = {
+    action: true,
+    order: '1',
+    title: 'fakeTitle',
+    subtitle: 'fakeSubtitle',
+    name: 'ux_buy_kripton_details',
+    disabled: false,
+    completed: false,
+  };
+
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
@@ -59,13 +70,23 @@ describe('UserRegisterStepCardComponent', () => {
     expect(iconEl.attributes['ng-reflect-name']).toContain('chevron-forward-outline');
   });
 
-  it('should navigate if item is not disabled and was clicked', () => {
-    component.step.disabled = false;
+  it('should navigate if item is not completed, have url and was clicked', () => {
+    component.step.completed = false;
     const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
 
     itemEl.nativeElement.click();
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(fakeData.url);
+  });
+
+  it('should emit an event if it is not complete, has no url but has the action variable set to true and was clicked', () => {
+    component.step = fakeDataWithAction;
+    const spy = spyOn(component.actionEmitter, 'emit');
+    const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
+
+    itemEl.nativeElement.click();
+
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent if item is not disabled and was clicked', () => {

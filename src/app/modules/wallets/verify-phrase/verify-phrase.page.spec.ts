@@ -114,7 +114,7 @@ describe('VerifyPhrasePage', () => {
     expect(component.allWordsSelected).toBeFalse();
   });
 
-  it('should navigate to /tabs/wallets, set protectedWallet into storage and clear mnemonic from service if the phrase is valid', async () => {
+  it('should navigate to wallets/success-creation, set protectedWallet into storage and clear mnemonic from service if the phrase is valid', async () => {
     component.ionViewWillEnter()
     component.wordsToVerify = phraseTrue;
     component.allWordsSelected = true;
@@ -125,7 +125,7 @@ describe('VerifyPhrasePage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
 
     expect(storageSpy.set).toHaveBeenCalledOnceWith('protectedWallet', true);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/tabs/wallets']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/success-creation');
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
   });
 

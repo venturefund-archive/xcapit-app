@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -39,10 +39,20 @@ import { NavController } from '@ionic/angular';
 export class UserRegisterStepCardComponent {
   @Input() step: any;
   @Input() status: string;
+  @Output() actionEmitter = new EventEmitter<any>();
   tplStep: any;
+
   constructor(private navController: NavController) {}
 
   navigateTo() {
-    if (!this.step.completed) return this.navController.navigateForward(this.step.url);
+    if (!this.step.completed && this.step.url) {
+      return this.navController.navigateForward(this.step.url);
+    } else if (this.step.action) {
+      this.action();
+    }
+  }
+
+  action() {
+    this.actionEmitter.emit();
   }
 }
