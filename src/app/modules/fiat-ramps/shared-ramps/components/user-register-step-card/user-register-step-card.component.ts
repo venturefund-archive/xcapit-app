@@ -39,13 +39,13 @@ import { NavController } from '@ionic/angular';
 export class UserRegisterStepCardComponent {
   @Input() step: any;
   @Input() status: string;
-  @Output() actionEmitter = new EventEmitter<any>();
+  @Output() cardClicked = new EventEmitter<any>();
   tplStep: any;
 
   constructor(private navController: NavController) {}
 
   navigateTo() {
-    if (!this.step.completed && this.step.url) {
+    if (!this.step.completed && this.step.url) {  
       return this.navController.navigateForward(this.step.url);
     } else if (this.step.action) {
       this.action();
@@ -53,6 +53,6 @@ export class UserRegisterStepCardComponent {
   }
 
   action() {
-    this.actionEmitter.emit();
+    this.cardClicked.emit();
   }
 }

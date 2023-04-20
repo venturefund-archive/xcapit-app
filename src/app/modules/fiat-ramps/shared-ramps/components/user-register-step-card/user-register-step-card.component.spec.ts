@@ -15,21 +15,12 @@ describe('UserRegisterStepCardComponent', () => {
   let fakeNavController: FakeNavController;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserRegisterStepCardComponent>;
 
-  const fakeData = {
-    order: '1',
-    title: 'fakeTitle',
-    subtitle: 'fakeSubtitle',
-    url: 'fakeUrl',
-    name: 'ux_buy_kripton_details',
-    disabled: false,
-    completed: false,
-  };
-
-  const fakeDataWithAction = {
+  let fakeData = {
     action: true,
     order: '1',
     title: 'fakeTitle',
     subtitle: 'fakeSubtitle',
+    url: 'fakeUrl',
     name: 'ux_buy_kripton_details',
     disabled: false,
     completed: false,
@@ -75,13 +66,12 @@ describe('UserRegisterStepCardComponent', () => {
     const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
 
     itemEl.nativeElement.click();
-
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(fakeData.url);
   });
 
   it('should emit an event if it is not complete, has no url but has the action variable set to true and was clicked', () => {
-    component.step = fakeDataWithAction;
-    const spy = spyOn(component.actionEmitter, 'emit');
+    component.step.completed = true;
+    const spy = spyOn(component.cardClicked, 'emit');
     const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
 
     itemEl.nativeElement.click();
