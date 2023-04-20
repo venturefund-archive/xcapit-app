@@ -15,7 +15,7 @@ describe('UserRegisterStepCardComponent', () => {
   let fakeNavController: FakeNavController;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserRegisterStepCardComponent>;
 
-  let fakeData = {
+  const fakeData = {
     action: true,
     order: '1',
     title: 'fakeTitle',
@@ -48,6 +48,8 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should render properly', () => {
+    component.step.completed = false;
+    fixture.detectChanges();
     const numberEl = fixture.debugElement.query(By.css('div.ursc__wrapper__step > div.incompleteInfo > ion-text'));
     const titleEl = fixture.debugElement.query(
       By.css('div.ursc__wrapper__content > ion-text.ursc__wrapper__content__title')
