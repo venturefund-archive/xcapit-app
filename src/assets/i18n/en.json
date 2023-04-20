@@ -1900,12 +1900,20 @@
     },
     "success_creation": {
       "title": "Congratulations!\nYou have created your wallet",
+      "title1": "Congratulations!\nProtect your wallet",
       "subtitle": "Protect it by backing up your recovery phrase.\nThis is the master key to your funds.",
+      "subtitle1": "One last step! Create an encrypted backup of your wallet in Google Drive.",
       "success_button": "Go to wallet",
       "ribbon_recommended": "Suggested",
-      "primary_action": {
-        "title": "Protecting my wallet",
-        "subtitle": "Do it now and don't lose access to your money. It will only take a few minutes."
+      "backup_options": {
+        "option_1": {
+          "title": "Protect my wallet",
+          "subtitle": "Do it now and don't lose access to your money. It will only take a few minutes."
+        },
+        "option_2": {
+          "title": "Backup to Google Drive",
+          "subtitle": "Don't lose your wallet, save an encrypted copy. It will only take a few minutes."
+        }
       },
       "secondary_action": {
         "title": "Another time"

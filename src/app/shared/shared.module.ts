@@ -107,6 +107,7 @@ import { WarrantyInProgressTransactionModalComponent } from './components/warran
 import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp-support.component';
 import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warranties/components/warranty-summary-card/warranty-summary-card.component';
 import { CoinContentItemComponent } from '../modules/fiat-ramps/shared-ramps/components/coin-content-item/coin-content-item.component';
+import { UserRegisterStepCardComponent } from '../modules/fiat-ramps/shared-ramps/components/user-register-step-card/user-register-step-card.component';
 
 @NgModule({
   declarations: [
@@ -200,7 +201,7 @@ import { CoinContentItemComponent } from '../modules/fiat-ramps/shared-ramps/com
     SearchBarComponent,
     WarrantySummaryCardComponent,
     GeneralModalWithTwoButtonsComponent,
-
+    UserRegisterStepCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,
@@ -315,6 +316,7 @@ import { CoinContentItemComponent } from '../modules/fiat-ramps/shared-ramps/com
     SearchBarComponent,
     WarrantySummaryCardComponent,
     GeneralModalWithTwoButtonsComponent,
+    UserRegisterStepCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,

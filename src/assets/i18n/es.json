@@ -1889,12 +1889,20 @@
     },
     "success_creation": {
       "title": "¡Felicitaciones!\nCreaste tu wallet",
-      "subtitle": "Protégela haciendo una copia de seguridad de tu frase de recuperación.\nEsta es la llave maestra de tus fondos.",
+      "title1": "¡Felicitaciones!\nProtegiste tu wallet",
+      "subtitle": "Protégela haciendo una copia de seguridad de tu frase de recuperación.",
+      "subtitle1": "¡Un último paso! Crea una copia de seguridad encriptada de tu wallet en Google Drive.",
       "success_button": "Ir a wallet",
       "ribbon_recommended": "Recomendado",
-      "primary_action": {
-        "title": "Proteger mi wallet",
-        "subtitle": "Hazlo ahora y no pierdas el acceso a tu dinero. Sólo tomará unos minutos."
+      "backup_options": {
+        "option_1": {
+          "title": "Proteger mi wallet",
+          "subtitle": "Hazlo ahora y no pierdas el acceso a tu dinero. Sólo tomará unos minutos."
+        },
+        "option_2": {
+          "title": "Backup en Google Drive",
+          "subtitle": "No pierdas tu wallet, guardá una copia encriptada. Sólo tomará unos minutos."
+        }
       },
       "secondary_action": {
         "title": "En otro momento"
