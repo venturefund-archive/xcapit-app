@@ -14,19 +14,19 @@ describe('UserRegisterStepCardComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserRegisterStepCardComponent>;
-
-  const fakeData = {
-    action: true,
-    order: '1',
-    title: 'fakeTitle',
-    subtitle: 'fakeSubtitle',
-    url: 'fakeUrl',
-    name: 'ux_buy_kripton_details',
-    disabled: false,
-    completed: false,
-  };
+  let fakeData: any;
 
   beforeEach(waitForAsync(() => {
+    fakeData = {
+      action: true,
+      order: '1',
+      title: 'fakeTitle',
+      subtitle: 'fakeSubtitle',
+      url: 'fakeUrl',
+      name: 'ux_buy_kripton_details',
+      disabled: false,
+      completed: false,
+    };
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
@@ -48,8 +48,6 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should render properly', () => {
-    component.step.completed = false;
-    fixture.detectChanges();
     const numberEl = fixture.debugElement.query(By.css('div.ursc__wrapper__step > div.incompleteInfo > ion-text'));
     const titleEl = fixture.debugElement.query(
       By.css('div.ursc__wrapper__content > ion-text.ursc__wrapper__content__title')
@@ -64,7 +62,6 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should navigate if item is not completed, have url and was clicked', () => {
-    component.step.completed = false;
     const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
 
     itemEl.nativeElement.click();
@@ -72,7 +69,7 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should emit an event if it is not complete, has no url but has the action variable set to true and was clicked', () => {
-    component.step.completed = true;
+    component.step.url = null
     const spy = spyOn(component.cardClicked, 'emit');
     const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
 
