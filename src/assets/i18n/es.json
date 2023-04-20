@@ -1707,6 +1707,20 @@
     }
   },
   "wallets": {
+    "wallet_imports": {
+      "header": "Importar wallet",
+      "title": "Importá tu wallet",
+      "subtitle": "Seleccioná el método que deseas utilizar para importar tu wallet.",
+      "support": "¿Qué método debo elegir?",
+      "key": {
+        "title": "Importar con la frase de recuperación",
+        "subtitle": "Utilizá tu frase de recuperación de Xcapit u otra cripto wallet. "
+      },
+      "cloud": {
+        "title": "Importar copia desde Google Drive",
+        "subtitle": "Restaurá tu wallet usando esta opción si previamente realizaste un backup."
+      }
+    },
     "receive_select_currency": {
       "header": "Recibir",
       "title": "Selecciona la moneda que quieres recibir"
@@ -2770,7 +2784,6 @@
         "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día.",
         "estimated_fee": "Tarifa de transacción estimada",
         "estimated_provider_fee": "Tarifa de proveedor estimada"
-
       },
 
       "kyc_disclaimer_modal": {
@@ -3020,16 +3033,16 @@
       }
     },
     "kripton_sale_summary": {
-      "header":"Detalle de la operación",
+      "header": "Detalle de la operación",
       "title": "Venta",
       "quote": "Cotización",
-      "transaction_fee":"Tarifa de transacción estimada",
-      "provider_fee":"Tarifa de proveedor estimada",
+      "transaction_fee": "Tarifa de transacción estimada",
+      "provider_fee": "Tarifa de proveedor estimada",
       "wallet": "Wallet Kripton Market",
-      "bank_account":"Cuenta bancaria destino",
-      "provider":"Proveedor",
-      "date":"Fecha",
-      "button":"Confirmar envío"
+      "bank_account": "Cuenta bancaria destino",
+      "provider": "Proveedor",
+      "date": "Fecha",
+      "button": "Confirmar envío"
     },
     "kripton_operation_detail": {
       "header": "Detalle de la operación",

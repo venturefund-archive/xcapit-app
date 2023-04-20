@@ -62,7 +62,7 @@ export class SuccessRemoveWalletPage implements OnInit {
   }
 
   goToImportWallet() {
-    this.navController.navigateForward(['/wallets/create-first/disclaimer/import']);
+    this.navController.navigateForward(['/wallets/wallet-imports']);
   }
 
   goToOnboarding() {
