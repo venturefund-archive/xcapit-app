@@ -117,6 +117,7 @@ export class SuccessContentComponent implements OnInit {
   secondaryAction() {
     if (this.data.urlSecondaryAction) {
       this.navController.navigateForward([this.data.urlSecondaryAction]);
+      this.dismiss();
     }
     this.secondaryActionEvent.emit();
   }

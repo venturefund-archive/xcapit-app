@@ -27,6 +27,9 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
 import { Countries } from '../shared-ramps/models/countries/countries';
 import { CountryRepo } from '../shared-ramps/models/country-repo/country-repo';
 import { Country } from '../shared-ramps/models/country/country';
+import { OperationKmInProgressModalComponent } from '../shared-ramps/components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
+import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
+import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
 
 @Component({
   selector: 'app-kripton-sale-summary',
@@ -51,7 +54,7 @@ import { Country } from '../shared-ramps/models/country/country';
           <div class="kss__card-container__card__coin-content">
             <app-coin-content-item
               *ngIf="this.country"
-              [flagRoute]="this.country.flagRoute"
+              [flagRoute]="this.flagRoute"
               [fiatCurrency]="this.data.currency_out"
               [network]="this.data.network"
               [amount]="this.data.amount_out"
@@ -239,10 +242,12 @@ export class KriptonSaleSummaryPage {
       if (!password) {
         return;
       }
-
       this.loading = true;
       await this.send(password);
-    } finally {
+    } catch {
+      this.openGenericErrorModal();
+    }
+    finally {
       await this.endTx();
     }
   }
@@ -343,6 +348,7 @@ export class KriptonSaleSummaryPage {
       this.walletToSend,
       this.coin
     );
+    this.openSuccessModal();
     this.txInProgress = new SendTxInProgress(this.blockchain, new DefaultTxHash(response.hash));
     this.txInProgressService.startTx(this.txInProgress);
     this.confirmOperationWhenTransactionMined(response);
@@ -363,5 +369,32 @@ export class KriptonSaleSummaryPage {
     await this.fiatRampsService
       .confirmCashOutOperation(this.data.operation_id, { email, auth_token, tx_hash })
       .toPromise();
+  }
+
+  async openSuccessModal() {
+    const modal = await this.modalController.create({
+      component: OperationKmInProgressModalComponent,
+      cssClass: 'modal',
+      backdropDismiss: false,
+      componentProps: {
+        data: SUCCESS_TYPES.operation_km_cashout
+      }
+    });
+    await modal.present();
+  }
+
+  async openGenericErrorModal() {
+    const modal = await this.modalController.create({
+      component: SuccessContentComponent,
+      cssClass: 'ux-lg-modal-kripton-sell',
+      backdropDismiss: false,
+      componentProps: {
+        data: SUCCESS_TYPES.operation_km_cashout_error,
+        calledAsModal: true,
+      },
+    });
+    await modal.present();
+    await modal.onDidDismiss();
+    modal.dismiss();
   }
 }

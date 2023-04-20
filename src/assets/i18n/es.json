@@ -2459,6 +2459,17 @@
       "text_tertiary": "¿Necesitas ayuda?",
       "text_help_link": "Escribir a soporte Kripton Market"
     },
+    "operation_km_cashout": {
+      "text_secondary": "Te estaremos informando sobre cambios en el estado de tu venta.",
+      "button_text": "Finalizar",
+      "text_title": "Venta",
+      "text_badge": "Enviada"
+    },
+    "operation_km_cashout_error": {
+      "text_primary": "Error en la transacción",
+      "text_secondary": "Se produjo un error en el proceso.",
+      "button_secondary": "Volver a mis compras - ventas"
+    },
     "error_operation_km": {
       "text_primary": "Error en la carga del comprobante",
       "text_secondary": "👉 Verifica que que el formato sea jpg, png o pdf. Y que su tamaño no exceda los 200 kb.",

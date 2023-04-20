@@ -167,7 +167,7 @@ describe('KriptonSaleSummaryPage', () => {
     expect(coinItemComponentEl).toBeTruthy();
   });
 
-  it('should send and confirm operation', async () => {
+  it('should send, confirm operation and show success toast', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
 
@@ -176,7 +176,7 @@ describe('KriptonSaleSummaryPage', () => {
     fixture.detectChanges();
 
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       'aPassword',
@@ -239,7 +239,7 @@ describe('KriptonSaleSummaryPage', () => {
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
   });
 
-  it('should throw error if send fails', async () => {
+  it('should throw error and show error modal if send fails', async () => {
     walletTransactionsServiceSpy.send.and.throwError('');
 
     await component.ionViewWillEnter();
@@ -250,7 +250,7 @@ describe('KriptonSaleSummaryPage', () => {
     fixture.detectChanges();
 
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(1);
     expect(fiatRampsServiceSpy.confirmCashOutOperation).toHaveBeenCalledTimes(0);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
