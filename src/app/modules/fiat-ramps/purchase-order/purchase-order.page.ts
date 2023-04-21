@@ -15,6 +15,7 @@ import { OperationDataInterface } from '../shared-ramps/interfaces/operation-dat
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
+import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 
 @Component({
   selector: 'app-purchase-order',
@@ -260,6 +261,9 @@ export class PurchaseOrderPage {
       component: OperationKmInProgressModalComponent,
       cssClass: 'modal',
       backdropDismiss: false,
+      componentProps: {
+        data: SUCCESS_TYPES.operation_km_in_progress
+      }
     });
     await modal.present();
   }

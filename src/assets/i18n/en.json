@@ -2453,6 +2453,17 @@
       "text_tertiary": "Do you need help?",
       "text_help_link": "Write to Kripton Market support"
     },
+    "operation_km_cashout": {
+      "text_secondary": "We will be informing you about changes in the status of your sale.",
+      "button_text": "Finish",
+      "text_title": "Sell",
+      "text_badge": "Sent"
+    },
+    "operation_km_cashout_error": {
+      "text_primary": "Transaction error",
+      "text_secondary": "An error occurred in the process.",
+      "button_secondary": "Back to Buy - Sell"
+    },
     "error_operation_km": {
       "text_primary": "Error when loading the voucher",
       "text_secondary": "👉 Verify that the format is jpg, png or pdf. And that its size does not exceed 200 kb.",
