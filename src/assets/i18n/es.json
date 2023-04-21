@@ -2141,7 +2141,7 @@
       },
       "skip_backup_modal": {
         "title": "¿Omitir copia de seguridad?",
-        "description": "Entiendo que si no realizo una copia de mi frase de recuperación, podría perder el acceso a mis fondos.",
+        "description": "Entiendo que si no realizo una copia de seguridad, podría perder el acceso a mis fondos.",
         "button_back": "Atrás",
         "button_skip": "Omitir"
       },
