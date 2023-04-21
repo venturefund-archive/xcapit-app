@@ -7,7 +7,7 @@ import { rawAllowanceData, rawNotAllowanceData } from "../fixtures/raw-one-inch-
 import { rawMATICData, rawUSDCData } from "../fixtures/raw-tokens-data";
 import { rawWalletData } from "../fixtures/raw-wallet-data";
 import { DefaultToken } from "../token/token";
-import { DefaultWallet } from "../wallet/wallet";
+import { DefaultWallet } from "../wallet/default/default-wallet";
 import { Swap } from "../swap/swap";
 import { Blockchain } from "../blockchain/blockchain";
 

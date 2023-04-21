@@ -136,8 +136,6 @@ export class NewConnectionPage {
   public connected = false;
   public selectedWallet: WCWallet;
   public address: string;
-  public activeChainId = 1;
-  public dappInfo: boolean;
   public walletsList: WCWallet[] = [];
   public isNative: boolean;
   public providers: IProviderData[] = [];

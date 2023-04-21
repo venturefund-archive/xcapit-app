@@ -10,12 +10,12 @@ import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/defaul
 import { rawWalletConnectUriV1 } from '../../../fixtures/raw-wallet-connect-uri';
 import { rawProposal } from '../../../fixtures/raw-proposal.fixture';
 import { rawSession } from '../../../fixtures/raw-session.fixture';
-import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
-import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/session-request/injectable/session-request-injectable';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/wc-uri.interface';
+import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
+import { FakeWallet } from '../../../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 describe('WCConnectionV2', () => {
   let signClientInjectable: jasmine.SpyObj<SignClientInjectable>;

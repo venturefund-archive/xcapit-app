@@ -4,10 +4,10 @@ import { rawSolanaData } from 'src/app/modules/swaps/shared-swaps/models/fixture
 import { rawSAMOData, rawSOLData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { SolanaToken } from 'src/app/modules/swaps/shared-swaps/models/token/solana/solana-token';
 import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
-import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { solanaAddresses } from '../../fixtures/raw-address-data';
 import { SolanaSend } from '../solana-send/solana-send';
 import { SolanaSendTxsOf } from './solana-send-txs-of';
+import { FakeWallet } from '../../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 
 describe('SolanaSendTxsOf', () => {

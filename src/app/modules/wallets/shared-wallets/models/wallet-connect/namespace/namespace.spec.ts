@@ -1,7 +1,6 @@
 import { Namespace, RawNamespace, ValidatedNamespace } from './namespace';
 import { ValidatedNamespaces } from '../namespaces/namespaces';
 import { NamespaceErrorMsgs } from '../namespace-error-msgs/namespace-error-msgs';
-import { FakeWallet } from '../../../../../swaps/shared-swaps/models/wallet/wallet';
 import {
   rawNamespaceWithTwoChains,
   rawNamespaceWithNotMatchingNetwork,
@@ -9,6 +8,7 @@ import {
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { FakeWallet } from '../../../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 describe('Namespace', () => {
   let rawValidNamespace: RawNamespace;

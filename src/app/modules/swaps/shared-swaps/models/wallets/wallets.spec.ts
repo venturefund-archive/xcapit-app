@@ -12,9 +12,9 @@ import {
 import { Password } from '../password/password';
 import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
 import { WalletRepo } from '../wallet-repo/wallet-repo';
-import { SolanaWallet } from '../wallet/wallet';
 import { Wallets } from './wallets';
 import { solanaAddress4 } from '../../../../wallets/shared-wallets/fixtures/raw-address-data';
+import { SolanaWallet } from '../wallet/solana/solana-wallet';
 
 describe('Wallets', () => {
   let wallets: Wallets;

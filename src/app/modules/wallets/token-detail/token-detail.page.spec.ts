@@ -38,7 +38,6 @@ import {
   rawPolygonData,
   rawSolanaData,
 } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
-import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
@@ -50,6 +49,7 @@ import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/r
 import { of } from 'rxjs';
 import { Transfers } from '../shared-wallets/models/transfers/transfers';
 import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
+import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 describe('TokenDetailPage', () => {
   let component: TokenDetailPage;
@@ -244,7 +244,7 @@ describe('TokenDetailPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ blockchain: rawSolanaData.name, token: rawSAMOData.contract });
 
     await component.ionViewWillEnter();
-  
+
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();

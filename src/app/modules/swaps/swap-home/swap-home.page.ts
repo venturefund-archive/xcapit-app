@@ -21,7 +21,7 @@ import { RawToken, TokenRepo } from '../shared-swaps/models/token-repo/token-rep
 import { Tokens } from '../shared-swaps/models/tokens/tokens';
 import { Wallet } from '../shared-swaps/models/wallet/wallet';
 import { Dex } from '../shared-swaps/models/dex';
-import { SwapTransactions } from '../shared-swaps/models/swap-transactions/swpa-transactions';
+import { SwapTransactions } from '../shared-swaps/models/swap-transactions/swap-transactions';
 import { WalletsFactory } from '../shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from '../shared-swaps/models/blockchains/factory/blockchains.factory';
 import { OneInchFactory } from '../shared-swaps/models/one-inch/factory/one-inch.factory';
