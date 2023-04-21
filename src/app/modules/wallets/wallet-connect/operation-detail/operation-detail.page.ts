@@ -190,7 +190,6 @@ export class OperationDetailPage {
   }
 
   async setTemplateData() {
-    console.log('V2???' ,this.wcService.uri().isV2())
     this.wcService.uri().isV2() ? this.setTemplateDataFromRequest() : await this.checkProtocolInfo();
   }
 
