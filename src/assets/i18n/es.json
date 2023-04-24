@@ -2564,18 +2564,34 @@
     "operation_status_detail": {
       "title": "¿Qué significa este estado?",
       "button": "Entendido",
-      "incomplete": {
-        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. <b>Esto no significa que se realizó la compra.</b> Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
-        "description2": "Tienes hasta 72hs para hacerlo, de lo contrario, se anulará tu pedido."
+      "cash-in": {
+        "incomplete": {
+          "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. <b>Esto no significa que se realizó la compra.</b> Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
+          "description2": "Tienes hasta 72hs para hacerlo, de lo contrario, se anulará tu pedido."
+        },
+        "in_progress": {
+          "description": "El proveedor recibió exitosamente tu solicitud de compra. Dentro de las siguientes 24hs verás acreditado los tokens en tu wallet."
+        },
+        "nullified": {
+          "description": "El proveedor tuvo inconvenientes para realizar esta operación, por lo cual la misma fue cancelada. Tus fondos se devolverán a tu cuenta de origen."
+        },
+        "cancelled": {
+          "description": "Tu solicitud puede anularse por dos motivos: que el proveedor no recibió el comprobante de la transferencia. O el usuario no realizó el pago dentro de las 72hs estipuladas desde la solicitud de compra."
+        }
       },
-      "in_progress": {
-        "description": "El proveedor recibió exitosamente tu solicitud de compra. Dentro de las siguientes 24hs verás acreditado los tokens en tu wallet."
-      },
-      "nullified": {
-        "description": "El proveedor tuvo inconvenientes para realizar esta operación, por lo cual la misma fue cancelada. Tus fondos se devolverán a tu cuenta de origen."
-      },
-      "cancelled": {
-        "description": "Tu solicitud puede anularse por dos motivos: que el proveedor no recibió el comprobante de la transferencia. O el usuario no realizó el pago dentro de las 72hs estipuladas desde la solicitud de compra."
+      "cash-out": {
+        "incomplete": {
+          "description": "Tu orden fue creada exitosamente, está pendiente tu envio de tokens al proveedor."
+        },
+        "in_progress": {
+          "description": "Tu operación fue aprobada. Puede tardar en verse impactado hasta 72hs."
+        },
+        "confirmed": {
+          "description": "Tu operación se acreditó exitosamente. Ya deberías verlo impactado en tu cuenta."
+        },
+        "cancelled": {
+          "description": "El proveedor canceló la operación. Intenta nuevamente o ponte en contacto con soporte."
+        }
       }
     },
     "new_operation": {
@@ -2764,7 +2780,6 @@
         "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día.",
         "estimated_fee": "Tarifa de transacción estimada",
         "estimated_provider_fee": "Tarifa de proveedor estimada"
-
       },
 
       "kyc_disclaimer_modal": {
@@ -3014,26 +3029,35 @@
       }
     },
     "kripton_sale_summary": {
-      "header":"Detalle de la operación",
+      "header": "Detalle de la operación",
       "title": "Venta",
       "quote": "Cotización",
-      "transaction_fee":"Tarifa de transacción estimada",
-      "provider_fee":"Tarifa de proveedor estimada",
+      "transaction_fee": "Tarifa de transacción estimada",
+      "provider_fee": "Tarifa de proveedor estimada",
       "wallet": "Wallet Kripton Market",
-      "bank_account":"Cuenta bancaria destino",
-      "provider":"Proveedor",
-      "date":"Fecha",
-      "button":"Confirmar envío"
+      "bank_account": "Cuenta bancaria destino",
+      "provider": "Proveedor",
+      "date": "Fecha",
+      "button": "Confirmar envío"
     },
     "kripton_operation_detail": {
       "header": "Detalle de la operación",
-      "title": "Compra",
+      "title": {
+        "cash-in": "Compra",
+        "cash-out": "Venta"
+      },
       "state": "Estado",
       "state_toast": {
-        "incomplete": "Transfiere y envía el comprobante de la transacción.",
-        "incomplete2": "Completar datos",
-        "nullified": "El proveedor anuló esta operación. Para más infomación, comunícate con soporte.",
-        "cancelled": "El proveedor no recibió el comprobante del pago."
+        "cash-in": {
+          "incomplete": "Transfiere y envía el comprobante de la transacción.",
+          "incomplete2": "Completar datos",
+          "nullified": "El proveedor anuló esta operación. Para más infomación, comunícate con soporte.",
+          "cancelled": "El proveedor no recibió el comprobante del pago."
+        },
+        "cash-out": {
+          "incomplete": "Transfiere tus tokens al proveedor.",
+          "incomplete2": "Reintentar"
+        }
       },
       "scan_link": "Ver en",
       "scans": {
@@ -3045,7 +3069,10 @@
       },
       "quotation": "Cotización",
       "fee": "Tarifa de transacción",
+      "estimated_fee": "Tarifa de transacción estimada",
+      "provider_fee": "Tarifa de proveedor",
       "address": "Dirección de destino (tu wallet)",
+      "bank_account": "Cuenta bancaria destino",
       "provider": "Proveedor",
       "operation": "Operación",
       "date": "Fecha",

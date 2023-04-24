@@ -13,4 +13,6 @@ export interface FiatRampOperation {
   tx_hash?: string;
   network?: string;
   fiat_fee?: number;
+  provider_fee?: number;
+  payment_method_id?: number;
 }

@@ -1,4 +1,4 @@
-import { FakeEthersProvider } from '../ethers-providers/fake/fake-ethers-provider';
+import { FakeEthersProvider } from '../../../../../shared/models/ethers-providers/fake/fake-ethers-provider';
 import { FakeTransactionResponse } from '../transaction-response/fake/fake-transaction-response';
 import { Provider, TransactionResponse } from '@ethersproject/abstract-provider';
 

@@ -4,33 +4,35 @@ import { CoinContentItemComponent } from './coin-content-item.component';
 import { FormattedNetworkPipe } from 'src/app/shared/pipes/formatted-network-name/formatted-network.pipe';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { By } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('CoinContentItemComponent', () => {
   let component: CoinContentItemComponent;
   let fixture: ComponentFixture<CoinContentItemComponent>;
 
   const data = {
-    flagRoute: '/assets/img/countries/argentina.svg',
-    fiatCurrency: 'ARS',
+    imgRoute: '/assets/img/countries/argentina.svg',
+    currencyOut: 'ARS',
     network: 'MATIC',
     amount: 5000,
     quoteAmount: 20,
-    token: 'USDC'
+    currencyIn: 'USDC'
   };
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CoinContentItemComponent, FormattedNetworkPipe, FormattedAmountPipe],
       imports: [IonicModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CoinContentItemComponent);
     component = fixture.componentInstance;
-    component.flagRoute = data.flagRoute;
-    component.fiatCurrency = data.fiatCurrency;
+    component.imgRoute = data.imgRoute;
+    component.currencyOut = data.currencyOut;
     component.network = data.network;
     component.amount = data.amount;
     component.quoteAmount = data.quoteAmount;
-    component.token = data.token;
+    component.currencyIn = data.currencyIn;
     fixture.detectChanges();
   }));
 
@@ -42,18 +44,18 @@ describe('CoinContentItemComponent', () => {
     const flagEl = fixture.debugElement.query(
       By.css('div.cci__item__container__title_and_image__image_container > img')
     );
-    const fiatCurrencyTextEl = fixture.debugElement.query(
+    const currencyOutTextEl = fixture.debugElement.query(
       By.css('div.cci__item__container__title_container__title > ion-text')
     );
-    const badgeEl = fixture.debugElement.query(By.css('ion-badge'));
+    const badgeEl = fixture.debugElement.query(By.css('app-token-network-badge'));
     const fiatAmountEl = fixture.debugElement.query(By.css('div.cci__item__container__amount__base > ion-text'));
     const quoteAmountEl = fixture.debugElement.query(By.css('div.cci__item__container__amount__conversion > ion-text'));
 
-    expect(flagEl.attributes.src).toContain(data.flagRoute);
-    expect(fiatCurrencyTextEl.nativeElement.innerHTML).toContain(data.fiatCurrency);
-    expect(badgeEl.nativeElement.innerHTML).toContain('POLYGON');
+    expect(flagEl.attributes.src).toContain(data.imgRoute);
+    expect(currencyOutTextEl.nativeElement.innerHTML).toContain(data.currencyOut);
+    expect(badgeEl.nativeElement.blockchainName).toContain('MATIC');
     expect(fiatAmountEl.nativeElement.innerHTML).toContain(data.amount);
     expect(quoteAmountEl.nativeElement.innerHTML).toContain(data.quoteAmount);
-    expect(quoteAmountEl.nativeElement.innerHTML).toContain(data.token);
+    expect(quoteAmountEl.nativeElement.innerHTML).toContain(data.currencyIn);
   });
 });

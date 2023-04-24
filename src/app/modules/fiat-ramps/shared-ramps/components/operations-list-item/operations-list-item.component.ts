@@ -6,6 +6,9 @@ import { OPERATION_STATUS } from '../../constants/operation-status';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { OperationStatus } from '../../interfaces/operation-status.interface';
 import { FiatRampsService } from '../../services/fiat-ramps.service';
+import { CountryRepo } from '../../models/country-repo/country-repo';
+import { Countries } from '../../models/countries/countries';
+import { COUNTRIES } from '../../constants/countries';
 
 @Component({
   selector: 'app-operations-list-item',
@@ -26,9 +29,9 @@ import { FiatRampsService } from '../../services/fiat-ramps.service';
               class="oli__coin__wrapper__operation-type"
               [src]="'assets/img/fiat-ramps/operations-list/' + this.operation.operation_type + '.svg'"
             />
-            <img class="oli__coin__wrapper__image" [src]="this.coin.logoRoute" alt="{{ this.coin.value }}" />
+            <img class="oli__coin__wrapper__image" [src]="this.imgUrl" alt="{{ this.imgAlt }}" />
           </div>
-          {{ this.coin.value }}
+          {{ this.isBuy ? this.coin.value : (this.operation.currency_out | uppercase) }}
         </ion-text>
       </ion-label>
       <ion-label name="Amount">
@@ -40,7 +43,10 @@ import { FiatRampsService } from '../../services/fiat-ramps.service';
         </ion-text>
       </ion-label>
       <ion-label class="end">
-        <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
+        <app-operation-status-chip
+          [statusName]="this.operation.status"
+          [operationType]="this.operation.operation_type"
+        ></app-operation-status-chip>
       </ion-label>
     </ion-item>
   `,
@@ -53,11 +59,9 @@ export class OperationsListItemComponent implements OnInit {
   coin: Coin;
   amount: number;
   highlightClass: string;
-
-  private get isBuy(): boolean {
-    return this.operation.operation_type === 'cash-in';
-  }
-
+  isBuy: boolean;
+  imgUrl: string;
+  imgAlt: string;
   constructor(
     private navController: NavController,
     private apiWalletService: ApiWalletService,
@@ -65,9 +69,15 @@ export class OperationsListItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.setType();
     this.status = this.getOperationStatus();
     this.setHighlight();
-    this.setCoinAndAmount();
+    this.setImage();
+    this.setAmount();
+  }
+
+  private setType() {
+    this.isBuy = this.operation.operation_type === 'cash-in';
   }
 
   setHighlight() {
@@ -76,16 +86,31 @@ export class OperationsListItemComponent implements OnInit {
     }
   }
 
-  private setCoinAndAmount() {
-    const asset = this.fiatRampsService
-      .getProvider(1)
-      .currencies.find((c) => c.symbol === (this.isBuy ? this.operation.currency_out : this.operation.currency_in));
-    this.coin = this.apiWalletService.getCoin(asset.symbol, asset.network);
+  private setImage() {
+    if (this.isBuy) {
+      const asset = this.fiatRampsService
+        .getProvider(1)
+        .currencies.find((c) => c.symbol === (this.isBuy ? this.operation.currency_out : this.operation.currency_in));
+      this.coin = this.apiWalletService.getCoin(asset.symbol, asset.network);
+      this.imgUrl = this.coin.logoRoute;
+      this.imgAlt = this.coin.value;
+    } else {
+      const country = new Countries(new CountryRepo(COUNTRIES)).findByCurrencyCode(
+        this.operation.currency_out.toUpperCase()
+      );
+      this.imgUrl = country.flagRoute();
+      this.imgAlt = this.operation.currency_out;
+    }
+  }
+
+  private setAmount() {
     this.amount = this.operation.amount_out;
   }
 
   private getOperationStatus(): OperationStatus {
-    return OPERATION_STATUS.find((s) => s.name === this.operation.status);
+    return OPERATION_STATUS.find((statuses) => statuses.type === this.operation.operation_type).statuses.find(
+      (status) => status.name === this.operation.status
+    );
   }
 
   viewOperationDetail() {

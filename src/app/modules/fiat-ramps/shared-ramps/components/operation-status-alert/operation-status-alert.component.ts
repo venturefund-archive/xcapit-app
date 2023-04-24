@@ -13,9 +13,12 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
       <img [src]="this.status.icon" class="osa__information__icon" />
       <div class="osa__information__text">
         <ion-text class="ux-home-status-card"
-          >{{ 'fiat_ramps.kripton_operation_detail.state_toast.' + this.status.textToShow | translate }}
+          >{{
+            'fiat_ramps.kripton_operation_detail.state_toast.' + this.operationType + '.' + this.status.textToShow
+              | translate
+          }}
           <ion-text *ngIf="this.status.textToShow === 'incomplete'" class="ux-link-xs">{{
-            'fiat_ramps.kripton_operation_detail.state_toast.incomplete2' | translate
+            'fiat_ramps.kripton_operation_detail.state_toast.' + this.operationType + '.incomplete2' | translate
           }}</ion-text>
         </ion-text>
       </div>
@@ -25,8 +28,9 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
 })
 export class OperationStatusAlertComponent implements OnInit {
   @Input() operationStatus: string;
+  @Input() operationType: string;
   status: OperationStatus;
-  @Output() goToPurchaseOrder: EventEmitter<any> = new EventEmitter<any>();
+  @Output() navigateBy: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {}
 
@@ -36,15 +40,17 @@ export class OperationStatusAlertComponent implements OnInit {
 
   alertAction() {
     if (this.status.textToShow === 'incomplete') {
-      this.navigateToPurchaseOrder();
+      this.navigate();
     }
   }
 
   setState() {
-    this.status = OPERATION_STATUS.find((s) => s.name === this.operationStatus);
+    this.status = OPERATION_STATUS.find((statuses) => statuses.type === this.operationType).statuses.find(
+      (status) => status.name === this.operationStatus
+    );
   }
 
-  navigateToPurchaseOrder(): void{
-    this.goToPurchaseOrder.emit();
+  navigate(): void {
+    this.navigateBy.emit();
   }
 }

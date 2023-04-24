@@ -11,4 +11,7 @@ describe('FakeEthersProviders', () => {
       expect(await new FakeEthersProvider().getTransaction(aHash)).toBeTruthy();
     });
 
+    it('getTransactionReceipt', async () => {
+      expect(await new FakeEthersProvider().getTransactionReceipt(aHash)).toBeTruthy();
+    });
   });
