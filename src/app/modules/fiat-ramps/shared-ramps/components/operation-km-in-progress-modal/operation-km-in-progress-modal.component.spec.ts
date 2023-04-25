@@ -33,9 +33,9 @@ describe('OperationKmInProgressModalComponent', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
-  let linksSpy: jasmine.SpyObj<any>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let fakeActivatedRoute: FakeActivatedRoute;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(waitForAsync(() => {
     fakeActivatedRoute = new FakeActivatedRoute();
@@ -44,7 +44,7 @@ describe('OperationKmInProgressModalComponent', () => {
     navControllerSpy = fakeNavController.createSpy();
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
-    
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) }) 
     browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
 
     TestBed.configureTestingModule({
@@ -56,8 +56,9 @@ describe('OperationKmInProgressModalComponent', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy},
         { provide: BrowserService, useValue: browserServiceSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }],
-        
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: TrackService, useValue: trackServiceSpy}
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OperationKmInProgressModalComponent);
@@ -92,5 +93,12 @@ describe('OperationKmInProgressModalComponent', () => {
     fixture.detectChanges();
     expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://kriptonmarket.com' });
+  });
+
+  it('should track screenview event on init if it has data to track', () => {
+    component.data.hasToTrackScreenview = true
+    component.data.screenviewEventLabel = 'test'
+    component.ngOnInit();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

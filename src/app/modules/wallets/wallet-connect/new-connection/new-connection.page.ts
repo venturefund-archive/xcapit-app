@@ -16,6 +16,8 @@ import { BlockchainsFactory } from '../../../swaps/shared-swaps/models/blockchai
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { NullWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/null/null-wc-uri';
+import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 
 @Component({
   selector: 'app-new-connection',
@@ -134,8 +136,6 @@ export class NewConnectionPage {
   public connected = false;
   public selectedWallet: WCWallet;
   public address: string;
-  public activeChainId = 1;
-  public dappInfo: boolean;
   public walletsList: WCWallet[] = [];
   public isNative: boolean;
   public providers: IProviderData[] = [];
@@ -185,6 +185,7 @@ export class NewConnectionPage {
 
   private async uriSubscription() {
     this.form.patchValue({ uri: this.wcService.uri()?.value() });
+    this.form.controls.uri.setErrors(null);
   }
 
   private async getSupportedWallets() {
@@ -254,6 +255,7 @@ export class NewConnectionPage {
 
   cleanForm() {
     this.walletConnectService.setUri('');
+    this.wcService.set(new NullWCUri());
     this.form.patchValue({ wallet: null, uri: '' });
   }
 
@@ -276,7 +278,7 @@ export class NewConnectionPage {
   }
 
   private async initWalletConnect() {
-    this.wcService.initialize(this.form.value.uri);
+    this.wcService.set(new DefaultWCUri(this.form.value.uri));
     if (this.wcService.uri().isV2() && this.remoteConfig.getFeatureFlag('ff_walletConnectV2')) {
       this.initWalletConnectV2();
     } else if (!this.wcService.uri().isV2()) {
@@ -295,7 +297,7 @@ export class NewConnectionPage {
       this.form.patchValue({ wallet: null, uri: '' });
     } catch (error) {
       await this.showAlertOnConnectionError();
-    } 
+    }
   }
 
   public async legacyInit(): Promise<void> {

@@ -381,23 +381,31 @@ export class KriptonOperationDetailPage {
 
   async setDataToShow() {
     if (this.isCashIn) {
-      this.imgRoute = this.token.logoRoute;
-      this.conversionRate = this.operation.amount_in / this.operation.amount_out;
-    } else {
-      this.imgRoute = this.country.flagRoute();
-      this.conversionRate = this.operation.amount_out / this.operation.amount_in;
-      this.blockchain = this.blockchains.create().oneByName(this.token.network);
-      this.bankAccount = await this.userBank();
-      if (this.status.textToShow !== 'incomplete' && this.operation.tx_hash) {
-        const transactionReceipt: TransactionReceipt = await new TransactionReceiptOf(
-          this.operation.tx_hash,
-          this.jsonRpcProviderInjectable.create(this.blockchain.rpc())
-        ).value();
-        this.transactionFee = transactionReceipt.gasUsed.mul(transactionReceipt.effectiveGasPrice).toNumber();
-      } else if (this.status.textToShow === 'incomplete') {
-        this.estimatedFee = await this._fee();
-      }
+      this.setCashInData();
+    } else if (!this.isCashIn && this.status.textToShow !== 'incomplete' && this.operation.tx_hash) {
+      this.setCashOutData();
+      await this.setCashOutData();
+      const transactionReceipt: TransactionReceipt = await new TransactionReceiptOf(
+        this.operation.tx_hash,
+        this.jsonRpcProviderInjectable.create(this.blockchain.rpc())
+      ).value();
+      this.transactionFee = transactionReceipt.gasUsed.mul(transactionReceipt.effectiveGasPrice).toNumber();
+    } else if (!this.isCashIn && this.status.textToShow === 'incomplete') {
+      await this.setCashOutData();
+      this.estimatedFee = await this._fee();
     }
+  }
+
+  setCashInData() {
+    this.imgRoute = this.token.logoRoute;
+    this.conversionRate = this.operation.amount_in / this.operation.amount_out;
+  }
+
+  async setCashOutData() {
+    this.imgRoute = this.country.flagRoute();
+    this.conversionRate = this.operation.amount_out / this.operation.amount_in;
+    this.blockchain = this.blockchains.create().oneByName(this.token.network);
+    this.bankAccount = await this.userBank();
   }
 
   async userBank() {

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-sign-request',
@@ -15,25 +16,24 @@ import { Component, Input, OnInit } from '@angular/core';
         <span>{{ this.dateInfo.time }} H</span>
       </div>
     </div>
-    
+
     <div class="src__sign_request">
       <ion-label>
         {{ 'wallets.wallet_connect.operation_detail.sign_message' | translate }}
       </ion-label>
 
-      <div class="src__sign_request__message_container" id="message">
-        {{ this.message }}
-      </div>
+      <div class="src__sign_request__message_container" id="message"></div>
     </div>
   `,
   styleUrls: ['./sign-request.component.scss'],
 })
 export class SignRequestComponent implements OnInit {
-  @Input() message: any;
+  @Input() message: HTMLElement;
   @Input() dateInfo: any;
 
-  constructor() { }
+  constructor(@Inject(DOCUMENT) private document: Document) {}
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    this.document.getElementById('message').appendChild(this.message);
+  }
 }

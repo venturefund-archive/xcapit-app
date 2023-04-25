@@ -14,17 +14,19 @@ describe('UserRegisterStepCardComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserRegisterStepCardComponent>;
+  let fakeData: any;
 
-  const fakeData = {
-    order: '1',
-    title: 'fakeTitle',
-    subtitle: 'fakeSubtitle',
-    url: 'fakeUrl',
-    name: 'ux_buy_kripton_details',
-    disabled: false,
-    completed: false,
-  };
   beforeEach(waitForAsync(() => {
+    fakeData = {
+      action: true,
+      order: '1',
+      title: 'fakeTitle',
+      subtitle: 'fakeSubtitle',
+      url: 'fakeUrl',
+      name: 'ux_buy_kripton_details',
+      disabled: false,
+      completed: false,
+    };
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
@@ -59,13 +61,21 @@ describe('UserRegisterStepCardComponent', () => {
     expect(iconEl.attributes['ng-reflect-name']).toContain('chevron-forward-outline');
   });
 
-  it('should navigate if item is not disabled and was clicked', () => {
-    component.step.disabled = false;
+  it('should navigate if item is not completed, have url and was clicked', () => {
+    const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
+
+    itemEl.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(fakeData.url);
+  });
+
+  it('should emit an event if it is not complete, has no url but has the action variable set to true and was clicked', () => {
+    component.step.url = null
+    const spy = spyOn(component.cardClicked, 'emit');
     const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
 
     itemEl.nativeElement.click();
 
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(fakeData.url);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent if item is not disabled and was clicked', () => {

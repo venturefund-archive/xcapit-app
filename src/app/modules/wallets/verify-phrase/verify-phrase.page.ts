@@ -38,7 +38,7 @@ import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wa
                   <ion-button
                     class="input-word ux-font-text-xxs"
                     [id]="i"
-                    [ngClass]="{ active: word.value}"
+                    [ngClass]="{ active: word.value }"
                     size="small"
                     name="Remove Word"
                     fill="clear"
@@ -194,8 +194,8 @@ export class VerifyPhrasePage implements OnInit {
     }
   }
 
-  checkAllWordsSelected(){
-    return this.verificationPhrase.length === 3
+  checkAllWordsSelected() {
+    return this.verificationPhrase.length === 3;
   }
 
   verifyWallet() {
@@ -212,8 +212,8 @@ export class VerifyPhrasePage implements OnInit {
     }
   }
 
-  navigateToPage(){
-    return this.navController.navigateForward(['/tabs/wallets'])
+  navigateToPage() {
+    return this.navController.navigateForward('/wallets/success-creation');
   }
 
   getActiveIndex() {
@@ -224,7 +224,7 @@ export class VerifyPhrasePage implements OnInit {
     this.walletMnemonicService.clearMnemonic();
   }
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.clearMnemonic();
   }
 }

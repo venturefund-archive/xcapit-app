@@ -10,7 +10,7 @@ import { UserBankDataService } from '../shared-ramps/services/user-bank-data/use
   template: `<ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref=""></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.cash_out.header' | translate }}

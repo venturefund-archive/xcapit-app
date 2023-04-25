@@ -4,7 +4,7 @@ import { Referral } from "../../referral/referral";
 import { Slippage } from "../../slippage/slippage";
 import { Swap } from "../../swap/swap";
 import { Wallet } from "../../wallet/wallet";
-import { SwapTransactions } from "../swpa-transactions";
+import { SwapTransactions } from "../swap-transactions";
 
 
 @Injectable({ providedIn: 'root' })

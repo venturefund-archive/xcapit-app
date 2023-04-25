@@ -1,9 +1,7 @@
 :host {
-  .item-disabled {
-    opacity: 10 !important;
-  }
-
   .ursc {
+    margin-top: 15px;
+
     &.greenBorder {
       --border-color: var(--ion-color-success);
     }

@@ -54,6 +54,10 @@ const routes: Routes = [
             (m) => m.SecurityConfigurationPageModule
           ),
       },
+      {
+        path: 'backup',
+        loadChildren: () => import('./backup/backup.module').then((m) => m.BackupPageModule),
+      },
     ],
   },
 ];

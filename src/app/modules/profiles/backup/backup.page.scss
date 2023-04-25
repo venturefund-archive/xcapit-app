@@ -1,0 +1,27 @@
+:host {
+  ion-content {
+    --background: var(--ion-color-background);
+  }
+
+  .b {
+    &__title {
+      margin-bottom: 10px;
+    }
+
+    &__item {
+      ion-item {
+        --background: var(--ion-color-background);
+      }
+
+      &__toggle {
+        &__labels {
+          margin-right: 6px;
+        }
+
+        .toggle {
+          --background-checked: var(--ion-color-info);
+        }
+      }
+    }
+  }
+}

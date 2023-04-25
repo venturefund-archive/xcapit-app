@@ -37,10 +37,11 @@ import {
   rawWalletConnectUriV1,
   rawWalletConnectUriV2,
 } from './modules/wallets/shared-wallets/fixtures/raw-wallet-connect-uri';
-import { WCUri } from './shared/models/wallet-connect/wc-uri/WCUri';
+import { DefaultWCUri } from './shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { WCConnectionV2 } from './modules/wallets/shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from './modules/wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
+import { GoogleAuthService } from './shared/services/google-auth/google-auth.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -79,6 +80,7 @@ describe('AppComponent', () => {
   let walletConnectV2Spy: jasmine.SpyObj<WCConnectionV2>;
   let wcServiceSpy: jasmine.SpyObj<WCService>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
+  let googleAuthServiceSpy: jasmine.SpyObj<GoogleAuthService>
 
   const tapBrowserInApp = {
     actionId: 'tap',
@@ -99,6 +101,7 @@ describe('AppComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    googleAuthServiceSpy= jasmine.createSpyObj('googleAuthSpy',{init: Promise.resolve()})
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
     submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
     trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
@@ -190,8 +193,8 @@ describe('AppComponent', () => {
     });
 
     wcServiceSpy = jasmine.createSpyObj('WCService', {
-      initialize: null,
-      uri: new WCUri(rawWalletConnectUriV1),
+      set: null,
+      uri: new DefaultWCUri(rawWalletConnectUriV1),
     });
 
     remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
@@ -228,6 +231,7 @@ describe('AppComponent', () => {
         { provide: WCConnectionV2, useValue: walletConnectV2Spy },
         { provide: WCService, useValue: wcServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+        {provide: GoogleAuthService, useValue: googleAuthServiceSpy}
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
@@ -244,6 +248,7 @@ describe('AppComponent', () => {
   it('should set up app on init', async () => {
     component.ngOnInit();
     await fixture.whenStable();
+    expect(googleAuthServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
     expect(updateServiceSpy.checkForUpdate).toHaveBeenCalledTimes(1);
     expect(trackServiceSpy.startTracker).toHaveBeenCalledTimes(1);
@@ -357,7 +362,7 @@ describe('AppComponent', () => {
     component.ngOnInit();
     tick();
 
-    expect(wcServiceSpy.initialize).toHaveBeenCalledTimes(1);
+    expect(wcServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(walletConnectServiceSpy.checkDeeplinkUrl).toHaveBeenCalledTimes(1);
   }));
 
@@ -367,12 +372,12 @@ describe('AppComponent', () => {
       callback({ url: rawWalletConnectUriV2 });
     });
     capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
-    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV2));
+    wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV2));
 
     component.ngOnInit();
     tick();
 
-    expect(wcServiceSpy.initialize).toHaveBeenCalledTimes(1);
+    expect(wcServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/wallet-connect/new-connection']);
     expect(walletConnectV2Spy.subscribeToAllEvents).toHaveBeenCalledTimes(1);
   }));
@@ -384,12 +389,12 @@ describe('AppComponent', () => {
       callback({ url: rawWalletConnectUriV2 });
     });
     capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
-    wcServiceSpy.uri.and.returnValue(new WCUri(rawWalletConnectUriV2));
+    wcServiceSpy.uri.and.returnValue(new DefaultWCUri(rawWalletConnectUriV2));
 
     component.ngOnInit();
     tick();
 
-    expect(wcServiceSpy.initialize).toHaveBeenCalledTimes(1);
+    expect(wcServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalledOnceWith(['wallets/wallet-connect/new-connection']);
     expect(walletConnectV2Spy.subscribeToAllEvents).not.toHaveBeenCalled();
   }));

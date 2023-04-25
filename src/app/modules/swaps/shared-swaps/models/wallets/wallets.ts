@@ -1,5 +1,5 @@
 import { Blockchain, IBlockchain } from '../blockchain/blockchain';
-import { Wallet, DefaultWallet, SolanaWallet } from '../wallet/wallet';
+import { Wallet } from '../wallet/wallet';
 import { Wallet as EthersWallet, ethers } from 'ethers';
 import { DataRepo } from '../wallet-repo/data-repo.interface';
 import { Password } from '../password/password';
@@ -9,6 +9,8 @@ import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-metho
 import { BlockchainMM } from '../blockchain-mm/blockchain-mm';
 import { MnemonicOf } from 'src/app/modules/wallets/shared-wallets/models/mnemonic-of/mnemonic-of';
 import { SimpleSubject, Subscribable } from 'src/app/shared/models/simple-subject/simple-subject';
+import { DefaultWallet } from '../wallet/default/default-wallet';
+import { SolanaWallet } from '../wallet/solana/solana-wallet';
 
 export class Wallets {
   private _onUpgraded: SimpleSubject = new SimpleSubject();

@@ -78,6 +78,14 @@ export const ITEM_MENU: MenuCategory[] = [
         buttonName: 'ux_go_to_phrase',
       },
       {
+        name: 'GoogleDriveBackup',
+        text: 'profiles.user_profile_menu.google_drive_backup',
+        route: '/profiles/backup',
+        type: 'link',
+        buttonName: 'ux_go_to_gdrivebkup',
+        newBadge: true,
+      },
+      {
         name: 'PrivateKey',
         text: 'profiles.user_profile_menu.export_private_key',
         route: '/wallets/export-private-key',

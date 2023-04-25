@@ -3,7 +3,7 @@ import { Referral } from "../referral/referral";
 import { Slippage } from "../slippage/slippage";
 import { Swap } from "../swap/swap";
 import { Token } from "../token/token";
-import { DefaultWallet } from "../wallet/wallet";
+import { DefaultWallet } from '../wallet/default/default-wallet';
 
 
 export class FakeOneInch implements Dex {

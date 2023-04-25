@@ -676,6 +676,7 @@
       "security_phrase": "Frase de seguridad",
       "category_preferences": "Preferencias",
       "security_configuration": "Configuración",
+      "google_drive_backup": "Copia de seguridad Google Drive",
       "push_notifications": "Notificaciones push",
       "language": "Idioma",
       "logout": "Cerrar Sesión",
@@ -779,6 +780,11 @@
         "title": "Contraseña",
         "button": "Cambiar"
       }
+    },
+    "backup": {
+      "header": "Copia de seguridad",
+      "title": "Copia de seguridad en Google Drive",
+      "toggle_text": "Crea una copia de seguridad encriptada de tu wallet para poder restaurarla cuando la necesites."
     },
     "shared": {
       "remove_account_modal": {
@@ -1701,6 +1707,20 @@
     }
   },
   "wallets": {
+    "wallet_imports": {
+      "header": "Importar wallet",
+      "title": "Importá tu wallet",
+      "subtitle": "Seleccioná el método que deseas utilizar para importar tu wallet.",
+      "support": "¿Qué método debo elegir?",
+      "key": {
+        "title": "Importar con la frase de recuperación",
+        "subtitle": "Utilizá tu frase de recuperación de Xcapit u otra cripto wallet. "
+      },
+      "cloud": {
+        "title": "Importar copia desde Google Drive",
+        "subtitle": "Restaurá tu wallet usando esta opción si previamente realizaste un backup."
+      }
+    },
     "receive_select_currency": {
       "header": "Recibir",
       "title": "Selecciona la moneda que quieres recibir"
@@ -1869,12 +1889,20 @@
     },
     "success_creation": {
       "title": "¡Felicitaciones!\nCreaste tu wallet",
-      "subtitle": "Protégela haciendo una copia de seguridad de tu frase de recuperación.\nEsta es la llave maestra de tus fondos.",
+      "title1": "¡Felicitaciones!\nProtegiste tu wallet",
+      "subtitle": "Protégela haciendo una copia de seguridad de tu frase de recuperación.",
+      "subtitle1": "¡Un último paso! Crea una copia de seguridad encriptada de tu wallet en Google Drive.",
       "success_button": "Ir a wallet",
       "ribbon_recommended": "Recomendado",
-      "primary_action": {
-        "title": "Proteger mi wallet",
-        "subtitle": "Hazlo ahora y no pierdas el acceso a tu dinero. Sólo tomará unos minutos."
+      "backup_options": {
+        "option_1": {
+          "title": "Proteger mi wallet",
+          "subtitle": "Hazlo ahora y no pierdas el acceso a tu dinero. Sólo tomará unos minutos."
+        },
+        "option_2": {
+          "title": "Backup en Google Drive",
+          "subtitle": "No pierdas tu wallet, guardá una copia encriptada. Sólo tomará unos minutos."
+        }
       },
       "secondary_action": {
         "title": "En otro momento"
@@ -2458,6 +2486,17 @@
       "text_badge": "En progreso",
       "text_tertiary": "¿Necesitas ayuda?",
       "text_help_link": "Escribir a soporte Kripton Market"
+    },
+    "operation_km_cashout": {
+      "text_secondary": "Te estaremos informando sobre cambios en el estado de tu venta.",
+      "button_text": "Finalizar",
+      "text_title": "Venta",
+      "text_badge": "Enviada"
+    },
+    "operation_km_cashout_error": {
+      "text_primary": "Error en la transacción",
+      "text_secondary": "Se produjo un error en el proceso.",
+      "button_secondary": "Volver a mis compras - ventas"
     },
     "error_operation_km": {
       "text_primary": "Error en la carga del comprobante",
@@ -3286,7 +3325,7 @@
       "question3": "¿Por qué usar la wallet de Xcapit?",
       "answer3": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Acceso al intercambio de tus NFTs favoritos.</li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
       "question4": "¿Cómo importar una wallet?",
-      "answer4": "<b>1.</b> Dentro de la app, Se accede a la opción: “Importar wallet”.<br><b>2.</b> Ingresar las 12 palabras de la wallet que se desea importar.<br><b>3.</b> Seleccionar los tokens a visualizar.<br><b>4.</b> Crear nueva contraseña para la firma de transacciones con la nueva wallet.",
+      "answer4": "<b>1.</b> Dentro de la app, Se accede a la opción: “Importar wallet” desde dos pantallas, desde el onboarding inicial o inmediatamente después de haber eliminado una wallet, desde la pantalla de éxito de dicha eliminación.<br><br><b>2.</b> La importación nos presenta dos métodos:<br><br><b>a.</b> Importación por frase semilla: Ingresando las 12 palabras de la wallet que se desea importar, obtenidas al momento de creación de una wallet. En este caso, se deberá volver a crear nueva contraseña para la firma de transacciones con la nueva wallet.<br><br><b>b.</b> Para importar, utilizaré el backup en mi cuenta de Google Drive. Necesitaré verificar que haya un backup asociado con mi correo electrónico e ingresar la contraseña de mi billetera para desencriptar el archivo oculto en mis documentos de Google Drive. Es importante tener en cuenta que Xcapit no guarda la contraseña y el archivo de backup permanecerá oculto en Google Drive para evitar vulnerabilidades. La desencriptación tarda alrededor de 10 segundos con conexión a Internet.<br><br><b>3.</b> Seleccionar los tokens a visualizar.",
       "question5": "¿Qué es la “ruta de derivación” de la frase semilla (en inglés = ”Derivation path”)?",
       "answer5": "Es el formato que utilizó la wallet con la que creaste tu wallet para generar tus address a partir de tu frase semilla. Si deseas migrar tus llaves privadas de una wallet a otra, es importante que verifiques cómo fueron creadas las mismas (ruta de derivación). Y utilices el mismo formato, de esta manera importarás las mismas address. Caso contrario, crearás una nueva address, resultando en dos o más address distintas. <br> Para info más técnica podrías usar este <a class='ux-link-xs' href='https://ethereum.stackexchange.com/questions/70017/can-someone-explain-the-meaning-of-derivation-path-in-wallet-in-plain-english-s'>link</a>",
       "question6": "¿Qué es la frase de recuperación?",

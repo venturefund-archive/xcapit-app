@@ -40,7 +40,6 @@ import {
   rawTokensData,
   rawUSDTData,
 } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
-import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
 import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
@@ -55,7 +54,7 @@ import { FakePrices } from '../../shared-wallets/models/prices/fake-prices/fake-
 import { solanaAddress1 } from '../../shared-wallets/fixtures/raw-address-data';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
 import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-connection';
-import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 
 describe('SendDetailPage', () => {
