@@ -2158,7 +2158,7 @@
       },
       "skip_backup_modal": {
         "title": "Skip backup?",
-        "description": "I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
+        "description": "I understand that if I do not make a backup, I could lose access to my funds.",
         "button_back": "Back",
         "button_skip": "Skip"
       },
