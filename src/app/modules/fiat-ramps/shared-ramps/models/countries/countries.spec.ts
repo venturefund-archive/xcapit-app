@@ -23,4 +23,8 @@ describe('Countries', () => {
   it('findByName', () => {
     expect(countries.findByName(rawCountry.name).name()).toEqual(rawCountry.name);
   });
+
+  it('findByCurrencyCode', () => {
+    expect(countries.findByCurrencyCode(rawCountry.iso4217CurrencyCode).name()).toEqual(rawCountry.name);
+  });
 });

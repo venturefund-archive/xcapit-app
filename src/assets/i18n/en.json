@@ -2643,18 +2643,34 @@
     "operation_status_detail": {
       "title": "What does this status mean?",
       "button": "Understood",
-      "incomplete": {
-        "description": "Your purchase request has been successfully received by the provider. <b>This does not mean that the purchase has been made.</b> To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
-        "description2": "You have up to 72 hours to do so, otherwise your order will be cancelled."
+      "cash-in": {
+        "incomplete": {
+          "description": "Your purchase request has been successfully received by the provider. <b>This does not mean that the purchase has been made.</b> To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
+          "description2": "You have up to 72 hours to do so, otherwise your order will be cancelled."
+        },
+        "in_progress": {
+          "description": "The provider successfully received your purchase request. Within 24 hours you will see the tokens credited to your wallet."
+        },
+        "nullified": {
+          "description": "The provider had problems with this transaction, so the transaction was cancelled. Your funds will be returned to your original account."
+        },
+        "cancelled": {
+          "description": "Your order can be cancelled for two reasons: the provider did not receive the transfer receipt. Or the user did not make the payment within the 72hs stipulated from the purchase request."
+        }
       },
-      "in_progress": {
-        "description": "The provider successfully received your purchase request. Within 24 hours you will see the tokens credited to your wallet."
-      },
-      "nullified": {
-        "description": "The provider had problems with this transaction, so the transaction was cancelled. Your funds will be returned to your original account."
-      },
-      "cancelled": {
-        "description": "Your order can be cancelled for two reasons: the provider did not receive the transfer receipt. Or the user did not make the payment within the 72hs stipulated from the purchase request."
+      "cash-out": {
+        "incomplete": {
+          "description": "Your order was successfully created, your tokens are pending to be sent to the provider."
+        },
+        "in_progress": {
+          "description": "Your operation was approved. It may take up to 72 hours to be impacted."
+        },
+        "confirmed": {
+          "description": "Your transaction was successfully credited. You should already see it impact your account."
+        },
+        "cancelled": {
+          "description": "The provider cancelled the transaction. Please try again or contact support."
+        }
       }
     },
     "new_operation": {
@@ -2964,10 +2980,16 @@
       "title": "Buy",
       "state": "Status",
       "state_toast": {
-        "incomplete": "Transfer and send the transaction receipt.",
-        "incomplete2": "Complete data",
-        "nullified": "The provider cancelled this operation. For more information, please contact support.",
-        "cancelled": "The provider did not receive proof of payment."
+        "cash-in": {
+          "incomplete": "Transfer and send the transaction receipt.",
+          "incomplete2": "Complete data",
+          "nullified": "The provider cancelled this operation. For more information, please contact support.",
+          "cancelled": "The provider did not receive proof of payment."
+        },
+        "cash-out": {
+          "incomplete": "Transfer your tokens to the provider.",
+          "incomplete2": "Retry"
+        }
       },
       "scan_link": "View in",
       "scans": {
@@ -2979,7 +3001,10 @@
       },
       "quotation": "Quotation",
       "fee": "Transaction fee",
+      "estimated_fee": "Estimated transaction fee",
+      "provider_fee": "Provider fee",
       "address": "Destination address (your wallet)",
+      "bank_account": "Destination bank account",
       "provider": "Provider",
       "operation": "Operation",
       "date": "Date",

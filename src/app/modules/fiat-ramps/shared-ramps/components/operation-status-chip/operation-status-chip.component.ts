@@ -15,10 +15,13 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
 })
 export class OperationStatusChipComponent implements OnInit {
   @Input() statusName: string;
+  @Input() operationType: string;
   status: OperationStatus;
   constructor() {}
 
   ngOnInit() {
-    this.status = OPERATION_STATUS.find((s) => s.name === this.statusName);
+    this.status = OPERATION_STATUS.find((statuses) => statuses.type === this.operationType).statuses.find(
+      (status) => status.name === this.statusName
+    );
   }
 }

@@ -7,7 +7,6 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
 import { DefaultToken, Token } from '../../swaps/shared-swaps/models/token/token';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
-import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -54,12 +53,12 @@ import { SuccessContentComponent } from 'src/app/shared/components/success-conte
           <div class="kss__card-container__card__coin-content">
             <app-coin-content-item
               *ngIf="this.country"
-              [flagRoute]="this.flagRoute"
-              [fiatCurrency]="this.data.currency_out"
+              [imgRoute]="this.flagRoute"
+              [currencyOut]="this.data.currency_out"
               [network]="this.data.network"
               [amount]="this.data.amount_out"
               [quoteAmount]="this.data.amount_in"
-              [token]="this.data.currency_in"
+              [currencyIn]="this.data.currency_in"
             ></app-coin-content-item>
           </div>
           <div class="list-divider"></div>

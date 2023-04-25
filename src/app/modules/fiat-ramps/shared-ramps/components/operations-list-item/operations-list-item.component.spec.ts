@@ -139,7 +139,7 @@ describe('OperationsListItemComponent', () => {
 
   it('should get status on ngOnInit', () => {
     component.operation = cashIn;
-    expect(component.status).toEqual(OPERATION_STATUS[0]);
+    expect(component.status).toEqual(OPERATION_STATUS[0].statuses[0]);
   });
 
   it('should show highlight incomplete operations', () => {

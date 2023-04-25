@@ -77,11 +77,7 @@ export class OperationsListAccordionComponent implements OnInit {
   }
 
   toggleAccordion() {
-    if (this.isAccordionOpen) {
-      this.closeAccordion();
-    } else {
-      this.openAccordion();
-    }
+    this.isAccordionOpen ? this.closeAccordion() : this.openAccordion();
   }
 
   private openAccordion() {
