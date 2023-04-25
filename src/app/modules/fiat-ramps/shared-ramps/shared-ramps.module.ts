@@ -11,7 +11,6 @@ import { InfoProviderComponent } from './components/info-provider/info-provider.
 import { CoinSelectorModalComponent } from './components/coin-selector-modal/coin-selector-modal.component';
 import { SkipTransactionVoucherComponent } from './components/skip-transaction-voucher/skip-transaction-voucher.component';
 import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-modal.component';
-import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
 import { InfoProviderKriptonComponent } from './components/info-provider-kripton/info-provider-kripton.component';
 import { InfoProviderMoonpayComponent } from './components/info-provider-moonpay/info-provider-moonpay.component';
 import { ValidationContentComponent } from './components/validation-content/validation-content.component';
