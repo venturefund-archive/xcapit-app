@@ -1911,7 +1911,7 @@
         "button_text": "Confirmar copia de seguridad"
       },
       "backup_succes_modal": {
-        "title": "!Felicitaciones!",
+        "title": "¡Felicitaciones!",
         "description": "Creaste una copia de seguridad de tu wallet exitosamente.",
         "button_text": "Ir a mi wallet"
       },
