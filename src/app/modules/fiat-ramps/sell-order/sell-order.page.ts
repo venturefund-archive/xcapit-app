@@ -122,6 +122,8 @@ import { UserBankDataService } from '../shared-ramps/services/user-bank-data/use
           name="ux_sell_amount_continue"
           color="secondary"
           expand="block"
+          [appLoading]="this.isLoading"
+          [loadingText]="'fiat_ramps.cash_out.loading' | translate"
           (click)="this.handleSubmit()"
           [disabled]="!this.form.valid"
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
@@ -156,7 +158,7 @@ export class SellOrderPage {
   minimumCryptoAmount: number;
   blockchain: Blockchain;
   paymentMethodId: number;
-
+  isLoading: boolean;
   constructor(
     private fiatRampsService: FiatRampsService,
     private storageOperationService: StorageOperationService,
@@ -416,7 +418,8 @@ export class SellOrderPage {
   }
 
   async handleSubmit() {
-    if (this.form.valid) {
+    if (this.form.valid && !this.isLoading) {
+      this.isLoading = true;
       await this.setOperationStorage();
       const email = await this.kriptonStorageService.get('email');
       const auth_token = await this.kriptonStorageService.get('access_token');
@@ -424,7 +427,7 @@ export class SellOrderPage {
       const userBankData = Object.assign({ email, auth_token }, this.userBankDataService.userBankData);
       await this.createUserBank(userBankData)
         .then(async ({ id }) => {
-          this.paymentMethodId = id
+          this.paymentMethodId = id;
           const operationData = Object.assign(
             { email, auth_token, payment_method_id: id },
             this.storageOperationService.getData()
@@ -435,11 +438,18 @@ export class SellOrderPage {
         })
         .then((operationResponse) => {
           const newData = Object.assign(
-            { operation_id: operationResponse.id, created_at: operationResponse.created_at, payment_method_id: this.paymentMethodId },
+            {
+              operation_id: operationResponse.id,
+              created_at: operationResponse.created_at,
+              payment_method_id: this.paymentMethodId,
+            },
             this.storageOperationService.getData()
           );
           this.storageOperationService.updateData(newData);
           this.navController.navigateRoot('fiat-ramps/kripton-summary');
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     }
   }
