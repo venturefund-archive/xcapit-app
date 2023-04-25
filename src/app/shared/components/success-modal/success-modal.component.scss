@@ -1,0 +1,52 @@
+:host {
+  .modal-content {
+    height: 100%;
+  }
+
+  .main {
+    &__close_button {
+      display: flex;
+      justify-content: flex-end;
+
+      ion-button {
+        height: inherit;
+        margin: 0;
+        padding-right: 10px;
+        padding-top: 10px;
+      }
+
+      &__icon {
+        align-items: flex-end;
+        color: var(--ion-color-primary);
+      }
+    }
+
+    &__body {
+      &__content {
+        text-align: center;
+
+        &__img {
+          margin-top: 60px;
+        }
+
+        &__title {
+          margin: 16px 8px 10px;
+        }
+
+        &__description {
+          padding: 0 10px;
+          color: var(--ion-color-primary) !important;
+        }
+      }
+    }
+
+    &__actions {
+      width: 100%;
+      padding: 24px 10px 10px;
+
+      ion-button {
+        width: inherit;
+      }
+    }
+  }
+}

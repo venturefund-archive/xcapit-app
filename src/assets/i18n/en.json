@@ -1905,6 +1905,7 @@
       "subtitle1": "One last step! Create an encrypted backup of your wallet in Google Drive.",
       "success_button": "Go to wallet",
       "ribbon_recommended": "Suggested",
+      "finish_button": "Finish",
       "backup_options": {
         "option_1": {
           "title": "Protect my wallet",
@@ -1914,6 +1915,16 @@
           "title": "Backup to Google Drive",
           "subtitle": "Don't lose your wallet, save an encrypted copy. It will only take a few minutes."
         }
+      },
+      "password_modal": {
+        "title": "For security",
+        "description": "To continue, please enter your Xcapit wallet password. Do not forget it. It cannot be retrieved!",
+        "button_text": "Confirm backup"
+      },
+      "backup_succes_modal": {
+        "title": "!Congratulations!",
+        "description": "You have successfully created a backup of your wallet.",
+        "button_text": "Go to my wallet"
       },
       "secondary_action": {
         "title": "Another time"

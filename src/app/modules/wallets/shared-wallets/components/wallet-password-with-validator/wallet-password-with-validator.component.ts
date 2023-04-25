@@ -21,7 +21,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
     <div class="wp">
       <div class="wp__header">
         <ion-text class="ux-font-text-lg wp__header__text" color="neutral90">
-          {{ 'wallets.shared_wallets.wallet_password.title' | translate }}
+          {{ this.title | translate }}
         </ion-text>
         <ion-button
           appTrackClick
@@ -36,7 +36,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       </div>
       <div class="wp__description">
         <ion-text class="ux-font-text-base">
-          {{ 'wallets.shared_wallets.wallet_password.disclaimer' | translate }}
+          {{ this.description | translate }}
         </ion-text>
       </div>
       <form class="wp__form" [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
@@ -59,7 +59,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
             name="Confirm Password"
             type="submit"
             [disabled]="!this.form.valid"
-            >{{ 'wallets.shared_wallets.wallet_password.submit_button_text' | translate }}</ion-button
+            >{{ this.submitButtonText | translate }}</ion-button
           >
           <ion-button
             class="wp__form__buttons__use-biometric-button ux-link-xl"
@@ -83,7 +83,9 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
     password: ['', [Validators.required]],
   });
   readonly passwordErrors: ItemFormError[] = CONFIG.fieldErrors.oldPassword;
-
+  title = 'wallets.shared_wallets.wallet_password.title';
+  description = 'wallets.shared_wallets.wallet_password.disclaimer';
+  submitButtonText = 'wallets.shared_wallets.wallet_password.submit_button_text';
   trackClickEventName: string;
   biometricAuth: BiometricAuth;
   isBiometricEnabled = false;
