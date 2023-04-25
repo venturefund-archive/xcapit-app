@@ -2442,7 +2442,8 @@
     "cash_out": {
       "header": "Buy - Sell",
       "title": "Enter the account holder's information",
-      "disclaimer": "The account holder must be the same person who performed the registration or KYC process. Transfers to third parties are not allowed."
+      "disclaimer": "The account holder must be the same person who performed the registration or KYC process. Transfers to third parties are not allowed.",
+      "loading": "Creating order"
     },
     "operation_km_in_progress": {
       "text_primary": "Your order is on its way!",
