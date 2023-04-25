@@ -1,50 +1,50 @@
 import { TestBed } from '@angular/core/testing';
 import { CapacitorNotificationsService } from './capacitor-notifications.service';
-import { ApiDevicesService } from '../api-devices/api-devices.service';
-import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 describe('CapacitorNotificationsService', () => {
   let service: CapacitorNotificationsService;
   let pushNotificationsSpy: any;
-  let apiDevicesServiceMock: any;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
-
+  let firebaseCloudMessagingSpy: any;
   beforeEach(() => {
-    apiDevicesServiceMock = {};
-    pushNotificationsSpy = jasmine.createSpyObj('PushNotifications', ['requestPermissions', 'register', 'addListener']);
-    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
-      isNative: false,
+    pushNotificationsSpy = jasmine.createSpyObj('PushNotifications', {
+      addListener: null,
     });
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: ApiDevicesService, useValue: apiDevicesServiceMock },
-        { provide: PlatformService, useValue: platformServiceSpy },
-      ],
+    firebaseCloudMessagingSpy = jasmine.createSpyObj('FirebaseCloudMessaging', {
+      unsubscribeFrom: null,
+      subscribeTo: null,
     });
+    TestBed.configureTestingModule({});
   });
 
   beforeEach(() => {
     service = TestBed.inject(CapacitorNotificationsService);
     service.pushNotifications = pushNotificationsSpy;
+    service.firebaseCloudMessaging = firebaseCloudMessagingSpy;
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call register on init when permission granted', async () => {
-    pushNotificationsSpy.requestPermissions.and.returnValue(Promise.resolve({ receive: 'granted' }));
-    await service.init();
-    expect(pushNotificationsSpy.register).toHaveBeenCalledTimes(1);
+  it('should call push notifications listener on pushNotificationActionPerformed', () => {
+    const callbackSpy = jasmine.createSpy();
+    service.pushNotificationActionPerformed(callbackSpy);
+    expect(pushNotificationsSpy.addListener).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call register on init when permission is not granted', async () => {
-    pushNotificationsSpy.requestPermissions.and.returnValue(Promise.resolve({ receive: 'not granted' }));
-    await service.init();
-    expect(pushNotificationsSpy.register).not.toHaveBeenCalled();
+  it('should call push notifications listener on pushNotificationReceived', () => {
+    const callbackSpy = jasmine.createSpy('SomeFunction', () => {});
+    service.pushNotificationReceived(callbackSpy);
+    expect(pushNotificationsSpy.addListener).toHaveBeenCalledTimes(1);
   });
 
-  it('should add listeners when platform is not native', () => {
-    expect(pushNotificationsSpy.addListener).toHaveBeenCalledTimes(0);
+  it('should call firebase cloud messaging unsubscribeFrom method on unsubscribeFrom', () => {
+    service.unsubscribeFrom('aTopic');
+    expect(firebaseCloudMessagingSpy.unsubscribeFrom).toHaveBeenCalledOnceWith({ topic: 'aTopic' });
+  });
+
+  it('should call firebase cloud messaging subscribeTo method on unsubscribeFrom', () => {
+    service.subscribeTo('aTopic');
+    expect(firebaseCloudMessagingSpy.subscribeTo).toHaveBeenCalledOnceWith({ topic: 'aTopic' });
   });
 });

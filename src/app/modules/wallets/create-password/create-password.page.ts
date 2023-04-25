@@ -278,7 +278,6 @@ export class CreatePasswordPage implements OnInit {
   }
 
   async initializeNotifications() {
-    this.pushNotificationsService().init();
     if (await this.enabledPushNotifications()) {
       this.pushNotificationsService().subscribeTo(this._aTopic);
     } else {

@@ -72,7 +72,6 @@ describe('LoginPage', () => {
     });
 
     nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
-      'init',
       'subscribeTo',
       'unsubscribeFrom',
     ]);
@@ -123,8 +122,7 @@ describe('LoginPage', () => {
     component.loginUser({});
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
-    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
   }));
@@ -135,8 +133,7 @@ describe('LoginPage', () => {
     component.loginUser({});
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(3);
-    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
     expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);

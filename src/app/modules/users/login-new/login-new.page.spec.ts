@@ -66,7 +66,6 @@ describe('LoginNewPage', () => {
       create: fakeBiometricAuth,
     });
     nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
-      'init',
       'subscribeTo',
       'unsubscribeFrom',
     ]);
@@ -199,8 +198,7 @@ describe('LoginNewPage', () => {
     component.handleSubmit(false);
     fixture.detectChanges();
     tick();
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
-    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
   }));
 
@@ -211,8 +209,7 @@ describe('LoginNewPage', () => {
     component.handleSubmit(false);
     fixture.detectChanges();
     tick();
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(3);
-    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
   }));
