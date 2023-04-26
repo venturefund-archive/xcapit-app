@@ -92,7 +92,6 @@ describe('CreatePasswordPage', () => {
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   beforeEach(waitForAsync(() => {
     nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
-      'init',
       'subscribeTo',
       'unsubscribeFrom',
     ]);
@@ -209,8 +208,7 @@ describe('CreatePasswordPage', () => {
     component.handleSubmit();
     tick();
     fixture.detectChanges();
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
-    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
   }));
 
@@ -220,8 +218,7 @@ describe('CreatePasswordPage', () => {
     component.handleSubmit();
     tick();
     fixture.detectChanges();
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(3);
-    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
   }));
