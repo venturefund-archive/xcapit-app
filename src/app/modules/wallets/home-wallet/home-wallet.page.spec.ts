@@ -323,7 +323,7 @@ describe('HomeWalletPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Edit Tokens"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/select-coins', 'edit']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/select-coins', 'edit']);
   });
 
   it('should show 0.0 balance when no wallet nor cache is present', async () => {

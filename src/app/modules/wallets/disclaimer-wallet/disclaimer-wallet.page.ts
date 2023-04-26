@@ -131,7 +131,7 @@ export class DisclaimerWalletPage implements OnInit {
   }
   
   navigateByMode() {
-    const url = this.isImporting ? 'wallets/recovery' : 'wallets/create-password/create';
+    const url = this.isImporting ? 'wallets/wallet-imports' : 'wallets/create-password/create';
     this.navController.navigateForward([url]);
   }
 

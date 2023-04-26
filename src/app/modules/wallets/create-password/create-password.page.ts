@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
@@ -10,19 +10,11 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wallet-backup.service';
-import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { XAuthService } from '../../users/shared-users/services/x-auth/x-auth.service';
-import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
-import { Password } from '../../swaps/shared-swaps/models/password/password';
-import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
-import { ethers } from 'ethers';
-import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-import { AddressesToSave } from '../shared-wallets/models/addresses-to-save/addresses-to-save';
+import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
+import { Password } from '../../swaps/shared-swaps/models/password/password';
 
 @Component({
   selector: 'app-create-password',
@@ -95,10 +87,10 @@ import { AddressesToSave } from '../shared-wallets/models/addresses-to-save/addr
               }}</ion-text>
             </div>
             <div class="subtitle">
-              <ion-text class="ux-font-text-base" *ngIf="this.methohd === 'default'">{{
+              <ion-text class="ux-font-text-base" *ngIf="this.method === 'default'">{{
                 'wallets.create_password.default_derived_path' | translate
               }}</ion-text>
-              <ion-text class="ux-font-text-base" *ngIf="this.methohd !== 'default'">{{
+              <ion-text class="ux-font-text-base" *ngIf="this.method !== 'default'">{{
                 'wallets.create_password.blockchain_derived_path' | translate
               }}</ion-text>
             </div>
@@ -154,12 +146,10 @@ import { AddressesToSave } from '../shared-wallets/models/addresses-to-save/addr
   `,
   styleUrls: ['./create-password.page.scss'],
 })
-export class CreatePasswordPage implements OnInit {
-  private readonly _aTopic = 'app';
-  private readonly _aKey = 'enabledPushNotifications';
+export class CreatePasswordPage {
   mode: string;
   loading: boolean;
-  methohd: WalletCreationMethod;
+  method: WalletCreationMethod;
   createPasswordForm: UntypedFormGroup = this.formBuilder.group(
     {
       password: [
@@ -201,19 +191,14 @@ export class CreatePasswordPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private walletService: WalletService,
     private walletMnemonicService: WalletMnemonicService,
-    private ionicStorageService: IonicStorageService,
-    private walletBackupService: WalletBackupService,
-    private blockchains: BlockchainsFactory,
-    private xAuthService: XAuthService,
-    private notificationsService: NotificationsService,
-    private remoteConfig: RemoteConfigService
+    private remoteConfig: RemoteConfigService,
+    private walletInitializeProcess: WalletInitializeProcess
   ) {}
 
   ionViewWillEnter() {
-    this.methohd = this.walletEncryptionService.creationMethod;
+    this.method = this.walletEncryptionService.creationMethod;
     this.loadingService.enabled();
     this.mode = this.route.snapshot.paramMap.get('mode');
-    this.enablePushNotificationsByDefault();
     this.trackClickName = `ux_${this.mode}_edit`;
   }
 
@@ -224,20 +209,8 @@ export class CreatePasswordPage implements OnInit {
     }
   }
 
-  ngOnInit() {}
-
   private encryptWallet(): Promise<any> {
     return this.walletEncryptionService.encryptWallet(this.createPasswordForm.value.password);
-  }
-
-  private encryptedWallet(): Promise<any> {
-    return this.walletEncryptionService.getEncryptedWallet();
-  }
-
-  private async saveWallets(): Promise<void> {
-    return this.apiWalletService
-      .saveWalletAddresses(new AddressesToSave(await this.encryptedWallet()).toJson())
-      .toPromise();
   }
 
   async handleSubmit() {
@@ -245,68 +218,15 @@ export class CreatePasswordPage implements OnInit {
       this.loading = true;
       setTimeout(async () => {
         await this.encryptWallet();
-        await this.createXAuthToken();
-        await this.saveWallets();
-        await this.createLoginToken();
-        await this.loginUser();
-        await this.setWalletAsProtectedIfImporting();
-        await this.initializeNotifications();
+        await this.walletInitializeProcess.run(
+          new Password(this.createPasswordForm.value.password),
+          this.mode === 'import'
+        );
         this.loading = false;
         await this.navigateByMode();
       }, 0);
     } else {
       this.createPasswordForm.markAllAsTouched();
-    }
-  }
-
-  private async loginUser(): Promise<void> {
-    return new LoggedIn(this.ionicStorageService).save(true);
-  }
-
-  async enabledPushNotifications(): Promise<boolean> {
-    return await this.ionicStorageService.get(this._aKey).then((status) => status);
-  }
-
-  pushNotificationsService() {
-    return this.notificationsService.getInstance();
-  }
-
-  async enablePushNotificationsByDefault() {
-    if ((await this.enabledPushNotifications()) === null) {
-      await this.ionicStorageService.set(this._aKey, true);
-    }
-  }
-
-  async initializeNotifications() {
-    if (await this.enabledPushNotifications()) {
-      this.pushNotificationsService().subscribeTo(this._aTopic);
-    } else {
-      this.pushNotificationsService().subscribeTo(this._aTopic);
-      this.pushNotificationsService().unsubscribeFrom(this._aTopic);
-    }
-  }
-
-  private async createLoginToken(): Promise<void> {
-    return new LoginToken(new Password(this.createPasswordForm.value.password), this.ionicStorageService).save();
-  }
-
-  private async createXAuthToken(): Promise<void> {
-    const blockchain = this.blockchains.create().oneByName('ERC20');
-    const wallet = ethers.Wallet.fromMnemonic(
-      this.walletMnemonicService.mnemonic.phrase,
-      blockchain.derivedPath(),
-      ethers.wordlists.en
-    );
-    const signedMsg = await wallet.signMessage(wallet.address);
-    return this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
-  }
-
-  private setWalletAsProtectedIfImporting(): Promise<void[]> {
-    if (this.mode === 'import') {
-      return Promise.all([
-        this.ionicStorageService.set('protectedWallet', true),
-        this.walletBackupService.disableModal(),
-      ]);
     }
   }
 
@@ -317,7 +237,7 @@ export class CreatePasswordPage implements OnInit {
       url = remoteConfig ? 'wallets/experimental-onboarding' : '/wallets/success-creation';
     }
 
-    return this.navController.navigateRoot([url]);
+    return this.navController.navigateRoot(url);
   }
 
   goToDerivedPathOptions() {

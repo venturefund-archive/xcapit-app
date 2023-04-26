@@ -1712,6 +1712,7 @@
       "title": "Importá tu wallet",
       "subtitle": "Seleccioná el método que deseas utilizar para importar tu wallet.",
       "support": "¿Qué método debo elegir?",
+      "toast_message": "No hemos encontrado ninguna copia de seguridad. Asegúrate de iniciar sesión con la cuenta correcta.",
       "key": {
         "title": "Importar con la frase de recuperación",
         "subtitle": "Utilizá tu frase de recuperación de Xcapit u otra cripto wallet. "

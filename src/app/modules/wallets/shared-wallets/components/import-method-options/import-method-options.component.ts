@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IMPORT_ITEM_METHOD } from '../../constants/import-item-method';
 
 @Component({
   selector: 'app-import-method-options',
@@ -35,6 +34,6 @@ export class ImportMethodOptionsComponent implements OnInit {
   ngOnInit() {}
 
   navigateTo() {
-    this.route.emit(this.method.route);
+    this.method.mode === 'external' ? this.route.emit(this.method.route) : this.route.emit(this.method.route);
   }
 }

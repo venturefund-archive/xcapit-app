@@ -32,7 +32,7 @@ SwiperCore.use([Virtual]);
 
       <div class="ob__actions">
         <ion-button
-          (click)="goToCreateWallet()"
+          (click)="this.goToCreateDisclaimer()"
           name="Create wallet"
           expand="block"
           size="large"
@@ -42,7 +42,7 @@ SwiperCore.use([Virtual]);
           {{ 'users.on_boarding.primary_action' | translate }}
         </ion-button>
         <ion-button
-          (click)="goToImportWallet()"
+          (click)="this.goToImportDisclaimer()"
           name="Import wallet"
           expand="block"
           size="large"
@@ -100,11 +100,14 @@ export class OnBoardingPage implements OnInit {
     this.swiper.swiperRef.slidePrev(200);
   }
 
-  goToCreateWallet() {
-    this.navController.navigateForward(['/wallets/create-first/disclaimer']);
+  private _navigate(mode: string) {
+    this.navController.navigateForward(`/wallets/create-first/disclaimer/${mode}`);
   }
 
-  goToImportWallet() {
-    this.navController.navigateForward(['/wallets/wallet-imports']);
+  goToCreateDisclaimer() {
+    this._navigate('create');
+  }
+  goToImportDisclaimer() {
+    this._navigate('import');
   }
 }
