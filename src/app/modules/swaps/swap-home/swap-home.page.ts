@@ -618,7 +618,7 @@ export class SwapHomePage {
   private parseAmount(value: number): string {
     let stringValue = value.toString();
     if (stringValue.includes('e')) {
-      stringValue = parseFloat(stringValue).toFixed(20);
+      stringValue = parseFloat(stringValue).toFixed(8);
     }
     return stringValue;
   }
