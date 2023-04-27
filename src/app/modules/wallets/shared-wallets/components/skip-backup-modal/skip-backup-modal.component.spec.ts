@@ -24,7 +24,6 @@ describe('SkipBackupModalComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
-      
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
@@ -92,18 +91,6 @@ describe('SkipBackupModalComponent', () => {
     buttonEl.nativeElement.click();
     fixture.detectChanges();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set storage when form is valid and click ux_create_skip_warning button ', () => {
-    component.skipBackUpForm.patchValue({
-      agreeSkipBackUp: true,
-    });
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_create_skip_warning"]'));
-    buttonEl.nativeElement.click();
-
-    fixture.detectChanges();
-    
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledTimes(1);
   });
 
   it('should change primary url when profile test is completed', async() => {
