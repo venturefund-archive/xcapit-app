@@ -13,7 +13,7 @@
     "build": "ng build",
     "test": "ng test",
     "test-ci": "ng test --watch=false --karma-config karma-pipeline.conf.js --code-coverage",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "coveralls": "cat ./coverage/lcov.info | coveralls --verbose",
     "prepare": "husky install",
     "format:fix": "pretty-quick --staged",
     "lint": "ng lint",
