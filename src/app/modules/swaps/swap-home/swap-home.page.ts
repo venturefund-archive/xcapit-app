@@ -608,11 +608,19 @@ export class SwapHomePage {
       result = {
         fromAmount: this.form.get('fromTokenAmount').value,
         fromToken: this.swap.fromToken().symbol(),
-        toAmount: this.tplSwapInfo.toTokenAmount,
+        toAmount: this.parseAmount(this.tplSwapInfo.toTokenAmount),
         toToken: this.swap.toToken().symbol(),
       };
     }
     return result;
+  }
+
+  private parseAmount(value: number): string {
+    let stringValue = value.toString();
+    if (stringValue.includes('e')) {
+      stringValue = parseFloat(stringValue).toFixed(8);
+    }
+    return stringValue;
   }
 
   async showSwapInProgressModal() {
