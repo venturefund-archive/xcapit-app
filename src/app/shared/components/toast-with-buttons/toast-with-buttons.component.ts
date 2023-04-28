@@ -5,12 +5,7 @@ import { ModalController, NavController } from '@ionic/angular';
   selector: 'app-toast-with-buttons',
   template: `<div class="modal-content">
     <div class="twb">
-      <ion-icon
-        color="warningdark"
-        (click)="this.close()"
-        class="twb__close_button"
-        name="close-outline"
-      ></ion-icon>
+      <ion-icon color="warningdark" (click)="this.close()" class="twb__close_button" name="close-outline"></ion-icon>
       <div class="content">
         <div class="content__icon-warning">
           <ion-icon name="ux-warning-circle-outline" color="warningdark"></ion-icon>

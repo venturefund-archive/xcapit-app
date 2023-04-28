@@ -29,6 +29,7 @@ import { Country } from '../shared-ramps/models/country/country';
 import { OperationKmInProgressModalComponent } from '../shared-ramps/components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-kripton-sale-summary',
@@ -190,7 +191,8 @@ export class KriptonSaleSummaryPage {
     private apiWalletService: ApiWalletService,
     private modalController: ModalController,
     private txInProgressService: TxInProgressService,
-    private envService: EnvService
+    private envService: EnvService,
+    private translate: TranslateService
   ) {}
 
   async ionViewWillEnter() {
@@ -245,8 +247,7 @@ export class KriptonSaleSummaryPage {
       await this.send(password);
     } catch {
       this.openGenericErrorModal();
-    }
-    finally {
+    } finally {
       await this.endTx();
     }
   }
@@ -290,16 +291,22 @@ export class KriptonSaleSummaryPage {
   }
 
   async showInsufficientBalanceFeeModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
+    const text = this.translate.instant('swaps.home.balance_modal.insufficient_balance_fee.text');
+    const primaryButtonText = this.translate.instant(
+      'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName'
+    );
+    const secondaryButtonText = this.translate.instant(
+      'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName'
+    );
     await this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
   }
 
   async showInsufficientBalanceModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
+    const text = this.translate.instant('swaps.home.balance_modal.insufficient_balance.text');
+    const primaryButtonText = this.translate.instant('swaps.home.balance_modal.insufficient_balance.firstButtonName');
+    const secondaryButtonText = this.translate.instant(
+      'swaps.home.balance_modal.insufficient_balance.secondaryButtonName'
+    );
     await this.openModalBalance(new DefaultToken(this.coin as RawToken), text, primaryButtonText, secondaryButtonText);
   }
 
@@ -376,8 +383,8 @@ export class KriptonSaleSummaryPage {
       cssClass: 'modal',
       backdropDismiss: false,
       componentProps: {
-        data: SUCCESS_TYPES.operation_km_cashout
-      }
+        data: SUCCESS_TYPES.operation_km_cashout,
+      },
     });
     await modal.present();
   }
