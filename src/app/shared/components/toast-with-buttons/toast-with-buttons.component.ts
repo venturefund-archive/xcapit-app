@@ -11,7 +11,7 @@ import { ModalController, NavController } from '@ionic/angular';
           <ion-icon name="ux-warning-circle-outline" color="warningdark"></ion-icon>
         </div>
         <div class="content__text ux-font-text-xs">
-          <ion-text color="warningdark">{{ this.text | translate }}</ion-text>
+          <ion-text color="warningdark">{{ this.text }}</ion-text>
         </div>
       </div>
 
@@ -26,7 +26,7 @@ import { ModalController, NavController } from '@ionic/angular';
           type="button"
           fill="clear"
         >
-          {{ this.primaryButtonText | translate }}
+          {{ this.primaryButtonText }}
         </ion-button>
         <ion-button
           (click)="this.secondaryAction()"
@@ -36,7 +36,7 @@ import { ModalController, NavController } from '@ionic/angular';
           type="button"
           fill="clear"
         >
-          {{ this.secondaryButtonText | translate }}
+          {{ this.secondaryButtonText }}
         </ion-button>
       </div>
     </div>
