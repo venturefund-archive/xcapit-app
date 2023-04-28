@@ -7,7 +7,7 @@ export const COUNTRIES: FiatRampProviderCountry[] = [
   { name: 'Colombia', isoCodeAlpha3: 'COL', iso4217CurrencyCode: 'COP', value: 'fiat_ramps.countries_list.colombia', fiatCode: 'cop',  directaCode: 'CO',isoCurrencyCodeDirecta: 'COP', isoCurrencyCodeMoonpay: 'COP', flagRoute: 'assets/img/countries/colombia.svg'},
   { name: 'Argentina', isoCodeAlpha3: 'ARG', iso4217CurrencyCode: 'ARS', value: 'fiat_ramps.countries_list.argentina', fiatCode: 'ars',  directaCode: 'AR', isoCurrencyCodeDirecta: 'ARS', flagRoute:'assets/img/countries/argentina.svg'},
   { name: 'Brasil', isoCodeAlpha3: 'BRA', iso4217CurrencyCode: 'BRL', value: 'fiat_ramps.countries_list.brasil', directaCode: 'BR', isoCurrencyCodeDirecta:'BRL', isoCurrencyCodeMoonpay: 'BRL'},
-  { name: 'El Salvador', isoCodeAlpha3: 'SLV', iso4217CurrencyCode: 'SVC', value: 'fiat_ramps.countries_list.el_salvador', flagRoute: 'assets/img/countries/el-salvador.svg'},
+  { name: 'El Salvador', isoCodeAlpha3: 'SLV', iso4217CurrencyCode: 'USD', value: 'fiat_ramps.countries_list.el_salvador', flagRoute: 'assets/img/countries/el-salvador.svg'},
   { name: 'Guyana', isoCodeAlpha3: 'GUY', iso4217CurrencyCode: 'GYD', value: 'fiat_ramps.countries_list.guyana' },
   { name: 'Paraguay', isoCodeAlpha3: 'PRY', iso4217CurrencyCode: 'PYG', value: 'fiat_ramps.countries_list.paraguay' },
   { name: 'Australia', isoCodeAlpha3: 'AUS', iso4217CurrencyCode: 'AUD', value: 'fiat_ramps.countries_list.australia', isoCurrencyCodeMoonpay: 'AUD' },

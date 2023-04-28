@@ -22,6 +22,10 @@ describe('Country', () => {
     expect(country.isoCodeAlpha3()).toEqual(rawArgentinaData.isoCodeAlpha3);
   });
 
+  it('iso4217CurrencyCode', () => {
+    expect(country.iso4217CurrencyCode()).toEqual(rawArgentinaData.iso4217CurrencyCode);
+  });
+
   it('flagRoute', () => {
     expect(country.flagRoute()).toEqual(rawArgentinaData.flagRoute);
   });

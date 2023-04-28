@@ -21,6 +21,10 @@ export class Country {
   isoCodeAlpha3(): string {
     return this._rawData.isoCodeAlpha3;
   }
+  
+  iso4217CurrencyCode(): string{
+    return this._rawData.iso4217CurrencyCode;
+  }
 
   flagRoute(): string {
     return this._rawData.flagRoute;
