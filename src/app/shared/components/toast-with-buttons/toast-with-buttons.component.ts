@@ -5,18 +5,13 @@ import { ModalController, NavController } from '@ionic/angular';
   selector: 'app-toast-with-buttons',
   template: `<div class="modal-content">
     <div class="twb">
-      <ion-icon
-        color="warningdark"
-        (click)="this.close()"
-        class="twb__close_button"
-        name="close-outline"
-      ></ion-icon>
+      <ion-icon color="warningdark" (click)="this.close()" class="twb__close_button" name="close-outline"></ion-icon>
       <div class="content">
         <div class="content__icon-warning">
           <ion-icon name="ux-warning-circle-outline" color="warningdark"></ion-icon>
         </div>
         <div class="content__text ux-font-text-xs">
-          <ion-text color="warningdark">{{ this.text }}</ion-text>
+          <ion-text color="warningdark">{{ this.text | translate }}</ion-text>
         </div>
       </div>
 
@@ -31,7 +26,7 @@ import { ModalController, NavController } from '@ionic/angular';
           type="button"
           fill="clear"
         >
-          {{ this.primaryButtonText }}
+          {{ this.primaryButtonText | translate }}
         </ion-button>
         <ion-button
           (click)="this.secondaryAction()"
@@ -41,7 +36,7 @@ import { ModalController, NavController } from '@ionic/angular';
           type="button"
           fill="clear"
         >
-          {{ this.secondaryButtonText }}
+          {{ this.secondaryButtonText | translate }}
         </ion-button>
       </div>
     </div>
