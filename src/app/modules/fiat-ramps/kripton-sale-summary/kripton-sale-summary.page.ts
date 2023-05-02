@@ -159,6 +159,7 @@ import { TranslateService } from '@ngx-translate/core';
           color="secondary"
           appTrackClick
           name="ux_sell_send_confirm"
+          [disabled]="this.isSending"
           (click)="this.handleSubmit()"
           >{{ 'fiat_ramps.kripton_sale_summary.button' | translate }}
         </ion-button>
