@@ -34,6 +34,6 @@ export class ImportMethodOptionsComponent implements OnInit {
   ngOnInit() {}
 
   navigateTo() {
-    this.method.mode === 'external' ? this.route.emit(this.method.route) : this.route.emit(this.method.route);
+    this.route.emit(this.method.route);
   }
 }
