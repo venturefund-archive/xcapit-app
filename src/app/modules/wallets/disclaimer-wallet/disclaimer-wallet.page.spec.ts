@@ -87,7 +87,7 @@ describe('DisclaimerWalletPage', () => {
     fakeActivatedRooute.modifySnapshotParams({mode:'import'});
     component.ngOnInit();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit');
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/recovery']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/wallet-imports']);
   });
 
   it('should go to create password on create', () => {

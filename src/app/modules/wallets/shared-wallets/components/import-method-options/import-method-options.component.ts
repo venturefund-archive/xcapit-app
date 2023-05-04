@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IMPORT_ITEM_METHOD } from '../../constants/import-item-method';
 
 @Component({
   selector: 'app-import-method-options',

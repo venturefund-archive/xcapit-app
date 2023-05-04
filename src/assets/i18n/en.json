@@ -1722,6 +1722,7 @@
       "header": "Import wallet",
       "title": "Import your wallet",
       "subtitle": "Select the method you wish to use to import your wallet.",
+      "toast_message": "We have not found any backups. Please make sure you are logged in with the correct account.",
       "support": "What method should I choose?",
       "key": {
         "title": "Import with the recovery phrase",
