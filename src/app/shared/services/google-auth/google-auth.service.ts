@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class GoogleAuthService {
   googleAuth = GoogleAuth;
+  public walletAddress: string;
 
   constructor(private envService: EnvService, private http: HttpClient) {}
 
@@ -38,7 +39,7 @@ export class GoogleAuthService {
 
   private _metadata() {
     return {
-      name: 'backup-xcapit-wallet.txt',
+      name: `${this.walletAddress}`,
       mimeType: 'text/plain',
       parents: ['appDataFolder'],
     };
