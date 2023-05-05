@@ -15,6 +15,7 @@ import { GoogleAuthService } from 'src/app/shared/services/google-auth/google-au
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { of } from 'rxjs';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 describe('SuccessCreationPage', () => {
   let component: SuccessCreationPage;
@@ -30,6 +31,7 @@ describe('SuccessCreationPage', () => {
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
   beforeEach(waitForAsync(() => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
@@ -63,6 +65,11 @@ describe('SuccessCreationPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getWalletFromStorage: Promise.resolve({
+        addresses: { ERC20: 'testAddressErc20' },
+      }),
+    });
     TestBed.configureTestingModule({
       declarations: [FakeTrackClickDirective, SuccessCreationPage],
       imports: [TranslateModule.forRoot(), IonicModule.forRoot()],
@@ -74,6 +81,7 @@ describe('SuccessCreationPage', () => {
         { provide: GoogleAuthService, useValue: googleAuthServiceSpy },
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -162,4 +170,10 @@ describe('SuccessCreationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_finish_backup"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('tabs/wallets');
   }));
+
+  it('should set the service variable with the user erc20 wallet on init', async () => {
+    await component.ionViewWillEnter();
+    expect(storageServiceSpy.getWalletFromStorage).toHaveBeenCalledTimes(1);
+    expect(googleAuthServiceSpy.walletAddress).toEqual('testAddressErc20');
+  });
 });

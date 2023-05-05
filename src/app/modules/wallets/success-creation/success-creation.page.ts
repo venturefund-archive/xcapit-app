@@ -9,6 +9,7 @@ import { GoogleAuthService } from 'src/app/shared/services/google-auth/google-au
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { WalletPasswordWithValidatorComponent } from '../shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
 import { SuccessModalComponent } from 'src/app/shared/components/success-modal/success-modal.component';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Component({
   selector: 'app-success-creation',
@@ -75,12 +76,14 @@ export class SuccessCreationPage {
     private storage: IonicStorageService,
     private googleAuthService: GoogleAuthService,
     private walletEncryptionService: WalletEncryptionService,
-    private navController: NavController
+    private navController: NavController,
+    private storageService: StorageService,
   ) {}
 
   async ionViewWillEnter() {
     this.trackScreenViewEvent();
     this.trackWalletAddressEvent();
+    await this.getWalletAddress();
     this.setStepsState();
   }
 
@@ -91,6 +94,11 @@ export class SuccessCreationPage {
   async isWalletBackup() {
     this.walletBackup = await this.storage.get('wallet_backup');
     return this.walletBackup;
+  }
+
+  private async getWalletAddress() {
+    const wallet = await this.storageService.getWalletFromStorage();
+    this.googleAuthService.walletAddress = wallet.addresses.ERC20;
   }
 
   trackScreenViewEvent(): void {
