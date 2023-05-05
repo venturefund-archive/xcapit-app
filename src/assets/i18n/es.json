@@ -1712,7 +1712,6 @@
       "title": "Importá tu wallet",
       "subtitle": "Seleccioná el método que deseas utilizar para importar tu wallet.",
       "support": "¿Qué método debo elegir?",
-      "toast_message": "No hemos encontrado ninguna copia de seguridad. Asegúrate de iniciar sesión con la cuenta correcta.",
       "key": {
         "title": "Importar con la frase de recuperación",
         "subtitle": "Utilizá tu frase de recuperación de Xcapit u otra cripto wallet. "
@@ -1720,6 +1719,12 @@
       "cloud": {
         "title": "Importar copia desde Google Drive",
         "subtitle": "Restaurá tu wallet usando esta opción si previamente realizaste un backup."
+      },
+      "toasts": {
+        "denied": "Acceso denegado. Se requieren permisos para realizar la copia de seguridad. Inténtalo nuevamente.",
+        "closed": "No hemos podido acceder a su cuenta para realizar la copia de seguridad. Inténtalo nuevamente.",
+        "info": "No hemos encontrado ninguna copia de seguridad. Asegúrate de iniciar sesión con la cuenta correcta.",
+        "password": "Contraseña incorrecta. Inténtalo nuevamente."
       }
     },
     "receive_select_currency": {

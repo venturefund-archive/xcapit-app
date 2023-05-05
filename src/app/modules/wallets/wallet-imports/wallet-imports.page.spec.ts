@@ -10,13 +10,13 @@ import { of } from 'rxjs';
 import { GoogleAuthService } from 'src/app/shared/services/google-auth/google-auth.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
-import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { WalletInitializeProcess } from '../../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
 import { GoogleDriveFilesInjectable } from 'src/app/shared/models/google-drive-files/injectable/google-drive-files.injectable';
 import { FakeGoogleDriveFiles } from 'src/app/shared/models/google-drive-files/fake/fake-google-drive-files';
 import { rawGoogleDriveFile } from 'src/app/shared/fixtures/google-drive-files.raw';
 import { GoogleDriveFile } from 'src/app/shared/models/google-drive-file/google-drive-file';
-import { StorageWallet } from '../../shared-wallets/interfaces/storage-wallet.interface';
+import { StorageWallet } from '../shared-wallets/interfaces/storage-wallet.interface';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 
 describe('WalletImportsPage', () => {
@@ -63,10 +63,12 @@ describe('WalletImportsPage', () => {
 
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showInfoToast: Promise.resolve(),
+      showErrorToast: Promise.resolve(),
     });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       saveWalletToStorage: Promise.resolve(),
+      removeWalletFromStorage: Promise.resolve(),
     });
 
     walletInitializeProcessSpy = jasmine.createSpyObj('WalletInitializeProcess', {
@@ -146,4 +148,45 @@ describe('WalletImportsPage', () => {
     expect(googleAuthServiceSpy.accessToken).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
   });
+
+  it('should show closed error toast if google drive backup window was closed', async () => {
+    googleAuthServiceSpy.accessToken.and.rejectWith({ error: 'popup_closed_by_user' });
+    fixture.debugElement.query(By.css('app-import-method-options')).triggerEventHandler('route', itemMethod[1].route);
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+      message: 'wallets.wallet_imports.toasts.closed',
+    });
+  });
+
+  it('should show denied error toast if access was denied', async () => {
+    googleAuthServiceSpy.accessToken.and.rejectWith({ error: 'access_denied' });
+    fixture.debugElement.query(By.css('app-import-method-options')).triggerEventHandler('route', itemMethod[1].route);
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+      message: 'wallets.wallet_imports.toasts.denied',
+    });
+  });
+
+  it('should show denied error toast if permission was denied', fakeAsync(() => {
+    googleDriveFilesSpy.create.and.returnValue(
+      new FakeGoogleDriveFiles(Promise.reject({ error: { error: { status: 'PERMISSION_DENIED' } } }))
+    );
+    fixture.debugElement.query(By.css('app-import-method-options')).triggerEventHandler('route', itemMethod[1].route);
+    tick();
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+      message: 'wallets.wallet_imports.toasts.denied',
+    });
+  }));
+
+  it('should show password error toast if is incorrect', fakeAsync(() => {
+    googleDriveFilesSpy.create.and.returnValue(
+      new FakeGoogleDriveFiles(Promise.resolve([new GoogleDriveFile(rawGoogleDriveFile)]), Promise.resolve('{}'))
+    );
+    walletInitializeProcessSpy.run.and.rejectWith(new Error('invalid password'));
+    fixture.debugElement.query(By.css('app-import-method-options')).triggerEventHandler('route', itemMethod[1].route);
+    tick();
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+      message: 'wallets.wallet_imports.toasts.password',
+    });
+  }));
 });

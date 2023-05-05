@@ -1722,7 +1722,6 @@
       "header": "Import wallet",
       "title": "Import your wallet",
       "subtitle": "Select the method you wish to use to import your wallet.",
-      "toast_message": "We have not found any backups. Please make sure you are logged in with the correct account.",
       "support": "What method should I choose?",
       "key": {
         "title": "Import with the recovery phrase",
@@ -1731,6 +1730,12 @@
       "cloud": {
         "title": "Import copy from Google Drive",
         "subtitle": "Restore your wallet using this option if you have previously made a backup."
+      },
+      "toasts": {
+        "denied": "Access denied. Permissions are required to perform the backup. Please try again.",
+        "closed": "We were unable to access your account to perform the backup. Please try again.",
+        "info": "We have not found any backups. Please make sure you are logged in with the correct account.",
+        "password": "Wrong password. Please try again."
       }
     },
     "receive_select_currency": {
