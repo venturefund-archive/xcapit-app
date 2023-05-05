@@ -2876,6 +2876,11 @@
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
       },
+      "provider_fee_info_modal": {
+        "title": "What is the provider fee?",
+        "item1": "The fee includes the cost of service and local taxes required by the provider for the sale of cryptocurrency.",
+        "item2": "It may vary slightly at the time of performing an operation."
+      },
       "user_register_content": {
         "user_information": {
           "title": "Hello! You don't have an account yet, we will help you to register quickly.",
