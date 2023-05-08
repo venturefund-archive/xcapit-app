@@ -36,20 +36,22 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
           }}</ion-badge>
         </div>
       </div>
-      <div *ngFor="let item of this.category.items" class="item-container">
-        <ion-button
-          *ngIf="!item.hidden"
-          class="ux-font-text-xs"
-          fill="clear"
-          [id]="item.name"
-          appTrackClick
-          [attr.name]="item.buttonName"
-          (click)="this.goToRoute(item)"
-          >{{ item.text | translate }}</ion-button
-        >
-        <ion-badge *ngIf="!item.hidden && item.newBadge" class="new-badge ux-font-num-subtitulo" slot="end">{{
-          'profiles.user_profile_menu.new_badge' | translate
-        }}</ion-badge>
+      <div *ngFor="let item of this.category.items" >
+        <div class="item-container" *appFeatureFlag="item.disable; negated: true">
+          <ion-button
+            *ngIf="!item.hidden"
+            class="ux-font-text-xs"
+            fill="clear"
+            [id]="item.name"
+            appTrackClick
+            [attr.name]="item.buttonName"
+            (click)="this.goToRoute(item)"
+            >{{ item.text | translate }}</ion-button
+          >
+          <ion-badge *ngIf="!item.hidden && item.newBadge" class="new-badge ux-font-num-subtitulo" slot="end">{{
+            'profiles.user_profile_menu.new_badge' | translate
+          }}</ion-badge>
+        </div>
       </div>
     </div>
   `,

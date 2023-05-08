@@ -11,6 +11,7 @@ import { NavController } from '@ionic/angular';
     [ngClass]="{ greenBorder: this.step.completed }"
     [disabled]="this.step.disabled"
     [dataToTrack]="{ eventLabel: this.step.name }"
+    *appFeatureFlag="this.step.disable; negated: true"
   >
     <div class="ursc__wrapper">
       <div class="ursc__wrapper__step">
@@ -45,7 +46,7 @@ export class UserRegisterStepCardComponent {
   constructor(private navController: NavController) {}
 
   navigateTo() {
-    if (!this.step.completed && this.step.url) {  
+    if (!this.step.completed && this.step.url) {
       return this.navController.navigateForward(this.step.url);
     } else if (this.step.action) {
       this.action();

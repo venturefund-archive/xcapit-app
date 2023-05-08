@@ -27,7 +27,7 @@ import { Password } from '../../swaps/shared-swaps/models/password/password';
         <ion-title *ngIf="this.mode === 'import'">{{ 'wallets.recovery_wallet.header' | translate }}</ion-title>
         <ion-title *ngIf="this.mode !== 'import'">{{ 'wallets.create_password.header' | translate }}</ion-title>
         <ion-label *ngIf="this.mode === 'import'" class="ux_toolbar__step" slot="end"
-          >3 {{ 'shared.step_counter.of' | translate }} 3</ion-label
+          >4 {{ 'shared.step_counter.of' | translate }} 4</ion-label
         >
         <ion-label *ngIf="this.mode !== 'import'" class="ux_toolbar__step" slot="end"
           >2 {{ 'shared.step_counter.of' | translate }} 2</ion-label
