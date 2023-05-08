@@ -117,6 +117,18 @@ describe('ProviderNewOperationCardComponent', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
+  it('should show modal when showToken is true and provider fee info icon is clicked', async () => {
+    component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');
+    component.fee = { value: 10.4278, token: 'USD', totalDigits: 4, maxDecimals: 6 };
+    component.providerFee = { value: 10.4278, token: 'USD', totalDigits: 4, maxDecimals: 6 };
+    component.showToken = true; 
+    fixture.detectChanges();
+    fixture.debugElement
+      .query(By.css('ion-icon.pnoc__fee__label__icon')).nativeElement.click();
+
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
   it('should show directa24 modal when info provider icon is clicked', async () => {
     component.isInfoModalOpen = false;
     component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');

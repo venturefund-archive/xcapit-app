@@ -8,6 +8,7 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
 import { InfoProviderKriptonComponent } from '../../info-provider-kripton/info-provider-kripton.component';
 import { InfoProviderMoonpayComponent } from '../../info-provider-moonpay/info-provider-moonpay.component';
 import { InfoProviderComponent } from '../../info-provider/info-provider.component';
+import { ProviderFeeInfoModalComponent } from '../../provider-fee-info-modal/provider-fee-info-modal.component';
 
 @Component({
   selector: 'app-provider-new-operation-card',
@@ -108,7 +109,7 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
           <ion-text class="ux-font-titulo-xs">{{
             'fiat_ramps.shared.provider_new_operation_card.estimated_fee' | translate
           }}</ion-text>
-          <ion-icon name="information-circle" color="info" (click)="this.openFeeInfoModal()"></ion-icon>
+          <ion-icon name="information-circle" color="info" (click)="this.openTransactionFeeInfoModal()"></ion-icon>
         </div>
         <div *ngIf="this.fee.value !== undefined" class="pnoc__fee__amount">
           <ion-text class="ux-font-text-base" color="neutral90"
@@ -126,7 +127,7 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
           <ion-text class="ux-font-titulo-xs">{{
             'fiat_ramps.shared.provider_new_operation_card.estimated_provider_fee' | translate
           }}</ion-text>
-          <ion-icon name="information-circle" color="info"></ion-icon>
+          <ion-icon class="pnoc__fee__label__icon" name="information-circle" color="info" (click)="this.openProviderFeeInfoModal()"></ion-icon>
         </div>
         <div *ngIf="this.providerFee.value !== undefined" class="pnoc__fee__amount">
           <ion-text class="ux-font-text-base" color="neutral90"
@@ -221,7 +222,7 @@ export class ProviderNewOperationCardComponent implements OnInit, OnChanges {
     this.changeCurrency.emit();
   }
 
-  async openFeeInfoModal() {
+  async openTransactionFeeInfoModal() {
     if (!this.isInfoModalOpen) {
       this.isInfoModalOpen = true;
       const modal = await this.modalController.create({
@@ -229,6 +230,19 @@ export class ProviderNewOperationCardComponent implements OnInit, OnChanges {
         cssClass: 'modal',
         backdropDismiss: false,
       });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
+  }
+
+  async openProviderFeeInfoModal() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: ProviderFeeInfoModalComponent,
+        cssClass: 'modal',
+        backdropDismiss: false,
+      })
       await modal.present();
       this.isInfoModalOpen = false;
     }
