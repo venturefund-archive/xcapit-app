@@ -84,7 +84,7 @@ export const ITEM_MENU: MenuCategory[] = [
         type: 'link',
         buttonName: 'ux_go_to_gdrivebkup',
         newBadge: true,
-        disable: 'ff_disableGoogleAuth'
+        disable: 'ff_disableGDriveBackup'
       },
       {
         name: 'PrivateKey',

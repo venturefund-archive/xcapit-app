@@ -17,6 +17,6 @@ export const BACKUP_OPTIONS = [
     name: 'ux_bkupgdrive_start',
     disabled: true,
     completed: false,
-    disable: 'ff_disableGoogleAuth'
+    disable: 'ff_disableGDriveBackup'
   },
 ];
