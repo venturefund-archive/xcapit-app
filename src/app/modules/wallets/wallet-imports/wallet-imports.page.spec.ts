@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -18,6 +17,7 @@ import { rawGoogleDriveFile } from 'src/app/shared/fixtures/google-drive-files.r
 import { GoogleDriveFile } from 'src/app/shared/models/google-drive-file/google-drive-file';
 import { StorageWallet } from '../shared-wallets/interfaces/storage-wallet.interface';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
+import { By } from '@angular/platform-browser';
 
 describe('WalletImportsPage', () => {
   let component: WalletImportsPage;

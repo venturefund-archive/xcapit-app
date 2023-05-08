@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { GoogleAuthService } from 'src/app/shared/services/google-auth/google-auth.service';
 import { HttpClient } from '@angular/common/http';
-import { Preferences } from '@capacitor/preferences';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
@@ -14,6 +13,7 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
 import { IMPORT_ITEM_METHOD } from '../shared-wallets/constants/import-item-method';
 import { GDRIVE_ERRORS } from '../shared-wallets/constants/gdrive-errors.constant';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
+import { GoogleDriveError } from '../shared-wallets/models/google-drive-error/google-drive-error';
 
 @Component({
   selector: 'app-wallet-imports',
@@ -47,7 +47,6 @@ export class WalletImportsPage {
   methods = structuredClone(IMPORT_ITEM_METHOD);
   gdriveErrors = structuredClone(GDRIVE_ERRORS);
   accessToken: string;
-  storage = Preferences;
   mnemonic: string;
 
   constructor(
@@ -71,16 +70,20 @@ export class WalletImportsPage {
       const accessToken = await this.googleAuthService.accessToken();
       await this.checkBackup(accessToken);
     } catch (error) {
-      this.showErrorToast(this.gdriveErrors[error.error]);
+      this.showErrorToast(this._googleDriveError(error));
     }
   }
 
   async checkBackup(accessToken: string) {
     try {
       await this._saveWalletFromGoogleDrive(accessToken);
-    } catch ({ error }) {
-      this.showErrorToast(this.gdriveErrors[error.error.status]);
+    } catch (error) {
+      this.showErrorToast(this._googleDriveError(error));
     }
+  }
+
+  private _googleDriveError(error: any): string {
+    return new GoogleDriveError(error).value();
   }
 
   private async _saveWalletFromGoogleDrive(accessToken: string) {
@@ -100,7 +103,7 @@ export class WalletImportsPage {
       this.navigateToSuccess();
     } catch (error) {
       if (new PasswordErrorMsgs().isInvalidError(error)) {
-        this.showErrorToast(this.gdriveErrors['password']);
+        this.showErrorToast('password');
         await this.storageService.removeWalletFromStorage();
       }
     }
@@ -135,8 +138,8 @@ export class WalletImportsPage {
     this.navController.navigateRoot('/wallets/recovery/success');
   }
 
-  showErrorToast(type: string) {
-    this.toastService.showErrorToast({
+  showErrorToast(type: string): Promise<any> {
+    return this.toastService.showErrorToast({
       message: this.translate.instant(`wallets.wallet_imports.toasts.${type}`),
     });
   }
