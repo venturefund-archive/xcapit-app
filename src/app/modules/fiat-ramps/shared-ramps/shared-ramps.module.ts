@@ -32,6 +32,7 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
 import { VoucherModalComponent } from './components/voucher-modal/voucher-modal.component';
 import { KriptonOffInfoProviderComponent } from './components/kripton-off-info-provider/kripton-off-info-provider.component';
 import { BitrefillInfoComponent } from './components/bitrefill-info/bitrefill-info.component';
+import { ProviderFeeInfoModalComponent } from './components/provider-fee-info-modal/provider-fee-info-modal.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { BitrefillInfoComponent } from './components/bitrefill-info/bitrefill-in
     InfoProviderComponent,
     CoinSelectorModalComponent,
     FeeInfoModalComponent,
+    ProviderFeeInfoModalComponent,
     SkipTransactionVoucherComponent,
     InfoProviderKriptonComponent,
     InfoProviderMoonpayComponent,
@@ -82,6 +84,7 @@ import { BitrefillInfoComponent } from './components/bitrefill-info/bitrefill-in
     InfoProviderComponent,
     CoinSelectorModalComponent,
     FeeInfoModalComponent,
+    ProviderFeeInfoModalComponent,
     SkipTransactionVoucherComponent,
     InfoProviderKriptonComponent,
     InfoProviderMoonpayComponent,

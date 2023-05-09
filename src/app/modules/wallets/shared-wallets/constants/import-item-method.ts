@@ -10,7 +10,7 @@ export const IMPORT_ITEM_METHOD = [
     title: 'wallets.wallet_imports.cloud.title',
     subtitle: 'wallets.wallet_imports.cloud.subtitle',
     route: 'googleAuth',
-    name: 'ux_import_import_g-drive',
+    name: 'ux_import_import_g_drive',
     disable: 'ff_disableGDriveBackup'
   },
 ];

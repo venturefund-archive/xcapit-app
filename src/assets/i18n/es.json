@@ -2846,6 +2846,11 @@
         "item3": "Podrás encontrarlo en tu ticket de pago como “verificador de monto”.",
         "button": "Entendido"
       },
+      "provider_fee_info_modal": {
+        "title": "¿Qué es la tarifa de proveedor?",
+        "item1": "La tarifa incluye el costo de servicio y los impuestos locales que requiere el proveedor por realizar la venta de criptomoneda.",
+        "item2": "Puede variar ligeramente al momento de realizar una operación."
+      },
       "user_register_content": {
         "user_information": {
           "title": "¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
