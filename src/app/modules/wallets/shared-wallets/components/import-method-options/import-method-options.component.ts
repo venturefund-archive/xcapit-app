@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
     lines="none"
     class="ion-no-padding imp"
     [dataToTrack]="{ eventLabel: this.method.name }"
+    *appFeatureFlag="this.method.disable; negated: true"
   >
     <div class="imp__wrapper">
       <img [src]="this.method.img" />

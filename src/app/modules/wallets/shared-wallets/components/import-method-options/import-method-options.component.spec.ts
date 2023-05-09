@@ -5,6 +5,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { By } from '@angular/platform-browser';
 import { ImportMethodOptionsComponent } from './import-method-options.component';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 describe('ImportMethodOptionsComponent', () => {
   let component: ImportMethodOptionsComponent;
@@ -22,7 +23,7 @@ describe('ImportMethodOptionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ImportMethodOptionsComponent, FakeTrackClickDirective],
+      declarations: [ImportMethodOptionsComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
     }).compileComponents();
 

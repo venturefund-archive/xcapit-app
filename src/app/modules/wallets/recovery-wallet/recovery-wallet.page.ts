@@ -19,7 +19,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
           'wallets.recovery_wallet.header' | translate
         }}</ion-title>
         <ion-label class="ux_toolbar__step" slot="end"
-          >2 {{ 'shared.step_counter.of' | translate }} 3</ion-label
+          >3 {{ 'shared.step_counter.of' | translate }} 4</ion-label
         >
       </ion-toolbar>
     </ion-header>

@@ -7,6 +7,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { UserRegisterStepCardComponent } from './user-register-step-card.component';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 describe('UserRegisterStepCardComponent', () => {
   let component: UserRegisterStepCardComponent;
@@ -30,7 +31,7 @@ describe('UserRegisterStepCardComponent', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
-      declarations: [UserRegisterStepCardComponent, FakeTrackClickDirective],
+      declarations: [UserRegisterStepCardComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [{ provide: NavController, useValue: navControllerSpy }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

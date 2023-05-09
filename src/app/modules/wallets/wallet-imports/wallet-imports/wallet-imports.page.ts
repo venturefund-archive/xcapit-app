@@ -21,6 +21,9 @@ import { GoogleDriveFilesInjectable } from 'src/app/shared/models/google-drive-f
           <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.wallet_imports.header' | translate }}</ion-title>
+        <ion-label class="ux_toolbar__step" slot="end"
+          >2 {{ 'shared.step_counter.of' | translate }} 4</ion-label
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="wi">

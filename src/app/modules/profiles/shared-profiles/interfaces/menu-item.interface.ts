@@ -6,4 +6,5 @@ export interface MenuItem {
   type: 'link';
   hidden?: boolean;
   newBadge?: boolean;
+  disable?: string
 }
