@@ -15,7 +15,12 @@ describe('GoogleAuthService', () => {
   };
 
   beforeEach(() => {
-    googleAuthSpy = jasmine.createSpyObj('googleAuth', { initialize: null, signIn: Promise.resolve(userTest) });
+    googleAuthSpy = jasmine.createSpyObj('googleAuth', {
+      initialize: null,
+      signIn: Promise.resolve(userTest),
+      signOut: Promise.resolve(),
+      refresh: Promise.resolve({ accessToken: userTest.authentication.accessToken }),
+    });
     httpClientSpy = jasmine.createSpyObj('CustomHttpService', {
       post: of({}),
     });
@@ -38,7 +43,14 @@ describe('GoogleAuthService', () => {
   it('should sign in and get access token', async () => {
     await service.accessToken();
     expect(googleAuthSpy.signIn).toHaveBeenCalledTimes(1);
-    expect((await googleAuthSpy.signIn()).authentication.accessToken).toEqual('testToken');
+    expect(await service.accessToken()).toEqual('testToken');
+  });
+
+  it('should get access token with refresh if sign in fails', async () => {
+    googleAuthSpy.signIn.and.returnValue(Promise.reject());
+    await service.accessToken();
+    expect(googleAuthSpy.signIn).toHaveBeenCalledTimes(1);
+    expect(await service.accessToken()).toEqual('testToken');
   });
 
   it('should create file', () => {

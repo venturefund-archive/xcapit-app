@@ -22,7 +22,14 @@ export class GoogleAuthService {
   }
 
   async accessToken() {
-    return (await this.googleAuth.signIn()).authentication.accessToken;
+    await this.googleAuth.signOut();
+    let accessToken: string;
+    try {
+      accessToken = (await this.googleAuth.signIn()).authentication.accessToken;
+    } catch (error) {
+      accessToken = (await this.googleAuth.refresh()).accessToken;
+    }
+    return accessToken;
   }
 
   createFile(accessToken: string, encryptedWallet: string): Observable<any> {
