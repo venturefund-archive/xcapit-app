@@ -77,7 +77,7 @@ export class SuccessCreationPage {
     private googleAuthService: GoogleAuthService,
     private walletEncryptionService: WalletEncryptionService,
     private navController: NavController,
-    private storageService: StorageService,
+    private storageService: StorageService
   ) {}
 
   async ionViewWillEnter() {
