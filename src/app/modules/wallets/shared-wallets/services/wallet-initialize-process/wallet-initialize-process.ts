@@ -32,8 +32,8 @@ export class WalletInitializeProcess {
   ) {}
 
   public async run(password: Password, isImport: boolean) {
-    await this._enablePushNotificationsByDefault();
     await this._createXAuthToken(password);
+    await this._enablePushNotificationsByDefault();
     await this._saveWallets();
     await this._createLoginToken(password);
     await this._loginUser();

@@ -56,7 +56,7 @@ const routes: Routes = [
         canActivate: [NoAuthGuard],
         path: 'wallet-imports',
         loadChildren: () =>
-          import('./wallet-imports/wallet-imports/wallet-imports.module').then((m) => m.WalletImportsPageModule),
+          import('./wallet-imports/wallet-imports.module').then((m) => m.WalletImportsPageModule),
       },
       {
         path: 'receive',
