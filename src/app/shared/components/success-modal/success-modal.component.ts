@@ -60,6 +60,7 @@ export class SuccessModalComponent implements OnInit {
 
   goToWalletHome() {
     this.navController.navigateForward('tabs/wallets');
+    this.modalController.dismiss();
   }
 
   close() {
