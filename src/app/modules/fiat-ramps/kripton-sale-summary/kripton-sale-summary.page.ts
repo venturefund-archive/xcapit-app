@@ -334,8 +334,7 @@ export class KriptonSaleSummaryPage {
       component: WalletPasswordWithValidatorComponent,
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
-        state: 'send',
-        trackClickEventName: 'ux_sell_send_password',
+        customEvent: 'ux_sell_send_password',
       },
     });
     await modal.present();
