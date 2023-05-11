@@ -14,6 +14,7 @@ import { IMPORT_ITEM_METHOD } from '../shared-wallets/constants/import-item-meth
 import { GDRIVE_ERRORS } from '../shared-wallets/constants/gdrive-errors.constant';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 import { GoogleDriveError } from '../shared-wallets/models/google-drive-error/google-drive-error';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-wallet-imports',
@@ -23,9 +24,7 @@ import { GoogleDriveError } from '../shared-wallets/models/google-drive-error/go
           <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.wallet_imports.header' | translate }}</ion-title>
-        <ion-label class="ux_toolbar__step" slot="end"
-          >2 {{ 'shared.step_counter.of' | translate }} 4</ion-label
-        >
+        <ion-label class="ux_toolbar__step" slot="end">2 {{ 'shared.step_counter.of' | translate }} 4</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="wi">
@@ -61,7 +60,8 @@ export class WalletImportsPage {
     private translate: TranslateService,
     private storageService: StorageService,
     private walletInitializeProcess: WalletInitializeProcess,
-    private googleDriveFiles: GoogleDriveFilesInjectable
+    private googleDriveFiles: GoogleDriveFilesInjectable,
+    private ionicStorage: IonicStorageService
   ) {}
 
   async navigateTo(route: string) {
@@ -75,6 +75,10 @@ export class WalletImportsPage {
     } catch (error) {
       this.showErrorToast(this._googleDriveError(error));
     }
+  }
+
+  async setWalletBackup() {
+    this.ionicStorage.set('wallet_backup', true);
   }
 
   async checkBackup(accessToken: string) {
@@ -103,6 +107,7 @@ export class WalletImportsPage {
   private async _initializeWallet(password: Password) {
     try {
       await this.walletInitializeProcess.run(password, true);
+      await this.setWalletBackup();
       this.navigateToSuccess();
     } catch (error) {
       if (new PasswordErrorMsgs().isInvalidError(error)) {

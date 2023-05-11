@@ -18,6 +18,7 @@ import { GoogleDriveFile } from 'src/app/shared/models/google-drive-file/google-
 import { StorageWallet } from '../shared-wallets/interfaces/storage-wallet.interface';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { By } from '@angular/platform-browser';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('WalletImportsPage', () => {
   let component: WalletImportsPage;
@@ -31,6 +32,7 @@ describe('WalletImportsPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let walletInitializeProcessSpy: jasmine.SpyObj<WalletInitializeProcess>;
   let googleDriveFilesSpy: jasmine.SpyObj<GoogleDriveFilesInjectable>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   const itemMethod = [
     {
@@ -71,6 +73,10 @@ describe('WalletImportsPage', () => {
       removeWalletFromStorage: Promise.resolve(),
     });
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(null),
+    });
+
     walletInitializeProcessSpy = jasmine.createSpyObj('WalletInitializeProcess', {
       run: Promise.resolve(),
     });
@@ -90,6 +96,7 @@ describe('WalletImportsPage', () => {
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: WalletInitializeProcess, useValue: walletInitializeProcessSpy },
         { provide: GoogleDriveFilesInjectable, useValue: googleDriveFilesSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -139,6 +146,7 @@ describe('WalletImportsPage', () => {
     expect(googleAuthServiceSpy.accessToken).toHaveBeenCalledTimes(1);
     expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith({} as StorageWallet);
     expect(walletInitializeProcessSpy.run).toHaveBeenCalledOnceWith(new Password('password'), true);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('wallet_backup', true);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/wallets/recovery/success');
   }));
 
