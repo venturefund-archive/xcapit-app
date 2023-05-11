@@ -4,7 +4,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { CreatePasswordPage } from './create-password.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute,  } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { LoadingService } from '../../../shared/services/loading/loading.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
@@ -21,6 +21,7 @@ import { Wallet } from 'ethers';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
 import { By } from '@angular/platform-browser';
+import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -80,6 +81,8 @@ describe('CreatePasswordPage', () => {
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   let walletInitializeProcessSpy: jasmine.SpyObj<WalletInitializeProcess>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+
   beforeEach(waitForAsync(() => {
     fakeLoadingService = new FakeLoadingService();
     loadingServiceSpy = fakeLoadingService.createSpy();
@@ -132,6 +135,9 @@ describe('CreatePasswordPage', () => {
     walletInitializeProcessSpy = jasmine.createSpyObj('WalletInitializeProcess', {
       run: Promise.resolve(),
     });
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      clear: Promise.resolve(),
+    });
     TestBed.configureTestingModule({
       declarations: [CreatePasswordPage, FakeTrackClickDirective],
       imports: [ReactiveFormsModule, IonicModule, TranslateModule.forRoot()],
@@ -145,6 +151,7 @@ describe('CreatePasswordPage', () => {
         { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
         { provide: WalletInitializeProcess, useValue: walletInitializeProcessSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -167,6 +174,7 @@ describe('CreatePasswordPage', () => {
     tick();
     expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(1);
     expect(walletInitializeProcessSpy.run).toHaveBeenCalledTimes(1);
+    expect(ionicStorageServiceSpy.clear).toHaveBeenCalledTimes(1);
   }));
 
   it('should navigate to success import page when mode is import', fakeAsync(() => {
@@ -231,5 +239,4 @@ describe('CreatePasswordPage', () => {
     expect(apiWalletServiceSpy.getInitialTokens).toHaveBeenCalledTimes(1);
     expect(walletMnemonicServiceSpy.newMnemonic).toHaveBeenCalledTimes(1);
   });
-
 });

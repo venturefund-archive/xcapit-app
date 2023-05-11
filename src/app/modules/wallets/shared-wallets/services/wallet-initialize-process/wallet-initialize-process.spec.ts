@@ -28,6 +28,7 @@ describe('WalletInitializeProcess', () => {
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
+
   beforeEach(() => {
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
       create: blockchains,
@@ -54,6 +55,7 @@ describe('WalletInitializeProcess', () => {
     authServiceSpy = jasmine.createSpyObj('XAuthService', { saveToken: Promise.resolve() });
     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
       disableModal: Promise.resolve(),
+      enableModal: Promise.resolve(),
     });
 
     nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['subscribeTo', 'unsubscribeFrom']);
@@ -92,6 +94,7 @@ describe('WalletInitializeProcess', () => {
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('loggedIn', true);
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+    expect(walletBackupServiceSpy.enableModal).not.toHaveBeenCalled();
   });
 
   it('run with disabled notifications', async () => {
@@ -109,5 +112,8 @@ describe('WalletInitializeProcess', () => {
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('userAcceptedToS', true);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('tokens_structure_migrated', true);
+    expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
   });
 });
