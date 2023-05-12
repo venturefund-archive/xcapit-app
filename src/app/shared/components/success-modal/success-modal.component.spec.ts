@@ -53,6 +53,7 @@ describe('SuccessModalComponent', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_go_to_wallet"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('tabs/wallets');
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
   it('should dissmis modal when button Close is clicked', () => {
