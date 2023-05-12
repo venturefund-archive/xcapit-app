@@ -15,6 +15,7 @@ import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-metho
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-create-password',
@@ -192,7 +193,8 @@ export class CreatePasswordPage {
     private walletService: WalletService,
     private walletMnemonicService: WalletMnemonicService,
     private remoteConfig: RemoteConfigService,
-    private walletInitializeProcess: WalletInitializeProcess
+    private walletInitializeProcess: WalletInitializeProcess,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ionViewWillEnter() {
@@ -217,6 +219,7 @@ export class CreatePasswordPage {
     if (this.createPasswordForm.valid) {
       this.loading = true;
       setTimeout(async () => {
+        this._cleanStorage();
         await this.encryptWallet();
         await this.walletInitializeProcess.run(
           new Password(this.createPasswordForm.value.password),
@@ -228,6 +231,10 @@ export class CreatePasswordPage {
     } else {
       this.createPasswordForm.markAllAsTouched();
     }
+  }
+
+  private _cleanStorage() {
+    this.ionicStorageService.clear();
   }
 
   navigateByMode() {

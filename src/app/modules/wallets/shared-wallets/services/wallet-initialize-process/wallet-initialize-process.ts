@@ -37,8 +37,10 @@ export class WalletInitializeProcess {
     await this._saveWallets();
     await this._createLoginToken(password);
     await this._loginUser();
-    if (isImport) await this._setWalletAsProtected();
+    await this._setWalletAsProtected(isImport);
     await this._initializeNotifications();
+    await this._setDefaultStorageConfig();
+    await this._enableBackupWarningModal();
   }
 
   private async _enablePushNotificationsByDefault() {
@@ -76,11 +78,13 @@ export class WalletInitializeProcess {
     return new LoggedIn(this.ionicStorageService).save(true);
   }
 
-  private _setWalletAsProtected(): Promise<void[]> {
-    return Promise.all([
-      this.ionicStorageService.set('protectedWallet', true),
-      this.walletBackupService.disableModal(),
-    ]);
+  private _setWalletAsProtected(isImport: boolean): Promise<void[]> {
+    if (isImport) {
+      return Promise.all([
+        this.ionicStorageService.set('protectedWallet', true),
+        this.walletBackupService.disableModal(),
+      ]);
+    }
   }
 
   private async _initializeNotifications() {
@@ -98,5 +102,16 @@ export class WalletInitializeProcess {
 
   private async _enabledPushNotifications(): Promise<boolean> {
     return await this.ionicStorageService.get(this._pushNotificationStorageKey).then((status) => status);
+  }
+
+  private async _setDefaultStorageConfig(): Promise<void> {
+    await this.ionicStorageService.set('userAcceptedToS', true);
+    await this.ionicStorageService.set('tokens_structure_migrated', true);
+  }
+
+  private async _enableBackupWarningModal() {
+    if (!(await this.ionicStorageService.get('protectedWallet'))) {
+      await this.walletBackupService.enableModal();
+    }
   }
 }

@@ -9,8 +9,11 @@ export class SignedTypedParams {
   }
 
   types(): any {
-    return this._value().types;
+    const result = this._value().types;
+    delete result.EIP712Domain;
+    return result;
   }
+  
   message(): any {
     return this._value().message;
   }

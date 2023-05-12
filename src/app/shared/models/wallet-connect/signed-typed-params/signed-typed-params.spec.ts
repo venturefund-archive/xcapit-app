@@ -19,7 +19,7 @@ describe('SignedTypedParams', () => {
   });
 
   it('types', () => {
-    expect(signedTypedParams.types().EIP712Domain.length).toBeGreaterThan(0);
+    expect(signedTypedParams.types().Mail.length).toBeGreaterThan(0);
   });
 
   it('message', () => {
