@@ -1,12 +1,9 @@
 import { QueueService } from './../../../../shared/services/queue/queue.service';
-import { BalanceCacheService } from './../../shared-wallets/services/balance-cache/balance-cache.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { WalletBackupService } from '../../shared-wallets/services/wallet-backup/wallet-backup.service';
-import { LoggedIn } from '../../../users/shared-users/models/logged-in/logged-in';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 
 @Component({
@@ -101,51 +98,39 @@ import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services
     </ion-content>`,
   styleUrls: ['./remove-wallet.page.scss'],
 })
-export class RemoveWalletPage implements OnInit {
+export class RemoveWalletPage {
   acceptTos = false;
   loading = false;
 
   constructor(
     private navController: NavController,
     private storageService: StorageService,
-    private balanceCacheService: BalanceCacheService,
     private queueService: QueueService,
     private walletConnectService: WalletConnectService,
     private ionicStorageService: IonicStorageService,
-    private walletBackupService: WalletBackupService, 
     private txInProgressService: TxInProgressService
   ) {}
 
-  ngOnInit() {}
-
   async remove() {
-    this.enableLoading();
+    this._enableLoading();
     await this.storageService.removeWalletFromStorage();
     this.queueService.dequeueAll();
-    await this.balanceCacheService.removeTotal();
-    await this.cleanProtectedWallet();
-    await this.walletBackupService.enableModal();
-    await new LoggedIn(this.ionicStorageService).save(false);
+    this._cleanStorage();
     await this.walletConnectService.killSession();
-    await this.goToSuccessPage();
-    this.disableLoading();
-    this.removeTyCofStorage();
-    await this.removeInProgressTransactions();
+    await this._goToSuccessPage();
+    this._disableLoading();
+    await this._removeInProgressTransactions();
   }
 
-  private cleanProtectedWallet(): Promise<void> {
-    return this.ionicStorageService.set('protectedWallet', false);
-  }
-
-  private enableLoading(): void {
+  private _enableLoading(): void {
     this.loading = true;
   }
 
-  private disableLoading(): void {
+  private _disableLoading(): void {
     this.loading = false;
   }
 
-  private goToSuccessPage(): Promise<boolean> {
+  private _goToSuccessPage(): Promise<boolean> {
     return this.navController.navigateForward(['wallets/remove/success']);
   }
 
@@ -153,14 +138,11 @@ export class RemoveWalletPage implements OnInit {
     return (this.acceptTos = !this.acceptTos);
   }
 
-  removeTyCofStorage() {
-    this.ionicStorageService.remove('_agreement_2PI_T&C');
-    this.ionicStorageService.remove('termsAndConditions1InchSwapAccepted');
-    this.ionicStorageService.remove('kripton_privacy_and_policy_accepted');
-    this.ionicStorageService.remove('userAcceptedToS');
+  private _cleanStorage() {
+    this.ionicStorageService.clear();
   }
 
-  async removeInProgressTransactions() {
+  private async _removeInProgressTransactions() {
     await this.txInProgressService.clean();
   }
 }

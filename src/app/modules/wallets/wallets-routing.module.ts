@@ -26,7 +26,7 @@ const routes: Routes = [
           import('./disclaimer-wallet/disclaimer-wallet.module').then((m) => m.DisclaimerWalletPageModule),
       },
       {
-        canActivate: [AuthGuard, AcceptedToSGuard],
+        canActivate: [AuthGuard],
         path: 'select-coins',
         loadChildren: () =>
           import('./select-coins-wallet/select-coins-wallet.module').then((m) => m.SelectCoinsWalletPageModule),
@@ -37,7 +37,7 @@ const routes: Routes = [
         loadChildren: () => import('./no-wallet/no-wallet.module').then((m) => m.NoWalletPageModule),
       },
       {
-        canActivate: [AuthGuard, AcceptedToSGuard],
+        canActivate: [AuthGuard],
         path: 'success-creation',
         loadChildren: () =>
           import('./success-creation/success-creation.module').then((m) => m.SuccessCreationPageModule),
@@ -53,7 +53,7 @@ const routes: Routes = [
         loadChildren: () => import('./create-password/create-password.module').then((m) => m.CreatePasswordPageModule),
       },
       {
-        canActivate: [NoAuthGuard],
+        canActivate: [NoAuthGuard, AcceptedToSGuard],
         path: 'wallet-imports',
         loadChildren: () =>
           import('./wallet-imports/wallet-imports.module').then((m) => m.WalletImportsPageModule),
@@ -93,7 +93,7 @@ const routes: Routes = [
           },
           {
             path: 'success',
-            canActivate: [AuthGuard, AcceptedToSGuard],
+            canActivate: [AuthGuard],
             loadChildren: () =>
               import('./success-recovery-wallet/success-recovery-wallet.module').then(
                 (m) => m.SuccessRecoveryWalletPageModule

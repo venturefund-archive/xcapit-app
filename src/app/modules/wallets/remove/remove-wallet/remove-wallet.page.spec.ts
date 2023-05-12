@@ -10,10 +10,8 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { RemoveWalletPage } from './remove-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BalanceCacheService } from '../../shared-wallets/services/balance-cache/balance-cache.service';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { WalletBackupService } from '../../shared-wallets/services/wallet-backup/wallet-backup.service';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 
 describe('RemoveWalletPage', () => {
@@ -23,21 +21,16 @@ describe('RemoveWalletPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let queueServiceSpy: jasmine.SpyObj<QueueService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
-  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
+
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       removeWalletFromStorage: Promise.resolve(),
-    });
-
-    balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
-      removeTotal: Promise.resolve(),
     });
 
     queueServiceSpy = jasmine.createSpyObj('QueueService', {
@@ -51,10 +44,7 @@ describe('RemoveWalletPage', () => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
       remove: Promise.resolve(),
-    });
-
-    walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
-      enableModal: Promise.resolve(),
+      clear: Promise.resolve(),
     });
 
     txInProgressServiceSpy = jasmine.createSpyObj('TxInProgressService', {
@@ -67,11 +57,9 @@ describe('RemoveWalletPage', () => {
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: StorageService, useValue: storageServiceSpy },
-        { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
         { provide: QueueService, useValue: queueServiceSpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
-        { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -108,14 +96,9 @@ describe('RemoveWalletPage', () => {
     fixture.debugElement.query(By.css("ion-button[name='remove_wallet']")).nativeElement.click();
     await fixture.whenStable();
     expect(storageServiceSpy.removeWalletFromStorage).toHaveBeenCalledTimes(1);
-    expect(balanceCacheServiceSpy.removeTotal).toHaveBeenCalledTimes(1);
     expect(queueServiceSpy.dequeueAll).toHaveBeenCalledTimes(1);
     expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/remove/success']);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', false);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('loggedIn', false);
-    expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
-    expect(ionicStorageServiceSpy.remove).toHaveBeenCalledTimes(4);
     expect(txInProgressServiceSpy.clean).toHaveBeenCalledTimes(1);
   });
 });
