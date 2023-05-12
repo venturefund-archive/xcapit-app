@@ -15,6 +15,9 @@ import { GDRIVE_ERRORS } from '../shared-wallets/constants/gdrive-errors.constan
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 import { GoogleDriveError } from '../shared-wallets/models/google-drive-error/google-drive-error';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import {
+  WalletStorageDataFactoryInjectable
+} from '../shared-wallets/models/wallet-storage-data/injectable/wallet-storage-data-factory.injectable';
 
 @Component({
   selector: 'app-wallet-imports',
@@ -61,7 +64,8 @@ export class WalletImportsPage {
     private storageService: StorageService,
     private walletInitializeProcess: WalletInitializeProcess,
     private googleDriveFiles: GoogleDriveFilesInjectable,
-    private ionicStorage: IonicStorageService
+    private ionicStorage: IonicStorageService,
+    private walletStorageDataFactoryInjectable: WalletStorageDataFactoryInjectable
   ) {}
 
   async navigateTo(route: string) {
@@ -106,7 +110,11 @@ export class WalletImportsPage {
 
   private async _initializeWallet(password: Password) {
     try {
-      await this.walletInitializeProcess.run(password, true);
+      await this.walletInitializeProcess.run(
+        password,
+        true,
+        this.walletStorageDataFactoryInjectable.create().oneBy('drive')
+      );
       await this.setWalletBackup();
       this.navigateToSuccess();
     } catch (error) {

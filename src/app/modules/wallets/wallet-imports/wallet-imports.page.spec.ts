@@ -19,6 +19,9 @@ import { StorageWallet } from '../shared-wallets/interfaces/storage-wallet.inter
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { By } from '@angular/platform-browser';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wallet-storage-data/injectable/wallet-storage-data-factory.injectable';
+import { FakeWalletStorageData } from '../shared-wallets/models/wallet-storage-data/fake/fake-wallet-storage-data';
+import { WalletStorageDataFactory } from '../shared-wallets/models/wallet-storage-data/factory/wallet-storage-data-factory';
 
 describe('WalletImportsPage', () => {
   let component: WalletImportsPage;
@@ -33,6 +36,8 @@ describe('WalletImportsPage', () => {
   let walletInitializeProcessSpy: jasmine.SpyObj<WalletInitializeProcess>;
   let googleDriveFilesSpy: jasmine.SpyObj<GoogleDriveFilesInjectable>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let walletStorageDataFactoryInjectableSpy: jasmine.SpyObj<WalletStorageDataFactoryInjectable>;
+  let walletStorageDataFactorySpy: jasmine.SpyObj<WalletStorageDataFactory>;
 
   const itemMethod = [
     {
@@ -85,6 +90,14 @@ describe('WalletImportsPage', () => {
       create: new FakeGoogleDriveFiles(),
     });
 
+    walletStorageDataFactorySpy = jasmine.createSpyObj('WalletStorageDataFactory',{
+      oneBy: new FakeWalletStorageData(),
+    })
+
+    walletStorageDataFactoryInjectableSpy = jasmine.createSpyObj('WalletStorageDataFactoryInjectable', {
+      create: walletStorageDataFactorySpy,
+    });
+
     TestBed.configureTestingModule({
       declarations: [WalletImportsPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
@@ -97,6 +110,7 @@ describe('WalletImportsPage', () => {
         { provide: WalletInitializeProcess, useValue: walletInitializeProcessSpy },
         { provide: GoogleDriveFilesInjectable, useValue: googleDriveFilesSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: WalletStorageDataFactoryInjectable, useValue: walletStorageDataFactoryInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -145,7 +159,7 @@ describe('WalletImportsPage', () => {
 
     expect(googleAuthServiceSpy.accessToken).toHaveBeenCalledTimes(1);
     expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith({} as StorageWallet);
-    expect(walletInitializeProcessSpy.run).toHaveBeenCalledOnceWith(new Password('password'), true);
+    expect(walletInitializeProcessSpy.run).toHaveBeenCalledOnceWith(new Password('password'), true, new FakeWalletStorageData())
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('wallet_backup', true);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/wallets/recovery/success');
   }));

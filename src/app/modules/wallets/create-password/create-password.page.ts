@@ -16,6 +16,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wallet-storage-data/injectable/wallet-storage-data-factory.injectable';
 
 @Component({
   selector: 'app-create-password',
@@ -194,7 +195,8 @@ export class CreatePasswordPage {
     private walletMnemonicService: WalletMnemonicService,
     private remoteConfig: RemoteConfigService,
     private walletInitializeProcess: WalletInitializeProcess,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private walletStorageDataFactoryInjectable: WalletStorageDataFactoryInjectable
   ) {}
 
   ionViewWillEnter() {
@@ -223,7 +225,8 @@ export class CreatePasswordPage {
         await this.encryptWallet();
         await this.walletInitializeProcess.run(
           new Password(this.createPasswordForm.value.password),
-          this.mode === 'import'
+          this.mode === 'import',
+          this.walletStorageDataFactoryInjectable.create().oneBy(this.mode)
         );
         this.loading = false;
         await this.navigateByMode();

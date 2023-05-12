@@ -22,6 +22,9 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
 import { By } from '@angular/platform-browser';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
+import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wallet-storage-data/injectable/wallet-storage-data-factory.injectable';
+import { WalletStorageDataFactory } from '../shared-wallets/models/wallet-storage-data/factory/wallet-storage-data-factory';
+import { FakeWalletStorageData } from '../shared-wallets/models/wallet-storage-data/fake/fake-wallet-storage-data';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -82,6 +85,8 @@ describe('CreatePasswordPage', () => {
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   let walletInitializeProcessSpy: jasmine.SpyObj<WalletInitializeProcess>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let walletStorageDataFactoryInjectableSpy: jasmine.SpyObj<WalletStorageDataFactoryInjectable>;
+  let walletStorageDataFactorySpy: jasmine.SpyObj<WalletStorageDataFactory>;
 
   beforeEach(waitForAsync(() => {
     fakeLoadingService = new FakeLoadingService();
@@ -138,6 +143,14 @@ describe('CreatePasswordPage', () => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       clear: Promise.resolve(),
     });
+
+    walletStorageDataFactorySpy = jasmine.createSpyObj('WalletStorageDataFactory', {
+      oneBy: new FakeWalletStorageData(),
+    });
+
+    walletStorageDataFactoryInjectableSpy = jasmine.createSpyObj('WalletStorageDataFactoryInjectable', {
+      create: walletStorageDataFactorySpy,
+    });
     TestBed.configureTestingModule({
       declarations: [CreatePasswordPage, FakeTrackClickDirective],
       imports: [ReactiveFormsModule, IonicModule, TranslateModule.forRoot()],
@@ -152,6 +165,7 @@ describe('CreatePasswordPage', () => {
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
         { provide: WalletInitializeProcess, useValue: walletInitializeProcessSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: WalletStorageDataFactoryInjectable, useValue: walletStorageDataFactoryInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

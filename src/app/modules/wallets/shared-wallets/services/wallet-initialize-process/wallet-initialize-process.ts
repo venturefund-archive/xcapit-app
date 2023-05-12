@@ -8,11 +8,11 @@ import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.
 import { LoginToken } from '../../../../users/shared-users/models/login-token/login-token';
 import { Password } from '../../../../swaps/shared-swaps/models/password/password';
 import { IonicStorageService } from '../../../../../shared/services/ionic-storage/ionic-storage.service';
-import { LoggedIn } from '../../../../users/shared-users/models/logged-in/logged-in';
 import { WalletBackupService } from '../wallet-backup/wallet-backup.service';
 import { NotificationsService } from 'src/app/modules/notifications/shared-notifications/services/notifications/notifications.service';
 import { MnemonicOf } from '../../models/mnemonic-of/mnemonic-of';
 import { FakeEthersWallet } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-ethers-wallet';
+import { WalletStorageData } from '../../models/wallet-storage-data/wallet-storage-data.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -31,22 +31,14 @@ export class WalletInitializeProcess {
     private notificationsService: NotificationsService
   ) {}
 
-  public async run(password: Password, isImport: boolean) {
+  public async run(password: Password, isImport: boolean, walletStorageData: WalletStorageData) {
     await this._createXAuthToken(password);
-    await this._enablePushNotificationsByDefault();
     await this._saveWallets();
+    await walletStorageData.save();
     await this._createLoginToken(password);
-    await this._loginUser();
     await this._setWalletAsProtected(isImport);
     await this._initializeNotifications();
-    await this._setDefaultStorageConfig();
     await this._enableBackupWarningModal();
-  }
-
-  private async _enablePushNotificationsByDefault() {
-    if ((await this._enabledPushNotifications()) === null) {
-      await this.ionicStorageService.set(this._pushNotificationStorageKey, true);
-    }
   }
 
   private async _createXAuthToken(password: Password): Promise<void> {
@@ -74,16 +66,9 @@ export class WalletInitializeProcess {
     return new LoginToken(password, this.ionicStorageService).save();
   }
 
-  private async _loginUser(): Promise<void> {
-    return new LoggedIn(this.ionicStorageService).save(true);
-  }
-
-  private _setWalletAsProtected(isImport: boolean): Promise<void[]> {
+  private async _setWalletAsProtected(isImport: boolean): Promise<void> {
     if (isImport) {
-      return Promise.all([
-        this.ionicStorageService.set('protectedWallet', true),
-        this.walletBackupService.disableModal(),
-      ]);
+      await this.walletBackupService.disableModal();
     }
   }
 
@@ -102,11 +87,6 @@ export class WalletInitializeProcess {
 
   private async _enabledPushNotifications(): Promise<boolean> {
     return await this.ionicStorageService.get(this._pushNotificationStorageKey).then((status) => status);
-  }
-
-  private async _setDefaultStorageConfig(): Promise<void> {
-    await this.ionicStorageService.set('userAcceptedToS', true);
-    await this.ionicStorageService.set('tokens_structure_migrated', true);
   }
 
   private async _enableBackupWarningModal() {
