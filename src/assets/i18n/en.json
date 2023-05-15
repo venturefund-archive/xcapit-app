@@ -1928,7 +1928,7 @@
         "button_text": "Confirm backup"
       },
       "backup_succes_modal": {
-        "title": "!Congratulations!",
+        "title": "Congratulations!",
         "description": "You have successfully created a backup of your wallet.",
         "button_text": "Go to my wallet"
       },
