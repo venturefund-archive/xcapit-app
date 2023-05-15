@@ -35,7 +35,10 @@
 
         &__description {
           padding: 0 10px;
-          color: var(--ion-color-primary) !important;
+
+          ion-text {
+            color: var(--ion-color-primary) !important;
+          }
         }
       }
     }
