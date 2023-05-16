@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { StorageService } from '../app-storage/app-storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class IonicStorageService {
+export class IonicStorageService implements StorageService{
   constructor(private storage: Storage) {}
 
   set(key: string, value: any): Promise<any> {

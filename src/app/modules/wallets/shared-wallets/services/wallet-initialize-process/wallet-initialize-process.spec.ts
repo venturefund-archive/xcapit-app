@@ -15,6 +15,7 @@ import { of } from 'rxjs';
 import { Wallet } from 'ethers';
 import { FakeEthersWallet } from '../../../../swaps/shared-swaps/models/fakes/fake-ethers-wallet';
 import { NullNotificationsService } from '../../../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
+import { FakeWalletStorageData } from '../../models/wallet-storage-data/fake/fake-wallet-storage-data';
 
 describe('WalletInitializeProcess', () => {
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
@@ -83,15 +84,13 @@ describe('WalletInitializeProcess', () => {
   });
 
   it('run', async () => {
-    await service.run(new Password('aPassword'), true);
+    await service.run(new Password('aPassword'), true, new FakeWalletStorageData());
     expect(authServiceSpy.saveToken).toHaveBeenCalledTimes(1);
     expect(apiWalletServiceSpy.saveWalletAddresses).toHaveBeenCalledTimes(1);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', true);
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith(
       'loginToken',
       'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA=='
     );
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('loggedIn', true);
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(walletBackupServiceSpy.enableModal).not.toHaveBeenCalled();
@@ -99,21 +98,16 @@ describe('WalletInitializeProcess', () => {
 
   it('run with disabled notifications', async () => {
     ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(null));
-    await service.run(new Password('aPassword'), true);
+    await service.run(new Password('aPassword'), true, new FakeWalletStorageData());
     expect(authServiceSpy.saveToken).toHaveBeenCalledTimes(1);
     expect(apiWalletServiceSpy.saveWalletAddresses).toHaveBeenCalledTimes(1);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('_enabledPushNotifications', true);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', true);
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith(
       'loginToken',
       'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA=='
     );
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('loggedIn', true);
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('userAcceptedToS', true);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('tokens_structure_migrated', true);
     expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
   });
 });
