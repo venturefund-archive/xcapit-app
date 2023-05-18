@@ -17,6 +17,7 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wallet-storage-data/injectable/wallet-storage-data-factory.injectable';
+import { SimplifiedWallet } from '../shared-wallets/models/simplified-wallet/simplified-wallet';
 
 @Component({
   selector: 'app-create-password',
@@ -78,7 +79,7 @@ import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wal
 
     <ion-footer>
       <div name="Create Password Form Buttons" class="ux_footer">
-        <div class="import_method">
+        <div class="import_method" *ngIf="!this.isUserWarranty">
           <div class="texts">
             <div class="title">
               <ion-text *ngIf="this.mode !== 'import'" class="ux-font-text-lg">{{
@@ -151,6 +152,7 @@ import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wal
 export class CreatePasswordPage {
   mode: string;
   loading: boolean;
+  isUserWarranty: boolean;
   method: WalletCreationMethod;
   createPasswordForm: UntypedFormGroup = this.formBuilder.group(
     {
@@ -199,11 +201,12 @@ export class CreatePasswordPage {
     private walletStorageDataFactoryInjectable: WalletStorageDataFactoryInjectable
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.method = this.walletEncryptionService.creationMethod;
     this.loadingService.enabled();
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.trackClickName = `ux_${this.mode}_edit`;
+    await this.getUserWarranty();
   }
 
   async ionViewDidEnter() {
@@ -248,6 +251,10 @@ export class CreatePasswordPage {
     }
 
     return this.navController.navigateRoot(url);
+  }
+
+  private async getUserWarranty() {
+    this.isUserWarranty = await new SimplifiedWallet(this.ionicStorageService).value();
   }
 
   goToDerivedPathOptions() {
