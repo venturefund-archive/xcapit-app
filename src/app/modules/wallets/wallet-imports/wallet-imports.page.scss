@@ -1,0 +1,36 @@
+:host {
+  ion-content {
+    --background: var(--ion-color-background);
+  }
+
+  .wi {
+    --padding-start: 16px;
+    --padding-end: 16px;
+
+    &__method {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 35px;
+    }
+
+    &__title {
+      ion-text {
+        color: var(--ion-color-primary);
+      }
+
+      margin-top: 18px;
+    }
+
+    &__subtitle {
+      margin-top: 16px;
+    }
+
+    &__support {
+      position: absolute;
+      bottom: 36px;
+      width: 100%;
+      text-align: center;
+    }
+  }
+}

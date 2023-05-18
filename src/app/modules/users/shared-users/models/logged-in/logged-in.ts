@@ -1,7 +1,7 @@
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { StorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 
 export class LoggedIn {
-  constructor(private _storage: IonicStorageService, private _storageKey: string = 'loggedIn') {}
+  constructor(private _storage: StorageService, private _storageKey: string = 'loggedIn') {}
 
   public save(aValue: boolean): Promise<void> {
     return this._storage.set(this._storageKey, aValue);

@@ -13,6 +13,7 @@ import { MenuCategory } from '../../interfaces/menu-category.interface';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 const itemMenu: MenuCategory = {
   category_title: 'profiles.user_profile_menu.category_help',
@@ -76,7 +77,7 @@ describe('CardItemMenuComponent', () => {
       open: Promise.resolve(),
     });
     TestBed.configureTestingModule({
-      declarations: [CardCategoryMenuComponent, FakeTrackClickDirective],
+      declarations: [CardCategoryMenuComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: NavController, useValue: navControllerSpy },

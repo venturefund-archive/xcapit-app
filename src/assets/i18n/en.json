@@ -84,7 +84,7 @@
     "services": {
       "kripton_interceptor": {
         "session_expired_toast": "Your session in Kripton Market has expired."
-      }, 
+      },
       "share": {
         "copy_text": "The subscription link has been copied to the clipboard.",
         "share_error": "Text was copied to the clipboard"
@@ -687,6 +687,7 @@
       "security_phrase": "Security phrase",
       "category_preferences": "Preferences",
       "security_configuration": "Configuration",
+      "google_drive_backup": "Google Drive backup",
       "push_notifications": "Push notifications",
       "language": "Language",
       "logout": "Log Out",
@@ -790,6 +791,11 @@
         "title": "Password",
         "button": "Change"
       }
+    },
+    "backup": {
+      "header": "Backup",
+      "title": "Google Drive backup",
+      "toggle_text": "Create an encrypted backup of your wallet so you can restore it whenever you need it."
     },
     "shared": {
       "remove_account_modal": {
@@ -1712,6 +1718,26 @@
     }
   },
   "wallets": {
+    "wallet_imports": {
+      "header": "Import wallet",
+      "title": "Import your wallet",
+      "subtitle": "Select the method you wish to use to import your wallet.",
+      "support": "What method should I choose?",
+      "key": {
+        "title": "Import with the recovery phrase",
+        "subtitle": "Use your recovery phrase from Xcapit or another crypto wallet."
+      },
+      "cloud": {
+        "title": "Import copy from Google Drive",
+        "subtitle": "Restore your wallet using this option if you have previously made a backup."
+      },
+      "toasts": {
+        "denied": "Access denied. Permissions are required to perform the backup. Please try again.",
+        "closed": "We were unable to access your account to perform the backup. Please try again.",
+        "info": "We have not found any backups. Please make sure you are logged in with the correct account.",
+        "password": "Wrong password. Please try again."
+      }
+    },
     "receive_select_currency": {
       "header": "Receive",
       "title": "Select the currency you want to receive"
@@ -1880,12 +1906,31 @@
     },
     "success_creation": {
       "title": "Congratulations!\nYou have created your wallet",
+      "title1": "Congratulations!\nProtect your wallet",
       "subtitle": "Protect it by backing up your recovery phrase.\nThis is the master key to your funds.",
+      "subtitle1": "One last step! Create an encrypted backup of your wallet in Google Drive.",
       "success_button": "Go to wallet",
       "ribbon_recommended": "Suggested",
-      "primary_action": {
-        "title": "Protecting my wallet",
-        "subtitle": "Do it now and don't lose access to your money. It will only take a few minutes."
+      "finish_button": "Finish",
+      "backup_options": {
+        "option_1": {
+          "title": "Protect my wallet",
+          "subtitle": "Do it now and don't lose access to your money. It will only take a few minutes."
+        },
+        "option_2": {
+          "title": "Backup to Google Drive",
+          "subtitle": "Don't lose your wallet, save an encrypted copy. It will only take a few minutes."
+        }
+      },
+      "password_modal": {
+        "title": "For security",
+        "description": "To continue, please enter your Xcapit wallet password. Do not forget it. It cannot be retrieved!",
+        "button_text": "Confirm backup"
+      },
+      "backup_succes_modal": {
+        "title": "Congratulations!",
+        "description": "You have successfully created a backup of your wallet.",
+        "button_text": "Go to my wallet"
       },
       "secondary_action": {
         "title": "Another time"
@@ -2078,7 +2123,7 @@
         "expand_button": "Expand",
         "reduce_button": "Reduce"
       },
-      "wallet_transaction_card":{
+      "wallet_transaction_card": {
         "expand_button": "Expand",
         "reduce_button": "Reduce"
       },
@@ -2130,7 +2175,7 @@
       },
       "skip_backup_modal": {
         "title": "Skip backup?",
-        "description": "I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
+        "description": "I understand that if I do not make a backup, I could lose access to my funds.",
         "button_back": "Back",
         "button_skip": "Skip"
       },
@@ -2414,7 +2459,8 @@
     "cash_out": {
       "header": "Buy - Sell",
       "title": "Enter the account holder's information",
-      "disclaimer": "The account holder must be the same person who performed the registration or KYC process. Transfers to third parties are not allowed."
+      "disclaimer": "The account holder must be the same person who performed the registration or KYC process. Transfers to third parties are not allowed.",
+      "loading": "Creating order"
     },
     "operation_km_in_progress": {
       "text_primary": "Your order is on its way!",
@@ -2425,6 +2471,17 @@
       "text_tertiary": "Do you need help?",
       "text_help_link": "Write to Kripton Market support"
     },
+    "operation_km_cashout": {
+      "text_secondary": "We will be informing you about changes in the status of your sale.",
+      "button_text": "Finish",
+      "text_title": "Sell",
+      "text_badge": "Sent"
+    },
+    "operation_km_cashout_error": {
+      "text_primary": "Transaction error",
+      "text_secondary": "An error occurred in the process.",
+      "button_secondary": "Back to Buy - Sell"
+    },
     "error_operation_km": {
       "text_primary": "Error when loading the voucher",
       "text_secondary": "👉 Verify that the format is jpg, png or pdf. And that its size does not exceed 200 kb.",
@@ -2434,10 +2491,10 @@
     "home_of_purchases": {
       "header": "Buy - Sell",
       "question": "How do purchases work?",
-      "footer":{
-        "title":"What do you want to do?",
-        "buy_button":"Buy",
-        "sell_button":"Sell"
+      "footer": {
+        "title": "What do you want to do?",
+        "buy_button": "Buy",
+        "sell_button": "Sell"
       }
     },
     "buy_conditions": {
@@ -2478,7 +2535,7 @@
       "button_text": "Go to wallet"
     },
     "operations_list": {
-      "title": "Purchases in Kripton Market",
+      "title": "With Kripton Market",
       "operation": "Coin",
       "amount": "Amount",
       "date": "Date",
@@ -2489,7 +2546,7 @@
       "button_show_less": "Show less",
       "button_show_more": "Show more",
       "log_out_modal": {
-        "title":"Do you want to log out?",
+        "title": "Do you want to log out?",
         "description": "You will need to log in again with your email address to view your purchases.",
         "confirm_button": "Confirm",
         "cancel_button": "Cancel"
@@ -2521,7 +2578,7 @@
       "krypton_description": "Buy with bank transfer",
       "disclaimer": "* Quotes may vary slightly at the time of purchase.",
       "description": "Buy with {{providerName}} {{token}} at ${{quote}} {{fiatCode}}.",
-      "kripton_sell_description":"Deposits can take up to 72 hours.",
+      "kripton_sell_description": "Deposits can take up to 72 hours.",
       "bitrefill_description": "Access exclusive benefits!",
       "sell_method": "Which payment method do you prefer?",
       "directa24": {
@@ -2540,7 +2597,7 @@
         "subtitle_available_tokens": "What tokens can you buy?",
         "subtitle_more_information": "More information:",
         "subtitle_time_tokens": "Token crediting time:",
-        "subtitule_need_know":"What do you need to know?",
+        "subtitule_need_know": "What do you need to know?",
         "kyc_required": "Requires KYC or registration process.",
         "button": "Understood",
         "kripton": {
@@ -2573,13 +2630,13 @@
           "description_3": "Working days from 9 a.m. to 6 p.m. approx. The maximum accreditation time is 3 hours."
         },
         "bitrefill": {
-          "name":"Bitrefill",
-          "header":"It is an authorized provider for the sale of cryptocurrencies.",
-          "erc20_tokens":"ETH, USDT and USDC",
-          "polygon_tokens":"USDC",
-          "credit_card":"Credit card.*",
-          "delivery_time":"Depends on the external supplier on a case-by-case basis.",
-          "disclaimer":"*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
+          "name": "Bitrefill",
+          "header": "It is an authorized provider for the sale of cryptocurrencies.",
+          "erc20_tokens": "ETH, USDT and USDC",
+          "polygon_tokens": "USDC",
+          "credit_card": "Credit card.*",
+          "delivery_time": "Depends on the external supplier on a case-by-case basis.",
+          "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
         }
       }
     },
@@ -2604,18 +2661,34 @@
     "operation_status_detail": {
       "title": "What does this status mean?",
       "button": "Understood",
-      "incomplete": {
-        "description": "Your purchase request has been successfully received by the provider. <b>This does not mean that the purchase has been made.</b> To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
-        "description2": "You have up to 72 hours to do so, otherwise your order will be cancelled."
+      "cash-in": {
+        "incomplete": {
+          "description": "Your purchase request has been successfully received by the provider. <b>This does not mean that the purchase has been made.</b> To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
+          "description2": "You have up to 72 hours to do so, otherwise your order will be cancelled."
+        },
+        "in_progress": {
+          "description": "The provider successfully received your purchase request. Within 24 hours you will see the tokens credited to your wallet."
+        },
+        "nullified": {
+          "description": "The provider had problems with this transaction, so the transaction was cancelled. Your funds will be returned to your original account."
+        },
+        "cancelled": {
+          "description": "Your order can be cancelled for two reasons: the provider did not receive the transfer receipt. Or the user did not make the payment within the 72hs stipulated from the purchase request."
+        }
       },
-      "in_progress": {
-        "description": "The provider successfully received your purchase request. Within 24 hours you will see the tokens credited to your wallet."
-      },
-      "nullified": {
-        "description": "The provider had problems with this transaction, so the transaction was cancelled. Your funds will be returned to your original account."
-      },
-      "cancelled": {
-        "description": "Your order can be cancelled for two reasons: the provider did not receive the transfer receipt. Or the user did not make the payment within the 72hs stipulated from the purchase request."
+      "cash-out": {
+        "incomplete": {
+          "description": "Your order was successfully created, your tokens are pending to be sent to the provider."
+        },
+        "in_progress": {
+          "description": "Your operation was approved. It may take up to 72 hours to be impacted."
+        },
+        "confirmed": {
+          "description": "Your transaction was successfully credited. You should already see it impact your account."
+        },
+        "cancelled": {
+          "description": "The provider cancelled the transaction. Please try again or contact support."
+        }
       }
     },
     "new_operation": {
@@ -2774,7 +2847,7 @@
           "directa24_voucher": "Nearest store",
           "kripton": "Bank transfer",
           "moonpay": "Credit card",
-          "bitrefill":"Vouchers in stores"
+          "bitrefill": "Vouchers in stores"
         },
         "providers": {
           "kripton": {
@@ -2792,9 +2865,10 @@
         "quantity": "Amount",
         "payment_method": "Payment method",
         "to_pay": "You will pay*",
-        "input_error": "The minimum purchase amount is ${{amount}} {{fiatCurrency}}",
+        "input_error": "The minimum purchase amount is ${{amount}} {{currency}}",
         "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day.",
-        "estimated_fee": "Estimated transaction fee"
+        "estimated_fee": "Estimated transaction fee",
+        "estimated_provider_fee": "Estimated provider fee"
       },
       "kyc_disclaimer_modal": {
         "title": "Krypton account registration",
@@ -2807,6 +2881,11 @@
         "item2": "It may vary slightly at the time of the operation.",
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
+      },
+      "provider_fee_info_modal": {
+        "title": "What is the provider fee?",
+        "item1": "The fee includes the cost of service and local taxes required by the provider for the sale of cryptocurrency.",
+        "item2": "It may vary slightly at the time of performing an operation."
       },
       "user_register_content": {
         "user_information": {
@@ -2907,15 +2986,33 @@
         "operation": "Operation"
       }
     },
+    "kripton_sale_summary": {
+      "header": "Operation detail",
+      "title": "Sale",
+      "quote": "Quotation",
+      "transaction_fee": "Estimated transaction fee",
+      "provider_fee": "Estimated provider fee",
+      "wallet": "Kripton Market Wallet",
+      "bank_account": "Destination bank account",
+      "provider": "Provider",
+      "date": "Date",
+      "button": "Confirm delivery"
+    },
     "kripton_operation_detail": {
       "header": "Operation detail",
       "title": "Buy",
       "state": "Status",
       "state_toast": {
-        "incomplete": "Transfer and send the transaction receipt.",
-        "incomplete2": "Complete data",
-        "nullified": "The provider cancelled this operation. For more information, please contact support.",
-        "cancelled": "The provider did not receive proof of payment."
+        "cash-in": {
+          "incomplete": "Transfer and send the transaction receipt.",
+          "incomplete2": "Complete data",
+          "nullified": "The provider cancelled this operation. For more information, please contact support.",
+          "cancelled": "The provider did not receive proof of payment."
+        },
+        "cash-out": {
+          "incomplete": "Transfer your tokens to the provider.",
+          "incomplete2": "Retry"
+        }
       },
       "scan_link": "View in",
       "scans": {
@@ -2926,8 +3023,11 @@
         "SOLANA": "Solana Explorer"
       },
       "quotation": "Quotation",
-      "fee":"Transaction fee",
+      "fee": "Transaction fee",
+      "estimated_fee": "Estimated transaction fee",
+      "provider_fee": "Provider fee",
       "address": "Destination address (your wallet)",
+      "bank_account": "Destination bank account",
       "provider": "Provider",
       "operation": "Operation",
       "date": "Date",
@@ -3375,11 +3475,11 @@
     },
     "summary": {
       "header": "Make a warranty",
-      "title":"Data of your deposit",
-      "dniLabel":"Guarantor ID card",
-      "amountLabel":"Guarantee amount",
-      "serviceLabel":"Cost of service",
-      "buttonName":"Make Warranty",
+      "title": "Data of your deposit",
+      "dniLabel": "Guarantor ID card",
+      "amountLabel": "Guarantee amount",
+      "serviceLabel": "Cost of service",
+      "buttonName": "Make Warranty",
       "loading": "Making warranty...",
       "wait_loading_message": "It will only take a few seconds."
     },

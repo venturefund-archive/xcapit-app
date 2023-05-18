@@ -11,7 +11,6 @@ import { InfoProviderComponent } from './components/info-provider/info-provider.
 import { CoinSelectorModalComponent } from './components/coin-selector-modal/coin-selector-modal.component';
 import { SkipTransactionVoucherComponent } from './components/skip-transaction-voucher/skip-transaction-voucher.component';
 import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-modal.component';
-import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
 import { InfoProviderKriptonComponent } from './components/info-provider-kripton/info-provider-kripton.component';
 import { InfoProviderMoonpayComponent } from './components/info-provider-moonpay/info-provider-moonpay.component';
 import { ValidationContentComponent } from './components/validation-content/validation-content.component';
@@ -33,6 +32,7 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
 import { VoucherModalComponent } from './components/voucher-modal/voucher-modal.component';
 import { KriptonOffInfoProviderComponent } from './components/kripton-off-info-provider/kripton-off-info-provider.component';
 import { BitrefillInfoComponent } from './components/bitrefill-info/bitrefill-info.component';
+import { ProviderFeeInfoModalComponent } from './components/provider-fee-info-modal/provider-fee-info-modal.component';
 
 @NgModule({
   declarations: [
@@ -46,8 +46,8 @@ import { BitrefillInfoComponent } from './components/bitrefill-info/bitrefill-in
     InfoProviderComponent,
     CoinSelectorModalComponent,
     FeeInfoModalComponent,
+    ProviderFeeInfoModalComponent,
     SkipTransactionVoucherComponent,
-    UserRegisterStepCardComponent,
     InfoProviderKriptonComponent,
     InfoProviderMoonpayComponent,
     MoonpayPurchasesCardComponent,
@@ -84,8 +84,8 @@ import { BitrefillInfoComponent } from './components/bitrefill-info/bitrefill-in
     InfoProviderComponent,
     CoinSelectorModalComponent,
     FeeInfoModalComponent,
+    ProviderFeeInfoModalComponent,
     SkipTransactionVoucherComponent,
-    UserRegisterStepCardComponent,
     InfoProviderKriptonComponent,
     InfoProviderMoonpayComponent,
     MoonpayPurchasesCardComponent,

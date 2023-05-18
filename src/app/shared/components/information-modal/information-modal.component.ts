@@ -13,7 +13,7 @@ import { OperationStatus } from 'src/app/modules/fiat-ramps/shared-ramps/interfa
     <div class="main__body">
       <div class="main__body__content">
         <ion-label class="ux-font-text-lg main__body__content__title">{{ this.title }} </ion-label>
-        <app-operation-status-chip [statusName]="this.status"></app-operation-status-chip>
+        <app-operation-status-chip [statusName]="this.status.name" [operationType]="this.operationType"></app-operation-status-chip>
         <ion-label *ngIf="this.description" class="ion-no-margin ux-font-text-base main__body__content__description" [innerHTML]="this.description">
         </ion-label>
         <ion-label *ngIf="this.description2" class="ion-no-margin ux-font-text-base main__body__content__description2">
@@ -38,6 +38,7 @@ import { OperationStatus } from 'src/app/modules/fiat-ramps/shared-ramps/interfa
 export class InformationModalComponent implements OnInit {
   title: string;
   status: OperationStatus;
+  operationType: string;
   description: string;
   description2: string;
   buttonText: string;

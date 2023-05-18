@@ -20,6 +20,7 @@ describe('OperationStatusAlertComponent', () => {
     fixture = TestBed.createComponent(OperationStatusAlertComponent);
     component = fixture.componentInstance;
     component.operationStatus = 'wait';
+    component.operationType = 'cash-in';
     fixture.detectChanges();
   }));
 
@@ -34,8 +35,8 @@ describe('OperationStatusAlertComponent', () => {
     const textEl = fixture.debugElement.query(By.css('.osa__information__text > ion-text')).nativeElement.textContent;
     const cssClassEl = fixture.debugElement.query(By.css('.ux-warning-background-card'));
 
-    expect(textEl).toContain('fiat_ramps.kripton_operation_detail.state_toast.incomplete');
-    expect(textEl).toContain('fiat_ramps.kripton_operation_detail.state_toast.incomplete2');
+    expect(textEl).toContain('fiat_ramps.kripton_operation_detail.state_toast.cash-in.incomplete');
+    expect(textEl).toContain('fiat_ramps.kripton_operation_detail.state_toast.cash-in.incomplete2');
     expect(cssClassEl).toBeTruthy();
   });
 
@@ -46,7 +47,7 @@ describe('OperationStatusAlertComponent', () => {
     const textEl = fixture.debugElement.query(By.css('.osa__information__text > ion-text')).nativeElement.textContent;
     const cssClassEl = fixture.debugElement.query(By.css('.ux-danger-background-card'));
 
-    expect(textEl).toContain('fiat_ramps.kripton_operation_detail.state_toast.cancelled');
+    expect(textEl).toContain('fiat_ramps.kripton_operation_detail.state_toast.cash-in.cancelled');
     expect(cssClassEl).toBeTruthy();
   });
 });

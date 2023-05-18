@@ -9,7 +9,6 @@ import { NavController } from '@ionic/angular';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { ScanQrModalComponent } from '../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingService } from '../../../../shared/services/loading/loading.service';
 import { ToastService } from '../../../../shared/services/toast/toast.service';
 import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
 import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
@@ -17,6 +16,8 @@ import { BlockchainsFactory } from '../../../swaps/shared-swaps/models/blockchai
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { NullWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/null/null-wc-uri';
+import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 
 @Component({
   selector: 'app-new-connection',
@@ -135,8 +136,6 @@ export class NewConnectionPage {
   public connected = false;
   public selectedWallet: WCWallet;
   public address: string;
-  public activeChainId = 1;
-  public dappInfo: boolean;
   public walletsList: WCWallet[] = [];
   public isNative: boolean;
   public providers: IProviderData[] = [];
@@ -155,7 +154,6 @@ export class NewConnectionPage {
     private modalController: ModalController,
     private alertController: AlertController,
     private translate: TranslateService,
-    private loadingService: LoadingService,
     private toastService: ToastService,
     private platform: Platform,
     private wcService: WCService,
@@ -187,6 +185,7 @@ export class NewConnectionPage {
 
   private async uriSubscription() {
     this.form.patchValue({ uri: this.wcService.uri()?.value() });
+    this.form.controls.uri.setErrors(null);
   }
 
   private async getSupportedWallets() {
@@ -256,6 +255,7 @@ export class NewConnectionPage {
 
   cleanForm() {
     this.walletConnectService.setUri('');
+    this.wcService.set(new NullWCUri());
     this.form.patchValue({ wallet: null, uri: '' });
   }
 
@@ -278,7 +278,7 @@ export class NewConnectionPage {
   }
 
   private async initWalletConnect() {
-    this.wcService.initialize(this.form.value.uri);
+    this.wcService.set(new DefaultWCUri(this.form.value.uri));
     if (this.wcService.uri().isV2() && this.remoteConfig.getFeatureFlag('ff_walletConnectV2')) {
       this.initWalletConnectV2();
     } else if (!this.wcService.uri().isV2()) {
@@ -289,7 +289,6 @@ export class NewConnectionPage {
   }
 
   public async initWalletConnectV2() {
-    await this.loadingService.show();
     try {
       const blockchain = this.blockchains.create().oneById(this.selectedWallet.chainId.toString());
       const wallet = await this.wallets.create().oneBy(blockchain);
@@ -298,14 +297,10 @@ export class NewConnectionPage {
       this.form.patchValue({ wallet: null, uri: '' });
     } catch (error) {
       await this.showAlertOnConnectionError();
-    } finally {
-      await this.loadingService.dismiss();
     }
   }
 
   public async legacyInit(): Promise<void> {
-    await this.loadingService.show();
-
     try {
       await this.walletConnectService.setAccountInfo(this.selectedWallet);
       await this.walletConnectService.initWalletConnect(this.form.value.uri);
@@ -318,8 +313,6 @@ export class NewConnectionPage {
     } catch (error) {
       await this.killSession();
       await this.showAlertOnConnectionError();
-    } finally {
-      await this.loadingService.dismiss();
     }
   }
 

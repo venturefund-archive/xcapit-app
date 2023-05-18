@@ -44,6 +44,7 @@ const routes: Routes = [
         path: 'user-bank',
         loadChildren: () => import('./user-bank/user-bank.module').then((m) => m.UserBankPageModule),
       },
+      
       {
         path: 'user-images',
         loadChildren: () => import('./user-images/user-images.module').then((m) => m.UserImagesPageModule),
@@ -113,6 +114,10 @@ const routes: Routes = [
         path: 'user-bank-account',
         loadChildren: () =>
           import('./user-bank-account/user-bank-account.module').then((m) => m.UserBankAccountPageModule),
+      },
+      {
+        path: 'sell-order',
+        loadChildren: () => import('./sell-order/sell-order.module').then( m => m.SellOrderPageModule)
       },
       {
         canActivate: [LoggedInKriptonGuard],
@@ -195,6 +200,11 @@ const routes: Routes = [
               ),
           },
         ],
+      },
+      {
+        path: 'kripton-summary',
+        loadChildren: () =>
+          import('./kripton-sale-summary/kripton-sale-summary.module').then((m) => m.KriptonSaleSummaryPageModule),
       },
     ],
   },

@@ -1,0 +1,43 @@
+:host {
+  .imp {
+    box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+
+    --border-radius: 8px;
+    --inner-padding-bottom: 21px;
+    --inner-padding-top: 21px;
+    --inner-padding-start: 16px;
+    --inner-padding-end: 16px;
+
+    &__wrapper {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+
+      img {
+        width: 24px;
+        height: 24px;
+        z-index: 99;
+      }
+
+      &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        &__subtitle {
+          color: var(--ion-color-neutral80);
+        }
+      }
+
+      &__action {
+        margin-left: auto;
+
+        ion-icon {
+          height: 24px;
+          width: 24px;
+        }
+      }
+    }
+  }
+}

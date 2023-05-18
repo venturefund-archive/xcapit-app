@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -30,7 +30,7 @@ import { NavController } from '@ionic/angular';
               type="button"
               color="secondary"
               expand="block"
-              (click)="this.goToCreateWallet()"
+              (click)="this.goToCreateDisclaimer()"
               appTrackClick
             >
               {{ 'wallets.remove_success.create_button' | translate }}
@@ -40,7 +40,7 @@ import { NavController } from '@ionic/angular';
               name="go_to_import_wallet"
               type="button"
               expand="block"
-              (click)="this.goToImportWallet()"
+              (click)="this.goToImportDisclaimer()"
               appTrackClick
             >
               {{ 'wallets.remove_success.import_button' | translate }}
@@ -52,20 +52,21 @@ import { NavController } from '@ionic/angular';
   </ion-content>`,
   styleUrls: ['./success-remove-wallet.page.scss'],
 })
-export class SuccessRemoveWalletPage implements OnInit {
+export class SuccessRemoveWalletPage {
   constructor(private navController: NavController) {}
 
-  ngOnInit() {}
-
-  goToCreateWallet() {
-    this.navController.navigateForward(['/wallets/create-first/disclaimer']);
+  private _navigate(mode: string) {
+    this.navController.navigateRoot(`/wallets/create-first/disclaimer/${mode}`);
   }
 
-  goToImportWallet() {
-    this.navController.navigateForward(['/wallets/create-first/disclaimer/import']);
+  goToCreateDisclaimer() {
+    this._navigate('create');
+  }
+  goToImportDisclaimer() {
+    this._navigate('import');
   }
 
   goToOnboarding() {
-    this.navController.navigateBack('/users/on-boarding');
+    this.navController.navigateRoot('/users/on-boarding');
   }
 }

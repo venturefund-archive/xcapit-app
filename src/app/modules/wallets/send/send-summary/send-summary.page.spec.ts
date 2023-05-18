@@ -18,7 +18,6 @@ import { BigNumber, constants } from 'ethers';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import {
@@ -34,6 +33,7 @@ import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
 import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-connection';
 import { solanaAddresses } from '../../shared-wallets/fixtures/raw-address-data';
+import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 
 describe('SendSummaryPage', () => {
   let component: SendSummaryPage;

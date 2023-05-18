@@ -65,7 +65,6 @@ export class SkipBackupModalComponent implements OnInit {
     if (this.skipBackUpForm.valid) {
       this.close();
       this.navigateToPage();
-      this.ionicStorageService.set('protectedWallet', false);
     }
   }
 

@@ -4,13 +4,17 @@ import { NavController } from '@ionic/angular';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { UserBankDataService } from '../shared-ramps/services/user-bank-data/user-bank-data.service';
+import { COUNTRIES } from '../shared-ramps/constants/countries';
+import { CountryRepo } from '../shared-ramps/models/country-repo/country-repo';
+import { Countries } from '../shared-ramps/models/countries/countries';
+import { Country } from '../shared-ramps/models/country/country';
 
 @Component({
   selector: 'app-bank-account',
   template: `<ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref=""></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.cash_out.header' | translate }}
@@ -85,6 +89,8 @@ export class UserBankAccountPage {
   cleanedSpecificFields: any;
   tokenOperationFields: any;
   form = new FormGroup({});
+  country: Country;
+
   constructor(
     private fiatRampsService: FiatRampsService,
     private tokenOperationData: TokenOperationDataService,
@@ -94,6 +100,7 @@ export class UserBankAccountPage {
 
   async ionViewWillEnter() {
     await this.setFields();
+    this.setCountry();
     this.cleanFields();
     this.buildForm();
     this.addFormFieldFromTokenOperation();
@@ -104,6 +111,12 @@ export class UserBankAccountPage {
     this.specificFields = await this.fiatRampsService
       .getCashOutFormFields(this.tokenOperationData.tokenOperationData.country)
       .toPromise();
+  }
+
+  setCountry() {
+    this.country = new Countries(new CountryRepo(COUNTRIES)).findByAlpha3(
+      this.tokenOperationData.tokenOperationData.country
+    );
   }
 
   cleanFields() {
@@ -121,7 +134,7 @@ export class UserBankAccountPage {
   addFormFieldFromTokenOperation() {
     const fields = [
       {
-        value: this.tokenOperationData.tokenOperationData.asset,
+        value: this.country.iso4217CurrencyCode(),
         name_of_param: 'currency',
         required: true,
       },
@@ -133,7 +146,7 @@ export class UserBankAccountPage {
     ];
     this._addFieldsToForm(fields);
   }
-  
+
   private _addFieldsToForm(fields) {
     for (const field of fields) {
       this._createAndAddFieldToForm(field);
@@ -160,6 +173,6 @@ export class UserBankAccountPage {
   }
 
   continue() {
-    this.navController.navigateForward(['']);
+    this.navController.navigateForward(['fiat-ramps/sell-order']);
   }
 }

@@ -1,0 +1,168 @@
+:host {
+  ion-toolbar {
+    border-radius: 0 0 8px 8px;
+
+    ion-title {
+      padding-inline: 70px;
+    }
+  }
+
+  .kss {
+    --background: var(--ion-color-background);
+
+    &__card-container {
+      &__card {
+        padding: 24px 16px 19px;
+
+        &__title {
+          margin-bottom: 18px;
+        }
+
+        &__coin-content {
+          margin-bottom: 15px;
+        }
+
+        &__quote {
+          &__title {
+            margin-top: 11px;
+          }
+
+          &__description {
+            margin-top: 4px;
+            margin-bottom: 11px;
+
+            ion-text {
+              color: var(--ion-color-neutral90);
+            }
+          }
+        }
+
+        &__transaction-fee {
+          &__title {
+            margin-top: 11px;
+          }
+
+          &__description {
+            margin-top: 4px;
+            margin-bottom: 11px;
+
+            ion-text {
+              color: var(--ion-color-neutral90);
+            }
+          }
+        }
+
+        &__provider-fee {
+          &__title {
+            margin-top: 11px;
+          }
+
+          &__description {
+            margin-top: 4px;
+            margin-bottom: 11px;
+
+            ion-text {
+              color: var(--ion-color-neutral90);
+            }
+          }
+        }
+
+        &__wallet {
+          &__title {
+            margin-top: 11px;
+          }
+
+          &__description {
+            margin-top: 4px;
+            margin-bottom: 11px;
+
+            ion-text {
+              color: var(--ion-color-neutral90);
+            }
+          }
+        }
+
+        &__bank-account {
+          &__title {
+            margin-top: 11px;
+          }
+
+          &__description {
+            margin-top: 4px;
+            margin-bottom: 11px;
+
+            ion-text {
+              color: var(--ion-color-neutral90);
+            }
+          }
+        }
+
+        &__provider {
+          &__title {
+            margin-top: 11px;
+          }
+
+          &__description {
+            margin-top: 4px;
+            margin-bottom: 11px;
+            display: flex;
+            gap: 4px;
+
+            img {
+              width: 24px;
+            }
+
+            ion-text {
+              color: var(--ion-color-neutral90);
+            }
+          }
+        }
+
+        &__date {
+          &__title {
+            margin-top: 11px;
+          }
+
+          &__description {
+            margin-top: 4px;
+            margin-bottom: 11px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            ion-text {
+              color: var(--ion-color-neutral90);
+            }
+          }
+        }
+      }
+    }
+
+    &__footer {
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+      border-radius: 8px;
+
+      &__submit-button {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+        margin-bottom: 8px;
+
+        &__button {
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+
+  .no-border {
+    border: none;
+    box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+  }
+
+  .list-divider {
+    margin: 0;
+    width: 100%;
+  }
+}

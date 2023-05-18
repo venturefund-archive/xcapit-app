@@ -63,18 +63,18 @@ describe('SuccessRemoveWalletPage', () => {
   it('should navigate to on boarding when close is clicked', () => {
     const closeButton = fixture.debugElement.query(By.css("ion-button[name='close']"));
     closeButton.nativeElement.click();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/users/on-boarding');
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/users/on-boarding');
   });
 
   it('should navigate to create wallet page when go_to_create_wallet is clicked', () => {
     const closeButton = fixture.debugElement.query(By.css("ion-button[name='go_to_create_wallet']"));
     closeButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/wallets/create-first/disclaimer/create');
   });
 
   it('should navigate to import wallet page when go_to_import_wallet is clicked', () => {
     const closeButton = fixture.debugElement.query(By.css("ion-button[name='go_to_import_wallet']"));
     closeButton.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer/import']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/wallets/create-first/disclaimer/import');
   });
 });

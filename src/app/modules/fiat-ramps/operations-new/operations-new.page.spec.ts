@@ -210,6 +210,7 @@ describe('OperationsNewPage', () => {
       iso4217CurrencyCode: 'ARS',
       directaCode: 'AR',
       isoCurrencyCodeDirecta: 'ARS',
+      flagRoute: 'assets/img/countries/argentina.svg'
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[1]);
     expect(component.fiatCurrency).toEqual('ars');

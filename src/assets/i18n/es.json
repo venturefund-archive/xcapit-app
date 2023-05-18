@@ -676,6 +676,7 @@
       "security_phrase": "Frase de seguridad",
       "category_preferences": "Preferencias",
       "security_configuration": "Configuración",
+      "google_drive_backup": "Copia de seguridad Google Drive",
       "push_notifications": "Notificaciones push",
       "language": "Idioma",
       "logout": "Cerrar Sesión",
@@ -779,6 +780,11 @@
         "title": "Contraseña",
         "button": "Cambiar"
       }
+    },
+    "backup": {
+      "header": "Copia de seguridad",
+      "title": "Copia de seguridad en Google Drive",
+      "toggle_text": "Crea una copia de seguridad encriptada de tu wallet para poder restaurarla cuando la necesites."
     },
     "shared": {
       "remove_account_modal": {
@@ -1701,6 +1707,26 @@
     }
   },
   "wallets": {
+    "wallet_imports": {
+      "header": "Importar wallet",
+      "title": "Importá tu wallet",
+      "subtitle": "Seleccioná el método que deseas utilizar para importar tu wallet.",
+      "support": "¿Qué método debo elegir?",
+      "key": {
+        "title": "Importar con la frase de recuperación",
+        "subtitle": "Utilizá tu frase de recuperación de Xcapit u otra cripto wallet. "
+      },
+      "cloud": {
+        "title": "Importar copia desde Google Drive",
+        "subtitle": "Restaurá tu wallet usando esta opción si previamente realizaste un backup."
+      },
+      "toasts": {
+        "denied": "Acceso denegado. Se requieren permisos para realizar la copia de seguridad. Inténtalo nuevamente.",
+        "closed": "No hemos podido acceder a su cuenta para realizar la copia de seguridad. Inténtalo nuevamente.",
+        "info": "No hemos encontrado ninguna copia de seguridad. Asegúrate de iniciar sesión con la cuenta correcta.",
+        "password": "Contraseña incorrecta. Inténtalo nuevamente."
+      }
+    },
     "receive_select_currency": {
       "header": "Recibir",
       "title": "Selecciona la moneda que quieres recibir"
@@ -1869,12 +1895,31 @@
     },
     "success_creation": {
       "title": "¡Felicitaciones!\nCreaste tu wallet",
-      "subtitle": "Protégela haciendo una copia de seguridad de tu frase de recuperación.\nEsta es la llave maestra de tus fondos.",
+      "title1": "¡Felicitaciones!\nProtegiste tu wallet",
+      "subtitle": "Protégela haciendo una copia de seguridad de tu frase de recuperación.",
+      "subtitle1": "¡Un último paso! Crea una copia de seguridad encriptada de tu wallet en Google Drive.",
       "success_button": "Ir a wallet",
       "ribbon_recommended": "Recomendado",
-      "primary_action": {
-        "title": "Proteger mi wallet",
-        "subtitle": "Hazlo ahora y no pierdas el acceso a tu dinero. Sólo tomará unos minutos."
+      "finish_button": "Finalizar",
+      "backup_options": {
+        "option_1": {
+          "title": "Proteger mi wallet",
+          "subtitle": "Hazlo ahora y no pierdas el acceso a tu dinero. Sólo tomará unos minutos."
+        },
+        "option_2": {
+          "title": "Backup en Google Drive",
+          "subtitle": "No pierdas tu wallet, guardá una copia encriptada. Sólo tomará unos minutos."
+        }
+      },
+      "password_modal": {
+        "title": "Por seguridad",
+        "description": "Para continuar, por favor ingresa la contraseña de tu wallet de Xcapit. No la olvides. No puede ser recuperada!",
+        "button_text": "Confirmar copia de seguridad"
+      },
+      "backup_succes_modal": {
+        "title": "¡Felicitaciones!",
+        "description": "Creaste una copia de seguridad de tu wallet exitosamente.",
+        "button_text": "Ir a mi wallet"
       },
       "secondary_action": {
         "title": "En otro momento"
@@ -2113,7 +2158,7 @@
       },
       "skip_backup_modal": {
         "title": "¿Omitir copia de seguridad?",
-        "description": "Entiendo que si no realizo una copia de mi frase de recuperación, podría perder el acceso a mis fondos.",
+        "description": "Entiendo que si no realizo una copia de seguridad, podría perder el acceso a mis fondos.",
         "button_back": "Atrás",
         "button_skip": "Omitir"
       },
@@ -2397,7 +2442,8 @@
     "cash_out": {
       "header": "Compra - Venta",
       "title": "Ingresa los datos del titular de la cuenta",
-      "disclaimer": "El titular de la cuenta debe ser el mismo que realizó el proceso de registro o KYC. No se realizan transferencias a terceros."
+      "disclaimer": "El titular de la cuenta debe ser el mismo que realizó el proceso de registro o KYC. No se realizan transferencias a terceros.",
+      "loading": "Creando orden"
     },
     "home_of_purchases": {
       "header": "Compra - Venta",
@@ -2428,7 +2474,7 @@
       "button_text": "Ir a wallet"
     },
     "operations_list": {
-      "title": "Compras en Kripton Market",
+      "title": "Con Kripton Market",
       "operation": "Moneda",
       "amount": "Monto",
       "date": "Fecha",
@@ -2436,8 +2482,8 @@
       "not_logged": "Para acceder al estado de tu cuenta y/o listado de compras, deberás ",
       "no_operations_message": "Una vez realizadas tus compras, podrás verlas en este apartado.",
       "link": "iniciar sesión en Kripton Market",
-      "button_show_less": "Ver menos",
-      "button_show_more": "Ver más",
+      "button_show_less": "Reducir",
+      "button_show_more": "Ampliar",
       "log_out_modal": {
         "title": "¿Deseas cerrar sesión?",
         "description": "Deberás ingresar nuevamente con tu email para ver tus compras.",
@@ -2458,6 +2504,17 @@
       "text_badge": "En progreso",
       "text_tertiary": "¿Necesitas ayuda?",
       "text_help_link": "Escribir a soporte Kripton Market"
+    },
+    "operation_km_cashout": {
+      "text_secondary": "Te estaremos informando sobre cambios en el estado de tu venta.",
+      "button_text": "Finalizar",
+      "text_title": "Venta",
+      "text_badge": "Enviada"
+    },
+    "operation_km_cashout_error": {
+      "text_primary": "Error en la transacción",
+      "text_secondary": "Se produjo un error en el proceso.",
+      "button_secondary": "Volver a mis compras - ventas"
     },
     "error_operation_km": {
       "text_primary": "Error en la carga del comprobante",
@@ -2564,18 +2621,34 @@
     "operation_status_detail": {
       "title": "¿Qué significa este estado?",
       "button": "Entendido",
-      "incomplete": {
-        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. <b>Esto no significa que se realizó la compra.</b> Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
-        "description2": "Tienes hasta 72hs para hacerlo, de lo contrario, se anulará tu pedido."
+      "cash-in": {
+        "incomplete": {
+          "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. <b>Esto no significa que se realizó la compra.</b> Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
+          "description2": "Tienes hasta 72hs para hacerlo, de lo contrario, se anulará tu pedido."
+        },
+        "in_progress": {
+          "description": "El proveedor recibió exitosamente tu solicitud de compra. Dentro de las siguientes 24hs verás acreditado los tokens en tu wallet."
+        },
+        "nullified": {
+          "description": "El proveedor tuvo inconvenientes para realizar esta operación, por lo cual la misma fue cancelada. Tus fondos se devolverán a tu cuenta de origen."
+        },
+        "cancelled": {
+          "description": "Tu solicitud puede anularse por dos motivos: que el proveedor no recibió el comprobante de la transferencia. O el usuario no realizó el pago dentro de las 72hs estipuladas desde la solicitud de compra."
+        }
       },
-      "in_progress": {
-        "description": "El proveedor recibió exitosamente tu solicitud de compra. Dentro de las siguientes 24hs verás acreditado los tokens en tu wallet."
-      },
-      "nullified": {
-        "description": "El proveedor tuvo inconvenientes para realizar esta operación, por lo cual la misma fue cancelada. Tus fondos se devolverán a tu cuenta de origen."
-      },
-      "cancelled": {
-        "description": "Tu solicitud puede anularse por dos motivos: que el proveedor no recibió el comprobante de la transferencia. O el usuario no realizó el pago dentro de las 72hs estipuladas desde la solicitud de compra."
+      "cash-out": {
+        "incomplete": {
+          "description": "Tu orden fue creada exitosamente, está pendiente tu envio de tokens al proveedor."
+        },
+        "in_progress": {
+          "description": "Tu operación fue aprobada. Puede tardar en verse impactado hasta 72hs."
+        },
+        "confirmed": {
+          "description": "Tu operación se acreditó exitosamente. Ya deberías verlo impactado en tu cuenta."
+        },
+        "cancelled": {
+          "description": "El proveedor canceló la operación. Intenta nuevamente o ponte en contacto con soporte."
+        }
       }
     },
     "new_operation": {
@@ -2760,9 +2833,10 @@
         "quantity": "Cantidad",
         "payment_method": "Medio de Pago",
         "to_pay": "Pagarás*",
-        "input_error": "El monto mínimo de compra es de ${{amount}} {{fiatCurrency}}",
+        "input_error": "El monto mínimo de compra es de ${{amount}} {{currency}}",
         "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día.",
-        "estimated_fee": "Tarifa de transacción estimada"
+        "estimated_fee": "Tarifa de transacción estimada",
+        "estimated_provider_fee": "Tarifa de proveedor estimada"
       },
 
       "kyc_disclaimer_modal": {
@@ -2776,6 +2850,11 @@
         "item2": "Puede variar ligeramente al momento de realizar la operación.",
         "item3": "Podrás encontrarlo en tu ticket de pago como “verificador de monto”.",
         "button": "Entendido"
+      },
+      "provider_fee_info_modal": {
+        "title": "¿Qué es la tarifa de proveedor?",
+        "item1": "La tarifa incluye el costo de servicio y los impuestos locales que requiere el proveedor por realizar la venta de criptomoneda.",
+        "item2": "Puede variar ligeramente al momento de realizar una operación."
       },
       "user_register_content": {
         "user_information": {
@@ -3011,15 +3090,36 @@
         "error": "Se produjo un error. Carga tu comprobante nuevamente."
       }
     },
+    "kripton_sale_summary": {
+      "header": "Detalle de la operación",
+      "title": "Venta",
+      "quote": "Cotización",
+      "transaction_fee": "Tarifa de transacción estimada",
+      "provider_fee": "Tarifa de proveedor estimada",
+      "wallet": "Wallet Kripton Market",
+      "bank_account": "Cuenta bancaria destino",
+      "provider": "Proveedor",
+      "date": "Fecha",
+      "button": "Confirmar envío"
+    },
     "kripton_operation_detail": {
       "header": "Detalle de la operación",
-      "title": "Compra",
+      "title": {
+        "cash-in": "Compra",
+        "cash-out": "Venta"
+      },
       "state": "Estado",
       "state_toast": {
-        "incomplete": "Transfiere y envía el comprobante de la transacción.",
-        "incomplete2": "Completar datos",
-        "nullified": "El proveedor anuló esta operación. Para más infomación, comunícate con soporte.",
-        "cancelled": "El proveedor no recibió el comprobante del pago."
+        "cash-in": {
+          "incomplete": "Transfiere y envía el comprobante de la transacción.",
+          "incomplete2": "Completar datos",
+          "nullified": "El proveedor anuló esta operación. Para más infomación, comunícate con soporte.",
+          "cancelled": "El proveedor no recibió el comprobante del pago."
+        },
+        "cash-out": {
+          "incomplete": "Transfiere tus tokens al proveedor.",
+          "incomplete2": "Reintentar"
+        }
       },
       "scan_link": "Ver en",
       "scans": {
@@ -3031,7 +3131,10 @@
       },
       "quotation": "Cotización",
       "fee": "Tarifa de transacción",
+      "estimated_fee": "Tarifa de transacción estimada",
+      "provider_fee": "Tarifa de proveedor",
       "address": "Dirección de destino (tu wallet)",
+      "bank_account": "Cuenta bancaria destino",
       "provider": "Proveedor",
       "operation": "Operación",
       "date": "Fecha",
@@ -3245,7 +3348,7 @@
       "question3": "¿Por qué usar la wallet de Xcapit?",
       "answer3": "<ul><li>Porque puedes tener tus criptos de manera anónima bajo tu propia custodia.</li><li>Acceso al intercambio de tus NFTs favoritos.</li><li>Tendrás la posibilidad de comprar y vender criptomonedas a través de dinero FIAT.</li></ul>",
       "question4": "¿Cómo importar una wallet?",
-      "answer4": "<b>1.</b> Dentro de la app, Se accede a la opción: “Importar wallet”.<br><b>2.</b> Ingresar las 12 palabras de la wallet que se desea importar.<br><b>3.</b> Seleccionar los tokens a visualizar.<br><b>4.</b> Crear nueva contraseña para la firma de transacciones con la nueva wallet.",
+      "answer4": "<b>1.</b> Dentro de la app, Se accede a la opción: “Importar wallet” desde dos pantallas, desde el onboarding inicial o inmediatamente después de haber eliminado una wallet, desde la pantalla de éxito de dicha eliminación.<br><br><b>2.</b> La importación nos presenta dos métodos:<br><br><b>a.</b> Importación por frase semilla: Ingresando las 12 palabras de la wallet que se desea importar, obtenidas al momento de creación de una wallet. En este caso, se deberá volver a crear nueva contraseña para la firma de transacciones con la nueva wallet.<br><br><b>b.</b> Para importar, utilizaré el backup en mi cuenta de Google Drive. Necesitaré verificar que haya un backup asociado con mi correo electrónico e ingresar la contraseña de mi billetera para desencriptar el archivo oculto en mis documentos de Google Drive. Es importante tener en cuenta que Xcapit no guarda la contraseña y el archivo de backup permanecerá oculto en Google Drive para evitar vulnerabilidades. La desencriptación tarda alrededor de 10 segundos con conexión a Internet.<br><br><b>3.</b> Seleccionar los tokens a visualizar.",
       "question5": "¿Qué es la “ruta de derivación” de la frase semilla (en inglés = ”Derivation path”)?",
       "answer5": "Es el formato que utilizó la wallet con la que creaste tu wallet para generar tus address a partir de tu frase semilla. Si deseas migrar tus llaves privadas de una wallet a otra, es importante que verifiques cómo fueron creadas las mismas (ruta de derivación). Y utilices el mismo formato, de esta manera importarás las mismas address. Caso contrario, crearás una nueva address, resultando en dos o más address distintas. <br> Para info más técnica podrías usar este <a class='ux-link-xs' href='https://ethereum.stackexchange.com/questions/70017/can-someone-explain-the-meaning-of-derivation-path-in-wallet-in-plain-english-s'>link</a>",
       "question6": "¿Qué es la frase de recuperación?",

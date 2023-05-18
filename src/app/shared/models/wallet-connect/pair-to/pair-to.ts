@@ -1,8 +1,8 @@
 import { SignClientTypes } from '@walletconnect/types';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { PendingProposal } from 'src/app/modules/wallets/shared-wallets/models/wallet-connect/pending-proposal/pending-proposal';
-import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/WCUri';
 import { SignClientV2 } from '../sign-client/sign-client';
+import { WCUri } from '../wc-uri/wc-uri.interface';
 
 export class PairTo {
   constructor(

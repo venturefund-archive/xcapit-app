@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
-import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-operation-km-in-progress-modal',
@@ -59,15 +59,24 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
   styleUrls: ['./operation-km-in-progress-modal.component.scss'],
 })
 export class OperationKmInProgressModalComponent implements OnInit {
-  data = SUCCESS_TYPES.operation_km_in_progress;
+  data;
   link = LINKS;
   constructor(
     private navController: NavController,
     private modalController: ModalController,
-    private browserService: BrowserService
+    private browserService: BrowserService,
+    private trackService: TrackService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.data.hasToTrackScreenview) {
+      this.trackService.trackEvent({
+        eventAction: 'screenview',
+        description: window.location.href,
+        eventLabel: this.data.screenviewEventLabel,
+      });
+    }
+  }
 
   primaryAction() {
     if (this.data.urlPrimaryAction) {

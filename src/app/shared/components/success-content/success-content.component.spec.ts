@@ -168,13 +168,19 @@ describe('SuccessContentComponent', () => {
 
     it('should dismiss when called as modal and Success Action Primary is clicked', () => {
       component.calledAsModal = true;
-      closeSuccessButton.nativeElement.click();
+      actionPrimaryButton.nativeElement.click();
+      expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1)
+    })
+
+    it('should dismiss when called as modal and Success Action Secondary is clicked', () => {
+      component.calledAsModal = true;
+      actionSecondaryButton.nativeElement.click();
       expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1)
     })
   
     it('should dismiss when called as modal and Close Success is clicked', () => {
       component.calledAsModal = true;
-      actionPrimaryButton.nativeElement.click();
+      closeSuccessButton.nativeElement.click();
       expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1)
     })
   });

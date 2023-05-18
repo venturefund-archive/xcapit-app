@@ -17,6 +17,7 @@ describe('OperationStatusChipComponent', () => {
     fixture = TestBed.createComponent(OperationStatusChipComponent);
     component = fixture.componentInstance;
     component.statusName = 'wait';
+    component.operationType = 'cash-in';
     fixture.detectChanges();
   }));
 

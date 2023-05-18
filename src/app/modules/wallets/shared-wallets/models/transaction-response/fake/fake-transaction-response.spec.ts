@@ -1,5 +1,5 @@
 import { FakeTransactionResponse } from './fake-transaction-response';
-import { rawTransactionReceipt } from '../../../fixtures/raw-transactions-receipt';
+import { rawTransactionReceipt } from '../../../fixtures/raw-transaction-receipt';
 
 describe('FakeTransactionResponse', () => {
   it('new', () => {

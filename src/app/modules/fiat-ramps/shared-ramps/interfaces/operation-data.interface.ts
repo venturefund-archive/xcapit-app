@@ -6,12 +6,14 @@ export interface OperationDataInterface {
   currency_in: string;
   currency_out: string;
   price_in: string;
-  price_out: string;
+  price_out: number;
   wallet: string;
   provider: string;
   network: string;
   voucher?: boolean;
   operation_id?: number;
   created_at?: Date;
-  fee?: string;
+  fee?: number;
+  providerFee?:number;
+  payment_method_id?:number;
 }

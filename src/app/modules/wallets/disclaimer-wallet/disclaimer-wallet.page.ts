@@ -21,7 +21,7 @@ import { LINKS } from 'src/app/config/static-links';
           'wallets.disclaimer.header' | translate
         }}</ion-title>
         <ion-label class="ux_toolbar__step" slot="end"
-          >1 {{ 'shared.step_counter.of' | translate }} {{ this.mode !== 'import' ? '2' : '3' }}</ion-label
+          >1 {{ 'shared.step_counter.of' | translate }} {{ this.mode !== 'import' ? '2' : '4' }}</ion-label
         >
       </ion-toolbar>
     </ion-header>
@@ -131,7 +131,7 @@ export class DisclaimerWalletPage implements OnInit {
   }
   
   navigateByMode() {
-    const url = this.isImporting ? 'wallets/recovery' : 'wallets/create-password/create';
+    const url = this.isImporting ? 'wallets/wallet-imports' : 'wallets/create-password/create';
     this.navController.navigateForward([url]);
   }
 

@@ -45,4 +45,12 @@ describe('Fake Ethers Wallet', () => {
   it('signMessage', async () => {
     expect(await fakeWallet.signMessage()).toEqual('signed message');
   });
+
+  it('sendTransaction', async () => {
+    expect((await fakeWallet.sendTransaction()).hash).toEqual('aTestHash');
+  });
+
+  it('signTypedData', async () => {
+    expect(fakeWallet._signTypedData(null, null, null)).toBeUndefined();
+  });
 });

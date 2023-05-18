@@ -1,4 +1,5 @@
 import { addressByDerivedPath } from '../fixtures/raw-address-by-derivedpath-data';
+import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer';
 
 export class FakeEthersWallet {
   private _addresses = addressByDerivedPath;
@@ -32,10 +33,22 @@ export class FakeEthersWallet {
   }
 
   sendTransaction() {
-    return Promise.resolve({ wait: () => Promise.resolve(true) });
+    return Promise.resolve({ hash: 'aTestHash', wait: () => Promise.resolve(true) });
   }
 
   signMessage() {
     return Promise.resolve('signed message');
+  }
+
+  _signTypedData(
+    domain: TypedDataDomain,
+    types: Record<string, Array<TypedDataField>>,
+    value: Record<string, any>
+  ): any {
+    return undefined;
+  }
+
+  signTransaction(): Promise<string> {
+    return Promise.resolve('a signed tx');
   }
 }

@@ -7,4 +7,5 @@ export interface FiatRampProviderCountry {
   directaCode?: string;
   isoCurrencyCodeDirecta?: string;
   isoCurrencyCodeMoonpay?: string;
+  flagRoute?: string;
 }

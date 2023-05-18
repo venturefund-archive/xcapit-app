@@ -159,7 +159,6 @@ import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/
                 name="Edit Tokens"
                 class="ion-no-margin"
                 fill="clear"
-                size="small"
                 (click)="this.goToSelectCoins()"
               >
                 <ion-icon icon="ux-adjustments"></ion-icon>
@@ -428,7 +427,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   goToSelectCoins(): void {
-    this.navController.navigateForward(['wallets/select-coins', 'edit']);
+    this.navController.navigateForward(['/wallets/select-coins', 'edit']);
   }
 
   private getNewTokensAvailable(): void {

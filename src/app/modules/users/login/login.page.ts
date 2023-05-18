@@ -115,9 +115,7 @@ export class LoginPage implements OnInit {
   }
 
   async enabledPushNotifications() {
-    return await this.ionicStorageService.get(this._aKey).then((status) => 
-      status
-    );
+    return await this.ionicStorageService.get(this._aKey).then((status) => status);
   }
 
   loginUser(data: any) {
@@ -133,7 +131,6 @@ export class LoginPage implements OnInit {
   }
 
   async initializeNotifications() {
-    this.pushNotificationsService().init();
     if (await this.enabledPushNotifications()) {
       this.pushNotificationsService().subscribeTo(this._aTopic);
     } else {

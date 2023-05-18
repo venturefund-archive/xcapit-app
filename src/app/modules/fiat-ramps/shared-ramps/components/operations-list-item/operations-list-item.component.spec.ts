@@ -39,6 +39,18 @@ describe('OperationsListItemComponent', () => {
     operation_type: 'cash-in',
     voucher: false,
   };
+  const cashOut: FiatRampOperation = {
+    operation_id: 54,
+    amount_in: 32,
+    currency_in: 'USDC',
+    amount_out: 21,
+    currency_out: 'ars',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-out',
+    voucher: false,
+  };
 
   const incompleteOperation: FiatRampOperation = {
     operation_id: 55,
@@ -101,6 +113,7 @@ describe('OperationsListItemComponent', () => {
   });
 
   it('should show item lines if is the last item', async () => {
+    component.operation = cashIn;
     component.isLast = true;
     component.ngOnInit();
     fixture.detectChanges();
@@ -119,12 +132,14 @@ describe('OperationsListItemComponent', () => {
   });
 
   it('should navigate to detail when Operation Item clicked', () => {
+    component.operation = cashIn;
     fixture.debugElement.query(By.css('ion-item[name="Operation Item"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/kripton-operation-detail/53']);
   });
 
   it('should get status on ngOnInit', () => {
-    expect(component.status).toEqual(OPERATION_STATUS[0]);
+    component.operation = cashIn;
+    expect(component.status).toEqual(OPERATION_STATUS[0].statuses[0]);
   });
 
   it('should show highlight incomplete operations', () => {
@@ -146,6 +161,7 @@ describe('OperationsListItemComponent', () => {
   });
 
   it('should show amount_out and currency_out on cash-in', async () => {
+    component.operation = cashIn;
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
@@ -157,7 +173,7 @@ describe('OperationsListItemComponent', () => {
 
   ['cash-out', 'cash-in'].forEach((operation_type) => {
     it(`should show ${operation_type} arrow img corresponding to operation type ${operation_type}`, async () => {
-      component.operation.operation_type = operation_type;
+      component.operation = operation_type === 'cash-out' ? cashOut : cashIn;
       component.ngOnInit();
       fixture.detectChanges();
       await fixture.whenRenderingDone();

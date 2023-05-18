@@ -106,6 +106,9 @@ import { GeneralModalWithTwoButtonsComponent } from './components/general-modal-
 import { WarrantyInProgressTransactionModalComponent } from './components/warranty-in-progress-transaction-modal/warranty-in-progress-transaction-modal.component';
 import { WhatsappSupportComponent } from './components/whatsapp-support/whatsapp-support.component';
 import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warranties/components/warranty-summary-card/warranty-summary-card.component';
+import { CoinContentItemComponent } from '../modules/fiat-ramps/shared-ramps/components/coin-content-item/coin-content-item.component';
+import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
+import { SuccessModalComponent } from './components/success-modal/success-modal.component';
 
 @NgModule({
   declarations: [
@@ -134,6 +137,7 @@ import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warra
     ModalAsAlertComponent,
     WhatsappSupportComponent,
     // Ux
+    CoinContentItemComponent,
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
     HelpItemCardComponent,
@@ -198,7 +202,8 @@ import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warra
     SearchBarComponent,
     WarrantySummaryCardComponent,
     GeneralModalWithTwoButtonsComponent,
-
+    UserRegisterStepCardComponent,
+    SuccessModalComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,
@@ -252,6 +257,7 @@ import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warra
     ModalAsAlertComponent,
     WhatsappSupportComponent,
     // Ux
+    CoinContentItemComponent,
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
     HelpItemCardComponent,
@@ -312,6 +318,8 @@ import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warra
     SearchBarComponent,
     WarrantySummaryCardComponent,
     GeneralModalWithTwoButtonsComponent,
+    UserRegisterStepCardComponent,
+    SuccessModalComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,
