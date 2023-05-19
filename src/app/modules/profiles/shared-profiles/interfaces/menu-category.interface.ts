@@ -12,4 +12,5 @@ export interface MenuCategory {
   legend?: string;
   connected?: boolean;
   newBadge?: boolean;
+  isWarrantyWalletOpt?: boolean;
 }

@@ -689,6 +689,7 @@
       "security_configuration": "Configuration",
       "google_drive_backup": "Google Drive backup",
       "push_notifications": "Push notifications",
+      "wallet_type": "Activate Web3 functions",
       "language": "Language",
       "logout": "Log Out",
       "new_badge": "New",

@@ -24,6 +24,7 @@ import { UpdateAppService } from 'src/app/shared/services/update-app/update-app.
 import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
 import { AppUpdate, AppUpdateAvailability } from '@capawesome/capacitor-app-update';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -62,6 +63,18 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
               <ion-toggle
                 formControlName="notifications"
                 name="ux_push_notifications"
+                class="ux-toggle ion-no-padding"
+                mode="ios"
+                slot="end"
+              ></ion-toggle>
+            </ion-item>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-text class="notifications_text ux-font-text-xs">
+                {{ 'profiles.user_profile_menu.wallet_type' | translate }}</ion-text
+              >
+              <ion-toggle
+                formControlName="warrantyWallet"
+                name="ux_wallet_type"
                 class="ux-toggle ion-no-padding"
                 mode="ios"
                 slot="end"
@@ -129,6 +142,7 @@ export class UserProfileMenuPage {
   itemMenu: MenuCategory[] = ITEM_MENU;
   form: UntypedFormGroup = this.formBuilder.group({
     notifications: [[]],
+    warrantyWallet: [[]],
   });
   private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
@@ -166,6 +180,7 @@ export class UserProfileMenuPage {
     this.biometricAuthAvailable();
     await this.setPushNotifications();
     this.valueChanges();
+    this.setWarrantyWalletState();
     this.walletConnectStatus();
     this.isNative = this.platform.isNative();
     if (this.isNative) {
@@ -182,10 +197,27 @@ export class UserProfileMenuPage {
     return await this.ionicStorageService.get(this._aKey).then((res) => res);
   }
 
+  async isWarrantyWallet() {
+    return await new SimplifiedWallet(this.ionicStorageService).value();
+  }
+
+  async setWarrantyWalletState() {
+    this.form.patchValue({ warrantyWallet: await this.isWarrantyWallet() });
+  }
+
   private valueChanges() {
     this.form.valueChanges.pipe(takeUntil(this.leave$)).subscribe((value) => {
       this.toggle(value.notifications);
       this.setEvent(value.notifications);
+    });
+    this.form.get('warrantyWallet').valueChanges.subscribe(async (value) => {
+      console.log('value',value)
+      await new SimplifiedWallet(this.ionicStorageService).save(value);
+      this.itemMenu.forEach((category) => {
+        if (!category.isWarrantyWalletOpt) {
+          category.showCategory = value;
+        }
+      });
     });
   }
 
@@ -233,8 +265,10 @@ export class UserProfileMenuPage {
     contactListItem.showCategory = this.remoteConfig.getFeatureFlag('ff_address_list');
   }
 
-  back() {
-    this.navController.navigateForward('/tabs/home');
+  async back() {
+    (await this.isWarrantyWallet())
+      ? this.navController.navigateForward('')
+      : this.navController.navigateForward('/tabs/home');
   }
 
   private getProfile() {
