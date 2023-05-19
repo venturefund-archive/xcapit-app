@@ -13,6 +13,7 @@ import { NotificationsService } from 'src/app/modules/notifications/shared-notif
 import { MnemonicOf } from '../../models/mnemonic-of/mnemonic-of';
 import { FakeEthersWallet } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-ethers-wallet';
 import { WalletStorageData } from '../../models/wallet-storage-data/wallet-storage-data.interface';
+import { SimplifiedWallet } from '../../models/simplified-wallet/simplified-wallet';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ import { WalletStorageData } from '../../models/wallet-storage-data/wallet-stora
 export class WalletInitializeProcess {
   private readonly _pushNotificacionTopic = 'app';
   private readonly _pushNotificationStorageKey = '_enabledPushNotifications';
+  private warrantyWallet: boolean;
   ethersWallet: typeof Wallet | FakeEthersWallet = Wallet;
   constructor(
     private blockchains: BlockchainsFactory,
@@ -39,6 +41,7 @@ export class WalletInitializeProcess {
     await this._setWalletAsProtected(isImport);
     await this._initializeNotifications();
     await this._enableBackupWarningModal();
+    await this._saveWarrantyWallet();
   }
 
   private async _createXAuthToken(password: Password): Promise<void> {
@@ -93,5 +96,13 @@ export class WalletInitializeProcess {
     if (!(await this.ionicStorageService.get('protectedWallet'))) {
       await this.walletBackupService.enableModal();
     }
+  }
+
+  async setWarrantyWallet(value: boolean): Promise<void> {
+    this.warrantyWallet = value;
+  }
+
+  private async _saveWarrantyWallet(): Promise<void> {
+    await new SimplifiedWallet(this.ionicStorageService).save(this.warrantyWallet)
   }
 }

@@ -90,10 +90,10 @@ describe('DisclaimerWalletPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/wallet-imports']);
   });
 
-  it('should go to create password on create', () => {
+  it('should go to select wallet type on create', () => {
     component.ngOnInit();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit');
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-password/create']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/select-wallet-type']);
   })
 
 

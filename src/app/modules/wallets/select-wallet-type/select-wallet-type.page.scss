@@ -1,0 +1,99 @@
+:host {
+  .bg {
+    height: 112px;
+    background-image: url('../../../../assets/img/on-boarding/bg.svg');
+    background-color: #0d0a2c;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    &__close_button {
+      display: flex;
+      justify-content: flex-end;
+
+      ion-button {
+        height: inherit;
+        margin: 0;
+        padding-right: 10px;
+        padding-top: 10px;
+      }
+
+      &__icon {
+        align-items: flex-end;
+        color: white;
+      }
+    }
+  }
+
+  .logo {
+    margin-top: -35px;
+    margin-left: 16px;
+
+    img {
+      border-radius: 100px;
+      box-shadow: 0 0 0 3px white;
+      min-height: 70px;
+      max-width: 70px;
+      min-width: 70px;
+      max-height: 70px;
+    }
+  }
+
+  .swt {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+
+    --ion-background-color: var(--ion-color-primary-contrast);
+
+    background: var(--ion-color-primary-contrast);
+
+    &__content {
+      &__header {
+        margin-bottom: 20px;
+
+        &__title {
+          margin-bottom: 20px;
+        }
+      }
+
+      &__button {
+        &__card {
+          display: flex;
+          align-items: center;
+          flex-direction: row;
+          padding: 10px 16px;
+          margin-bottom: 8px;
+          border: none;
+          box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+          border-radius: 8px;
+
+          &__icon {
+            img {
+              height: 36px;
+              max-width: none;
+            }
+          }
+
+          &__content {
+            margin-left: 16px;
+
+            &__description {
+              color: var(--ion-color-neutral80) !important;
+            }
+          }
+
+          &__chevron {
+            ion-icon {
+              font-size: 24px;
+            }
+          }
+        }
+      }
+    }
+
+    &__support {
+      margin-top: 188px;
+    }
+  }
+}
