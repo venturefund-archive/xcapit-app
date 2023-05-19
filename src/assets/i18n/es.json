@@ -1895,12 +1895,12 @@
     },
     "success_creation": {
       "title": "¡Felicitaciones!\nCreaste tu wallet",
-      "title1": "¡Felicitaciones!\nProtegiste tu wallet",
-      "subtitle": "Protégela haciendo una copia de seguridad de tu frase de recuperación.",
-      "subtitle1": "¡Un último paso! Crea una copia de seguridad encriptada de tu wallet en Google Drive.",
+      "title1": "¡Excelente!\nCreaste un backup de tu wallet ",
+      "subtitle": "Crea una copia de seguridad encriptada de tu wallet en Google Drive.",
+      "subtitle1": "¡Un último paso! Protégela  haciendo una copia de seguridad de tu frase de recuperación.",
       "success_button": "Ir a wallet",
       "ribbon_recommended": "Recomendado",
-      "finish_button": "Finalizar",
+      "finish_button": "Ir a mi wallet",
       "backup_options": {
         "option_1": {
           "title": "Proteger mi wallet",
@@ -1918,8 +1918,8 @@
       },
       "backup_succes_modal": {
         "title": "¡Felicitaciones!",
-        "description": "Creaste una copia de seguridad de tu wallet exitosamente.",
-        "button_text": "Ir a mi wallet"
+        "description": "Creaste una copia de seguridad de tu wallet en Google Drive",
+        "button_text": "Finalizar"
       },
       "secondary_action": {
         "title": "En otro momento"

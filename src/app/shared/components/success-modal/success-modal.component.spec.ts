@@ -49,10 +49,9 @@ describe('SuccessModalComponent', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to wallets home when button ux_go_to_wallet is clicked', () => {
+  it('should dissmis modal when button ux_go_to_wallet is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_go_to_wallet"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('tabs/wallets');
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 

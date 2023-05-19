@@ -40,7 +40,7 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
         </div>
         <div class="main__actions__secondary ion-padding">
           <ion-button
-            *ngIf="!this.walletBackup"
+            *ngIf="!this.protectedWallet"
             appTrackClick
             name="ux_create_skip"
             class="link ux-link-xl"
@@ -49,7 +49,7 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
             >{{ 'wallets.success_creation.secondary_action.title' | translate }}</ion-button
           >
           <ion-button
-            *ngIf="this.walletBackup"
+            *ngIf="this.protectedWallet"
             class="ux_button"
             color="secondary"
             appTrackClick
@@ -68,6 +68,7 @@ export class SuccessCreationPage {
   steps = structuredClone(BACKUP_OPTIONS);
   accessToken: string;
   walletBackup: boolean;
+  protectedWallet: boolean;
 
   constructor(
     private trackService: TrackService,
@@ -88,7 +89,8 @@ export class SuccessCreationPage {
   }
 
   async isWalletProtected() {
-    return await this.storage.get('protectedWallet');
+    this.protectedWallet= await this.storage.get('protectedWallet');
+    return this.protectedWallet;
   }
 
   async isWalletBackup() {
@@ -112,11 +114,11 @@ export class SuccessCreationPage {
   async setStepsState() {
     const stepOne = this.steps.find((step) => step.order === '1');
     const stepTwo = this.steps.find((step) => step.order === '2');
-    if (await this.isWalletProtected()) {
+    if (await this.isWalletBackup()) {
       stepOne.completed = true;
       stepTwo.disabled = false;
     }
-    if (await this.isWalletBackup()) {
+    if (await this.isWalletProtected()) {
       stepTwo.completed = true;
     }
   }
