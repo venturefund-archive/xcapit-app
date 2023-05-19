@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
 
 @Component({
   selector: 'app-select-wallet-type',
@@ -37,7 +37,12 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           </div>
         </div>
         <div class="swt__content__button">
-          <div class="swt__content__button__card ux-card no-border" appTrackClick name="ux_create_select_warrant" (click)="this.warrantyWallet()">
+          <div
+            class="swt__content__button__card ux-card no-border"
+            appTrackClick
+            name="ux_create_select_warrant"
+            (click)="this.warrantyWallet()"
+          >
             <div class="swt__content__button__card__icon">
               <img src="assets/ux-icons/ux-checked-info.svg" />
             </div>
@@ -57,7 +62,12 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
               <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
             </div>
           </div>
-          <div class="swt__content__button__card ux-card no-border" appTrackClick name="ux_create_select_web3" (click)="this.web3Wallet()">
+          <div
+            class="swt__content__button__card ux-card no-border"
+            appTrackClick
+            name="ux_create_select_web3"
+            (click)="this.web3Wallet()"
+          >
             <div class="swt__content__button__card__icon">
               <img src="assets/ux-icons/ux-checked-info.svg" />
             </div>
@@ -87,13 +97,15 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
   styleUrls: ['./select-wallet-type.page.scss'],
 })
 export class SelectWalletTypePage {
-  constructor(private navController: NavController, private ionicStorage: IonicStorageService) {}
+  constructor(private navController: NavController, private walletInitializeProcessService: WalletInitializeProcess) {}
 
   async warrantyWallet() {
+    this.walletInitializeProcessService.setWarrantyWallet(true);
     this.goToPasswordCreation();
   }
 
   async web3Wallet() {
+    this.walletInitializeProcessService.setWarrantyWallet(false);
     this.goToPasswordCreation();
   }
 

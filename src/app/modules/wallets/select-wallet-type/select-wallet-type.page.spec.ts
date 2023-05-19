@@ -8,8 +8,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TranslateModule } from '@ngx-translate/core';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
-import { ReactiveFormsModule } from '@angular/forms';
+import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
 
 describe('SelectWalletTypePage', () => {
   let component: SelectWalletTypePage;
@@ -18,6 +17,7 @@ describe('SelectWalletTypePage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let walletInitializeProcessServiceSpy: jasmine.SpyObj<WalletInitializeProcess>
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -25,15 +25,18 @@ describe('SelectWalletTypePage', () => {
     storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
     });
+    walletInitializeProcessServiceSpy = jasmine.createSpyObj('WalletInitializeProcess', {
+      setWarrantyWallet: Promise.resolve(),
+    })
 
     TestBed.configureTestingModule({
       declarations: [SelectWalletTypePage, FakeTrackClickDirective],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: IonicStorageService, useValue: storageServiceSpy },
+        { provide: WalletInitializeProcess, useValue: walletInitializeProcessServiceSpy }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SelectWalletTypePage);
@@ -52,7 +55,7 @@ describe('SelectWalletTypePage', () => {
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['users/on-boarding']);
   });
 
-  it('should navigate to password creation and call appTrackEvent on trackService when ux_create_select_warrant is clicked', fakeAsync(() => {
+  it('should navigate to password creation, save wallet type and call appTrackEvent on trackService when ux_create_select_warrant is clicked', fakeAsync(() => {
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('div', 'ux_create_select_warrant');
     const directive = trackClickDirectiveHelper.getDirective(el);
@@ -62,9 +65,10 @@ describe('SelectWalletTypePage', () => {
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-password/create']);
+    expect(walletInitializeProcessServiceSpy.setWarrantyWallet).toHaveBeenCalledOnceWith(true);
   }));
 
-  it('should navigate to password creation and call appTrackEvent on trackService when ux_create_select_web3 is clicked', fakeAsync(() => {
+  it('should navigate to password creation, save wallet type and call appTrackEvent on trackService when ux_create_select_web3 is clicked', fakeAsync(() => {
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('div', 'ux_create_select_web3');
     const directive = trackClickDirectiveHelper.getDirective(el);
@@ -74,5 +78,6 @@ describe('SelectWalletTypePage', () => {
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-password/create']);
+    expect(walletInitializeProcessServiceSpy.setWarrantyWallet).toHaveBeenCalledOnceWith(false);
   }));
 });

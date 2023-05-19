@@ -77,6 +77,7 @@ describe('WalletInitializeProcess', () => {
     });
     service = TestBed.inject(WalletInitializeProcess);
     service.ethersWallet = new FakeEthersWallet();
+    service.setWarrantyWallet(true);
   });
 
   it('create', () => {
@@ -90,7 +91,8 @@ describe('WalletInitializeProcess', () => {
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith(
       'loginToken',
       'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA=='
-    );
+      );
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('warranty_wallet', true);
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(walletBackupServiceSpy.enableModal).not.toHaveBeenCalled();
@@ -105,6 +107,7 @@ describe('WalletInitializeProcess', () => {
       'loginToken',
       'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA=='
     );
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('warranty_wallet', true);
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
