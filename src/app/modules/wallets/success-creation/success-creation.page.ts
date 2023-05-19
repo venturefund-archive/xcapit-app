@@ -10,6 +10,7 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
 import { WalletPasswordWithValidatorComponent } from '../shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
 import { SuccessModalComponent } from 'src/app/shared/components/success-modal/success-modal.component';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { asyncDelay } from '../../../shared/constants/async-delay';
 
 @Component({
   selector: 'app-success-creation',
@@ -137,14 +138,14 @@ export class SuccessCreationPage {
   async googleAuth() {
     this.accessToken = await this.googleAuthService.accessToken();
     const encryptedWallet = JSON.stringify(await this.walletEncryptionService.getEncryptedWallet());
-    this.createFile(encryptedWallet);
+    await this.createFile(encryptedWallet);
   }
 
   async createFile(encryptedWallet: string) {
     this.googleAuthService.createFile(this.accessToken, encryptedWallet).subscribe(async () => {
       await this.storage.set('wallet_backup', true);
-      this.setStepsState();
-      this.successModal();
+      await this.setStepsState();
+      await this.successModal();
     });
   }
 
@@ -161,8 +162,9 @@ export class SuccessCreationPage {
       });
       await modal.present();
       const { data } = await modal.onDidDismiss();
+      await asyncDelay(500);
       if (data) {
-        this.googleAuth();
+        await this.googleAuth();
       }
     }
   }

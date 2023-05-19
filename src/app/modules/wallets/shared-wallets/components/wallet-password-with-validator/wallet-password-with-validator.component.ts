@@ -154,7 +154,7 @@ export class WalletPasswordWithValidatorComponent implements OnInit {
   async handleSubmit() {
     if (await this._isValidPassword()) {
       const password = new Password(this.form.value.password);
-      this._success(password);
+      await this._success(password);
     } else {
       this.form.get('password').setErrors(CustomValidatorErrors.walletIncorrectPassword);
     }
