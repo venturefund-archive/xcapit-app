@@ -142,6 +142,7 @@ describe('CreatePasswordPage', () => {
     });
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       clear: Promise.resolve(),
+      get: Promise.resolve(false),
     });
 
     walletStorageDataFactorySpy = jasmine.createSpyObj('WalletStorageDataFactory', {
@@ -230,19 +231,33 @@ describe('CreatePasswordPage', () => {
     expect(walletInitializeProcessSpy.run).toHaveBeenCalledTimes(0);
   });
 
-  it('should navigate to derived-path-options/import when mode is import', () => {
-    component.ionViewWillEnter();
+  it('should navigate to derived-path-options/import when mode is import', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_edit"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('wallets/derived-path-options/import');
   });
 
-  it('should navigate to derived-path-options/create when mode is create', () => {
+  it('should navigate to derived-path-options/create when mode is create', async () => {
     fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
+
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_edit"]')).nativeElement.click();
     fixture.detectChanges();
+
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('wallets/derived-path-options/create');
+  });
+
+  it('should not render button edit if is simplified wallet', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(true);
+    await component.ionViewWillEnter();
+
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('ion-button[name="ux_edit"]'));
+    fixture.detectChanges();
+    expect(el).toBeFalsy();
   });
 
   it('should create a wallet when did enter', async () => {
