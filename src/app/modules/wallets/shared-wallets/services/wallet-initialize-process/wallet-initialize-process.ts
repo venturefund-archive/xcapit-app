@@ -98,11 +98,11 @@ export class WalletInitializeProcess {
     }
   }
 
-  async setWarrantyWallet(value: boolean) {
+  async setWarrantyWallet(value: boolean): Promise<void> {
     this.warrantyWallet = value;
   }
 
-  private async _saveWarrantyWallet() {
+  private async _saveWarrantyWallet(): Promise<void> {
     await new SimplifiedWallet(this.ionicStorageService).save(this.warrantyWallet)
   }
 }

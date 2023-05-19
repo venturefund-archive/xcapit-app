@@ -99,21 +99,21 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
 export class SelectWalletTypePage {
   constructor(private navController: NavController, private walletInitializeProcessService: WalletInitializeProcess) {}
 
-  async warrantyWallet() {
+  async warrantyWallet(): Promise<void> {
     this.walletInitializeProcessService.setWarrantyWallet(true);
-    this.goToPasswordCreation();
+    this._goToPasswordCreation();
   }
 
-  async web3Wallet() {
+  async web3Wallet(): Promise<void> {
     this.walletInitializeProcessService.setWarrantyWallet(false);
-    this.goToPasswordCreation();
+    this._goToPasswordCreation();
   }
 
-  goToPasswordCreation() {
+  private _goToPasswordCreation(): void {
     this.navController.navigateForward(['wallets/create-password/create']);
   }
 
-  close() {
+  close(): void {
     this.navController.navigateBack(['users/on-boarding']);
   }
 }
