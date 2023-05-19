@@ -15,7 +15,7 @@
       "api_keys_managment": "Gerenciar chaves de API",
       "change_language": "Linguagem",
       "payment": "Planos",
-      "wallet_connect": "WalletConnect",
+      "wallet_connect": "Wallet Connect",
       "pull_to_refresh": "Próxima atualização disponível em {{seconds}} s"
     }
   },
@@ -94,7 +94,7 @@
       "button_secondary": "Lembre-me mais tarde"
     },
     "card_info_robot": {
-      "title": "Como funciona o nosso robô?",
+      "title": "Como nosso robô funciona?",
       "content": "Conheça todos os detalhes da nossa forma de operar.",
       "action": "Mais Informações"
     },
@@ -339,7 +339,7 @@
     "withdraw_notifications": {
       "success": { "title": "💸 Retirada com sucesso", "body": "Você retirou {{amount}} {{token}} em {{date}}." },
       "error": {
-        "title": "🚨 Erro de saque",
+        "title": "🚨 Erro de retirada",
         "body": "Ocorreu um erro na retirada de {{amount}} {{token}} em {{date}}."
       }
     },
@@ -512,7 +512,7 @@
       },
       "earnings_modal_info": {
         "title": "O que é rendimento total?",
-        "description": "É a soma em USD dos rendimentos totais obtidos em seus produtos de investimento. Não é histórico nem acumulado, se seu saldo for zerado, seu retorno também será zerado. Eles são calculados com base no saldo aplicado no momento.",
+        "description": "É a soma em USD dos rendimentos totais obtidos nos seus produtos de investimento. Não é histórico nem acumulado, se seu saldo for zerado, seu retorno também será zerado. Eles são calculados com base no saldo aplicado no momento.",
         "button": "Entendido"
       }
     },
@@ -553,7 +553,7 @@
     "profile_helper": {
       "from_new_fund_data_no_ok": "Você deve preencher suas informações pessoais para criar um fundo",
       "from_new_referral_data_no_ok": "Você deve preencher suas informações pessoais para indicar um amigo",
-      "data_no_ok": "Você deve completar suas informações pessoais para realizar a ação"
+      "data_no_ok": "Você deve preencher suas informações pessoais para executar a ação"
     },
     "user_profile": {
       "header": "Editar Perfil",
@@ -610,6 +610,7 @@
       "security_phrase": "Frase de segurança",
       "category_preferences": "Preferências",
       "security_configuration": "Configuração",
+      "google_drive_backup": "cópia de segurança do Google Drive",
       "push_notifications": "Notificações via push",
       "language": "Linguagem",
       "logout": "Sair",
@@ -709,6 +710,11 @@
       },
       "password_change": { "title": "Senha", "button": "Mudar" }
     },
+    "backup": {
+      "header": "Cópia de segurança",
+      "title": "cópia de segurança do Google Drive",
+      "toggle_text": "Crie um backup criptografado de sua carteira para que você possa restaurá-lo sempre que precisar."
+    },
     "shared": {
       "remove_account_modal": {
         "title": "Deletar conta",
@@ -772,7 +778,7 @@
     "binance_transfer_tutorial_modal": {
       "header": "Binance - Transferência",
       "t1": "Transfira seus Bitcoins para Binance",
-      "p1": "Você já tem seus Bitcoins, então agora pode transferi-los para a Binance para que o WCS Advisor possa operar.",
+      "p1": "Você já tem seus Bitcoins, então agora você pode transferi-los para a Binance para que o WCS Advisor possa operar.",
       "p2": "Dentro da sua conta Bitex, vá para Saldos e clique em Baixar BTC",
       "p3": "A Bitex pedirá que você insira o endereço do BTC para o qual deseja enviar seu BTC, esse endereço é o que a Binance fornece a você em sua plataforma.",
       "p4": "Obs: veja onde encontrar o endereço para depositar seu BTC na Binance",
@@ -808,7 +814,7 @@
       "header": "Criptomoedas",
       "t1": "Como comprar criptos?",
       "p1": "Para adquirir criptomoedas você precisa de uma plataforma simples e profissional na qual os usuários, independente do nível de conhecimento que tenham, possam após o cadastro, transferir dinheiro, comprar e vender Bitcoins.",
-      "p2": "Apresentamos o Bitex, desde o seu início desenvolveu negócios, bem como o mercado de câmbio bitcoin, gateway de pagamento bitcoin e, mais recentemente, um serviço de remessa corporativa internacional que permite às empresas fazer pagamentos internacionais através de transferência bancária local, aproveitando a tecnologia bitcoin e permitindo que as empresas façam múltiplos pagamentos simultâneos.",
+      "p2": "Apresentamos o Bitex, desde o seu início desenvolveu negócios, bem como o mercado de câmbio bitcoin, gateway de pagamento bitcoin e, mais recentemente, um serviço internacional de remessa corporativa que permite às empresas fazer pagamentos internacionais através de transferência bancária local, aproveitando a tecnologia bitcoin e permitindo que as empresas façam múltiplos pagamentos simultâneos.",
       "p3": "Vamos ajudá-lo a registrar e ativar sua conta para que você possa transferir dinheiro fiduciário para sua conta Bitex para que você possa obter suas criptomoedas.",
       "t2": "Como criar uma conta Bitex",
       "p4": "Abra seu navegador favorito e vá para",
@@ -828,15 +834,15 @@
       "p14": "Na etapa dois, você preencherá as informações de contato",
       "p15": "Aqui você deve carregar uma conta de telefone, pré-pago ou qualquer outro serviço em seu nome com seu endereço atual e clicar em próximo",
       "p16": "Como terceiro passo, a Bitex precisa verificar de onde vem o dinheiro, para isso preencha os campos e você deve fornecer uma digitalização ou uma imagem como recibo de salários, faturas, contratos, liquidação de investimentos ou declarações de tokens pessoais. Escolha o arquivo e clique em próximo.",
-      "p17": "O último passo é aguardar a validação da conta, pode levar até 4 dias.",
+      "p17": "O último passo é aguardar a validação da conta, pode demorar até 4 dias.",
       "p18": "Em caso de erro ou falta de informação, a Bitex entrará em contato através do e-mail com o qual você se cadastrou. Fique atento a este meio.",
       "p19": "Quando a conta for aprovada, você poderá fazer transferências em pesos ou dólares para sua conta para comprar BTC (Bitcoins)",
       "p20": "Se você tiver alguma dúvida, entre em contato conosco.",
       "t3": "Como transferir dinheiro para sua conta Bitex",
       "p21": "Para adquirir Bitcoins, a primeira coisa que você deve fazer é transferir dinheiro fiduciário para sua conta Bitex.",
       "p22": "Abra seu navegador favorito e vá para",
-      "p23": "Clique em entrar",
-      "p24": "Observação: caso tenha problemas para carregar os dados do formulário, digite bitex de outro navegador, como Edge, Chrome ou FireFox.",
+      "p23": "Clique em Entrar",
+      "p24": "Observação: se tiver problemas para carregar os dados no formulário, digite bitex de outro navegador, como Edge, Chrome ou FireFox.",
       "p25": "Uma vez na sua conta, clique em depositar fundos na minha conta",
       "p26": "Clique em carregar USD ou ARG",
       "p27": "A Bitex fornecer-lhe-á as informações para que possa efetuar a transferência a partir do seu homebanking, consoante o seu país de origem e a moeda que escolheu",
@@ -867,7 +873,7 @@
       "p8": "Nota: se houver inconvenientes com a carga de dados no formulário inserido no Bitex com outro navegador como Edge, Chrome ou FireFox.",
       "p9": "Ingresa tus datos",
       "p10": "Ingresa os dados de autenticação do google",
-      "p11": "Uma vez na sua conta, clique sobre o ícone de saldos.",
+      "p11": "Uma vez na sua conta, clique no ícone de saldos.",
       "p12": "Clique em “Cargar BTC”",
       "p13": "Bitex mostrará sua direção de BTC para que transfira seu BTC que tem em Binance. Copie ou escaneie o código QR.",
       "t3": "Transfira seu BTC para Bitex",
@@ -894,7 +900,7 @@
       "p32": "Quando estiver dentro da sua conta, clique em saldos",
       "p33": "Clique em Baixar USD",
       "p34": "Selecione onde deseja receber el dinero, fazendo clique sobre “tengo nuevas instrucciones”",
-      "p35": "Selecione o país da sua conta bancária",
+      "p35": "Selecione o país de sua conta bancária",
       "p36": "e o método de pagamento",
       "p37": "Luego completa todos os campos do formulário que se despliega",
       "p38": "Por último, clique em Descargar e bitex se comunicará",
@@ -958,7 +964,7 @@
         "creatingSubscriber": "Erro ao inscrever-se no fundo.",
         "creatingPartialsBalance": "Você não tem fundos suficientes na conta.",
         "invalidData": "Dados inválidos.",
-        "notLinkedApiKeys": "Você não tem API/chave secreta para criar um novo fundo.",
+        "notLinkedApiKeys": "Você não tem chave API/Secret para criar um novo fundo.",
         "cantUpdateKeys": "Não podemos vincular a chave da API ao novo fundo.",
         "hasSpecialCharacters": "O nome do fundo tem caracteres proibidos.",
         "accountBalanceIsNotEnough": "Você não tem capital suficiente para criar o fundo.",
@@ -1029,7 +1035,7 @@
         "noActiveUser": "Verifique seu e-mail para fazer login.",
         "notClientAccess": "Você não pode acessar de outros aplicativos. Use nosso aplicativo para fazer o login.",
         "notVerifiedGoogleAccount": "Sua conta do Google não foi verificada.",
-        "notGoogleLoginUser": "Não foi possível fazer login. Seu e-mail já está assinado como um usuário Xcapit."
+        "notGoogleLoginUser": "Não foi possível fazer login. Seu e-mail já está registrado como um usuário Xcapit."
       },
       "changePassword": { "invalid": "Erro ao alterar a senha." }
     },
@@ -1210,7 +1216,7 @@
     },
     "error_no_wallet": {
       "textPrimary": "Parar! Você ainda não tem sua carteira",
-      "textSecondary": "Para progredir no módulo, você precisa criar sua carteira para poder reivindicar seu prêmio no final do módulo.",
+      "textSecondary": "Para progredir no módulo, você precisa criar sua carteira para poder resgatar seu prêmio no final do módulo.",
       "namePrimaryAction": "Criar carteira",
       "nameSecondaryAction": "De volta à educação financeira"
     }
@@ -1498,13 +1504,13 @@
       "subtitle_3": "3. Vigência",
       "paragraph_3": "O programa de referidos terá uma vigência desde 12 de novembro de 2021 e finaliza em 31 de dezembro de 2021.",
       "subtitle_4": "4. Procedimento para participar do programa de referidos",
-      "paragraph_4": "4.a. A referência deverá baixar o aplicativo do Xcapit, registrar-se com um e-mail, validar a conta e criar sua carteira. no momento de criar o mesmo, a referência terá a opção de “copiar” o link para referência. (o “link”). 4.b. A referência poderá enviar o link: a través de whatsapp, correio eletrônico, twitter, facebook, linkedin e qualquer outro canal que este considere. 4.c. A medida que mais e mais contatos referidos se descarguen la app de Xcapit y creen la wallet, podrá ganhar recompensas mais emocionantes. Para constituir uma referência válida, seus contatos devem: 1) Registrar-se nos serviços da empresa com uma direção de correio eletrônico válido e criar a carteira de xcapit, durante o período do concurso; cada recomendação válida que ud. haga le hará sumar 1 ponto. 4.d. Não há limite para a quantidade de referências que podem ser feitas por dia durante o período do concurso. 4.e.Al referente se le asignará, um ponto por cada referido que, a través del link del referente,descargue la app y cree la wallet de xcapit. o ponto obtido por cada referido que se registre não é transferível de nenhum modo, nem por nenhum motivo, nem negociável, e corresponde exclusivamente ao e-mail da referência que cumpriu com o procedimento estabelecido na presente cláusula 4.",
+      "paragraph_4": "4.a. A referência deve baixar o aplicativo Xcapit, registrar-se com um e-mail, validar a conta e criar sua carteira. no momento de criar o mesmo, a referência terá a opção de “copiar” o link para referência. (o “link”). 4.b. A referência poderá enviar o link: a través de whatsapp, correio eletrônico, twitter, facebook, linkedin e qualquer outro canal que este considere. 4.c. A medida que mais e mais contatos referidos se descarguen la app de Xcapit y creen la wallet, podrá ganhar recompensas mais emocionantes. Para constituir uma referência válida, seus contatos devem: 1) Registrar-se nos serviços da empresa com uma direção de correio eletrônico válido e criar a carteira de xcapit, durante o período do concurso; cada recomendação válida que ud. haga le hará sumar 1 ponto. 4.d. Não há limite para a quantidade de referências que podem ser feitas por dia durante o período do concurso. 4.e.Al referente se le asignará, um ponto por cada referido que, a través del link del referente,descargue la app y cree la wallet de xcapit. o ponto obtido por cada referido que se registre não é transferível de nenhum modo, nem por nenhum motivo, nem negociável, e corresponde exclusivamente ao e-mail da referência que cumpriu com o procedimento estabelecido na presente cláusula 4.",
       "subtitle_5": "5. Tipo de referidos",
       "paragraph_5": "Los referidos pueden ser: (i) Primarios: son aquellos referidos directors, es decir, que se registam en la app. e crie a carteira de xcapit com o link referente ao envio. por cada referido primario, ud. sumará 1 ponto. (ii) Secundários: Son aquellos que se registram no aplicativo. e crie a carteira de xcapit, utilizando o link de seus referidos principais. Por cada referido secundário, ud. sumará 0,5 pontos.",
       "subtitle_6": "6. Recompensas",
       "paragraph_6": "Esta seção solo se aplica às partes recomendadas que calificam para uma recompensa. A empresa notificará aos referentes a quantidade de pontos obtidos através da tela de referidos que poderão ser visualizados a partir do aplicativo. Cada ponto equivale a 1 usd, y la misma se pagará en Matic. Dicha recompensa se poderá reclamar a partir da data de finalização do programa de referidos (cláusula nº 3). Receber uma recompensa de qualquer tipo depende do cumprimento de todos os requisitos e do cumprimento destas regras. No caso de um destinatário da recompensa ser desclassificado por qualquer motivo, a empresa não é obrigada a fornecer uma recompensa alternativa ou estender o período do concurso de nenhuma maneira.",
       "subtitle_7": "7. Exclusão de responsabilidade. Indenização",
-      "paragraph_7": "Como condição para participar do programa de referidos, cada referente aceita que a empresa não seja responsável por nenhum daño direto ou indireto que possa sofrer o referente e/ou o referido e/ou qualquer terceiro por motivo e/ou ocasião de participação em o programa de referidos, e/ou o uso, destino ou finalidade do benefício, renunciando a empresa a qualquer tipo de responsabilidade contratual e/ou extracontratual frente ao referente e/o el referido e/o cualesquier terceiro, lo que é aceito incondicionalmente por cada referência. la empresa renuncia a qualquer tipo de responsabilidade por qualquer omissão, inexatidão ou erro que possa sofrer esa plataforma con relación al programa de referidos.",
+      "paragraph_7": "Como condição para participar no programa de referidos, cada referente aceita que a empresa não será responsável por ningún daño direto ou indireto que possa sofrer o referente e/ou o referido e/o qualquier terceiro com motivo e/ou ocasião da participação em o programa de referidos, y/o el uso, destino o finalidad del beneficio, renunciando la empresa a qualquer tipo de responsabilidade contratual y/o extracontratual frente al referente y/o el referido y/o cualesquier terceiro, lo que é aceite incondicionalmente por cada referência. la empresa renuncia a qualquer tipo de responsabilidade por qualquer omissão, inexatidão ou erro que possa sofrer esa plataforma con relación al programa de referidos.",
       "subtitle_8": "8. Modificação nas bases",
       "paragraph_8": "A empresa poderá modificar qualquer uma das cláusulas dessas bases em qualquer momento, sem aviso prévio. El mismo hecho de participar en el programa de referidos implica el conocimiento y la aceptación plena de las bases y sus eventuais modificaciones, así también los termos y condiciones generales del uso del site disponibles en /support/wallet-info/terms. As decisões da empresa sobre todos e cada um dos aspectos do programa de referidos, incluindo decisões por qualquer questão não prevista nas bases, serão definitivas e irrecorríveis. A empresa se reserva o direito de poner terminantemente modificar o programa de referidos no caso de haver fraudes, técnicas complicadas ou qualquer outro fator fuera de controle da empresa que pode comprometer a integridade do programa de referidos.",
       "subtitle_9": "9. Privacidade e informações enviadas",
@@ -1520,10 +1526,30 @@
     "notifications_helper": { "message": "Você tem uma nova notificação!", "view_button": "Visualizar" }
   },
   "wallets": {
+    "wallet_imports": {
+      "header": "importar carteira",
+      "title": "Importe sua carteira",
+      "subtitle": "Selecione o método que deseja usar para importar sua carteira.",
+      "support": "Que método devo escolher?",
+      "key": {
+        "title": "Importar com a frase de recuperação",
+        "subtitle": "Use sua frase de recuperação do Xcapit ou outra carteira criptográfica."
+      },
+      "cloud": {
+        "title": "Importar cópia do Google Drive",
+        "subtitle": "Restaure sua carteira usando esta opção se você já fez um backup."
+      },
+      "toasts": {
+        "denied": "Acesso negado. Permissões são necessárias para executar o backup. Por favor, tente novamente.",
+        "closed": "Não foi possível acessar sua conta para realizar o backup. Por favor, tente novamente.",
+        "info": "Não encontramos nenhum backup. Verifique se você está conectado com a conta correta.",
+        "password": "Senha incorreta. Por favor, tente novamente."
+      }
+    },
     "receive_select_currency": { "header": "Receber", "title": "Selecione a moeda que deseja receber" },
     "experimental_onboarding": {
       "title": "Bem-vindo {{username}} 🚀",
-      "init_wallet": "Carteira de inicialização",
+      "init_wallet": "carteira de inicialização",
       "complete_steps": "1 de 2 etapas concluídas",
       "next_step": "Próxima Etapa",
       "progress": "Seu progresso",
@@ -1625,7 +1651,7 @@
       "copied_text": "A frase de recuperação foi copiada para a área de transferência",
       "copy_error_text": "A frase de recuperação não pôde ser copiada para a área de transferência",
       "protected": "backup completo",
-      "not_protected": "Nenhuma cópia de backup",
+      "not_protected": "Nenhuma cópia de segurança",
       "loading_text": "Descriptografar carteira",
       "loading_label": "Aguarde alguns segundos...",
       "error_toast": "a senha que você digitou está incorreta"
@@ -1675,12 +1701,31 @@
     },
     "success_creation": {
       "title": "Parabéns! Você criou sua carteira",
+      "title1": "Parabéns! Proteja sua carteira",
       "subtitle": "Proteja-o fazendo backup de sua frase de recuperação. Esta é a chave mestra para seus fundos.",
+      "subtitle1": "Um último passo! Crie um backup criptografado de sua carteira no Google Drive.",
       "success_button": "Ir para a carteira",
       "ribbon_recommended": "Sugerido",
-      "primary_action": {
-        "title": "Protegendo minha carteira",
-        "subtitle": "Faça isso agora e não perca o acesso ao seu dinheiro. Levará apenas alguns minutos."
+      "finish_button": "Terminar",
+      "backup_options": {
+        "option_1": {
+          "title": "Proteja minha carteira",
+          "subtitle": "Faça isso agora e não perca o acesso ao seu dinheiro. Levará apenas alguns minutos."
+        },
+        "option_2": {
+          "title": "Backup para o Google Drive",
+          "subtitle": "Não perca sua carteira, salve uma cópia criptografada. Levará apenas alguns minutos."
+        }
+      },
+      "password_modal": {
+        "title": "Para segurança",
+        "description": "Para continuar, digite sua senha da carteira Xcapit. Não Se Esqueça. Não pode ser recuperado!",
+        "button_text": "Confirmar cópia de segurança"
+      },
+      "backup_succes_modal": {
+        "title": "Parabéns!",
+        "description": "Você criou com sucesso um backup de sua carteira.",
+        "button_text": "Vá para minha carteira"
       },
       "secondary_action": { "title": "Outra hora" }
     },
@@ -1736,7 +1781,7 @@
       "toast_success": "Copiado para a área de transferência"
     },
     "nft_detail": {
-      "title": "Detalhe NFT",
+      "title": "Detalhe da NFT",
       "label1": "Criado por",
       "label2": "Informações da Cadeia",
       "label_input1": "Endereço do contrato",
@@ -1792,7 +1837,7 @@
       },
       "send_detail": {
         "header": "Enviar",
-        "title": "dados de remessa",
+        "title": "dados de envio",
         "network_select": { "title": "Transferir dados", "network": "Rede" },
         "continue_button": "Continuar",
         "address_input": {
@@ -1901,7 +1946,7 @@
       },
       "skip_backup_modal": {
         "title": "Ignorar backup?",
-        "description": "Entendo que, se não fizer uma cópia da minha frase de recuperação, posso perder o acesso aos meus fundos.",
+        "description": "Entendo que, se não fizer um backup, posso perder o acesso aos meus fundos.",
         "button_back": "Voltar",
         "button_skip": "Pular"
       },
@@ -2162,7 +2207,8 @@
     "cash_out": {
       "header": "Compra venda",
       "title": "Insira as informações do titular da conta",
-      "disclaimer": "O titular da conta deve ser a mesma pessoa que realizou o cadastro ou processo KYC. Não são permitidas transferências para terceiros."
+      "disclaimer": "O titular da conta deve ser a mesma pessoa que realizou o cadastro ou processo KYC. Não são permitidas transferências para terceiros.",
+      "loading": "Criando pedido"
     },
     "operation_km_in_progress": {
       "text_primary": "Seu pedido está a caminho!",
@@ -2172,6 +2218,17 @@
       "text_badge": "Em andamento",
       "text_tertiary": "Você precisa de ajuda?",
       "text_help_link": "Escreva para o suporte do Kripton Market"
+    },
+    "operation_km_cashout": {
+      "text_secondary": "Estaremos informando sobre mudanças no status de sua venda.",
+      "button_text": "Terminar",
+      "text_title": "Vender",
+      "text_badge": "Enviado"
+    },
+    "operation_km_cashout_error": {
+      "text_primary": "erro de transação",
+      "text_secondary": "Ocorreu um erro no processo.",
+      "button_secondary": "Voltar para Comprar - Vender"
     },
     "error_operation_km": {
       "text_primary": "Erro ao carregar o voucher",
@@ -2222,7 +2279,7 @@
       "button_text": "Ir para a carteira"
     },
     "operations_list": {
-      "title": "Compras no Kripton Market",
+      "title": "Com o Mercado Kripton",
       "operation": "Moeda",
       "amount": "Quantia",
       "date": "Data",
@@ -2346,18 +2403,32 @@
     "operation_status_detail": {
       "title": "O que significa este estado?",
       "button": "Entendido",
-      "incomplete": {
-        "description": "Sua solicitação de compra foi recebida com sucesso pelo provedor. <b>Isso não significa que a compra foi feita.</b> Para tal, deverá cumprir os restantes passos: anexar o comprovativo da transferência e enviar-nos.",
-        "description2": "Tem até 72 horas para o fazer, caso contrário a sua encomenda será cancelada."
+      "cash-in": {
+        "incomplete": {
+          "description": "Sua solicitação de compra foi recebida com sucesso pelo provedor. <b>Isso não significa que a compra foi feita.</b> Para tal, deverá cumprir os restantes passos: anexar o comprovativo da transferência e enviar-nos.",
+          "description2": "Tem até 72 horas para o fazer, caso contrário a sua encomenda será cancelada."
+        },
+        "in_progress": {
+          "description": "O provedor recebeu com sucesso sua solicitação de compra. Dentro de 24 horas, você verá os tokens creditados em sua carteira."
+        },
+        "nullified": {
+          "description": "O provedor teve problemas com esta transação, então a transação foi cancelada. Seus fundos serão devolvidos à sua conta original."
+        },
+        "cancelled": {
+          "description": "Seu pedido pode ser cancelado por dois motivos: o provedor não recebeu o comprovante de transferência. Ou o usuário não efetuou o pagamento no prazo de 72hs estipulado a partir da solicitação de compra."
+        }
       },
-      "in_progress": {
-        "description": "O provedor recebeu com sucesso sua solicitação de compra. Dentro de 24 horas, você verá os tokens creditados em sua carteira."
-      },
-      "nullified": {
-        "description": "O provedor teve problemas com esta transação, então a transação foi cancelada. Seus fundos serão devolvidos à sua conta original."
-      },
-      "cancelled": {
-        "description": "Seu pedido pode ser cancelado por dois motivos: o provedor não recebeu o comprovante de transferência. Ou o usuário não efetuou o pagamento no prazo de 72hs estipulado a partir da solicitação de compra."
+      "cash-out": {
+        "incomplete": {
+          "description": "Seu pedido foi criado com sucesso, seus tokens estão pendentes de envio ao provedor."
+        },
+        "in_progress": { "description": "Sua operação foi aprovada. Pode levar até 72 horas para ser impactado." },
+        "confirmed": {
+          "description": "Sua transação foi creditada com sucesso. Você já deve ver isso afetar sua conta."
+        },
+        "cancelled": {
+          "description": "O provedor cancelou a transação. Tente novamente ou entre em contato com o suporte."
+        }
       }
     },
     "new_operation": {
@@ -2369,7 +2440,7 @@
       "next_button": "Próximo"
     },
     "register": {
-      "header": "Registre o mercado de Kripton",
+      "header": "Registrar o mercado de Kripton",
       "header_bank": "informações de conta bancária",
       "header_images": "Enviar imagens",
       "description": "Preencha o seguinte formulário para se registrar em nosso provedor Kripton Market",
@@ -2419,7 +2490,7 @@
       "quotation": "cotação",
       "wallet": "endereço de recepção",
       "disclaimer": "Vale lembrar que a Xcapit não vende criptomoedas, todo o fluxo de compra e alocação é feito pela operadora.",
-      "disclaimer2": "A entrega dos tokens é feita de segunda a sexta-feira, das 9h às 18h, e pode demorar algum tempo caso o banco atrase o processamento da transação na conta do Krypton.",
+      "disclaimer2": "A entrega dos tokens é feita de segunda a sexta-feira, das 9h às 18h, e pode demorar um pouco caso o banco atrase o processamento da transação na conta do Krypton.",
       "confirm": "confirme",
       "buy": { "operationType": "Comprar", "title": "Comprar", "with": "com" },
       "sell": { "operationType": "Vender", "title": "Vender", "with": "para" }
@@ -2511,9 +2582,10 @@
         "quantity": "Quantia",
         "payment_method": "Forma de pagamento",
         "to_pay": "Você pagará*",
-        "input_error": "O valor mínimo de compra é ${{amount}} {{fiatCurrency}}",
+        "input_error": "O valor mínimo de compra é ${{amount}} {{currency}}",
         "usd_disclaimer": "*Digite o valor em dólares, ao final do processo você pagará em sua moeda local de acordo com a cotação do dia.",
-        "estimated_fee": "Taxa de transação estimada"
+        "estimated_fee": "Taxa de transação estimada",
+        "estimated_provider_fee": "Taxa estimada do provedor"
       },
       "kyc_disclaimer_modal": {
         "title": "Registro de conta Krypton",
@@ -2527,6 +2599,11 @@
         "item3": "Você pode encontrá-lo em seu boleto de pagamento como “verificador de valor“.",
         "button": "Entendido"
       },
+      "provider_fee_info_modal": {
+        "title": "Qual é a taxa do provedor?",
+        "item1": "A taxa inclui o custo do serviço e os impostos locais exigidos pelo provedor para a venda da criptomoeda.",
+        "item2": "Pode variar um pouco no momento de realizar uma operação."
+      },
       "user_register_content": {
         "user_information": {
           "title": "Olá! Você ainda não tem uma conta, vamos ajudá-lo a se registrar rapidamente.",
@@ -2536,7 +2613,7 @@
         "complete": {
           "title": "Parabéns! 🎉 Cadastro concluído",
           "subtitle": "⏱ O Kripton Market está validando sua conta. Esse processo pode levar até 48 horas",
-          "subtitle_2": "🛒 Assim que tiver a sua conta validada, poderá efetuar as suas compras com este fornecedor"
+          "subtitle_2": "🛒 Depois de validar a sua conta, poderá fazer as suas compras com este fornecedor"
         }
       },
       "validation_content": {
@@ -2613,15 +2690,30 @@
       },
       "kripton_purchase_info": { "title": "A tua compra", "quote": "Citar", "operation": "Operação" }
     },
+    "kripton_sale_summary": {
+      "header": "Detalhe da operação",
+      "title": "Oferta",
+      "quote": "cotação",
+      "transaction_fee": "Taxa de transação estimada",
+      "provider_fee": "Taxa estimada do provedor",
+      "wallet": "Carteira Kripton Market",
+      "bank_account": "Conta bancária de destino",
+      "provider": "Fornecedor",
+      "date": "Data",
+      "button": "Confirme a entrega"
+    },
     "kripton_operation_detail": {
       "header": "Detalhe da operação",
       "title": "Comprar",
       "state": "Status",
       "state_toast": {
-        "incomplete": "Transfira e envie o recibo da transação.",
-        "incomplete2": "dados completos",
-        "nullified": "O provedor cancelou esta operação. Para mais informações, entre em contato com o suporte.",
-        "cancelled": "O provedor não recebeu o comprovante de pagamento."
+        "cash-in": {
+          "incomplete": "Transfira e envie o recibo da transação.",
+          "incomplete2": "dados completos",
+          "nullified": "O provedor cancelou esta operação. Para mais informações, entre em contato com o suporte.",
+          "cancelled": "O provedor não recebeu o comprovante de pagamento."
+        },
+        "cash-out": { "incomplete": "Transfira seus tokens para o provedor.", "incomplete2": "Tentar novamente" }
       },
       "scan_link": "Ver em",
       "scans": {
@@ -2633,7 +2725,10 @@
       },
       "quotation": "cotação",
       "fee": "Taxa de transação",
+      "estimated_fee": "Taxa de transação estimada",
+      "provider_fee": "Taxa do provedor",
       "address": "Endereço de destino (sua carteira)",
+      "bank_account": "Conta bancária de destino",
       "provider": "Fornecedor",
       "operation": "Operação",
       "date": "Data",
@@ -2644,7 +2739,7 @@
       "header": "Comprar criptomoeda",
       "provider": "Provedor: Kripton Market",
       "title": "Para continuar sua compra, digite o endereço de e-mail da sua conta do Kripton Market.",
-      "subtitle": "Se você não tiver uma conta, digite o endereço de e-mail com o qual deseja que o registremos.",
+      "subtitle": "Se você não tiver uma conta, digite o endereço de e-mail com o qual você gostaria que registrássemos.",
       "label_email": "E-mail",
       "button": "Continuar",
       "text": "Certifique-se de ter acesso ao e-mail, você o usará para confirmar suas transações.",
@@ -2855,7 +2950,7 @@
       "description_wallet_operations": "Como investir, operações e custos.",
       "title_buy": "Compra de criptomoedas",
       "description_buy": "Compra, comissões, limites e formas de pagamento.",
-      "title_wallet_connect": "Wallet Connect",
+      "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Conecte a carteira e interaja com o dapp.",
       "title_nft": "NFT",
       "description_nft": "Visualize, transfira e receba.",
@@ -2870,7 +2965,7 @@
     "subtitle": "Faça o teste do perfil do investidor, ou escolha manualmente e descubra quais investimentos podem ser adequados para você.",
     "investor_test_options": {
       "title1": "Faça o teste",
-      "description1": "Conheça o seu perfil de investidor fazendo este teste.",
+      "description1": "Conheça seu perfil de investidor fazendo este teste.",
       "title2": "Escolha manualmente",
       "description2": "Se você já conhece seu perfil de investidor, selecione-o manualmente."
     },
@@ -2899,7 +2994,7 @@
       },
       "aggressive_profile": {
         "title": "Perfil Agressivo",
-        "subtitle": "Você busca os maiores retornos possíveis, então está disposto a assumir qualquer risco necessário. Não é aconselhável manter essa atitude de risco quando você não tem solvência suficiente ou se tem compromissos familiares importantes."
+        "subtitle": "Você busca os maiores retornos possíveis, então está disposto a assumir qualquer risco necessário. Não é aconselhável manter essa atitude de risco quando você não possui solvência suficiente ou se possui compromissos familiares importantes."
       }
     },
     "no_wallet": {
@@ -3049,7 +3144,7 @@
       "dniLabel": "cartão de identificação do fiador",
       "amountLabel": "Valor da garantia",
       "serviceLabel": "Custo do serviço",
-      "buttonName": "Fazer Garantia",
+      "buttonName": "Fazer garantia",
       "loading": "Fazendo garantia...",
       "wait_loading_message": "Levará apenas alguns segundos."
     },
