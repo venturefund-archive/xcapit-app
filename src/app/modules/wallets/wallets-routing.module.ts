@@ -264,6 +264,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('./derived-path-options/derived-path-options.module').then((m) => m.DerivedPathOptionsPageModule),
       },
+      {
+        path: 'select-wallet-type',
+        loadChildren: () => import('./select-wallet-type/select-wallet-type.module').then( m => m.SelectWalletTypePageModule)
+      },
     ],
   },
 ];

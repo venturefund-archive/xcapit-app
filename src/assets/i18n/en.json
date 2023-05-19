@@ -1823,6 +1823,18 @@
       "terms_of_use_button": "See terms of use",
       "submit_button": "Confirm and accept"
     },
+    "select_wallet_type": {
+      "title": "Which wallet would you prefer?",
+      "description": "Before creating your wallet, select the type of wallet you want according to your level of knowledge.",
+      "warranty_wallet": {
+        "title": "Constitute guarantee",
+        "description": "You will be able to receive and purchase USDC to constitute a guarantee."
+      },
+      "web3_wallet": {
+        "title": "Operate on Web 3",
+        "description": "You will be able to send, receive, and swap tokens for investment or constitute a guarantee."
+      }
+    },
     "recovery_phrase_information": {
       "header": "Recovery phrase",
       "text1": "Xcapit will never ask you to share your recovery phrase.",
