@@ -136,7 +136,7 @@ describe('SuccessCreationPage', () => {
     ionicStorageServiceSpy.get.withArgs('wallet_backup').and.returnValue(Promise.resolve(false));
     component.ionViewWillEnter();
     fixture.debugElement.query(By.css('app-user-register-step-card')).triggerEventHandler('cardClicked');
-    tick();
+    tick(600);
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(googleAuthServiceSpy.accessToken).toHaveBeenCalledTimes(1);
