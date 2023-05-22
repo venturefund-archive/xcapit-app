@@ -477,7 +477,7 @@ export class KriptonOperationDetailPage {
       created_at: this.operation.created_at,
       providerFee: this.operation.fiat_fee / this.conversionRate,
       fee: this.estimatedFee,
-      payment_method_id: 159,
+      payment_method_id: this.operation.payment_method_id,
     };
     this.storageOperationService.updateData(data);
   }
