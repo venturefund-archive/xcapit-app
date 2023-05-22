@@ -101,6 +101,7 @@ describe('KriptonOperationDetailPage', () => {
       amount_in: 500.0,
       currency_out: 'USDC',
       amount_out: 100.0,
+      fiat_fee: 4.0,
       created_at: new Date('2021-02-27T10:02:49.719Z'),
       provider: '1',
       voucher: false,
@@ -276,7 +277,7 @@ describe('KriptonOperationDetailPage', () => {
     expect(coinComponentEl.nativeElement.network).toContain(testOperation.network);
     expect(state).toBeTruthy();
     expect(toast).toBeTruthy();
-    expect(quotations).toContain('1 USDC = 5.00 ARS');
+    expect(quotations).toContain('1 USDC = 4.81 ARS');
     expect(address).toContain(testOperation.wallet_address);
     expect(operationNumber).toContain(testOperation.operation_id);
     expect(date).toContain('27/02/2021');

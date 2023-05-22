@@ -132,7 +132,12 @@ import { BankAccount } from '../shared-ramps/types/bank-account.type';
                 </ion-text>
               </div>
               <div class="kod__card-container__card__fee__container__content">
-                <ion-text class="ux-font-text-base">
+                <ion-text *ngIf="this.isCashIn" class="ux-font-text-base">
+                  {{ this.operation.fiat_fee * this.conversionRate | number : '1.2-2' }}
+                  {{ this.operation.currency_in | uppercase }}
+                </ion-text>
+
+                <ion-text *ngIf="!this.isCashIn" class="ux-font-text-base">
                   {{ this.operation.fiat_fee / this.conversionRate | formattedAmount }}
                   {{ this.operation.currency_in | uppercase }}
                 </ion-text>
@@ -398,12 +403,12 @@ export class KriptonOperationDetailPage {
 
   setCashInData() {
     this.imgRoute = this.token.logoRoute;
-    this.conversionRate = this.operation.amount_in / this.operation.amount_out;
+    this.conversionRate = this.operation.amount_in / (this.operation.amount_out + this.operation.fiat_fee);
   }
 
   async setCashOutData() {
     this.imgRoute = this.country.flagRoute();
-    this.conversionRate = this.operation.amount_out / this.operation.amount_in;
+    this.conversionRate = (this.operation.amount_out + this.operation.fiat_fee) / this.operation.amount_in;
     this.blockchain = this.blockchains.create().oneByName(this.token.network);
     this.bankAccount = await this.userBank();
   }

@@ -432,8 +432,6 @@ export class SellOrderPage {
             { email, auth_token, payment_method_id: id },
             this.storageOperationService.getData()
           );
-          operationData.amount_in = this.form.value.cryptoAmount + this.providerFee.value;
-          if (this.selectedCurrency.native) operationData.amount_in += this.fee.value;
           return await this.fiatRampsService.createOperation(operationData).toPromise();
         })
         .then((operationResponse) => {
