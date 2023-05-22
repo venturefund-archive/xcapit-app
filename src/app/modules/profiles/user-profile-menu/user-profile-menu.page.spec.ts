@@ -32,13 +32,47 @@ import { FakeAppVersion } from 'src/app/shared/models/app-version/fake/fake-app-
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { AppUpdateAvailability } from '@capawesome/capacitor-app-update';
 import { UpdateAppService } from 'src/app/shared/services/update-app/update-app.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 describe('UserProfileMenuPage', () => {
+  const profile = { email: 'test@mail.com' };
+  const anERC20Address = '0x0123456789101112131415';
+  let component: UserProfileMenuPage;
+  let fixture: ComponentFixture<UserProfileMenuPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfileMenuPage>;
+  let apiProfilesServiceSpy: jasmine.SpyObj<ApiProfilesService>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let languageServiceSpy: jasmine.SpyObj<LanguageService>;
+  let fakeWalletService: FakeWalletService;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let logOutModalServiceSpy: jasmine.SpyObj<LogOutModalService>;
+  let apiTicketsServiceSpy: jasmine.SpyObj<ApiTicketsService>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
+  let storageSpy: jasmine.SpyObj<Storage>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
+  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
+  let fakeAppVersion: FakeAppVersion;
+  let appVersionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let appUpdateSpy: jasmine.SpyObj<any>;
+  let updateAppServiceSpy: jasmine.SpyObj<UpdateAppService>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
   const itemMenu: MenuCategory[] = [
     {
       category_title: 'profiles.user_profile_menu.category_help',
       icon: 'assets/ux-icons/ux-support.svg',
+      id: 'categoryHelp',
       showCategory: true,
+      isWarrantyWalletOpt: true,
       items: [
         {
           name: 'Faq',
@@ -99,43 +133,12 @@ describe('UserProfileMenuPage', () => {
     {
       id: 'contacts',
       showCategory: true,
+      isWarrantyWalletOpt: false,
       category_title: '',
       icon: '',
       items: [],
     },
   ];
-
-  const profile = { email: 'test@mail.com' };
-
-  const anERC20Address = '0x0123456789101112131415';
-  let component: UserProfileMenuPage;
-  let fixture: ComponentFixture<UserProfileMenuPage>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfileMenuPage>;
-  let apiProfilesServiceSpy: jasmine.SpyObj<ApiProfilesService>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
-  let fakeNavController: FakeNavController;
-  let navControllerSpy: jasmine.SpyObj<NavController>;
-  let fakeModalController: FakeModalController;
-  let modalControllerSpy: jasmine.SpyObj<ModalController>;
-  let languageServiceSpy: jasmine.SpyObj<LanguageService>;
-  let fakeWalletService: FakeWalletService;
-  let walletServiceSpy: jasmine.SpyObj<WalletService>;
-  let logOutModalServiceSpy: jasmine.SpyObj<LogOutModalService>;
-  let apiTicketsServiceSpy: jasmine.SpyObj<ApiTicketsService>;
-  let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
-  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
-  let storageSpy: jasmine.SpyObj<Storage>;
-  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
-  let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
-  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
-  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
-  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
-  let fakeAppVersion: FakeAppVersion;
-  let appVersionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
-  let appUpdateSpy: jasmine.SpyObj<any>;
-  let updateAppServiceSpy: jasmine.SpyObj<UpdateAppService>;
 
   beforeEach(waitForAsync(() => {
     logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
@@ -237,6 +240,10 @@ describe('UserProfileMenuPage', () => {
       update: Promise.resolve(),
     });
 
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
+
     TestBed.configureTestingModule({
       declarations: [UserProfileMenuPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -260,6 +267,7 @@ describe('UserProfileMenuPage', () => {
         { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
         { provide: UpdateAppService, useValue: updateAppServiceSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -386,13 +394,6 @@ describe('UserProfileMenuPage', () => {
     expect(menu.length).toBe(5);
   });
 
-  it('should back to home when back button is clicked', async () => {
-    const button = fixture.debugElement.query(By.css('ion-back-button'));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tabs/home');
-  });
-
   it('should navigate to delete account when delete_account button is clicked', async () => {
     const button = fixture.debugElement.query(By.css('ion-button[name="delete_account"]'));
     button.nativeElement.click();
@@ -494,5 +495,43 @@ describe('UserProfileMenuPage', () => {
     await component.ionViewWillEnter();
     fixture.debugElement.query(By.css('ion-text[name="Update"]')).nativeElement.click();
     expect(updateAppServiceSpy.update).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show options web3 when toggle is checked', async () => {
+    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(true);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const contactsOpt = component.itemMenu.find((category) => category.id === 'contacts');
+    const categoryHelpOpt = component.itemMenu.find((category) => category.id === 'categoryHelp');
+    await component.ionViewWillEnter();
+    expect(contactsOpt.showCategory).toBeTruthy();
+    expect(categoryHelpOpt.showCategory).toBeTruthy();
+  });
+
+  it('should show options warranty wallet when toggle is not checked', async () => {
+    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(false);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const contactsOpt = component.itemMenu.find((category) => category.id === 'contacts');
+    const categoryHelpOpt = component.itemMenu.find((category) => category.id === 'categoryHelp');
+    await component.ionViewWillEnter();
+    expect(contactsOpt.showCategory).toBeFalsy();
+    expect(categoryHelpOpt.showCategory).toBeTruthy();
+  });
+
+  it('should navigate to wallet home if warranty_wallet in storage is false', async () => {
+    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(false);
+    const button = fixture.debugElement.query(By.css('ion-back-button'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tabs/home');
+  });
+
+  it('should navigate to warranty wallet home if warranty_wallet in storage is true', async () => {
+    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(true);
+    const button = fixture.debugElement.query(By.css('ion-back-button'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('');
   });
 });

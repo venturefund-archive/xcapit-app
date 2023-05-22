@@ -10,6 +10,7 @@ export const ITEM_MENU: MenuCategory[] = [
     legend: 'profiles.user_profile_menu.disconnected_walletconnect',
     connected: false,
     showCategory: true,
+    isWarrantyWalletOpt: false
   },
   {
     category_title: 'profiles.user_profile_menu.category_contacts',
@@ -20,10 +21,12 @@ export const ITEM_MENU: MenuCategory[] = [
     buttonName: 'ux_go_to_address_list',
     showCategory: true,
     newBadge: true,
+    isWarrantyWalletOpt: false,
   },
   {
     category_title: 'profiles.user_profile_menu.category_help',
     showCategory: true,
+    isWarrantyWalletOpt: true,
     icon: 'assets/ux-icons/ux-support-primary.svg',
     items: [
       {
@@ -61,6 +64,7 @@ export const ITEM_MENU: MenuCategory[] = [
     icon: 'assets/ux-icons/ux-key-primary.svg',
     id: 'wallet',
     showCategory: false,
+    isWarrantyWalletOpt: true,
     items: [
       {
         name: 'SecurityConfiguration',
