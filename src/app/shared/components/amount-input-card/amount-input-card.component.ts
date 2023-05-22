@@ -15,7 +15,7 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
             {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text
           >
           <ion-text class="ux-font-text-xxs" color="neutral80">
-            ≈ {{ this.quoteMax | formattedAmount: 10:2 }} {{ this.quoteCurrency }}
+            ≈ {{ this.quoteMax | formattedAmount : 10 : 2 }} {{ this.quoteCurrency }}
           </ion-text>
         </div>
       </div>
@@ -60,7 +60,7 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
             this.quoteCurrency
           }}</ion-text>
         </div>
-        <div class="aic__content__inputs">
+        <div class="aic__content__inputs" [ngClass]="{ invalid: this.insufficientBalance }">
           <div class="aic__content__inputs__amount_with_max">
             <ion-input
               appNumberInput
@@ -174,6 +174,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
     this.form.get('quoteAmount').valueChanges.subscribe((value) => {
       this.quoteAmountChange(value);
       this.value = value;
+
       this.insufficientBalance = this.value > this.quoteMax;
     });
     if (this.showRange) this.form.get('percentage').valueChanges.subscribe((value) => this.percentageChange(value));
@@ -190,6 +191,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
       percentage: Math.round((value * 100) / this.max),
       range: (value * 100) / this.max,
     };
+
     this.form.patchValue(newValues, this.defaultPatchValueOptions());
   }
 

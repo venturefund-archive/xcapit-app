@@ -76,6 +76,12 @@
         align-items: center;
         margin-bottom: 4px;
 
+        &.invalid {
+          ion-input {
+            border: 1.5px solid var(--ion-color-dangerdark);
+          }
+        }
+
         &__amount_with_max {
           flex-basis: 55%;
           position: relative;
@@ -115,10 +121,6 @@
           color: var(--ion-color-neutral90);
 
           --padding-start: 16px;
-        }
-
-        ion-input.ng-invalid.ng-dirty {
-          border: 1.5px solid var(--ion-color-dangerdark);
         }
 
         ion-input.has-focus {
