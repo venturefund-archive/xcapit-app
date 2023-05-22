@@ -211,7 +211,6 @@ export class UserProfileMenuPage {
       this.setEvent(value.notifications);
     });
     this.form.get('warrantyWallet').valueChanges.subscribe(async (value) => {
-      console.log('value',value)
       await new SimplifiedWallet(this.ionicStorageService).save(value);
       this.itemMenu.forEach((category) => {
         if (!category.isWarrantyWalletOpt) {
