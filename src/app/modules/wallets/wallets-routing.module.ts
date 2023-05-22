@@ -4,6 +4,7 @@ import { AcceptedToSGuard } from './shared-wallets/guards/accepted-tos/accepted-
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { NoAuthGuard } from '../users/shared-users/guards/no-auth/no-auth.guard';
+import { SimplifiedWalletGuard } from './shared-wallets/guards/simplified-wallet/simplified-wallet.guard';
 
 const routes: Routes = [
   {
@@ -269,6 +270,11 @@ const routes: Routes = [
         loadChildren: () => import('./select-wallet-type/select-wallet-type.module').then( m => m.SelectWalletTypePageModule)
       },
     ],
+  },
+  {
+    path: 'simplified-home-wallet',
+    canActivate: [SimplifiedWalletGuard],
+    loadChildren: () => import('./simplified-home-wallet/simplified-home-wallet.module').then( m => m.SimplifiedHomeWalletPageModule)
   },
 ];
 

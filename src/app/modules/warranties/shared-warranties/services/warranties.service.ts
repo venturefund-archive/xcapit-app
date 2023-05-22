@@ -6,37 +6,20 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-
 export class WarrantiesService {
   entity = 'xscrow';
 
   constructor(private http: CustomHttpService) {}
 
   createWarranty(data: any): Observable<any> {
-    return this.http.post(
-      `${environment.apiUrl}/${this.entity}/create-warranty`,
-      data,
-      undefined,
-      false
-    );
+    return this.http.post(`${environment.apiUrl}/${this.entity}/create-warranty`, data, undefined, false);
   }
 
   withdrawWarranty(data: any): Observable<any> {
-    return this.http.post(
-      `${environment.apiUrl}/${this.entity}/withdraw-warranty`,
-      data,
-      undefined,
-      false
-    );
+    return this.http.post(`${environment.apiUrl}/${this.entity}/withdraw-warranty`, data, undefined, false);
   }
 
-  verifyWarranty(dni: any): Observable<any> {
-    return this.http.post(
-      `${environment.apiUrl}/${this.entity}/verify-warranty`,
-      dni,
-      undefined,
-      false
-    );
+  verifyWarranty(data: {wallet: string; user_dni?: string}): Observable<{ amount: number }> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/verify-warranty`, data, undefined, false);
   }
-
 }

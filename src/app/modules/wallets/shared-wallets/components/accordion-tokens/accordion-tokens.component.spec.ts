@@ -5,8 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { Coin } from '../../interfaces/coin.interface';
 import { TokenDetail } from '../../models/token-detail/token-detail';
-import { TokenDetailInjectable } from '../../models/token-detail/token-detail.injectable';
 import { AccordionTokensComponent } from './accordion-tokens.component';
+import { TokenDetailInjectable } from '../../models/token-detail/injectable/token-detail.injectable';
 
 describe('AccordionTokensComponent', () => {
   let component: AccordionTokensComponent;
