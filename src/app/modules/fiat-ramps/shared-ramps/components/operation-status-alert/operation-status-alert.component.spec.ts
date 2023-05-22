@@ -5,15 +5,22 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { OperationStatusAlertComponent } from './operation-status-alert.component';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 describe('OperationStatusAlertComponent', () => {
   let component: OperationStatusAlertComponent;
   let fixture: ComponentFixture<OperationStatusAlertComponent>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(waitForAsync(() => {
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
+
     TestBed.configureTestingModule({
       declarations: [OperationStatusAlertComponent],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [{ provide: TrackService, useValue: trackServiceSpy }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
@@ -50,4 +57,14 @@ describe('OperationStatusAlertComponent', () => {
     expect(textEl).toContain('fiat_ramps.kripton_operation_detail.state_toast.cash-in.cancelled');
     expect(cssClassEl).toBeTruthy();
   });
+
+  it('should track event on cash-out and operation on wait status when osa__information is clicked', () => {
+    component.operationStatus = 'wait';
+    component.operationType = 'cash-out'
+    component.ngOnInit();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('div[name="Information card"]')).nativeElement.click();
+
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  })
 });
