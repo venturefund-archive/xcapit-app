@@ -213,7 +213,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   private async cryptoAmountChange(value: any) {
-		value = value ? value: this.form.value.cryptoAmount
+    value = value ? value : this.form.value.cryptoAmount;
     value = parseFloat(value);
     this.form.patchValue(
       { fiatAmount: new RoundedNumber((value + this.fee.value) * this.fiatPrice).value() },
@@ -259,7 +259,9 @@ export class OperationsNewPage implements AfterViewInit {
   }
   private async getMinimumFiatAmount() {
     const data = { email: await this._getUserEmail() };
-    const response = await this.fiatRampsService.getKriptonMinimumAmount(this.fiatCurrency,'cash-in', data).toPromise();
+    const response = await this.fiatRampsService
+      .getKriptonMinimumAmount(this.fiatCurrency, 'cash-in', data)
+      .toPromise();
     this.minimumFiatAmount = parseFloat(response.minimun_general);
     this.addGreaterThanValidator(this.minimumFiatAmount);
     await this.getUpdatedValues(this.minimumFiatAmount);
@@ -278,8 +280,14 @@ export class OperationsNewPage implements AfterViewInit {
       .getKriptonFee(this.fiatCurrency, fiatAmountAux, this.selectedCurrency.value, this._network(), 'cash-in')
       .toPromise();
     this.fee.value = parseFloat(kriptonFeeResponse.data.costs);
-    this.form.patchValue( { fiatAmount: parseFloat(kriptonFeeResponse.data.amount_in) }, { emitEvent: false, onlySelf: true } );
-    this.form.patchValue( { cryptoAmount: parseFloat(kriptonFeeResponse.data.amount_out) }, { emitEvent: false, onlySelf: true } );
+    this.form.patchValue(
+      { fiatAmount: parseFloat(kriptonFeeResponse.data.amount_in) },
+      { emitEvent: false, onlySelf: true }
+    );
+    this.form.patchValue(
+      { cryptoAmount: parseFloat(kriptonFeeResponse.data.amount_out) },
+      { emitEvent: false, onlySelf: true }
+    );
     this.setFiatFee(this.fee);
   }
 
@@ -304,7 +312,6 @@ export class OperationsNewPage implements AfterViewInit {
       const auth_token = await this.kriptonStorageService.get('access_token');
       this.kriptonStorageService.set('privacy_and_policy_accepted', true);
       const operationData = Object.assign({ email, auth_token }, this.storageOperationService.getData());
-      operationData.amount_in = this.form.value.fiatAmount + this.fiatFee.value;
       const operationResponse = await this.fiatRampsService.createOperation(operationData).toPromise();
       const newData = Object.assign(
         { operation_id: operationResponse.id, created_at: operationResponse.created_at },
