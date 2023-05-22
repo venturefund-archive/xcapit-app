@@ -33,6 +33,7 @@ import { WCService } from './modules/wallets/shared-wallets/services/wallet-conn
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 import { DefaultWCUri } from './shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { GoogleAuthService } from './shared/services/google-auth/google-auth.service';
+import { FirebaseDynamicLinks } from '@pantrist/capacitor-firebase-dynamic-links';
 @Component({
   selector: 'app-root',
   template: `
@@ -99,11 +100,11 @@ export class AppComponent implements OnInit {
     this._setConnectionStatus();
     this._initializeGoogleAuth()
   }
-  
+
   private _initializeGoogleAuth(){
     this.googleAuth.init()
   }
-  
+
   private _enableSubmitButtonService() {
     this.submitButtonService.enabled();
   }
@@ -136,11 +137,18 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.languageService.setInitialAppLanguage();
       this.setLanguageSubscribe();
+      this.testFirebaseDynamicLinks();
       this.checkWalletConnectAndDynamicLinks();
       this.localNotificationsService.init();
       this.trackUserWalletAddress();
       this.pushNotificationActionPerformed();
     });
+  }
+
+  private testFirebaseDynamicLinks() {
+    FirebaseDynamicLinks.addListener('deepLinkOpen', (data: any) => {
+      console.log('Firebase Dynamic Links:', data);
+    })
   }
 
   private pushNotificationActionPerformed() {

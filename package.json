@@ -63,6 +63,7 @@
     "@json-rpc-tools/utils": "^1.7.6",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "@pantrist/capacitor-firebase-dynamic-links": "^5.0.1",
     "@solana/spl-token": "^0.3.6",
     "@solana/web3.js": "^1.53.0",
     "@typeform/embed": "^1.35.1",
