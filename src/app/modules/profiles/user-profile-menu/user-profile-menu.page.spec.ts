@@ -36,7 +36,6 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 
 describe('UserProfileMenuPage', () => {
   const profile = { email: 'test@mail.com' };
-
   const anERC20Address = '0x0123456789101112131415';
   let component: UserProfileMenuPage;
   let fixture: ComponentFixture<UserProfileMenuPage>;
@@ -67,9 +66,7 @@ describe('UserProfileMenuPage', () => {
   let appUpdateSpy: jasmine.SpyObj<any>;
   let updateAppServiceSpy: jasmine.SpyObj<UpdateAppService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
-  let itemMenu: MenuCategory[];
-
-  itemMenu = [
+  const itemMenu: MenuCategory[] = [
     {
       category_title: 'profiles.user_profile_menu.category_help',
       icon: 'assets/ux-icons/ux-support.svg',
