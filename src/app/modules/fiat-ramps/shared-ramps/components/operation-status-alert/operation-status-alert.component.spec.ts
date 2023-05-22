@@ -60,11 +60,11 @@ describe('OperationStatusAlertComponent', () => {
 
   it('should track event on cash-out and operation on wait status when osa__information is clicked', () => {
     component.operationStatus = 'wait';
-    component.operationType = 'cash-out'
+    component.operationType = 'cash-out';
     component.ngOnInit();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('div[name="Information card"]')).nativeElement.click();
 
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
-  })
+  });
 });

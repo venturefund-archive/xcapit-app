@@ -34,7 +34,7 @@ export class OperationStatusAlertComponent implements OnInit {
   status: OperationStatus;
   @Output() navigateBy: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private trackService: TrackService,) {}
+  constructor(private trackService: TrackService) {}
 
   ngOnInit() {
     this.setState();
@@ -48,11 +48,9 @@ export class OperationStatusAlertComponent implements OnInit {
   }
 
   setState() {
-    console.log('setting state...')
     this.status = OPERATION_STATUS.find((statuses) => statuses.type === this.operationType).statuses.find(
       (status) => status.name === this.operationStatus
     );
-    console.log('states fetched:', this.status);
   }
 
   navigate(): void {
