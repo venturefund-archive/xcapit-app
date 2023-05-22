@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OPERATION_STATUS } from '../../constants/operation-status';
 import { OperationStatus } from '../../interfaces/operation-status.interface';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-operation-status-alert',
   template: `
     <div
+      name="Information card"
       class="osa__information"
       (click)="this.alertAction()"
       [ngClass]="'ux-' + this.status.colorCssClass + '-background-card'"
@@ -32,7 +34,7 @@ export class OperationStatusAlertComponent implements OnInit {
   status: OperationStatus;
   @Output() navigateBy: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {}
+  constructor(private trackService: TrackService) {}
 
   ngOnInit() {
     this.setState();
@@ -40,6 +42,7 @@ export class OperationStatusAlertComponent implements OnInit {
 
   alertAction() {
     if (this.status.textToShow === 'incomplete') {
+      this.trackEvent();
       this.navigate();
     }
   }
@@ -52,5 +55,13 @@ export class OperationStatusAlertComponent implements OnInit {
 
   navigate(): void {
     this.navigateBy.emit();
+  }
+
+  trackEvent(): void {
+    if (this.operationType === 'cash-out') {
+      this.trackService.trackEvent({
+        eventLabel: 'ux_sell_send_detail_try_again',
+      });
+    }
   }
 }
