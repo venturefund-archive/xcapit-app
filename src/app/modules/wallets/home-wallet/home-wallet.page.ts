@@ -13,7 +13,6 @@ import { NullPrices } from '../shared-wallets/models/prices/null-prices/null-pri
 import { NullBalances } from '../shared-wallets/models/balances/null-balances/null-balances';
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
-import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/token-detail.injectable';
 import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-balance/total-balance.injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -36,6 +35,7 @@ import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/wc.service';
+import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 
 @Component({
   selector: 'app-home-wallet',
@@ -368,7 +368,7 @@ export class HomeWalletPage implements OnInit {
         );
         const prices = this.tokenPrices.create(tokens, this.http);
         for (const token of await tokens.value()) {
-          const tokenDetail = this.tokenDetail.create(balances, prices, token, this.balanceCacheService);
+          const tokenDetail = this.tokenDetail.create(balances, prices, token);
           tokenDetails.push(tokenDetail);
           await tokenDetail.cached();
         }

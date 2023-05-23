@@ -1874,9 +1874,11 @@
         "create_wallet_button": "Crear wallet"
       },
       "subheader_buttons_component": {
+        "warranty_card": "Constituir garantía",
         "send_card": "Enviar",
         "receive_card": "Recibir",
         "buy_card": "Comprar <br/> Vender",
+        "only_buy_card": "Comprar",
         "swap_card": "Intercambiar"
       },
       "backup_card_component": {
@@ -2175,6 +2177,12 @@
         "button_back": "Atrás",
         "button_skip": "Omitir"
       },
+      "profile_type_modal": {
+        "title": "Importante!",
+        "description": "Para realizar este tipo de operación deberás cambiar tu perfil al de un usuario avanzado.<br/> ¡No te preocupes! podrás regresar al home de garantía desde el menú perfil.",
+        "button_back": "Atrás",
+        "button_change": "Cambiar"
+      },
       "recovery_phrase_info": {
         "title": "Frase de recuperación",
         "description": "Es un conjunto de 12 palabras ordenadas, que sirven como llave maestra de tus fondos.",
@@ -2420,6 +2428,17 @@
       },
       "disclaimer": "*Estas rutas te servirán en caso de que desees exportar cada dirección de forma individual.",
       "link": "¿Qué método debo elegir?"
+    },
+    "simplified_home_wallet":{
+      "available_balance": "Saldo disponible",
+      "warranties": "Mis garantías",
+      "warranty_amount": "Monto en garantía",
+      "empty_transactions": "¡No posees transacciones!<br/>Compra o deposita USDC para confeccionar una garantía.",
+      "insufficient_balance": {
+        "text": "No tienes {{token}} en tu cuenta para confeccionar una garantía.",
+        "firstButtonName": "Comprar {{token}}",
+        "secondaryButtonName": "Depositar {{token}}"
+      }
     }
   },
   "tools": {

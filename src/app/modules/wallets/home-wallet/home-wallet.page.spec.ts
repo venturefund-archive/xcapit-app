@@ -22,7 +22,6 @@ import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-pri
 import { FakePrices } from '../shared-wallets/models/prices/fake-prices/fake-prices';
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
-import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/token-detail.injectable';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -46,6 +45,7 @@ import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-i
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/wc.service';
+import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;

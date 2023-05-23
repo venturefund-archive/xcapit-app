@@ -1,0 +1,206 @@
+:host {
+  ion-content {
+    --background: var(--ion-color-background);
+  }
+
+  .header {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .ux_toolbar {
+    --border-width: 0;
+    --border-color: transparent;
+
+    ion-icon {
+      right: 17px;
+      position: absolute;
+      font-size: 27px;
+      z-index: 1;
+      margin-top: 4px;
+    }
+  }
+
+  .title {
+    color: white;
+    font-weight: var(--ux-fweight-semibold);
+  }
+
+  .swt {
+    box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--ion-color-white);
+    margin: 16px;
+
+    &__subheader {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      height: 121px;
+      width: 100%;
+      background-color: var(--ion-color-primary);
+
+      &__title {
+        color: white;
+        font-weight: var(--ux-fweight-semibold);
+      }
+    }
+
+    &__balance {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-top: 0;
+
+      &__amount {
+        display: contents;
+
+        &__value {
+          ion-text:first-child {
+            margin-right: -10px;
+            color: var(--ion-color-white);
+          }
+
+          ion-text:last-child {
+            margin-right: 10px;
+            color: var(--ion-color-white);
+          }
+        }
+
+        &__eye {
+          margin-bottom: 5px;
+        }
+      }
+    }
+
+    &__fiat-balance {
+      margin-bottom: 36px;
+
+      &__text {
+        color: var(--ion-color-success);
+      }
+    }
+
+    &__overlap_buttons {
+      margin-top: -28px;
+    }
+
+    &__transaction {
+      margin-top: 24px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0 16px;
+
+      &__title {
+        ion-label {
+          color: var(--ion-color-neutral80);
+        }
+      }
+
+      &__wallet-transaction-card {
+        margin-top: 8px;
+
+        &__empty {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+          background-color: var(--ion-color-white);
+          border-radius: 16px;
+          box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+
+          & ion-label {
+            text-align: center;
+            color: var(--ion-color-neutral80);
+          }
+        }
+      }
+    }
+
+    &__warranty {
+      margin-top: 24px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0 16px;
+
+      &__title {
+        ion-label {
+          color: var(--ion-color-neutral80);
+        }
+      }
+
+      &__card {
+        background-color: var(--ion-color-white);
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+        margin-top: 8px;
+        padding-top: 16px;
+
+        &__title {
+          padding-left: 16px;
+        }
+
+        &__content {
+          padding: 12px 16px 16px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+
+          &__data {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+
+            &__item {
+              display: flex;
+              justify-content: space-between;
+
+              &__amount {
+                color: var(--ion-color-successdark);
+              }
+            }
+          }
+        }
+
+        &__button {
+          border-bottom-left-radius: 16px;
+          border-bottom-right-radius: 16px;
+          background-color: var(--ion-color-infolight);
+          text-align: center;
+          padding: 10px;
+        }
+      }
+    }
+
+    &__whatsapp {
+      margin-top: 16px;
+    }
+  }
+
+  ion-skeleton-text {
+    border-radius: 8px;
+
+    &.base-amount {
+      width: 85px;
+      height: 20px;
+    }
+
+    &.fiat-amount {
+      width: 57px;
+      height: 14px;
+    }
+  }
+}

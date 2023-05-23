@@ -1885,9 +1885,11 @@
         "create_wallet_button": "Create Wallet"
       },
       "subheader_buttons_component": {
+        "warranty_card": "Create warranty",
         "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy <br/> Sell",
+        "only_buy_card": "Buy",
         "swap_card": "Swap"
       },
       "backup_card_component": {
@@ -2233,6 +2235,12 @@
           "receive": "To continue, activate the display of the tokens you wish to receive."
         },
         "button": "Activate tokens"
+      },
+      "profile_type_modal": {
+        "title": "Important!",
+        "description": "To perform this type of operation you must change your profile to that of an advanced user.<br/> Don't worry! You will be able to return to the warranty home page from the profile menu.",
+        "button_back": "Back",
+        "button_change": "Change"
       }
     },
     "asset_detail": {
@@ -2438,6 +2446,18 @@
       },
       "disclaimer": "*These paths will be useful in case you want to export each address individually.",
       "link": "What method should I choose?"
+    },
+    "simplified_home_wallet":{
+      "available_balance": "Available balance",
+      "warranties": "My warranties",
+      "warranty_amount": "Amount in warranty",
+      "empty_transactions": "You did not make transactions!<br/>Buy or deposit USDC to create a warranty.",
+
+      "insufficient_balance": {
+        "text": "You don't have {{token}} in your account to make a warranty.",
+        "firstButtonName": "Buy {{token}}",
+        "secondaryButtonName": "Deposit {{token}}"
+      }
     }
   },
   "tools": {
