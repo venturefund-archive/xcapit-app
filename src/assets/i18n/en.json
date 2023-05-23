@@ -3013,7 +3013,10 @@
     },
     "kripton_operation_detail": {
       "header": "Operation detail",
-      "title": "Buy",
+      "title": {
+        "cash-in": "Buy",
+        "cash-out": "Sell"
+      },
       "state": "Status",
       "state_toast": {
         "cash-in": {
