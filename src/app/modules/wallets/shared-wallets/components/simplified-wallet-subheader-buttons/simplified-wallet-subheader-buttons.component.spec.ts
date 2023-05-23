@@ -67,7 +67,7 @@ describe('SimplifiedWalletSubheaderButtonsComponent', () => {
 
   it('should emit event when ux_go_to_warranty button is clicked', () => {
     const spy = spyOn(component.openWarrantyModal, 'emit');
-    fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_warranty']")).nativeElement.click();
+    fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_warrant']")).nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });

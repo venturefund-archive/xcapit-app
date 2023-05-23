@@ -108,7 +108,7 @@ import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/c
               color="secondary"
               (click)="this.openWarrantyModal()"
               appTrackClick
-              name="ux_nav_go_to_warranty"
+              name="ux_nav_go_to_warrant"
               [disabled]="this.disabled"
             >
               {{ 'wallets.home.subheader_buttons_component.warranty_card' | translate }}

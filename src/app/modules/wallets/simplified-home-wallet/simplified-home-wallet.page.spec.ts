@@ -152,7 +152,7 @@ describe('SimplifiedHomeWalletPage', () => {
     await fixture.whenRenderingDone();
     fixture.detectChanges();
 
-    const el = fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warranty"]'));
+    const el = fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warrant"]'));
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(el.nativeElement.disabled).toBeTruthy();
   });
@@ -162,7 +162,7 @@ describe('SimplifiedHomeWalletPage', () => {
     await fixture.whenRenderingDone();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warranty"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warrant"]')).nativeElement.click();
     fixture.detectChanges();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
