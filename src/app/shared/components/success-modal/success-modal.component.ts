@@ -29,7 +29,7 @@ import { TrackService } from '../../services/track/track.service';
             name="ux_go_to_wallet"
             color="secondary"
             size="large"
-            (click)="this.goToWalletHome()"
+            (click)="this.close()"
           >
             {{ this.buttonText | translate }}
           </ion-button>
@@ -56,11 +56,6 @@ export class SuccessModalComponent implements OnInit {
       description: window.location.href,
       eventLabel: 'ux_bkupgdrive_success',
     });
-  }
-
-  goToWalletHome() {
-    this.navController.navigateForward('tabs/wallets');
-    this.modalController.dismiss();
   }
 
   close() {
