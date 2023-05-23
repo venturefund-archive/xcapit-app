@@ -415,7 +415,7 @@ describe('KriptonOperationDetailPage', () => {
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    expect(component.transactionFee).not.toBeNull();
+    expect(component.fee).not.toBeNull();
   });
 
   it('should estimate native fee if is a cash out operation and is an incomplete operation', fakeAsync(() => {
@@ -425,7 +425,7 @@ describe('KriptonOperationDetailPage', () => {
     component.ionViewWillEnter();
     tick();
     expect(erc20ProviderInjectableSpy.create).toHaveBeenCalledTimes(1);
-    expect(component.estimatedFee).toEqual(12.5);
+    expect(component.fee).toEqual(12.5);
   }));
 
   it('should estimate no native fee if is a cash out operation and is an incomplete operation', fakeAsync(() => {
@@ -434,7 +434,7 @@ describe('KriptonOperationDetailPage', () => {
     tick();
     expect(erc20ProviderInjectableSpy.create).toHaveBeenCalledTimes(1);
     expect(erc20ContractInjectableSpy.create).toHaveBeenCalledTimes(1);
-    expect(component.estimatedFee).toEqual(0.000001);
+    expect(component.fee).toEqual(0.000001);
   }));
 
   it('should set operation storage data and redirect to sell order when event was triggered', async () => {

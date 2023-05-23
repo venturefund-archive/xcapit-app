@@ -41,6 +41,7 @@ import { AmountOf } from '../../swaps/shared-swaps/models/amount-of/amount-of';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
+import { Token } from '../../swaps/shared-swaps/models/token/token';
 @Component({
   selector: 'app-kripton-operation-detail',
   template: `
@@ -158,9 +159,9 @@ import { BankAccount } from '../shared-ramps/types/bank-account.type';
                 </ion-text>
               </div>
               <div class="kod__card-container__card__fee__container__content">
-                <ion-skeleton-text *ngIf="!this.estimatedFee" animated></ion-skeleton-text>
-                <ion-text *ngIf="this.estimatedFee" class="ux-font-text-base">
-                  {{ this.estimatedFee | formattedAmount }}
+                <ion-skeleton-text *ngIf="!this.fee" animated></ion-skeleton-text>
+                <ion-text *ngIf="this.fee" class="ux-font-text-base">
+                  {{ this.fee | formattedAmount }}
                   {{ 'MATIC' }}
                 </ion-text>
               </div>
@@ -267,6 +268,7 @@ export class KriptonOperationDetailPage {
   provider: FiatRampProvider;
   operation: FiatRampOperation;
   token: Coin;
+  nativeToken: Token;
   status: OperationStatus;
   isInfoModalOpen = false;
   description: string;
@@ -276,10 +278,9 @@ export class KriptonOperationDetailPage {
   conversionRate: number;
   isCashIn: boolean;
   bankAccount: BankAccount;
-  transactionFee: number;
   blockchain: Blockchain;
   providerTokens: Coin[];
-  estimatedFee: number;
+  fee: number;
 
   constructor(
     private browserService: BrowserService,
@@ -385,20 +386,7 @@ export class KriptonOperationDetailPage {
   }
 
   async setDataToShow() {
-    if (this.isCashIn) {
-      this.setCashInData();
-    } else if (!this.isCashIn && this.status.textToShow !== 'incomplete' && this.operation.tx_hash) {
-      this.setCashOutData();
-      await this.setCashOutData();
-      const transactionReceipt: TransactionReceipt = await new TransactionReceiptOf(
-        this.operation.tx_hash,
-        this.jsonRpcProviderInjectable.create(this.blockchain.rpc())
-      ).value();
-      this.transactionFee = transactionReceipt.gasUsed.mul(transactionReceipt.effectiveGasPrice).toNumber();
-    } else if (!this.isCashIn && this.status.textToShow === 'incomplete') {
-      await this.setCashOutData();
-      this.estimatedFee = await this._fee();
-    }
+    this.isCashIn ? this.setCashInData() : await this.setCashOutData();
   }
 
   setCashInData() {
@@ -411,6 +399,20 @@ export class KriptonOperationDetailPage {
     this.conversionRate = (this.operation.amount_out + this.operation.fiat_fee) / this.operation.amount_in;
     this.blockchain = this.blockchains.create().oneByName(this.token.network);
     this.bankAccount = await this.userBank();
+    this.fee = await this.finalFee();
+  }
+
+  async finalFee() {
+    return this.operation.tx_hash ? this._transactionFee() : await this._fee();
+  }
+
+  async _transactionFee() {
+    const transactionReceipt: TransactionReceipt = await new TransactionReceiptOf(
+      this.operation.tx_hash,
+      this.jsonRpcProviderInjectable.create(this.blockchain.rpc())
+    ).value();
+    const gasTransaction = transactionReceipt.gasUsed.mul(transactionReceipt.effectiveGasPrice).toString();
+    return new AmountOf(gasTransaction, this.nativeToken).value();
   }
 
   async userBank() {
@@ -444,6 +446,7 @@ export class KriptonOperationDetailPage {
     this.token = this.providerTokens.find(
       (currency) => currency.value === asset.symbol && currency.network === asset.network
     );
+    this.nativeToken = this.blockchains.create().oneByName(asset.network).nativeToken();
   }
 
   navigateBackToOperations() {
@@ -481,7 +484,7 @@ export class KriptonOperationDetailPage {
       operation_id: this.operation.operation_id,
       created_at: this.operation.created_at,
       providerFee: this.operation.fiat_fee / this.conversionRate,
-      fee: this.estimatedFee,
+      fee: this.fee,
       payment_method_id: this.operation.payment_method_id,
     };
     this.storageOperationService.updateData(data);
