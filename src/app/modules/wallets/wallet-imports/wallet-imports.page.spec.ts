@@ -171,21 +171,21 @@ describe('WalletImportsPage', () => {
     expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
   });
 
+  it('should show generic error toast if there is an error', async () => {
+    googleAuthServiceSpy.accessToken.and.rejectWith({ error: '' });
+    fixture.debugElement.query(By.css('app-import-method-options')).triggerEventHandler('route', itemMethod[1].route);
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+      message: 'wallets.wallet_imports.toasts.generic',
+    });
+  });
+
   it('should show closed error toast if google drive backup window was closed', async () => {
-    googleAuthServiceSpy.accessToken.and.rejectWith({ error: 'popup_closed_by_user' });
+    googleAuthServiceSpy.accessToken.and.rejectWith({ type: 'userLoggedOut' });
     fixture.debugElement.query(By.css('app-import-method-options')).triggerEventHandler('route', itemMethod[1].route);
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
       message: 'wallets.wallet_imports.toasts.closed',
-    });
-  });
-
-  it('should show denied error toast if access was denied', async () => {
-    googleAuthServiceSpy.accessToken.and.rejectWith({ error: 'access_denied' });
-    fixture.debugElement.query(By.css('app-import-method-options')).triggerEventHandler('route', itemMethod[1].route);
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
-      message: 'wallets.wallet_imports.toasts.denied',
     });
   });
 

@@ -1733,6 +1733,7 @@
         "subtitle": "Restore your wallet using this option if you have previously made a backup."
       },
       "toasts": {
+        "generic": "An error occurred. Please try again",
         "denied": "Access denied. Permissions are required to perform the backup. Please try again.",
         "closed": "We were unable to access your account to perform the backup. Please try again.",
         "info": "We have not found any backups. Please make sure you are logged in with the correct account.",
