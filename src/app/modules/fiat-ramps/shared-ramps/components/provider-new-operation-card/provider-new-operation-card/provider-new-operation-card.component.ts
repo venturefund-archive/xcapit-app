@@ -49,7 +49,7 @@ import { ProviderFeeInfoModalComponent } from '../../provider-fee-info-modal/pro
               appCommaToDot
               [debounce]="this.debounce"
               [class.invalid]="
-                !this.form.controls.fiatAmount.valid &&
+                (!this.form.controls.fiatAmount.valid || !this.form.controls.cryptoAmount.valid) &&
                 (this.form.controls.cryptoAmount.touched ||
                   this.form.controls.cryptoAmount.dirty ||
                   this.form.controls.fiatAmount.touched ||
@@ -66,9 +66,9 @@ import { ProviderFeeInfoModalComponent } from '../../provider-fee-info-modal/pro
             <ion-input
               appNumberInput
               appCommaToDot
-            [debounce]="this.debounce"
-            [class.invalid]="
-                !this.form.controls.fiatAmount.valid &&
+              [debounce]="this.debounce"
+              [class.invalid]="
+                (!this.form.controls.fiatAmount.valid || !this.form.controls.cryptoAmount.valid) &&
                 (this.form.controls.cryptoAmount.touched ||
                   this.form.controls.cryptoAmount.dirty ||
                   this.form.controls.fiatAmount.touched ||
@@ -83,7 +83,7 @@ import { ProviderFeeInfoModalComponent } from '../../provider-fee-info-modal/pro
         <div
           class="pnoc__amount-select__inputs-errors"
           *ngIf="
-            !this.form.controls.fiatAmount.valid &&
+            (!this.form.controls.fiatAmount.valid || !this.form.controls.cryptoAmount.valid) &&
             (this.form.controls.cryptoAmount.touched ||
               this.form.controls.cryptoAmount.dirty ||
               this.form.controls.fiatAmount.touched ||
@@ -93,7 +93,8 @@ import { ProviderFeeInfoModalComponent } from '../../provider-fee-info-modal/pro
           <ion-icon color="dangerdark" icon="information-error"></ion-icon>
           <ion-label class="pnoc__amount-select__inputs-errors__error ux-font-text-xxs"
             >{{
-              'fiat_ramps.shared.provider_new_operation_card.input_error'
+              'fiat_ramps.shared.provider_new_operation_card.input_error.' +
+                (!this.form.controls.fiatAmount.valid ? 'cash-in' : 'cash-out')
                 | translate
                   : {
                       amount: this.minimumAmount | formattedAmount : 10 : 2,
@@ -113,7 +114,7 @@ import { ProviderFeeInfoModalComponent } from '../../provider-fee-info-modal/pro
         </div>
         <div *ngIf="this.fee.value !== undefined" class="pnoc__fee__amount">
           <ion-text class="ux-font-text-base" color="neutral90"
-            >{{ this.fee.value | formattedAmount : this.fee.totalDigits: this.fee.maxDecimals }}
+            >{{ this.fee.value | formattedAmount : this.fee.totalDigits : this.fee.maxDecimals }}
             {{ this.fee.token }}</ion-text
           >
         </div>
@@ -127,11 +128,18 @@ import { ProviderFeeInfoModalComponent } from '../../provider-fee-info-modal/pro
           <ion-text class="ux-font-titulo-xs">{{
             'fiat_ramps.shared.provider_new_operation_card.estimated_provider_fee' | translate
           }}</ion-text>
-          <ion-icon class="pnoc__fee__label__icon" name="information-circle" color="info" (click)="this.openProviderFeeInfoModal()"></ion-icon>
+          <ion-icon
+            class="pnoc__fee__label__icon"
+            name="information-circle"
+            color="info"
+            (click)="this.openProviderFeeInfoModal()"
+          ></ion-icon>
         </div>
         <div *ngIf="this.providerFee.value !== undefined" class="pnoc__fee__amount">
           <ion-text class="ux-font-text-base" color="neutral90"
-            >{{ this.providerFee.value | formattedAmount : this.providerFee.totalDigits: this.providerFee.maxDecimals}}
+            >{{
+              this.providerFee.value | formattedAmount : this.providerFee.totalDigits : this.providerFee.maxDecimals
+            }}
             {{ this.providerFee.token }}</ion-text
           >
         </div>
@@ -242,7 +250,7 @@ export class ProviderNewOperationCardComponent implements OnInit, OnChanges {
         component: ProviderFeeInfoModalComponent,
         cssClass: 'modal',
         backdropDismiss: false,
-      })
+      });
       await modal.present();
       this.isInfoModalOpen = false;
     }
