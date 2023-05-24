@@ -13,12 +13,12 @@ export class SimplifiedWalletGuard implements CanActivate {
   async canActivate(): Promise<boolean> {
     const hasSimplifiedWallet = await new SimplifiedWallet(this._aStorage).value();
 
-    if (!hasSimplifiedWallet) await this.redirectToPage();
+    if (hasSimplifiedWallet) await this.redirectToPage();
 
-    return hasSimplifiedWallet;
+    return !hasSimplifiedWallet;
   }
 
   async redirectToPage() {
-    return await this.navController.navigateRoot(['/tabs/wallets']);
+    return await this.navController.navigateRoot(['/simplified-home-wallet']);
   }
 }
