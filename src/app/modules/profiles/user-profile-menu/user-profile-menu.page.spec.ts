@@ -498,7 +498,7 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should show options web3 when toggle is checked', async () => {
-    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(true);
+    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(false);
     await component.ionViewWillEnter();
     fixture.detectChanges();
     const contactsOpt = component.itemMenu.find((category) => category.id === 'contacts');
@@ -509,7 +509,7 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should show options warranty wallet when toggle is not checked', async () => {
-    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(false);
+    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(true);
     await component.ionViewWillEnter();
     fixture.detectChanges();
     const contactsOpt = component.itemMenu.find((category) => category.id === 'contacts');
@@ -519,19 +519,10 @@ describe('UserProfileMenuPage', () => {
     expect(categoryHelpOpt.showCategory).toBeTruthy();
   });
 
-  it('should navigate to wallet home if warranty_wallet in storage is false', async () => {
-    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(false);
-    const button = fixture.debugElement.query(By.css('ion-back-button'));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tabs/home');
-  });
-
   it('should navigate to warranty wallet home if warranty_wallet in storage is true', async () => {
-    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(true);
     const button = fixture.debugElement.query(By.css('ion-back-button'));
     button.nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('simplified-home-wallet');
   });
 });

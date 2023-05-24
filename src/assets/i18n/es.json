@@ -2178,7 +2178,7 @@
         "button_skip": "Omitir"
       },
       "profile_type_modal": {
-        "title": "Importante!",
+        "title": "¡Importante!",
         "description": "Para realizar este tipo de operación deberás cambiar tu perfil al de un usuario avanzado.<br/> ¡No te preocupes! podrás regresar al home de garantía desde el menú perfil.",
         "button_back": "Atrás",
         "button_change": "Cambiar"

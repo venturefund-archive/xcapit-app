@@ -9,7 +9,7 @@ import { SimplifiedWallet } from '../../models/simplified-wallet/simplified-wall
     <div class="modal-content">
       <div class="main__body">
         <div class="main__body__content">
-          <ion-label class="ux-font-text-lg"
+          <ion-label class="ux-font-text-lg title"
             >{{ 'wallets.shared_wallets.profile_type_modal.title' | translate }}
           </ion-label>
           <ion-label
