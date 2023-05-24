@@ -16,7 +16,7 @@ describe('SimplifiedWalletGuard', () => {
 
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
-      get: Promise.resolve(false),
+      get: Promise.resolve(true),
     });
 
     TestBed.configureTestingModule({
@@ -34,13 +34,13 @@ describe('SimplifiedWalletGuard', () => {
     expect(simplifiedWalletGuard).toBeTruthy();
   });
 
-  it('should navigate to home wallet when the user is not simplified Wallet', async () => {
+  it('should navigate to home wallet when the user is simplified Wallet', async () => {
     expect(await simplifiedWalletGuard.canActivate()).toBeFalse();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/wallets']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/simplified-home-wallet']);
   });
 
   it('should not navigate to home wallet when the user is simplified wallet', async () => {
-    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(true));
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(false));
 
     expect(await simplifiedWalletGuard.canActivate()).toBeTrue();
     expect(navControllerSpy.navigateRoot).not.toHaveBeenCalled();
