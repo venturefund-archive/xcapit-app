@@ -100,6 +100,7 @@ export class WalletInitializeProcess {
 
   async setWarrantyWallet(value: boolean): Promise<void> {
     this.warrantyWallet = value;
+    this._saveWarrantyWallet()
   }
 
   private async _saveWarrantyWallet(): Promise<void> {
