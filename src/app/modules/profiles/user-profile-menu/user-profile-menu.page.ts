@@ -202,7 +202,7 @@ export class UserProfileMenuPage {
   }
 
   async setWarrantyWalletState() {
-    this.form.patchValue({ warrantyWallet: await this.isWarrantyWallet() });
+    this.form.patchValue({ warrantyWallet: !(await this.isWarrantyWallet()) });
   }
 
   private valueChanges() {
@@ -211,7 +211,7 @@ export class UserProfileMenuPage {
       this.setEvent(value.notifications);
     });
     this.form.get('warrantyWallet').valueChanges.subscribe(async (value) => {
-      await new SimplifiedWallet(this.ionicStorageService).save(value);
+      await new SimplifiedWallet(this.ionicStorageService).save(!value);
       this.itemMenu.forEach((category) => {
         if (!category.isWarrantyWalletOpt) {
           category.showCategory = value;
@@ -265,9 +265,7 @@ export class UserProfileMenuPage {
   }
 
   async back() {
-    (await this.isWarrantyWallet())
-      ? this.navController.navigateForward('')
-      : this.navController.navigateForward('/tabs/home');
+    this.navController.navigateForward('simplified-home-wallet');
   }
 
   private getProfile() {
