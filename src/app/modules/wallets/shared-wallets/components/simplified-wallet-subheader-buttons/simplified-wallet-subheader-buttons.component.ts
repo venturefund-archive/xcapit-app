@@ -13,7 +13,7 @@ import { ChangeProfileTypeModalComponent } from '../change-profile-type-modal/ch
           (click)="this.goToWarrantyConstitution()"
           appTrackClick
           class="ux-font-text-lg"
-          name="ux_go_to_warranty"
+          name="ux_go_to_warrant"
           [text]="'wallets.home.subheader_buttons_component.warranty_card' | translate"
           icon="ux-credit-card"
         ></app-icon-button-card>
