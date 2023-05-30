@@ -523,6 +523,6 @@ describe('UserProfileMenuPage', () => {
     const button = fixture.debugElement.query(By.css('ion-back-button'));
     button.nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('simplified-home-wallet');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('tabs/wallets');
   });
 });
