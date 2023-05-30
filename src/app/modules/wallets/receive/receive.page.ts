@@ -9,17 +9,23 @@ import { ActivatedRoute } from '@angular/router';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { NavController } from '@ionic/angular';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { SimplifiedWallet } from '../shared-wallets/models/simplified-wallet/simplified-wallet';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 @Component({
   selector: 'app-receive',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded">
+      <ion-toolbar
+        color="primary"
+        class="ux_toolbar ux_toolbar__rounded"
+        [class.ux_toolbar__left]="!isSimplifiedWallet"
+      >
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.receive.header' | translate }}</ion-title>
-        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
+        <ion-label *ngIf="!this.isSimplifiedWallet" class="ux-font-text-xs ux_toolbar__step" slot="end"
           >2 {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >
       </ion-toolbar>
@@ -43,7 +49,6 @@ import { NavController } from '@ionic/angular';
           </ion-item>
         </div>
         <div class="wr__card-content">
-     
           <app-asset-detail
             [blockchain]="this.selectedNetwork"
             [token]="this.currency?.value"
@@ -59,9 +64,9 @@ import { NavController } from '@ionic/angular';
             <ion-item class="ion-no-padding ion-no-margin" lines="none">
               <ion-label class="ux-font-text-base">{{ this.address }}</ion-label>
               <ion-button
-                name="Copy Wallet Address"
                 class="ux-font-button ion-no-margin"
                 color="primary"
+                [dataToTrack]="{ eventLabel: this.isSimplifiedWallet ? 'ux_receive_USDC_copy' : 'Copy Wallet Address' }"
                 appTrackClick
                 id="copy-address-button"
                 fill="clear"
@@ -72,15 +77,14 @@ import { NavController } from '@ionic/angular';
             </ion-item>
           </div>
           <div class="wr__card-content__disclaimer" *ngIf="this.currency">
-          <app-backup-information-card
-            [text]="
-            'wallets.receive.disclaimer_header'
-                  | translate: { currency: this.currency.value, network: this.selectedNetwork | formattedNetwork
-                    }
-            "
-            [textClass]="'ux-home-backup-card'"
-          >
-          </app-backup-information-card>
+            <app-backup-information-card
+              [text]="
+                'wallets.receive.disclaimer_header'
+                  | translate : { currency: this.currency.value, network: this.selectedNetwork | formattedNetwork }
+              "
+              [textClass]="'ux-home-backup-card'"
+            >
+            </app-backup-information-card>
           </div>
         </div>
       </div>
@@ -95,6 +99,7 @@ export class ReceivePage {
   isNativePlatform: boolean;
   address: string;
   addressQr: string;
+  isSimplifiedWallet: boolean;
 
   constructor(
     private qrCodeService: QRCodeService,
@@ -106,13 +111,28 @@ export class ReceivePage {
     private route: ActivatedRoute,
     private platformService: PlatformService,
     private apiWalletService: ApiWalletService,
-    private navController: NavController
+    private ionicStorageService: IonicStorageService,
+    private trackService: TrackService
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    await this.checkIfIsSimplifiedWallet();
     this.checkPlatform();
     this.getSelectedCoinAndNetworks();
     this.getAddress();
+  }
+
+  private async checkIfIsSimplifiedWallet() {
+    this.isSimplifiedWallet = await new SimplifiedWallet(this.ionicStorageService).value();
+    if (this.isSimplifiedWallet) this.trackScreenviewEvent();
+  }
+
+  trackScreenviewEvent() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_screenview_receive_USDC',
+    });
   }
 
   private getSelectedCoinAndNetworks() {
@@ -133,7 +153,7 @@ export class ReceivePage {
       this.generateAddressQR();
     });
   }
-  
+
   async copyAddress() {
     await this.clipboardService
       .write({
@@ -151,15 +171,15 @@ export class ReceivePage {
   }
 
   shareAddress() {
-    this.shareService.share(
-      {
+    this.shareService
+      .share({
         title: this.translate.instant('wallets.receive.share_title'),
         dialogTitle: this.translate.instant('wallets.receive.share_title'),
         text: this.address,
-      }
-    ).catch(() => {
-      this.copyAddress();
-    });
+      })
+      .catch(() => {
+        this.copyAddress();
+      });
   }
 
   generateAddressQR() {
