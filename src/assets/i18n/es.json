@@ -1722,6 +1722,7 @@
         "subtitle": "Restaurá tu wallet usando esta opción si previamente realizaste un backup."
       },
       "toasts": {
+        "generic": "Ha ocurrido un error. Inténtalo nuevamente",
         "denied": "Acceso denegado. Se requieren permisos para realizar la copia de seguridad. Inténtalo nuevamente.",
         "closed": "No hemos podido acceder a su cuenta para realizar la copia de seguridad. Inténtalo nuevamente.",
         "info": "No hemos encontrado ninguna copia de seguridad. Asegúrate de iniciar sesión con la cuenta correcta.",
