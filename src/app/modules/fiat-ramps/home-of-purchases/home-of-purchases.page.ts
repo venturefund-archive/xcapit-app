@@ -191,11 +191,11 @@ export class HomeOfPurchasesPage {
 
   buy() {
     this.tokenOperationDataService.add({ mode: 'buy' });
-    this.isUserWarranty ? this.correctNavigateSimplifiedWallet() : this.navigateBy();
+    this.isUserWarranty ? this.navigateBySimplifiedWallet() : this.navigateBy();
   }
 
-  correctNavigateSimplifiedWallet() {
-    this.isLogged ? this.setDataSimplifiedWallet() : this.navigateBySimplifiedWallet();
+  navigateBySimplifiedWallet() {
+    this.isLogged ? this.setDataSimplifiedWallet() : this.navigateToLoginKripton();
   }
 
   sell() {
@@ -223,7 +223,7 @@ export class HomeOfPurchasesPage {
     this.navController.navigateRoot('/fiat-ramps/new-operation/kripton');
   }
 
-  navigateBySimplifiedWallet() {
+  navigateToLoginKripton() {
     this.navController.navigateForward('/fiat-ramps/user-email');
   }
 
