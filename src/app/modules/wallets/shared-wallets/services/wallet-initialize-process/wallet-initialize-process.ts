@@ -41,7 +41,7 @@ export class WalletInitializeProcess {
     await this._setWalletAsProtected(isImport);
     await this._initializeNotifications();
     await this._enableBackupWarningModal();
-    await this._saveWarrantyWallet();
+    await this._saveWarrantyWallet(isImport);
   }
 
   private async _createXAuthToken(password: Password): Promise<void> {
@@ -100,10 +100,10 @@ export class WalletInitializeProcess {
 
   async setWarrantyWallet(value: boolean): Promise<void> {
     this.warrantyWallet = value;
-    this._saveWarrantyWallet()
+    this._saveWarrantyWallet(false);
   }
 
-  private async _saveWarrantyWallet(): Promise<void> {
-    await new SimplifiedWallet(this.ionicStorageService).save(this.warrantyWallet)
+  private async _saveWarrantyWallet(isImport: boolean): Promise<void> {
+    await new SimplifiedWallet(this.ionicStorageService).save(isImport ? false : this.warrantyWallet);
   }
 }

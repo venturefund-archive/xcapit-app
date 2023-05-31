@@ -264,8 +264,8 @@ export class UserProfileMenuPage {
     contactListItem.showCategory = this.remoteConfig.getFeatureFlag('ff_address_list');
   }
 
-  async back() {
-    this.navController.navigateForward('simplified-home-wallet');
+  back() {
+    this.navController.navigateForward('tabs/wallets');
   }
 
   private getProfile() {
