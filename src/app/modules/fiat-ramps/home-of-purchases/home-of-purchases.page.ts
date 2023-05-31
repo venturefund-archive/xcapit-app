@@ -9,6 +9,8 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injectable/kripton-user.injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-home-of-purchases',
@@ -18,7 +20,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
           <ion-back-button defaultHref="" (click)="this.back()"></ion-back-button>
         </ion-buttons>
         <ion-title>
-          {{ 'fiat_ramps.home_of_purchases.header' | translate }}
+          {{ this.header | translate }}
         </ion-title>
       </ion-toolbar>
     </ion-header>
@@ -44,7 +46,9 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
         *ngIf="this.isLogged !== undefined && this.enabledProviders && this.enabledProviders.includes('kripton')"
       >
         <app-operations-list
+          *ngIf="this.isUserWarranty != undefined"
           [operationsList]="this.operationsList"
+          [isUserWarranty]="this.isUserWarranty"
           [isLogged]="this.isLogged"
           (loggedOut)="loggedOut()"
         ></app-operations-list>
@@ -53,7 +57,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
         *ngIf="this.enabledProviders && this.enabledProviders.includes('moonpay')"
         class="hop__moonpay-purchases ion-padding-start ion-padding-end ion-padding-top"
       >
-        <app-moonpay-purchases-card></app-moonpay-purchases-card>
+        <app-moonpay-purchases-card *ngIf="!this.isUserWarranty"></app-moonpay-purchases-card>
       </div>
       <div class="hop__question ion-padding-start ion-padding-end">
         <ion-text (click)="goToFaqs()" class="ux-link-xs">{{
@@ -62,7 +66,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       </div>
     </ion-content>
     <ion-footer class="ion-no-border">
-      <ion-toolbar class="hop__footer">
+      <ion-toolbar class="hop__footer" *ngIf="!this.isUserWarranty">
         <ion-label class="hop__footer__title ux-font-text-lg">{{
           'fiat_ramps.home_of_purchases.footer.title' | translate
         }}</ion-label>
@@ -90,6 +94,19 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
           </ion-button>
         </div>
       </ion-toolbar>
+      <div class="ux_footer ion-padding" *ngIf="this.isUserWarranty">
+        <ion-button
+          class="ux_button"
+          appTrackClick
+          name="ux_buy_new_simplified_wallet"
+          color="secondary"
+          size="large"
+          expand="block"
+          (click)="this.buy()"
+        >
+          {{ 'fiat_ramps.home_of_purchases.footer.buy_button_simplified' | translate }}
+        </ion-button>
+      </div>
     </ion-footer>`,
   styleUrls: ['./home-of-purchases.page.scss'],
 })
@@ -101,6 +118,7 @@ export class HomeOfPurchasesPage {
   style: string;
   statusName: string;
   userStatus: any;
+  header: string;
   statuses = {
     USER_INFORMATION: 'starting',
     USER_IMAGES: 'pending',
@@ -110,6 +128,7 @@ export class HomeOfPurchasesPage {
   isLogged: boolean;
   email: string;
   enabledProviders: string[];
+  isUserWarranty: boolean;
 
   constructor(
     private fiatRampsService: FiatRampsService,
@@ -119,10 +138,13 @@ export class HomeOfPurchasesPage {
     private translate: TranslateService,
     private kriptonStorage: KriptonStorageService,
     private kriptonUser: KriptonUserInjectable,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   async ionViewWillEnter() {
+    await this.getUserWarranty();
+    this.setHeader();
     this.setEnabledProviders();
     this.checkIfUserIsLogged();
     await this.getUserEmail();
@@ -140,6 +162,12 @@ export class HomeOfPurchasesPage {
 
   async getUserOperations() {
     if (this.enabledProviders.includes('kripton') && this.isLogged) this.getOperations();
+  }
+
+  setHeader() {
+    this.header = this.isUserWarranty
+      ? 'fiat_ramps.home_of_purchases.header_simplified'
+      : 'fiat_ramps.home_of_purchases.header';
   }
 
   async getOperations(): Promise<void> {
@@ -160,17 +188,21 @@ export class HomeOfPurchasesPage {
   goToFaqs() {
     this.navController.navigateForward('/support/faqs/buy');
   }
-  
-  buy(){
+
+  buy() {
     this.tokenOperationDataService.add({ mode: 'buy' });
-    this.navigateBy()
+    this.isUserWarranty ? this.navigateBySimplifiedWallet() : this.navigateBy();
   }
-  
-  sell(){
-    this.tokenOperationDataService.add({ mode: 'sell'  });
-    this.navigateBy()
+
+  navigateBySimplifiedWallet() {
+    this.isLogged ? this.setDataSimplifiedWallet() : this.navigateToLoginKripton();
   }
-  
+
+  sell() {
+    this.tokenOperationDataService.add({ mode: 'sell' });
+    this.navigateBy();
+  }
+
   navigateBy() {
     if (this.tokenOperationDataService.tokenOperationData.isFirstTime) {
       this.navController.navigateForward(
@@ -182,6 +214,19 @@ export class HomeOfPurchasesPage {
     }
   }
 
+  setDataSimplifiedWallet() {
+    this.tokenOperationDataService.add({ asset: 'USDC', network: 'MATIC', country: 'ARG' });
+    this.navigateByOperation();
+  }
+
+  navigateByOperation() {
+    this.navController.navigateRoot('/fiat-ramps/new-operation/kripton');
+  }
+
+  navigateToLoginKripton() {
+    this.navController.navigateForward('/fiat-ramps/user-email');
+  }
+
   private async getUserEmail() {
     this.email = await this.kriptonStorage.get('email');
   }
@@ -191,6 +236,10 @@ export class HomeOfPurchasesPage {
       this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.email }).toPromise();
       this.setCorrectDataByStatus();
     }
+  }
+
+  private async getUserWarranty() {
+    this.isUserWarranty = await new SimplifiedWallet(this.ionicStorageService).value();
   }
 
   setCorrectDataByStatus() {

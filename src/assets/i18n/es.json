@@ -2480,10 +2480,12 @@
     },
     "home_of_purchases": {
       "header": "Compra - Venta",
+      "header_simplified": "Compra",
       "question": "¿Cómo funcionan las compras?",
       "footer": {
         "title": "¿Qué deseas hacer?",
         "buy_button": "Comprar",
+        "buy_button_simplified": "Realizar nueva compra",
         "sell_button": "Vender"
       }
     },
@@ -2508,6 +2510,8 @@
     },
     "operations_list": {
       "title": "Con Kripton Market",
+      "kripton_provider": "Proveedor: Kripton Market",
+      "simplified_title": "Con transferencia bancaria",
       "operation": "Moneda",
       "amount": "Monto",
       "date": "Fecha",

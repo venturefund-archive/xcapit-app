@@ -2524,10 +2524,12 @@
     },
     "home_of_purchases": {
       "header": "Buy - Sell",
+      "header_simplified": "Buy",
       "question": "How do purchases work?",
       "footer": {
         "title": "What do you want to do?",
         "buy_button": "Buy",
+        "buy_button_simplified": "new purchase",
         "sell_button": "Sell"
       }
     },
@@ -2571,6 +2573,8 @@
     "operations_list": {
       "title": "With Kripton Market",
       "operation": "Coin",
+      "kripton_provider": "Provider: Kripton Market",
+      "simplified_title": "With bank transfer",
       "amount": "Amount",
       "date": "Date",
       "status": "Status",
