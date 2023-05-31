@@ -40,12 +40,23 @@ export class Wallets {
   async createFrom(aPhrase: string, aPassword: Password, creationMethod: WalletCreationMethod): Promise<void> {
     await this._dataRepo.save(
       this._addressesFrom(aPhrase, creationMethod),
-      await this._erc20Wallet(aPhrase).encrypt(aPassword.value(), {
-        scrypt: {
-          N: 1,
-        },
-      })
+      await this._encryptedWallet(aPhrase, aPassword)
     );
+  }
+
+  async updateFrom(aPhrase: string, aPassword: Password, creationMethod: WalletCreationMethod): Promise<void> {
+    await this._dataRepo.update(
+      this._addressesFrom(aPhrase, creationMethod),
+      await this._encryptedWallet(aPhrase, aPassword)
+    );
+  }
+
+  private async _encryptedWallet(aPhrase: string, aPassword: Password) {
+    return await this._erc20Wallet(aPhrase).encrypt(aPassword.value(), {
+      scrypt: {
+        N: 1,
+      },
+    });
   }
 
   private _addressesFrom(aPhrase: string, creationMethod: WalletCreationMethod) {
@@ -96,7 +107,7 @@ export class Wallets {
     for (const blockchain of this._blockchains.value()) {
       if (!(await this.oneBy(blockchain)).address()) {
         const aPassword: Password = await this._onNeedPass.notify();
-        await this.createFrom(
+        await this.updateFrom(
           await new MnemonicOf(aPassword, await this._dataRepo.encryptedRootWallet(), this._ethersWallet).phrase(),
           aPassword,
           await this._dataRepo.creationMethod()

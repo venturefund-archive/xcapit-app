@@ -7,9 +7,9 @@ describe('Wallet Repo', () => {
   let storageSpy: jasmine.SpyObj<AppStorageService>;
 
   beforeEach(() => {
-    storageSpy = jasmine.createSpyObj('StorageService',  {
+    storageSpy = jasmine.createSpyObj('StorageService', {
       get: Promise.resolve(rawStoredWalletDataNew.enc_wallet),
-      set: Promise.resolve()
+      set: Promise.resolve(),
     });
     repo = new WalletRepo(storageSpy);
   });
@@ -27,11 +27,35 @@ describe('Wallet Repo', () => {
   });
 
   it('save', async () => {
-    storageSpy.get.and.returnValue(undefined);
-
     await repo.save(rawStoredWalletDataNew.enc_wallet.addresses, rawStoredWalletDataNew.enc_wallet.wallet);
 
-    expect(storageSpy.set).toHaveBeenCalledOnceWith('enc_wallet', { addresses: rawStoredWalletDataNew.enc_wallet.addresses, wallet: rawStoredWalletDataNew.enc_wallet.wallet });
+    expect(storageSpy.set).toHaveBeenCalledOnceWith('enc_wallet', {
+      addresses: rawStoredWalletDataNew.enc_wallet.addresses,
+      wallet: rawStoredWalletDataNew.enc_wallet.wallet,
+    });
+  });
+
+  it('update without storage', async () => {
+    storageSpy.get.and.returnValue(Promise.resolve(undefined));
+
+    await repo.update(rawStoredWalletDataNew.enc_wallet.addresses, rawStoredWalletDataNew.enc_wallet.wallet);
+
+    expect(storageSpy.set).toHaveBeenCalledOnceWith('enc_wallet', {
+      addresses: rawStoredWalletDataNew.enc_wallet.addresses,
+      wallet: rawStoredWalletDataNew.enc_wallet.wallet,
+    });
+  });
+
+  it('update', async () => {
+    storageSpy.get.and.returnValue(Promise.resolve({ alias: 'testAlias' }));
+
+    await repo.update(rawStoredWalletDataNew.enc_wallet.addresses, rawStoredWalletDataNew.enc_wallet.wallet);
+
+    expect(storageSpy.set).toHaveBeenCalledOnceWith('enc_wallet', {
+      alias: 'testAlias',
+      addresses: rawStoredWalletDataNew.enc_wallet.addresses,
+      wallet: rawStoredWalletDataNew.enc_wallet.wallet,
+    });
   });
 
   it('creation method', async () => {

@@ -48,6 +48,18 @@ describe('Wallets', () => {
     expect(saveSpy).toHaveBeenCalledOnceWith({ ERC20: '0x1', MATIC: '0x1', SOLANA: '0x3' }, jasmine.any(String));
   });
 
+  it('update from', async () => {
+    spyOn(SolanaDerivedWallet.prototype, 'address').and.returnValue('0x3');
+    const saveSpy = spyOn(WalletRepo.prototype, 'update').and.callThrough();
+    const aPhrase = 'super test phrase';
+    const aBlockchain = new Blockchain(rawPolygonData);
+
+    await wallets.updateFrom(aPhrase, new Password('test'), 'default');
+
+    expect((await wallets.oneBy(aBlockchain)).address()).toBeTruthy();
+    expect(saveSpy).toHaveBeenCalledOnceWith({ ERC20: '0x1', MATIC: '0x1', SOLANA: '0x3' }, jasmine.any(String));
+  });
+
   it('create from (legacy)', async () => {
     spyOn(SolanaDerivedWallet.prototype, 'address').and.returnValue('0x3');
     const saveSpy = spyOn(WalletRepo.prototype, 'save').and.callThrough();

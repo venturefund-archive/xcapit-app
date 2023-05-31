@@ -42,7 +42,7 @@ export class StorageService {
   }
 
   async saveWalletToStorage(wallet: StorageWallet) {
-    const walletData = await this.getWalletFromStorage() || {};
+    const walletData = (await this.getWalletFromStorage()) || {};
     return await this.appStorageService.set('enc_wallet', { ...walletData, ...wallet });
   }
 
@@ -66,8 +66,8 @@ export class StorageService {
     let userCoins = [];
 
     if (wallets) {
-      userCoins = this.coins.filter(coin => {
-        return wallets.assets.find(userCoin => coin.value === userCoin.value && coin.network === userCoin.network);
+      userCoins = this.coins.filter((coin) => {
+        return wallets.assets.find((userCoin) => coin.value === userCoin.value && coin.network === userCoin.network);
       });
     }
     return userCoins;
