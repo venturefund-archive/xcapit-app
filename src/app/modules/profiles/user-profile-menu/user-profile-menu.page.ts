@@ -206,11 +206,12 @@ export class UserProfileMenuPage {
   }
 
   private valueChanges() {
-    this.form.valueChanges.pipe(takeUntil(this.leave$)).subscribe((value) => {
-      this.toggle(value.notifications);
-      this.setEvent(value.notifications);
+    this.form.get('notifications').valueChanges.subscribe((value) => {
+      this.toggle(value);
+      this.setEventNotifications(value);
     });
     this.form.get('warrantyWallet').valueChanges.subscribe(async (value) => {
+      this.setEventWeb3(value);
       await new SimplifiedWallet(this.ionicStorageService).save(!value);
       this.itemMenu.forEach((category) => {
         if (!category.isWarrantyWalletOpt) {
@@ -220,10 +221,17 @@ export class UserProfileMenuPage {
     });
   }
 
-  setEvent(value: boolean) {
+  setEventNotifications(value: boolean) {
     const eventLabel = value ? 'on' : 'off';
     this.trackService.trackEvent({
       eventLabel: `ux_push_notifications_${eventLabel}`,
+    });
+  }
+
+  setEventWeb3(value: boolean) {
+    const eventLabel = value ? 'on' : 'off';
+    this.trackService.trackEvent({
+      eventLabel: `ux_toggle_web3_${eventLabel}`,
     });
   }
 
