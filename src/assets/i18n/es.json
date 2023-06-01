@@ -3352,6 +3352,8 @@
       "description_wallet_operations": "Cómo invertir, operatoria y costos.",
       "title_buy": "Compra de cripto",
       "description_buy": "Comprar, comisiones, límites y métodos de pago.",
+      "title_warranty": "Constitución de garantia",
+      "description_warranty": "Constituir, Retirar.",
       "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Conectar wallet e interactuar con dapp.",
       "title_nft": "NFT",

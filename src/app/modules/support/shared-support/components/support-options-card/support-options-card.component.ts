@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-support-options-card',
@@ -34,11 +35,17 @@ import { NavController } from '@ionic/angular';
 export class SupportOptionsCardComponent implements OnInit {
   @Input() option: any;
 
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private browserService: BrowserService) {}
 
   ngOnInit() {}
 
   goToOption() {
-    this.navController.navigateForward(this.option.route).then();
+    this.option.route.includes('https')
+      ? this.openBrowser(this.option.route)
+      : this.navController.navigateForward(this.option.route).then();
+  }
+
+  async openBrowser(link) {
+    await this.browserService.open({ url: link });
   }
 }
