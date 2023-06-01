@@ -292,12 +292,8 @@
       "help_link": "Help"
     },
     "on_boarding": {
-      "title_1": "We were waiting for you",
-      "title_2": "Investing has never been easier",
-      "title_3": "Learn by playing!",
-      "description_1": "With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning.",
-      "description_2": "Invest in DeFi! Fast, free transactions without intermediaries.",
-      "description_3": "The financial education you wanted. You will receive incentives for your learning and progress.",
+      "title": "We were waiting for you",
+      "description": "With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning.",
       "primary_action": "Create wallet",
       "secondary_action": "Import wallet"
     },
