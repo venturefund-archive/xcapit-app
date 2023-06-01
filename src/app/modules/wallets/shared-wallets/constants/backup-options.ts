@@ -1,4 +1,15 @@
-export const BACKUP_OPTIONS = [
+export type RawBackupOption = {
+  action: boolean;
+  order: string;
+  title: string;
+  subtitle: string;
+  name: string;
+  disabled?: boolean;
+  completed: boolean;
+  disable?: string;
+  url?: string;
+};
+export const BACKUP_OPTIONS: RawBackupOption[] = [
   {
     action: true,
     order: '1',
@@ -7,7 +18,7 @@ export const BACKUP_OPTIONS = [
     name: 'ux_bkupgdrive_start',
     disabled: false,
     completed: false,
-    disable: 'ff_disableGDriveBackup'
+    disable: 'ff_disableGDriveBackup',
   },
   {
     action: false,
@@ -18,5 +29,5 @@ export const BACKUP_OPTIONS = [
     name: 'ux_go_to_protect',
     disabled: true,
     completed: false,
-  }
+  },
 ];

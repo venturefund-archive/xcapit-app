@@ -66,9 +66,8 @@ import { asyncDelay } from '../../../shared/constants/async-delay';
   styleUrls: ['./success-creation.page.scss'],
 })
 export class SuccessCreationPage {
-  steps = structuredClone(BACKUP_OPTIONS);
+  steps = [];
   accessToken: string;
-  walletBackup: boolean;
   protectedWallet: boolean;
 
   constructor(
@@ -83,20 +82,24 @@ export class SuccessCreationPage {
   ) {}
 
   async ionViewWillEnter() {
+    await this._setSteps();
     this.trackScreenViewEvent();
     this.trackWalletAddressEvent();
     await this.getWalletAddress();
-    this.setStepsState();
+    await this._setStepsStatus();
   }
 
-  async isWalletProtected() {
-    this.protectedWallet= await this.storage.get('protectedWallet');
+  private async _isWalletProtected() {
+    this.protectedWallet = await this.storage.get('protectedWallet');
     return this.protectedWallet;
   }
 
-  async isWalletBackup() {
-    this.walletBackup = await this.storage.get('wallet_backup');
-    return this.walletBackup;
+  private async _isWalletBackup() {
+    return await this.storage.get('wallet_backup');
+  }
+
+  private async _isWarrantyWallet() {
+    return await this.storage.get('warranty_wallet');
   }
 
   private async getWalletAddress() {
@@ -112,14 +115,22 @@ export class SuccessCreationPage {
     });
   }
 
-  async setStepsState() {
+  private async _setSteps() {
+    let steps = structuredClone(BACKUP_OPTIONS);
+    if (await this._isWarrantyWallet()) {
+      steps = steps.filter((step) => step.order === '1');
+    }
+    this.steps = steps;
+  }
+
+  private async _setStepsStatus() {
     const stepOne = this.steps.find((step) => step.order === '1');
     const stepTwo = this.steps.find((step) => step.order === '2');
-    if (await this.isWalletBackup()) {
+    if (await this._isWalletBackup()) {
       stepOne.completed = true;
       stepTwo.disabled = false;
     }
-    if (await this.isWalletProtected()) {
+    if (await this._isWalletProtected()) {
       stepTwo.completed = true;
     }
   }
@@ -146,13 +157,13 @@ export class SuccessCreationPage {
   async createFile(encryptedWallet: string) {
     this.googleAuthService.createFile(this.accessToken, encryptedWallet).subscribe(async () => {
       await this.storage.set('wallet_backup', true);
-      await this.setStepsState();
+      await this._setStepsStatus();
       await this.successModal();
     });
   }
 
   async askForPassword() {
-    if (!(await this.isWalletBackup())) {
+    if (!(await this._isWalletBackup())) {
       const modal = await this.modalController.create({
         component: WalletPasswordWithValidatorComponent,
         cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
