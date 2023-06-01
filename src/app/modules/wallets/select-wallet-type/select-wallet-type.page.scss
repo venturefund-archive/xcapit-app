@@ -1,6 +1,6 @@
 :host {
   .bg {
-    height: 112px;
+    height: 77px;
     background-image: url('../../../../assets/img/on-boarding/bg.svg');
     background-color: #0d0a2c;
     background-size: cover;
@@ -92,8 +92,10 @@
       }
     }
 
-    &__support {
-      margin-top: 188px;
+    &__footer {
+      &__support {
+        margin-bottom: 20px;
+      }
     }
   }
 }

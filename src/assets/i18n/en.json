@@ -1826,11 +1826,10 @@
       "submit_button": "Confirm and accept"
     },
     "select_wallet_type": {
-      "title": "Which wallet would you prefer?",
-      "description": "Before creating your wallet, select the type of wallet you want according to your level of knowledge.",
+      "title": "To start, choose one of the options",
       "warranty_wallet": {
-        "title": "Constitute guarantee",
-        "description": "You will be able to receive and purchase USDC to constitute a guarantee."
+        "title": "Continue with the application for your cards",
+        "description": "Create a backup guarantee to order your Naranja X credit cards."
       },
       "web3_wallet": {
         "title": "Operate on Web 3",
