@@ -292,12 +292,8 @@
       "help_link": "Help"
     },
     "on_boarding": {
-      "title_1": "We were waiting for you",
-      "title_2": "Investing has never been easier",
-      "title_3": "Learn by playing!",
-      "description_1": "With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning.",
-      "description_2": "Invest in DeFi! Fast, free transactions without intermediaries.",
-      "description_3": "The financial education you wanted. You will receive incentives for your learning and progress.",
+      "title": "We were waiting for you",
+      "description": "With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning.",
       "primary_action": "Create wallet",
       "secondary_action": "Import wallet"
     },
@@ -1826,11 +1822,10 @@
       "submit_button": "Confirm and accept"
     },
     "select_wallet_type": {
-      "title": "Which wallet would you prefer?",
-      "description": "Before creating your wallet, select the type of wallet you want according to your level of knowledge.",
+      "title": "To start, choose one of the options",
       "warranty_wallet": {
-        "title": "Constitute guarantee",
-        "description": "You will be able to receive and purchase USDC to constitute a guarantee."
+        "title": "Continue with the application for your cards",
+        "description": "Create a backup guarantee to order your Naranja X credit cards."
       },
       "web3_wallet": {
         "title": "Operate on Web 3",

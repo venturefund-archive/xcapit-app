@@ -168,7 +168,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./kripton-sale-summary.page.scss'],
 })
 export class KriptonSaleSummaryPage {
-  nativeToken: Token;
+  nativeToken: Coin;
   walletToSend: string;
   userBank: BankAccount;
   data: OperationDataInterface;
@@ -192,8 +192,7 @@ export class KriptonSaleSummaryPage {
     private apiWalletService: ApiWalletService,
     private modalController: ModalController,
     private txInProgressService: TxInProgressService,
-    private envService: EnvService,
-    private translate: TranslateService
+    private envService: EnvService
   ) {}
 
   async ionViewWillEnter() {
@@ -292,22 +291,21 @@ export class KriptonSaleSummaryPage {
   }
 
   async showInsufficientBalanceFeeModal() {
-    const text = this.translate.instant('swaps.home.balance_modal.insufficient_balance_fee.text');
-    const primaryButtonText = this.translate.instant(
-      'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName'
+    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
+    await this.openModalBalance(
+      new DefaultToken(this.nativeToken as RawToken),
+      text,
+      primaryButtonText,
+      secondaryButtonText
     );
-    const secondaryButtonText = this.translate.instant(
-      'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName'
-    );
-    await this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
   }
 
   async showInsufficientBalanceModal() {
-    const text = this.translate.instant('swaps.home.balance_modal.insufficient_balance.text');
-    const primaryButtonText = this.translate.instant('swaps.home.balance_modal.insufficient_balance.firstButtonName');
-    const secondaryButtonText = this.translate.instant(
-      'swaps.home.balance_modal.insufficient_balance.secondaryButtonName'
-    );
+    const text = 'swaps.home.balance_modal.insufficient_balance.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
     await this.openModalBalance(new DefaultToken(this.coin as RawToken), text, primaryButtonText, secondaryButtonText);
   }
 

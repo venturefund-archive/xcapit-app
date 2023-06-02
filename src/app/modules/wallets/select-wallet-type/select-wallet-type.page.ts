@@ -19,20 +19,12 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
         </ion-button>
       </div>
     </div>
-    <div class="logo">
-      <img src="assets/img/user-profile/user-profile-avatar.svg" />
-    </div>
     <ion-content class="swt ion-padding">
       <div class="swt__content">
         <div class="swt__content__header">
           <div class="swt__content__header__title">
             <ion-text class="ux-font-text-xl">
               {{ 'wallets.select_wallet_type.title' | translate }}
-            </ion-text>
-          </div>
-          <div class="swt__content__header__description">
-            <ion-text class="ux-font-text-base-primary">
-              {{ 'wallets.select_wallet_type.description' | translate }}
             </ion-text>
           </div>
         </div>
@@ -44,7 +36,7 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
             (click)="this.warrantyWallet()"
           >
             <div class="swt__content__button__card__icon">
-              <img src="assets/ux-icons/ux-checked-info.svg" />
+              <img src="assets/ux-icons/ux-logo-naranjax.svg" />
             </div>
             <div class="swt__content__button__card__content">
               <div class="swt__content__button__card__content__title">
@@ -89,10 +81,12 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
           </div>
         </div>
       </div>
-      <div class="swt__support">
+    </ion-content>
+    <ion-footer class="swt__footer">
+      <div class="swt__footer__support">
         <app-whatsapp-support></app-whatsapp-support>
       </div>
-    </ion-content>
+    </ion-footer>
   `,
   styleUrls: ['./select-wallet-type.page.scss'],
 })
