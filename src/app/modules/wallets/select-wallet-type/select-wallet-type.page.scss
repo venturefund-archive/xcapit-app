@@ -1,10 +1,7 @@
 :host {
   .bg {
     height: 77px;
-    background-image: url('../../../../assets/img/on-boarding/bg.svg');
-    background-color: #0d0a2c;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background: linear-gradient(72.16deg, #7f0094 -10.21%, #1c2d5e 60.7%, #1c2d5e 106.37%, #386aff 169.83%);
 
     &__close_button {
       display: flex;

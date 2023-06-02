@@ -104,7 +104,7 @@ export class SelectWalletTypePage {
   }
 
   private _goToPasswordCreation(): void {
-    this.navController.navigateForward(['wallets/create-password/create']);
+    this.navController.navigateForward(['wallets/steps-naranjax']);
   }
 
   close(): void {
