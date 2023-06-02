@@ -1962,6 +1962,11 @@
       "word_counter": "Palabra N°"
     },
     "create_password": {
+      "warranty": {
+        "title": "Para empezar, creá tu contraseña",
+        "description": "Vas a usarla para todas tus operaciones en Xcapit. Anotala en un lugar seguro para no olvidarla.",
+        "terms_and_conditions": "Al continuar, aceptás los <a class='ux-link-xl' href='https://www.xcapit.com/terminos-y-condiciones'>Términos y condiciones</a> y la <a class='ux-link-xl' href='https://www.xcapit.com/politicas-de-privacidad'>política de privacidad</a>."
+      },
       "header": "Crear wallet",
       "title": "Crea tu contraseña",
       "description": "La usarás para aprobar tus transacciones.",
@@ -2433,7 +2438,7 @@
       "disclaimer": "*Estas rutas te servirán en caso de que desees exportar cada dirección de forma individual.",
       "link": "¿Qué método debo elegir?"
     },
-    "simplified_home_wallet":{
+    "simplified_home_wallet": {
       "available_balance": "Saldo disponible",
       "warranties": "Mis garantías",
       "warranty_amount": "Monto en garantía",

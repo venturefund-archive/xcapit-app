@@ -48,7 +48,7 @@ const routes: Routes = [
         loadChildren: () => import('./failed-mnemonic/failed-mnemonic.module').then((m) => m.FailedMnemonicPageModule),
       },
       {
-        canActivate: [NoAuthGuard, AcceptedToSGuard],
+        canActivate: [NoAuthGuard],
         path: 'create-password',
         loadChildren: () => import('./create-password/create-password.module').then((m) => m.CreatePasswordPageModule),
       },

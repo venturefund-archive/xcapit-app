@@ -1965,6 +1965,11 @@
       "word_counter": "Word No. "
     },
     "create_password": {
+      "warranty": {
+        "title": "To get started, create your password",
+        "description": "You will use it for all your Xcapit operations. Write it down in a safe place so you don't forget it.",
+        "terms_and_conditions": "By continuing, you agree to the <a class='ux-link-xl' target='_blank' href='https://www.xcapit.com/terminos-y-condiciones'>Terms and Conditions</a> and <a class='ux-link-xl' target='_blank' href='https://www.xcapit.com/politicas-de-privacidad'>Privacy Policy</a>."
+      },
       "header": "Create Wallet",
       "title": "Create your password",
       "description": "You will use it to approve your transactions.",
@@ -2443,7 +2448,7 @@
       "disclaimer": "*These paths will be useful in case you want to export each address individually.",
       "link": "What method should I choose?"
     },
-    "simplified_home_wallet":{
+    "simplified_home_wallet": {
       "available_balance": "Available balance",
       "warranties": "My warranties",
       "warranty_amount": "Amount in warranty",
@@ -2898,10 +2903,10 @@
         "quantity": "Amount",
         "payment_method": "Payment method",
         "to_pay": "You will pay*",
-        "input_error":{
+        "input_error": {
           "cash-in": "The minimum purchase amount is ${{amount}} {{currency}}",
           "cash-out": "The minimum sale amount is ${{amount}} {{currency}}"
-        }, 
+        },
         "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day.",
         "estimated_fee": "Estimated transaction fee",
         "estimated_provider_fee": "Estimated provider fee"
