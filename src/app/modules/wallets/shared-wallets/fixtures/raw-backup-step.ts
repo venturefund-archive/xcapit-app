@@ -6,7 +6,7 @@ export const rawBackupStep: RawBackupOption = {
   title: 'wallets.success_creation.backup_options.option_2.title',
   subtitle: 'wallets.success_creation.backup_options.option_2.subtitle',
   name: 'ux_bkupgdrive_start',
-  disabled: true,
+  disabled: false,
   completed: false,
   disable: 'ff_disableGDriveBackup',
 };

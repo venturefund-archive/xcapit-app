@@ -1,17 +1,20 @@
 import { RawBackupOption } from '../../constants/backup-options';
 
 export class BackupStep {
-  constructor(private _aRawBackupStep: RawBackupOption) {}
+  private backupStepCopy: RawBackupOption;
+  constructor(private _aRawBackupStep: RawBackupOption) {
+    this.backupStepCopy = structuredClone(this._aRawBackupStep);
+  }
 
   complete(): void {
-    this._aRawBackupStep.completed = true;
+    this.backupStepCopy.completed = true;
   }
 
   enable(): void {
-    this._aRawBackupStep.disabled = false;
+    this.backupStepCopy.disabled = false;
   }
 
   json(): RawBackupOption {
-    return structuredClone(this._aRawBackupStep);
+    return structuredClone(this.backupStepCopy);
   }
 }

@@ -1,6 +1,6 @@
 import { BackupStepsDataRepo } from './backup-steps-data-repo';
 
-fdescribe('BackupStepsDataRepo', () => {
+describe('BackupStepsDataRepo', () => {
   let backupStepsDataRepo: BackupStepsDataRepo;
 
   beforeEach(() => {

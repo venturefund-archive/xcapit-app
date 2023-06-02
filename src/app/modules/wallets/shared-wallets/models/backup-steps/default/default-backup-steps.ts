@@ -7,4 +7,8 @@ export class DefaultBackupSteps {
   warranty(): BackupStep[] {
     return this._dataRepo.warranty().map((rawStep) => new BackupStep(rawStep));
   }
+
+  all(): BackupStep[] {
+    return this._dataRepo.all().map((rawStep) => new BackupStep(rawStep));
+  }
 }

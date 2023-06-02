@@ -2,7 +2,7 @@ import { BackupStep } from '../backup-step/backup-step';
 import { rawBackupStep, rawBackupStep2 } from '../../fixtures/raw-backup-step';
 import { StatusBackupStepOf } from './status-backup-step-of';
 
-fdescribe('StatusBackupStepOf', () => {
+describe('StatusBackupStepOf', () => {
   let statusBackupStepOf: StatusBackupStepOf;
 
   beforeEach(() => {
@@ -22,7 +22,7 @@ fdescribe('StatusBackupStepOf', () => {
     expect(tplStatusBackup[0].completed).toBeTrue();
     expect(tplStatusBackup[0].disabled).toBeFalse();
     expect(tplStatusBackup[1].completed).toBeTrue();
-    expect(tplStatusBackup[1].disabled).toBeTrue();
+    expect(tplStatusBackup[1].disabled).toBeFalse();
   });
 
   it('json without backup nor protected wallet', () => {
@@ -31,7 +31,6 @@ fdescribe('StatusBackupStepOf', () => {
       false,
       false
     );
-    console.log(statusBackupStepOf.json());
     const tplStatusBackup = statusBackupStepOf.json();
     expect(tplStatusBackup[0].completed).toBeFalse();
     expect(tplStatusBackup[0].disabled).toBeFalse();
@@ -45,11 +44,26 @@ fdescribe('StatusBackupStepOf', () => {
       true,
       false
     );
-    console.log(statusBackupStepOf.json());
     const tplStatusBackup = statusBackupStepOf.json();
-    expect(tplStatusBackup[0].completed).toBeFalse();
+    expect(tplStatusBackup[0].completed).toBeTrue();
     expect(tplStatusBackup[0].disabled).toBeFalse();
     expect(tplStatusBackup[1].completed).toBeFalse();
-    expect(tplStatusBackup[1].disabled).toBeTrue();
+    expect(tplStatusBackup[1].disabled).toBeFalse();
+  });
+
+  it('json with backup but no protected wallet', () => {
+    statusBackupStepOf = new StatusBackupStepOf([new BackupStep(rawBackupStep)], false, false);
+    const tplStatusBackup = statusBackupStepOf.json();
+    expect(tplStatusBackup.length).toEqual(1);
+    expect(tplStatusBackup[0].completed).toBeFalse();
+    expect(tplStatusBackup[0].disabled).toBeFalse();
+  });
+
+  it('json with backup true', () => {
+    statusBackupStepOf = new StatusBackupStepOf([new BackupStep(rawBackupStep)], true, false);
+    const tplStatusBackup = statusBackupStepOf.json();
+    expect(tplStatusBackup.length).toEqual(1);
+    expect(tplStatusBackup[0].completed).toBeTrue();
+    expect(tplStatusBackup[0].disabled).toBeFalse();
   });
 });

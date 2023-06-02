@@ -1,7 +1,7 @@
 import { rawBackupStep } from '../../fixtures/raw-backup-step';
 import { BackupStep } from './backup-step';
 
-fdescribe('BackupStep', () => {
+describe('BackupStep', () => {
   let backupStep: BackupStep;
   beforeEach(() => {
     backupStep = new BackupStep(rawBackupStep);
