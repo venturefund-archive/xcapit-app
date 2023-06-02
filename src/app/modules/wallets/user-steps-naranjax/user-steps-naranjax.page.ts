@@ -45,21 +45,23 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       </div>
     </ion-content>
     <ion-footer>
-      <div name="Create Password Form Buttons" class="ux_footer">
-        <div class="button">
-          <ion-button
-            class="ux_button ion-no-margin"
-            display="block"
-            appTrackClick
-            name="ux_continue"
-            color="secondary"
-            size="large"
-            (click)="this.handleSubmit()"
-          >
-            {{ 'wallets.user_steps_naranjax.button' | translate }}
-          </ion-button>
+      <ion-toolbar class="ux_toolbar">
+        <div name="Create Password Form Buttons" class="ux_footer">
+          <div class="button">
+            <ion-button
+              class="ux_button ion-no-margin"
+              display="block"
+              appTrackClick
+              name="ux_continue"
+              color="secondary"
+              size="large"
+              (click)="this.handleSubmit()"
+            >
+              {{ 'wallets.user_steps_naranjax.button' | translate }}
+            </ion-button>
+          </div>
         </div>
-      </div>
+      </ion-toolbar>
     </ion-footer>`,
   styleUrls: ['./user-steps-naranjax.page.scss'],
 })
@@ -75,7 +77,7 @@ export class UserStepsNaranjaxPage {
   }
 
   close(): void {
-    this.navController.navigateBack('wallets/select-wallet-type');
+    this.navController.navigateBack('/wallets/select-wallet-type');
   }
 
   handleSubmit() {

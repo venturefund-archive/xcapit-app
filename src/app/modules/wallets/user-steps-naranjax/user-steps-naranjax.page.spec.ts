@@ -5,8 +5,9 @@ import { UserStepsNaranjaxPage } from './user-steps-naranjax.page';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { TranslateModule } from '@ngx-translate/core';
 
-fdescribe('UserStepsNaranjaxPage', () => {
+describe('UserStepsNaranjaxPage', () => {
   let component: UserStepsNaranjaxPage;
   let fixture: ComponentFixture<UserStepsNaranjaxPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
@@ -22,7 +23,7 @@ fdescribe('UserStepsNaranjaxPage', () => {
     });
     TestBed.configureTestingModule({
       declarations: [UserStepsNaranjaxPage],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
@@ -40,13 +41,13 @@ fdescribe('UserStepsNaranjaxPage', () => {
 
   it('should navigate to continue button', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_continue"]')).nativeElement.click();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/wallets/create-password/create');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/create-password/create');
   });
 
   it('should navigate to select wallettype when Close button is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="Close button"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('wallets/select-wallet-type');
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/wallets/select-wallet-type');
   });
 
   it('should track screenview event on init', () => {
