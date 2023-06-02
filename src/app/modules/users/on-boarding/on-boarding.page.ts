@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { AuthService } from '../shared-users/services/auth/auth.service';
+import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 @Component({
   selector: 'app-on-boarding',
   template: `
@@ -19,7 +21,7 @@ import { AuthService } from '../shared-users/services/auth/auth.service';
 
       <div class="ob__actions">
         <ion-button
-          (click)="this.goToCreateDisclaimer()"
+          (click)="this.goToCreate()"
           name="Create wallet"
           expand="block"
           size="large"
@@ -29,7 +31,7 @@ import { AuthService } from '../shared-users/services/auth/auth.service';
           {{ 'users.on_boarding.primary_action' | translate }}
         </ion-button>
         <ion-button
-          (click)="this.goToImportDisclaimer()"
+          (click)="this.goToImport()"
           name="Import wallet"
           expand="block"
           size="large"
@@ -43,14 +45,13 @@ import { AuthService } from '../shared-users/services/auth/auth.service';
   `,
   styleUrls: ['./on-boarding.page.scss'],
 })
-export class OnBoardingPage implements OnInit {
+export class OnBoardingPage {
   constructor(
     private navController: NavController,
     private trackService: TrackService,
-    private authService: AuthService
+    private authService: AuthService,
+    private ionicStorageService: IonicStorageService
   ) {}
-
-  ngOnInit() {}
 
   ionViewWillEnter() {
     this.removeOldToken();
@@ -65,14 +66,16 @@ export class OnBoardingPage implements OnInit {
     this.authService.logout();
   }
 
-  private _navigate(mode: string) {
-    this.navController.navigateForward(`/wallets/create-first/disclaimer/${mode}`);
+  goToCreate() {
+    this.navController.navigateForward('/wallets/select-wallet-type');
   }
 
-  goToCreateDisclaimer() {
-    this._navigate('create');
+  async goToImport() {
+    await this._resetWalletType();
+    this.navController.navigateForward('/wallets/create-first/disclaimer/import');
   }
-  goToImportDisclaimer() {
-    this._navigate('import');
+
+  private async _resetWalletType() {
+    await new SimplifiedWallet(this.ionicStorageService).save(false);
   }
 }

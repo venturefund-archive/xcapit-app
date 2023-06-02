@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -100,7 +100,7 @@ import { LINKS } from 'src/app/config/static-links';
   `,
   styleUrls: ['./disclaimer-wallet.page.scss'],
 })
-export class DisclaimerWalletPage implements OnInit {
+export class DisclaimerWalletPage {
   mode: string;
   links = LINKS;
   disclaimerForm: UntypedFormGroup = this.formBuilder.group({
@@ -120,7 +120,7 @@ export class DisclaimerWalletPage implements OnInit {
     private browserService: BrowserService
   ) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.trackClickEventName = this.isImporting ? 'ux_import_submit' : 'ux_create_submit';
   }
@@ -129,7 +129,7 @@ export class DisclaimerWalletPage implements OnInit {
     this.acceptToS();
     this.navigateByMode();
   }
-  
+
   navigateByMode() {
     const url = this.isImporting ? 'wallets/wallet-imports' : 'wallets/select-wallet-type';
     this.navController.navigateForward([url]);
