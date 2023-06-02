@@ -1839,6 +1839,14 @@
       "text3": "If you lose your recovery phrase, not even Xcapit will be able to recover your funds.",
       "button_text": "Continue"
     },
+    "user_steps_naranjax": {
+      "title": "Follow these steps to order your Naranja X cards.",
+      "item_1": "Create a password and protect your account with a backup copy.",
+      "item_2": "Buy as many cryptocurrencies as you want.",
+      "item_3":"Use your cryptocurrencies to create a collateral backing.",
+      "item_4": "Know what cards and available for purchases you can have.",
+      "button": "Continue"
+    },
     "recovery_phrase_information_no_wallet": {
       "header": "Recovery phrase",
       "text1": "You still do not have a recovery phrase.",

@@ -97,7 +97,7 @@ export class SelectWalletTypePage {
 
   async warrantyWallet(): Promise<void> {
     this.walletInitializeProcessService.setWarrantyWallet(true);
-    this._goToPasswordCreation();
+    this._goToNaranjaSteps();
   }
 
   async web3Wallet(): Promise<void> {
@@ -105,11 +105,15 @@ export class SelectWalletTypePage {
     this._goToPasswordCreation();
   }
 
-  private _goToPasswordCreation(): void {
-    this.navController.navigateForward(['wallets/create-password/create']);
+  private _goToPasswordCreation() {
+    this.navController.navigateForward('/wallets/create-password/create');
+  }
+
+  private _goToNaranjaSteps(): void {
+    this.navController.navigateForward('/wallets/steps-naranjax');
   }
 
   close(): void {
-    this.navController.navigateBack(['users/on-boarding']);
+    this.navController.navigateBack('/users/on-boarding');
   }
 }

@@ -268,6 +268,10 @@ const routes: Routes = [
         path: 'select-wallet-type',
         loadChildren: () => import('./select-wallet-type/select-wallet-type.module').then( m => m.SelectWalletTypePageModule)
       },
+      {
+        path: 'steps-naranjax',
+        loadChildren: () => import('./user-steps-naranjax/user-steps-naranjax.module').then( m => m.UserStepsNaranjaxPageModule)
+      },
     ],
   },
   {

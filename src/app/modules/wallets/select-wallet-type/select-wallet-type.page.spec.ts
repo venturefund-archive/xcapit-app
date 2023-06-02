@@ -17,7 +17,7 @@ describe('SelectWalletTypePage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
-  let walletInitializeProcessServiceSpy: jasmine.SpyObj<WalletInitializeProcess>
+  let walletInitializeProcessServiceSpy: jasmine.SpyObj<WalletInitializeProcess>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -27,7 +27,7 @@ describe('SelectWalletTypePage', () => {
     });
     walletInitializeProcessServiceSpy = jasmine.createSpyObj('WalletInitializeProcess', {
       setWarrantyWallet: Promise.resolve(),
-    })
+    });
 
     TestBed.configureTestingModule({
       declarations: [SelectWalletTypePage, FakeTrackClickDirective],
@@ -35,7 +35,7 @@ describe('SelectWalletTypePage', () => {
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: IonicStorageService, useValue: storageServiceSpy },
-        { provide: WalletInitializeProcess, useValue: walletInitializeProcessServiceSpy }
+        { provide: WalletInitializeProcess, useValue: walletInitializeProcessServiceSpy },
       ],
     }).compileComponents();
 
@@ -52,10 +52,10 @@ describe('SelectWalletTypePage', () => {
   it('should navigate to on-boarding when Close button is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="Close button"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['users/on-boarding']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/users/on-boarding');
   });
 
-  it('should navigate to password creation, save wallet type and call appTrackEvent on trackService when ux_create_select_warrant is clicked', fakeAsync(() => {
+  it('should navigate to naranja steps, save wallet type and call appTrackEvent on trackService when ux_create_select_warrant is clicked', fakeAsync(() => {
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('div', 'ux_create_select_warrant');
     const directive = trackClickDirectiveHelper.getDirective(el);
@@ -64,7 +64,7 @@ describe('SelectWalletTypePage', () => {
     fixture.detectChanges();
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-password/create']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/steps-naranjax');
     expect(walletInitializeProcessServiceSpy.setWarrantyWallet).toHaveBeenCalledOnceWith(true);
   }));
 
@@ -77,7 +77,7 @@ describe('SelectWalletTypePage', () => {
     fixture.detectChanges();
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-password/create']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/create-password/create');
     expect(walletInitializeProcessServiceSpy.setWarrantyWallet).toHaveBeenCalledOnceWith(false);
   }));
 });
