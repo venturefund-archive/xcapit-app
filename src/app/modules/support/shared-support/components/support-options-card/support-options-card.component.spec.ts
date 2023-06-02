@@ -11,7 +11,7 @@ import { SupportOptionsCardComponent } from './support-options-card.component';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { By } from '@angular/platform-browser';
 
-fdescribe('SupportOptionsCardComponent', () => {
+describe('SupportOptionsCardComponent', () => {
   let component: SupportOptionsCardComponent;
   let fixture: ComponentFixture<SupportOptionsCardComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SupportOptionsCardComponent>;
