@@ -24,19 +24,14 @@ import { SimplifiedWallet } from '../shared-wallets/models/simplified-wallet/sim
   template: `
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded ux_toolbar__left">
-        <ion-buttons *ngIf="!this.isUserWarranty" slot="start">
-          <ion-back-button defaultHref="/wallets/home"></ion-back-button>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/users/on-boarding"></ion-back-button>
         </ion-buttons>
         <ion-title>{{
-          this.mode === 'import' ? 'wallets.recovery_wallet.header' : ('wallets.create_password.header' | translate)
+          (this.mode === 'import' ? 'wallets.recovery_wallet.header' : 'wallets.create_password.header') | translate
         }}</ion-title>
-        <ng-container *ngIf="!this.isUserWarranty"
-          ><ion-label *ngIf="this.mode === 'import'" class="ux_toolbar__step" slot="end"
-            >4 {{ 'shared.step_counter.of' | translate }} 4</ion-label
-          >
-          <ion-label *ngIf="this.mode !== 'import'" class="ux_toolbar__step" slot="end"
-            >2 {{ 'shared.step_counter.of' | translate }} 2</ion-label
-          ></ng-container
+        <ion-label *ngIf="this.mode === 'import' && !this.isUserWarranty" class="ux_toolbar__step" slot="end"
+          >4 {{ 'shared.step_counter.of' | translate }} 4</ion-label
         >
       </ion-toolbar>
     </ion-header>
@@ -119,7 +114,7 @@ import { SimplifiedWallet } from '../shared-wallets/models/simplified-wallet/sim
             >
           </div>
         </div>
-        <div *ngIf="this.isUserWarranty">
+        <div *ngIf="this.mode !== 'import'">
           <ion-label
             class="ux-font-text-xs"
             [innerHTML]="'wallets.create_password.warranty.terms_and_conditions' | translate"

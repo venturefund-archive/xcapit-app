@@ -12,3 +12,8 @@
 .ux_footer {
   flex-shrink: 0;
 }
+
+.ux_toolbar {
+  --background: var(--ion-color-white);
+  --border-color: var(--ion-color-white);
+}

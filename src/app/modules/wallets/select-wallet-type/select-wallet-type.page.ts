@@ -83,9 +83,11 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
       </div>
     </ion-content>
     <ion-footer class="swt__footer">
-      <div class="swt__footer__support">
-        <app-whatsapp-support></app-whatsapp-support>
-      </div>
+      <ion-toolbar class="ux_toolbar">
+        <div class="swt__footer__support">
+          <app-whatsapp-support></app-whatsapp-support>
+        </div>
+      </ion-toolbar>
     </ion-footer>
   `,
   styleUrls: ['./select-wallet-type.page.scss'],
