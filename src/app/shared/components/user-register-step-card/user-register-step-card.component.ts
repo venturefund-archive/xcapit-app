@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-user-register-step-card',
   template: `<ion-item
     appTrackClick
-    (click)="navigateTo()"
+    (click)="this.navigateTo()"
     lines="none"
     class="ion-no-padding ursc"
     [ngClass]="{ greenBorder: this.step.completed }"
@@ -34,14 +34,13 @@ import { NavController } from '@ionic/angular';
         <ion-text>{{ 'fiat_ramps.user_register.steps.complete' | translate }}</ion-text>
       </div>
     </div>
-  </ion-item> `,
+  </ion-item>`,
   styleUrls: ['./user-register-step-card.component.scss'],
 })
 export class UserRegisterStepCardComponent {
   @Input() step: any;
   @Input() status: string;
   @Output() cardClicked = new EventEmitter<any>();
-  tplStep: any;
 
   constructor(private navController: NavController) {}
 
@@ -49,11 +48,11 @@ export class UserRegisterStepCardComponent {
     if (!this.step.completed && this.step.url) {
       return this.navController.navigateForward(this.step.url);
     } else if (this.step.action) {
-      this.action();
+      this._clicked();
     }
   }
 
-  action() {
+  private _clicked() {
     this.cardClicked.emit();
   }
 }

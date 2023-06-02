@@ -1,11 +1,16 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  waitForAsync,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { SuccessCreationPage } from './success-creation.page';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { By } from '@angular/platform-browser';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { TrackedWalletAddress } from 'src/app/shared/models/tracked-wallet-address/tracked-wallet-address';
@@ -16,6 +21,7 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { of } from 'rxjs';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { By } from '@angular/platform-browser';
 
 describe('SuccessCreationPage', () => {
   let component: SuccessCreationPage;
@@ -52,9 +58,10 @@ describe('SuccessCreationPage', () => {
     });
 
     ionicStorageServiceSpy.get.withArgs('wallet_backup').and.returnValue(Promise.resolve(true));
+    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.returnValue(Promise.resolve(false));
 
     googleAuthServiceSpy = jasmine.createSpyObj('GoogleAuthService', {
-      accessToken: of('token'),
+      accessToken: Promise.resolve('token'),
       createFile: of({}),
     });
 
@@ -96,7 +103,14 @@ describe('SuccessCreationPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render properly', () => {
+  it('should render properly', async () => {
+    ionicStorageServiceSpy.get.withArgs('wallet_backup').and.returnValue(Promise.resolve(false));
+    ionicStorageServiceSpy.get.withArgs('protectedWallet').and.returnValue(Promise.resolve(false));
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+
     const imgEl = fixture.debugElement.query(By.css('.header__ux_success_image img'));
     const titleEl = fixture.debugElement.query(By.css('.main__primary_text ion-text'));
     const subtitleEl = fixture.debugElement.query(By.css('.main__secondary_text ion-text'));
@@ -105,7 +119,10 @@ describe('SuccessCreationPage', () => {
     expect(subtitleEl.nativeElement.innerHTML).toContain('wallets.success_creation.subtitle');
   });
 
-  it('should open modal when ux_create_skip Button clicked', () => {
+  it('should open modal when ux_create_skip Button clicked', async () => {
+    ionicStorageServiceSpy.get.withArgs('wallet_backup').and.returnValue(Promise.resolve(false));
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_skip');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -121,46 +138,55 @@ describe('SuccessCreationPage', () => {
     expect(trackedWalletAddressSpy.value).toHaveBeenCalledTimes(1);
   });
 
-  it('should set correct states of steps if wallet is protected and backup is completed', fakeAsync(() => {
-    const stepOne = component.steps.find((step) => step.order === '1');
-    const stepTwo = component.steps.find((step) => step.order === '2');
+  it('should create file on google drive and set wallet_backup in true on storage when backup is completed', fakeAsync(() => {
+    ionicStorageServiceSpy.get.withArgs('wallet_backup').and.returnValue(Promise.resolve(false));
+    ionicStorageServiceSpy.get.withArgs('protectedWallet').and.returnValue(Promise.resolve(false));
     component.ionViewWillEnter();
     tick();
     fixture.detectChanges();
-    expect(stepOne.completed).toBeTrue();
-    expect(stepTwo.disabled).toBeFalse();
-    expect(stepTwo.completed).toBeTrue();
-  }));
-
-  it('should create file on google drive and set wallet_backup in true on storage when backup is completed', fakeAsync(() => {
-    ionicStorageServiceSpy.get.withArgs('wallet_backup').and.returnValue(Promise.resolve(false));
-    component.ionViewWillEnter();
     fixture.debugElement.query(By.css('app-user-register-step-card')).triggerEventHandler('cardClicked');
     tick(600);
-    fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(googleAuthServiceSpy.accessToken).toHaveBeenCalledTimes(1);
     expect(walletEncryptionServiceSpy.getEncryptedWallet).toHaveBeenCalledTimes(1);
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(googleAuthServiceSpy.createFile).toHaveBeenCalledTimes(1);
   }));
 
-  it('should render button "in other moment" if wallet_backup is false', () => {
+  it('should create file on google drive and call success modal when warranty wallet', async () => {
+    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.returnValue(Promise.resolve(true));
     ionicStorageServiceSpy.get.withArgs('wallet_backup').and.returnValue(Promise.resolve(false));
-    component.ionViewWillEnter();
+    ionicStorageServiceSpy.get.withArgs('protectedWallet').and.returnValue(Promise.resolve(false));
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await component.askForPassword();
+    await fixture.whenStable();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(googleAuthServiceSpy.accessToken).toHaveBeenCalledTimes(1);
+    expect(walletEncryptionServiceSpy.getEncryptedWallet).toHaveBeenCalledTimes(1);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledTimes(1);
+    expect(googleAuthServiceSpy.createFile).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render button "in other moment" if wallet backup is false', async () => {
+    ionicStorageServiceSpy.get.withArgs('wallet_backup').and.returnValue(Promise.resolve(false));
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_create_skip"]'));
     expect(buttonEl).toBeTruthy();
   });
 
-  it('should render button "finish" if wallet_backup is true', fakeAsync(() => {
+  it('should render button "finish" if wallet_backup and protectedWallet are true', async () => {
     ionicStorageServiceSpy.get.withArgs('wallet_backup').and.returnValue(Promise.resolve(true));
-    component.ionViewWillEnter();
-    tick();
+    ionicStorageServiceSpy.get.withArgs('protectedWallet').and.returnValue(Promise.resolve(true));
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_finish_backup"]'));
     expect(buttonEl).toBeTruthy();
-  }));
+  });
 
   it('should navigate to wallet home when ux_finish_backup is clicked', fakeAsync(() => {
     ionicStorageServiceSpy.get.withArgs('wallet_backup').and.returnValue(Promise.resolve(true));
