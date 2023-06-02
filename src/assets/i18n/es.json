@@ -279,12 +279,8 @@
       "help_link": "Ayuda"
     },
     "on_boarding": {
-      "title_1": "Te estábamos esperando",
-      "title_2": "Invertir nunca fue tan fácil",
-      "title_3": "¡Aprende jugando!",
-      "description_1": "Con la Wallet de Xcapit, tú tienes el control. En todo momento sabrás donde está tu dinero y cuántas ganancias obtienes.",
-      "description_2": "¡Invierte en DeFi! Transacciones rápidas, libres y sin intermediarios.",
-      "description_3": "La educación financiera que querías. Recibirás incentivos por tu aprendizaje y avance.",
+      "title": "Te estábamos esperando",
+      "description": "Con la Wallet de Xcapit, tú tienes el control. En todo momento sabrás donde está tu dinero y cuántas ganancias obtienes.",
       "primary_action": "Crear wallet",
       "secondary_action": "Importar wallet"
     },
