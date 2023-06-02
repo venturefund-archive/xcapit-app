@@ -3311,6 +3311,8 @@
       "description_wallet_operations": "How to invest, operations and costs.",
       "title_buy": "Crypto buying",
       "description_buy": "Buying, commissions, limits and payment methods.",
+      "title_warranty": "Warranty constitution",
+      "description_warranty": "Requirements, limits, confection, withdrawal, fees and more",
       "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Connect wallet and interact with dapp.",
       "title_nft": "NFT",
