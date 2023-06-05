@@ -148,6 +148,11 @@ export class SendWarrantyPage {
         this.openBalanceModal();
       }
     });
+    this.form.get('quoteAmount').valueChanges.subscribe((value) => {
+      if (this.balance * this.quotePrice < Number(value)) {
+        this.openBalanceModal();
+      }
+    });
   }
 
   private addLowerThanValidator() {
