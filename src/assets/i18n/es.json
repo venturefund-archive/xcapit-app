@@ -3673,6 +3673,11 @@
       "firstButton": "Constituir garantía",
       "secondButton": "Retirar garantía"
     },
+    "modal_info_to_buy_or_deposit": {
+      "header": "Ahora podés comprar cripto o transferirte las que tengas en otra billetera. Luego, vas a poder armar tu garantía para pedir tus tarjetas.",
+      "firstButton": "Comprar criptomonedas",
+      "secondButton": "Recibir cripto de otra cuenta"
+    },
     "send_warranty": {
       "header": "Constituir garantía",
       "text_dni": "Ingresar DNI",
