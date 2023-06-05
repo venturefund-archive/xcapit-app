@@ -131,12 +131,15 @@ import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/c
           <app-wallet-transaction-skeleton-card
             *ngIf="this.transfers === undefined"
           ></app-wallet-transaction-skeleton-card>
-          <div class="swt__transaction__wallet-transaction-card__empty" *ngIf="this.transfers !== undefined && this.transfers.length === 0">
-            <img
-              src="/assets/img/simplified-home-wallet/empty.svg"
-            />
-            <ion-label class="ux-font-text-xxs"
-              [innerHTML]="'wallets.simplified_home_wallet.empty_transactions' | translate">
+          <div
+            class="swt__transaction__wallet-transaction-card__empty"
+            *ngIf="this.transfers !== undefined && this.transfers.length === 0"
+          >
+            <img src="/assets/img/simplified-home-wallet/empty.svg" />
+            <ion-label
+              class="ux-font-text-xxs"
+              [innerHTML]="'wallets.simplified_home_wallet.empty_transactions' | translate"
+            >
             </ion-label>
           </div>
         </div>
@@ -220,31 +223,7 @@ export class SimplifiedHomeWalletPage {
 
   checkBalance() {
     this.disabled = this.tokenDetail.balance === 0;
-    if (this.tokenDetail.balance === 0) this.showInsufficientBalanceModal();
-  }
-
-  async showInsufficientBalanceModal() {
-    const text = 'wallets.simplified_home_wallet.insufficient_balance.text';
-    const primaryButtonText = 'wallets.simplified_home_wallet.insufficient_balance.firstButtonName';
-    const secondaryButtonText = 'wallets.simplified_home_wallet.insufficient_balance.secondaryButtonName';
-    await this.openModalBalance(this.token, text, primaryButtonText, secondaryButtonText);
-  }
-
-  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
-    if (!this.openingModal) {
-      this.openingModal = true;
-      const modal = await this.modalController.create({
-        component: BuyOrDepositTokenToastComponent,
-        cssClass: 'ux-toast-warning',
-        showBackdrop: false,
-        id: 'feeModal',
-        componentProps: { token, text, primaryButtonText, secondaryButtonText },
-      });
-      if (window.location.href === this.modalHref) {
-        await modal.present();
-      }
-      await modal.onDidDismiss().then(() => (this.openingModal = false));
-    }
+    if (this.tokenDetail.balance === 0) this.openWarrantyModalWithBuyOrDepositOpts();
   }
 
   private async setWallet() {
@@ -267,9 +246,7 @@ export class SimplifiedHomeWalletPage {
   }
 
   async getWarranty() {
-    this.warranty = await this.warrantiesService
-      .verifyWarranty({ wallet: this.wallet.address() })
-      .toPromise();
+    this.warranty = await this.warrantiesService.verifyWarranty({ wallet: this.wallet.address() }).toPromise();
   }
 
   async openWarrantyModal() {
@@ -288,6 +265,28 @@ export class SimplifiedHomeWalletPage {
         secondButton: this.translate.instant('warranties.modal_info.secondButton'),
         eventSecondButton: 'ux_warranty_withdraw',
         urlSecondButton: 'warranties/withdraw-warranty',
+      },
+    });
+
+    await modal.present();
+  }
+
+  async openWarrantyModalWithBuyOrDepositOpts() {
+    const modal = await this.modalController.create({
+      component: GeneralModalWithTwoButtonsComponent,
+      cssClass: 'modal',
+      backdropDismiss: false,
+      componentProps: {
+        header: this.translate.instant('warranties.modal_info_to_buy_or_deposit.header'),
+        information: this.translate.instant('warranties.modal_info.information'),
+        link: LINKS.naranjax,
+        firstButton: this.translate.instant('warranties.modal_info_to_buy_or_deposit.firstButton'),
+        eventFirstButton: 'ux_warranty_buy',
+        urlFirstButton: '/fiat-ramps/purchases',
+        secondButton: this.translate.instant('warranties.modal_info_to_buy_or_deposit.secondButton'),
+        eventSecondButton: 'ux_warranty_receive',
+        urlSecondButton: '/wallets/receive/detail?asset=USDC&network=MATIC',
+        isBuyOrDeposit: true,
       },
     });
 

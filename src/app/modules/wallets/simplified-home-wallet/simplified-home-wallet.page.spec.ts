@@ -146,7 +146,7 @@ describe('SimplifiedHomeWalletPage', () => {
     expect(tokenDetailInjectableSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should open insufficient balance modal and disable warranty button card if balance is zero', async () => {
+  it('should open warranty modal with buy or deposit options and disable warranty button card if balance is zero', async () => {
     new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(0);
     await component.ionViewWillEnter();
     await fixture.whenRenderingDone();

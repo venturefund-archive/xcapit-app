@@ -3522,6 +3522,11 @@
       "firstButton": "Make a warranty",
       "secondButton": "Withdraw warranty"
     },
+    "modal_info_to_buy_or_deposit": {
+      "header": "Now you can buy crypto or transfer the ones you have in another wallet. Then, you will be able to set up your collateral to order your cards.",
+      "firstButton": "Buy cryptocurrencies",
+      "secondButton": "Receive crypto from another account"
+    },
     "send_warranty": {
       "header": "Make a Warranty",
       "text_dni": "Identity card number",

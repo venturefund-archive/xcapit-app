@@ -66,6 +66,12 @@
       &__second-button {
         margin-bottom: 15px;
       }
+
+      &__second-button {
+        .buyDeposit {
+          color: var(--ion-color-info);
+        }
+      }
     }
   }
 }
