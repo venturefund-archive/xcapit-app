@@ -146,7 +146,6 @@ describe('SuccessCreationPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-user-register-step-card')).triggerEventHandler('cardClicked');
     tick(600);
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(googleAuthServiceSpy.accessToken).toHaveBeenCalledTimes(1);
     expect(walletEncryptionServiceSpy.getEncryptedWallet).toHaveBeenCalledTimes(1);
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledTimes(1);
@@ -162,7 +161,7 @@ describe('SuccessCreationPage', () => {
     fixture.detectChanges();
     await component.askForPassword();
     await fixture.whenStable();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(googleAuthServiceSpy.accessToken).toHaveBeenCalledTimes(1);
     expect(walletEncryptionServiceSpy.getEncryptedWallet).toHaveBeenCalledTimes(1);
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledTimes(1);

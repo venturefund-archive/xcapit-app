@@ -8,7 +8,6 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { GoogleAuthService } from 'src/app/shared/services/google-auth/google-auth.service';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { WalletPasswordWithValidatorComponent } from '../shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
-import { SuccessModalComponent } from 'src/app/shared/components/success-modal/success-modal.component';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { asyncDelay } from '../../../shared/constants/async-delay';
 import { StatusBackupStepOf } from '../shared-wallets/models/status-backup-step-of/status-backup-step-of';
@@ -158,7 +157,6 @@ export class SuccessCreationPage {
     await this.storage.set('wallet_backup', true);
     await this._setStepsStatus();
     if (await this._isWarrantyWallet()) {
-      await this.successModal();
       this.completed = true;
     }
   }
@@ -181,19 +179,6 @@ export class SuccessCreationPage {
         await this.googleAuth();
       }
     }
-  }
-
-  async successModal() {
-    const modal = await this.modalController.create({
-      component: SuccessModalComponent,
-      backdropDismiss: false,
-      componentProps: {
-        title: 'wallets.success_creation.backup_succes_modal.title',
-        description: 'wallets.success_creation.backup_succes_modal.description',
-        buttonText: 'wallets.success_creation.backup_succes_modal.button_text',
-      },
-    });
-    await modal.present();
   }
 
   finish() {
