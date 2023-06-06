@@ -157,6 +157,17 @@ describe('SimplifiedHomeWalletPage', () => {
     expect(el.nativeElement.disabled).toBeTruthy();
   });
 
+  it('should open warranty modal and enable warranty button card if balance is not zero', async () => {
+    new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(100);
+    await component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+
+    const el = fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warrant"]'));
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(el.nativeElement.disabled).toBeFalse();
+  });
+
   it('should open warranty modal if card button was clicked', async () => {
     await component.ionViewWillEnter();
     await fixture.whenRenderingDone();
@@ -165,14 +176,10 @@ describe('SimplifiedHomeWalletPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warrant"]')).nativeElement.click();
     fixture.detectChanges();
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
   });
 
   it('should open warranty modal if subheader button was clicked', async () => {
-    await component.ionViewWillEnter();
-    await fixture.whenRenderingDone();
-    fixture.detectChanges();
-
     fixture.debugElement
       .query(By.css('app-simplified-wallet-subheader-buttons'))
       .triggerEventHandler('openWarrantyModal');
