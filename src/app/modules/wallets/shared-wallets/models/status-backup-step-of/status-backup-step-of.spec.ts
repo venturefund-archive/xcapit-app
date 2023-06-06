@@ -7,7 +7,7 @@ describe('StatusBackupStepOf', () => {
 
   beforeEach(() => {
     statusBackupStepOf = new StatusBackupStepOf(
-      [new BackupStep(rawBackupStep), new BackupStep(rawBackupStep2)],
+      [new BackupStep(rawBackupStep, false), new BackupStep(rawBackupStep2, false)],
       true,
       true
     );
@@ -27,7 +27,7 @@ describe('StatusBackupStepOf', () => {
 
   it('json without backup nor protected wallet', () => {
     statusBackupStepOf = new StatusBackupStepOf(
-      [new BackupStep(rawBackupStep), new BackupStep(rawBackupStep2)],
+      [new BackupStep(rawBackupStep, false), new BackupStep(rawBackupStep2, false)],
       false,
       false
     );
@@ -40,7 +40,7 @@ describe('StatusBackupStepOf', () => {
 
   it('json with backup but no protected wallet', () => {
     statusBackupStepOf = new StatusBackupStepOf(
-      [new BackupStep(rawBackupStep), new BackupStep(rawBackupStep2)],
+      [new BackupStep(rawBackupStep, false), new BackupStep(rawBackupStep2, false)],
       true,
       false
     );
@@ -52,7 +52,7 @@ describe('StatusBackupStepOf', () => {
   });
 
   it('json with backup but no protected wallet', () => {
-    statusBackupStepOf = new StatusBackupStepOf([new BackupStep(rawBackupStep)], false, false);
+    statusBackupStepOf = new StatusBackupStepOf([new BackupStep(rawBackupStep, false)], false, false);
     const tplStatusBackup = statusBackupStepOf.json();
     expect(tplStatusBackup.length).toEqual(1);
     expect(tplStatusBackup[0].completed).toBeFalse();
@@ -60,7 +60,7 @@ describe('StatusBackupStepOf', () => {
   });
 
   it('json with backup true', () => {
-    statusBackupStepOf = new StatusBackupStepOf([new BackupStep(rawBackupStep)], true, false);
+    statusBackupStepOf = new StatusBackupStepOf([new BackupStep(rawBackupStep, false)], true, false);
     const tplStatusBackup = statusBackupStepOf.json();
     expect(tplStatusBackup.length).toEqual(1);
     expect(tplStatusBackup[0].completed).toBeTrue();
