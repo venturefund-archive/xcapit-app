@@ -10,6 +10,7 @@ import { SUPPORT_OPTIONS } from '../../constants/support-options';
 import { SupportOptionsCardComponent } from './support-options-card.component';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { By } from '@angular/platform-browser';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 describe('SupportOptionsCardComponent', () => {
   let component: SupportOptionsCardComponent;
@@ -18,6 +19,7 @@ describe('SupportOptionsCardComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -25,12 +27,16 @@ describe('SupportOptionsCardComponent', () => {
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
       open: Promise.resolve(),
     });
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
     TestBed.configureTestingModule({
       declarations: [SupportOptionsCardComponent, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -55,11 +61,19 @@ describe('SupportOptionsCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to twoPi page on browser when link is clicked', async () => {
+  it('should navigate to external page on browser when link is clicked', async () => {
     component.ngOnInit();
     fixture.detectChanges();
     await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
     fixture.debugElement.query(By.css('.button ion-button')).nativeElement.click();
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: component.option.route });
   });
+
+  it('should track event when property exists on options', async () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
+    fixture.debugElement.query(By.css('.button ion-button')).nativeElement.click();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1)
+  })
 });
