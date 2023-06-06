@@ -24,7 +24,6 @@ export const SUPPORT_OPTIONS = [
     route: 'https://www.xcapit.com/naranjax#faqs',
     event: 'ux_faq_warranty',
   },
-
   {
     title: 'support.support_options.title_wallet_connect',
     description: 'support.support_options.description_wallet_connect',
