@@ -223,7 +223,11 @@ export class SimplifiedHomeWalletPage {
 
   checkBalance() {
     this.disabled = this.tokenDetail.balance === 0;
-    if (this.tokenDetail.balance === 0) this.openWarrantyModalWithBuyOrDepositOpts();
+    if (this.tokenDetail.balance === 0) {
+      this.openWarrantyModalWithBuyOrDepositOpts();
+    } else {
+      this.openWarrantyModal();
+    }
   }
 
   private async setWallet() {
