@@ -55,15 +55,11 @@ import { NavController } from '@ionic/angular';
 export class SuccessRemoveWalletPage {
   constructor(private navController: NavController) {}
 
-  private _navigate(mode: string) {
-    this.navController.navigateRoot(`/wallets/create-first/disclaimer/${mode}`);
-  }
-
   goToCreateDisclaimer() {
-    this._navigate('create');
+    this.navController.navigateRoot('/wallets/select-wallet-type');
   }
   goToImportDisclaimer() {
-    this._navigate('import');
+    this.navController.navigateRoot('/wallets/create-first/disclaimer/import');
   }
 
   goToOnboarding() {
