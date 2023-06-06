@@ -1913,9 +1913,9 @@
       "no_result_search": "Sin resultados"
     },
     "success_creation": {
-      "title": "¡Felicitaciones!\nCreaste tu wallet",
+      "title": "¡Listo! Ya tenés tu contraseña",
       "title1": "¡Excelente!\nCreaste un backup de tu wallet ",
-      "subtitle": "Crea una copia de seguridad encriptada de tu wallet en Google Drive.",
+      "subtitle": "Ahora protegé tu cuenta con una copia de seguridad en Google Drive.",
       "subtitle1": "¡Un último paso! Protégela  haciendo una copia de seguridad de tu frase de recuperación.",
       "success_button": "Ir a wallet",
       "ribbon_recommended": "Recomendado",
@@ -1927,7 +1927,9 @@
         },
         "option_2": {
           "title": "Backup en Google Drive",
-          "subtitle": "No pierdas tu wallet, guardá una copia encriptada. Sólo tomará unos minutos."
+          "subtitle": "No pierdas tu wallet, guardá una copia encriptada. Sólo tomará unos minutos.",
+          "warranty_title": "Proteger tu cuenta",
+          "warranty_subtitle": "Todas tus operaciones van a estar protegidas."
         }
       },
       "password_modal": {
