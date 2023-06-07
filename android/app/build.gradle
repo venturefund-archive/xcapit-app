@@ -21,6 +21,11 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
+    configurations {
+        all {
+          exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-jdk7"
+        }
+  }
 }
 
 repositories {

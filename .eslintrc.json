@@ -69,7 +69,15 @@
         "no-prototype-builtins": ["off"],
         "no-async-promise-executor": ["off"],
         "import/order": "off",
-        "one-var": ["off", "never"]
+        "one-var": ["off", "never"],
+        "no-console": "off",
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
+            "message": "Unexpected property on console object was called"
+          }
+        ]
       }
     },
     {
@@ -95,9 +103,12 @@
       "extends": ["plugin:i18n-json/recommended"],
       "rules": {
         "i18n-json/valid-json": 2,
-        "i18n-json/identical-keys": [0, {
-          "filePath": "../../../../src/assets/i18n/es.json"
-        }],
+        "i18n-json/identical-keys": [
+          0,
+          {
+            "filePath": "../../../../src/assets/i18n/es.json"
+          }
+        ],
         "i18n-json/valid-message-syntax": 0,
         "i18n-json/sorted-keys": 0
       }
