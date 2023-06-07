@@ -74,6 +74,6 @@ describe('SupportOptionsCardComponent', () => {
     fixture.detectChanges();
     await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
     fixture.debugElement.query(By.css('.button ion-button')).nativeElement.click();
-    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1)
-  })
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
 });

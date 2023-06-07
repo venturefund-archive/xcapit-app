@@ -36,7 +36,11 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 export class SupportOptionsCardComponent implements OnInit {
   @Input() option: any;
 
-  constructor(private navController: NavController, private browserService: BrowserService, private trackService: TrackService,) {}
+  constructor(
+    private navController: NavController,
+    private browserService: BrowserService,
+    private trackService: TrackService
+  ) {}
 
   ngOnInit() {}
 
