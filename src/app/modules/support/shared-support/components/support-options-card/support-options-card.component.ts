@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-support-options-card',
@@ -35,11 +36,16 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 export class SupportOptionsCardComponent implements OnInit {
   @Input() option: any;
 
-  constructor(private navController: NavController, private browserService: BrowserService) {}
+  constructor(
+    private navController: NavController,
+    private browserService: BrowserService,
+    private trackService: TrackService
+  ) {}
 
   ngOnInit() {}
 
   goToOption() {
+    this.option.event ? this.trackOption(this.option.event) : null;
     this.option.route.includes('https')
       ? this.openBrowser(this.option.route)
       : this.navController.navigateForward(this.option.route).then();
@@ -47,5 +53,11 @@ export class SupportOptionsCardComponent implements OnInit {
 
   async openBrowser(link) {
     await this.browserService.open({ url: link });
+  }
+
+  trackOption(eventName: string) {
+    this.trackService.trackEvent({
+      eventLabel: eventName,
+    });
   }
 }
