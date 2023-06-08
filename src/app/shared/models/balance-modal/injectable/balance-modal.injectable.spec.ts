@@ -3,6 +3,7 @@ import BalanceModalInjectable from './balance-modal.injectable';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
 import { FakeModalController } from '../../../../../testing/fakes/modal-controller.fake.spec';
+import DefaultBalanceModal from '../default/default-balance-modal';
 
 fdescribe('BalanceModalInjectable', () => {
   let service: BalanceModalInjectable;
@@ -22,6 +23,6 @@ fdescribe('BalanceModalInjectable', () => {
   });
 
   it('create', () => {
-    expect(service.create(null, null, null, null, null, null)).toBeInstanceOf(BalanceModal);
+    expect(service.create(null, null, null, null, null, null)).toBeInstanceOf(DefaultBalanceModal);
   });
 });
