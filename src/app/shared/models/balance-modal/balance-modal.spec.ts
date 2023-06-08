@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 class FakeModalController {
   create(): Promise<any> {
-    return Promise.resolve();
+    return Promise.resolve({ present: () => Promise.resolve() });
   }
 }
 class FakeTranslateService {
@@ -27,7 +27,7 @@ export default class BalanceModal {
 
   async show() {
     const modal = await this.aController.create(this._modalConfig());
-    return Promise.resolve();
+    await modal.present();
   }
 
   private _props() {
