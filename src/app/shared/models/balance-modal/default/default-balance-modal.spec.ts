@@ -1,10 +1,13 @@
-
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
-import { DefaultToken} from 'src/app/modules/swaps/shared-swaps/models/token/token';
+import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
+import DefaultBalanceModal from './default-balance-modal';
 
 class FakeModalController {
   create(): Promise<any> {
-    return Promise.resolve({ present: () => Promise.resolve() , onDidDismiss:() => ({ role: 'closed', data: 'aData'})});
+    return Promise.resolve({
+      present: () => Promise.resolve(),
+      onDidDismiss: () => ({ role: 'closed', data: 'aData' }),
+    });
   }
 }
 class FakeTranslateService {
@@ -12,7 +15,6 @@ class FakeTranslateService {
     return 'translatedText';
   }
 }
-
 
 fdescribe('DefaultBalanceModal', () => {
   let defaultBalanceModal: DefaultBalanceModal;
