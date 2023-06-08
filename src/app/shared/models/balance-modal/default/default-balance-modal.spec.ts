@@ -1,6 +1,7 @@
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import DefaultBalanceModal from './default-balance-modal';
+import { BalanceModal } from '../balance-modal.interface';
 
 class FakeModalController {
   create(): Promise<any> {
@@ -17,7 +18,7 @@ class FakeTranslateService {
 }
 
 fdescribe('DefaultBalanceModal', () => {
-  let defaultBalanceModal: DefaultBalanceModal;
+  let defaultBalanceModal: BalanceModal;
 
   beforeEach(() => {
     defaultBalanceModal = new DefaultBalanceModal(
