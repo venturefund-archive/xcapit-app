@@ -17,6 +17,7 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 import { SendWarrantyPage } from './send-warranty.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 
 fdescribe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -34,6 +35,7 @@ fdescribe('SendWarrantyPage', () => {
   let formDataSpy: jasmine.SpyObj<any>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
 
   beforeEach(waitForAsync(() => {
     formDataSpy = jasmine.createSpyObj(
@@ -68,21 +70,25 @@ fdescribe('SendWarrantyPage', () => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve(['testAddress']),
     });
-
+    
     dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
-
+    
     dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
       new: dynamicPriceSpy,
     });
-
+    
     coinsSpy = [jasmine.createSpyObj('Coin', {}, rawMATICData), jasmine.createSpyObj('Coin', {}, rawUSDCData)];
-
+    
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
-
+    
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
-
+    
+    // balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectable', { //TODO: Finish him
+    //   create: 
+    // });
+    
     TestBed.configureTestingModule({
       declarations: [SendWarrantyPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
