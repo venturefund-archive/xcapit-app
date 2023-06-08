@@ -34,7 +34,7 @@ fdescribe('SendWarrantyPage', () => {
   let formBuilder: UntypedFormBuilder;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let formDataSpy: jasmine.SpyObj<any>;
-  let fakeBalanceModal: BalanceModal;
+  let fakeBalanceModal: FakeBalanceModal;
   let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
 
   beforeEach(waitForAsync(() => {
@@ -162,7 +162,7 @@ fdescribe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
     component.form.patchValue({ amount: formDataSpy.insufficient_balance.amount });
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1); // TODO: Ver
+    expect(fakeBalanceModal.calls).toHaveBeenCalledTimes(1); // TODO: Ver
     discardPeriodicTasks();
   }));
 
