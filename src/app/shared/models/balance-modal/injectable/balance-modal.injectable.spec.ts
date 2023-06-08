@@ -14,6 +14,7 @@ fdescribe('BalanceModalInjectable', () => {
   beforeEach(() => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
+
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       providers: [{ provide: ModalController, useValue: modalControllerSpy }],

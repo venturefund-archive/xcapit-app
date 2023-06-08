@@ -16,6 +16,7 @@ import { DefaultToken, Token } from '../../swaps/shared-swaps/models/token/token
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { TranslateService } from '@ngx-translate/core';
 import BalanceModal from 'src/app/shared/models/balance-modal/balance-modal';
+import BalanceModalInjectable from '../../../shared/models/balance-modal/injectable/balance-modal.injectable';
 
 @Component({
   selector: 'app-send-warranty',
@@ -113,7 +114,8 @@ export class SendWarrantyPage {
     private WarrantyDataService: WarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalController: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private balanceModalInjectable: BalanceModalInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -217,15 +219,14 @@ export class SendWarrantyPage {
   // }
 
   async openBalanceModal() {
-    const token: Token = new DefaultToken(this.token as RawToken);
-    await new BalanceModal(
-      token,
-      'warranties.insufficient_balance.text',
-      'warranties.insufficient_balance.buy_button',
-      'warranties.insufficient_balance.deposit_button',
-      this.modalController,
-      this.translate
-    ).show();
+    await this.balanceModalInjectable
+      .create(
+        new DefaultToken(this.token as RawToken),
+        'warranties.insufficient_balance.text',
+        'warranties.insufficient_balance.buy_button',
+        'warranties.insufficient_balance.deposit_button'
+      )
+      .show();
   }
 
   ionViewWillLeave() {

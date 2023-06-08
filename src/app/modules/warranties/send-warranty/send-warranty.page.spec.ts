@@ -18,7 +18,7 @@ import { SendWarrantyPage } from './send-warranty.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
-describe('SendWarrantyPage', () => {
+fdescribe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
   let fixture: ComponentFixture<SendWarrantyPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendWarrantyPage>;
