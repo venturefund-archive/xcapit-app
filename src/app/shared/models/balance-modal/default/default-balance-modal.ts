@@ -1,22 +1,27 @@
-
 import { ModalController } from '@ionic/angular/providers/modal-controller';
 import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalOptions } from '@ionic/core';
 import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { BalanceModal } from '../balance-modal.interface';
 
-class FakeModalController { //TODO: Sacar de aca y testear
+class FakeModalController {
+  //TODO: Sacar de aca y testear
   create(): Promise<any> {
-    return Promise.resolve({ present: () => Promise.resolve() , onDidDismiss:() => ({ role: 'closed', data: 'aData'})});
+    return Promise.resolve({
+      present: () => Promise.resolve(),
+      onDidDismiss: () => ({ role: 'closed', data: 'aData' }),
+    });
   }
 }
-class FakeTranslateService { //TODO: Sacar de aca y testear
+class FakeTranslateService {
+  //TODO: Sacar de aca y testear
   instant(aTextToTranslate: string, aParams: Object): string {
     return 'translatedText';
   }
 }
 
-export default class DefaultBalanceModal {
+export default class DefaultBalanceModal implements BalanceModal {
   private _modal: HTMLIonModalElement;
   constructor(
     private readonly _aToken: Token,
@@ -62,4 +67,3 @@ export default class DefaultBalanceModal {
     return { token: this._aToken.symbol() };
   }
 }
-

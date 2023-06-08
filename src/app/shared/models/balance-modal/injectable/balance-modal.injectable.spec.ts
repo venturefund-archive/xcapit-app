@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import BalanceModalInjectable from './balance-modal.injectable';
-import BalanceModal from '../balance-modal';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicStorageService } from '../../../services/ionic-storage/ionic-storage.service';
 import { ModalController } from '@ionic/angular';
 import { FakeModalController } from '../../../../../testing/fakes/modal-controller.fake.spec';
 
