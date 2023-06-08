@@ -721,7 +721,12 @@ export class SwapHomePage {
         cssClass: 'ux-toast-warning-with-margin',
         showBackdrop: false,
         id: 'feeModal',
-        componentProps: { token, text, primaryButtonText, secondaryButtonText },
+        componentProps: {
+          text: this.translate.instant(text, { token: token.symbol() }),
+          primaryButtonText: this.translate.instant(primaryButtonText, { token: token.symbol() }),
+          secondaryButtonText: this.translate.instant(secondaryButtonText, { token: token.symbol() }),
+          token,
+        },
       });
       if (window.location.href === this.modalHref) {
         await modal.present();

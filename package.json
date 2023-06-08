@@ -98,7 +98,7 @@
   "devDependencies": {
     "@angular-builders/custom-webpack": "^12.1.0",
     "@angular-devkit/architect": "^0.1400.6",
-    "@angular-devkit/build-angular": "^14.0.6",
+    "@angular-devkit/build-angular": "^14.2.11",
     "@angular-devkit/core": "^14.0.6",
     "@angular-devkit/schematics": "^14.0.6",
     "@angular-eslint/builder": "12.7.0",

@@ -71,7 +71,7 @@ import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-c
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [subtitle]="'wallets.send.send_detail.address_input.subtitle' | translate"
-            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
+            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate : { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
             [addressFromContact]="this.addressFromContact"
             (addFromContacts)="navigateToContacts()"
@@ -367,20 +367,16 @@ export class SendDetailPage {
   private async _estimatedSolanaFee(): Promise<number> {
     return this.form.value.address
       ? await this.solanaFeeOf
-        .create(
-          await new SolanaSendTxsOf(
-            new SolanaSend(
-              this.form.value.amount,
-              this.tokenObj,
-              this.form.value.address
-            ),
-            await this.walletsFactory.create().oneBy(this.blockchain),
-            this.blockchain,
-            this.solanaConnection.create(this.blockchain)
-          ).blockchainTxs(),
-          this.blockchain,
-        )
-        .value()
+          .create(
+            await new SolanaSendTxsOf(
+              new SolanaSend(this.form.value.amount, this.tokenObj, this.form.value.address),
+              await this.walletsFactory.create().oneBy(this.blockchain),
+              this.blockchain,
+              this.solanaConnection.create(this.blockchain)
+            ).blockchainTxs(),
+            this.blockchain
+          )
+          .value()
       : 0;
   }
 
@@ -455,9 +451,15 @@ export class SendDetailPage {
       showBackdrop: false,
       id: 'feeModal',
       componentProps: {
-        text: 'defi_investments.confirmation.informative_modal_fee',
-        primaryButtonText: 'defi_investments.confirmation.buy_button',
-        secondaryButtonText: 'defi_investments.confirmation.deposit_button',
+        text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
+          token: this.nativeToken.symbol(),
+        }),
+        primaryButtonText: this.translate.instant('defi_investments.confirmation.buy_button', {
+          token: this.nativeToken.symbol(),
+        }),
+        secondaryButtonText: this.translate.instant('defi_investments.confirmation.deposit_button', {
+          token: this.nativeToken.symbol(),
+        }),
         token: this.nativeToken,
       },
     });

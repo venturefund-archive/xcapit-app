@@ -12,8 +12,9 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
-import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
+import { DefaultToken, Token } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-send-warranty',
@@ -110,7 +111,8 @@ export class SendWarrantyPage {
     private navController: NavController,
     private WarrantyDataService: WarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private translate: TranslateService
   ) {}
 
   async ionViewWillEnter() {
@@ -192,16 +194,21 @@ export class SendWarrantyPage {
   }
 
   async openBalanceModal() {
+    const token: Token = new DefaultToken(this.token as RawToken);
     const modal = await this.modalController.create({
       component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
       componentProps: {
-        text: 'warranties.insufficient_balance.text',
-        primaryButtonText: 'warranties.insufficient_balance.buy_button',
-        secondaryButtonText: 'warranties.insufficient_balance.deposit_button',
-        token: new DefaultToken(this.token as RawToken),
+        text: this.translate.instant('warranties.insufficient_balance.text', { token: token.symbol() }),
+        primaryButtonText: this.translate.instant('warranties.insufficient_balance.buy_button', {
+          token: token.symbol(),
+        }),
+        secondaryButtonText: this.translate.instant('warranties.insufficient_balance.deposit_button', {
+          token: token.symbol(),
+        }),
+        token,
       },
     });
     await modal.present();
