@@ -30,11 +30,15 @@ export default class BalanceModal {
     await modal.present();
   }
 
+  private _tokenSymbol() {
+    return { token: this.aToken.symbol() };
+  }
+
   private _props() {
     return {
-      text: this.translate.instant(this.text, { token: this.aToken.symbol() }),
-      primaryButtonText: this.translate.instant(this.primaryButtonText, { token: this.aToken.symbol() }),
-      secondaryButtonText: this.translate.instant(this.secondaryButtonText, { token: this.aToken.symbol() }),
+      text: this.translate.instant(this.text, this._tokenSymbol()),
+      primaryButtonText: this.translate.instant(this.primaryButtonText, this._tokenSymbol()),
+      secondaryButtonText: this.translate.instant(this.secondaryButtonText, this._tokenSymbol()),
       token: this.aToken,
     };
   }
