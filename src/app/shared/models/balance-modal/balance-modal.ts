@@ -1,5 +1,5 @@
 import { ModalController } from '@ionic/angular/providers/modal-controller';
-import { DefaultToken, Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
+import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { BuyOrDepositTokenToastComponent } from '../../../modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalOptions } from '@ionic/core';
@@ -18,16 +18,16 @@ class FakeTranslateService {
 export default class BalanceModal {
   private _modal: HTMLIonModalElement;
   constructor(
-    private readonly aToken: Token,
-    private readonly text: string,
-    private readonly primaryButtonText: string,
-    private readonly secondaryButtonText: string,
-    private readonly aController: ModalController | FakeModalController,
-    private readonly translate: TranslateService | FakeTranslateService
+    private readonly _aToken: Token,
+    private readonly _aDescriptionKey: string,
+    private readonly _aPrimaryButtonKey: string,
+    private readonly _aSecondaryButtonKey: string,
+    private readonly _aModalController: ModalController | FakeModalController,
+    private readonly _aTranslateService: TranslateService | FakeTranslateService
   ) {}
 
   async show() {
-    this._modal = await this.aController.create(this._modalConfig());
+    this._modal = await this._aModalController.create(this._modalConfig());
     await this._modal.present();
   }
 
@@ -46,19 +46,19 @@ export default class BalanceModal {
   }
   private _props() {
     return {
-      text: this._translate(this.text),
-      primaryButtonText: this._translate(this.primaryButtonText),
-      secondaryButtonText: this._translate(this.secondaryButtonText),
-      token: this.aToken,
+      text: this._translate(this._aDescriptionKey),
+      primaryButtonText: this._translate(this._aPrimaryButtonKey),
+      secondaryButtonText: this._translate(this._aSecondaryButtonKey),
+      token: this._aToken,
     };
   }
 
   private _translate(aTranslateText: string) {
-    return this.translate.instant(aTranslateText, this._tokenSymbol());
+    return this._aTranslateService.instant(aTranslateText, this._tokenSymbol());
   }
 
   private _tokenSymbol() {
-    return { token: this.aToken.symbol() };
+    return { token: this._aToken.symbol() };
   }
 }
 
