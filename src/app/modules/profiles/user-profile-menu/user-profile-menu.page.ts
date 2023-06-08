@@ -68,7 +68,7 @@ import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified
                 slot="end"
               ></ion-toggle>
             </ion-item>
-            <ion-item lines="none" class="ion-no-padding">
+            <ion-item lines="none" class="ion-no-padding" *appFeatureFlag="'ff_warranty_wallet'">
               <ion-text class="notifications_text ux-font-text-xs">
                 {{ 'profiles.user_profile_menu.wallet_type' | translate }}</ion-text
               >

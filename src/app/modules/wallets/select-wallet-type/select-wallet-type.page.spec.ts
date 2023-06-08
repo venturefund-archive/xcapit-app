@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
-
 import { SelectWalletTypePage } from './select-wallet-type.page';
 import { By } from '@angular/platform-browser';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -9,6 +8,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TranslateModule } from '@ngx-translate/core';
 import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
+import { FakeFeatureFlagDirective } from '../../../../testing/fakes/feature-flag-directive.fake.spec';
 
 describe('SelectWalletTypePage', () => {
   let component: SelectWalletTypePage;
@@ -30,7 +30,7 @@ describe('SelectWalletTypePage', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [SelectWalletTypePage, FakeTrackClickDirective],
+      declarations: [SelectWalletTypePage, FakeTrackClickDirective, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
