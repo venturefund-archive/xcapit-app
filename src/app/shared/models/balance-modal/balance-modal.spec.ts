@@ -86,6 +86,7 @@ fdescribe('BalanceModal', () => {
   });
 
   it('onDidDismisss', async () => {
+    await balanceModal.show();
     expect((await balanceModal.onDidDismiss()).role).toEqual('closed');
   });
 });
