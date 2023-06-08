@@ -33,7 +33,7 @@ export default class BalanceModal {
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
-      componentProps: ,
+      componentProps: this._props(),
     })
     return Promise.resolve()
   }
