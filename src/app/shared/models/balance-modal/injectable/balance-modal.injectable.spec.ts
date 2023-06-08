@@ -1,5 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import BalanceModalInjectable from "./balance-modal.injectable";
+import BalanceModal from "../balance-modal";
 
 
 fdescribe('BalanceModalInjectable', ()=>{
@@ -11,6 +12,6 @@ fdescribe('BalanceModalInjectable', ()=>{
   })
 
   it('create',()=>{
-    expect(service.create()).toBeInstanceOf(BalanceModalInjectable);
+    expect(service.create()).toBeInstanceOf(BalanceModal);
   })
 })
