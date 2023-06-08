@@ -26,13 +26,7 @@ export default class BalanceModal {
   ) {}
 
   async show() {
-    const modal = await this.aController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: this._props(),
-    });
+    const modal = await this.aController.create(this._modalConfig());
     return Promise.resolve();
   }
 
@@ -42,6 +36,16 @@ export default class BalanceModal {
       primaryButtonText: this.translate.instant(this.primaryButtonText, { token: this.aToken.symbol() }),
       secondaryButtonText: this.translate.instant(this.secondaryButtonText, { token: this.aToken.symbol() }),
       token: this.aToken,
+    };
+  }
+
+  private _modalConfig() {
+    return {
+      component: BuyOrDepositTokenToastComponent,
+      cssClass: 'ux-toast-warning-with-margin',
+      showBackdrop: false,
+      id: 'feeModal',
+      componentProps: this._props(),
     };
   }
 }
