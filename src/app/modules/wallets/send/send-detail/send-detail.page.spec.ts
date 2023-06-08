@@ -35,7 +35,7 @@ import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/am
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import {
   rawETHData,
-    rawSAMOData,
+  rawSAMOData,
   rawSOLData,
   rawTokensData,
   rawUSDTData,
@@ -55,7 +55,6 @@ import { solanaAddress1 } from '../../shared-wallets/fixtures/raw-address-data';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
 import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-connection';
 import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
-
 
 describe('SendDetailPage', () => {
   let component: SendDetailPage;
@@ -114,11 +113,11 @@ describe('SendDetailPage', () => {
     transactionDataServiceSpy = jasmine.createSpyObj('TransactionDataService', {}, { transactionData: {} });
 
     covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', {
-      create: new FakeBalances({ balance: 20 })
+      create: new FakeBalances({ balance: 20 }),
     });
 
     tokenPricesInjectableSpy = jasmine.createSpyObj('TokenPricesInjectable', {
-      create: new FakePrices()
+      create: new FakePrices(),
     });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -197,7 +196,7 @@ describe('SendDetailPage', () => {
     tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailInjectable', { create: tokenDetailSpy });
 
     solanaConnectionInjectableSpy = jasmine.createSpyObj('SolanaConnectionInjectable', {
-      create: new FakeConnection()
+      create: new FakeConnection(),
     });
 
     TestBed.configureTestingModule({
@@ -312,24 +311,26 @@ describe('SendDetailPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
 
-  [{ token: rawSOLData, expectedFee: 1.25 }, {token: rawSAMOData, expectedFee: 1 }].forEach(
-    (testData: any) => {
-      it(`should save transaction data and navigate when continue btn clicked, valid form and solana ${testData.token.value} token`, fakeAsync(() => {
-        fakeActivatedRoute.modifySnapshotParams({ token: testData.token.contract, blockchain: testData.token.network });
-        contactDataServiceSpy.getContact.and.returnValue(null);
-        component.ionViewWillEnter();
-        component.ionViewDidEnter();
-        tick();
-        component.form.patchValue(formData.solanaValid);
-        tick();
+  [
+    { token: rawSOLData, expectedFee: 1.25 },
+    { token: rawSAMOData, expectedFee: 1 },
+  ].forEach((testData: any) => {
+    it(`should save transaction data and navigate when continue btn clicked, valid form and solana ${testData.token.value} token`, fakeAsync(() => {
+      fakeActivatedRoute.modifySnapshotParams({ token: testData.token.contract, blockchain: testData.token.network });
+      contactDataServiceSpy.getContact.and.returnValue(null);
+      component.ionViewWillEnter();
+      component.ionViewDidEnter();
+      tick();
+      component.form.patchValue(formData.solanaValid);
+      tick();
 
-        _continueButton().nativeElement.click();
-        tick();
+      _continueButton().nativeElement.click();
+      tick();
 
-        expect(component.fee).toEqual(testData.expectedFee);
-        expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
-      }));
-  })
+      expect(component.fee).toEqual(testData.expectedFee);
+      expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
+    }));
+  });
 
   it('should show card if native token balance is zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
@@ -373,12 +374,44 @@ describe('SendDetailPage', () => {
   });
 
   it('should show toast when native balance is less than fee', async () => {
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      {
+        fetch: Promise.resolve(),
+        cached: Promise.resolve(),
+      },
+      {
+        price: 3000,
+        balance: 0.5,
+        quoteSymbol: 'USD',
+      }
+    );
+    tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
+    component.fee = 1;
     component.ionViewWillEnter();
     await component.ionViewDidEnter();
-    component.nativeBalance = 0.5;
-    component.fee = 1;
 
-    await component.checkEnoughBalance();
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show toast when token is less that balance ', async () => {
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      {
+        fetch: Promise.resolve(),
+        cached: Promise.resolve(),
+      },
+      {
+        price: 3000,
+        balance: 5,
+        quoteSymbol: 'USD',
+      }
+    );
+    tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    component.form.patchValue({ amount: 10 });
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
