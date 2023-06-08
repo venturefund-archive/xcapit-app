@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -11,11 +11,8 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
-import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
-import { DefaultToken, Token } from '../../swaps/shared-swaps/models/token/token';
+import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
-import { TranslateService } from '@ngx-translate/core';
-import BalanceModal from 'src/app/shared/models/balance-modal/balance-modal';
 import BalanceModalInjectable from '../../../shared/models/balance-modal/injectable/balance-modal.injectable';
 
 @Component({
@@ -113,8 +110,6 @@ export class SendWarrantyPage {
     private navController: NavController,
     private WarrantyDataService: WarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private modalController: ModalController,
-    private translate: TranslateService,
     private balanceModalInjectable: BalanceModalInjectable
   ) {}
 
