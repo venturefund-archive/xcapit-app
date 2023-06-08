@@ -1,4 +1,5 @@
 import { BalanceModal } from '../balance-modal.interface';
+import { FakeBalanceModal } from './fake-balance-modal';
 
 fdescribe('FakeBalanceModal', () => {
   let fakeBalanceModal: BalanceModal;
