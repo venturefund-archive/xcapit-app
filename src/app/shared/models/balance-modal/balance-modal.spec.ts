@@ -1,6 +1,9 @@
 import { ModalController } from '@ionic/angular/providers/modal-controller';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { DefaultToken, Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
+import {
+  BuyOrDepositTokenToastComponent
+} from '../../../modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 
 class FakeModalController {}
 
@@ -10,10 +13,24 @@ export default class BalanceModal {
     private readonly text: string,
     private readonly primaryButtonText: string,
     private readonly secondaryButtonText: string,
-    private readonly aController: ModalController | FakeModalController
+    private readonly aController: ModalController | FakeModalController,
+    private readonly translate: TranslateService
   ) {}
 
   show(){
+    const modal = await
+    this.aController.create({
+      component: BuyOrDepositTokenToastComponent,
+      cssClass: 'ux-toast-warning-with-margin',
+      showBackdrop: false,
+      id: 'feeModal',
+      componentProps: {
+        text: this.translate.instant(this.text, { token: this.aToken.symbol() }),
+        primaryButtonText: this.translate.instant(this.primaryButtonText, { token: this.aToken.symbol() }),
+        secondaryButtonText: this.translate.instant(this.secondaryButtonText, { token: this.aToken.symbol() }),
+        token: this.aToken,
+      },
+    })
     return Promise.resolve()
   }
 }
