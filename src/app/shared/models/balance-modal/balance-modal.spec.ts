@@ -34,11 +34,15 @@ export default class BalanceModal {
     return { token: this.aToken.symbol() };
   }
 
+  private _translate(aTranslateText: string){
+    return this.translate.instant(aTranslateText, this._tokenSymbol());
+  }
+  
   private _props() {
     return {
-      text: this.translate.instant(this.text, this._tokenSymbol()),
-      primaryButtonText: this.translate.instant(this.primaryButtonText, this._tokenSymbol()),
-      secondaryButtonText: this.translate.instant(this.secondaryButtonText, this._tokenSymbol()),
+      text: this._translate(this.text),
+      primaryButtonText: this._translate(this.primaryButtonText),
+      secondaryButtonText: this._translate(this.secondaryButtonText),
       token: this.aToken,
     };
   }
