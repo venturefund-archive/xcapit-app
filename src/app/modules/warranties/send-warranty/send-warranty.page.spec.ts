@@ -2,7 +2,7 @@ import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitF
 import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -16,7 +16,6 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { SendWarrantyPage } from './send-warranty.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 import { FakeBalanceModal } from '../../../shared/models/balance-modal/fake/fake-balance-modal';
 
@@ -34,8 +33,6 @@ fdescribe('SendWarrantyPage', () => {
   let formBuilder: UntypedFormBuilder;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let formDataSpy: jasmine.SpyObj<any>;
-  let modalControllerSpy: jasmine.SpyObj<ModalController>;
-  let fakeModalController: FakeModalController;
   let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
 
   beforeEach(waitForAsync(() => {
@@ -83,9 +80,6 @@ fdescribe('SendWarrantyPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
-    fakeModalController = new FakeModalController();
-    modalControllerSpy = fakeModalController.createSpy();
-
     balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectable', {
       create: new FakeBalanceModal(),
     });
@@ -98,7 +92,7 @@ fdescribe('SendWarrantyPage', () => {
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: BalanceModalInjectable, useValue: balanceModalInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -165,7 +159,7 @@ fdescribe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
     component.form.patchValue({ amount: formDataSpy.insufficient_balance.amount });
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1); // TODO: Ver
     discardPeriodicTasks();
   }));
 
@@ -174,7 +168,7 @@ fdescribe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
     component.form.patchValue({ quoteAmount: formDataSpy.insufficient_balance.quoteAmount });
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1); // TODO: ver
     discardPeriodicTasks();
   }));
 });
