@@ -162,16 +162,16 @@ fdescribe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
     component.form.patchValue({ amount: formDataSpy.insufficient_balance.amount });
-    expect(fakeBalanceModal.calls).toHaveBeenCalledTimes(1); // TODO: Ver
+    expect(fakeBalanceModal.calls).toEqual(1); // TODO: Ver
     discardPeriodicTasks();
   }));
-
+  
   it('should open insufficient balance modal when enter quoteAmount is greater than balance', fakeAsync(() => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     tick();
     component.form.patchValue({ quoteAmount: formDataSpy.insufficient_balance.quoteAmount });
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1); // TODO: ver
+    expect(fakeBalanceModal.calls).toEqual(1); // TODO: Ver
     discardPeriodicTasks();
   }));
 });
