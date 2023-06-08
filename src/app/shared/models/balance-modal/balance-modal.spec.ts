@@ -4,8 +4,10 @@ import { DefaultToken, Token } from 'src/app/modules/swaps/shared-swaps/models/t
 import {
   BuyOrDepositTokenToastComponent
 } from '../../../modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { TranslateService } from '@ngx-translate/core';
 
 class FakeModalController {}
+class FakeTranslateService {}
 
 export default class BalanceModal {
   constructor(
@@ -14,12 +16,11 @@ export default class BalanceModal {
     private readonly primaryButtonText: string,
     private readonly secondaryButtonText: string,
     private readonly aController: ModalController | FakeModalController,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService | FakeTranslateService
   ) {}
 
-  show(){
-    const modal = await
-    this.aController.create({
+  async show() {
+    const modal = await this.aController.create({
       component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
@@ -44,7 +45,8 @@ fdescribe('BalanceModal', () => {
       'text',
       'primaryButtonText',
       'secondaryButtonText',
-      new FakeModalController()
+      new FakeModalController(),
+      new FakeTranslateService()
     );
   });
 
