@@ -18,6 +18,7 @@ import { SendWarrantyPage } from './send-warranty.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
+import { FakeBalanceModal } from '../../../shared/models/balance-modal/fake/fake-balance-modal';
 
 fdescribe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -70,25 +71,25 @@ fdescribe('SendWarrantyPage', () => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve(['testAddress']),
     });
-    
+
     dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
-    
+
     dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
       new: dynamicPriceSpy,
     });
-    
+
     coinsSpy = [jasmine.createSpyObj('Coin', {}, rawMATICData), jasmine.createSpyObj('Coin', {}, rawUSDCData)];
-    
+
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
-    
+
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
-    
-    // balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectable', { //TODO: Finish him
-    //   create: 
-    // });
-    
+
+    balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectable', {
+      create: new FakeBalanceModal(),
+    });
+
     TestBed.configureTestingModule({
       declarations: [SendWarrantyPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
