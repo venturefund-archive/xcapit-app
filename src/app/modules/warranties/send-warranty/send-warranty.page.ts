@@ -15,6 +15,7 @@ import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/c
 import { DefaultToken, Token } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { TranslateService } from '@ngx-translate/core';
+import BalanceModal from 'src/app/shared/models/balance-modal/balance-modal';
 
 @Component({
   selector: 'app-send-warranty',
@@ -217,25 +218,14 @@ export class SendWarrantyPage {
 
   async openBalanceModal() {
     const token: Token = new DefaultToken(this.token as RawToken);
-    new BalanceModal()
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: {
-        text: this.translate.instant('warranties.insufficient_balance.text', { token: token.symbol() }),
-        primaryButtonText: this.translate.instant('warranties.insufficient_balance.buy_button', {
-          token: token.symbol(),
-        }),
-        secondaryButtonText: this.translate.instant('warranties.insufficient_balance.deposit_button', {
-          token: token.symbol(),
-        }),
-        token,
-      },
-    });
-    await modal.present();
-    await modal.onDidDismiss();
+    await new BalanceModal(
+      token,
+      'warranties.insufficient_balance.text',
+      'warranties.insufficient_balance.buy_button',
+      'warranties.insufficient_balance.deposit_button',
+      this.modalController,
+      this.translate
+    ).show();
   }
 
   ionViewWillLeave() {

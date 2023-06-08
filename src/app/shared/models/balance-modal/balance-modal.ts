@@ -1,5 +1,4 @@
 import { ModalController } from '@ionic/angular/providers/modal-controller';
-import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { DefaultToken, Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { BuyOrDepositTokenToastComponent } from '../../../modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { TranslateService } from '@ngx-translate/core';
