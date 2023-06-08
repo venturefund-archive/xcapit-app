@@ -11,7 +11,11 @@ class FakeModalController {
         return Promise.resolve();
     }
 }
-class FakeTranslateService {}
+class FakeTranslateService {
+    instant(aTextToTranslate: string, aParams : Object): string{
+        return 'translatedText'
+    }
+}
 
 export default class BalanceModal {
   constructor(
