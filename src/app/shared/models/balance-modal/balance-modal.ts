@@ -4,12 +4,12 @@ import { BuyOrDepositTokenToastComponent } from '../../../modules/fiat-ramps/sha
 import { TranslateService } from '@ngx-translate/core';
 import { ModalOptions } from '@ionic/core';
 
-class FakeModalController {
+class FakeModalController { //TODO: Sacar de aca y testear
   create(): Promise<any> {
     return Promise.resolve({ present: () => Promise.resolve() , onDidDismiss:() => ({ role: 'closed', data: 'aData'})});
   }
 }
-class FakeTranslateService {
+class FakeTranslateService { //TODO: Sacar de aca y testear
   instant(aTextToTranslate: string, aParams: Object): string {
     return 'translatedText';
   }
