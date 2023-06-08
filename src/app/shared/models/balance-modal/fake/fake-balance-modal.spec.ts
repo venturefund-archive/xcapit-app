@@ -2,7 +2,7 @@ import { BalanceModal } from '../balance-modal.interface';
 
 export class FakeBalanceModal implements BalanceModal {
   onDidDismiss(): Promise<any> {
-    return Promise.resolve();
+    return Promise.resolve({ role: 'closed' });
   }
 
   show(): Promise<void> {
