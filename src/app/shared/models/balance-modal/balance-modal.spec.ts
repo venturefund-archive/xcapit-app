@@ -6,7 +6,11 @@ import {
 } from '../../../modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { TranslateService } from '@ngx-translate/core';
 
-class FakeModalController {}
+class FakeModalController {
+    create(): Promise<any>{
+        return Promise.resolve();
+    }
+}
 class FakeTranslateService {}
 
 export default class BalanceModal {
