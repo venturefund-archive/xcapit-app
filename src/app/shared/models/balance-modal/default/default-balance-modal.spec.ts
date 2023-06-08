@@ -15,10 +15,10 @@ class FakeTranslateService {
 
 
 fdescribe('DefaultBalanceModal', () => {
-  let DefaultBalanceModal: DefaultBalanceModal;
+  let defaultBalanceModal: DefaultBalanceModal;
 
   beforeEach(() => {
-    DefaultBalanceModal = new DefaultBalanceModal(
+    defaultBalanceModal = new DefaultBalanceModal(
       new DefaultToken(rawMATICData),
       'text',
       'primaryButtonText',
@@ -29,15 +29,15 @@ fdescribe('DefaultBalanceModal', () => {
   });
 
   it('new', () => {
-    expect(DefaultBalanceModal).toBeTruthy();
+    expect(defaultBalanceModal).toBeTruthy();
   });
 
   it('show', async () => {
-    await expectAsync(DefaultBalanceModal.show()).toBeResolved();
+    await expectAsync(defaultBalanceModal.show()).toBeResolved();
   });
 
   it('onDidDismisss', async () => {
-    await DefaultBalanceModal.show();
-    expect((await DefaultBalanceModal.onDidDismiss()).role).toEqual('closed');
+    await defaultBalanceModal.show();
+    expect((await defaultBalanceModal.onDidDismiss()).role).toEqual('closed');
   });
 });
