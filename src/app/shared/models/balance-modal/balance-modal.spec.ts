@@ -7,7 +7,7 @@ import { ModalOptions } from '@ionic/core';
 
 class FakeModalController {
   create(): Promise<any> {
-    return Promise.resolve({ present: () => Promise.resolve() });
+    return Promise.resolve({ present: () => Promise.resolve() , onDidDismiss:() => ({ role: 'closed', data: 'aData'})});
   }
 }
 class FakeTranslateService {
@@ -35,7 +35,7 @@ export default class BalanceModal {
   async onDidDismiss() {
     return this._modal.onDidDismiss();
   }
-  
+
   private _modalConfig(): ModalOptions {
     return {
       component: BuyOrDepositTokenToastComponent,
