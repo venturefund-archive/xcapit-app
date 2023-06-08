@@ -18,52 +18,53 @@ import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo'
 @Component({
   selector: 'app-send-warranty',
   template: ` <ion-header>
-      <div></div>
-      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded ux_toolbar__left no-border">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded no-border">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-start">{{ 'warranties.send_warranty.header' | translate }}</ion-title>
+        <ion-title>{{ 'warranties.send_warranty.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="sw ion-padding">
-      <form [formGroup]="this.form">
-        <div class="sw__send-amount-card ux-card ion-padding no-border">
-          <app-asset-detail
-            [blockchain]="this.coin.blockchain"
-            [token]="this.coin.value"
-            [tokenLogo]="this.coin.logoRoute"
-          ></app-asset-detail>
-          <div class="content__input">
-            <app-ux-input
-              type="number"
-              controlName="dni"
-              inputmode="number"
-              [labelColor]="'primary'"
-              [label]="'warranties.send_warranty.text_dni' | translate"
-              [placeholder]="'DNI'"
-            ></app-ux-input>
+      <div class="ux_main">
+        <form [formGroup]="this.form">
+          <div class="sw__send-amount-card ux-card ion-padding no-border">
+            <app-asset-detail
+              [blockchain]="this.coin.blockchain"
+              [token]="this.coin.value"
+              [tokenLogo]="this.coin.logoRoute"
+            ></app-asset-detail>
+            <div class="content__input">
+              <app-ux-input
+                type="number"
+                controlName="dni"
+                inputmode="number"
+                [labelColor]="'primary'"
+                [label]="'warranties.send_warranty.text_dni' | translate"
+                [placeholder]="'DNI'"
+              ></app-ux-input>
+            </div>
           </div>
+          <div class="sw__send-amount-card ux-card no-border">
+            <app-amount-input-card
+              *ngIf="this.balance !== undefined"
+              [label]="'warranties.send_warranty.deposit_amount' | translate"
+              [header]="'defi_investments.shared.amount_input_card.available' | translate"
+              [baseCurrency]="this.coin"
+              [quotePrice]="this.quotePrice"
+              [showRange]="false"
+              [disclaimer]="false"
+              [max]="this.balance"
+            ></app-amount-input-card>
+            <app-amount-input-card-skeleton
+              *ngIf="this.balance === undefined"
+              [showRange]="false"
+            ></app-amount-input-card-skeleton>
+          </div>
+        </form>
+        <div class="sw__support">
+          <app-whatsapp-support> </app-whatsapp-support>
         </div>
-        <div class="sw__send-amount-card ux-card no-border">
-          <app-amount-input-card
-            *ngIf="this.balance !== undefined"
-            [label]="'warranties.send_warranty.deposit_amount' | translate"
-            [header]="'defi_investments.shared.amount_input_card.available' | translate"
-            [baseCurrency]="this.coin"
-            [quotePrice]="this.quotePrice"
-            [showRange]="false"
-            [disclaimer]="false"
-            [max]="this.balance"
-          ></app-amount-input-card>
-          <app-amount-input-card-skeleton
-            *ngIf="this.balance === undefined"
-            [showRange]="false"
-          ></app-amount-input-card-skeleton>
-        </div>
-      </form>
-      <div class="sw__support">
-        <app-whatsapp-support> </app-whatsapp-support>
       </div>
     </ion-content>
     <ion-footer class="sw__footer">
