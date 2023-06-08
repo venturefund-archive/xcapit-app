@@ -33,14 +33,18 @@ export default class BalanceModal {
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
-      componentProps: {
+      componentProps: ,
+    })
+    return Promise.resolve()
+  }
+
+  _props(){
+    return {
         text: this.translate.instant(this.text, { token: this.aToken.symbol() }),
         primaryButtonText: this.translate.instant(this.primaryButtonText, { token: this.aToken.symbol() }),
         secondaryButtonText: this.translate.instant(this.secondaryButtonText, { token: this.aToken.symbol() }),
         token: this.aToken,
-      },
-    })
-    return Promise.resolve()
+      }
   }
 }
 
