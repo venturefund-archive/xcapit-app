@@ -35,6 +35,7 @@ export default class BalanceModal {
   async onDidDismiss() {
     return this._modal.onDidDismiss();
   }
+  
   private _modalConfig(): ModalOptions {
     return {
       component: BuyOrDepositTokenToastComponent,
