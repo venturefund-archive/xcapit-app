@@ -1,9 +1,6 @@
-import { ModalController } from '@ionic/angular/providers/modal-controller';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
-import { DefaultToken, Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
-import { BuyOrDepositTokenToastComponent } from '../../../modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
-import { TranslateService } from '@ngx-translate/core';
-import { ModalOptions } from '@ionic/core';
+import { DefaultToken} from 'src/app/modules/swaps/shared-swaps/models/token/token';
+import BalanceModal from './balance-modal';
 
 class FakeModalController {
   create(): Promise<any> {
@@ -16,52 +13,6 @@ class FakeTranslateService {
   }
 }
 
-export default class BalanceModal {
-  private _modal: HTMLIonModalElement;
-  constructor(
-    private readonly aToken: Token,
-    private readonly text: string,
-    private readonly primaryButtonText: string,
-    private readonly secondaryButtonText: string,
-    private readonly aController: ModalController | FakeModalController,
-    private readonly translate: TranslateService | FakeTranslateService
-  ) {}
-
-  async show() {
-    this._modal = await this.aController.create(this._modalConfig());
-    await this._modal.present();
-  }
-
-  async onDidDismiss() {
-    return this._modal.onDidDismiss();
-  }
-
-  private _modalConfig(): ModalOptions {
-    return {
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: this._props(),
-    };
-  }
-  private _props() {
-    return {
-      text: this._translate(this.text),
-      primaryButtonText: this._translate(this.primaryButtonText),
-      secondaryButtonText: this._translate(this.secondaryButtonText),
-      token: this.aToken,
-    };
-  }
-
-  private _translate(aTranslateText: string) {
-    return this.translate.instant(aTranslateText, this._tokenSymbol());
-  }
-
-  private _tokenSymbol() {
-    return { token: this.aToken.symbol() };
-  }
-}
 
 fdescribe('BalanceModal', () => {
   let balanceModal: BalanceModal;

@@ -193,8 +193,31 @@ export class SendWarrantyPage {
       .find((coin: Coin) => coin.value === this.coin.value && coin.network === this.coin.blockchain);
   }
 
+  // async openBalanceModal() {
+  //   const token: Token = new DefaultToken(this.token as RawToken);
+  //   const modal = await this.modalController.create({
+  //     component: BuyOrDepositTokenToastComponent,
+  //     cssClass: 'ux-toast-warning-with-margin',
+  //     showBackdrop: false,
+  //     id: 'feeModal',
+  //     componentProps: {
+  //       text: this.translate.instant('warranties.insufficient_balance.text', { token: token.symbol() }),
+  //       primaryButtonText: this.translate.instant('warranties.insufficient_balance.buy_button', {
+  //         token: token.symbol(),
+  //       }),
+  //       secondaryButtonText: this.translate.instant('warranties.insufficient_balance.deposit_button', {
+  //         token: token.symbol(),
+  //       }),
+  //       token,
+  //     },
+  //   });
+  //   await modal.present();
+  //   await modal.onDidDismiss();
+  // }
+
   async openBalanceModal() {
     const token: Token = new DefaultToken(this.token as RawToken);
+    new BalanceModal()
     const modal = await this.modalController.create({
       component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
