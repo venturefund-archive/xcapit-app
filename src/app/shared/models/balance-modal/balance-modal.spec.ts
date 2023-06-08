@@ -3,6 +3,7 @@ import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures
 import { DefaultToken, Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { BuyOrDepositTokenToastComponent } from '../../../modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ModalOptions } from '@ionic/core';
 
 class FakeModalController {
   create(): Promise<any> {
@@ -16,6 +17,7 @@ class FakeTranslateService {
 }
 
 export default class BalanceModal {
+  private _modal: HTMLIonModalElement;
   constructor(
     private readonly aToken: Token,
     private readonly text: string,
@@ -26,12 +28,14 @@ export default class BalanceModal {
   ) {}
 
   async show() {
-    const modal = await this.aController.create(this._modalConfig());
-    await modal.present();
+    this._modal = await this.aController.create(this._modalConfig());
+    await this._modal.present();
   }
 
-  async onDidi
-  private _modalConfig() {
+  async onDidDismiss() {
+    return this._modal.onDidDismiss();
+  }
+  private _modalConfig(): ModalOptions {
     return {
       component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
@@ -49,7 +53,7 @@ export default class BalanceModal {
     };
   }
 
-  private _translate(aTranslateText: string){
+  private _translate(aTranslateText: string) {
     return this.translate.instant(aTranslateText, this._tokenSymbol());
   }
 
