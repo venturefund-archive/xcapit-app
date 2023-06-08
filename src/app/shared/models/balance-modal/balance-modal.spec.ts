@@ -30,14 +30,16 @@ export default class BalanceModal {
     await modal.present();
   }
 
-  private _tokenSymbol() {
-    return { token: this.aToken.symbol() };
+  async onDidi
+  private _modalConfig() {
+    return {
+      component: BuyOrDepositTokenToastComponent,
+      cssClass: 'ux-toast-warning-with-margin',
+      showBackdrop: false,
+      id: 'feeModal',
+      componentProps: this._props(),
+    };
   }
-
-  private _translate(aTranslateText: string){
-    return this.translate.instant(aTranslateText, this._tokenSymbol());
-  }
-  
   private _props() {
     return {
       text: this._translate(this.text),
@@ -47,14 +49,12 @@ export default class BalanceModal {
     };
   }
 
-  private _modalConfig() {
-    return {
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: this._props(),
-    };
+  private _translate(aTranslateText: string){
+    return this.translate.instant(aTranslateText, this._tokenSymbol());
+  }
+
+  private _tokenSymbol() {
+    return { token: this.aToken.symbol() };
   }
 }
 
@@ -78,5 +78,9 @@ fdescribe('BalanceModal', () => {
 
   it('show', async () => {
     await expectAsync(balanceModal.show()).toBeResolved();
+  });
+
+  it('onDidDismisss', async () => {
+    await expectAsync(balanceModal.onDidDismiss()).toBeResolved();
   });
 });
