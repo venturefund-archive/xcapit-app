@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Token } from '../../../../modules/swaps/shared-swaps/models/token/token';
-import DefaultBalanceModal from '../default/default-balance-modal';
 import { BalanceModal } from '../balance-modal.interface';
+import DefaultBalanceModal from '../default/default-balance-modal';
 
 @Injectable({ providedIn: 'root' })
 export default class BalanceModalInjectable {
