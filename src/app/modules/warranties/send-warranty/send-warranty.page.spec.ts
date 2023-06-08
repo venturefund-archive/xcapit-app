@@ -162,7 +162,7 @@ fdescribe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
     component.form.patchValue({ amount: formDataSpy.insufficient_balance.amount });
-    expect(fakeBalanceModal.calls).toEqual(1); // TODO: Ver
+    expect(fakeBalanceModal.calls).toEqual(1);
     discardPeriodicTasks();
   }));
   
@@ -171,7 +171,7 @@ fdescribe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
     component.form.patchValue({ quoteAmount: formDataSpy.insufficient_balance.quoteAmount });
-    expect(fakeBalanceModal.calls).toEqual(1); // TODO: Ver
+    expect(fakeBalanceModal.calls).toEqual(1);
     discardPeriodicTasks();
   }));
 });
