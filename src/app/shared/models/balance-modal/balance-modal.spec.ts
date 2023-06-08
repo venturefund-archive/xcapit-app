@@ -1,20 +1,18 @@
 import { ModalController } from '@ionic/angular/providers/modal-controller';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { DefaultToken, Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
-import {
-  BuyOrDepositTokenToastComponent
-} from '../../../modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { BuyOrDepositTokenToastComponent } from '../../../modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { TranslateService } from '@ngx-translate/core';
 
 class FakeModalController {
-    create(): Promise<any>{
-        return Promise.resolve();
-    }
+  create(): Promise<any> {
+    return Promise.resolve();
+  }
 }
 class FakeTranslateService {
-    instant(aTextToTranslate: string, aParams : Object): string{
-        return 'translatedText'
-    }
+  instant(aTextToTranslate: string, aParams: Object): string {
+    return 'translatedText';
+  }
 }
 
 export default class BalanceModal {
@@ -34,17 +32,17 @@ export default class BalanceModal {
       showBackdrop: false,
       id: 'feeModal',
       componentProps: this._props(),
-    })
-    return Promise.resolve()
+    });
+    return Promise.resolve();
   }
 
-  _props(){
+  private _props() {
     return {
-        text: this.translate.instant(this.text, { token: this.aToken.symbol() }),
-        primaryButtonText: this.translate.instant(this.primaryButtonText, { token: this.aToken.symbol() }),
-        secondaryButtonText: this.translate.instant(this.secondaryButtonText, { token: this.aToken.symbol() }),
-        token: this.aToken,
-      }
+      text: this.translate.instant(this.text, { token: this.aToken.symbol() }),
+      primaryButtonText: this.translate.instant(this.primaryButtonText, { token: this.aToken.symbol() }),
+      secondaryButtonText: this.translate.instant(this.secondaryButtonText, { token: this.aToken.symbol() }),
+      token: this.aToken,
+    };
   }
 }
 
