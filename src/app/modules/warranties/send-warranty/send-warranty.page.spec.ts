@@ -18,6 +18,7 @@ import { SendWarrantyPage } from './send-warranty.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 import { FakeBalanceModal } from '../../../shared/models/balance-modal/fake/fake-balance-modal';
+import { BalanceModal } from 'src/app/shared/models/balance-modal/balance-modal.interface';
 
 fdescribe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -33,6 +34,7 @@ fdescribe('SendWarrantyPage', () => {
   let formBuilder: UntypedFormBuilder;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let formDataSpy: jasmine.SpyObj<any>;
+  let fakeBalanceModal: BalanceModal;
   let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
 
   beforeEach(waitForAsync(() => {
@@ -80,8 +82,9 @@ fdescribe('SendWarrantyPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
+    fakeBalanceModal = new FakeBalanceModal(); 
     balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectable', {
-      create: new FakeBalanceModal(),
+      create: fakeBalanceModal,
     });
 
     TestBed.configureTestingModule({
