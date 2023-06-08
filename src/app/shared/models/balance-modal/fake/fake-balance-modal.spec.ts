@@ -1,14 +1,5 @@
 import { BalanceModal } from '../balance-modal.interface';
 
-export class FakeBalanceModal implements BalanceModal {
-  show(): Promise<void> {
-    return Promise.resolve();
-  }
-  onDidDismiss(): Promise<any> {
-    return Promise.resolve({ role: 'closed' });
-  }
-}
-
 fdescribe('FakeBalanceModal', () => {
   let fakeBalanceModal: BalanceModal;
 
@@ -23,7 +14,7 @@ fdescribe('FakeBalanceModal', () => {
     await expectAsync(fakeBalanceModal.show()).toBeResolved();
   });
 
-  it('onDidDismiss', () => {
+  it('onDidDismiss', async () => {
     expect((await fakeBalanceModal.onDidDismiss()).role).toEqual('closed');
   });
 });
