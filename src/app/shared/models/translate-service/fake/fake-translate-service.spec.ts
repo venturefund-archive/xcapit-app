@@ -1,27 +1,17 @@
-import { FakeModalController } from './fake-modal-controller';
+import { FakeTranslateService } from "./fake-translate-service";
 
-fdescribe('FakeModalController', () => {
-  let fakeModalController: FakeModalController;
+fdescribe('FakeTranslateService', () => {
+  let fakeTranslateService: FakeTranslateService;
 
   beforeEach(() => {
-    fakeModalController = new FakeModalController();
+    fakeTranslateService = new FakeTranslateService();
   });
 
   it('new', () => {
-    expect(fakeModalController).toBeTruthy();
+    expect(fakeTranslateService).toBeTruthy();
   });
 
-  it('create', async () => {
-    await expectAsync(fakeModalController.create()).toBeResolved();
-  });
-
-  it('present', async () => {
-    const controller = await fakeModalController.create();
-    await expectAsync(controller.present()).toBeResolved();
-  });
-
-  it('onDidDismiss', async () => {
-    const controller = await fakeModalController.create();
-    expect((await controller.onDidDismiss()).role).toEqual('closed');
+  it('instant', async () => {
+    await expectAsync(fakeTranslateService.instant('',{})).toBeResolved();
   });
 });
