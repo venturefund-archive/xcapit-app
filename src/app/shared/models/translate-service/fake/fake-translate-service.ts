@@ -1,5 +1,5 @@
 export class FakeTranslateService {
-  instant(aTextToTranslate: string, aParams: Object): string {
+  instant(aTranslationKey: string, params: Object): string {
     return 'translatedText';
   }
 }
