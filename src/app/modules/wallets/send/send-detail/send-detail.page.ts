@@ -187,9 +187,8 @@ export class SendDetailPage {
       this.setFormData(this.route.snapshot.paramMap.get('amount'));
     }
     await this.setAddressValidator();
-    this.openModalBalance();
   }
-
+  
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
     await this.setTokens();
@@ -197,6 +196,7 @@ export class SendDetailPage {
     await this.setTokenDetail();
     this.getPrices();
     await this.tokenBalances();
+    this.openModalBalance();
   }
 
   setFormData(amount: string) {
