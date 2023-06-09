@@ -187,6 +187,7 @@ export class SendDetailPage {
       this.setFormData(this.route.snapshot.paramMap.get('amount'));
     }
     await this.setAddressValidator();
+    this.openModalBalance();
   }
 
   async ionViewDidEnter() {
