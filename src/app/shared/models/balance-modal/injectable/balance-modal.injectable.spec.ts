@@ -25,4 +25,7 @@ fdescribe('BalanceModalInjectable', () => {
   it('create', () => {
     expect(service.create(null, null, null, null, null, null)).toBeInstanceOf(DefaultBalanceModal);
   });
+  it('create with defaults', () => {
+    expect(service.create(null, null, null, null)).toBeInstanceOf(DefaultBalanceModal);
+  });
 });
