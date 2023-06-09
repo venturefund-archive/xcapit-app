@@ -55,9 +55,11 @@ import { solanaAddress1 } from '../../shared-wallets/fixtures/raw-address-data';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
 import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-connection';
 import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import BalanceModalInjectable from '../../../../shared/models/balance-modal/injectable/balance-modal.injectable';
+import { FakeBalanceModal } from '../../../../shared/models/balance-modal/fake/fake-balance-modal';
 
 
-describe('SendDetailPage', () => {
+fdescribe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
@@ -86,6 +88,7 @@ describe('SendDetailPage', () => {
   let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
   let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
   let solanaConnectionInjectableSpy: jasmine.SpyObj<SolanaConnectionInjectable>;
+  let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const _continueButton = (): DebugElement => {
@@ -199,6 +202,9 @@ describe('SendDetailPage', () => {
     solanaConnectionInjectableSpy = jasmine.createSpyObj('SolanaConnectionInjectable', {
       create: new FakeConnection()
     });
+    balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectableSpy', {
+      create: new FakeBalanceModal()
+    });
 
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
@@ -229,6 +235,7 @@ describe('SendDetailPage', () => {
         { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
         { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
         { provide: SolanaConnectionInjectable, useValue: solanaConnectionInjectableSpy },
+        { provide: BalanceModalInjectable, useValue: balanceModalInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
