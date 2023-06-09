@@ -56,6 +56,7 @@ import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-
 import { SwapTxInProgress } from '../../users/shared-users/models/tx-in-progress/swap/swap-tx-in-progress';
 import { BigNumber } from 'ethers';
 import { WeiOf } from '../shared-swaps/models/wei-of/wei-of';
+import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 
 @Component({
   selector: 'app-swap-home',
@@ -292,7 +293,8 @@ export class SwapHomePage {
     private oneInchBlockchainsOf: OneInchBlockchainsOfFactory,
     private dynamicPriceFactory: DynamicPriceFactory,
     private storage: IonicStorageService,
-    private swapInProgressService: TxInProgressService
+    private swapInProgressService: TxInProgressService,
+    private balanceModalInjectable: BalanceModalInjectable
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -700,38 +702,25 @@ export class SwapHomePage {
   }
 
   showInsufficientBalanceFeeModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
+    const description = 'swaps.home.balance_modal.insufficient_balance_fee.text';
     const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
     const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
-    this.openModalBalance(this.activeBlockchain.nativeToken(), text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(this.activeBlockchain.nativeToken(), description, primaryButtonText, secondaryButtonText);
   }
 
   showInsufficientBalanceModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance.text';
+    const description = 'swaps.home.balance_modal.insufficient_balance.text';
     const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
     const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
-    this.openModalBalance(this.fromToken, text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(this.fromToken, description, primaryButtonText, secondaryButtonText);
   }
 
-  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
-    if (!this.modalOpened) {
+  async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
+    if (!this.modalOpened && window.location.href === this.modalHref) {
       this.modalOpened = true;
-      const modal = await this.modalController.create({
-        component: BuyOrDepositTokenToastComponent,
-        cssClass: 'ux-toast-warning-with-margin',
-        showBackdrop: false,
-        id: 'feeModal',
-        componentProps: {
-          text: this.translate.instant(text, { token: token.symbol() }),
-          primaryButtonText: this.translate.instant(primaryButtonText, { token: token.symbol() }),
-          secondaryButtonText: this.translate.instant(secondaryButtonText, { token: token.symbol() }),
-          token,
-        },
-      });
-      if (window.location.href === this.modalHref) {
-        await modal.present();
-      }
-      await modal.onDidDismiss().then(() => (this.modalOpened = false));
+      const modal = this.balanceModalInjectable.create(token, description, primaryButtonText, secondaryButtonText);
+      await modal.show();
+      modal.onDidDismiss().then(() => (this.modalOpened = false));
     }
   }
 }
