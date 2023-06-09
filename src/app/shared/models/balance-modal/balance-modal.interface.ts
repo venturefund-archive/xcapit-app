@@ -1,4 +1,4 @@
 export interface BalanceModal {
-  show: () => Promise<void>;
+  show: (config: any) => Promise<void>;
   onDidDismiss: () => Promise<any>;
 }
