@@ -314,7 +314,7 @@ export class BitrefillPage {
     if (!this.openingModal && window.location.href === this.modalHref) {
       this.openingModal = true;
       const modal = this.balanceModalInjectable.create(token, description, primaryButtonText, secondaryButtonText);
-      await modal.show();
+      await modal.show({ cssClass: 'ux-toast-warning' });
       modal.onDidDismiss().then(() => (this.openingModal = false));
     }
   }

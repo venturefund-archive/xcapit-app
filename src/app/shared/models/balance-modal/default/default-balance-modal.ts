@@ -28,7 +28,7 @@ export default class DefaultBalanceModal implements BalanceModal {
     return this._modal.onDidDismiss();
   }
 
-  private _modalConfig(config): ModalOptions {
+  private _modalConfig(config: any): ModalOptions {
     return {
       component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
