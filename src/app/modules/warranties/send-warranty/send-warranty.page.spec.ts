@@ -20,7 +20,7 @@ import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectab
 import { FakeBalanceModal } from '../../../shared/models/balance-modal/fake/fake-balance-modal';
 import { BalanceModal } from 'src/app/shared/models/balance-modal/balance-modal.interface';
 
-fdescribe('SendWarrantyPage', () => {
+describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
   let fixture: ComponentFixture<SendWarrantyPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendWarrantyPage>;

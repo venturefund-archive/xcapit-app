@@ -5,7 +5,7 @@ import { ModalController } from '@ionic/angular';
 import { FakeModalController } from '../../../../../testing/fakes/modal-controller.fake.spec';
 import DefaultBalanceModal from '../default/default-balance-modal';
 
-fdescribe('BalanceModalInjectable', () => {
+describe('BalanceModalInjectable', () => {
   let service: BalanceModalInjectable;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;

@@ -51,7 +51,7 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
 import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 import { FakeBalanceModal } from 'src/app/shared/models/balance-modal/fake/fake-balance-modal';
 
-fdescribe('BitrefillPage', () => {
+describe('BitrefillPage', () => {
   let component: BitrefillPage;
   let fixture: ComponentFixture<BitrefillPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;

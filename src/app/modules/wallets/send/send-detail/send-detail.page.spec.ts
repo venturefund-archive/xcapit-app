@@ -58,7 +58,7 @@ import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/fake/fake-
 import BalanceModalInjectable from '../../../../shared/models/balance-modal/injectable/balance-modal.injectable';
 import { FakeBalanceModal } from '../../../../shared/models/balance-modal/fake/fake-balance-modal';
 
-fdescribe('SendDetailPage', () => {
+describe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;

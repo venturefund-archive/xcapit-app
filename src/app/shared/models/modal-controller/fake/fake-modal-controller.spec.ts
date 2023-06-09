@@ -1,6 +1,6 @@
 import { FakeModalController } from './fake-modal-controller';
 
-fdescribe('FakeModalController', () => {
+describe('FakeModalController', () => {
   let fakeModalController: FakeModalController;
 
   beforeEach(() => {

@@ -1,6 +1,6 @@
 import { FakeTranslateService } from './fake-translate-service';
 
-fdescribe('FakeTranslateService', () => {
+describe('FakeTranslateService', () => {
   let fakeTranslateService: FakeTranslateService;
 
   beforeEach(() => {
