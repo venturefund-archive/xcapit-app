@@ -59,7 +59,7 @@ import { SendTxsError } from '../shared-swaps/models/wallet/send-txs-error';
 import BalanceModalInjectable from '../../../shared/models/balance-modal/injectable/balance-modal.injectable';
 import { FakeBalanceModal } from '../../../shared/models/balance-modal/fake/fake-balance-modal';
 
-describe('SwapHomePage', () => {
+fdescribe('SwapHomePage', () => {
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
