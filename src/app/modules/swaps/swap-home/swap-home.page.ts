@@ -702,17 +702,21 @@ export class SwapHomePage {
   }
 
   showInsufficientBalanceFeeModal() {
-    const description = 'swaps.home.balance_modal.insufficient_balance_fee.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
-    this.openModalBalance(this.activeBlockchain.nativeToken(), description, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      this.activeBlockchain.nativeToken(),
+      'swaps.home.balance_modal.insufficient_balance_fee.text',
+      'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName',
+      'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName'
+    );
   }
 
   showInsufficientBalanceModal() {
-    const description = 'swaps.home.balance_modal.insufficient_balance.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
-    this.openModalBalance(this.fromToken, description, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      this.fromToken,
+      'swaps.home.balance_modal.insufficient_balance.text',
+      'swaps.home.balance_modal.insufficient_balance.firstButtonName',
+      'swaps.home.balance_modal.insufficient_balance.secondaryButtonName'
+    );
   }
 
   async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {

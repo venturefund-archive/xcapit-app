@@ -41,7 +41,6 @@ import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
-import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
 import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
