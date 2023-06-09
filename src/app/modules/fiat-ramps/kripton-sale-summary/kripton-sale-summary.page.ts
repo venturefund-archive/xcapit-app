@@ -20,6 +20,7 @@ import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ModalController } from '@ionic/angular';
 import { EnvService } from 'src/app/shared/services/env/env.service';
 import { Countries } from '../shared-ramps/models/countries/countries';
@@ -28,7 +29,7 @@ import { Country } from '../shared-ramps/models/country/country';
 import { OperationKmInProgressModalComponent } from '../shared-ramps/components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
-import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-kripton-sale-summary',
@@ -191,8 +192,7 @@ export class KriptonSaleSummaryPage {
     private apiWalletService: ApiWalletService,
     private modalController: ModalController,
     private txInProgressService: TxInProgressService,
-    private envService: EnvService,
-    private balanceModalInjectable: BalanceModalInjectable
+    private envService: EnvService
   ) {}
 
   async ionViewWillEnter() {
@@ -291,29 +291,38 @@ export class KriptonSaleSummaryPage {
   }
 
   async showInsufficientBalanceFeeModal() {
+    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
     await this.openModalBalance(
       new DefaultToken(this.nativeToken as RawToken),
-      'swaps.home.balance_modal.insufficient_balance_fee.text',
-      'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName',
-      'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName'
+      text,
+      primaryButtonText,
+      secondaryButtonText
     );
   }
 
   async showInsufficientBalanceModal() {
-    await this.openModalBalance(
-      new DefaultToken(this.coin as RawToken),
-      'swaps.home.balance_modal.insufficient_balance.text',
-      'swaps.home.balance_modal.insufficient_balance.firstButtonName',
-      'swaps.home.balance_modal.insufficient_balance.secondaryButtonName'
-    );
+    const text = 'swaps.home.balance_modal.insufficient_balance.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
+    await this.openModalBalance(new DefaultToken(this.coin as RawToken), text, primaryButtonText, secondaryButtonText);
   }
 
-  async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
-    if (!this.openingModal && window.location.href === this.modalHref) {
+  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
+    if (!this.openingModal) {
       this.openingModal = true;
-      const modal = this.balanceModalInjectable.create(token, description, primaryButtonText, secondaryButtonText);
-      await modal.show({ cssClass: 'ux-toast-warning' });
-      modal.onDidDismiss().then(() => (this.openingModal = false));
+      const modal = await this.modalController.create({
+        component: BuyOrDepositTokenToastComponent,
+        cssClass: 'ux-toast-warning',
+        showBackdrop: false,
+        id: 'feeModal',
+        componentProps: { token, text, primaryButtonText, secondaryButtonText },
+      });
+      if (window.location.href === this.modalHref) {
+        await modal.present();
+      }
+      await modal.onDidDismiss().then(() => (this.openingModal = false));
     }
   }
 
