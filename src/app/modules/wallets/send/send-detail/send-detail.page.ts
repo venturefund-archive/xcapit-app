@@ -47,6 +47,7 @@ import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/con
 import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
 import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
+import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 
 @Component({
   selector: 'app-send-detail',
@@ -177,7 +178,8 @@ export class SendDetailPage {
     private tokenPricesFactory: TokenPricesInjectable,
     private solanaFeeOf: SolanaFeeOfInjectable,
     private contactDataService: ContactDataService,
-    private solanaConnection: SolanaConnectionInjectable
+    private solanaConnection: SolanaConnectionInjectable,
+    private balanceModalInjectable: BalanceModalInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -188,7 +190,7 @@ export class SendDetailPage {
     }
     await this.setAddressValidator();
   }
-  
+
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
     await this.setTokens();
@@ -445,29 +447,16 @@ export class SendDetailPage {
   }
 
   async openModalBalance() {
-    // const modal = await this.modalController.create({
-    //   component: BuyOrDepositTokenToastComponent,
-    //   cssClass: 'ux-toast-warning-with-margin',
-    //   showBackdrop: false,
-    //   id: 'feeModal',
-    //   componentProps: {
-    //     text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
-    //       token: this.nativeToken.symbol(),
-    //     }),
-    //     primaryButtonText: this.translate.instant('defi_investments.confirmation.buy_button', {
-    //       token: this.nativeToken.symbol(),
-    //     }),
-    //     secondaryButtonText: this.translate.instant('defi_investments.confirmation.deposit_button', {
-    //       token: this.nativeToken.symbol(),
-    //     }),
-    //     token: this.nativeToken,
-    //   },
-    // });
-    
     if (window.location.href === this.modalHref) {
-      await modal.present();
+      await this.balanceModalInjectable
+        .create(
+          this.nativeToken,
+          'defi_investments.confirmation.informative_modal_fee',
+          'defi_investments.confirmation.buy_button',
+          'defi_investments.confirmation.deposit_button'
+        )
+        .show();
     }
-    await modal.onDidDismiss();
   }
 
   back() {
