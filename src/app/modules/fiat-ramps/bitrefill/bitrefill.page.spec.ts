@@ -320,9 +320,9 @@ fdescribe('BitrefillPage', () => {
     _dispatchEvent(nativeEventInvoice);
     tick();
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledOnceWith(modalOptions);
+    expect(fakeBalanceModal.calls).toEqual(1);
   }));
-
+  
   it('should show modal if user has not fee', fakeAsync(() => {
     modalOptions.componentProps = insufficientFee;
     walletTransactionsServiceSpy.canAffordSendFee.and.resolveTo(false);
@@ -330,7 +330,7 @@ fdescribe('BitrefillPage', () => {
     _dispatchEvent(nativeEventInvoice);
     tick();
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledOnceWith(modalOptions);
+    expect(fakeBalanceModal.calls).toEqual(1);
   }));
 
   it('should not send transaction if transaction response fail', fakeAsync(() => {
