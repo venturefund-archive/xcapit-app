@@ -1,8 +1,5 @@
-export class FakeModalController {
-  create(): Promise<any> {
-    return Promise.resolve({
-      present: () => Promise.resolve(),
-      onDidDismiss: () => ({ role: 'closed', data: 'aData' }),
-    });
+export class FakeTranslateService {
+  instant(aTextToTranslate: string, aParams: Object): string {
+    return 'translatedText';
   }
 }
