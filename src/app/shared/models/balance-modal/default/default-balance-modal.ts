@@ -7,7 +7,6 @@ import { BalanceModal } from '../balance-modal.interface';
 import { FakeModalController } from '../../modal-controller/fake/fake-modal-controller';
 import { FakeTranslateService } from '../../translate-service/fake/fake-translate-service';
 
-
 export default class DefaultBalanceModal implements BalanceModal {
   private _modal: HTMLIonModalElement;
   constructor(
@@ -29,14 +28,16 @@ export default class DefaultBalanceModal implements BalanceModal {
   }
 
   private _modalConfig(config: any): ModalOptions {
-    return {
+    const asdasd = {
       component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
       componentProps: this._props(),
-      ...config
+      ...config,
     };
+    console.log('modal config', asdasd);
+    return asdasd;
   }
   private _props() {
     return {
