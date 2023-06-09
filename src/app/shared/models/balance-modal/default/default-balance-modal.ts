@@ -19,8 +19,8 @@ export default class DefaultBalanceModal implements BalanceModal {
     private readonly _aTranslateService: TranslateService | FakeTranslateService
   ) {}
 
-  async show() {
-    this._modal = await this._aModalController.create(this._modalConfig());
+  async show(config = {}) {
+    this._modal = await this._aModalController.create(this._modalConfig(config));
     await this._modal.present();
   }
 
@@ -28,13 +28,14 @@ export default class DefaultBalanceModal implements BalanceModal {
     return this._modal.onDidDismiss();
   }
 
-  private _modalConfig(): ModalOptions {
+  private _modalConfig(config): ModalOptions {
     return {
       component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
       componentProps: this._props(),
+      ...config
     };
   }
   private _props() {
