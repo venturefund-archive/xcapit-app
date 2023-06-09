@@ -445,6 +445,7 @@ export class SendDetailPage {
   }
 
   async openModalBalance() {
+    console.log('HREFS', window.location.href, this.modalHref);
     const modal = await this.modalController.create({
       component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
