@@ -6,7 +6,6 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
 import { BalanceModal } from '../balance-modal.interface';
 import { FakeModalController } from '../../modal-controller/fake/fake-modal-controller';
 
-
 class FakeTranslateService {
   //TODO: Sacar de aca y testear
   instant(aTextToTranslate: string, aParams: Object): string {
