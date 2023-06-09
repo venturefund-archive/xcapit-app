@@ -5,13 +5,8 @@ import { ModalOptions } from '@ionic/core';
 import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { BalanceModal } from '../balance-modal.interface';
 import { FakeModalController } from '../../modal-controller/fake/fake-modal-controller';
+import { FakeTranslateService } from '../../translate-service/fake/fake-translate-service';
 
-class FakeTranslateService {
-  //TODO: Sacar de aca y testear
-  instant(aTextToTranslate: string, aParams: Object): string {
-    return 'translatedText';
-  }
-}
 
 export default class DefaultBalanceModal implements BalanceModal {
   private _modal: HTMLIonModalElement;
