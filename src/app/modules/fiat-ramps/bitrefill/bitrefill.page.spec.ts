@@ -314,7 +314,6 @@ fdescribe('BitrefillPage', () => {
 
   it('should show modal if user has not funds', fakeAsync(() => {
     new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(0);
-    modalOptions.componentProps = insufficientBalance;
     tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
     component.ionViewWillEnter();
     _dispatchEvent(nativeEventInvoice);
@@ -324,7 +323,6 @@ fdescribe('BitrefillPage', () => {
   }));
   
   it('should show modal if user has not fee', fakeAsync(() => {
-    modalOptions.componentProps = insufficientFee;
     walletTransactionsServiceSpy.canAffordSendFee.and.resolveTo(false);
     component.ionViewWillEnter();
     _dispatchEvent(nativeEventInvoice);
