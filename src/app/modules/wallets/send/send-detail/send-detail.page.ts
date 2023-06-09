@@ -445,28 +445,28 @@ export class SendDetailPage {
   }
 
   async openModalBalance() {
-    console.log('HREFS', window.location.href, this.modalHref);
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: {
-        text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
-          token: this.nativeToken.symbol(),
-        }),
-        primaryButtonText: this.translate.instant('defi_investments.confirmation.buy_button', {
-          token: this.nativeToken.symbol(),
-        }),
-        secondaryButtonText: this.translate.instant('defi_investments.confirmation.deposit_button', {
-          token: this.nativeToken.symbol(),
-        }),
-        token: this.nativeToken,
-      },
-    });
-    // if (window.location.href === this.modalHref) {
+    // const modal = await this.modalController.create({
+    //   component: BuyOrDepositTokenToastComponent,
+    //   cssClass: 'ux-toast-warning-with-margin',
+    //   showBackdrop: false,
+    //   id: 'feeModal',
+    //   componentProps: {
+    //     text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
+    //       token: this.nativeToken.symbol(),
+    //     }),
+    //     primaryButtonText: this.translate.instant('defi_investments.confirmation.buy_button', {
+    //       token: this.nativeToken.symbol(),
+    //     }),
+    //     secondaryButtonText: this.translate.instant('defi_investments.confirmation.deposit_button', {
+    //       token: this.nativeToken.symbol(),
+    //     }),
+    //     token: this.nativeToken,
+    //   },
+    // });
+    
+    if (window.location.href === this.modalHref) {
       await modal.present();
-    // }
+    }
     await modal.onDidDismiss();
   }
 
