@@ -283,10 +283,12 @@ export class BitrefillPage {
   }
 
   showInsufficientBalanceFeeModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
-    this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      this.nativeToken,
+      'swaps.home.balance_modal.insufficient_balance_fee.text',
+      'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName',
+      'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName'
+    );
   }
 
   async showInsufficientBalanceModal() {

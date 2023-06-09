@@ -20,7 +20,6 @@ import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
-import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ModalController } from '@ionic/angular';
 import { EnvService } from 'src/app/shared/services/env/env.service';
 import { Countries } from '../shared-ramps/models/countries/countries';
@@ -29,7 +28,6 @@ import { Country } from '../shared-ramps/models/country/country';
 import { OperationKmInProgressModalComponent } from '../shared-ramps/components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
-import { TranslateService } from '@ngx-translate/core';
 import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 
 @Component({
