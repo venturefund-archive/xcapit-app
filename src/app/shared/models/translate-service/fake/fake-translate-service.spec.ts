@@ -1,4 +1,4 @@
-import { FakeTranslateService } from "./fake-translate-service";
+import { FakeTranslateService } from './fake-translate-service';
 
 fdescribe('FakeTranslateService', () => {
   let fakeTranslateService: FakeTranslateService;
@@ -12,6 +12,6 @@ fdescribe('FakeTranslateService', () => {
   });
 
   it('instant', async () => {
-    await expectAsync(fakeTranslateService.instant('',{})).toBeResolved();
+    await expectAsync(fakeTranslateService.instant('', {})).toBeResolved();
   });
 });
