@@ -33,6 +33,7 @@ import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
 import { BitrefillURL } from '../shared-ramps/models/bitrefill-url/bitrefill-url';
 import { EnvService } from '../../../shared/services/env/env.service';
+import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 
 @Component({
   selector: 'app-bitrefill',
@@ -100,7 +101,8 @@ export class BitrefillPage {
     private tokenPricesFactory: TokenPricesInjectable,
     private covalentBalancesFactory: CovalentBalancesInjectable,
     private walletsFactory: WalletsFactory,
-    private envService: EnvService
+    private envService: EnvService,
+    private balanceModalInjectable: BalanceModalInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -281,33 +283,29 @@ export class BitrefillPage {
   }
 
   showInsufficientBalanceFeeModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
-    this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      this.nativeToken,
+      'swaps.home.balance_modal.insufficient_balance_fee.text',
+      'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName',
+      'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName'
+    );
   }
 
   async showInsufficientBalanceModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
-    this.openModalBalance(await this.operation.token(), text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      await this.operation.token(),
+      'swaps.home.balance_modal.insufficient_balance.text',
+      'swaps.home.balance_modal.insufficient_balance.firstButtonName',
+      'swaps.home.balance_modal.insufficient_balance.secondaryButtonName'
+    );
   }
 
-  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
-    if (!this.openingModal) {
+  async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
+    if (!this.openingModal && window.location.href === this.modalHref) {
       this.openingModal = true;
-      const modal = await this.modalController.create({
-        component: BuyOrDepositTokenToastComponent,
-        cssClass: 'ux-toast-warning',
-        showBackdrop: false,
-        id: 'feeModal',
-        componentProps: { token, text, primaryButtonText, secondaryButtonText },
-      });
-      if (window.location.href === this.modalHref) {
-        await modal.present();
-      }
-      await modal.onDidDismiss().then(() => (this.openingModal = false));
+      const modal = this.balanceModalInjectable.create(token, description, primaryButtonText, secondaryButtonText);
+      await modal.show({ cssClass: 'ux-toast-warning' });
+      modal.onDidDismiss().then(() => (this.openingModal = false));
     }
   }
 

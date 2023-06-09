@@ -23,7 +23,6 @@ import { GeneralModalWithTwoButtonsComponent } from 'src/app/shared/components/g
 import { ModalController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
 import { TranslateService } from '@ngx-translate/core';
-import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 
 @Component({
   selector: 'app-simplified-home-wallet',

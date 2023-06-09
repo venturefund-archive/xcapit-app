@@ -56,6 +56,8 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { FakeWallet } from '../shared-swaps/models/wallet/fake/fake-wallet';
 import { SendTxsError } from '../shared-swaps/models/wallet/send-txs-error';
+import BalanceModalInjectable from '../../../shared/models/balance-modal/injectable/balance-modal.injectable';
+import { FakeBalanceModal } from '../../../shared/models/balance-modal/fake/fake-balance-modal';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -83,6 +85,8 @@ describe('SwapHomePage', () => {
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let activatedRouteSpy: any;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
+  let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
+  let fakeBalanceModal: FakeBalanceModal;
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
     id: 1,
@@ -203,14 +207,22 @@ describe('SwapHomePage', () => {
         callback();
       },
     });
+
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showErrorToast: Promise.resolve(),
       showWarningToast: Promise.resolve(),
     });
+
     storageSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
       remove: Promise.resolve(),
       get: Promise.resolve(true),
+    });
+
+    fakeBalanceModal = new FakeBalanceModal();
+
+    balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectable', {
+      create: fakeBalanceModal,
     });
 
     TestBed.configureTestingModule({
@@ -242,6 +254,7 @@ describe('SwapHomePage', () => {
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: IonicStorageService, useValue: storageSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
+        { provide: BalanceModalInjectable, useValue: balanceModalInjectableSpy },
       ],
     }).compileComponents();
 

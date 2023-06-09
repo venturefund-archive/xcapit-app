@@ -41,12 +41,12 @@ import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
-import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
 import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
 import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
+import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 
 @Component({
   selector: 'app-send-detail',
@@ -71,7 +71,7 @@ import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-c
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [subtitle]="'wallets.send.send_detail.address_input.subtitle' | translate"
-            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
+            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate : { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
             [addressFromContact]="this.addressFromContact"
             (addFromContacts)="navigateToContacts()"
@@ -177,7 +177,8 @@ export class SendDetailPage {
     private tokenPricesFactory: TokenPricesInjectable,
     private solanaFeeOf: SolanaFeeOfInjectable,
     private contactDataService: ContactDataService,
-    private solanaConnection: SolanaConnectionInjectable
+    private solanaConnection: SolanaConnectionInjectable,
+    private balanceModalInjectable: BalanceModalInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -367,20 +368,16 @@ export class SendDetailPage {
   private async _estimatedSolanaFee(): Promise<number> {
     return this.form.value.address
       ? await this.solanaFeeOf
-        .create(
-          await new SolanaSendTxsOf(
-            new SolanaSend(
-              this.form.value.amount,
-              this.tokenObj,
-              this.form.value.address
-            ),
-            await this.walletsFactory.create().oneBy(this.blockchain),
-            this.blockchain,
-            this.solanaConnection.create(this.blockchain)
-          ).blockchainTxs(),
-          this.blockchain,
-        )
-        .value()
+          .create(
+            await new SolanaSendTxsOf(
+              new SolanaSend(this.form.value.amount, this.tokenObj, this.form.value.address),
+              await this.walletsFactory.create().oneBy(this.blockchain),
+              this.blockchain,
+              this.solanaConnection.create(this.blockchain)
+            ).blockchainTxs(),
+            this.blockchain
+          )
+          .value()
       : 0;
   }
 
@@ -449,22 +446,16 @@ export class SendDetailPage {
   }
 
   async openModalBalance() {
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: {
-        text: 'defi_investments.confirmation.informative_modal_fee',
-        primaryButtonText: 'defi_investments.confirmation.buy_button',
-        secondaryButtonText: 'defi_investments.confirmation.deposit_button',
-        token: this.nativeToken,
-      },
-    });
     if (window.location.href === this.modalHref) {
-      await modal.present();
+      await this.balanceModalInjectable
+        .create(
+          this.nativeToken,
+          'defi_investments.confirmation.informative_modal_fee',
+          'defi_investments.confirmation.buy_button',
+          'defi_investments.confirmation.deposit_button'
+        )
+        .show();
     }
-    await modal.onDidDismiss();
   }
 
   back() {
