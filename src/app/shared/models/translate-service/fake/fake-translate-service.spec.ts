@@ -11,7 +11,7 @@ fdescribe('FakeTranslateService', () => {
     expect(fakeTranslateService).toBeTruthy();
   });
 
-  it('instant', async () => {
-    await expectAsync(fakeTranslateService.instant('', {})).toBeResolved();
+  it('instant', () => {
+    expect(fakeTranslateService.instant('aTranslationKey', {})).toEqual('translatedText');
   });
 });
