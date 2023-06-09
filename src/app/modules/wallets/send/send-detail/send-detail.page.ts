@@ -196,7 +196,6 @@ export class SendDetailPage {
     await this.setTokenDetail();
     this.getPrices();
     await this.tokenBalances();
-    this.openModalBalance();
   }
 
   setFormData(amount: string) {
