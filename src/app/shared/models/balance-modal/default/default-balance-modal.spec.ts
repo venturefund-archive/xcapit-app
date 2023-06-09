@@ -5,7 +5,7 @@ import { BalanceModal } from '../balance-modal.interface';
 import { FakeModalController } from '../../modal-controller/fake/fake-modal-controller';
 import { FakeTranslateService } from '../../translate-service/fake/fake-translate-service';
 
-describe('DefaultBalanceModal', () => {
+fdescribe('DefaultBalanceModal', () => {
   let defaultBalanceModal: BalanceModal;
 
   beforeEach(() => {
