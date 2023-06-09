@@ -26,6 +26,7 @@ import { By } from '@angular/platform-browser';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
 import { EnvService } from 'src/app/shared/services/env/env.service';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 describe('KriptonSaleSummaryPage', () => {
   let component: KriptonSaleSummaryPage;
@@ -40,6 +41,7 @@ describe('KriptonSaleSummaryPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
   let envServiceSpy: jasmine.SpyObj<EnvService>;
+  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
 
   const validData: OperationDataInterface = {
     country: 'Argentina',
@@ -88,6 +90,11 @@ describe('KriptonSaleSummaryPage', () => {
       create: blockchains,
     });
 
+    loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
+      show: Promise.resolve(),
+      dismiss: Promise.resolve(),
+    });
+
     walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionsService', {
       send: Promise.resolve({ wait: () => Promise.resolve({ transactionHash: 'someHash' }) }),
       canAffordSendFee: Promise.resolve(true),
@@ -124,6 +131,7 @@ describe('KriptonSaleSummaryPage', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
         { provide: EnvService, useValue: envServiceSpy },
+        { provide: LoadingService, useValue: loadingServiceSpy },
       ],
     }).compileComponents();
 
@@ -167,6 +175,7 @@ describe('KriptonSaleSummaryPage', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
@@ -193,8 +202,10 @@ describe('KriptonSaleSummaryPage', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(0);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
   it('should not send if user can not afford transaction', async () => {
@@ -207,8 +218,10 @@ describe('KriptonSaleSummaryPage', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(0);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
   it('should not send if user close password modal', async () => {
@@ -220,8 +233,10 @@ describe('KriptonSaleSummaryPage', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(0);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
   });
 
   it('should throw error and show error modal if send fails', async () => {
@@ -234,8 +249,10 @@ describe('KriptonSaleSummaryPage', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(1);
     expect(fiatRampsServiceSpy.confirmCashOutOperation).toHaveBeenCalledTimes(0);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
   });
 });

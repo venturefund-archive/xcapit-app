@@ -29,6 +29,7 @@ import { OperationKmInProgressModalComponent } from '../shared-ramps/components/
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
 import { TranslateService } from '@ngx-translate/core';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 @Component({
   selector: 'app-kripton-sale-summary',
@@ -190,7 +191,8 @@ export class KriptonSaleSummaryPage {
     private apiWalletService: ApiWalletService,
     private modalController: ModalController,
     private txInProgressService: TxInProgressService,
-    private envService: EnvService
+    private envService: EnvService,
+    private loadingService: LoadingService,
   ) {}
 
   async ionViewWillEnter() {
@@ -252,10 +254,12 @@ export class KriptonSaleSummaryPage {
 
   private async startTx() {
     this.isSending = true;
+    await this.loadingService.show();
   }
 
   private async endTx() {
     this.isSending = false;
+    await this.loadingService.dismiss();
   }
 
   private async checksBeforeSend(): Promise<boolean> {
@@ -323,6 +327,7 @@ export class KriptonSaleSummaryPage {
   }
 
   async askForPassword(): Promise<Password> {
+    await this.loadingService.dismiss();
     const modal = await this.modalController.create({
       component: WalletPasswordWithValidatorComponent,
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
