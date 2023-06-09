@@ -361,7 +361,7 @@ fdescribe('SendDetailPage', () => {
     await component.ionViewWillEnter();
     await component.ionViewDidEnter();
 
-    expect(fakeBalanceModal.calls).toHaveBeenCalledTimes(1);
+    expect(fakeBalanceModal.calls).toEqual(1);
   });
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
@@ -391,7 +391,7 @@ fdescribe('SendDetailPage', () => {
 
     await component.checkEnoughBalance();
 
-    expect(fakeBalanceModal.calls).toHaveBeenCalledTimes(1);
+    expect(fakeBalanceModal.calls).toEqual(1);
   });
 
   it('should open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is false', async () => {
