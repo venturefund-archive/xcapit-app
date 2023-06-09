@@ -464,9 +464,9 @@ export class SendDetailPage {
         token: this.nativeToken,
       },
     });
-    if (window.location.href === this.modalHref) {
+    // if (window.location.href === this.modalHref) {
       await modal.present();
-    }
+    // }
     await modal.onDidDismiss();
   }
 
