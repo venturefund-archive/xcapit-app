@@ -7,7 +7,6 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
 import { DefaultToken, Token } from '../../swaps/shared-swaps/models/token/token';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
-import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -187,7 +186,6 @@ export class KriptonSaleSummaryPage {
     private fiatRampsService: FiatRampsService,
     private kriptonStorage: KriptonStorageService,
     private blockchains: BlockchainsFactory,
-    private loadingService: LoadingService,
     private walletTransactionsService: WalletTransactionsService,
     private apiWalletService: ApiWalletService,
     private modalController: ModalController,
@@ -254,12 +252,10 @@ export class KriptonSaleSummaryPage {
 
   private async startTx() {
     this.isSending = true;
-    await this.loadingService.show();
   }
 
   private async endTx() {
     this.isSending = false;
-    await this.loadingService.dismiss();
   }
 
   private async checksBeforeSend(): Promise<boolean> {
@@ -327,7 +323,6 @@ export class KriptonSaleSummaryPage {
   }
 
   async askForPassword(): Promise<Password> {
-    await this.loadingService.dismiss();
     const modal = await this.modalController.create({
       component: WalletPasswordWithValidatorComponent,
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
