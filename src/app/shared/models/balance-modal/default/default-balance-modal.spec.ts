@@ -2,20 +2,8 @@ import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import DefaultBalanceModal from './default-balance-modal';
 import { BalanceModal } from '../balance-modal.interface';
-
-class FakeModalController {
-  create(): Promise<any> {
-    return Promise.resolve({
-      present: () => Promise.resolve(),
-      onDidDismiss: () => ({ role: 'closed', data: 'aData' }),
-    });
-  }
-}
-class FakeTranslateService {
-  instant(aTextToTranslate: string, aParams: Object): string {
-    return 'translatedText';
-  }
-}
+import { FakeModalController } from '../../modal-controller/fake/fake-modal-controller';
+import { FakeTranslateService } from '../../translate-service/fake/fake-translate-service';
 
 fdescribe('DefaultBalanceModal', () => {
   let defaultBalanceModal: BalanceModal;
@@ -39,7 +27,7 @@ fdescribe('DefaultBalanceModal', () => {
     await expectAsync(defaultBalanceModal.show()).toBeResolved();
   });
 
-  it('onDidDismisss', async () => {
+  it('onDidDismiss', async () => {
     await defaultBalanceModal.show();
     expect((await defaultBalanceModal.onDidDismiss()).role).toEqual('closed');
   });
