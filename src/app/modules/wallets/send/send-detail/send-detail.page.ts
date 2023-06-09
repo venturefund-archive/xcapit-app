@@ -447,7 +447,6 @@ export class SendDetailPage {
   }
 
   async openModalBalance() {
-    console.log('OPEN MODAL')
     if (window.location.href === this.modalHref) {
       await this.balanceModalInjectable
         .create(
