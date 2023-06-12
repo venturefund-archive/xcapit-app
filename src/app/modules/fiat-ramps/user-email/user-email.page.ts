@@ -25,14 +25,17 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
       <div class="ue__container__provider">
         <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.user_email.provider' | translate }}</ion-text>
       </div>
-      <div class="ue__container__icon">
-        <img src="assets/img/provider-logos/KriptonMarket.svg" />
-      </div>
       <div class="ue__container__title">
-        <ion-text class="ux-font-text-lg">{{ 'fiat_ramps.user_email.title' | translate }}</ion-text>
+        <ion-text class="ux-font-text-lg">{{
+          (this.validatedEmail ? 'fiat_ramps.user_email.secondary_title' : 'fiat_ramps.user_email.main_title')
+            | translate
+        }}</ion-text>
       </div>
       <div class="ue__container__subtitle">
-        <ion-text class="ux-font-text-base">{{ 'fiat_ramps.user_email.subtitle' | translate }}</ion-text>
+        <ion-text class="ux-font-text-base">{{
+          (this.validatedEmail ? 'fiat_ramps.user_email.secondary_subtitule' : 'fiat_ramps.user_email.main_subtitle')
+            | translate
+        }}</ion-text>
       </div>
       <div class="ue__container__form">
         <form [formGroup]="this.form">
@@ -46,7 +49,6 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
             color="primary"
           ></app-ux-input>
           <div *ngIf="this.validatedEmail">
-            <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.user_email.text_token' | translate }}</ion-text>
             <div [ngClass]="this.loginError ? 'ue__container__form__token_error' : 'ue__container__form__token'">
               <app-ux-input
                 controlName="token"

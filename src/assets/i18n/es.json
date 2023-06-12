@@ -3007,19 +3007,21 @@
       }
     },
     "user_email": {
-      "header": "Comprar cripto",
+      "header": "Crear cuenta",
       "provider": "Proveedor: Kripton Market",
-      "title": "Para continuar tu compra, ingresa el email de tu cuenta Kripton Market",
-      "subtitle": "Si no posees una cuenta, escribe el email con el que quieres que te registremos.",
+      "main_title": "Registrá tu email para comprar criptomonedas",
+      "secondary_title": "Ingresá el código de seguridad",
+      "main_subtitle": "Te vamos a enviar un correo para validar tu email. Cuando lo valides, vas a recibir un código de seguridad.",
+      "secondary_subtitule": "Te mandamos el código a tu email. Tiene 10 minutos de validez.",
       "label_email": "Email",
       "button": "Continuar",
       "text_token": "Enviamos un código temporal de ingreso a tu email.\n Si no lo encuentras, revisa tu bandeja de spam.",
-      "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones.",
-      "label_token": "Código de ingreso",
+      "text": "Si ya tenés cuenta en Kripton Market, ingresá el email con el que te registraste.",
+      "label_token": "Código de seguridad",
       "toast_success": "Te reenviamos el código de ingreso a tu email.",
       "resend_email": {
         "title_not_sent": "¿No recibiste el código?",
-        "title_sent": "Si no recibiste el código se puede reenviar en",
+        "title_sent": "Si no lo recibiste, vamos a enviarte uno nuevo en",
         "title_exceeded_attempts": "¿Tienes algún inconveniente con el código?",
         "link_not_sent": "Reenviar código",
         "link_exceeded_attempts": "Contactar con soporte"
