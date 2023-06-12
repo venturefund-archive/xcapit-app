@@ -23,10 +23,15 @@ import { GeneralModalWithTwoButtonsComponent } from 'src/app/shared/components/g
 import { ModalController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
 import { TranslateService } from '@ngx-translate/core';
+import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
+import { KriptonStorageService } from '../../fiat-ramps/shared-ramps/services/kripton-storage/kripton-storage.service';
+import { ActivatedRoute } from '@angular/router';
+import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/modal-factory.injectable';
+import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
 
 @Component({
   selector: 'app-simplified-home-wallet',
-  template: `<ion-header>
+  template: ` <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
         <div class="header">
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
@@ -57,13 +62,13 @@ import { TranslateService } from '@ngx-translate/core';
           <ion-text class="swt__fiat-balance__text ux-font-title-xs">
             =
             {{ this.tokenDetail.price * this.tokenDetail.balance | number : '1.2-2' | hideText : this.hideFundText }}
-            USD</ion-text
-          >
+            USD
+          </ion-text>
         </div>
       </div>
       <div class="swt__overlap_buttons">
         <app-simplified-wallet-subheader-buttons
-          (openWarrantyModal)="this.openWarrantyModal()"
+          (openWarrantyModal)="this._showWarrantyModal()"
         ></app-simplified-wallet-subheader-buttons>
       </div>
 
@@ -95,8 +100,8 @@ import { TranslateService } from '@ngx-translate/core';
                   *ngIf="this.warranty"
                   class="ux-font-text-xs swt__warranty__card__content__data__item__amount"
                 >
-                  {{ this.warranty.amount * this.tokenDetail.price }} USD</ion-label
-                >
+                  {{ this.warranty.amount * this.tokenDetail.price }} USD
+                </ion-label>
                 <ion-skeleton-text class="fiat-amount" *ngIf="!this.warranty"></ion-skeleton-text>
               </div>
             </div>
@@ -105,10 +110,10 @@ import { TranslateService } from '@ngx-translate/core';
             <ion-button
               class="ux_button"
               color="secondary"
-              (click)="this.openWarrantyModal()"
+              (click)="this._showWarrantyModal()"
               appTrackClick
               name="ux_nav_go_to_warrant"
-              [disabled]="this.disabled"
+              [disabled]="this.tokenDetail?.balance === 0"
             >
               {{ 'wallets.home.subheader_buttons_component.warranty_card' | translate }}
             </ion-button>
@@ -157,8 +162,6 @@ export class SimplifiedHomeWalletPage {
   tokenDetail: TokenDetail;
   formattedTokenName: string;
   warranty: { amount: number };
-  openingModal = false;
-  disabled = true;
   modalHref: string;
   private blockchain: Blockchain;
   private token: Token;
@@ -175,7 +178,11 @@ export class SimplifiedHomeWalletPage {
     private tokenDetailInjectable: TokenDetailInjectable,
     private warrantiesService: WarrantiesService,
     private modalController: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private fiatRampsService: FiatRampsService,
+    private kriptonStorage: KriptonStorageService,
+    private activatedRoute: ActivatedRoute,
+    private modalFactoryInjectable: ModalFactoryInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -187,6 +194,7 @@ export class SimplifiedHomeWalletPage {
     await this.setWallet();
     await this.getWarranty();
     await this.setTokenDetail();
+    await this.showModal();
     await this.getTransfers();
   }
 
@@ -217,16 +225,63 @@ export class SimplifiedHomeWalletPage {
     );
     await this.tokenDetail.cached();
     await this.tokenDetail.fetch();
-    this.checkBalance();
   }
 
-  checkBalance() {
-    this.disabled = this.tokenDetail.balance === 0;
-    if (this.tokenDetail.balance === 0) {
-      this.openWarrantyModalWithBuyOrDepositOpts();
-    } else {
-      this.openWarrantyModal();
+  async showModal() {
+    const hasPendingOperations = await this._hasPendingOperations();
+    if (this.warranty.amount === 0 && !this._showRegistrationModal()) {
+      if (hasPendingOperations && this._hasBalance()) {
+        await this._showHasCryptoModal();
+      } else if (hasPendingOperations && !this._hasBalance()) {
+        await this._showPendingCryptoModal();
+      } else if (!hasPendingOperations && this._hasBalance()) {
+        await this._showWarrantyModal();
+      } else if (!hasPendingOperations && !this._hasBalance()) {
+        await this._showWarrantyModalWithBuyOrDepositOpts();
+      }
     }
+  }
+
+  private _showRegistrationModal(): boolean {
+    return !!this.activatedRoute.snapshot.queryParamMap.get('showRegistrationModal');
+  }
+
+  private _hasBalance() {
+    return this.tokenDetail.balance > 0;
+  }
+
+  private async _showHasCryptoModal() {
+    await this.modalFactoryInjectable
+      .create()
+      .oneBy(Modals.GENERAL_WITH_BUTTON, [
+        'warranties.modal_has_crypto.title',
+        'warranties.modal_has_crypto.description',
+        'warranties.modal_has_crypto.button_text',
+        '/warranties/send-warranty',
+      ])
+      .show();
+  }
+
+  private async _showPendingCryptoModal() {
+    await this.modalFactoryInjectable
+      .create()
+      .oneBy(Modals.GENERAL_WITH_BUTTON, [
+        'warranties.modal_pending_crypto.title',
+        'warranties.modal_pending_crypto.description',
+        'warranties.modal_pending_crypto.button_text',
+        '',
+      ])
+      .show();
+  }
+
+  private async _hasPendingOperations(): Promise<boolean> {
+    const auth_token = await this.kriptonStorage.get('access_token');
+    const email = await this.kriptonStorage.get('email');
+    if (auth_token && email) {
+      const operations = await this.fiatRampsService.getUserOperations({ email, auth_token }).toPromise();
+      return operations.some((op) => op.status === 'received' && op.operation_type === 'cash-in');
+    }
+    return false;
   }
 
   private async setWallet() {
@@ -252,7 +307,7 @@ export class SimplifiedHomeWalletPage {
     this.warranty = await this.warrantiesService.verifyWarranty({ wallet: this.wallet.address() }).toPromise();
   }
 
-  async openWarrantyModal() {
+  async _showWarrantyModal() {
     const modal = await this.modalController.create({
       component: GeneralModalWithTwoButtonsComponent,
       cssClass: 'modal',
@@ -274,7 +329,7 @@ export class SimplifiedHomeWalletPage {
     await modal.present();
   }
 
-  async openWarrantyModalWithBuyOrDepositOpts() {
+  async _showWarrantyModalWithBuyOrDepositOpts() {
     const modal = await this.modalController.create({
       component: GeneralModalWithTwoButtonsComponent,
       cssClass: 'modal',

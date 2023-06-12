@@ -3537,9 +3537,19 @@
       "secondButton": "Withdraw warranty"
     },
     "modal_info_to_buy_or_deposit": {
-      "header": "Now you can buy crypto or transfer the ones you have in another wallet. Then, you will be able to set up your collateral to order your cards.",
+      "header": "Now you can buy crypto or transfer the ones you have in another wallet. Then, you will be able to set up your warranty to order your cards.",
       "firstButton": "Buy cryptocurrencies",
       "secondButton": "Receive crypto from another account"
+    },
+    "modal_pending_crypto": {
+      "title": "You already have your cryptos",
+      "description": "We will notify you when your cryptos are enabled so that you can set up your warranty",
+      "button_text": "Create warranty"
+    },
+    "modal_has_crypto": {
+      "title": "You already have your cryptos",
+      "description": "Now you can create the backup warranty to order your Naranja X credit cards",
+      "button_text": "Create warranty"
     },
     "send_warranty": {
       "header": "Make a Warranty",

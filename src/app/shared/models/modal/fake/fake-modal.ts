@@ -1,6 +1,6 @@
-import { BalanceModal } from '../balance-modal.interface';
+import { Modal } from "../modal.interface";
 
-export class FakeBalanceModal implements BalanceModal {
+export class FakeModal implements Modal {
   public calls = 0;
 
   show(config = {}): Promise<void> {

@@ -81,8 +81,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           >
             {{ 'fiat_ramps.home_of_purchases.footer.buy_button' | translate }}
           </ion-button>
-          <!--            *appFeatureFlag="'ff_sellEnabled'"-->
           <ion-button
+            *appFeatureFlag="'ff_sellEnabled'"
             class="ux_button"
             appTrackClick
             name="ux_sell_new"

@@ -55,8 +55,9 @@ import { solanaAddress1 } from '../../shared-wallets/fixtures/raw-address-data';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
 import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-connection';
 import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
-import BalanceModalInjectable from '../../../../shared/models/balance-modal/injectable/balance-modal.injectable';
-import { FakeBalanceModal } from '../../../../shared/models/balance-modal/fake/fake-balance-modal';
+import { FakeModal } from '../../../../shared/models/modal/fake/fake-modal';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { FakeModalFactory } from '../../../../shared/models/modal/factory/fake/fake-modal-factory';
 
 describe('SendDetailPage', () => {
   let component: SendDetailPage;
@@ -87,8 +88,8 @@ describe('SendDetailPage', () => {
   let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
   let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
   let solanaConnectionInjectableSpy: jasmine.SpyObj<SolanaConnectionInjectable>;
-  let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
-  let fakeBalanceModal: FakeBalanceModal;
+  let fakeBalanceModal: FakeModal;
+  let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const _continueButton = (): DebugElement => {
@@ -203,9 +204,9 @@ describe('SendDetailPage', () => {
       create: new FakeConnection(),
     });
 
-    fakeBalanceModal = new FakeBalanceModal();
-    balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectableSpy', {
-      create: fakeBalanceModal,
+    fakeBalanceModal = new FakeModal();
+    modalFactoryInjectableSpy = jasmine.createSpyObj('ModalFactoryInjectable', {
+      create: new FakeModalFactory(fakeBalanceModal),
     });
 
     TestBed.configureTestingModule({
@@ -237,7 +238,7 @@ describe('SendDetailPage', () => {
         { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
         { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
         { provide: SolanaConnectionInjectable, useValue: solanaConnectionInjectableSpy },
-        { provide: BalanceModalInjectable, useValue: balanceModalInjectableSpy },
+        { provide: ModalFactoryInjectable, useValue: modalFactoryInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -405,7 +406,7 @@ describe('SendDetailPage', () => {
     expect(fakeBalanceModal.calls).toEqual(1);
   });
 
-  it('should show toast when token is less that balance ', async () => {
+  it('should show toast when token is less than balance ', async () => {
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
       {

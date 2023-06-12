@@ -46,7 +46,8 @@ import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/con
 import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
 import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
-import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { Modals } from '../../../../shared/models/modal/factory/default/default-modal-factory';
 
 @Component({
   selector: 'app-send-detail',
@@ -179,7 +180,7 @@ export class SendDetailPage {
     private solanaFeeOf: SolanaFeeOfInjectable,
     private contactDataService: ContactDataService,
     private solanaConnection: SolanaConnectionInjectable,
-    private balanceModalInjectable: BalanceModalInjectable
+    private modalFactoryInjectable: ModalFactoryInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -470,7 +471,9 @@ export class SendDetailPage {
   async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
     if (!this.modalOpened && window.location.href === this.modalHref) {
       this.modalOpened = true;
-      const modal = this.balanceModalInjectable.create(token, description, primaryButtonText, secondaryButtonText);
+      const modal = this.modalFactoryInjectable
+        .create()
+        .oneBy(Modals.BALANCE, [token, description, primaryButtonText, secondaryButtonText]);
       await modal.show();
       modal.onDidDismiss().then(() => (this.modalOpened = false));
     }
