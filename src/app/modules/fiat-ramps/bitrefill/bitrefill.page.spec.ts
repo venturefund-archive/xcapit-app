@@ -48,6 +48,8 @@ import { SpyProperty } from 'src/testing/spy-property.spec';
 import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { EnvService } from 'src/app/shared/services/env/env.service';
+import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
+import { FakeBalanceModal } from 'src/app/shared/models/balance-modal/fake/fake-balance-modal';
 
 describe('BitrefillPage', () => {
   let component: BitrefillPage;
@@ -73,7 +75,9 @@ describe('BitrefillPage', () => {
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let envServiceSpy: jasmine.SpyObj<EnvService>;
-
+  let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
+  let fakeBalanceModal: FakeBalanceModal;
+  
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const tokens = new DefaultTokens(new TokenRepo(rawTokensData));
@@ -188,6 +192,12 @@ describe('BitrefillPage', () => {
       byKey: 'testAffiliateCode',
     });
 
+    fakeBalanceModal = new FakeBalanceModal();
+
+    balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectable', {
+      create: fakeBalanceModal,
+    });
+
     TestBed.configureTestingModule({
       declarations: [BitrefillPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -209,6 +219,7 @@ describe('BitrefillPage', () => {
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: EnvService, useValue: envServiceSpy },
+        { provide: BalanceModalInjectable, useValue: balanceModalInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -303,23 +314,21 @@ describe('BitrefillPage', () => {
 
   it('should show modal if user has not funds', fakeAsync(() => {
     new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(0);
-    modalOptions.componentProps = insufficientBalance;
     tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
     component.ionViewWillEnter();
     _dispatchEvent(nativeEventInvoice);
     tick();
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledOnceWith(modalOptions);
+    expect(fakeBalanceModal.calls).toEqual(1);
   }));
-
+  
   it('should show modal if user has not fee', fakeAsync(() => {
-    modalOptions.componentProps = insufficientFee;
     walletTransactionsServiceSpy.canAffordSendFee.and.resolveTo(false);
     component.ionViewWillEnter();
     _dispatchEvent(nativeEventInvoice);
     tick();
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledOnceWith(modalOptions);
+    expect(fakeBalanceModal.calls).toEqual(1);
   }));
 
   it('should not send transaction if transaction response fail', fakeAsync(() => {
