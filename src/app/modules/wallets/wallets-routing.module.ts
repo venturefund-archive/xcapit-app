@@ -48,7 +48,7 @@ const routes: Routes = [
         loadChildren: () => import('./failed-mnemonic/failed-mnemonic.module').then((m) => m.FailedMnemonicPageModule),
       },
       {
-        canActivate: [NoAuthGuard, AcceptedToSGuard],
+        canActivate: [NoAuthGuard],
         path: 'create-password',
         loadChildren: () => import('./create-password/create-password.module').then((m) => m.CreatePasswordPageModule),
       },
@@ -264,7 +264,19 @@ const routes: Routes = [
         loadChildren: () =>
           import('./derived-path-options/derived-path-options.module').then((m) => m.DerivedPathOptionsPageModule),
       },
+      {
+        path: 'select-wallet-type',
+        loadChildren: () => import('./select-wallet-type/select-wallet-type.module').then( m => m.SelectWalletTypePageModule)
+      },
+      {
+        path: 'steps-naranjax',
+        loadChildren: () => import('./user-steps-naranjax/user-steps-naranjax.module').then( m => m.UserStepsNaranjaxPageModule)
+      },
     ],
+  },
+  {
+    path: 'simplified-home-wallet',
+    loadChildren: () => import('./simplified-home-wallet/simplified-home-wallet.module').then( m => m.SimplifiedHomeWalletPageModule)
   },
 ];
 

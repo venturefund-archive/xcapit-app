@@ -18,39 +18,41 @@ import { WarrantiesService } from '../shared-warranties/services/warranties.serv
       </ion-toolbar>
     </ion-header>
     <ion-content class="ww ion-padding">
-      <form [formGroup]="this.form">
-        <div class="ww__withdraw-amount-card ux-card ion-padding no-border">
-          <div class="ww__withdraw-amount-card__title ux-font-text-xl">
-            {{ 'warranties.withdraw_warranty.title' | translate }}
-          </div>
-          <div class="ww__withdraw-amount-card__input">
-            <app-ux-input
-              controlName="email"
-              type="email"
-              inputmode="email"
-              [label]="'warranties.withdraw_warranty.text_email' | translate"
-              aria-label="email"
-              tabindex="0"
-              [labelColor]="'primary'"
-              [placeholder]="'Email'"
-            ></app-ux-input>
-            <app-ux-input
-              type="number"
-              controlName="dni"
-              inputmode="number"
-              [labelColor]="'primary'"
-              [label]="'warranties.withdraw_warranty.text_dni' | translate"
-              [placeholder]="'DNI'"
-              tabindex="1"
-            ></app-ux-input>
-            <div class="ww__withdraw-amount-card__subtitle ux-font-text-base">
-              {{ 'warranties.withdraw_warranty.subtitle' | translate }}
+      <div class="ux_main">
+        <form [formGroup]="this.form">
+          <div class="ww__withdraw-amount-card ux-card ion-padding no-border">
+            <div class="ww__withdraw-amount-card__title ux-font-text-xl">
+              {{ 'warranties.withdraw_warranty.title' | translate }}
+            </div>
+            <div class="ww__withdraw-amount-card__input">
+              <app-ux-input
+                controlName="email"
+                type="email"
+                inputmode="email"
+                [label]="'warranties.withdraw_warranty.text_email' | translate"
+                aria-label="email"
+                tabindex="0"
+                [labelColor]="'primary'"
+                [placeholder]="'Email'"
+              ></app-ux-input>
+              <app-ux-input
+                type="number"
+                controlName="dni"
+                inputmode="number"
+                [labelColor]="'primary'"
+                [label]="'warranties.withdraw_warranty.text_dni' | translate"
+                [placeholder]="'DNI'"
+                tabindex="1"
+              ></app-ux-input>
+              <div class="ww__withdraw-amount-card__subtitle ux-font-text-base">
+                {{ 'warranties.withdraw_warranty.subtitle' | translate }}
+              </div>
             </div>
           </div>
+        </form>
+        <div class="ww__support">
+          <app-whatsapp-support> </app-whatsapp-support>
         </div>
-      </form>
-      <div class="ww__support">
-        <app-whatsapp-support> </app-whatsapp-support>
       </div>
     </ion-content>
     <ion-footer class="ww__footer">

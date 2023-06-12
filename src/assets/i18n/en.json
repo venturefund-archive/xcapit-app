@@ -292,12 +292,8 @@
       "help_link": "Help"
     },
     "on_boarding": {
-      "title_1": "We were waiting for you",
-      "title_2": "Investing has never been easier",
-      "title_3": "Learn by playing!",
-      "description_1": "With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning.",
-      "description_2": "Invest in DeFi! Fast, free transactions without intermediaries.",
-      "description_3": "The financial education you wanted. You will receive incentives for your learning and progress.",
+      "title": "We were waiting for you",
+      "description": "With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning.",
       "primary_action": "Create wallet",
       "secondary_action": "Import wallet"
     },
@@ -689,6 +685,7 @@
       "security_configuration": "Configuration",
       "google_drive_backup": "Google Drive backup",
       "push_notifications": "Push notifications",
+      "wallet_type": "Activate Web3 functions",
       "language": "Language",
       "logout": "Log Out",
       "new_badge": "New",
@@ -1732,6 +1729,7 @@
         "subtitle": "Restore your wallet using this option if you have previously made a backup."
       },
       "toasts": {
+        "generic": "An error occurred. Please try again",
         "denied": "Access denied. Permissions are required to perform the backup. Please try again.",
         "closed": "We were unable to access your account to perform the backup. Please try again.",
         "info": "We have not found any backups. Please make sure you are logged in with the correct account.",
@@ -1823,12 +1821,31 @@
       "terms_of_use_button": "See terms of use",
       "submit_button": "Confirm and accept"
     },
+    "select_wallet_type": {
+      "title": "To start, choose one of the options",
+      "warranty_wallet": {
+        "title": "Continue with the application for your cards",
+        "description": "Create a backup guarantee to order your Naranja X credit cards."
+      },
+      "web3_wallet": {
+        "title": "Operate on Web 3",
+        "description": "You will be able to send, receive, and swap tokens for investment or constitute a guarantee."
+      }
+    },
     "recovery_phrase_information": {
       "header": "Recovery phrase",
       "text1": "Xcapit will never ask you to share your recovery phrase.",
       "text2": "The recovery phrase is the master key to your funds. Never share it with anybody.",
       "text3": "If you lose your recovery phrase, not even Xcapit will be able to recover your funds.",
       "button_text": "Continue"
+    },
+    "user_steps_naranjax": {
+      "title": "Follow these steps to order your Naranja X cards.",
+      "item_1": "Create a password and protect your account with a backup copy.",
+      "item_2": "Buy as many cryptocurrencies as you want.",
+      "item_3":"Use your cryptocurrencies to create a collateral backing.",
+      "item_4": "Know what cards and available for purchases you can have.",
+      "button": "Continue"
     },
     "recovery_phrase_information_no_wallet": {
       "header": "Recovery phrase",
@@ -1872,9 +1889,11 @@
         "create_wallet_button": "Create Wallet"
       },
       "subheader_buttons_component": {
+        "warranty_card": "Create warranty",
         "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy <br/> Sell",
+        "only_buy_card": "Buy",
         "swap_card": "Swap"
       },
       "backup_card_component": {
@@ -1905,13 +1924,13 @@
       "no_result_search": "No results"
     },
     "success_creation": {
-      "title": "Congratulations!\nYou have created your wallet",
-      "title1": "Congratulations!\nProtect your wallet",
-      "subtitle": "Protect it by backing up your recovery phrase.\nThis is the master key to your funds.",
-      "subtitle1": "One last step! Create an encrypted backup of your wallet in Google Drive.",
+      "title": "Ready! You now have your password",
+      "title1": "Excellent!\nYou created a backup of your wallet",
+      "subtitle": "Now protect your account with a backup in Google Drive.",
+      "subtitle1": "One last step! Protect it by backing up your recovery phrase.",
       "success_button": "Go to wallet",
       "ribbon_recommended": "Suggested",
-      "finish_button": "Finish",
+      "finish_button": "Go to my wallet",
       "backup_options": {
         "option_1": {
           "title": "Protect my wallet",
@@ -1919,7 +1938,9 @@
         },
         "option_2": {
           "title": "Backup to Google Drive",
-          "subtitle": "Don't lose your wallet, save an encrypted copy. It will only take a few minutes."
+          "subtitle": "Don't lose your wallet, save an encrypted copy. It will only take a few minutes.",
+          "warranty_title": "Protect your account",
+          "warranty_subtitle": "All your operations will be protected."
         }
       },
       "password_modal": {
@@ -1930,7 +1951,7 @@
       "backup_succes_modal": {
         "title": "Congratulations!",
         "description": "You have successfully created a backup of your wallet.",
-        "button_text": "Go to my wallet"
+        "button_text": "Finish"
       },
       "secondary_action": {
         "title": "Another time"
@@ -1954,6 +1975,11 @@
       "word_counter": "Word No. "
     },
     "create_password": {
+      "warranty": {
+        "title": "To get started, create your password",
+        "description": "You will use it for all your Xcapit operations. Write it down in a safe place so you don't forget it.",
+        "terms_and_conditions": "By continuing, you agree to the <a class='ux-link-xl' target='_blank' href='https://www.xcapit.com/terminos-y-condiciones'>Terms and Conditions</a> and <a class='ux-link-xl' target='_blank' href='https://www.xcapit.com/politicas-de-privacidad'>Privacy Policy</a>."
+      },
       "header": "Create Wallet",
       "title": "Create your password",
       "description": "You will use it to approve your transactions.",
@@ -2220,6 +2246,12 @@
           "receive": "To continue, activate the display of the tokens you wish to receive."
         },
         "button": "Activate tokens"
+      },
+      "profile_type_modal": {
+        "title": "Important!",
+        "description": "To perform this type of operation you must change your profile to that of an advanced user.<br/> Don't worry! You will be able to return to the warranty home page from the profile menu.",
+        "button_back": "Back",
+        "button_change": "Change"
       }
     },
     "asset_detail": {
@@ -2425,6 +2457,18 @@
       },
       "disclaimer": "*These paths will be useful in case you want to export each address individually.",
       "link": "What method should I choose?"
+    },
+    "simplified_home_wallet": {
+      "available_balance": "Available balance",
+      "warranties": "My warranties",
+      "warranty_amount": "Amount in warranty",
+      "empty_transactions": "You did not make transactions!<br/>Buy or deposit USDC to create a warranty.",
+
+      "insufficient_balance": {
+        "text": "You don't have {{token}} in your account to make a warranty.",
+        "firstButtonName": "Buy {{token}}",
+        "secondaryButtonName": "Deposit {{token}}"
+      }
     }
   },
   "tools": {
@@ -2490,10 +2534,12 @@
     },
     "home_of_purchases": {
       "header": "Buy - Sell",
+      "header_simplified": "Buy",
       "question": "How do purchases work?",
       "footer": {
         "title": "What do you want to do?",
         "buy_button": "Buy",
+        "buy_button_simplified": "new purchase",
         "sell_button": "Sell"
       }
     },
@@ -2537,6 +2583,8 @@
     "operations_list": {
       "title": "With Kripton Market",
       "operation": "Coin",
+      "kripton_provider": "Provider: Kripton Market",
+      "simplified_title": "With bank transfer",
       "amount": "Amount",
       "date": "Date",
       "status": "Status",
@@ -2865,7 +2913,10 @@
         "quantity": "Amount",
         "payment_method": "Payment method",
         "to_pay": "You will pay*",
-        "input_error": "The minimum purchase amount is ${{amount}} {{currency}}",
+        "input_error": {
+          "cash-in": "The minimum purchase amount is ${{amount}} {{currency}}",
+          "cash-out": "The minimum sale amount is ${{amount}} {{currency}}"
+        },
         "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day.",
         "estimated_fee": "Estimated transaction fee",
         "estimated_provider_fee": "Estimated provider fee"
@@ -3000,7 +3051,10 @@
     },
     "kripton_operation_detail": {
       "header": "Operation detail",
-      "title": "Buy",
+      "title": {
+        "cash-in": "Buy",
+        "cash-out": "Sell"
+      },
       "state": "Status",
       "state_toast": {
         "cash-in": {
@@ -3267,6 +3321,8 @@
       "description_wallet_operations": "How to invest, operations and costs.",
       "title_buy": "Crypto buying",
       "description_buy": "Buying, commissions, limits and payment methods.",
+      "title_warranty": "Warranty constitution",
+      "description_warranty": "Requirements, limits, confection, withdrawal, fees and more",
       "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Connect wallet and interact with dapp.",
       "title_nft": "NFT",
@@ -3467,6 +3523,11 @@
       "information": "More information",
       "firstButton": "Make a warranty",
       "secondButton": "Withdraw warranty"
+    },
+    "modal_info_to_buy_or_deposit": {
+      "header": "Now you can buy crypto or transfer the ones you have in another wallet. Then, you will be able to set up your collateral to order your cards.",
+      "firstButton": "Buy cryptocurrencies",
+      "secondButton": "Receive crypto from another account"
     },
     "send_warranty": {
       "header": "Make a Warranty",

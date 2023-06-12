@@ -26,6 +26,12 @@
       }
     }
 
+    .provider {
+      display: flex;
+      align-items: center;
+      color: var(--ion-color-primary);
+    }
+
     ion-text {
       color: var(--ion-color-neutral80);
     }

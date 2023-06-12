@@ -27,7 +27,7 @@ import { TrackService } from '../../services/track/track.service';
               <img src="assets/img/warranty/naranjax.svg" />
             </div>
             <div class="ux-text-base main__body__content__header">
-              <ion-text class="highlighted">{{ this.highlightedHeader }}</ion-text>
+              <ion-text *ngIf="this.highlightedHeader" class="highlighted">{{ this.highlightedHeader }}</ion-text>
               <div>
                 <ion-text>{{ this.header }}</ion-text>
               </div>
@@ -60,9 +60,11 @@ import { TrackService } from '../../services/track/track.service';
                   class="ux_button main__actions__button ion-no-margin"
                   appTrackClick
                   name="secondButton"
-                  color="secondary"
+                  [ngClass]="{buyDeposit: this.isBuyOrDeposit}"
                   size="large"
+                  color="secondary"
                   expand="block"
+                  [fill]="this.isBuyOrDeposit"
                   (click)="this.actionSecondButton()"
                 >
                   {{ this.secondButton }}
@@ -87,6 +89,7 @@ export class GeneralModalWithTwoButtonsComponent {
   secondButton: string;
   eventSecondButton: string;
   urlSecondButton: string;
+  isBuyOrDeposit: boolean;
 
   constructor(
     private modalController: ModalController,

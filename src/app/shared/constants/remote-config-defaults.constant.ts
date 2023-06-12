@@ -20,5 +20,6 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_fundFaucet: false,
   ff_fundFaucetOnWarranties: false,
   ff_walletConnectV2: false,
-  ff_disableGDriveBackup: true
+  ff_disableGDriveBackup: false,
+  ff_warranty_wallet: false
 };

@@ -18,6 +18,13 @@ export const SUPPORT_OPTIONS = [
     route: '/support/faqs/buy',
   },
   {
+    title: 'support.support_options.title_warranty',
+    description: 'support.support_options.description_warranty',
+    icon: '../../assets/ux-icons/ux-warranty-icon.svg',
+    route: 'https://www.xcapit.com/naranjax#faqs',
+    event: 'ux_faq_warranty',
+  },
+  {
     title: 'support.support_options.title_wallet_connect',
     description: 'support.support_options.description_wallet_connect',
     icon: '../../assets/ux-icons/wallet-connect.svg',

@@ -2,6 +2,10 @@
   .sw {
     --background: var(--ion-color-background);
 
+    form {
+      margin-bottom: 20px;
+    }
+
     &__send-amount-card {
       margin-top: 8px;
 
@@ -11,7 +15,7 @@
     }
 
     &__support {
-      margin-top: 24px;
+      margin-top: auto;
     }
 
     &__footer {

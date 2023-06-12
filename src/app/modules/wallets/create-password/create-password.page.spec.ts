@@ -26,47 +26,6 @@ import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wal
 import { WalletStorageDataFactory } from '../shared-wallets/models/wallet-storage-data/factory/wallet-storage-data-factory';
 import { FakeWalletStorageData } from '../shared-wallets/models/wallet-storage-data/fake/fake-wallet-storage-data';
 
-const testMnemonic: Mnemonic = {
-  locale: 'en',
-  path: '',
-  phrase: 'test phrase other word number another rooster keyboard confort destroy jingle july',
-};
-const formData = {
-  valid: {
-    password: 'Test123',
-    repeat_password: 'Test123',
-  },
-  invalid: {
-    password: 'Test123',
-    repeat_password: 'Test111',
-  },
-};
-const coins = [
-  {
-    id: 0,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'ETH',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'http://testrpc.test/',
-    native: true,
-  },
-  {
-    id: 1,
-    name: 'LINK - Chainlink',
-    logoRoute: 'assets/img/coins/LINK.png',
-    last: false,
-    value: 'LINK',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'http://testrpc.test/',
-    contract: '0x01BE23585060835E02B77ef475b0Cc51aA1e0709',
-    decimals: 18,
-  },
-];
-
 describe('CreatePasswordPage', () => {
   let component: CreatePasswordPage;
   let fixture: ComponentFixture<CreatePasswordPage>;
@@ -87,6 +46,47 @@ describe('CreatePasswordPage', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let walletStorageDataFactoryInjectableSpy: jasmine.SpyObj<WalletStorageDataFactoryInjectable>;
   let walletStorageDataFactorySpy: jasmine.SpyObj<WalletStorageDataFactory>;
+
+  const testMnemonic: Mnemonic = {
+    locale: 'en',
+    path: '',
+    phrase: 'test phrase other word number another rooster keyboard confort destroy jingle july',
+  };
+  const formData = {
+    valid: {
+      password: 'Test123',
+      repeat_password: 'Test123',
+    },
+    invalid: {
+      password: 'Test123',
+      repeat_password: 'Test111',
+    },
+  };
+  const coins = [
+    {
+      id: 0,
+      name: 'ETH - Ethereum',
+      logoRoute: 'assets/img/coins/ETH.svg',
+      last: false,
+      value: 'ETH',
+      network: 'ERC20',
+      chainId: 42,
+      rpc: 'http://testrpc.test/',
+      native: true,
+    },
+    {
+      id: 1,
+      name: 'LINK - Chainlink',
+      logoRoute: 'assets/img/coins/LINK.png',
+      last: false,
+      value: 'LINK',
+      network: 'ERC20',
+      chainId: 42,
+      rpc: 'http://testrpc.test/',
+      contract: '0x01BE23585060835E02B77ef475b0Cc51aA1e0709',
+      decimals: 18,
+    },
+  ];
 
   beforeEach(waitForAsync(() => {
     fakeLoadingService = new FakeLoadingService();
@@ -142,6 +142,7 @@ describe('CreatePasswordPage', () => {
     });
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       clear: Promise.resolve(),
+      get: Promise.resolve(false),
     });
 
     walletStorageDataFactorySpy = jasmine.createSpyObj('WalletStorageDataFactory', {
@@ -230,19 +231,33 @@ describe('CreatePasswordPage', () => {
     expect(walletInitializeProcessSpy.run).toHaveBeenCalledTimes(0);
   });
 
-  it('should navigate to derived-path-options/import when mode is import', () => {
-    component.ionViewWillEnter();
+  it('should navigate to derived-path-options/import when mode is import', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_edit"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('wallets/derived-path-options/import');
   });
 
-  it('should navigate to derived-path-options/create when mode is create', () => {
+  it('should navigate to derived-path-options/create when mode is create', async () => {
     fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
+
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_edit"]')).nativeElement.click();
     fixture.detectChanges();
+
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('wallets/derived-path-options/create');
+  });
+
+  it('should not render button edit if is simplified wallet', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(true);
+    await component.ionViewWillEnter();
+
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('ion-button[name="ux_edit"]'));
+    fixture.detectChanges();
+    expect(el).toBeFalsy();
   });
 
   it('should create a wallet when did enter', async () => {

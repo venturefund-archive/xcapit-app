@@ -17,6 +17,7 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wallet-storage-data/injectable/wallet-storage-data-factory.injectable';
+import { SimplifiedWallet } from '../shared-wallets/models/simplified-wallet/simplified-wallet';
 
 @Component({
   selector: 'app-create-password',
@@ -24,15 +25,13 @@ import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wal
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/home"></ion-back-button>
+          <ion-back-button defaultHref="/users/on-boarding"></ion-back-button>
         </ion-buttons>
-        <ion-title *ngIf="this.mode === 'import'">{{ 'wallets.recovery_wallet.header' | translate }}</ion-title>
-        <ion-title *ngIf="this.mode !== 'import'">{{ 'wallets.create_password.header' | translate }}</ion-title>
-        <ion-label *ngIf="this.mode === 'import'" class="ux_toolbar__step" slot="end"
+        <ion-title>{{
+          (this.mode === 'import' ? 'wallets.recovery_wallet.header' : 'wallets.create_password.header') | translate
+        }}</ion-title>
+        <ion-label *ngIf="this.mode === 'import' && !this.isUserWarranty" class="ux_toolbar__step" slot="end"
           >4 {{ 'shared.step_counter.of' | translate }} 4</ion-label
-        >
-        <ion-label *ngIf="this.mode !== 'import'" class="ux_toolbar__step" slot="end"
-          >2 {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >
       </ion-toolbar>
     </ion-header>
@@ -41,11 +40,17 @@ import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wal
       <form [formGroup]="this.createPasswordForm" class="ux_main">
         <div class="ux_content">
           <div>
-            <ion-text name="Title" class="ux-font-text-lg">{{ 'wallets.create_password.title' | translate }}</ion-text>
+            <ion-text name="Title" class="ux-font-text-lg">{{
+              (this.isUserWarranty ? 'wallets.create_password.warranty.title' : 'wallets.create_password.title')
+                | translate
+            }}</ion-text>
           </div>
           <div class="description ion-margin-top">
             <ion-text name="Description" class="ux-font-text-base">{{
-              'wallets.create_password.description' | translate
+              (this.isUserWarranty
+                ? 'wallets.create_password.warranty.description'
+                : 'wallets.create_password.description'
+              ) | translate
             }}</ion-text>
           </div>
 
@@ -78,7 +83,7 @@ import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wal
 
     <ion-footer>
       <div name="Create Password Form Buttons" class="ux_footer">
-        <div class="import_method">
+        <div class="import_method" *ngIf="!this.isUserWarranty">
           <div class="texts">
             <div class="title">
               <ion-text *ngIf="this.mode !== 'import'" class="ux-font-text-lg">{{
@@ -108,6 +113,12 @@ import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wal
               >{{ 'wallets.create_password.edit_derived_path_button' | translate }}</ion-button
             >
           </div>
+        </div>
+        <div *ngIf="this.mode !== 'import'">
+          <ion-label
+            class="ux-font-text-xs"
+            [innerHTML]="'wallets.create_password.warranty.terms_and_conditions' | translate"
+          ></ion-label>
         </div>
         <div class="button">
           <ion-button
@@ -151,6 +162,7 @@ import { WalletStorageDataFactoryInjectable } from '../shared-wallets/models/wal
 export class CreatePasswordPage {
   mode: string;
   loading: boolean;
+  isUserWarranty: boolean;
   method: WalletCreationMethod;
   createPasswordForm: UntypedFormGroup = this.formBuilder.group(
     {
@@ -199,11 +211,12 @@ export class CreatePasswordPage {
     private walletStorageDataFactoryInjectable: WalletStorageDataFactoryInjectable
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.method = this.walletEncryptionService.creationMethod;
     this.loadingService.enabled();
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.trackClickName = `ux_${this.mode}_edit`;
+    await this.getUserWarranty();
   }
 
   async ionViewDidEnter() {
@@ -248,6 +261,10 @@ export class CreatePasswordPage {
     }
 
     return this.navController.navigateRoot(url);
+  }
+
+  private async getUserWarranty() {
+    this.isUserWarranty = await new SimplifiedWallet(this.ionicStorageService).value();
   }
 
   goToDerivedPathOptions() {

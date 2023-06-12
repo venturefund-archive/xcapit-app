@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { TwoButtonsAlertComponent } from 'src/app/shared/components/two-buttons-alert/two-buttons-alert.component';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { KriptonStorageService } from '../../services/kripton-storage/kripton-storage.service';
 import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-provider-kripton.component';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-operations-list',
@@ -13,9 +14,12 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
       <ion-card-header [ngClass]="this.cssWithLine">
         <div>
           <ion-card-title class="card-title ux-font-text-lg"
-            >{{ 'fiat_ramps.operations_list.title' | translate }}
+            >{{ this.title | translate }}
             <ion-icon name="information-circle" color="info" (click)="this.showProviderInfo()"></ion-icon>
           </ion-card-title>
+          <div class="provider ux-font-text-xxs" *ngIf="this.isUserWarranty">
+            {{ 'fiat_ramps.operations_list.kripton_provider' | translate }}
+          </div>
           <ion-text class="ux-font-text-xs" *ngIf="this.isLogged">{{ this.loggedEmail | hideEmail }}</ion-text>
         </div>
         <div class="logout-icon" *ngIf="this.isLogged" (click)="this.showLogoutAlert()">
@@ -58,9 +62,10 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
   `,
   styleUrls: ['./operations-list.component.scss'],
 })
-export class OperationsListComponent implements OnChanges {
+export class OperationsListComponent implements OnInit, OnChanges {
   @Input() operationsList: FiatRampOperation[];
   @Input() isLogged: boolean;
+  @Input() isUserWarranty: boolean;
   @Output() loggedOut: EventEmitter<void> = new EventEmitter<void>();
   private readonly numberOfOperationsToShow = 3;
   firstOperations: FiatRampOperation[];
@@ -69,6 +74,7 @@ export class OperationsListComponent implements OnChanges {
   hasOperations: boolean;
   isInfoModalOpen = false;
   loggedEmail: string;
+  title: string;
 
   constructor(
     private modalController: ModalController,
@@ -76,6 +82,10 @@ export class OperationsListComponent implements OnChanges {
     private kriptonStorageService: KriptonStorageService,
     private translate: TranslateService
   ) {}
+
+  ngOnInit() {
+    this.setTitle();
+  }
 
   async ngOnChanges(changes: SimpleChanges) {
     await this.setEmail();
@@ -87,6 +97,12 @@ export class OperationsListComponent implements OnChanges {
 
   navigateToVerifier() {
     this.navController.navigateForward('/fiat-ramps/user-email');
+  }
+
+  setTitle() {
+    this.title = this.isUserWarranty
+      ? 'fiat_ramps.operations_list.simplified_title'
+      : 'fiat_ramps.operations_list.title';
   }
 
   sliceOperations() {

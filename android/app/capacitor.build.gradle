@@ -29,6 +29,7 @@ dependencies {
     implementation project(':capacitor-status-bar')
     implementation project(':capawesome-capacitor-app-update')
     implementation project(':codetrix-studio-capacitor-google-auth')
+    implementation project(':pantrist-capacitor-firebase-dynamic-links')
     implementation project(':capacitor-native-biometric')
 
 }

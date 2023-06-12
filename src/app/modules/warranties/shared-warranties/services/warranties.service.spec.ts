@@ -37,7 +37,7 @@ describe('WarrantiesService', ()=>{
   });
 
   it('should call post on http when verifyWarranty', () => {
-    warrantiesService.verifyWarranty({}).subscribe(() => {
+    warrantiesService.verifyWarranty({wallet: '0xeeee'}).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     })
   })

@@ -11,7 +11,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
@@ -27,6 +26,7 @@ import { By } from '@angular/platform-browser';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
 import { EnvService } from 'src/app/shared/services/env/env.service';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 describe('KriptonSaleSummaryPage', () => {
   let component: KriptonSaleSummaryPage;
@@ -35,13 +35,13 @@ describe('KriptonSaleSummaryPage', () => {
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
-  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
   let envServiceSpy: jasmine.SpyObj<EnvService>;
+  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
 
   const validData: OperationDataInterface = {
     country: 'Argentina',
@@ -127,11 +127,11 @@ describe('KriptonSaleSummaryPage', () => {
         { provide: KriptonStorageService, useValue: kriptonStorageSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
-        { provide: LoadingService, useValue: loadingServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
         { provide: EnvService, useValue: envServiceSpy },
+        { provide: LoadingService, useValue: loadingServiceSpy },
       ],
     }).compileComponents();
 

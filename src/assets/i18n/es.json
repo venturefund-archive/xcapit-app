@@ -279,12 +279,8 @@
       "help_link": "Ayuda"
     },
     "on_boarding": {
-      "title_1": "Te estábamos esperando",
-      "title_2": "Invertir nunca fue tan fácil",
-      "title_3": "¡Aprende jugando!",
-      "description_1": "Con la Wallet de Xcapit, tú tienes el control. En todo momento sabrás donde está tu dinero y cuántas ganancias obtienes.",
-      "description_2": "¡Invierte en DeFi! Transacciones rápidas, libres y sin intermediarios.",
-      "description_3": "La educación financiera que querías. Recibirás incentivos por tu aprendizaje y avance.",
+      "title": "Te estábamos esperando",
+      "description": "Con la Wallet de Xcapit, tú tienes el control. En todo momento sabrás donde está tu dinero y cuántas ganancias obtienes.",
       "primary_action": "Crear wallet",
       "secondary_action": "Importar wallet"
     },
@@ -678,6 +674,7 @@
       "security_configuration": "Configuración",
       "google_drive_backup": "Copia de seguridad Google Drive",
       "push_notifications": "Notificaciones push",
+      "wallet_type": "Activar funciones Web3",
       "language": "Idioma",
       "logout": "Cerrar Sesión",
       "new_badge": "Nuevo",
@@ -1721,6 +1718,7 @@
         "subtitle": "Restaurá tu wallet usando esta opción si previamente realizaste un backup."
       },
       "toasts": {
+        "generic": "Ha ocurrido un error. Inténtalo nuevamente",
         "denied": "Acceso denegado. Se requieren permisos para realizar la copia de seguridad. Inténtalo nuevamente.",
         "closed": "No hemos podido acceder a su cuenta para realizar la copia de seguridad. Inténtalo nuevamente.",
         "info": "No hemos encontrado ninguna copia de seguridad. Asegúrate de iniciar sesión con la cuenta correcta.",
@@ -1819,6 +1817,25 @@
       "text3": "Si pierdes tu frase de recuperación, ni siquiera Xcapit podrá recuperar tus fondos.",
       "button_text": "Continuar"
     },
+    "select_wallet_type": {
+      "title": "Para empezar, elegí una de las opciones",
+      "warranty_wallet": {
+        "title": "Continuar con la solicitud de tus tarjetas",
+        "description": "Creá una garantía de respaldo para pedir tus tarjetas de crédito Naranja X."
+      },
+      "web3_wallet": {
+        "title": "Operar en Web 3",
+        "description": "Podrás enviar, recibir, y swapear tokens para invertir o constituir una garantía."
+      }
+    },
+    "user_steps_naranjax": {
+      "title": "Seguí estos pasos para pedir tus tarjetas Naranja X",
+      "item_1": "Creá una contraseña y protegés tu cuenta con una copia de seguridad.",
+      "item_2": "Comprá la cantidad de criptomonedas que quieras.",
+      "item_3":"Usá tus criptomonedas para crear una garantía de respaldo.",
+      "item_4": "Conocé qué tarjetas y disponibles para compras podés tener.",
+      "button": "Continuar"
+    },
     "recovery_phrase_information_no_wallet": {
       "header": "Frase de recuperación",
       "text1": "Aún no tienes frase de recuperación.",
@@ -1861,9 +1878,11 @@
         "create_wallet_button": "Crear wallet"
       },
       "subheader_buttons_component": {
+        "warranty_card": "Gestionar garantía",
         "send_card": "Enviar",
         "receive_card": "Recibir",
         "buy_card": "Comprar <br/> Vender",
+        "only_buy_card": "Comprar",
         "swap_card": "Intercambiar"
       },
       "backup_card_component": {
@@ -1894,13 +1913,13 @@
       "no_result_search": "Sin resultados"
     },
     "success_creation": {
-      "title": "¡Felicitaciones!\nCreaste tu wallet",
-      "title1": "¡Felicitaciones!\nProtegiste tu wallet",
-      "subtitle": "Protégela haciendo una copia de seguridad de tu frase de recuperación.",
-      "subtitle1": "¡Un último paso! Crea una copia de seguridad encriptada de tu wallet en Google Drive.",
+      "title": "¡Listo! Ya tenés tu contraseña",
+      "title1": "¡Excelente!\nCreaste un backup de tu wallet ",
+      "subtitle": "Ahora protegé tu cuenta con una copia de seguridad en Google Drive.",
+      "subtitle1": "¡Un último paso! Protégela  haciendo una copia de seguridad de tu frase de recuperación.",
       "success_button": "Ir a wallet",
       "ribbon_recommended": "Recomendado",
-      "finish_button": "Finalizar",
+      "finish_button": "Ir a mi wallet",
       "backup_options": {
         "option_1": {
           "title": "Proteger mi wallet",
@@ -1908,7 +1927,9 @@
         },
         "option_2": {
           "title": "Backup en Google Drive",
-          "subtitle": "No pierdas tu wallet, guardá una copia encriptada. Sólo tomará unos minutos."
+          "subtitle": "No pierdas tu wallet, guardá una copia encriptada. Sólo tomará unos minutos.",
+          "warranty_title": "Proteger tu cuenta",
+          "warranty_subtitle": "Todas tus operaciones van a estar protegidas."
         }
       },
       "password_modal": {
@@ -1918,8 +1939,8 @@
       },
       "backup_succes_modal": {
         "title": "¡Felicitaciones!",
-        "description": "Creaste una copia de seguridad de tu wallet exitosamente.",
-        "button_text": "Ir a mi wallet"
+        "description": "Creaste una copia de seguridad de tu wallet en Google Drive",
+        "button_text": "Finalizar"
       },
       "secondary_action": {
         "title": "En otro momento"
@@ -1943,6 +1964,11 @@
       "word_counter": "Palabra N°"
     },
     "create_password": {
+      "warranty": {
+        "title": "Para empezar, creá tu contraseña",
+        "description": "Vas a usarla para todas tus operaciones en Xcapit. Anotala en un lugar seguro para no olvidarla.",
+        "terms_and_conditions": "Al continuar, aceptás los <a class='ux-link-xl' href='https://www.xcapit.com/terminos-y-condiciones'>Términos y condiciones</a> y la <a class='ux-link-xl' href='https://www.xcapit.com/politicas-de-privacidad'>política de privacidad</a>."
+      },
       "header": "Crear wallet",
       "title": "Crea tu contraseña",
       "description": "La usarás para aprobar tus transacciones.",
@@ -2161,6 +2187,12 @@
         "description": "Entiendo que si no realizo una copia de seguridad, podría perder el acceso a mis fondos.",
         "button_back": "Atrás",
         "button_skip": "Omitir"
+      },
+      "profile_type_modal": {
+        "title": "¡Importante!",
+        "description": "Para realizar este tipo de operación deberás cambiar tu perfil al de un usuario avanzado.<br/> ¡No te preocupes! podrás regresar al home de garantía desde el menú perfil.",
+        "button_back": "Atrás",
+        "button_change": "Cambiar"
       },
       "recovery_phrase_info": {
         "title": "Frase de recuperación",
@@ -2407,6 +2439,17 @@
       },
       "disclaimer": "*Estas rutas te servirán en caso de que desees exportar cada dirección de forma individual.",
       "link": "¿Qué método debo elegir?"
+    },
+    "simplified_home_wallet": {
+      "available_balance": "Saldo disponible",
+      "warranties": "Mis garantías",
+      "warranty_amount": "Monto en garantía",
+      "empty_transactions": "¡No posees transacciones!<br/>Compra o deposita USDC para confeccionar una garantía.",
+      "insufficient_balance": {
+        "text": "No tienes {{token}} en tu cuenta para confeccionar una garantía.",
+        "firstButtonName": "Comprar {{token}}",
+        "secondaryButtonName": "Depositar {{token}}"
+      }
     }
   },
   "tools": {
@@ -2447,10 +2490,12 @@
     },
     "home_of_purchases": {
       "header": "Compra - Venta",
+      "header_simplified": "Compra",
       "question": "¿Cómo funcionan las compras?",
       "footer": {
         "title": "¿Qué deseas hacer?",
         "buy_button": "Comprar",
+        "buy_button_simplified": "Realizar nueva compra",
         "sell_button": "Vender"
       }
     },
@@ -2475,6 +2520,8 @@
     },
     "operations_list": {
       "title": "Con Kripton Market",
+      "kripton_provider": "Proveedor: Kripton Market",
+      "simplified_title": "Con transferencia bancaria",
       "operation": "Moneda",
       "amount": "Monto",
       "date": "Fecha",
@@ -2833,7 +2880,10 @@
         "quantity": "Cantidad",
         "payment_method": "Medio de Pago",
         "to_pay": "Pagarás*",
-        "input_error": "El monto mínimo de compra es de ${{amount}} {{currency}}",
+        "input_error": {
+          "cash-in": "El monto mínimo de compra es de ${{amount}} {{currency}}",
+          "cash-out": "El monto mínimo de venta es de ${{amount}} {{currency}}"
+        },
         "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día.",
         "estimated_fee": "Tarifa de transacción estimada",
         "estimated_provider_fee": "Tarifa de proveedor estimada"
@@ -3312,6 +3362,8 @@
       "description_wallet_operations": "Cómo invertir, operatoria y costos.",
       "title_buy": "Compra de cripto",
       "description_buy": "Comprar, comisiones, límites y métodos de pago.",
+      "title_warranty": "Constitución de garantia",
+      "description_warranty": "Requisitos, limites, confección, retiros, fees y mas.",
       "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Conectar wallet e interactuar con dapp.",
       "title_nft": "NFT",
@@ -3620,27 +3672,32 @@
       "highlightedHeader": "¡Mejora tu crédito!",
       "header": "Deja tus criptomonedas como garantía para conseguir tu tarjeta o aumentar su límite.",
       "information": "Más información",
-      "firstButton": "Confeccionar garantía",
+      "firstButton": "Constituir garantía",
       "secondButton": "Retirar garantía"
     },
+    "modal_info_to_buy_or_deposit": {
+      "header": "Ahora podés comprar cripto o transferirte las que tengas en otra billetera. Luego, vas a poder armar tu garantía para pedir tus tarjetas.",
+      "firstButton": "Comprar criptomonedas",
+      "secondButton": "Recibir cripto de otra cuenta"
+    },
     "send_warranty": {
-      "header": "Confeccionar garantia",
+      "header": "Constituir garantía",
       "text_dni": "Ingresar DNI",
       "deposit_amount": "Monto a depositar"
     },
     "summary": {
-      "header": "Confeccionar garantia",
+      "header": "Constituir garantía",
       "title": "Datos de tu depósito",
       "dniLabel": "DNI garante",
       "amountLabel": "Monto de garantía",
       "serviceLabel": "Costo de servicio",
-      "buttonName": "Confeccionar garantia",
-      "loading": "Confeccionando garantia...",
+      "buttonName": "Constituir garantia",
+      "loading": "Constituyendo garantía...",
       "wait_loading_message": "Solo tomará unos segundos."
     },
     "withdraw_warranty": {
       "header": "Retirar garantía",
-      "title": "Verificación de saldo en garantia",
+      "title": "Verificación de saldo en garantía",
       "text_dni": "Ingresar DNI",
       "text_email": "Ingresar email",
       "subtitle": "Ingresa tu DNI para verificar los depósitos acumulados a través de esta wallet en tu garantía.",

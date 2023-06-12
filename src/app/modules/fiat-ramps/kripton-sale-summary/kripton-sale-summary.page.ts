@@ -7,7 +7,6 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
 import { DefaultToken, Token } from '../../swaps/shared-swaps/models/token/token';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
-import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -30,6 +29,7 @@ import { OperationKmInProgressModalComponent } from '../shared-ramps/components/
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
 import { TranslateService } from '@ngx-translate/core';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 @Component({
   selector: 'app-kripton-sale-summary',
@@ -168,7 +168,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./kripton-sale-summary.page.scss'],
 })
 export class KriptonSaleSummaryPage {
-  nativeToken: Token;
+  nativeToken: Coin;
   walletToSend: string;
   userBank: BankAccount;
   data: OperationDataInterface;
@@ -187,13 +187,12 @@ export class KriptonSaleSummaryPage {
     private fiatRampsService: FiatRampsService,
     private kriptonStorage: KriptonStorageService,
     private blockchains: BlockchainsFactory,
-    private loadingService: LoadingService,
     private walletTransactionsService: WalletTransactionsService,
     private apiWalletService: ApiWalletService,
     private modalController: ModalController,
     private txInProgressService: TxInProgressService,
     private envService: EnvService,
-    private translate: TranslateService
+    private loadingService: LoadingService,
   ) {}
 
   async ionViewWillEnter() {
@@ -292,22 +291,21 @@ export class KriptonSaleSummaryPage {
   }
 
   async showInsufficientBalanceFeeModal() {
-    const text = this.translate.instant('swaps.home.balance_modal.insufficient_balance_fee.text');
-    const primaryButtonText = this.translate.instant(
-      'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName'
+    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
+    await this.openModalBalance(
+      new DefaultToken(this.nativeToken as RawToken),
+      text,
+      primaryButtonText,
+      secondaryButtonText
     );
-    const secondaryButtonText = this.translate.instant(
-      'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName'
-    );
-    await this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
   }
 
   async showInsufficientBalanceModal() {
-    const text = this.translate.instant('swaps.home.balance_modal.insufficient_balance.text');
-    const primaryButtonText = this.translate.instant('swaps.home.balance_modal.insufficient_balance.firstButtonName');
-    const secondaryButtonText = this.translate.instant(
-      'swaps.home.balance_modal.insufficient_balance.secondaryButtonName'
-    );
+    const text = 'swaps.home.balance_modal.insufficient_balance.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
     await this.openModalBalance(new DefaultToken(this.coin as RawToken), text, primaryButtonText, secondaryButtonText);
   }
 

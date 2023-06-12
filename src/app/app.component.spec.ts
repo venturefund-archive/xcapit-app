@@ -80,7 +80,8 @@ describe('AppComponent', () => {
   let walletConnectV2Spy: jasmine.SpyObj<WCConnectionV2>;
   let wcServiceSpy: jasmine.SpyObj<WCService>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
-  let googleAuthServiceSpy: jasmine.SpyObj<GoogleAuthService>
+  let googleAuthServiceSpy: jasmine.SpyObj<GoogleAuthService>;
+  let newFirebaseDynamicLinksSpy: jasmine.SpyObj<any>;
 
   const tapBrowserInApp = {
     actionId: 'tap',
@@ -101,7 +102,7 @@ describe('AppComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    googleAuthServiceSpy= jasmine.createSpyObj('googleAuthSpy',{init: Promise.resolve()})
+    googleAuthServiceSpy = jasmine.createSpyObj('googleAuthSpy', { init: Promise.resolve() });
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
     submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
     trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
@@ -201,6 +202,11 @@ describe('AppComponent', () => {
       getFeatureFlag: true,
     });
 
+    newFirebaseDynamicLinksSpy = jasmine.createSpyObj('FirebaseDynamicLinks', {
+      addListener: null,
+      removeAllListeners: Promise.resolve(),
+    });
+
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -231,13 +237,14 @@ describe('AppComponent', () => {
         { provide: WCConnectionV2, useValue: walletConnectV2Spy },
         { provide: WCService, useValue: wcServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
-        {provide: GoogleAuthService, useValue: googleAuthServiceSpy}
+        { provide: GoogleAuthService, useValue: googleAuthServiceSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     component.statusBar = statusBarSpy;
+    component.newFirebaseDynamicLinks = newFirebaseDynamicLinksSpy;
   }));
 
   it('should create the app', async () => {
@@ -259,6 +266,7 @@ describe('AppComponent', () => {
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(walletMaintenanceServiceSpy.checkTokensStructure).toHaveBeenCalledTimes(1);
     expect(txInProgressServiceSpy.checkTransactionStatus).toHaveBeenCalledTimes(1);
+    expect(newFirebaseDynamicLinksSpy.addListener).toHaveBeenCalledTimes(1);
     expect(component.connected).toBeTrue();
   });
 
@@ -397,5 +405,14 @@ describe('AppComponent', () => {
     expect(wcServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalledOnceWith(['wallets/wallet-connect/new-connection']);
     expect(walletConnectV2Spy.subscribeToAllEvents).not.toHaveBeenCalled();
+  }));
+
+  it('should remove firebase dynamic links listener on destroy', fakeAsync(() => {
+    component.ngOnInit();
+    tick();
+    component.ngOnDestroy();
+    tick();
+    expect(newFirebaseDynamicLinksSpy.removeAllListeners).toHaveBeenCalledTimes(1);
+    discardPeriodicTasks();
   }));
 });

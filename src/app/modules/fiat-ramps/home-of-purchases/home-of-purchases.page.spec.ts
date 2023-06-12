@@ -19,6 +19,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('HomeOfPurchasesPage', () => {
   let component: HomeOfPurchasesPage;
@@ -34,6 +35,7 @@ describe('HomeOfPurchasesPage', () => {
   let kriptonUserInjectableSpy: jasmine.SpyObj<KriptonUserInjectable>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeOfPurchasesPage>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   const user_status = { kyc_approved: false, registration_status: 'USER_INFORMATION' };
 
@@ -54,13 +56,17 @@ describe('HomeOfPurchasesPage', () => {
       create: providersSpy,
     });
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(true),
+    });
+
     tokenOperationDataServiceSpy = jasmine.createSpyObj(
       'TokenOperationDataService',
       {
         clean: {},
         add: {},
         hasAssetInfo: false,
-        set: null
+        set: null,
       },
       {
         tokenOperationData: { isFirstTime: false },
@@ -94,6 +100,7 @@ describe('HomeOfPurchasesPage', () => {
         { provide: KriptonStorageService, useValue: kriptonStorageSpy },
         { provide: KriptonUserInjectable, useValue: kriptonUserInjectableSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -142,6 +149,22 @@ describe('HomeOfPurchasesPage', () => {
     expect(tokenOperationDataServiceSpy.add).toHaveBeenCalledOnceWith({ mode: 'buy' });
   });
 
+  it('should navigate to user email page when ux_buy_new_simplified_wallet is clicked and is not logged on kripton', async () => {
+    kriptonUserSpy.isLogged.and.resolveTo(false);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css("ion-button[name='ux_buy_new_simplified_wallet']")).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-email');
+  });
+
+  it('should navigate to new operation page when ux_buy_new_simplified_wallet is clicked and is logged', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css("ion-button[name='ux_buy_new_simplified_wallet']")).nativeElement.click();
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/fiat-ramps/new-operation/kripton');
+  });
+
   it('should navigate to select provider page when ux_buy_new is clicked, there is asset info and is first time', () => {
     tokenOperationDataServiceSpy.tokenOperationData.isFirstTime = true;
     tokenOperationDataServiceSpy.hasAssetInfo.and.returnValue(true);
@@ -159,7 +182,7 @@ describe('HomeOfPurchasesPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css("ion-button[name='ux_buy_new']")).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/token-selection');
-    expect(tokenOperationDataServiceSpy.add).toHaveBeenCalledOnceWith({mode: 'buy'});
+    expect(tokenOperationDataServiceSpy.add).toHaveBeenCalledOnceWith({ mode: 'buy' });
   });
 
   it('should navigate to faqs when support link is clicked', () => {
@@ -243,18 +266,19 @@ describe('HomeOfPurchasesPage', () => {
 
   it('should back to /tabs/wallets on back', () => {
     fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/tabs/wallets')
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/tabs/wallets');
   });
-  
+
   it('should clean user info if user logout from kripton', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-operations-list')).triggerEventHandler('loggedOut', {});
     fixture.detectChanges();
     expect(component.userStatus).toBeNull();
-  })
+  });
 
   it('should call trackEvent when ux_buy_new button is clicked', async () => {
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(false));
     await component.ionViewWillEnter();
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_new');
@@ -266,6 +290,7 @@ describe('HomeOfPurchasesPage', () => {
   });
 
   it('should call trackEvent when ux_sell_new button is clicked', async () => {
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(false));
     await component.ionViewWillEnter();
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_sell_new');
