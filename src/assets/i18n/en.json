@@ -3133,21 +3133,19 @@
     },
     "kyc": {
       "user_basic": {
-        "header": "Load data",
+        "header": "Create account",
         "provider": "Provider: Kripton Market",
-        "title": "🛫 Let's begin!",
-        "subtitle": "Fill in your personal data",
-        "label_first_name": "First name(s)",
-        "label_last_name": "Last name(s)",
+        "title": "Fill in your personal data",
+        "label_first_name": "First name",
+        "label_last_name": "Last name",
         "label_birthday": "Birthday",
         "placeholder_birthday": "mm/dd/yyyy",
         "button": "Continue"
       },
       "user_address": {
-        "header": "Load data",
+        "header": "Create account",
         "provider": "Provider: Kripton Market",
-        "title": "🛬 Last step! Quick, isn't it?",
-        "subtitle": "Fill in your address data",
+        "title": "Fill in your address data",
         "label_street": "Street",
         "label_number": "Number",
         "label_floor": "Floor (optional)",
@@ -3157,10 +3155,9 @@
         "placeholder_birthday": "mm/dd/yyyy"
       },
       "user_personal_information": {
-        "header": "Load data",
+        "header": "Create account",
         "provider": "Provider: Kripton Market",
-        "title": "😎 We're almost done",
-        "subtitle": "Enter your personal data",
+        "title": "Fill in your personal data",
         "general_placeholder": "Select an option",
         "label_nationality": "Nationality",
         "label_document": "Document",
@@ -3173,9 +3170,8 @@
         "button": "Continue"
       },
       "summary_data": {
-        "header": "Load data",
-        "title": "🎊 ¡This is how it's done! We finish",
-        "subtitle": "Do you wish to make any changes?",
+        "header": "Create account",
+        "title": "Check that everything is OK",
         "personal_data": {
           "title": "Personal data",
           "label_name_surname": "First and last name",

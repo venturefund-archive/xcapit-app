@@ -9,18 +9,6 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycUserBasicInformationPage } from './kyc-user-basic-information.page';
 
-const invalidFormData = {
-  first_name: 'test',
-  last_name: 'test',
-  birthday: '1-1-1999',
-};
-
-const validFormData = {
-  first_name: 'test',
-  last_name: 'test',
-  birthday: '1/1/1999',
-};
-
 describe('KycUserBasicInformationPage', () => {
   let component: KycUserBasicInformationPage;
   let fixture: ComponentFixture<KycUserBasicInformationPage>;
@@ -28,6 +16,18 @@ describe('KycUserBasicInformationPage', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+
+  const invalidFormData = {
+    first_name: 'test',
+    last_name: 'test',
+    birthday: '1-1-1999',
+  };
+  
+  const validFormData = {
+    first_name: 'test',
+    last_name: 'test',
+    birthday: '1/1/1999',
+  };
 
   beforeEach(waitForAsync(() => {
     userKycKriptonDataServiceSpy = jasmine.createSpyObj('UserKycKriptonDataService', {
@@ -63,8 +63,6 @@ describe('KycUserBasicInformationPage', () => {
     const progressEl = fixture.debugElement.query(By.css('.ubi__container__progress'));
     const providerEl = fixture.debugElement.query(By.css('div.ubi__container__provider > ion-text'));
     const titleEl = fixture.debugElement.query(By.css('div.ubi__container__title > ion-text'));
-    const subtitleEl = fixture.debugElement.query(By.css('div.ubi__container__subtitle > ion-text'));
-    const iconEl = fixture.debugElement.query(By.css('div.ubi__container__subtitle > ion-text > ion-icon'));
     const [input1, input2, input3] = fixture.debugElement.queryAll(
       By.css('div.ubi__container__form > form > app-ux-input')
     );
@@ -72,8 +70,6 @@ describe('KycUserBasicInformationPage', () => {
     expect(progressEl).toBeTruthy();
     expect(providerEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_basic.provider');
     expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_basic.title');
-    expect(subtitleEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_basic.subtitle');
-    expect(iconEl).toBeTruthy();
     expect(input1.attributes.controlName).toContain('first_name');
     expect(input2.attributes.controlName).toContain('last_name');
     expect(input3.attributes.controlName).toContain('birthday');

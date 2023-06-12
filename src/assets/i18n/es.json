@@ -3048,21 +3048,19 @@
     },
     "kyc": {
       "user_basic": {
-        "header": "Cargar datos",
+        "header": "Crear cuenta",
         "provider": "Proveedor: Kripton Market",
-        "title": "🛫 ¡Comencemos!",
-        "subtitle": "Ingresa tus datos personales",
-        "label_first_name": "Nombre/s",
-        "label_last_name": "Apellido/s",
+        "title": "Completá tus datos personales",
+        "label_first_name": "Nombre",
+        "label_last_name": "Apellido",
         "label_birthday": "Fecha de nacimiento",
         "placeholder_birthday": "mm/dd/aaaa",
         "button": "Continuar"
       },
       "user_address": {
-        "header": "Cargar datos",
+        "header": "Crear cuenta",
         "provider": "Proveedor: Kripton Market",
-        "title": "🛬 ¡Último paso! Rápido, ¿no?",
-        "subtitle": "Ingresa los datos de tu dirección",
+        "title": "Ingresá tu domicilio",
         "label_street": "Calle",
         "label_number": "Número",
         "label_floor": "Piso (opcional)",
@@ -3071,10 +3069,9 @@
         "label_zip_code": "Código postal"
       },
       "user_personal_information": {
-        "header": "Cargar datos",
+        "header": "Crear cuenta",
         "provider": "Proveedor: Kripton Market",
-        "title": "😎 Ya casi terminamos",
-        "subtitle": "Ingresa tus datos personales",
+        "title": "Completá tus datos personales",
         "general_placeholder": "Selecciona una opción",
         "label_nationality": "Nacionalidad",
         "label_document": "Documento",
@@ -3087,9 +3084,8 @@
         "button": "Continuar"
       },
       "summary_data": {
-        "header": "Cargar datos",
-        "title": "🎊 ¡Así se hace! Terminamos",
-        "subtitle": "¿Deseas realizar algún cambio?",
+        "header": "Crear cuenta",
+        "title": "Revisá que todo esté bien",
         "personal_data": {
           "title": "Datos personales",
           "label_name_surname": "Nombre y apellido",
@@ -3101,7 +3097,7 @@
           "label_phone": "Teléfono"
         },
         "address_data": {
-          "title": "Dirección",
+          "title": "Domicilio",
           "label_street": "Calle",
           "label_apartment_number": "Número",
           "label_apartment_floor": "Piso",
