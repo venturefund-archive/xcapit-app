@@ -2993,7 +2993,7 @@
         "operation": "Operación"
       },
       "kripton_account_info": {
-        "title": "Transfiere a la siguiente cuenta",
+        "title": "Datos de la cuenta",
         "alias": "Alias",
         "amount": "Monto",
         "cbu": "CBU",
@@ -3123,16 +3123,16 @@
       }
     },
     "purchase_order": {
-      "header": "Comprar cripto",
+      "header": "Comprar criptomonedas",
+      "title": "Transferí el monto a la siguiente cuenta",
+      "subtitle": "Descargá el comprobante de la transferencia. Te lo vamos a pedir en el próximo paso.",
+      "title_2": "Para terminar la compra, cargá tu comprobante",
       "clipboard_text": "¡{{type}} copiado con exito!",
       "provider": "Proveedor: Kripton Market",
-      "step_1": "Transferir",
-      "step_2": "Cargar comprobante",
       "button": "Continuar",
       "send_button": "Enviar y finalizar",
       "timer": "Te quedan {{ value }} para transferir",
       "voucher_card": {
-        "header": "Adjunta tu comprobante",
         "file_placeholder": "Comprobante.jpg",
         "upload_button": "Cargar imagen",
         "footnote": "Soporta png, jpg, pdf o formatos similares de hasta 200 kb.",

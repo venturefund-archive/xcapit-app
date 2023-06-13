@@ -7,11 +7,6 @@ import { VoucherModalComponent } from '../voucher-modal/voucher-modal.component'
   selector: 'app-voucher-card',
   template: `
     <div class="vc">
-      <div class="vc__header">
-        <ion-text class="ux-font-text-lg">
-          {{ 'fiat_ramps.purchase_order.voucher_card.header' | translate }}
-        </ion-text>
-      </div>
       <div *ngIf="this._percentage > 0; then loader; else voucherEl"></div>
       <ng-template #loader>
         <div class="vc__loader">
