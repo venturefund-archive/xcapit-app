@@ -17,6 +17,7 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { DefiInvestmentsService } from '../../defi-investments/shared-defi-investments/services/defi-investments-service/defi-investments.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-warranty-summary',
@@ -81,6 +82,7 @@ export class WarrantySummaryPage {
     private warrantyDataService: WarrantyDataService,
     private warrantyService: WarrantiesService,
     private storageService: StorageService,
+    private ionicStorageService: IonicStorageService,
     private apiWalletService: ApiWalletService,
     private walletBalance: WalletBalanceService,
     private defiInvesmentService: DefiInvestmentsService,
@@ -115,6 +117,7 @@ export class WarrantySummaryPage {
 
   async handleSubmit(skipChecksBeforeSend: boolean = false) {
     this.loading = true;
+    await this.ionicStorageService.set('user_dni', this.warrantyData.user_dni);
     if (!skipChecksBeforeSend && !(await this.checksBeforeSend())) {
       return;
     }
@@ -181,7 +184,7 @@ export class WarrantySummaryPage {
         await this.handleUserCantAffordTx();
         return false;
       }
-    } 
+    }
     return true;
   }
 
@@ -213,7 +216,7 @@ export class WarrantySummaryPage {
       componentProps: {
         operationNumber: this.warantyOperationId,
         eventName: 'ux_warranty_start_success_screenview',
-        data: SUCCESS_TYPES.warrant_success
+        data: SUCCESS_TYPES.warrant_success,
       },
     });
     await modal.present();

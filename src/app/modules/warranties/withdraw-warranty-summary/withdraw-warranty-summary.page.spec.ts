@@ -13,6 +13,7 @@ import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warrant
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { WithdrawWarrantySummaryPage } from './withdraw-warranty-summary.page';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('WithdrawWarrantySummaryPage', () => {
   let component: WithdrawWarrantySummaryPage;
@@ -23,6 +24,8 @@ describe('WithdrawWarrantySummaryPage', () => {
   let apiTicketServiceSpy: jasmine.SpyObj<ApiTicketsService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let warrantyServiceSpy: jasmine.SpyObj<WarrantiesService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+
   const summaryData: SummaryWarrantyData = {
     amount: 10,
     coin: rawUSDCData,
@@ -53,6 +56,10 @@ describe('WithdrawWarrantySummaryPage', () => {
 
     warrantyServiceSpy = jasmine.createSpyObj('WarrantyService', { withdrawWarranty: of({ summaryData }) });
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(),
+    });
+
     TestBed.configureTestingModule({
       declarations: [WithdrawWarrantySummaryPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -62,6 +69,7 @@ describe('WithdrawWarrantySummaryPage', () => {
         { provide: ApiTicketsService, useValue: apiTicketServiceSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: WarrantiesService, useValue: warrantyServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -115,5 +123,15 @@ describe('WithdrawWarrantySummaryPage', () => {
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should save user dni in storage when ux_warranty_withdraw_confirm is clicked and dni is valid', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_withdraw_confirm"]')).nativeElement.click();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('user_dni', 1234567);
   });
 });

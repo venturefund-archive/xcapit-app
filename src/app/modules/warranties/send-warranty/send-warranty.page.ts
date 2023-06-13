@@ -14,6 +14,7 @@ import { WarrantyDataService } from '../shared-warranties/services/send-warranty
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import BalanceModalInjectable from '../../../shared/models/balance-modal/injectable/balance-modal.injectable';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-send-warranty',
@@ -110,7 +111,8 @@ export class SendWarrantyPage {
     private navController: NavController,
     private WarrantyDataService: WarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private balanceModalInjectable: BalanceModalInjectable
+    private balanceModalInjectable: BalanceModalInjectable,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   async ionViewWillEnter() {
@@ -119,6 +121,7 @@ export class SendWarrantyPage {
     this.dynamicPrice();
     await this.tokenBalance();
     this.checkBalance();
+    this.checkUserStoredInformation();
   }
 
   private async userWallet(): Promise<string> {
@@ -205,5 +208,12 @@ export class SendWarrantyPage {
   ionViewWillLeave() {
     this.leave$.next();
     this.leave$.complete();
+  }
+
+  async checkUserStoredInformation() {
+    const savedDocument = await this.ionicStorageService.get('user_dni');
+    if (savedDocument) {
+      this.form.patchValue({ dni: savedDocument });
+    }
   }
 }
