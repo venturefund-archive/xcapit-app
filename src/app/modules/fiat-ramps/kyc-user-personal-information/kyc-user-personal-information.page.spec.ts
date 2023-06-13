@@ -11,39 +11,6 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycUserPersonalInformationPage } from './kyc-user-personal-information.page';
 
-const invalidFormData = {
-  nationality: 'test',
-  document_type: 'test',
-  document_number: '123',
-  gender: 'test',
-  marital_status: 'test',
-  country_code: 'test',
-  telephone_number: '123',
-};
-
-const validFormData = {
-  nationality: 'test',
-  document_type: 'test',
-  document_number: '12345678',
-  gender: 'test',
-  marital_status: 'test',
-  country_code: 'test',
-  telephone_number: '0123456789',
-};
-
-const dataTest = {
-  nationality: 'Argentina',
-  document_type: 'documentTest',
-  document_number: '12334345345',
-  gender: { name: 'male', value: 'fiat_ramps.register.gender_list.male' },
-  marital_status: { name: 'married', value: 'fiat_ramps.register.marital_status_list.married' },
-  country_code: { code: 'VEN (+58)' },
-  telephone_number: '12333234456',
-  politically_exposed: false,
-};
-
-const provider = rawProvidersData[1];
-
 describe('KycUserPersonalInformationPage', () => {
   let component: KycUserPersonalInformationPage;
   let fixture: ComponentFixture<KycUserPersonalInformationPage>;
@@ -52,6 +19,39 @@ describe('KycUserPersonalInformationPage', () => {
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+
+  const invalidFormData = {
+    nationality: 'test',
+    document_type: 'test',
+    document_number: '123',
+    gender: 'test',
+    marital_status: 'test',
+    country_code: 'test',
+    telephone_number: '123',
+  };
+  
+  const validFormData = {
+    nationality: 'test',
+    document_type: 'test',
+    document_number: '12345678',
+    gender: 'test',
+    marital_status: 'test',
+    country_code: 'test',
+    telephone_number: '0123456789',
+  };
+  
+  const dataTest = {
+    nationality: 'Argentina',
+    document_type: 'documentTest',
+    document_number: '12334345345',
+    gender: { name: 'male', value: 'fiat_ramps.register.gender_list.male' },
+    marital_status: { name: 'married', value: 'fiat_ramps.register.marital_status_list.married' },
+    country_code: { code: 'VEN (+58)' },
+    telephone_number: '12333234456',
+    politically_exposed: false,
+  };
+
+  const provider = rawProvidersData[1];
 
   beforeEach(waitForAsync(() => {
     userKycKriptonDataServiceSpy = jasmine.createSpyObj('UserKycKriptonDataService', {
@@ -91,8 +91,6 @@ describe('KycUserPersonalInformationPage', () => {
     const progressEl = fixture.debugElement.query(By.css('.upi__container__progress'));
     const providerEl = fixture.debugElement.query(By.css('div.upi__container__provider > ion-text'));
     const titleEl = fixture.debugElement.query(By.css('div.upi__container__title > ion-text'));
-    const subtitleEl = fixture.debugElement.query(By.css('div.upi__container__subtitle > ion-text'));
-    const iconEl = fixture.debugElement.query(By.css('div.upi__container__subtitle > ion-text > ion-icon'));
     const [inputSelectNationalityEl, inputSelectGenderEl, inputSelectMaritalEl] = fixture.debugElement.queryAll(
       By.css('div.upi__container__form > form > app-input-select')
     );
@@ -120,8 +118,6 @@ describe('KycUserPersonalInformationPage', () => {
     expect(progressEl).toBeTruthy();
     expect(providerEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_personal_information.provider');
     expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_personal_information.title');
-    expect(subtitleEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_personal_information.subtitle');
-    expect(iconEl).toBeTruthy();
     expect(inputSelectNationalityEl.attributes.controlName).toContain('nationality');
     expect(inputSelectGenderEl.attributes.controlName).toContain('gender');
     expect(inputSelectMaritalEl.attributes.controlName).toContain('marital_status');

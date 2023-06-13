@@ -11,46 +11,6 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycSummaryDataPage } from './kyc-summary-data.page';
 
-const rawDataTest = {
-  first_name: 'nameTest',
-  last_name: 'lastNameTest',
-  birthday: 'birthdayTest',
-  nationality: { name: 'nameNationalityTest' },
-  document_type: { name: 'documentTest' },
-  document_number: '12334345345',
-  gender: { name: 'male', value: 'fiat_ramps.register.gender_list.male' },
-  marital_status: { name: 'married', value: 'fiat_ramps.register.marital_status_list.married' },
-  country_code: { code: 'AR (+54)' },
-  telephone_number: '12333234456',
-  street_address: 'streetTest',
-  street_number: '3',
-  floor: 'PB',
-  apartment: '2',
-  city: 'cityTest',
-  postal_code: '123',
-};
-
-const expectedKycData = {
-  first_name: 'nameTest',
-  last_name: 'lastNameTest',
-  birthday: 'birthdayTest',
-  nationality: 'nameNationalityTest',
-  document_type: 'documentTest',
-  document_number: '12334345345',
-  gender: 'male',
-  marital_status: 'married',
-  telephone_number: '(+54)12333234456',
-  street_address: 'streetTest',
-  street_number: '3',
-  floor: 'PB',
-  apartment: '2',
-  city: 'cityTest',
-  postal_code: '123',
-  email: 'test@test.com',
-  politically_exposed: false,
-  auth_token: 'test',
-};
-
 describe('KycSummaryDataPage', () => {
   let component: KycSummaryDataPage;
   let fixture: ComponentFixture<KycSummaryDataPage>;
@@ -59,6 +19,46 @@ describe('KycSummaryDataPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
+
+  const rawDataTest = {
+    first_name: 'nameTest',
+    last_name: 'lastNameTest',
+    birthday: 'birthdayTest',
+    nationality: { name: 'nameNationalityTest' },
+    document_type: { name: 'documentTest' },
+    document_number: '12334345345',
+    gender: { name: 'male', value: 'fiat_ramps.register.gender_list.male' },
+    marital_status: { name: 'married', value: 'fiat_ramps.register.marital_status_list.married' },
+    country_code: { code: 'AR (+54)' },
+    telephone_number: '12333234456',
+    street_address: 'streetTest',
+    street_number: '3',
+    floor: 'PB',
+    apartment: '2',
+    city: 'cityTest',
+    postal_code: '123',
+  };
+  
+  const expectedKycData = {
+    first_name: 'nameTest',
+    last_name: 'lastNameTest',
+    birthday: 'birthdayTest',
+    nationality: 'nameNationalityTest',
+    document_type: 'documentTest',
+    document_number: '12334345345',
+    gender: 'male',
+    marital_status: 'married',
+    telephone_number: '(+54)12333234456',
+    street_address: 'streetTest',
+    street_number: '3',
+    floor: 'PB',
+    apartment: '2',
+    city: 'cityTest',
+    postal_code: '123',
+    email: 'test@test.com',
+    politically_exposed: false,
+    auth_token: 'test',
+  };
 
   beforeEach(waitForAsync(() => {
     userKycKriptonDataServiceSpy = jasmine.createSpyObj(

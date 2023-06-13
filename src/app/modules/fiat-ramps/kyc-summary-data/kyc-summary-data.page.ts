@@ -15,9 +15,6 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
         <ion-title>
           {{ 'fiat_ramps.kyc.summary_data.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
-          >4 {{ 'shared.step_counter.of' | translate }} 4</ion-label
-        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd__container">
@@ -31,11 +28,6 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
       <div class="sd__container__title">
         <ion-text class="ux-font-text-xl">{{ 'fiat_ramps.kyc.summary_data.title' | translate }}</ion-text>
       </div>
-
-      <div class="sd__container__subtitle">
-        <ion-text class="ux-font-text-base">{{ 'fiat_ramps.kyc.summary_data.subtitle' | translate }}</ion-text>
-      </div>
-
       <div class="sd__container__title-data">
         <ion-text class="ux-font-text-lg">{{ 'fiat_ramps.kyc.summary_data.personal_data.title' | translate }}</ion-text>
       </div>
