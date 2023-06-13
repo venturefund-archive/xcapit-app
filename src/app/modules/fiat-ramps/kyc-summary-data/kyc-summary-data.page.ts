@@ -151,7 +151,7 @@ export class KycSummaryDataPage {
   }
 
   async sendData() {
-    if (this.form.valid) {
+    if (!this.form.valid) {
       const email = await this.kriptonStorage.get('email');
       const auth_token = await this.kriptonStorage.get('access_token');
       const politically_exposed = this.form.value.politically_exposed;

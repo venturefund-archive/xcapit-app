@@ -109,13 +109,15 @@ describe('KycSummaryDataPage', () => {
     expect(component.countryCode).toEqual('(+54)');
   });
 
-  it('should disable confirm button if form is invalid', () => {
+  it('should disable confirm button if form is valid', () => {
+    component.form.patchValue({ politically_exposed: true });
+    fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]'));
     expect(buttonEl.properties.disabled).toBeTrue();
   });
 
-  it('should enable confirm button if form is valid', () => {
-    component.form.patchValue({ not_politically_exposed: true });
+  it('should enable confirm button if form is invalid', () => {
+    component.form.patchValue({ politically_exposed: false });
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]'));
     expect(buttonEl.properties.disabled).toBeFalse();
@@ -125,7 +127,7 @@ describe('KycSummaryDataPage', () => {
     kriptonStorageSpy.get.withArgs('email').and.resolveTo('test@test.com');
     kriptonStorageSpy.get.withArgs('access_token').and.resolveTo('test');
     component.ionViewWillEnter();
-    component.form.patchValue({ not_politically_exposed: true });
+    component.form.patchValue({ politically_exposed: false });
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]')).nativeElement.click();
     fixture.detectChanges();
