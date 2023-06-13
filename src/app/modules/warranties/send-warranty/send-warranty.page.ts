@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -11,59 +11,60 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
-import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import BalanceModalInjectable from '../../../shared/models/balance-modal/injectable/balance-modal.injectable';
 
 @Component({
   selector: 'app-send-warranty',
   template: ` <ion-header>
-      <div></div>
-      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded ux_toolbar__left no-border">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__rounded no-border">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-start">{{ 'warranties.send_warranty.header' | translate }}</ion-title>
+        <ion-title>{{ 'warranties.send_warranty.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="sw ion-padding">
-      <form [formGroup]="this.form">
-        <div class="sw__send-amount-card ux-card ion-padding no-border">
-          <app-asset-detail
-            [blockchain]="this.coin.blockchain"
-            [token]="this.coin.value"
-            [tokenLogo]="this.coin.logoRoute"
-          ></app-asset-detail>
-          <div class="content__input">
-            <app-ux-input
-              type="number"
-              controlName="dni"
-              inputmode="number"
-              [labelColor]="'primary'"
-              [label]="'warranties.send_warranty.text_dni' | translate"
-              [placeholder]="'DNI'"
-            ></app-ux-input>
+      <div class="ux_main">
+        <form [formGroup]="this.form">
+          <div class="sw__send-amount-card ux-card ion-padding no-border">
+            <app-asset-detail
+              [blockchain]="this.coin.blockchain"
+              [token]="this.coin.value"
+              [tokenLogo]="this.coin.logoRoute"
+            ></app-asset-detail>
+            <div class="content__input">
+              <app-ux-input
+                type="number"
+                controlName="dni"
+                inputmode="number"
+                [labelColor]="'primary'"
+                [label]="'warranties.send_warranty.text_dni' | translate"
+                [placeholder]="'DNI'"
+              ></app-ux-input>
+            </div>
           </div>
+          <div class="sw__send-amount-card ux-card no-border">
+            <app-amount-input-card
+              *ngIf="this.balance !== undefined"
+              [label]="'warranties.send_warranty.deposit_amount' | translate"
+              [header]="'defi_investments.shared.amount_input_card.available' | translate"
+              [baseCurrency]="this.coin"
+              [quotePrice]="this.quotePrice"
+              [showRange]="false"
+              [disclaimer]="false"
+              [max]="this.balance"
+            ></app-amount-input-card>
+            <app-amount-input-card-skeleton
+              *ngIf="this.balance === undefined"
+              [showRange]="false"
+            ></app-amount-input-card-skeleton>
+          </div>
+        </form>
+        <div class="sw__support">
+          <app-whatsapp-support> </app-whatsapp-support>
         </div>
-        <div class="sw__send-amount-card ux-card no-border">
-          <app-amount-input-card
-            *ngIf="this.balance !== undefined"
-            [label]="'warranties.send_warranty.deposit_amount' | translate"
-            [header]="'defi_investments.shared.amount_input_card.available' | translate"
-            [baseCurrency]="this.coin"
-            [quotePrice]="this.quotePrice"
-            [showRange]="false"
-            [disclaimer]="false"
-            [max]="this.balance"
-          ></app-amount-input-card>
-          <app-amount-input-card-skeleton
-            *ngIf="this.balance === undefined"
-            [showRange]="false"
-          ></app-amount-input-card-skeleton>
-        </div>
-      </form>
-      <div class="sw__support">
-        <app-whatsapp-support> </app-whatsapp-support>
       </div>
     </ion-content>
     <ion-footer class="sw__footer">
@@ -109,7 +110,7 @@ export class SendWarrantyPage {
     private navController: NavController,
     private WarrantyDataService: WarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private modalController: ModalController
+    private balanceModalInjectable: BalanceModalInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -191,20 +192,14 @@ export class SendWarrantyPage {
   }
 
   async openBalanceModal() {
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: {
-        text: 'warranties.insufficient_balance.text',
-        primaryButtonText: 'warranties.insufficient_balance.buy_button',
-        secondaryButtonText: 'warranties.insufficient_balance.deposit_button',
-        token: new DefaultToken(this.token as RawToken),
-      },
-    });
-    await modal.present();
-    await modal.onDidDismiss();
+    await this.balanceModalInjectable
+      .create(
+        new DefaultToken(this.token as RawToken),
+        'warranties.insufficient_balance.text',
+        'warranties.insufficient_balance.buy_button',
+        'warranties.insufficient_balance.deposit_button'
+      )
+      .show();
   }
 
   ionViewWillLeave() {

@@ -1832,7 +1832,7 @@
       "title": "Seguí estos pasos para pedir tus tarjetas Naranja X",
       "item_1": "Creá una contraseña y protegés tu cuenta con una copia de seguridad.",
       "item_2": "Comprá la cantidad de criptomonedas que quieras.",
-      "item_3":"Usá tus criptomonedas para crear una garantía de respaldo.",
+      "item_3": "Usá tus criptomonedas para crear una garantía de respaldo.",
       "item_4": "Conocé qué tarjetas y disponibles para compras podés tener.",
       "button": "Continuar"
     },
@@ -2934,51 +2934,48 @@
         }
       },
       "validation_content": {
-        "header": "Verificar identidad",
+        "header": "Crear cuenta",
         "provider": "Proveedor: Kripton Market",
-        "button_primary": "Tomar foto",
-        "button_secondary": "Subir desde galería",
+        "button_secondary": "Subir desde la galería",
 
         "front_id": {
-          "title": "¡Hola de nuevo! 👋",
-          "subtitle": "Necesitamos una foto del frente de tu documento",
-          "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
+          "title": "Sacá una foto del frente de tu DNI",
+          "description": "Necesitamos la foto para confirmar tu identidad. Asegurate que los datos se vean bien.",
+          "button_primary": "Sacar foto del frente"
         },
         "back_id": {
-          "subtitle": "Ahora precisamos una foto del revés de tu documento",
-          "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
+          "title": "Girá tu DNI para sacar una foto del dorso",
+          "description": "Asegurate que los datos se vean bien.",
+          "button_primary": "Sacar foto del dorso"
         },
         "dni_selfie": {
-          "subtitle": "Finalmente, una foto tuya sosteniendo tu documento",
-          "description": "¡No te preocupes! 😉 Sólamente queremos corroborar que eres la persona que indica el documento ingresado.",
-          "items": "<ul><li>Elige un fondo claro.</li><li>No utilices accesorios que tapen tus facciones.</li></ul>"
+          "title": "Ahora sacate una selfie sosteniendo tu DNI",
+          "description": "Para terminar de validar tu identidad, te pedimos una selfie en un fondo claro sin accesorios que tapen tu cara.",
+          "button_primary": "Sacar selfie"
         }
       },
 
       "confirmation_content": {
-        "header": "Verificar identidad",
+        "header": "Crear cuenta",
         "provider": "Proveedor: Kripton Market",
 
         "front_id": {
-          "title": "¡Muy bien! 📸",
-          "subtitle": "Chequea que la foto cumpla con las siguientes condiciones:",
-          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>",
+          "title": "Revisá que la foto cumpla con estos requisitos:",
+          "items": "<ul><li>Los datos se leen bien.</li><li>La imágen no está borrosa.</li><li>El contenido del DNI se ve completo.</li></ul>",
           "button_primary": "Confirmar",
-          "button_secondary": "Cargar nuevamente"
+          "button_secondary": "Sacar otra foto"
         },
         "back_id": {
-          "title": "😁 ¡Excelente!",
-          "subtitle": "Chequea que la foto cumpla con las siguientes condiciones: ",
-          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>",
+          "title": "Revisá que la foto cumpla con estos requisitos:",
+          "items": "<ul><li>Los datos se leen bien.</li><li>La imágen no esta borrosa.</li><li>El contenido del DNI se ve completo.</li></ul>",
           "button_primary": "Confirmar",
-          "button_secondary": "Cargar nuevamente"
+          "button_secondary": "Sacar otra foto"
         },
         "dni_selfie": {
-          "title": "¡Listo! Terminamos 🎉",
-          "subtitle": "Verifica que se cumplan las siguientes condiciones:",
-          "items": "<ul><li> La foto debe ser clara y nítida.</li><li>No utilices anteojos o sombreros que tapen tu rostro.</li></ul>",
-          "button_primary": "Confirmar y enviar",
-          "button_secondary": "Cargar nuevamente"
+          "title": "Revisá que la foto cumpla con estos requisitos:",
+          "items": "<ul><li>La foto tiene que ser clara y nítida.</li><li>No usés anteojos o sombreros que tapen tu cara.</li></ul>",
+          "button_primary": "Confirmar",
+          "button_secondary": "Sacar otra foto"
         },
         "kripton_account_info": {
           "title": "Transfiere a la siguiente cuenta",
@@ -3019,19 +3016,21 @@
       }
     },
     "user_email": {
-      "header": "Comprar cripto",
+      "header": "Crear cuenta",
       "provider": "Proveedor: Kripton Market",
-      "title": "Para continuar tu compra, ingresa el email de tu cuenta Kripton Market",
-      "subtitle": "Si no posees una cuenta, escribe el email con el que quieres que te registremos.",
+      "main_title": "Registrá tu email para comprar criptomonedas",
+      "secondary_title": "Ingresá el código de seguridad",
+      "main_subtitle": "Te vamos a enviar un correo para validar tu email. Cuando lo valides, vas a recibir un código de seguridad.",
+      "secondary_subtitle": "Te mandamos el código a tu email. Tiene 10 minutos de validez.",
       "label_email": "Email",
       "button": "Continuar",
       "text_token": "Enviamos un código temporal de ingreso a tu email.\n Si no lo encuentras, revisa tu bandeja de spam.",
-      "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones.",
-      "label_token": "Código de ingreso",
+      "text": "Si ya tenés cuenta en Kripton Market, ingresá el email con el que te registraste.",
+      "label_token": "Código de seguridad",
       "toast_success": "Te reenviamos el código de ingreso a tu email.",
       "resend_email": {
         "title_not_sent": "¿No recibiste el código?",
-        "title_sent": "Si no recibiste el código se puede reenviar en",
+        "title_sent": "Si no lo recibiste, vamos a enviarte uno nuevo en",
         "title_exceeded_attempts": "¿Tienes algún inconveniente con el código?",
         "link_not_sent": "Reenviar código",
         "link_exceeded_attempts": "Contactar con soporte"
@@ -3060,21 +3059,19 @@
     },
     "kyc": {
       "user_basic": {
-        "header": "Cargar datos",
+        "header": "Crear cuenta",
         "provider": "Proveedor: Kripton Market",
-        "title": "🛫 ¡Comencemos!",
-        "subtitle": "Ingresa tus datos personales",
-        "label_first_name": "Nombre/s",
-        "label_last_name": "Apellido/s",
+        "title": "Completá tus datos personales",
+        "label_first_name": "Nombre",
+        "label_last_name": "Apellido",
         "label_birthday": "Fecha de nacimiento",
         "placeholder_birthday": "mm/dd/aaaa",
         "button": "Continuar"
       },
       "user_address": {
-        "header": "Cargar datos",
+        "header": "Crear cuenta",
         "provider": "Proveedor: Kripton Market",
-        "title": "🛬 ¡Último paso! Rápido, ¿no?",
-        "subtitle": "Ingresa los datos de tu dirección",
+        "title": "Ingresá tu domicilio",
         "label_street": "Calle",
         "label_number": "Número",
         "label_floor": "Piso (opcional)",
@@ -3083,10 +3080,9 @@
         "label_zip_code": "Código postal"
       },
       "user_personal_information": {
-        "header": "Cargar datos",
+        "header": "Crear cuenta",
         "provider": "Proveedor: Kripton Market",
-        "title": "😎 Ya casi terminamos",
-        "subtitle": "Ingresa tus datos personales",
+        "title": "Completá tus datos personales",
         "general_placeholder": "Selecciona una opción",
         "label_nationality": "Nacionalidad",
         "label_document": "Documento",
@@ -3099,9 +3095,8 @@
         "button": "Continuar"
       },
       "summary_data": {
-        "header": "Cargar datos",
-        "title": "🎊 ¡Así se hace! Terminamos",
-        "subtitle": "¿Deseas realizar algún cambio?",
+        "header": "Crear cuenta",
+        "title": "Revisá que todo esté bien",
         "personal_data": {
           "title": "Datos personales",
           "label_name_surname": "Nombre y apellido",
@@ -3113,7 +3108,7 @@
           "label_phone": "Teléfono"
         },
         "address_data": {
-          "title": "Dirección",
+          "title": "Domicilio",
           "label_street": "Calle",
           "label_apartment_number": "Número",
           "label_apartment_floor": "Piso",
@@ -3121,8 +3116,8 @@
           "label_city": "Ciudad",
           "label_zip_code": "Código postal"
         },
-        "checkbox_politically_exposed": "Declaro que no soy una persona políticamente expuesta.",
-        "disclaimer": "Persona políticamente expuesta: individuos que cumplen funciones públicas prominentes, como los Jefes de Estado o Gobierno, funcionarios gubernamentales, judiciales, militares y/o ejecutivos de alto nivel o rango.",
+        "checkbox_politically_exposed": "Declaro que soy una persona políticamente expuesta.",
+        "disclaimer": "Las personas políticamente expuestas son aquellas que ejercen o ejercieron cargos públicos.",
         "button": "Confirmar y enviar"
       },
       "front_id": {

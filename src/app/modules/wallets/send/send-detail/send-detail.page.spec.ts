@@ -55,6 +55,8 @@ import { solanaAddress1 } from '../../shared-wallets/fixtures/raw-address-data';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
 import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-connection';
 import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import BalanceModalInjectable from '../../../../shared/models/balance-modal/injectable/balance-modal.injectable';
+import { FakeBalanceModal } from '../../../../shared/models/balance-modal/fake/fake-balance-modal';
 
 describe('SendDetailPage', () => {
   let component: SendDetailPage;
@@ -85,6 +87,8 @@ describe('SendDetailPage', () => {
   let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
   let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
   let solanaConnectionInjectableSpy: jasmine.SpyObj<SolanaConnectionInjectable>;
+  let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
+  let fakeBalanceModal: FakeBalanceModal;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const _continueButton = (): DebugElement => {
@@ -199,6 +203,11 @@ describe('SendDetailPage', () => {
       create: new FakeConnection(),
     });
 
+    fakeBalanceModal = new FakeBalanceModal();
+    balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectableSpy', {
+      create: fakeBalanceModal,
+    });
+
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
       imports: [
@@ -228,6 +237,7 @@ describe('SendDetailPage', () => {
         { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
         { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
         { provide: SolanaConnectionInjectable, useValue: solanaConnectionInjectableSpy },
+        { provide: BalanceModalInjectable, useValue: balanceModalInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -348,10 +358,10 @@ describe('SendDetailPage', () => {
     );
     tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
 
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     await component.ionViewDidEnter();
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeBalanceModal.calls).toEqual(1);
   });
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
@@ -388,11 +398,11 @@ describe('SendDetailPage', () => {
     );
     tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
     component.fee = 1;
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     await component.ionViewDidEnter();
 
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeBalanceModal.calls).toEqual(1);
   });
 
   it('should show toast when token is less that balance ', async () => {
@@ -413,7 +423,7 @@ describe('SendDetailPage', () => {
     await component.ionViewDidEnter();
     component.form.patchValue({ amount: 10 });
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeBalanceModal.calls).toEqual(1);
   });
 
   it('should open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is false', async () => {

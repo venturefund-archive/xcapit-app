@@ -2,6 +2,10 @@
   .ww {
     --background: var(--ion-color-background);
 
+    form {
+      margin-bottom: 20px;
+    }
+
     &__withdraw-amount-card {
       margin-top: 8px;
 
@@ -16,12 +20,7 @@
     }
 
     &__support {
-      margin: auto;
-      position: absolute;
-      text-align: center;
-      bottom: 20px;
-      width: 100%;
-      margin-left: -16px;
+      margin-top: auto;
     }
 
     &__footer {

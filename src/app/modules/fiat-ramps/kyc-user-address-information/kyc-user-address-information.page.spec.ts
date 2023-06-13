@@ -8,30 +8,30 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycUserAddressInformationPage } from './kyc-user-address-information.page';
 
-const invalidFormData = {
-  street_address: 'test',
-  street_number: 'test',
-  city: 'test123',
-  floor: '',
-  apartment: '',
-  postal_code: '123',
-};
-
-const validFormData = {
-  street_address: 'test',
-  street_number: '123',
-  city: 'test123',
-  floor: '',
-  apartment: '',
-  postal_code: '123',
-};
-
 describe('KycUserAddressInformationPage', () => {
   let component: KycUserAddressInformationPage;
   let fixture: ComponentFixture<KycUserAddressInformationPage>;
   let userKycKriptonDataServiceSpy: jasmine.SpyObj<UserKycKriptonDataService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+
+  const invalidFormData = {
+    street_address: 'test',
+    street_number: 'test',
+    city: 'test123',
+    floor: '',
+    apartment: '',
+    postal_code: '123',
+  };
+  
+  const validFormData = {
+    street_address: 'test',
+    street_number: '123',
+    city: 'test123',
+    floor: '',
+    apartment: '',
+    postal_code: '123',
+  };
 
   beforeEach(waitForAsync(() => {
     userKycKriptonDataServiceSpy = jasmine.createSpyObj('UserKycKriptonDataService', {
@@ -64,8 +64,6 @@ describe('KycUserAddressInformationPage', () => {
     const progressEl = fixture.debugElement.query(By.css('.uai__container__progress'));
     const providerEl = fixture.debugElement.query(By.css('div.uai__container__provider > ion-text'));
     const titleEl = fixture.debugElement.query(By.css('div.uai__container__title > ion-text'));
-    const subtitleEl = fixture.debugElement.query(By.css('div.uai__container__subtitle > ion-text'));
-    const iconEl = fixture.debugElement.query(By.css('div.uai__container__subtitle > ion-text > ion-icon'));
     const [streetInput, cityInput, zipCodeInput] = fixture.debugElement.queryAll(
       By.css('div.uai__container__form > form > app-ux-input')
     );
@@ -76,8 +74,6 @@ describe('KycUserAddressInformationPage', () => {
     expect(progressEl).toBeTruthy();
     expect(providerEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_address.provider');
     expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_address.title');
-    expect(subtitleEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_address.subtitle');
-    expect(iconEl).toBeTruthy();
     expect(streetInput.attributes.controlName).toContain('street_address');
     expect(cityInput.attributes.controlName).toContain('city');
     expect(zipCodeInput.attributes.controlName).toContain('postal_code');

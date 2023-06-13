@@ -79,7 +79,7 @@ export class FiatRampsService {
   }
 
   getUserOperations(data: { email: string; auth_token: string }): Observable<FiatRampOperation[]> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/get_all_operations`, data, undefined, true);
+    return this.http.post(`${environment.apiUrl}/${this.entity}/get_all_operations`, data, undefined, false);
   }
 
   getUserSingleOperation(
@@ -90,7 +90,7 @@ export class FiatRampsService {
       `${environment.apiUrl}/${this.entity}/${this.provider}/get_user_operation/${operationId}`,
       data,
       undefined,
-      true
+      false
     );
   }
 
@@ -183,7 +183,7 @@ export class FiatRampsService {
   }
 
   userHasOperations(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, true);
+    return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, false);
   }
 
   getMoonpayQuotation(currencyCode: string) {

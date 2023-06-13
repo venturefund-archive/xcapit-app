@@ -13,24 +13,18 @@
         padding: 4px 0;
       }
 
-      &__title,
-      &__subtitle {
+      &__title {
+        padding: 24px 16px 0;
+
         ion-text {
           color: var(--ion-color-primary);
         }
       }
 
-      &__title {
-        padding: 24px 16px 0;
-      }
-
-      &__subtitle {
-        padding: 16px;
-      }
-
       &__title-data {
         padding: 0 16px;
         margin-bottom: 10px;
+        margin-top: 16px;
       }
 
       &__title-address {
@@ -72,5 +66,9 @@
     .term-item:first-child {
       margin-bottom: 8px;
     }
+  }
+
+  .user-address-information {
+    margin-bottom: 32px;
   }
 }

@@ -18,7 +18,6 @@ describe('ValidationContentComponent', () => {
   const data = {
     step_from: 1,
     title: 'testTitle',
-    subtitle: 'testSubtitle',
     description: 'testDescription',
     imagePath: 'assets/test_image.svg',
     documentName: 'front_document',
@@ -88,12 +87,10 @@ describe('ValidationContentComponent', () => {
 
   it('should render properly', () => {
     const titleEl = fixture.debugElement.query(By.css('div.vc__container__title > ion-text'));
-    const subtitleEl = fixture.debugElement.query(By.css('div.vc__container__subtitle > ion-text'));
     const itemsEl = fixture.debugElement.query(By.css('div.vc__container__description > ion-text'));
     const imageEl = fixture.debugElement.query(By.css('div.vc__container__image > img'));
 
     expect(titleEl.nativeElement.innerHTML).toContain('testTitle');
-    expect(subtitleEl.nativeElement.innerHTML).toContain('testSubtitle');
     expect(itemsEl.nativeElement.innerHTML).toContain('testDescription');
     expect(imageEl.attributes.src).toEqual('assets/test_image.svg');
   });

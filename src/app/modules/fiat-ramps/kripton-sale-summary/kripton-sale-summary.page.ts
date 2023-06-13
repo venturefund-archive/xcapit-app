@@ -7,7 +7,6 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
 import { DefaultToken, Token } from '../../swaps/shared-swaps/models/token/token';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
-import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -30,6 +29,7 @@ import { OperationKmInProgressModalComponent } from '../shared-ramps/components/
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
 import { TranslateService } from '@ngx-translate/core';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 @Component({
   selector: 'app-kripton-sale-summary',
@@ -187,12 +187,12 @@ export class KriptonSaleSummaryPage {
     private fiatRampsService: FiatRampsService,
     private kriptonStorage: KriptonStorageService,
     private blockchains: BlockchainsFactory,
-    private loadingService: LoadingService,
     private walletTransactionsService: WalletTransactionsService,
     private apiWalletService: ApiWalletService,
     private modalController: ModalController,
     private txInProgressService: TxInProgressService,
-    private envService: EnvService
+    private envService: EnvService,
+    private loadingService: LoadingService,
   ) {}
 
   async ionViewWillEnter() {

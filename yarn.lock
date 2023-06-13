@@ -3322,6 +3322,11 @@
     tslib "^2.0.0"
     yargs-parser "20.0.0"
 
+"@pantrist/capacitor-firebase-dynamic-links@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pantrist/capacitor-firebase-dynamic-links/-/capacitor-firebase-dynamic-links-5.0.1.tgz#c5f5e3d91db71039ae1930e1eb4385f2d5a42e7d"
+  integrity sha512-QfdfanXtiJUarGWbxgzWCaLFCLCRWFbm5mWHT8za99V7OCgKcapBhEuRJ4whR8pE4ZRliKBZn7Rp641kNvEanQ==
+
 "@pedrouid/environment@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@pedrouid/environment/-/environment-1.0.1.tgz#858f0f8a057340e0b250398b75ead77d6f4342ec"

@@ -41,12 +41,12 @@ import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
-import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
 import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
 import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
+import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 
 @Component({
   selector: 'app-send-detail',
@@ -145,6 +145,7 @@ export class SendDetailPage {
   tokenDetail: TokenDetail;
   addressFromContact = false;
   contact: Contact;
+  modalOpened: boolean;
   private wallet: Wallet;
   private tokenObj: Token;
   private nativeToken: Token;
@@ -177,7 +178,8 @@ export class SendDetailPage {
     private tokenPricesFactory: TokenPricesInjectable,
     private solanaFeeOf: SolanaFeeOfInjectable,
     private contactDataService: ContactDataService,
-    private solanaConnection: SolanaConnectionInjectable
+    private solanaConnection: SolanaConnectionInjectable,
+    private balanceModalInjectable: BalanceModalInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -448,31 +450,30 @@ export class SendDetailPage {
   }
 
   showInsufficientBalanceFeeModal() {
-    const text = 'wallets.send.send_detail.balance_modal.insufficient_balance_fee.text';
-    const primaryButtonText = 'wallets.send.send_detail.balance_modal.insufficient_balance_fee.firstButtonName';
-    const secondaryButtonText = 'wallets.send.send_detail.balance_modal.insufficient_balance_fee.secondaryButtonName';
-    this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      this.nativeToken,
+      'wallets.send.send_detail.balance_modal.insufficient_balance_fee.text',
+      'wallets.send.send_detail.balance_modal.insufficient_balance_fee.firstButtonName',
+      'wallets.send.send_detail.balance_modal.insufficient_balance_fee.secondaryButtonName'
+    );
   }
 
   showInsufficientBalanceModal() {
-    const text = 'wallets.send.send_detail.balance_modal.insufficient_balance.text';
-    const primaryButtonText = 'wallets.send.send_detail.balance_modal.insufficient_balance.firstButtonName';
-    const secondaryButtonText = 'wallets.send.send_detail.balance_modal.insufficient_balance.secondaryButtonName';
-    this.openModalBalance(new DefaultToken(this.token as RawToken), text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      new DefaultToken(this.token as RawToken),
+      'wallets.send.send_detail.balance_modal.insufficient_balance.text',
+      'wallets.send.send_detail.balance_modal.insufficient_balance.firstButtonName',
+      'wallets.send.send_detail.balance_modal.insufficient_balance.secondaryButtonName'
+    );
   }
 
-  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: { token, text, primaryButtonText, secondaryButtonText },
-    });
-    if (window.location.href === this.modalHref) {
-      await modal.present();
+  async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
+    if (!this.modalOpened && window.location.href === this.modalHref) {
+      this.modalOpened = true;
+      const modal = this.balanceModalInjectable.create(token, description, primaryButtonText, secondaryButtonText);
+      await modal.show();
+      modal.onDidDismiss().then(() => (this.modalOpened = false));
     }
-    await modal.onDidDismiss();
   }
 
   back() {

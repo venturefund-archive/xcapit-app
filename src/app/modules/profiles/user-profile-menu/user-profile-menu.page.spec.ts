@@ -33,6 +33,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 import { AppUpdateAvailability } from '@capawesome/capacitor-app-update';
 import { UpdateAppService } from 'src/app/shared/services/update-app/update-app.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { FakeFeatureFlagDirective } from '../../../../testing/fakes/feature-flag-directive.fake.spec';
 
 describe('UserProfileMenuPage', () => {
   const profile = { email: 'test@mail.com' };
@@ -245,7 +246,7 @@ describe('UserProfileMenuPage', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [UserProfileMenuPage, FakeTrackClickDirective],
+      declarations: [UserProfileMenuPage, FakeTrackClickDirective, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: ApiProfilesService, useValue: apiProfilesServiceSpy },

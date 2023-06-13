@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, NgZone } from '@angular/core';
+import { Component, ElementRef, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { ModalController, NavController, Platform } from '@ionic/angular';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { LanguageService } from './shared/services/language/language.service';
@@ -33,6 +33,7 @@ import { WCService } from './modules/wallets/shared-wallets/services/wallet-conn
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 import { DefaultWCUri } from './shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { GoogleAuthService } from './shared/services/google-auth/google-auth.service';
+import { FirebaseDynamicLinks } from '@pantrist/capacitor-firebase-dynamic-links';
 @Component({
   selector: 'app-root',
   template: `
@@ -48,12 +49,13 @@ import { GoogleAuthService } from './shared/services/google-auth/google-auth.ser
   `,
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   isModalOpen = false;
   onLangChange: Subscription = undefined;
   statusBar = StatusBar;
   session: AppSession;
   app: CapacitorApp;
+  newFirebaseDynamicLinks = FirebaseDynamicLinks;
 
   connected = false;
 
@@ -97,13 +99,14 @@ export class AppComponent implements OnInit {
     this._setBackgroundActions();
     this._checkTransactionStatus();
     this._setConnectionStatus();
-    this._initializeGoogleAuth()
+    this._initializeGoogleAuth();
+    this._testFirebaseDynamicLinks();
   }
-  
-  private _initializeGoogleAuth(){
-    this.googleAuth.init()
+
+  private _initializeGoogleAuth() {
+    this.googleAuth.init();
   }
-  
+
   private _enableSubmitButtonService() {
     this.submitButtonService.enabled();
   }
@@ -285,5 +288,15 @@ export class AppComponent implements OnInit {
 
   isWalletConnectV2Enabled(): boolean {
     return this.remoteConfigService.getFeatureFlag('ff_walletConnectV2');
+  }
+
+  _testFirebaseDynamicLinks() {
+    this.newFirebaseDynamicLinks.addListener('deepLinkOpen', (data: any) => {
+      console.debug('new dynamic links void implementation', data);
+    });
+  }
+
+  async ngOnDestroy() {
+    await this.newFirebaseDynamicLinks.removeAllListeners();
   }
 }

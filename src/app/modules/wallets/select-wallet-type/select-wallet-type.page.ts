@@ -33,6 +33,7 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
             class="swt__content__button__card ux-card no-border"
             appTrackClick
             name="ux_create_select_warrant"
+            *appFeatureFlag="'ff_warranty_wallet'"
             (click)="this.warrantyWallet()"
           >
             <div class="swt__content__button__card__icon">

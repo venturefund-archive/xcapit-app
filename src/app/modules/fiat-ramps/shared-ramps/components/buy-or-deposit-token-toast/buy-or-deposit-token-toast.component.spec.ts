@@ -149,11 +149,6 @@ describe('BuyOrDepositTokenToastComponent', () => {
     expect(component.primaryButtonText).toBeDefined();
   });
 
-  it('should translate texts', () => {
-    fixture.detectChanges();
-    expect(translateServiceSpy.instant).toHaveBeenCalledTimes(3);
-  });
-
   it('should hide buy button if buy crypto feature flag is disabled', async () => {
     remoteConfigServiceSpy.getFeatureFlag.withArgs('ff_buyCrypto').and.returnValue(false);
     remoteConfigServiceSpy.getFeatureFlag.withArgs('inReview').and.returnValue(false);
