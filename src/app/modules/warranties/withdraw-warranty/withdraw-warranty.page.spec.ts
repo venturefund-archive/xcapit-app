@@ -14,6 +14,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warranty-data.interface';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 const validFormData = {
   dni: '12345678',
@@ -41,6 +42,7 @@ describe('WithdrawWarrantyPage', () => {
   let fakeNavController: FakeNavController;
   let warrantyDataServiceSpy: jasmine.SpyObj<WarrantyDataService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(waitForAsync(() => {
     warrantiesServiceSpy = jasmine.createSpyObj('WarrantiesService', {
@@ -55,6 +57,10 @@ describe('WithdrawWarrantyPage', () => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve('0x00001'),
     });
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve('12345678'),
+    });
+
     TestBed.configureTestingModule({
       declarations: [WithdrawWarrantyPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -64,6 +70,7 @@ describe('WithdrawWarrantyPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: WarrantyDataService, useValue: warrantyDataServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -134,5 +141,13 @@ describe('WithdrawWarrantyPage', () => {
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('warranties/withdraw-warranty-summary');
     expect(warrantyDataServiceSpy.data).toEqual(summaryData);
+  });
+
+  it('should autocomplete dni field when user has information on storage', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledTimes(1);
+    expect(component.form.value.dni).toEqual('12345678');
   });
 });

@@ -18,6 +18,7 @@ import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warrant
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { WarrantySummaryPage } from './warranty-summary.page';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('WarrantySummaryPage', () => {
   let component: WarrantySummaryPage;
@@ -29,6 +30,7 @@ describe('WarrantySummaryPage', () => {
   let warrantyDataServiceSpy: jasmine.SpyObj<WarrantyDataService>;
   let warrantyServiceSpy: jasmine.SpyObj<WarrantiesService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let defiInvesmentServiceSpy: jasmine.SpyObj<DefiInvestmentsService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
@@ -84,6 +86,10 @@ describe('WarrantySummaryPage', () => {
       getWalletsAddresses: Promise.resolve('0x00001'),
     });
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(),
+    });
+
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getFeatureFlag: true });
 
     TestBed.configureTestingModule({
@@ -100,6 +106,7 @@ describe('WarrantySummaryPage', () => {
         { provide: DefiInvestmentsService, useValue: defiInvesmentServiceSpy },
         { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -230,5 +237,15 @@ describe('WarrantySummaryPage', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(2);
+  });
+
+  it('should save user dni in storage when ux_warranty_start_confirm is clicked and dni is valid', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('user_dni', 1234567);
   });
 });

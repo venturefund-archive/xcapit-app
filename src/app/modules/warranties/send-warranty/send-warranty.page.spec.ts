@@ -19,6 +19,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
 import { FakeBalanceModal } from '../../../shared/models/balance-modal/fake/fake-balance-modal';
 import { BalanceModal } from 'src/app/shared/models/balance-modal/balance-modal.interface';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -27,6 +28,7 @@ describe('SendWarrantyPage', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
@@ -71,6 +73,10 @@ describe('SendWarrantyPage', () => {
       getWalletsAddresses: Promise.resolve(['testAddress']),
     });
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(),
+    });
+
     dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
 
     dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
@@ -82,7 +88,7 @@ describe('SendWarrantyPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
-    fakeBalanceModal = new FakeBalanceModal(); 
+    fakeBalanceModal = new FakeBalanceModal();
     balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectable', {
       create: fakeBalanceModal,
     });
@@ -96,6 +102,7 @@ describe('SendWarrantyPage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: BalanceModalInjectable, useValue: balanceModalInjectableSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -165,13 +172,24 @@ describe('SendWarrantyPage', () => {
     expect(fakeBalanceModal.calls).toEqual(1);
     discardPeriodicTasks();
   }));
-  
+
   it('should open insufficient balance modal when enter quoteAmount is greater than balance', fakeAsync(() => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     tick();
     component.form.patchValue({ quoteAmount: formDataSpy.insufficient_balance.quoteAmount });
     expect(fakeBalanceModal.calls).toEqual(1);
+    discardPeriodicTasks();
+  }));
+
+  it('should autocomplete dni field when user has information on storage', fakeAsync(() => {
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve('12345678'));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
+
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledTimes(1);
+    expect(component.form.value.dni).toEqual('12345678');
     discardPeriodicTasks();
   }));
 });
