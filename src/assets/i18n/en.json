@@ -3195,8 +3195,8 @@
           "label_city": "City",
           "label_zip_code": "Zip Code"
         },
-        "checkbox_politically_exposed": "I declare that I am not a politically exposed person.",
-        "disclaimer": "Politically exposed person: individuals who perform prominent public functions, such as Heads of State or Government, government officials, judicial, military and/or high-level or high-ranking executives.",
+        "checkbox_politically_exposed": "I declare that I am a politically exposed person.",
+        "disclaimer": "Politically exposed persons are those who hold or have held public office.",
         "button": "Confirm and send"
       },
       "front_id": {

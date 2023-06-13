@@ -80,7 +80,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
           <ion-item class="term-item ion-no-padding ion-no-margin">
             <ion-checkbox
               appTrackClick
-              formControlName="not_politically_exposed"
+              formControlName="politically_exposed"
               mode="md"
               slot="start"
               name="ux_buy_kripton_politically_exposed"
@@ -101,7 +101,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
           color="secondary"
           size="large"
           expand="block"
-          [disabled]="!this.form.valid"
+          [disabled]="this.form.valid"
           (click)="this.sendData()"
         >
           {{ 'fiat_ramps.kyc.summary_data.button' | translate }}
@@ -112,7 +112,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
 })
 export class KycSummaryDataPage {
   form: UntypedFormGroup = this.fb.group({
-    not_politically_exposed: [false, Validators.requiredTrue],
+    politically_exposed: [false, Validators.requiredTrue],
   });
   data: any;
   countryCode: string;
@@ -154,7 +154,7 @@ export class KycSummaryDataPage {
     if (this.form.valid) {
       const email = await this.kriptonStorage.get('email');
       const auth_token = await this.kriptonStorage.get('access_token');
-      const politically_exposed = !this.form.value.not_politically_exposed;
+      const politically_exposed = this.form.value.politically_exposed;
       const kycData = Object.assign({ politically_exposed, email, auth_token }, this.data);
       this.fiatRampsService.registerUserInfo(this._parsedValues(kycData)).subscribe(() => {
         this.kriptonStorage.set('user_status', 'USER_IMAGES');
