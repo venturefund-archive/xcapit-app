@@ -384,12 +384,44 @@ describe('SendDetailPage', () => {
   });
 
   it('should show toast when native balance is less than fee', async () => {
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      {
+        fetch: Promise.resolve(),
+        cached: Promise.resolve(),
+      },
+      {
+        price: 3000,
+        balance: 0.5,
+        quoteSymbol: 'USD',
+      }
+    );
+    tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
+    component.fee = 1;
     await component.ionViewWillEnter();
     await component.ionViewDidEnter();
-    component.nativeBalance = 0.5;
-    component.fee = 1;
 
-    await component.checkEnoughBalance();
+    fixture.detectChanges();
+    expect(fakeBalanceModal.calls).toEqual(1);
+  });
+
+  it('should show toast when token is less that balance ', async () => {
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      {
+        fetch: Promise.resolve(),
+        cached: Promise.resolve(),
+      },
+      {
+        price: 3000,
+        balance: 5,
+        quoteSymbol: 'USD',
+      }
+    );
+    tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    component.form.patchValue({ amount: 10 });
 
     expect(fakeBalanceModal.calls).toEqual(1);
   });

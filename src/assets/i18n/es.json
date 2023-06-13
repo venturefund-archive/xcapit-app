@@ -2078,6 +2078,18 @@
         "alert": {
           "title": "Atención",
           "text": "Tiene 0 {{nativeToken}} en su cuenta para pagar las comisiones de transacción. Compre algunos {{nativeToken}} o deposítelos desde otra cuenta."
+        },
+        "balance_modal": {
+          "insufficient_balance": {
+            "text": "No tienes suficiente {{token}} en tu cuenta para realizar esta operación.",
+            "firstButtonName": "Comprar {{token}}",
+            "secondaryButtonName": "Depositar {{token}}"
+          },
+          "insufficient_balance_fee": {
+            "text": "No tienes suficientes {{token}} en tu cuenta para pagar la tarifa de transacción.",
+            "firstButtonName": "Comprar {{token}}",
+            "secondaryButtonName": "Depositar {{token}}"
+          }
         }
       },
       "send_summary": {

@@ -2089,6 +2089,18 @@
         "alert": {
           "title": "Attention",
           "text": "You have 0 {{nativeToken}} in your account to pay the transaction fees. Buy some {{nativeToken}} or deposit them from another account."
+        },
+        "balance_modal": {
+          "insufficient_balance": {
+            "text": "You don't have enough {{token}} in your account to make this operation.",
+            "firstButtonName": "Buy {{token}}",
+            "secondaryButtonName": "Deposit {{token}}"
+          },
+          "insufficient_balance_fee": {
+            "text": "You don't have enough {{token}} in your account to afford the transaction fee.",
+            "firstButtonName": "Buy {{token}}",
+            "secondaryButtonName": "Deposit {{token}}"
+          }
         }
       },
       "send_summary": {

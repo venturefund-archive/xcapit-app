@@ -27,7 +27,7 @@ import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
-import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
+import { DefaultToken, Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { RawToken, TokenRepo } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 import { TokenByAddress } from 'src/app/modules/swaps/shared-swaps/models/token-by-address/token-by-address';
@@ -145,6 +145,7 @@ export class SendDetailPage {
   tokenDetail: TokenDetail;
   addressFromContact = false;
   contact: Contact;
+  modalOpened: boolean;
   private wallet: Wallet;
   private tokenObj: Token;
   private nativeToken: Token;
@@ -197,6 +198,7 @@ export class SendDetailPage {
     await this.setTokenDetail();
     this.getPrices();
     await this.tokenBalances();
+    await this.checkEnoughBalance();
   }
 
   setFormData(amount: string) {
@@ -298,7 +300,6 @@ export class SendDetailPage {
       await this.setAllFeeData();
       this.resetFee();
       this.balance = this.nativeBalance = Math.max(this.tokenDetail.balance - this.fee, 0);
-      await this.checkEnoughBalance();
     } else {
       this.balance = this.tokenDetail.balance;
       this.nativeBalance = (await this.tokenDetailOf(this.blockchain.nativeToken())).balance;
@@ -313,6 +314,7 @@ export class SendDetailPage {
 
   private watchFormChanges() {
     this.form.valueChanges.subscribe(async () => {
+      if (this.form.value.amount > this.balance) this.showInsufficientBalanceModal();
       if (this.form.valid) {
         await this.setAllFeeData();
         await this.checkEnoughBalance();
@@ -440,21 +442,37 @@ export class SendDetailPage {
   }
 
   async checkEnoughBalance() {
-    if (this.token.native ? this.nativeBalance <= 0 : this.nativeBalance < this.fee) {
-      await this.openModalBalance();
+    if (this.balance <= 0) {
+      return this.showInsufficientBalanceModal();
+    } else if (!this.token.native && this.nativeBalance < this.fee) {
+      return this.showInsufficientBalanceFeeModal();
     }
   }
 
-  async openModalBalance() {
-    if (window.location.href === this.modalHref) {
-      await this.balanceModalInjectable
-        .create(
-          this.nativeToken,
-          'defi_investments.confirmation.informative_modal_fee',
-          'defi_investments.confirmation.buy_button',
-          'defi_investments.confirmation.deposit_button'
-        )
-        .show();
+  showInsufficientBalanceFeeModal() {
+    this.openModalBalance(
+      this.nativeToken,
+      'wallets.send.send_detail.balance_modal.insufficient_balance_fee.text',
+      'wallets.send.send_detail.balance_modal.insufficient_balance_fee.firstButtonName',
+      'wallets.send.send_detail.balance_modal.insufficient_balance_fee.secondaryButtonName'
+    );
+  }
+
+  showInsufficientBalanceModal() {
+    this.openModalBalance(
+      new DefaultToken(this.token as RawToken),
+      'wallets.send.send_detail.balance_modal.insufficient_balance.text',
+      'wallets.send.send_detail.balance_modal.insufficient_balance.firstButtonName',
+      'wallets.send.send_detail.balance_modal.insufficient_balance.secondaryButtonName'
+    );
+  }
+
+  async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
+    if (!this.modalOpened && window.location.href === this.modalHref) {
+      this.modalOpened = true;
+      const modal = this.balanceModalInjectable.create(token, description, primaryButtonText, secondaryButtonText);
+      await modal.show();
+      modal.onDidDismiss().then(() => (this.modalOpened = false));
     }
   }
 
