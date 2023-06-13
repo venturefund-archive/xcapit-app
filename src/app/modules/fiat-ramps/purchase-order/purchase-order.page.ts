@@ -28,37 +28,20 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
         <ion-title class="po__header">
           {{ 'fiat_ramps.purchase_order.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
-          >{{ this.step }} {{ 'shared.step_counter.of' | translate }} 2</ion-label
-        >
       </ion-toolbar>
     </ion-header>
     <ion-content *ngIf="this.data" class="po">
       <div class="po__provider">
         <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.purchase_order.provider' | translate }}</ion-text>
       </div>
-
-      <div class="po__step-wrapper">
-        <div class="po__step-wrapper__step" [ngClass]="this.isFirstStep ? 'active' : 'success'">
-          <div class="po__step-wrapper__step__number number first">
-            <ion-label *ngIf="this.isFirstStep" class="ux-font-text-lg">1</ion-label>
-            <div class="icon" *ngIf="!this.isFirstStep">
-              <ion-icon name="check-circle" color="success"></ion-icon>
-            </div>
-          </div>
-          <ion-label class="po__step-wrapper__step__title title ux-font-titulo-xs">{{
-            'fiat_ramps.purchase_order.step_1' | translate
-          }}</ion-label>
-        </div>
-        <div class="po__step-wrapper__step" [ngClass]="this.isFirstStep ? 'inactive' : 'active'">
-          <div class="po__step-wrapper__step__number number">
-            <ion-label class="ux-font-text-lg">2</ion-label>
-          </div>
-          <ion-label class="po__step-wrapper__step__title title ux-font-titulo-xs">{{
-            'fiat_ramps.purchase_order.step_2' | translate
-          }}</ion-label>
-        </div>
+      <div class="po__title" *ngIf="this.isFirstStep">
+        <ion-text class="po__title__primary ux-font-text-xl"> {{ 'fiat_ramps.purchase_order.title' | translate }} </ion-text>
+        <ion-text class="po__title__subtitle ux-font-text-black"> {{ 'fiat_ramps.purchase_order.subtitle' | translate }} </ion-text>
       </div>
+      <div class="po__title" *ngIf="!this.isFirstStep">
+        <ion-text class="po__title__primary ux-font-text-xl">  {{ 'fiat_ramps.purchase_order.title_2' | translate }} </ion-text>
+      </div>
+
       <app-voucher-card
         *ngIf="!this.isFirstStep"
         [voucher]="this.voucher"

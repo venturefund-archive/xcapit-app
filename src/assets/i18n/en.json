@@ -2558,16 +2558,16 @@
       "button_secondary": "Go to wallet"
     },
     "purchase_order": {
-      "header": "Buy crypto",
+      "header": "Buy cryptocurrency",
+      "title": "Transfer the amount to the following account",
+      "subtitle": "Download the transfer receipt. We will ask for it in the next step.",
+      "title_2": "To complete the purchase, upload your receipt",
       "clipboard_text": "¡{{type}} successfully copied!",
       "provider": "Provider: Kripton Market",
-      "step_1": "Transfer",
-      "step_2": "Upload voucher",
       "button": "Continue",
       "send_button": "Send and finish",
       "timer": "You have {{ value }} to transfer",
       "voucher_card": {
-        "header": "Attach your voucher",
         "file_placeholder": "Voucher.jpg",
         "upload_button": "Upload image",
         "footnote": "Supports png, jpg, pdf or other similar formats up to 200 kb.",
@@ -3016,7 +3016,7 @@
         }
       },
       "kripton_account_info": {
-        "title": "Transfer to the following account",
+        "title": "Account information",
         "alias": "Alias",
         "cbu": "CBU",
         "amount": "Amount",

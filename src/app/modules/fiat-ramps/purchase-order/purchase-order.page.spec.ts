@@ -156,15 +156,13 @@ describe('PurchaseOrderPage', () => {
   it('should get step on ionViewWillEnter and render transfer on step 1', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
+    const titleEl = fixture.debugElement.query(By.css('ion-text.po__title__primary'));
     const transferEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const voucherEl = fixture.debugElement.query(By.css('app-voucher-card'));
-    const currentStepEl = fixture.debugElement.query(By.css('.active')).nativeElement.textContent;
-    const stepCounterEl = fixture.debugElement.query(By.css('.ux_toolbar__step')).nativeElement.textContent;
 
+    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.title');
     expect(transferEl).toBeTruthy();
     expect(voucherEl).toBeNull();
-    expect(currentStepEl).toContain('1');
-    expect(stepCounterEl).toContain('1 shared.step_counter.of 2');
     expect(component.isFirstStep).toBeTrue();
   });
 
@@ -172,15 +170,13 @@ describe('PurchaseOrderPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();
     fixture.detectChanges();
+    const titleEl = fixture.debugElement.query(By.css('ion-text.po__title__primary'));
     const transferEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const voucherEl = fixture.debugElement.query(By.css('app-voucher-card'));
-    const currentStepEl = fixture.debugElement.query(By.css('.active')).nativeElement.textContent;
-    const stepCounterEl = fixture.debugElement.query(By.css('.ux_toolbar__step')).nativeElement.textContent;
-
+  
+    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.title_2');
     expect(transferEl).toBeNull();
     expect(voucherEl).toBeTruthy();
-    expect(currentStepEl).toContain('2');
-    expect(stepCounterEl).toContain('2 shared.step_counter.of 2');
     expect(component.isFirstStep).toBeFalse();
   });
 
@@ -188,17 +184,16 @@ describe('PurchaseOrderPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     const headerTitleEl = fixture.debugElement.query(By.css('ion-title.po__header'));
-    const stepOfEl = fixture.debugElement.query(By.css('ion-label.ux_toolbar__step'));
-    const [step1El, step2El] = fixture.debugElement.queryAll(By.css('ion-label.po__step-wrapper__step__title'));
+    const titleEl = fixture.debugElement.query(By.css('ion-text.po__title__primary'));
+    const subtitleEl = fixture.debugElement.query(By.css('ion-text.po__title__subtitle'));
     const providerTitleEl = fixture.debugElement.query(By.css('div.po__provider ion-text'));
     const kriptonAccountEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const purchaseInfoEl = fixture.debugElement.query(By.css('app-kripton-purchase-info'));
     const timerCountDownEl = fixture.debugElement.query(By.css('app-timer-countdown'));
 
     expect(headerTitleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.header');
-    expect(step1El.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.step_1');
-    expect(step2El.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.step_2');
-    expect(stepOfEl.nativeElement.innerHTML).toContain('shared.step_counter.of');
+    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.title');
+    expect(subtitleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.subtitle');
     expect(providerTitleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.provider');
     expect(kriptonAccountEl).toBeTruthy();
     expect(timerCountDownEl).toBeTruthy();
