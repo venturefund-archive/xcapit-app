@@ -18,9 +18,6 @@ import { Platform } from '@ionic/angular';
         <ion-title>
           {{ 'fiat_ramps.shared.validation_content.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
-          >{{ this.data.stepFrom }} {{ 'shared.step_counter.of' | translate }} 3</ion-label
-        >
       </ion-toolbar>
       <ion-progress-bar class="vc__progress" [value]="this.data.progress" color="info"></ion-progress-bar>
       <div class="vc__provider">
@@ -30,9 +27,6 @@ import { Platform } from '@ionic/angular';
     <ion-content class="ion-padding vc__container">
       <div class="vc__container__title" *ngIf="this.data.title">
         <ion-text class="ux-font-text-xl">{{ this.data.title | translate }}</ion-text>
-      </div>
-      <div class="vc__container__subtitle">
-        <ion-text class="ux-font-text-lg">{{ this.data.subtitle | translate }} </ion-text>
       </div>
       <div class="vc__container__description">
         <ion-text class="ux-font-text-base">{{ this.data.description | translate }} </ion-text>
@@ -52,7 +46,7 @@ import { Platform } from '@ionic/angular';
           color="secondary"
           expand="block"
           (click)="this.takePhoto()"
-          >{{ 'fiat_ramps.shared.validation_content.button_primary' | translate }}</ion-button
+          >{{ this.data.buttonPrimary | translate }}</ion-button
         >
       </div>
       <div class="vc__footer__upload-button">

@@ -1843,7 +1843,7 @@
       "title": "Follow these steps to order your Naranja X cards.",
       "item_1": "Create a password and protect your account with a backup copy.",
       "item_2": "Buy as many cryptocurrencies as you want.",
-      "item_3":"Use your cryptocurrencies to create a collateral backing.",
+      "item_3": "Use your cryptocurrencies to create a collateral backing.",
       "item_4": "Know what cards and available for purchases you can have.",
       "button": "Continue"
     },
@@ -2954,50 +2954,47 @@
         }
       },
       "validation_content": {
-        "header": "Verify identity",
+        "header": "Create account",
         "provider": "Provider: Kripton Market",
-        "button_primary": "Take photo",
-        "button_secondary": "Upload from gallery",
+        "button_secondary": "Upload from the gallery",
 
         "front_id": {
-          "title": "¡Hello again! 👋",
-          "subtitle": "We need a photo of the front of your document",
-          "description": "The image should be similar to the one in the example and your data should be visible."
+          "title": "Take a picture of the front of your ID card",
+          "description": "We need your photo to confirm your identity. Make sure the data looks good.",
+          "button_primary": "Take a picture of the front"
         },
         "back_id": {
-          "subtitle": "Now we need a photo of the reverse side of your document",
-          "description": "The image should be similar to the one in the example and your data should be visible."
+          "title": "Turn your ID card to take a picture of the back of it",
+          "description": "Make sure the data looks good.",
+          "button_primary": "Take a picture of the back"
         },
         "dni_selfie": {
-          "subtitle": "Finally, a picture of you holding your document",
-          "description": "¡Don't worry! 😉 We just want to check that you are the person indicated in the document entered.",
-          "items": "<ul><li>Choose a light background.</li><li>Don't use accessories that cover up your features.</li></ul>"
+          "title": "Now take a selfie holding your ID card",
+          "description": "To validate your identity, we ask you to take a selfie on a light background with no accessories covering your face.",
+          "button_primary": "Take selfie"
         }
       },
       "confirmation_content": {
-        "header": "Verify identity",
+        "header": "Create account",
         "provider": "Provider: Kripton Market",
 
         "front_id": {
-          "title": "Very good! 📸",
-          "subtitle": "Check that the photo meets the following conditions:",
-          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>",
+          "title": "Check that the photo meets these requirements:",
+          "items": "<ul><li>The data read well.</li><li>The image is not blurred.</li><li>The content of the DNI is complete.</li></ul>",
           "button_primary": "Confirm",
-          "button_secondary": "Reloading"
+          "button_secondary": "Take another picture"
         },
         "back_id": {
-          "title": "😁 ¡Excelent!",
-          "subtitle": "Check that the photo meets the following conditions:",
-          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>",
+          "title": "Check that the photo meets these requirements:",
+          "items": "<ul><li>The data read well.</li><li>The image is not blurred.</li><li>The content of the DNI is complete.</li></ul>",
           "button_primary": "Confirm",
-          "button_secondary": "Reloading"
+          "button_secondary": "Take another picture"
         },
         "dni_selfie": {
-          "title": "That's it! We finish 🎉",
-          "subtitle": "Verify that the following conditions are met:",
-          "items": "<ul><li> The photo should be clear and sharp.</li><li>Do not wear glasses or hats that cover your face.</li></ul>",
-          "button_primary": "Confirm and send",
-          "button_secondary": "Reloading"
+          "title": "Check that the photo meets these requirements:",
+          "items": "<ul><li>The photo must be clear and sharp.</li><li>Do not wear glasses or hats that cover your face.</li></ul>",
+          "button_primary": "Confirm",
+          "button_secondary": "Take another picture"
         },
         "kripton_account_info": {
           "title": "Transfer to the following account",
