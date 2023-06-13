@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -116,7 +116,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
     </ion-footer>`,
   styleUrls: ['./user-email.page.scss'],
 })
-export class UserEmailPage implements OnInit {
+export class UserEmailPage {
   form: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
     token: ['', []],
@@ -142,8 +142,18 @@ export class UserEmailPage implements OnInit {
     private tokenOperationDataService: TokenOperationDataService
   ) {}
 
-  ngOnInit() {
+  async ionViewWillEnter() {
     this.updateFooterText();
+    await this.getUserEmail();
+  }
+
+  async getUserEmail() {
+    const registeredMail = await this.kriptonStorage.get('email');
+    this.editInputEmail(registeredMail);
+  }
+
+  editInputEmail(registeredMail: string) {
+    this.form.patchValue({ email: registeredMail });
   }
 
   async validateEmailAndSendToken(): Promise<void> {

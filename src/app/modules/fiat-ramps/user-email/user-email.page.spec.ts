@@ -42,6 +42,7 @@ describe('UserEmailPage', () => {
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
       set: Promise.resolve(),
+      get: Promise.resolve('test@test.com'),
     });
 
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
@@ -95,8 +96,15 @@ describe('UserEmailPage', () => {
     }));
   });
 
-  it('should enable timer, show proper footer text and show toast when "Send code request" is clicked and there are attempts left', () => {
+  it('', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.form.value.email).toEqual('test@test.com');
+  });
+
+  it('should enable timer, show proper footer text and show toast when "Send code request" is clicked and there are attempts left', async () => {
     component.validatedEmail = true;
+    await component.ionViewWillEnter();
     component.form.patchValue({ email: 'test@test.com' });
     fixture.detectChanges();
     fixture.whenRenderingDone();

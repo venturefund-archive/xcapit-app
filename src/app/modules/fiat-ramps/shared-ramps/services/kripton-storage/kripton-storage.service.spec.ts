@@ -43,7 +43,6 @@ describe('KriptonStorageService', () => {
   it('removeCredentials', async () => {
     await service.removeCredentials();
 
-    expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_email');
     expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_access_token');
     expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_refresh_token');
     expect(ionicStorageSpy.remove).toHaveBeenCalledWith('kripton_user_status');
