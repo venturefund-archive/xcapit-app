@@ -3106,8 +3106,8 @@
           "label_city": "Ciudad",
           "label_zip_code": "Código postal"
         },
-        "checkbox_politically_exposed": "Declaro que no soy una persona políticamente expuesta.",
-        "disclaimer": "Persona políticamente expuesta: individuos que cumplen funciones públicas prominentes, como los Jefes de Estado o Gobierno, funcionarios gubernamentales, judiciales, militares y/o ejecutivos de alto nivel o rango.",
+        "checkbox_politically_exposed": "Declaro que soy una persona políticamente expuesta.",
+        "disclaimer": "Las personas políticamente expuestas son aquellas que ejercen o ejercieron cargos públicos.",
         "button": "Confirmar y enviar"
       },
       "front_id": {
