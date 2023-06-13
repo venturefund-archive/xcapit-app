@@ -33,7 +33,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
       </div>
       <div class="ue__container__subtitle">
         <ion-text class="ux-font-text-base">{{
-          (this.validatedEmail ? 'fiat_ramps.user_email.secondary_subtitule' : 'fiat_ramps.user_email.main_subtitle')
+          (this.validatedEmail ? 'fiat_ramps.user_email.secondary_subtitle' : 'fiat_ramps.user_email.main_subtitle')
             | translate
         }}</ion-text>
       </div>

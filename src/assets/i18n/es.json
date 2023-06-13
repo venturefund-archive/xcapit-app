@@ -3012,7 +3012,7 @@
       "main_title": "Registrá tu email para comprar criptomonedas",
       "secondary_title": "Ingresá el código de seguridad",
       "main_subtitle": "Te vamos a enviar un correo para validar tu email. Cuando lo valides, vas a recibir un código de seguridad.",
-      "secondary_subtitule": "Te mandamos el código a tu email. Tiene 10 minutos de validez.",
+      "secondary_subtitle": "Te mandamos el código a tu email. Tiene 10 minutos de validez.",
       "label_email": "Email",
       "button": "Continuar",
       "text_token": "Enviamos un código temporal de ingreso a tu email.\n Si no lo encuentras, revisa tu bandeja de spam.",
