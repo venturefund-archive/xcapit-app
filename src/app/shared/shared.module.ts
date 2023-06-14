@@ -109,6 +109,7 @@ import { WarrantySummaryCardComponent } from '../modules/warranties/shared-warra
 import { CoinContentItemComponent } from '../modules/fiat-ramps/shared-ramps/components/coin-content-item/coin-content-item.component';
 import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
 import { SuccessModalComponent } from './components/success-modal/success-modal.component';
+import { GeneralModalWithButtonComponent } from './components/general-modal-with-button/general-modal-with-button.component';
 
 @NgModule({
   declarations: [
@@ -204,6 +205,7 @@ import { SuccessModalComponent } from './components/success-modal/success-modal.
     GeneralModalWithTwoButtonsComponent,
     UserRegisterStepCardComponent,
     SuccessModalComponent,
+    GeneralModalWithButtonComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,
@@ -320,6 +322,7 @@ import { SuccessModalComponent } from './components/success-modal/success-modal.
     GeneralModalWithTwoButtonsComponent,
     UserRegisterStepCardComponent,
     SuccessModalComponent,
+    GeneralModalWithButtonComponent,
     // Pipes
     LocalizedDatePipe,
     HideEmailPipe,
