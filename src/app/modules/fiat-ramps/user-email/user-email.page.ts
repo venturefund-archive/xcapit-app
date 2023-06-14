@@ -148,12 +148,12 @@ export class UserEmailPage {
   }
 
   async getUserEmail() {
-    const registeredMail = await this.kriptonStorage.get('email');
-    this.editInputEmail(registeredMail);
+    const registeredEmail = await this.kriptonStorage.get('email');
+    this.setInputEmail(registeredEmail);
   }
 
-  editInputEmail(registeredMail: string) {
-    this.form.patchValue({ email: registeredMail });
+  setInputEmail(registeredEmail: string) {
+    this.form.patchValue({ email: registeredEmail });
   }
 
   async validateEmailAndSendToken(): Promise<void> {
