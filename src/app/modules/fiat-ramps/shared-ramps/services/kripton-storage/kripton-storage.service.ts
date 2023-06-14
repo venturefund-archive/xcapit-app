@@ -23,7 +23,6 @@ export class KriptonStorageService {
   }
 
   async removeCredentials(): Promise<void> {
-    await this.remove('email');
     await this.remove('user_status');
     await this.remove('refresh_token');
     await this.remove('access_token');
