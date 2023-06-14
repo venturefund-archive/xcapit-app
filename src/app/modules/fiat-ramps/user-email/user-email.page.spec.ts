@@ -96,7 +96,7 @@ describe('UserEmailPage', () => {
     }));
   });
 
-  it('', async () => {
+  it('should load the input with the mail returned by storage', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(component.form.value.email).toEqual('test@test.com');
