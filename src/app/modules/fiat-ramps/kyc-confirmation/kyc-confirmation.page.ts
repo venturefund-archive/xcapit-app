@@ -9,6 +9,9 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { UserKycKriptonImages } from '../shared-ramps/interfaces/user-kyc-kripton-images.interface';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { GeneralModalWithButtonComponent } from 'src/app/shared/components/general-modal-with-button/general-modal-with-button.component';
 
 @Component({
   selector: 'app-kyc-confirmation',
@@ -36,7 +39,8 @@ export class KycConfirmationPage {
     private translate: TranslateService,
     private fiatRampsService: FiatRampsService,
     private kriptonStorage: KriptonStorageService,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ionViewWillEnter() {
@@ -70,13 +74,40 @@ export class KycConfirmationPage {
       this.trackButtonEvent();
       const digitalDocuments = this._loadPhotos();
       const dataWithEmailAndToken = await this._dataWithEmailAndToken(digitalDocuments);
-      this.fiatRampsService.registerUserImages(dataWithEmailAndToken).subscribe(() => {
+      this.fiatRampsService.registerUserImages(dataWithEmailAndToken).subscribe(async () => {
         this.kriptonStorage.set('user_status', 'COMPLETE');
-        this.navController.navigateForward('fiat-ramps/user-register');
+        if (await this.isWarrantyWallet()) {
+          this.navController.navigateForward('simplified-home-wallet', {
+            queryParams: { showRegistrationModal: true },
+          });
+        } else {
+          this.navController.navigateForward('tabs/wallets');
+          this.openKmAccountCreationModal();
+        }
       });
     } else {
       this.navController.navigateForward(this.data.nextPageUrl);
     }
+  }
+
+  async isWarrantyWallet() {
+    return await new SimplifiedWallet(this.ionicStorageService).value();
+  }
+
+  async openKmAccountCreationModal() {
+    const modal = await this.modalController.create({
+      component: GeneralModalWithButtonComponent,
+      cssClass: 'modal-large',
+      backdropDismiss: false,
+      componentProps: {
+        title: this.translate.instant('shared.km_account_creation_modal.title'),
+        description: this.translate.instant('shared.km_account_creation_modal.description'),
+        buttonText: this.translate.instant('shared.km_account_creation_modal.buttonText'),
+        url: '/fiat-ramps/purchases',
+      },
+    });
+
+    await modal.present();
   }
 
   async goBack() {
