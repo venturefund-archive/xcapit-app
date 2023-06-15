@@ -161,6 +161,11 @@
     },
     "search_bar": {
       "placeholder": "Buscar"
+    },
+    "km_account_creation_modal": {
+      "title": "¡Listo! Creaste tu cuenta",
+      "description": "Kripton Market está validando tu cuenta. Esto puede llevar hasta 48 horas.<br><br>Te vamos a avisar cuando esté lista para que puedas comprar criptomonedas.",
+      "buttonText": "Comprar cripto"
     }
   },
   "users": {
