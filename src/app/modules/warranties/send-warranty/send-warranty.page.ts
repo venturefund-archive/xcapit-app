@@ -13,8 +13,9 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
-import BalanceModalInjectable from '../../../shared/models/balance-modal/injectable/balance-modal.injectable';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
 
 @Component({
   selector: 'app-send-warranty',
@@ -101,6 +102,7 @@ export class SendWarrantyPage {
   balance: number;
   quotePrice: number;
   isLoading = false;
+  modalOpened: boolean;
   private readonly priceRefreshInterval = 15000;
 
   constructor(
@@ -111,11 +113,12 @@ export class SendWarrantyPage {
     private navController: NavController,
     private WarrantyDataService: WarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private balanceModalInjectable: BalanceModalInjectable,
+    private modalFactoryInjectable: ModalFactoryInjectable,
     private ionicStorageService: IonicStorageService
   ) {}
 
   async ionViewWillEnter() {
+    this.modalHref = window.location.href;
     this.setToken();
     await this.walletService.walletExist();
     this.dynamicPrice();
@@ -195,14 +198,19 @@ export class SendWarrantyPage {
   }
 
   async openBalanceModal() {
-    await this.balanceModalInjectable
-      .create(
-        new DefaultToken(this.token as RawToken),
-        'warranties.insufficient_balance.text',
-        'warranties.insufficient_balance.buy_button',
-        'warranties.insufficient_balance.deposit_button'
-      )
-      .show();
+    if (!this.modalOpened && window.location.href === this.modalHref) {
+      this.modalOpened = true;
+      const modal = this.modalFactoryInjectable
+        .create()
+        .oneBy(Modals.BALANCE, [
+          new DefaultToken(this.token as RawToken),
+          'warranties.insufficient_balance.text',
+          'warranties.insufficient_balance.buy_button',
+          'warranties.insufficient_balance.deposit_button',
+        ]);
+      await modal.show();
+      modal.onDidDismiss().then(() => (this.modalOpened = false));
+    }
   }
 
   ionViewWillLeave() {

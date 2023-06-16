@@ -16,6 +16,9 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
+import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
+import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
+import { rawPendingOperationData } from '../shared-ramps/fixtures/raw-operation-data';
 
 @Component({
   selector: 'app-purchase-order',
@@ -35,11 +38,17 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
         <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.purchase_order.provider' | translate }}</ion-text>
       </div>
       <div class="po__title" *ngIf="this.isFirstStep">
-        <ion-text class="po__title__primary ux-font-text-xl"> {{ 'fiat_ramps.purchase_order.title' | translate }} </ion-text>
-        <ion-text class="po__title__subtitle ux-font-text-black"> {{ 'fiat_ramps.purchase_order.subtitle' | translate }} </ion-text>
+        <ion-text class="po__title__primary ux-font-text-xl">
+          {{ 'fiat_ramps.purchase_order.title' | translate }}
+        </ion-text>
+        <ion-text class="po__title__subtitle ux-font-text-black">
+          {{ 'fiat_ramps.purchase_order.subtitle' | translate }}
+        </ion-text>
       </div>
       <div class="po__title" *ngIf="!this.isFirstStep">
-        <ion-text class="po__title__primary ux-font-text-xl">  {{ 'fiat_ramps.purchase_order.title_2' | translate }} </ion-text>
+        <ion-text class="po__title__primary ux-font-text-xl">
+          {{ 'fiat_ramps.purchase_order.title_2' | translate }}
+        </ion-text>
       </div>
 
       <app-voucher-card
@@ -122,12 +131,14 @@ export class PurchaseOrderPage {
     private platformService: PlatformService,
     private fiatRampsService: FiatRampsService,
     private modalController: ModalController,
-    private kriptonStorageService: KriptonStorageService
+    private kriptonStorageService: KriptonStorageService,
+    private storage: IonicStorageService
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.getStep();
     this.getStorageOperationData();
+    await this.getKriptonOperationData();
     this.getCurrencyOut();
     this.getOperationCreationDate();
   }
@@ -149,7 +160,6 @@ export class PurchaseOrderPage {
   private getStorageOperationData() {
     this.data = this.storageOperationService.getData();
     this.voucher = this.storageOperationService.getVoucher();
-    this.getKriptonOperationData();
   }
 
   private async getKriptonOperationData() {
@@ -187,19 +197,16 @@ export class PurchaseOrderPage {
       saveToGallery: false,
       resultType: CameraResultType.DataUrl,
     };
-
     if (this.platformService.isNative()) {
       await this.filesystemPlugin.requestPermissions();
       await this.cameraPlugin.requestPermissions();
     } else {
       imageOptions.source = CameraSource.Photos;
     }
-
     try {
       const photo = await this.cameraPlugin.getPhoto(imageOptions);
       this.storageOperationService.updateVoucher(photo);
       this.voucher = this.storageOperationService.getVoucher();
-
       this.percentage = 100;
     } catch (error) {
       this.percentage = -1;
@@ -208,25 +215,28 @@ export class PurchaseOrderPage {
 
   async sendPicture() {
     if (this.isSending) return;
-
     this.isSending = true;
     const email = await this.kriptonStorageService.get('email');
     const auth_token = await this.kriptonStorageService.get('access_token');
     const data = { file: this.voucher.dataUrl, email, auth_token };
-    this.fiatRampsService.confirmCashInOperation(this.data.operation_id, data).subscribe({
-      next: () => {
+    this.fiatRampsService
+      .confirmCashInOperation(this.data.operation_id, data)
+      .toPromise()
+      .then(async () => {
         this.data.voucher = true;
-        this.openSuccessModal();
-      },
-      error: () => {
+        if (!(await new SimplifiedWallet(this.storage).value())) {
+          await this.openSuccessModal();
+        } else {
+          await this.navController.navigateRoot('/tabs/wallets');
+        }
+      })
+      .catch(() => {
         this.goToError();
-        this.storageOperationService.cleanVoucher();
-      },
-      complete: () => {
+      })
+      .finally(() => {
         this.storageOperationService.cleanVoucher();
         this.isSending = false;
-      },
-    });
+      });
   }
 
   removePhoto() {
@@ -245,8 +255,8 @@ export class PurchaseOrderPage {
       cssClass: 'modal',
       backdropDismiss: false,
       componentProps: {
-        data: SUCCESS_TYPES.operation_km_in_progress
-      }
+        data: SUCCESS_TYPES.operation_km_in_progress,
+      },
     });
     await modal.present();
   }

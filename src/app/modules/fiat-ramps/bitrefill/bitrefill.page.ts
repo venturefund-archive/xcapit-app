@@ -20,7 +20,6 @@ import { RawToken, TokenRepo } from '../../swaps/shared-swaps/models/token-repo/
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { BitrefillOperationFactory } from '../shared-ramps/models/bitrefill-operation/factory/bitrefill-operation.factory';
-import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ActivatedRoute } from '@angular/router';
 import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
@@ -33,7 +32,8 @@ import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
 import { BitrefillURL } from '../shared-ramps/models/bitrefill-url/bitrefill-url';
 import { EnvService } from '../../../shared/services/env/env.service';
-import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
 
 @Component({
   selector: 'app-bitrefill',
@@ -102,7 +102,7 @@ export class BitrefillPage {
     private covalentBalancesFactory: CovalentBalancesInjectable,
     private walletsFactory: WalletsFactory,
     private envService: EnvService,
-    private balanceModalInjectable: BalanceModalInjectable
+    private modalFactoryInjectable: ModalFactoryInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -303,7 +303,9 @@ export class BitrefillPage {
   async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
     if (!this.openingModal && window.location.href === this.modalHref) {
       this.openingModal = true;
-      const modal = this.balanceModalInjectable.create(token, description, primaryButtonText, secondaryButtonText);
+      const modal = this.modalFactoryInjectable
+        .create()
+        .oneBy(Modals.BALANCE, [token, description, primaryButtonText, secondaryButtonText]);
       await modal.show({ cssClass: 'ux-toast-warning' });
       modal.onDidDismiss().then(() => (this.openingModal = false));
     }

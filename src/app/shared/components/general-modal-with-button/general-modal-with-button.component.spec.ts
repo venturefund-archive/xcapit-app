@@ -32,7 +32,7 @@ describe('GeneralModalWithButtonComponent', () => {
 
     fixture = TestBed.createComponent(GeneralModalWithButtonComponent);
     component = fixture.componentInstance;
-    component.url = 'testUrl'
+    component.url = 'testUrl';
     fixture.detectChanges();
   }));
 
