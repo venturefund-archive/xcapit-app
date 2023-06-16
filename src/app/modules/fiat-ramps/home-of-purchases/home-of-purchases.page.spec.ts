@@ -20,6 +20,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 
 describe('HomeOfPurchasesPage', () => {
   let component: HomeOfPurchasesPage;
@@ -36,6 +37,7 @@ describe('HomeOfPurchasesPage', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeOfPurchasesPage>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let userKycKriptonDataServiceSpy: jasmine.SpyObj<UserKycKriptonDataService>;
 
   const user_status = { kyc_approved: false, registration_status: 'USER_INFORMATION' };
 
@@ -89,6 +91,10 @@ describe('HomeOfPurchasesPage', () => {
 
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) });
 
+    userKycKriptonDataServiceSpy = jasmine.createSpyObj('UserKycKriptonDataService', {
+      clean: null,
+    });
+
     TestBed.configureTestingModule({
       declarations: [HomeOfPurchasesPage, FakeTrackClickDirective, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -101,6 +107,7 @@ describe('HomeOfPurchasesPage', () => {
         { provide: KriptonUserInjectable, useValue: kriptonUserInjectableSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: UserKycKriptonDataService, useValue: userKycKriptonDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -274,6 +281,7 @@ describe('HomeOfPurchasesPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-operations-list')).triggerEventHandler('loggedOut', {});
     fixture.detectChanges();
+    expect(userKycKriptonDataServiceSpy.clean).toHaveBeenCalledTimes(1);
     expect(component.userStatus).toBeNull();
   });
 
