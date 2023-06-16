@@ -118,7 +118,8 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 })
 export class UserEmailPage {
   form: UntypedFormGroup = this.formBuilder.group({
-    email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+    // email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+    email: ['', [Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9._%+-]{2,}[.][A-Za-z]{2,}$'), Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
     token: ['', []],
   });
   userStatus: string;
