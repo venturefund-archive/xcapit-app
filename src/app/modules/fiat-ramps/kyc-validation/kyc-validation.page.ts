@@ -70,7 +70,7 @@ export class KycValidationPage {
       const { role } = await modal.onDidDismiss();
       this.modalOpened = false;
       if (role === 'confirm') {
-        await this.navController.navigateBack('/fiat-ramps/user-register');
+        await this.navController.navigateBack('/fiat-ramps/purchases');
       }
     }
   }

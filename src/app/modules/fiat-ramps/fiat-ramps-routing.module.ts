@@ -44,7 +44,7 @@ const routes: Routes = [
         path: 'user-bank',
         loadChildren: () => import('./user-bank/user-bank.module').then((m) => m.UserBankPageModule),
       },
-      
+
       {
         path: 'user-images',
         loadChildren: () => import('./user-images/user-images.module').then((m) => m.UserImagesPageModule),
@@ -117,12 +117,7 @@ const routes: Routes = [
       },
       {
         path: 'sell-order',
-        loadChildren: () => import('./sell-order/sell-order.module').then( m => m.SellOrderPageModule)
-      },
-      {
-        canActivate: [LoggedInKriptonGuard],
-        path: 'user-register',
-        loadChildren: () => import('./user-register/user-register.module').then((m) => m.UserRegisterPageModule),
+        loadChildren: () => import('./sell-order/sell-order.module').then((m) => m.SellOrderPageModule),
       },
       {
         path: 'user-basic',

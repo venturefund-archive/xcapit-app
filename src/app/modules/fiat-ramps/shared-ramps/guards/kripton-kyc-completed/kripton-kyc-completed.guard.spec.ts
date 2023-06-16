@@ -41,6 +41,13 @@ describe('KriptonKycCompleted', () => {
     kriptonUserSpy.userStatus.and.resolveTo('USER_INFORMATION');
     const result = await guard.canActivate();
     expect(result).toBeFalse();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-register');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-basic');
+  });
+
+  it('should not allow access if user status is USER_IMAGES', async () => {
+    kriptonUserSpy.userStatus.and.resolveTo('USER_IMAGES');
+    const result = await guard.canActivate();
+    expect(result).toBeFalse();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/kyc/validation/front_id');
   });
 });

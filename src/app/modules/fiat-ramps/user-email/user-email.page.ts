@@ -160,6 +160,7 @@ export class UserEmailPage {
     this.userStatus = (
       await this.fiatRampsService.getOrCreateUser({ email: this.form.value.email }).toPromise()
     ).registration_status;
+
     this.fiatRampsService.getKriptonAccessToken({ email: this.form.value.email }).subscribe();
     if (this.userStatus) {
       this.validatedEmail = true;
@@ -188,13 +189,17 @@ export class UserEmailPage {
   }
 
   redirectByStatus(registrationStatus: string) {
-    if (!this.tokenOperationDataService.tokenOperationData?.mode) {
-      return this.navController.navigateRoot('/fiat-ramps/purchases');
-    } else if (this.tokenOperationDataService.tokenOperationData.mode === 'sell' && registrationStatus === 'COMPLETE') {
-      return this.navController.navigateRoot('/fiat-ramps/user-bank-account');
+    let url = '';
+    if (registrationStatus !== 'COMPLETE') {
+      url = RegistrationStatus[registrationStatus];
+    } else if (!this.tokenOperationDataService.tokenOperationData?.mode) {
+      url = '/fiat-ramps/purchases';
+    } else if (this.tokenOperationDataService.tokenOperationData.mode === 'sell') {
+      url = '/fiat-ramps/user-bank-account';
+    } else if (this.tokenOperationDataService.tokenOperationData.mode === 'buy') {
+      url = '/fiat-ramps/new-operation/kripton';
     }
-    const url = RegistrationStatus[registrationStatus];
-    return this.navController.navigateRoot(url);
+    this.navController.navigateRoot(url);
   }
 
   private addTokenValidators(): void {

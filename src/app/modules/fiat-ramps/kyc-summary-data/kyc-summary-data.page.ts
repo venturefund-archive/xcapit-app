@@ -10,7 +10,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
   template: `<ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/user-register"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/purchases"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.kyc.summary_data.header' | translate }}
@@ -150,7 +150,7 @@ export class KycSummaryDataPage {
       const kycData = Object.assign({ politically_exposed, email, auth_token }, this.data);
       this.fiatRampsService.registerUserInfo(this._parsedValues(kycData)).subscribe(() => {
         this.kriptonStorage.set('user_status', 'USER_IMAGES');
-        this.navController.navigateForward('fiat-ramps/user-register');
+        this.navController.navigateForward('/fiat-ramps/kyc/validation/front_id');
       });
     }
   }

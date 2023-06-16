@@ -17,7 +17,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
   template: `<ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/user-register"></ion-back-button>
+          <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.kyc.user_personal_information.header' | translate }}

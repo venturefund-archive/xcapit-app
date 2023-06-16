@@ -97,7 +97,7 @@ describe('KycConfirmationPage', () => {
     tick();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
     expect(kriptonStorageSpy.set).toHaveBeenCalledOnceWith('user_status', 'COMPLETE');
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/user-register');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/purchases');
     expect(fiatRampsServiceSpy.registerUserImages).toHaveBeenCalledTimes(1);
   }));
 
@@ -116,7 +116,7 @@ describe('KycConfirmationPage', () => {
     fixture.detectChanges();
     tick();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/fiat-ramps/user-register');
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/fiat-ramps/purchases');
   }));
 
   it('should not navigate back if modal canceled', fakeAsync(() => {

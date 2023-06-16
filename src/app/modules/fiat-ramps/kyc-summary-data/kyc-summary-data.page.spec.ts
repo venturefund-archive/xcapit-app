@@ -134,7 +134,7 @@ describe('KycSummaryDataPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(fiatRampsServiceSpy.registerUserInfo).toHaveBeenCalledOnceWith(expectedKycData);
     expect(kriptonStorageSpy.set).toHaveBeenCalledOnceWith('user_status', 'USER_IMAGES');
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/user-register');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/kyc/validation/front_id');
   });
 
   it('should not update data with politically_exposed, not send data and not redirect to register user page when ux_buy_kripton_details_confirm is clicked but form is invalid', () => {

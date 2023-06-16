@@ -72,7 +72,7 @@ export class KycConfirmationPage {
       const dataWithEmailAndToken = await this._dataWithEmailAndToken(digitalDocuments);
       this.fiatRampsService.registerUserImages(dataWithEmailAndToken).subscribe(() => {
         this.kriptonStorage.set('user_status', 'COMPLETE');
-        this.navController.navigateForward('fiat-ramps/user-register');
+        this.navController.navigateForward('/fiat-ramps/purchases');
       });
     } else {
       this.navController.navigateForward(this.data.nextPageUrl);
@@ -95,7 +95,7 @@ export class KycConfirmationPage {
     await modal.present();
     const { role } = await modal.onDidDismiss();
     if (role === 'confirm') {
-      await this.navController.navigateBack('/fiat-ramps/user-register');
+      await this.navController.navigateBack('/fiat-ramps/purchases');
     }
   }
 
