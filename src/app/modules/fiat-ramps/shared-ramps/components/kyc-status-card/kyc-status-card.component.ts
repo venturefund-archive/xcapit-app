@@ -53,7 +53,6 @@ export class KYCStatusCardComponent implements OnInit {
 
   redirectToPage() {
     if (this.userStatus !== 'COMPLETE') {
-      console.log("status",this.userStatus)
       const redirection = RegistrationStatus[this.userStatus];
       this.navController.navigateForward(redirection);
     }
