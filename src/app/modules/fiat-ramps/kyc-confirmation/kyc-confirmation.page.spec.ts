@@ -140,7 +140,7 @@ describe('KycConfirmationPage', () => {
     fixture.detectChanges();
     tick();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/fiat-ramps/user-register');
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/fiat-ramps/purchases');
   }));
 
   it('should not navigate back if modal canceled', fakeAsync(() => {

@@ -3047,17 +3047,6 @@
       "header": "Registración",
       "provider": "Proveedor: Kripton Market",
       "button": "Finalizar",
-      "steps": {
-        "complete": "Completo",
-        "step_one": {
-          "title": "Cargar datos",
-          "subtitle": "Completa con tu información personal"
-        },
-        "step_two": {
-          "title": "Verificar identidad",
-          "subtitle": "Necesitarás tu documento"
-        }
-      },
       "disclaimer": {
         "content": "Xcapit no almacena información. Averigua más sobre el uso de datos en ",
         "link": "Politica de privacidad Kripton Market."
@@ -3211,7 +3200,7 @@
       "title": "Cuenta Kripton Market",
       "starting": {
         "status": "Avance: 0%",
-        "message": "Completa la validación de identidad para finalizar la creación de tu cuenta. Verificar indentidad ahora."
+        "message": "Completa la validación de identidad para finalizar la creación de tu cuenta. Verificar indentidad ahora"
       },
       "pending": {
         "status": "Avance: 50%"

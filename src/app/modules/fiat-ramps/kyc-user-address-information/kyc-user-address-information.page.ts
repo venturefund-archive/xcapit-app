@@ -9,7 +9,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
   template: `<ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/user-register"></ion-back-button>
+          <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.kyc.user_address.header' | translate }}
@@ -126,7 +126,7 @@ export class KycUserAddressInformationPage implements OnInit {
       floor: this.data.floor,
       apartment: this.data.apartment,
       city: this.data.city,
-      postal_code: this.data.postal_code
+      postal_code: this.data.postal_code,
     });
   }
 }

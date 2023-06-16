@@ -199,6 +199,7 @@ export class HomeOfPurchasesPage {
   }
 
   navigateBySimplifiedWallet() {
+    this.tokenOperationDataService.add({ asset: 'USDC', network: 'MATIC', country: 'ARG' });
     this.isLogged ? this.setDataSimplifiedWallet() : this.navigateToLoginKripton();
   }
 
@@ -219,7 +220,6 @@ export class HomeOfPurchasesPage {
   }
 
   setDataSimplifiedWallet() {
-    this.tokenOperationDataService.add({ asset: 'USDC', network: 'MATIC', country: 'ARG' });
     this.navigateByOperation();
   }
 
@@ -238,6 +238,7 @@ export class HomeOfPurchasesPage {
   async getUserStatus() {
     if (this.email && this.isLogged) {
       this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.email }).toPromise();
+
       this.setCorrectDataByStatus();
     }
   }

@@ -23,7 +23,7 @@ export const CONFIRMATION_CONTENT = {
     items: 'fiat_ramps.shared.confirmation_content.dni_selfie.items',
     button_primary:"fiat_ramps.shared.confirmation_content.dni_selfie.button_primary",
     button_secondary:"fiat_ramps.shared.confirmation_content.dni_selfie.button_secondary",
-    nextPageUrl:'/fiat-ramps/user-register',
+    nextPageUrl:'/fiat-ramps/purchases',
     documentName:'dni_selfie'
   }
 };

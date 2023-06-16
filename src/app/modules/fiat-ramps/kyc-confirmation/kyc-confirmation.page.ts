@@ -124,7 +124,7 @@ export class KycConfirmationPage {
     await modal.present();
     const { role } = await modal.onDidDismiss();
     if (role === 'confirm') {
-      await this.navController.navigateBack('/fiat-ramps/user-register');
+      await this.navController.navigateBack('/fiat-ramps/purchases');
     }
   }
 

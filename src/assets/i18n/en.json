@@ -3132,17 +3132,6 @@
       "header": "Register",
       "provider": "Provider: Kripton Market",
       "button": "Finish",
-      "steps": {
-        "complete": "Complete",
-        "step_one": {
-          "title": "Load data",
-          "subtitle": "Complete with your personal information"
-        },
-        "step_two": {
-          "title": "Verify identity",
-          "subtitle": "You will need your identity"
-        }
-      },
       "disclaimer": {
         "content": "Xcapit does not store data. Find out more about data usage at ",
         "link": "Privacy policy Kripton Market."
