@@ -161,6 +161,11 @@
     },
     "search_bar": {
       "placeholder": "Buscar"
+    },
+    "km_account_creation_modal": {
+      "title": "¡Listo! Creaste tu cuenta",
+      "description": "Kripton Market está validando tu cuenta. Esto puede llevar hasta 48 horas.<br><br>Te vamos a avisar cuando esté lista para que puedas comprar criptomonedas.",
+      "buttonText": "Comprar cripto"
     }
   },
   "users": {
@@ -2714,9 +2719,10 @@
       "header": "Comprar cripto",
       "thirdPartyKYC": "Entiendo que Xcapit no almacena la información KYC.",
       "thirdPartyTransaction": "Entiendo que los términos y condiciones del proveedor externo (Kripton Market) son independientes de Xcapit.",
-      "privacyPolicyAndTOS": "Acepto los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y la <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
-      "acceptedprivacyPolicyAndTOS": "Has aceptado en la primera operación realizada los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
-      "next_button": "Continuar"
+      "privacyPolicyAndTOS": "Al continuar, aceptás los <a class='ux-link-xs decoration-none' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y la <a class='ux-link-xs decoration-none' href='https://cash.kriptonmarket.com/privacy'>política de privacidad</a> de Kripton Market.",
+      "next_button": "Continuar",
+      "title" : "Ingresá el monto en pesos que querés comprar",
+      "description": "Con las criptomonedas vas a poder crear tu garantía. Cuanto más comprás, más disponibles vas a tener con tus tarjetas de crédito."
     },
     "register": {
       "header": "Registro Kripton market",
@@ -3675,6 +3681,16 @@
       "header": "Ahora podés comprar cripto o transferirte las que tengas en otra billetera. Luego, vas a poder armar tu garantía para pedir tus tarjetas.",
       "firstButton": "Comprar criptomonedas",
       "secondButton": "Recibir cripto de otra cuenta"
+    },
+    "modal_pending_crypto": {
+      "title": "Ya tenés tus criptos",
+      "description": "Te vamos a avisar cuando tus criptos están habilitadas  para que puedas confeccionar tu garantía",
+      "button_text": "Crear garantía"
+    },
+    "modal_has_crypto": {
+      "title": "Ya tenés tus criptos",
+      "description": "Ahora podés crear la garantía de respaldo para pedir tus tarjetas de crédito <br/> Naranja X.",
+      "button_text": "Crear garantía"
     },
     "send_warranty": {
       "header": "Constituir garantía",

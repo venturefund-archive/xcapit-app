@@ -1,14 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  ComponentFixture,
-  discardPeriodicTasks,
-  fakeAsync,
-  flush,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -56,8 +48,9 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { FakeWallet } from '../shared-swaps/models/wallet/fake/fake-wallet';
 import { SendTxsError } from '../shared-swaps/models/wallet/send-txs-error';
-import BalanceModalInjectable from '../../../shared/models/balance-modal/injectable/balance-modal.injectable';
-import { FakeBalanceModal } from '../../../shared/models/balance-modal/fake/fake-balance-modal';
+import { FakeModal } from '../../../shared/models/modal/fake/fake-modal';
+import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/modal-factory.injectable';
+import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -85,8 +78,8 @@ describe('SwapHomePage', () => {
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let activatedRouteSpy: any;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
-  let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
-  let fakeBalanceModal: FakeBalanceModal;
+  let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
+  let fakeBalanceModal: FakeModal;
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
     id: 1,
@@ -219,10 +212,9 @@ describe('SwapHomePage', () => {
       get: Promise.resolve(true),
     });
 
-    fakeBalanceModal = new FakeBalanceModal();
-
-    balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectable', {
-      create: fakeBalanceModal,
+    fakeBalanceModal = new FakeModal();
+    modalFactoryInjectableSpy = jasmine.createSpyObj('ModalFactoryInjectable', {
+      create: new FakeModalFactory(fakeBalanceModal),
     });
 
     TestBed.configureTestingModule({
@@ -254,7 +246,7 @@ describe('SwapHomePage', () => {
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: IonicStorageService, useValue: storageSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
-        { provide: BalanceModalInjectable, useValue: balanceModalInjectableSpy },
+        { provide: ModalFactoryInjectable, useValue: modalFactoryInjectableSpy },
       ],
     }).compileComponents();
 

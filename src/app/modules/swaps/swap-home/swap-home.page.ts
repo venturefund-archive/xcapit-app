@@ -55,7 +55,8 @@ import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-
 import { SwapTxInProgress } from '../../users/shared-users/models/tx-in-progress/swap/swap-tx-in-progress';
 import { BigNumber } from 'ethers';
 import { WeiOf } from '../shared-swaps/models/wei-of/wei-of';
-import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
 
 @Component({
   selector: 'app-swap-home',
@@ -293,7 +294,7 @@ export class SwapHomePage {
     private dynamicPriceFactory: DynamicPriceFactory,
     private storage: IonicStorageService,
     private swapInProgressService: TxInProgressService,
-    private balanceModalInjectable: BalanceModalInjectable
+    private modalFactoryInjectable: ModalFactoryInjectable
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -721,7 +722,9 @@ export class SwapHomePage {
   async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
     if (!this.modalOpened && window.location.href === this.modalHref) {
       this.modalOpened = true;
-      const modal = this.balanceModalInjectable.create(token, description, primaryButtonText, secondaryButtonText);
+      const modal = this.modalFactoryInjectable
+        .create()
+        .oneBy(Modals.BALANCE, [token, description, primaryButtonText, secondaryButtonText]);
       await modal.show();
       modal.onDidDismiss().then(() => (this.modalOpened = false));
     }

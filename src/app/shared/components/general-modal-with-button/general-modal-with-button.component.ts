@@ -23,7 +23,13 @@ import { ModalController, NavController } from '@ionic/angular';
       </div>
       <div class="main__action">
         <div class="main__actions__primary">
-          <ion-button class="ux_button" color="secondary" name="Primary Action" (click)="this.primaryAction()">
+          <ion-button
+            class="ux_button"
+            color="secondary"
+            name="Primary Action"
+            (click)="this.primaryAction()"
+            [disabled]="!this.url"
+          >
             {{ this.buttonText | translate }}
           </ion-button>
         </div>

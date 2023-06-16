@@ -16,10 +16,10 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { SendWarrantyPage } from './send-warranty.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import BalanceModalInjectable from 'src/app/shared/models/balance-modal/injectable/balance-modal.injectable';
-import { FakeBalanceModal } from '../../../shared/models/balance-modal/fake/fake-balance-modal';
-import { BalanceModal } from 'src/app/shared/models/balance-modal/balance-modal.interface';
+import { FakeModal } from '../../../shared/models/modal/fake/fake-modal';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
 
 describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -36,8 +36,8 @@ describe('SendWarrantyPage', () => {
   let formBuilder: UntypedFormBuilder;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let formDataSpy: jasmine.SpyObj<any>;
-  let fakeBalanceModal: FakeBalanceModal;
-  let balanceModalInjectableSpy: jasmine.SpyObj<BalanceModalInjectable>;
+  let fakeBalanceModal: FakeModal;
+  let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
 
   beforeEach(waitForAsync(() => {
     formDataSpy = jasmine.createSpyObj(
@@ -88,9 +88,9 @@ describe('SendWarrantyPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
-    fakeBalanceModal = new FakeBalanceModal();
-    balanceModalInjectableSpy = jasmine.createSpyObj('BalanceModalInjectable', {
-      create: fakeBalanceModal,
+    fakeBalanceModal = new FakeModal();
+    modalFactoryInjectableSpy = jasmine.createSpyObj('ModalFactoryInjectable', {
+      create: new FakeModalFactory(fakeBalanceModal)
     });
 
     TestBed.configureTestingModule({
@@ -101,7 +101,7 @@ describe('SendWarrantyPage', () => {
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: BalanceModalInjectable, useValue: balanceModalInjectableSpy },
+        { provide: ModalFactoryInjectable, useValue: modalFactoryInjectableSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

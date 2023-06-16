@@ -11,5 +11,20 @@ export const rawOperationData: OperationDataInterface = {
   price_out: 100,
   wallet: '0x000000000000000000000dead',
   provider: '1',
-  network: 'MATIC'
+  network: 'MATIC',
+};
+export const rawPendingOperationData: OperationDataInterface = {
+  country: 'country',
+  type: 'cash-in',
+  operation_type: 'cash-in',
+  status: 'received',
+  amount_in: 100,
+  amount_out: 100,
+  currency_in: 'ARS',
+  currency_out: 'USDC',
+  price_in: '1',
+  price_out: 100,
+  wallet: '0x000000000000000000000dead',
+  provider: '1',
+  network: 'MATIC',
 };

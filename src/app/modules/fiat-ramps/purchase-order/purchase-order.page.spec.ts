@@ -1,5 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CameraPlugin, Photo } from '@capacitor/camera';
@@ -19,6 +23,8 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { PurchaseOrderPage } from './purchase-order.page';
+import { FakeAppStorage } from '../../../shared/services/app-storage/app-storage.service';
+import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 
 describe('PurchaseOrderPage', () => {
   let component: PurchaseOrderPage;
@@ -39,6 +45,7 @@ describe('PurchaseOrderPage', () => {
   let filesystemSpy: jasmine.SpyObj<FilesystemPlugin>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
+  let fakeAppStorage: FakeAppStorage;
 
   const photo: Photo = {
     dataUrl: 'assets/img/coins/ETH.svg',
@@ -85,10 +92,13 @@ describe('PurchaseOrderPage', () => {
         modalText: 'fiat_ramps.shared.kripton_account_info.alias',
       }
     );
+
     kriptonStorageServiceSpy = jasmine.createSpyObj('KriptonStorageService', {
       get: Promise.resolve('test@test.com'),
     });
+
     clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', { write: Promise.resolve() });
+
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
       getData: {
         amount_in: '7274.994150004679',
@@ -108,16 +118,22 @@ describe('PurchaseOrderPage', () => {
       cleanVoucher: null,
       updateVoucher: null,
     });
+
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showInfoToast: Promise.resolve(),
     });
+
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       confirmCashInOperation: of({}),
       getUserSingleOperation: of([testOperation]),
     });
+
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
       isNative: true,
     });
+
+    fakeAppStorage = new FakeAppStorage();
+
     TestBed.configureTestingModule({
       declarations: [PurchaseOrderPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -132,6 +148,7 @@ describe('PurchaseOrderPage', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
         { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy },
+        { provide: IonicStorageService, useValue: fakeAppStorage },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -147,14 +164,14 @@ describe('PurchaseOrderPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get currency out on ionViewWillEnter', () => {
-    component.ionViewWillEnter();
+  it('should get currency out on ionViewWillEnter', async () => {
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(component.currencyOut).toEqual(TEST_COINS[0]);
   });
 
-  it('should get step on ionViewWillEnter and render transfer on step 1', () => {
-    component.ionViewWillEnter();
+  it('should get step on ionViewWillEnter and render transfer on step 1', async () => {
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(By.css('ion-text.po__title__primary'));
     const transferEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
@@ -166,22 +183,22 @@ describe('PurchaseOrderPage', () => {
     expect(component.isFirstStep).toBeTrue();
   });
 
-  it('should get step on ionViewWillEnter and render voucher on step 2', () => {
+  it('should get step on ionViewWillEnter and render voucher on step 2', async () => {
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(By.css('ion-text.po__title__primary'));
     const transferEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const voucherEl = fixture.debugElement.query(By.css('app-voucher-card'));
-  
+
     expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.title_2');
     expect(transferEl).toBeNull();
     expect(voucherEl).toBeTruthy();
     expect(component.isFirstStep).toBeFalse();
   });
 
-  it('should render properly', () => {
-    component.ionViewWillEnter();
+  it('should render properly', async () => {
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     const headerTitleEl = fixture.debugElement.query(By.css('ion-title.po__header'));
     const titleEl = fixture.debugElement.query(By.css('ion-text.po__title__primary'));
@@ -201,7 +218,7 @@ describe('PurchaseOrderPage', () => {
   });
 
   it('should copy alias and show toast when copyValue event is triggered', async () => {
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement
       .query(By.css('app-kripton-account-info-card'))
@@ -222,27 +239,26 @@ describe('PurchaseOrderPage', () => {
     });
   });
 
-  it('should add photo on addPhoto', fakeAsync(() => {
+  it('should add photo on addPhoto', async () => {
     storageOperationServiceSpy.getVoucher.and.returnValues(undefined, photo);
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
-    component.ionViewWillEnter();
-    tick();
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
-    tick();
-    fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('addPhoto', null);
-    tick();
+    await component.addPhoto();
     fixture.detectChanges();
-    tick();
+    await fixture.whenStable();
 
     expect(cameraSpy.getPhoto).toHaveBeenCalledTimes(1);
     expect(storageOperationServiceSpy.updateVoucher).toHaveBeenCalledOnceWith(photo);
     expect(component.voucher).toEqual(photo);
     expect(component.percentage).toEqual(100);
-  }));
+  });
 
   it('should remove photo on removePhoto', async () => {
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     component.percentage = 100;
     component.voucher = photo;
     fixture.detectChanges();
@@ -255,12 +271,12 @@ describe('PurchaseOrderPage', () => {
     expect(component.percentage).toEqual(-1);
   });
 
-  it('should send photo and show success modal when finish button is clicked', async () => {
+  it('should send photo and show success modal when simplified wallet', async () => {
     kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
     kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
     const expectedData = { file: photo.dataUrl, email: 'test@test.com', auth_token: 'test' };
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     component.percentage = 100;
     component.voucher = photo;
@@ -268,8 +284,33 @@ describe('PurchaseOrderPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(fiatRampsServiceSpy.confirmCashInOperation).toHaveBeenCalledOnceWith(component.data.operation_id, expectedData);
+    expect(fiatRampsServiceSpy.confirmCashInOperation).toHaveBeenCalledOnceWith(
+      component.data.operation_id,
+      expectedData
+    );
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
+  });
+
+  it('should send photo and navigate to tabs wallet when not simplified wallet', async () => {
+    await fakeAppStorage.set('warranty_wallet', true);
+    kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
+    const expectedData = { file: photo.dataUrl, email: 'test@test.com', auth_token: 'test' };
+    fakeActivatedRoute.modifySnapshotParams({ step: '2' });
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    component.percentage = 100;
+    component.voucher = photo;
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(fiatRampsServiceSpy.confirmCashInOperation).toHaveBeenCalledOnceWith(
+      component.data.operation_id,
+      expectedData
+    );
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/tabs/wallets');
     expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
   });
 
@@ -279,7 +320,7 @@ describe('PurchaseOrderPage', () => {
     const expectedData = { file: photo.dataUrl, email: 'test@test.com', auth_token: 'test' };
     fiatRampsServiceSpy.confirmCashInOperation.and.returnValue(throwError('Test'));
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     component.percentage = 100;
     component.voucher = photo;
@@ -287,14 +328,17 @@ describe('PurchaseOrderPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(fiatRampsServiceSpy.confirmCashInOperation).toHaveBeenCalledOnceWith(component.data.operation_id, expectedData);
+    expect(fiatRampsServiceSpy.confirmCashInOperation).toHaveBeenCalledOnceWith(
+      component.data.operation_id,
+      expectedData
+    );
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/error-operation-km']);
     expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
   });
 
-  it('should clean voucher data if navigate back and is first step', () => {
+  it('should clean voucher data if navigate back and is first step', async () => {
     fakeActivatedRoute.modifySnapshotParams({ step: '1' });
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
     expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);

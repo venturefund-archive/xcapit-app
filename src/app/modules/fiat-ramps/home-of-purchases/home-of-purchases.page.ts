@@ -11,6 +11,9 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import {
+  UserKycKriptonDataService
+} from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 
 @Component({
   selector: 'app-home-of-purchases',
@@ -81,8 +84,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           >
             {{ 'fiat_ramps.home_of_purchases.footer.buy_button' | translate }}
           </ion-button>
-          <!--            *appFeatureFlag="'ff_sellEnabled'"-->
           <ion-button
+            *appFeatureFlag="'ff_sellEnabled'"
             class="ux_button"
             appTrackClick
             name="ux_sell_new"
@@ -139,7 +142,8 @@ export class HomeOfPurchasesPage {
     private kriptonStorage: KriptonStorageService,
     private kriptonUser: KriptonUserInjectable,
     private trackService: TrackService,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private userKycKriptonDataService: UserKycKriptonDataService
   ) {}
 
   async ionViewWillEnter() {
@@ -267,6 +271,7 @@ export class HomeOfPurchasesPage {
   }
 
   loggedOut() {
+    this.userKycKriptonDataService.clean();
     this.isLogged = false;
     this.userStatus = null;
     this.email = null;
