@@ -2760,9 +2760,10 @@
       "header": "Buy crypto",
       "thirdPartyKYC": "I understand that Xcapit does not store KYC information.",
       "thirdPartyTransaction": "I understand that the terms and conditions of the third party provider (Kripton Market) are independent of Xcapit.",
-      "privacyPolicyAndTOS": "I accept the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>.",
-      "acceptedprivacyPolicyAndTOS": "You have accepted in the first transaction to the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>",
-      "next_button": "Next"
+      "privacyPolicyAndTOS": "By continuing, you agree to Kripton Market's <a class='ux-link-xs decoration-none' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and <a class='ux-link-xs decoration-none' href='https://cash.kriptonmarket.com/privacy'>privacy policy</a>.",
+      "next_button": "Next",
+      "title": "Enter the amount in Argentine pesos you want to buy",
+      "description": "With cryptocurrencies you will be able to create your collateral. The more you buy, the more available you will have with your credit cards."
     },
     "register": {
       "header": "Register Kripton market",
