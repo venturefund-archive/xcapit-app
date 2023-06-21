@@ -6,17 +6,12 @@ import { rawPolygonGasStation } from '../fixtures/raw-polygon-gs-data';
 import { BigNumberOf } from './big-number-of';
 import { PolygonGasPrice } from './polygon-gas-price';
 
-
 describe('Polygon Gas Price', () => {
-
   let gasPrice: PolygonGasPrice;
   const polygonBlockchain = new Blockchain(rawPolygonData);
   const _expectedResult = (aBigNumber: BigNumberOf) => {
-    return new AmountOf(
-      aBigNumber.value().toString(),
-      polygonBlockchain.nativeToken()
-    );
-  }
+    return new AmountOf(aBigNumber.value().toString(), polygonBlockchain.nativeToken());
+  };
 
   beforeEach(() => {
     gasPrice = new PolygonGasPrice(polygonBlockchain, new FakeHttpClient(rawPolygonGasStation));
