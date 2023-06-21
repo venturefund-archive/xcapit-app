@@ -82,6 +82,13 @@
       }
     }
 
+    .cashoutBadge {
+      ion-badge {
+        --color: var(--ion-color-warningdark);
+        --background: var(--ion-color-warninglight);
+      }
+    }
+
     &__primary-text {
       margin-top: 38px;
       text-align: center;
