@@ -3050,6 +3050,9 @@
       "disclaimer": {
         "content": "Xcapit no almacena información. Averigua más sobre el uso de datos en ",
         "link": "Politica de privacidad Kripton Market."
+      },
+      "steps": {
+        "complete": "Completo"
       }
     },
     "kyc": {
