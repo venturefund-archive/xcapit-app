@@ -382,6 +382,7 @@ export class KriptonSaleSummaryPage {
       backdropDismiss: false,
       componentProps: {
         data: SUCCESS_TYPES.operation_km_cashout,
+        badgeStyle: 'cashoutBadge',
       },
     });
     await modal.present();
