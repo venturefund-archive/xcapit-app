@@ -43,7 +43,7 @@ const routes: Routes = [
           import('./success-creation/success-creation.module').then((m) => m.SuccessCreationPageModule),
       },
       {
-        canActivate: [NoAuthGuard],
+        canActivate: [AuthGuard],
         path: 'failed-mnemonic',
         loadChildren: () => import('./failed-mnemonic/failed-mnemonic.module').then((m) => m.FailedMnemonicPageModule),
       },
