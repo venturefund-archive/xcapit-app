@@ -167,6 +167,7 @@ describe('KriptonOperationDetailPage', () => {
       getProvider: rawProvidersData[1],
       getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
       getUserBank: of(userBankData),
+      getAddressByVoucher: of({ data: { to: '' } }),
     });
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
