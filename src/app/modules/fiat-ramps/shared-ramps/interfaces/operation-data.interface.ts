@@ -18,4 +18,5 @@ export interface OperationDataInterface {
   payment_method_id?: number;
   operation_type?: string;
   status?: string;
+  kripton_wallet?: string;
 }

@@ -1,8 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-  waitForAsync
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { KriptonSaleSummaryPage } from './kripton-sale-summary.page';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
@@ -20,13 +16,13 @@ import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
 import { rawTokensData, rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
-import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { By } from '@angular/platform-browser';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
 import { EnvService } from 'src/app/shared/services/env/env.service';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
+import { rawCashOutOperationData } from '../shared-ramps/fixtures/raw-operation-data';
 
 describe('KriptonSaleSummaryPage', () => {
   let component: KriptonSaleSummaryPage;
@@ -43,22 +39,6 @@ describe('KriptonSaleSummaryPage', () => {
   let envServiceSpy: jasmine.SpyObj<EnvService>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
 
-  const validData: OperationDataInterface = {
-    country: 'Argentina',
-    type: 'cash-in',
-    amount_in: 20,
-    amount_out: 3500,
-    currency_in: 'USDC',
-    currency_out: 'ARS',
-    price_in: '1',
-    price_out: 175,
-    wallet: '0x000000000000000000000dead',
-    provider: '1',
-    network: 'MATIC',
-    payment_method_id: 902,
-    operation_id: 898,
-  };
-
   const userBankData: BankAccount = {
     id: 6,
     country: 'ARG',
@@ -72,7 +52,7 @@ describe('KriptonSaleSummaryPage', () => {
 
   beforeEach(waitForAsync(() => {
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
-      getData: validData,
+      getData: rawCashOutOperationData,
     });
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
@@ -154,7 +134,7 @@ describe('KriptonSaleSummaryPage', () => {
     expect(fiatRampsServiceSpy.getUserBank).toHaveBeenCalledOnceWith({
       email: 'test@test.com',
       auth_token: 'test',
-      payment_method_id: validData.payment_method_id,
+      payment_method_id: rawCashOutOperationData.payment_method_id,
     });
   });
 
@@ -180,12 +160,12 @@ describe('KriptonSaleSummaryPage', () => {
     expect(txInProgressServiceSpy.startTx).toHaveBeenCalledTimes(1);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       'aPassword',
-      validData.amount_in,
-      '0xaWallet',
+      rawCashOutOperationData.amount_in,
+      rawCashOutOperationData.kripton_wallet,
       rawUSDCData
     );
     expect(txInProgressServiceSpy.finishTx).toHaveBeenCalledTimes(1);
-    expect(fiatRampsServiceSpy.confirmCashOutOperation).toHaveBeenCalledOnceWith(validData.operation_id, {
+    expect(fiatRampsServiceSpy.confirmCashOutOperation).toHaveBeenCalledOnceWith(rawCashOutOperationData.operation_id, {
       email: 'test@test.com',
       auth_token: 'test',
       tx_hash: 'someHash',

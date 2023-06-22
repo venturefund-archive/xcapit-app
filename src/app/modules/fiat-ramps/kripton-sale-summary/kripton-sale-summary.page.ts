@@ -106,7 +106,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
               <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.kripton_sale_summary.wallet' | translate }}</ion-text>
             </div>
             <div class="kss__card-container__card__wallet__description">
-              <ion-text class="ux-font-text-base">{{ this.walletToSend }}</ion-text>
+              <ion-text class="ux-font-text-base">{{ this.data.kripton_wallet }}</ion-text>
             </div>
           </div>
           <div class="list-divider"></div>
@@ -169,7 +169,6 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 })
 export class KriptonSaleSummaryPage {
   nativeToken: Coin;
-  walletToSend: string;
   userBank: BankAccount;
   data: OperationDataInterface;
   country: Country;
@@ -192,7 +191,7 @@ export class KriptonSaleSummaryPage {
     private modalController: ModalController,
     private txInProgressService: TxInProgressService,
     private envService: EnvService,
-    private loadingService: LoadingService,
+    private loadingService: LoadingService
   ) {}
 
   async ionViewWillEnter() {
@@ -201,7 +200,6 @@ export class KriptonSaleSummaryPage {
     this.getNativeToken();
     this.getCountry();
     this.setToken();
-    this.lookupWallet();
     await this.getUserBank();
   }
 
@@ -210,10 +208,6 @@ export class KriptonSaleSummaryPage {
     const email = await this.kriptonStorage.get('email');
     const payment_method_id = this.data.payment_method_id;
     this.userBank = await this.fiatRampsService.getUserBank({ email, auth_token, payment_method_id }).toPromise();
-  }
-
-  lookupWallet() {
-    this.walletToSend = this.envService.byKey('KRIPTON_WALLETS')[this.data.network];
   }
 
   getKriptonSaleOperation() {
@@ -277,11 +271,11 @@ export class KriptonSaleSummaryPage {
   }
 
   private userCanAffordFees(): Promise<boolean> {
-    return this.walletTransactionsService.canAffordSendFee(this.walletToSend, this.data.amount_in, this.coin);
+    return this.walletTransactionsService.canAffordSendFee(this.data.kripton_wallet, this.data.amount_in, this.coin);
   }
 
   private userCanAffordTx(): Promise<boolean> {
-    return this.walletTransactionsService.canAffordSendTx(this.walletToSend, this.data.amount_in, this.coin);
+    return this.walletTransactionsService.canAffordSendTx(this.data.kripton_wallet, this.data.amount_in, this.coin);
   }
 
   setToken() {
@@ -349,7 +343,7 @@ export class KriptonSaleSummaryPage {
     const response = await this.walletTransactionsService.send(
       password.value(),
       this.data.amount_in,
-      this.walletToSend,
+      this.data.kripton_wallet,
       this.coin
     );
     this.openSuccessModal();
