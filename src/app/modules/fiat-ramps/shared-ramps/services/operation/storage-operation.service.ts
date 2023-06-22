@@ -15,7 +15,7 @@ export class StorageOperationService {
     this.data = data;
   }
 
-  public getData() {
+  public getData(): OperationDataInterface {
     return { ...this.data };
   }
 
@@ -28,7 +28,7 @@ export class StorageOperationService {
     this.voucher = voucher;
   }
 
-  public cleanVoucher(){
+  public cleanVoucher() {
     this.voucher = null;
   }
 }
