@@ -57,6 +57,7 @@ import { Modals } from '../../../shared/models/modal/factory/default/default-mod
               [showRange]="false"
               [disclaimer]="false"
               [max]="this.balance"
+              [warrantyValidators]="true"
             ></app-amount-input-card>
             <app-amount-input-card-skeleton
               *ngIf="this.balance === undefined"
@@ -87,7 +88,7 @@ import { Modals } from '../../../shared/models/modal/factory/default/default-mod
 })
 export class SendWarrantyPage {
   form: UntypedFormGroup = this.formBuilder.group({
-    amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
+    amount: [0, [Validators.required, CustomValidators.greaterOrEqualThan(25)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(9), Validators.pattern('[0-9]*$')]],
   });
@@ -117,6 +118,10 @@ export class SendWarrantyPage {
     private ionicStorageService: IonicStorageService
   ) {}
 
+  //TODO: Patchear correctamente el minimo de USDC en garantia (no completa el campo USD)
+  //TODO: Implementar remoteconfig (y cambiar textos y controles al valor de remote)
+  //TODO: Tests
+
   async ionViewWillEnter() {
     this.modalHref = window.location.href;
     this.setToken();
@@ -125,6 +130,7 @@ export class SendWarrantyPage {
     await this.tokenBalance();
     this.checkBalance();
     this.checkUserStoredInformation();
+    this.setMinimumAmount();
   }
 
   private async userWallet(): Promise<string> {
@@ -223,5 +229,9 @@ export class SendWarrantyPage {
     if (savedDocument) {
       this.form.patchValue({ dni: savedDocument });
     }
+  }
+
+  setMinimumAmount() {
+    this.form.patchValue({ amount: 25 });
   }
 }

@@ -78,7 +78,7 @@
 
         &.invalid {
           ion-input {
-            border: 1.5px solid var(--ion-color-dangerdark);
+            border: 1.5px solid var(--ion-color-dangerdark) !important;
           }
         }
 
@@ -196,6 +196,14 @@
         ion-text {
           color: var(--ion-color-dangerdark) !important;
         }
+      }
+
+      &__helpers {
+        color: var(--ion-color-dangerdark);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 8px;
       }
     }
   }

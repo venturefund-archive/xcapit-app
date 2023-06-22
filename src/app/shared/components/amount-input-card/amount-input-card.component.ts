@@ -60,7 +60,7 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
             this.quoteCurrency
           }}</ion-text>
         </div>
-        <div class="aic__content__inputs" [ngClass]="{ invalid: this.insufficientBalance }">
+        <div class="aic__content__inputs" [ngClass]="{ invalid: this.insufficientBalance || (!this.form.controls.amount.valid && this.warrantyValidators)}">
           <div class="aic__content__inputs__amount_with_max">
             <ion-input
               appNumberInput
@@ -92,6 +92,19 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
             debounce="500"
           ></ion-input>
         </div>
+        <div class="aic__content__helpers">
+          <ion-icon
+            *ngIf="(!this.form.controls.amount.valid && this.form.controls.amount.touched)"
+            color="dangerdark"
+            icon="information-error"
+          ></ion-icon>
+          <ion-label
+            class="ux-font-text-xxs"
+            *ngIf="(!this.form.controls.amount.valid && this.form.controls.amount.touched)"
+            > El monto minimo es de X USD
+          </ion-label>
+        </div>
+
         <div class="aic__content__funds-advice info " *ngIf="this.insufficientBalance">
           <img src="assets/img/defi-investments/shared/amount-input-card/exclamation.svg" />
           <ion-text class="ux-font-text-xxs">
@@ -121,6 +134,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   @Input() showRange: boolean;
   @Input() feeToken: Coin;
   @Input() amountSend: boolean;
+  @Input() warrantyValidators: boolean;
   @Output() phraseAmountInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;
