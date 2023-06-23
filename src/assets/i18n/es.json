@@ -3135,7 +3135,7 @@
       "clipboard_text": "¡{{type}} copiado con exito!",
       "provider": "Proveedor: Kripton Market",
       "button": "Continuar",
-      "send_button": "Enviar y finalizar",
+      "send_button": "Enviar comprobante",
       "timer": "Te quedan {{ value }} para transferir",
       "voucher_card": {
         "file_placeholder": "Comprobante.jpg",

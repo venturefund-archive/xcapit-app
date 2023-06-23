@@ -18,7 +18,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
-import { rawPendingOperationData } from '../shared-ramps/fixtures/raw-operation-data';
+
 
 @Component({
   selector: 'app-purchase-order',
@@ -81,8 +81,7 @@ import { rawPendingOperationData } from '../shared-ramps/fixtures/raw-operation-
         [showSeconds]="false"
       ></app-timer-countdown>
       <ion-button
-        [disabled]="this.step === 2"
-        *ngIf="this.percentage !== 100"
+        *ngIf="this.percentage !== 100 && this.step !== 2"
         name="Continue"
         expand="block"
         size="large"
@@ -92,7 +91,8 @@ import { rawPendingOperationData } from '../shared-ramps/fixtures/raw-operation-
         >{{ 'fiat_ramps.purchase_order.button' | translate }}</ion-button
       >
       <ion-button
-        *ngIf="this.percentage === 100"
+        *ngIf="this.step === 2"
+        [disabled]="this.percentage !== 100"
         name="ux_upload_photo"
         expand="block"
         size="large"

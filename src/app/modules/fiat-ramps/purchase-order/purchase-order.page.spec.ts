@@ -26,6 +26,7 @@ import { PurchaseOrderPage } from './purchase-order.page';
 import { FakeAppStorage } from '../../../shared/services/app-storage/app-storage.service';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 
+
 describe('PurchaseOrderPage', () => {
   let component: PurchaseOrderPage;
   let fixture: ComponentFixture<PurchaseOrderPage>;
@@ -66,6 +67,14 @@ describe('PurchaseOrderPage', () => {
     voucher: false,
     wallet_address: '0xeeeeeeeee',
   };
+
+  const _continueButton = () => {
+    return fixture.debugElement.query(By.css('ion-button[name="Continue"]'));
+  }
+
+  const _sendButton = () => {
+    return fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]'));
+  }
 
   beforeEach(waitForAsync(() => {
     cameraSpy = jasmine.createSpyObj('Camera', {
@@ -167,6 +176,7 @@ describe('PurchaseOrderPage', () => {
   it('should get currency out on ionViewWillEnter', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
+
     expect(component.currencyOut).toEqual(TEST_COINS[0]);
   });
 
@@ -177,10 +187,12 @@ describe('PurchaseOrderPage', () => {
     const transferEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const voucherEl = fixture.debugElement.query(By.css('app-voucher-card'));
 
-    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.title');
-    expect(transferEl).toBeTruthy();
     expect(voucherEl).toBeNull();
+    expect(transferEl).toBeTruthy();
+    expect(_sendButton()).toBeNull();
+    expect(_continueButton()).toBeTruthy();
     expect(component.isFirstStep).toBeTrue();
+    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.title');
   });
 
   it('should get step on ionViewWillEnter and render voucher on step 2', async () => {
@@ -191,10 +203,12 @@ describe('PurchaseOrderPage', () => {
     const transferEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const voucherEl = fixture.debugElement.query(By.css('app-voucher-card'));
 
-    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.title_2');
     expect(transferEl).toBeNull();
     expect(voucherEl).toBeTruthy();
+    expect(_sendButton()).toBeTruthy();
+    expect(_continueButton()).toBeNull();
     expect(component.isFirstStep).toBeFalse();
+    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.title_2');
   });
 
   it('should render properly', async () => {
@@ -220,12 +234,12 @@ describe('PurchaseOrderPage', () => {
   it('should copy alias and show toast when copyValue event is triggered', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
+
     fixture.debugElement
       .query(By.css('app-kripton-account-info-card'))
       .triggerEventHandler('copyValue', clipboardInfoSpy);
     await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    fixture.detectChanges();
+
     expect(clipboardServiceSpy.write).toHaveBeenCalledOnceWith({ string: clipboardInfoSpy.value });
     expect(toastServiceSpy.showInfoToast).toHaveBeenCalledOnceWith({
       message: 'fiat_ramps.purchase_order.clipboard_text',
@@ -233,7 +247,8 @@ describe('PurchaseOrderPage', () => {
   });
 
   it('should go to next step when user clicks Continue button', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Continue"]')).nativeElement.click();
+    _continueButton().nativeElement.click();
+
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/purchase-order/2'], {
       animated: false,
     });
@@ -243,17 +258,16 @@ describe('PurchaseOrderPage', () => {
     storageOperationServiceSpy.getVoucher.and.returnValues(undefined, photo);
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     await component.ionViewWillEnter();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
     fixture.detectChanges();
+
     await component.addPhoto();
     fixture.detectChanges();
-    await fixture.whenStable();
 
-    expect(cameraSpy.getPhoto).toHaveBeenCalledTimes(1);
-    expect(storageOperationServiceSpy.updateVoucher).toHaveBeenCalledOnceWith(photo);
     expect(component.voucher).toEqual(photo);
     expect(component.percentage).toEqual(100);
+    expect(cameraSpy.getPhoto).toHaveBeenCalledTimes(1);
+    expect(_sendButton().properties.disabled).toBeFalse();
+    expect(storageOperationServiceSpy.updateVoucher).toHaveBeenCalledOnceWith(photo);
   });
 
   it('should remove photo on removePhoto', async () => {
@@ -262,13 +276,14 @@ describe('PurchaseOrderPage', () => {
     component.percentage = 100;
     component.voucher = photo;
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('removePhoto', null);
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
 
-    expect(storageOperationServiceSpy.updateVoucher).toHaveBeenCalledOnceWith(undefined);
-    expect(component.voucher).toEqual(undefined);
+    fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('removePhoto', null);
+    fixture.detectChanges();
+
     expect(component.percentage).toEqual(-1);
+    expect(component.voucher).toEqual(undefined);
+    expect(_sendButton().properties.disabled).toBeTrue();
+    expect(storageOperationServiceSpy.updateVoucher).toHaveBeenCalledOnceWith(undefined);
   });
 
   it('should send photo and show success modal when simplified wallet', async () => {
@@ -277,13 +292,13 @@ describe('PurchaseOrderPage', () => {
     const expectedData = { file: photo.dataUrl, email: 'test@test.com', auth_token: 'test' };
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     await component.ionViewWillEnter();
-    fixture.detectChanges();
     component.percentage = 100;
     component.voucher = photo;
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
+    _sendButton().nativeElement.click();
+    await fixture.whenStable();
+
     expect(fiatRampsServiceSpy.confirmCashInOperation).toHaveBeenCalledOnceWith(
       component.data.operation_id,
       expectedData
@@ -299,13 +314,13 @@ describe('PurchaseOrderPage', () => {
     const expectedData = { file: photo.dataUrl, email: 'test@test.com', auth_token: 'test' };
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     await component.ionViewWillEnter();
-    fixture.detectChanges();
     component.percentage = 100;
     component.voucher = photo;
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
+    _sendButton().nativeElement.click();
+    await fixture.whenStable();
+
     expect(fiatRampsServiceSpy.confirmCashInOperation).toHaveBeenCalledOnceWith(
       component.data.operation_id,
       expectedData
@@ -321,13 +336,13 @@ describe('PurchaseOrderPage', () => {
     fiatRampsServiceSpy.confirmCashInOperation.and.returnValue(throwError('Test'));
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     await component.ionViewWillEnter();
-    fixture.detectChanges();
     component.percentage = 100;
     component.voucher = photo;
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
+    _sendButton().nativeElement.click();
+    await fixture.whenStable();
+
     expect(fiatRampsServiceSpy.confirmCashInOperation).toHaveBeenCalledOnceWith(
       component.data.operation_id,
       expectedData
@@ -340,7 +355,9 @@ describe('PurchaseOrderPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ step: '1' });
     await component.ionViewWillEnter();
     fixture.detectChanges();
+
     fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
+
     expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.back).toHaveBeenCalledTimes(1);
   });

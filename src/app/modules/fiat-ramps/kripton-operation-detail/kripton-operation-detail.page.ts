@@ -322,7 +322,6 @@ export class KriptonOperationDetailPage {
     await this.availableCoins();
     await this.getUserOperation(operationId);
     this.trackScreenViewEvent();
-    await this.setKriptonAddress();
   }
 
   async setKriptonAddress(){
@@ -421,6 +420,7 @@ export class KriptonOperationDetailPage {
     this.blockchain = this.blockchains.create().oneByName(this.token.network);
     this.bankAccount = await this.userBank();
     this.fee = await this.finalFee();
+    await this.setKriptonAddress();
   }
 
   async finalFee() {
