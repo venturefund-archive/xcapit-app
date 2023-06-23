@@ -57,8 +57,12 @@ export class FiatRampsService {
     );
   }
 
+  getAddressByVoucher(external_code: string): Observable <any>{
+    return this.http.get(`${environment.kriptonApiUrl}/pay/invoices/${external_code}`)
+  }
+
   getCashOutFormFields(country = 'common'): Observable<any> {
-    return this.http.get(`https://app.kriptonmarket.com/public/config_forms?resource=bank&country=${country}`);
+    return this.http.get(`${environment.kriptonApiUrl}/public/config_forms?resource=bank&country=${country}`);
   }
 
   registerUserImages(data): Observable<any> {
@@ -137,7 +141,7 @@ export class FiatRampsService {
     network: string,
     type: string
   ): Observable<any> {
-    return this.http.post('https://app.kriptonmarket.com/public/calculate_amount_out', {
+    return this.http.post(`${environment.kriptonApiUrl}/public/calculate_amount_out`, {
       currency_in,
       amount_in,
       currency_out,
