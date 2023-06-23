@@ -27,6 +27,7 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 const availableKriptonCurrencies = [
   {
@@ -84,6 +85,7 @@ describe('OperationsNewPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(waitForAsync(() => {
     navControllerSpy = new FakeNavController().createSpy();
@@ -152,6 +154,10 @@ describe('OperationsNewPage', () => {
       }
     );
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(true),
+    });
+
     fakeModalController = new FakeModalController({});
     modalControllerSpy = fakeModalController.createSpy();
 
@@ -172,6 +178,7 @@ describe('OperationsNewPage', () => {
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
     }).compileComponents();
   }));
@@ -298,5 +305,28 @@ describe('OperationsNewPage', () => {
     component.form.patchValue({ fiatAmount: 2914 });
     fixture.detectChanges();
     expect(component.form.controls.fiatAmount.valid).toBeTrue();
+  });
+
+  it('should show specific copies when user has a simplied wallet', async () => {
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const titleEl = fixture.debugElement.query(By.css('ion-text.anko__content__text-header__title'));
+    const descriptionEl = fixture.debugElement.query(By.css('ion-text.anko__content__text-header__description'));
+
+    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.new_operation.title');
+    expect(descriptionEl.nativeElement.innerHTML).toContain('fiat_ramps.new_operation.description');
+  });
+
+  it('should hide title and subtitle copies when user hasnt a simplied wallet', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const titleEl = fixture.debugElement.query(By.css('ion-text.anko__content__text-header__title'));
+    const descriptionEl = fixture.debugElement.query(By.css('ion-text.anko__content__text-header__description'));
+
+    expect(titleEl).toBeFalsy();
+    expect(descriptionEl).toBeFalsy();
   });
 });

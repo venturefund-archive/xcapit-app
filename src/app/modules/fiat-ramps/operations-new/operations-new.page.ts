@@ -17,7 +17,6 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
-import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
@@ -26,6 +25,8 @@ import { takeUntil } from 'rxjs/operators';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import RoundedNumber from 'src/app/shared/models/rounded-number/rounded-number';
 import { KriptonNetworks } from '../shared-ramps/constants/kripton-networks';
+import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 @Component({
   selector: 'app-new-kripton-operation',
   template: `
@@ -45,11 +46,11 @@ import { KriptonNetworks } from '../shared-ramps/constants/kripton-networks';
 
     <ion-content class="ion-padding anko">
       <div class="anko__content">
-        <div class="anko__content__text-header">
+        <div class="anko__content__text-header" *ngIf="this.userHasSimpliedWallet">
           <ion-text class="anko__content__text-header__title ux-font-text-xl">{{
             'fiat_ramps.new_operation.title' | translate
           }}</ion-text>
-          <ion-text class="ux-font-text-base-primary">{{
+          <ion-text class="anko__content__text-header__description ux-font-text-base-primary">{{
             'fiat_ramps.new_operation.description' | translate
           }}</ion-text>
         </div>
@@ -224,6 +225,7 @@ export class OperationsNewPage implements AfterViewInit {
   fee = { value: 0, token: '' };
   fiatFee = { value: 0, token: '', maxDigits: 10, totalDecimals: 2 };
   kriptonNetworks = KriptonNetworks;
+  userHasSimpliedWallet: boolean;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -239,8 +241,8 @@ export class OperationsNewPage implements AfterViewInit {
     private kriptonDynamicPrice: DynamicKriptonPriceFactory,
     private providers: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
-    private modalController: ModalController,
-    private kriptonStorageService: KriptonStorageService
+    private kriptonStorageService: KriptonStorageService,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ngAfterViewInit() {
@@ -262,10 +264,15 @@ export class OperationsNewPage implements AfterViewInit {
     });
   }
 
+  private async setWalletType() {
+    this.userHasSimpliedWallet = await new SimplifiedWallet(this.ionicStorageService).value();
+  }
+
   async ionViewWillEnter() {
     this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
+    await this.setWalletType();
     this.checkKriptonAgreement();
     await this.availableCoins();
     this.setCountry();
