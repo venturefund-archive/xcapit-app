@@ -16,6 +16,7 @@ import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo'
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-send-warranty',
@@ -57,7 +58,7 @@ import { Modals } from '../../../shared/models/modal/factory/default/default-mod
               [showRange]="false"
               [disclaimer]="false"
               [max]="this.balance"
-              [warrantyValidators]="true"
+              [minimumWarrantyAmount]="this.minimumWarrantyAmount"
             ></app-amount-input-card>
             <app-amount-input-card-skeleton
               *ngIf="this.balance === undefined"
@@ -88,8 +89,8 @@ import { Modals } from '../../../shared/models/modal/factory/default/default-mod
 })
 export class SendWarrantyPage {
   form: UntypedFormGroup = this.formBuilder.group({
-    amount: [0, [Validators.required, CustomValidators.greaterOrEqualThan(25)]],
-    quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
+    amount: [0, [Validators.required]],
+    quoteAmount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
     dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(9), Validators.pattern('[0-9]*$')]],
   });
   modalHref: string;
@@ -104,6 +105,7 @@ export class SendWarrantyPage {
   quotePrice: number;
   isLoading = false;
   modalOpened: boolean;
+  minimumWarrantyAmount: string;
   private readonly priceRefreshInterval = 15000;
 
   constructor(
@@ -115,12 +117,10 @@ export class SendWarrantyPage {
     private WarrantyDataService: WarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalFactoryInjectable: ModalFactoryInjectable,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private remoteConfigService: RemoteConfigService
   ) {}
 
-  //TODO: Patchear correctamente el minimo de USDC en garantia (no completa el campo USD)
-  //TODO: Implementar remoteconfig (y cambiar textos y controles al valor de remote)
-  //TODO: Tests
 
   async ionViewWillEnter() {
     this.modalHref = window.location.href;
@@ -130,7 +130,7 @@ export class SendWarrantyPage {
     await this.tokenBalance();
     this.checkBalance();
     this.checkUserStoredInformation();
-    this.setMinimumAmount();
+    this.getMinimumWarrantyAmount();
   }
 
   private async userWallet(): Promise<string> {
@@ -231,7 +231,12 @@ export class SendWarrantyPage {
     }
   }
 
-  setMinimumAmount() {
-    this.form.patchValue({ amount: 25 });
+  getMinimumWarrantyAmount() {
+    this.minimumWarrantyAmount = this.remoteConfigService.getString('minimumWarrantyAmount');
+    this.addValidator(this.minimumWarrantyAmount);
+  }
+
+  addValidator(amount: string) {
+    this.form.get('amount').addValidators(CustomValidators.greaterOrEqualThan(parseInt(amount)));
   }
 }

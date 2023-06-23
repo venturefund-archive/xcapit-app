@@ -3695,7 +3695,8 @@
     "send_warranty": {
       "header": "Constituir garantía",
       "text_dni": "Ingresar DNI",
-      "deposit_amount": "Monto a depositar"
+      "deposit_amount": "Monto a depositar",
+      "minimum_amount": "El monto mínimo es de {{minimum}} USDC"
     },
     "summary": {
       "header": "Constituir garantía",

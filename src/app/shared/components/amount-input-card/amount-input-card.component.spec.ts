@@ -46,43 +46,41 @@ describe('AmountInputCardComponent', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
 
-  beforeEach(
-    waitForAsync(() => {
-      formGroupMock = new UntypedFormGroup({
-        amount: new UntypedFormControl(),
-        quoteAmount: new UntypedFormControl(),
-      });
-      formGroupDirectiveSpy = jasmine.createSpyObj(
-        'FormGroupDirective',
-        {},
-        {
-          form: formGroupMock,
-        }
-      );
+  beforeEach(waitForAsync(() => {
+    formGroupMock = new UntypedFormGroup({
+      amount: new UntypedFormControl(),
+      quoteAmount: new UntypedFormControl(),
+    });
+    formGroupDirectiveSpy = jasmine.createSpyObj(
+      'FormGroupDirective',
+      {},
+      {
+        form: formGroupMock,
+      }
+    );
 
-      fakeModalController = new FakeModalController();
-      modalControllerSpy = fakeModalController.createSpy();
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
 
-      TestBed.configureTestingModule({
-        declarations: [AmountInputCardComponent, FormattedAmountPipe, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [
-          { provide: FormGroupDirective, useValue: formGroupDirectiveSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [AmountInputCardComponent, FormattedAmountPipe, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: FormGroupDirective, useValue: formGroupDirectiveSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(AmountInputCardComponent);
-      component = fixture.componentInstance;
-      component.baseCurrency = testCoins[0];
-      component.feeToken = testCoins[0];
-      component.max = 2;
-      component.quotePrice = 10;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    fixture = TestBed.createComponent(AmountInputCardComponent);
+    component = fixture.componentInstance;
+    component.baseCurrency = testCoins[0];
+    component.feeToken = testCoins[0];
+    component.max = 2;
+    component.quotePrice = 10;
+    fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -147,6 +145,13 @@ describe('AmountInputCardComponent', () => {
     expect(divEl).toBeTruthy();
   });
 
+  it('should render div when enter amount is lower than minimum warranty amount', () => {
+    component.insufficientWarrantyAmount = true;
+    fixture.detectChanges();
+    const divEl = fixture.debugElement.query(By.css('div.aic__content__minimum-warranty-amount'));
+    expect(divEl).toBeTruthy();
+  });
+
   it('should render the div when the balance is insufficient', () => {
     component.insufficientBalance = true;
     fixture.detectChanges();
@@ -159,12 +164,11 @@ describe('AmountInputCardComponent', () => {
   it('should render the div when the balance is not insufficient', () => {
     component.insufficientBalance = false;
     fixture.detectChanges();
-    const div = fixture.debugElement.query(By.css('div.aic__available'))
+    const div = fixture.debugElement.query(By.css('div.aic__available'));
     const divEl = fixture.debugElement.query(By.css('div.aic__available__amounts'));
     expect(div).toBeTruthy();
     expect(divEl).toBeTruthy();
   });
-
 
   it('should emit event when ux_phrase_information clicked', () => {
     component.amountSend = true;
@@ -176,21 +180,19 @@ describe('AmountInputCardComponent', () => {
   });
 
   describe('ShowRange enabled', () => {
-    beforeEach(
-      waitForAsync(() => {
-        formGroupMock = new UntypedFormGroup({
-          amount: new UntypedFormControl(),
-          quoteAmount: new UntypedFormControl(),
-          percentage: new UntypedFormControl(),
-          range: new UntypedFormControl(),
-        });
-        new SpyProperty(formGroupDirectiveSpy, 'form').value().and.returnValue(formGroupMock);
-        component.showRange = true;
-        component.max = 200;
-        component.quotePrice = 10;
-        component.ngOnInit();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      formGroupMock = new UntypedFormGroup({
+        amount: new UntypedFormControl(),
+        quoteAmount: new UntypedFormControl(),
+        percentage: new UntypedFormControl(),
+        range: new UntypedFormControl(),
+      });
+      new SpyProperty(formGroupDirectiveSpy, 'form').value().and.returnValue(formGroupMock);
+      component.showRange = true;
+      component.max = 200;
+      component.quotePrice = 10;
+      component.ngOnInit();
+    }));
 
     it('should render percentage and range when showRange is enabled', async () => {
       Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
