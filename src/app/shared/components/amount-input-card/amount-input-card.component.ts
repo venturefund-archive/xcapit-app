@@ -60,7 +60,12 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
             this.quoteCurrency
           }}</ion-text>
         </div>
-        <div class="aic__content__inputs" [ngClass]="{ invalid: this.insufficientBalance }">
+        <div
+          class="aic__content__inputs"
+          [ngClass]="{
+            invalid: this.insufficientBalance || this.insufficientWarrantyAmount
+          }"
+        >
           <div class="aic__content__inputs__amount_with_max">
             <ion-input
               appNumberInput
@@ -92,7 +97,13 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
             debounce="500"
           ></ion-input>
         </div>
-        <div class="aic__content__funds-advice info " *ngIf="this.insufficientBalance">
+        <div class="aic__content__minimum-warranty-amount info" *ngIf="this.insufficientWarrantyAmount">
+          <img src="assets/img/defi-investments/shared/amount-input-card/exclamation.svg" />
+          <ion-text class="ux-font-text-xxs">
+            {{ 'warranties.send_warranty.minimum_amount' | translate : { minimum: this.minimumWarrantyAmount } }}
+          </ion-text>
+        </div>
+        <div class="aic__content__funds-advice info" *ngIf="this.insufficientBalance">
           <img src="assets/img/defi-investments/shared/amount-input-card/exclamation.svg" />
           <ion-text class="ux-font-text-xxs">
             {{ 'defi_investments.shared.amount_input_card.advice' | translate }}
@@ -121,13 +132,14 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   @Input() showRange: boolean;
   @Input() feeToken: Coin;
   @Input() amountSend: boolean;
+  @Input() minimumWarrantyAmount: string;
   @Output() phraseAmountInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;
   isInfoModalOpen = false;
   value: number;
   insufficientBalance: boolean;
-
+  insufficientWarrantyAmount: boolean;
   form: UntypedFormGroup;
   quoteMax: number;
 
@@ -136,6 +148,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.subscribeToFormChanges();
     this.setQuotePrice();
+    this.patchMinimumWarrntyAmount();
   }
 
   private defaultPatchValueOptions() {
@@ -164,18 +177,25 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
     this.phraseAmountInfoClicked.emit();
   }
 
+  patchMinimumWarrntyAmount() {
+    this.form.get('amount').patchValue(this.minimumWarrantyAmount);
+    this.form.get('quoteAmount').patchValue(this.minimumWarrantyAmount);
+  }
+
   private subscribeToFormChanges(): void {
     this.form = this.formGroupDirective.form;
     this.form.get('amount').valueChanges.subscribe((value) => {
       this.amountChange(value);
       this.value = value;
       this.insufficientBalance = this.value > this.max;
+      this.insufficientWarrantyAmount = this.value < parseInt(this.minimumWarrantyAmount);
     });
     this.form.get('quoteAmount').valueChanges.subscribe((value) => {
       this.quoteAmountChange(value);
       this.value = value;
 
       this.insufficientBalance = this.value > this.quoteMax;
+      this.insufficientWarrantyAmount = this.value < parseInt(this.minimumWarrantyAmount);
     });
     if (this.showRange) this.form.get('percentage').valueChanges.subscribe((value) => this.percentageChange(value));
     if (this.showRange) this.form.get('range').valueChanges.subscribe((value) => this.rangeChange(value));

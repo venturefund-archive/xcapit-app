@@ -20,6 +20,7 @@ import { FakeModal } from '../../../shared/models/modal/fake/fake-modal';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
 import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -38,6 +39,7 @@ describe('SendWarrantyPage', () => {
   let formDataSpy: jasmine.SpyObj<any>;
   let fakeBalanceModal: FakeModal;
   let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(waitForAsync(() => {
     formDataSpy = jasmine.createSpyObj(
@@ -45,20 +47,20 @@ describe('SendWarrantyPage', () => {
       {},
       {
         valid: {
-          amount: 0.01,
+          amount: 29,
           quoteAmount: 29,
           dni: 33333333,
         },
         insufficient_balance: {
-          amount: 50,
-          quoteAmount: 29,
+          amount: 500,
+          quoteAmount: 290,
           dni: 33333333,
         },
       }
     );
 
     walletServiceSpy = jasmine.createSpyObj('WalletService', {
-      balanceOf: Promise.resolve('20'),
+      balanceOf: Promise.resolve('200'),
       walletExist: Promise.resolve(true),
     });
 
@@ -90,7 +92,11 @@ describe('SendWarrantyPage', () => {
 
     fakeBalanceModal = new FakeModal();
     modalFactoryInjectableSpy = jasmine.createSpyObj('ModalFactoryInjectable', {
-      create: new FakeModalFactory(fakeBalanceModal)
+      create: new FakeModalFactory(fakeBalanceModal),
+    });
+
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getString: '25',
     });
 
     TestBed.configureTestingModule({
@@ -103,6 +109,7 @@ describe('SendWarrantyPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: ModalFactoryInjectable, useValue: modalFactoryInjectableSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -190,6 +197,16 @@ describe('SendWarrantyPage', () => {
 
     expect(ionicStorageServiceSpy.get).toHaveBeenCalledTimes(1);
     expect(component.form.value.dni).toEqual('12345678');
+    discardPeriodicTasks();
+  }));
+
+  it('should get minimum warranty amount of remote config', fakeAsync(() => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
+
+    expect(remoteConfigServiceSpy.getString).toHaveBeenCalledTimes(1);
+    expect(component.minimumWarrantyAmount).toEqual('25');
     discardPeriodicTasks();
   }));
 });

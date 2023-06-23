@@ -3547,7 +3547,8 @@
     "send_warranty": {
       "header": "Make a Warranty",
       "text_dni": "Identity card number",
-      "deposit_amount": "Deposit amount"
+      "deposit_amount": "Deposit amount",
+      "minimum_amount": "The minimum amount is {{minimum}} USDC"
     },
     "summary": {
       "header": "Make a warranty",
