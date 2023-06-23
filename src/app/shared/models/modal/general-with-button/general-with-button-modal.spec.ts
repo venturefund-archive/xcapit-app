@@ -2,6 +2,7 @@ import { FakeModalController } from '../../modal-controller/fake/fake-modal-cont
 import { FakeTranslateService } from '../../translate-service/fake/fake-translate-service';
 import { GeneralWithButtonModal } from './general-with-button-modal';
 import { Modal } from '../modal.interface';
+import { FakeLocation } from '../../location/fake/fake-location';
 
 describe('GeneralWithButtonModal', () => {
   let generalWithButtonModal: Modal;
@@ -13,7 +14,8 @@ describe('GeneralWithButtonModal', () => {
       'aButtonTextKey',
       '/path/to',
       new FakeModalController(),
-      new FakeTranslateService()
+      new FakeTranslateService(),
+      new FakeLocation('/path/to/url')
     );
   });
 
@@ -27,6 +29,14 @@ describe('GeneralWithButtonModal', () => {
 
   it('show with custom config', async () => {
     await expectAsync(generalWithButtonModal.show({ cssClass: 'some-css-class' })).toBeResolved();
+  });
+
+  it('show in', async () => {
+    await expectAsync(generalWithButtonModal.showIn('/path/to/url')).toBeResolved();
+  });
+
+  it('show in with different url', async () => {
+    await expectAsync(generalWithButtonModal.showIn('/path/to/wrong/url')).toBeResolved();
   });
 
   it('onDidDismiss', async () => {

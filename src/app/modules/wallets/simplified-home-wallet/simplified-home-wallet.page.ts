@@ -19,15 +19,12 @@ import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/co
 import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { WarrantiesService } from '../../warranties/shared-warranties/services/warranties.service';
-import { GeneralModalWithTwoButtonsComponent } from 'src/app/shared/components/general-modal-with-two-buttons/general-modal-with-two-buttons.component';
-import { ModalController } from '@ionic/angular';
-import { LINKS } from 'src/app/config/static-links';
-import { TranslateService } from '@ngx-translate/core';
 import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../../fiat-ramps/shared-ramps/services/kripton-storage/kripton-storage.service';
 import { ActivatedRoute } from '@angular/router';
 import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
+import { LINKS } from 'src/app/config/static-links';
 
 @Component({
   selector: 'app-simplified-home-wallet',
@@ -68,7 +65,7 @@ import { Modals } from '../../../shared/models/modal/factory/default/default-mod
       </div>
       <div class="swt__overlap_buttons">
         <app-simplified-wallet-subheader-buttons
-          (openWarrantyModal)="this._showWarrantyModal()"
+          (openWarrantyModal)="this.showWarrantyModal()"
         ></app-simplified-wallet-subheader-buttons>
       </div>
 
@@ -110,7 +107,7 @@ import { Modals } from '../../../shared/models/modal/factory/default/default-mod
             <ion-button
               class="ux_button"
               color="secondary"
-              (click)="this._showWarrantyModal()"
+              (click)="this.showWarrantyModal()"
               appTrackClick
               name="ux_nav_go_to_warrant"
               [disabled]="this.tokenDetail?.balance === 0"
@@ -162,10 +159,10 @@ export class SimplifiedHomeWalletPage {
   tokenDetail: TokenDetail;
   formattedTokenName: string;
   warranty: { amount: number };
-  modalHref: string;
   private blockchain: Blockchain;
   private token: Token;
   private wallet: Wallet;
+  private _pageUrl: string;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -177,8 +174,6 @@ export class SimplifiedHomeWalletPage {
     private tokenPricesInjectable: TokenPricesInjectable,
     private tokenDetailInjectable: TokenDetailInjectable,
     private warrantiesService: WarrantiesService,
-    private modalController: ModalController,
-    private translate: TranslateService,
     private fiatRampsService: FiatRampsService,
     private kriptonStorage: KriptonStorageService,
     private activatedRoute: ActivatedRoute,
@@ -186,7 +181,7 @@ export class SimplifiedHomeWalletPage {
   ) {}
 
   async ionViewWillEnter() {
-    this.modalHref = window.location.href;
+    this._setPageUrl();
     this.subscribeOnHideFunds();
     this.setBlockchain();
     await this.setToken();
@@ -196,6 +191,10 @@ export class SimplifiedHomeWalletPage {
     await this.setTokenDetail();
     await this.showModal();
     await this.getTransfers();
+  }
+
+  private _setPageUrl() {
+    this._pageUrl = window.location.href;
   }
 
   subscribeOnHideFunds() {
@@ -235,7 +234,7 @@ export class SimplifiedHomeWalletPage {
       } else if (hasPendingOperations && !this._hasBalance()) {
         await this._showPendingCryptoModal();
       } else if (!hasPendingOperations && this._hasBalance()) {
-        await this._showWarrantyModal();
+        await this.showWarrantyModal();
       } else if (!hasPendingOperations && !this._hasBalance()) {
         await this._showWarrantyModalWithBuyOrDepositOpts();
       }
@@ -248,30 +247,6 @@ export class SimplifiedHomeWalletPage {
 
   private _hasBalance() {
     return this.tokenDetail.balance > 0;
-  }
-
-  private async _showHasCryptoModal() {
-    await this.modalFactoryInjectable
-      .create()
-      .oneBy(Modals.GENERAL_WITH_BUTTON, [
-        'warranties.modal_has_crypto.title',
-        'warranties.modal_has_crypto.description',
-        'warranties.modal_has_crypto.button_text',
-        '/warranties/send-warranty',
-      ])
-      .show();
-  }
-
-  private async _showPendingCryptoModal() {
-    await this.modalFactoryInjectable
-      .create()
-      .oneBy(Modals.GENERAL_WITH_BUTTON, [
-        'warranties.modal_pending_crypto.title',
-        'warranties.modal_pending_crypto.description',
-        'warranties.modal_pending_crypto.button_text',
-        '',
-      ])
-      .show();
   }
 
   private async _hasPendingOperations(): Promise<boolean> {
@@ -307,47 +282,64 @@ export class SimplifiedHomeWalletPage {
     this.warranty = await this.warrantiesService.verifyWarranty({ wallet: this.wallet.address() }).toPromise();
   }
 
-  async _showWarrantyModal() {
-    const modal = await this.modalController.create({
-      component: GeneralModalWithTwoButtonsComponent,
-      cssClass: 'modal',
-      backdropDismiss: false,
-      componentProps: {
-        highlightedHeader: this.translate.instant('warranties.modal_info.highlightedHeader'),
-        header: this.translate.instant('warranties.modal_info.header'),
-        information: this.translate.instant('warranties.modal_info.information'),
-        link: LINKS.naranjax,
-        firstButton: this.translate.instant('warranties.modal_info.firstButton'),
-        eventFirstButton: 'ux_warranty_start',
-        urlFirstButton: 'warranties/send-warranty',
-        secondButton: this.translate.instant('warranties.modal_info.secondButton'),
-        eventSecondButton: 'ux_warranty_withdraw',
-        urlSecondButton: 'warranties/withdraw-warranty',
-      },
-    });
-
-    await modal.present();
+  private async _showHasCryptoModal() {
+    await this.modalFactoryInjectable
+      .create()
+      .oneBy(Modals.GENERAL_WITH_BUTTON, [
+        'warranties.modal_has_crypto.title',
+        'warranties.modal_has_crypto.description',
+        'warranties.modal_has_crypto.button_text',
+        '/warranties/send-warranty',
+      ])
+      .showIn(this._pageUrl);
   }
 
-  async _showWarrantyModalWithBuyOrDepositOpts() {
-    const modal = await this.modalController.create({
-      component: GeneralModalWithTwoButtonsComponent,
-      cssClass: 'modal',
-      backdropDismiss: false,
-      componentProps: {
-        header: this.translate.instant('warranties.modal_info_to_buy_or_deposit.header'),
-        information: this.translate.instant('warranties.modal_info.information'),
-        link: LINKS.naranjax,
-        firstButton: this.translate.instant('warranties.modal_info_to_buy_or_deposit.firstButton'),
-        eventFirstButton: 'ux_warranty_buy',
-        urlFirstButton: '/fiat-ramps/purchases',
-        secondButton: this.translate.instant('warranties.modal_info_to_buy_or_deposit.secondButton'),
-        eventSecondButton: 'ux_warranty_receive',
-        urlSecondButton: '/wallets/receive/detail?asset=USDC&network=MATIC',
-        isBuyOrDeposit: true,
-      },
-    });
+  private async _showPendingCryptoModal() {
+    await this.modalFactoryInjectable
+      .create()
+      .oneBy(Modals.GENERAL_WITH_BUTTON, [
+        'warranties.modal_pending_crypto.title',
+        'warranties.modal_pending_crypto.description',
+        'warranties.modal_pending_crypto.button_text',
+        '',
+      ])
+      .showIn(this._pageUrl);
+  }
 
-    await modal.present();
+  async showWarrantyModal() {
+    await this.modalFactoryInjectable
+      .create()
+      .oneBy(Modals.GENERAL_WITH_TWO_BUTTONS, [
+        'warranties.modal_info.highlightedHeader',
+        'warranties.modal_info.header',
+        'warranties.modal_info.information',
+        LINKS.naranjax,
+        'warranties.modal_info.firstButton',
+        'ux_warranty_start',
+        '/warranties/send-warranty',
+        'warranties.modal_info.secondButton',
+        'ux_warranty_withdraw',
+        '/warranties/withdraw-warranty',
+        true,
+      ])
+      .showIn(this._pageUrl);
+  }
+
+  private async _showWarrantyModalWithBuyOrDepositOpts() {
+    await this.modalFactoryInjectable
+      .create()
+      .oneBy(Modals.GENERAL_WITH_TWO_BUTTONS, [
+        'warranties.modal_info_to_buy_or_deposit.header',
+        'warranties.modal_info.information',
+        LINKS.naranjax,
+        'warranties.modal_info_to_buy_or_deposit.firstButton',
+        'ux_warranty_buy',
+        '/fiat-ramps/purchases',
+        'warranties.modal_info_to_buy_or_deposit.secondButton',
+        'ux_warranty_receive',
+        '/wallets/receive/detail?asset=USDC&network=MATIC',
+        true,
+      ])
+      .showIn(this._pageUrl);
   }
 }
