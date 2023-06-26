@@ -11,8 +11,13 @@ describe('FakeModal', () => {
   it('new', () => {
     expect(fakeModal).toBeTruthy();
   });
+
   it('show', async () => {
     await expectAsync(fakeModal.show()).toBeResolved();
+  });
+
+  it('showIn', async () => {
+    await expectAsync(fakeModal.showIn('anUrl')).toBeResolved();
   });
 
   it('onDidDismiss', async () => {

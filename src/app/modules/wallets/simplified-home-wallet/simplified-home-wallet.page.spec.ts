@@ -204,7 +204,7 @@ describe('SimplifiedHomeWalletPage', () => {
     await component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeModal.calls).toEqual(1);
   });
 
   it('should show buy or deposit modal if balance is zero and there is not a pending operation', async () => {
@@ -213,7 +213,7 @@ describe('SimplifiedHomeWalletPage', () => {
     await component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeModal.calls).toEqual(1);
   });
 
   it('should show buy or deposit modal if balance is zero and user is not logged in kripton', async () => {
@@ -222,7 +222,7 @@ describe('SimplifiedHomeWalletPage', () => {
     await component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeModal.calls).toEqual(1);
   });
 
   it('should enable warranty button card if balance is above zero', async () => {
@@ -253,7 +253,7 @@ describe('SimplifiedHomeWalletPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warrant"]')).nativeElement.click();
     fixture.detectChanges();
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeModal.calls).toEqual(2);
   });
 
   it('should open warranty modal if subheader button was clicked', async () => {
@@ -262,7 +262,7 @@ describe('SimplifiedHomeWalletPage', () => {
       .triggerEventHandler('openWarrantyModal');
     fixture.detectChanges();
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeModal.calls).toEqual(1);
   });
 
   it('should show empty state on transactions if there is not transactions', async () => {

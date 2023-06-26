@@ -6,6 +6,7 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
 import { FakeModalController } from '../../modal-controller/fake/fake-modal-controller';
 import { FakeTranslateService } from '../../translate-service/fake/fake-translate-service';
 import { Modal } from '../modal.interface';
+import { Location } from '../../location/location.interface';
 
 export class BalanceModal implements Modal {
   private _modal: HTMLIonModalElement;
@@ -15,12 +16,19 @@ export class BalanceModal implements Modal {
     private readonly _aPrimaryButtonKey: string,
     private readonly _aSecondaryButtonKey: string,
     private readonly _aModalController: ModalController | FakeModalController,
-    private readonly _aTranslateService: TranslateService | FakeTranslateService
+    private readonly _aTranslateService: TranslateService | FakeTranslateService,
+    private readonly _location: Location
   ) {}
 
   async show(config = {}) {
     this._modal = await this._aModalController.create(this._modalConfig(config));
     await this._modal.present();
+  }
+
+  async showIn(url: string, config = {}) {
+    if (this._location.href() === url) {
+      await this.show(config);
+    }
   }
 
   async onDidDismiss() {

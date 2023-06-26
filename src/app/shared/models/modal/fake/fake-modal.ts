@@ -1,4 +1,4 @@
-import { Modal } from "../modal.interface";
+import { Modal } from '../modal.interface';
 
 export class FakeModal implements Modal {
   public calls = 0;
@@ -7,6 +7,11 @@ export class FakeModal implements Modal {
     this.calls++;
     return Promise.resolve();
   }
+
+  async showIn(url: string, config = {}): Promise<void> {
+    await this.show();
+  }
+
   onDidDismiss(): Promise<any> {
     return Promise.resolve({ role: 'closed' });
   }
