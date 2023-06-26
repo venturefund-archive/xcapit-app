@@ -2582,7 +2582,7 @@
       "clipboard_text": "¡{{type}} successfully copied!",
       "provider": "Provider: Kripton Market",
       "button": "Continue",
-      "send_button": "Send and finish",
+      "send_button": "Send receipt",
       "timer": "You have {{ value }} to transfer",
       "voucher_card": {
         "file_placeholder": "Voucher.jpg",

@@ -130,6 +130,7 @@ describe('RegisterPage', () => {
   it('should open qr when QR button is clicked on input', () => {
     fixture.debugElement.query(By.css('app-ux-input[id="address-input"]')).triggerEventHandler('qrScannerOpened', null);
     fixture.detectChanges();
+
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
@@ -145,6 +146,7 @@ describe('RegisterPage', () => {
     buttonEl.nativeElement.click();
     tick();
     fixture.detectChanges();
+
     expect(storageSpy.get).toHaveBeenCalledTimes(3);
     expect(storageSpy.set).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showSuccessToastVerticalOffset).toHaveBeenCalledTimes(1);

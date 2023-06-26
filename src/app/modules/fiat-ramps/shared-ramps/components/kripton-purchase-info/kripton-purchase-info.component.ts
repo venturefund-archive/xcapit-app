@@ -8,7 +8,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
       <ion-label class="kpi__buy__title ux-font-text-lg">{{
         'fiat_ramps.shared.kripton_purchase_info.title' | translate
       }}</ion-label>
-      <ion-accordion-group class="kpi__buy__accordion-group">
+      <ion-accordion-group class="kpi__buy__accordion-group" *ngIf="this.currencyOut">
         <ion-accordion class="kpi__buy__accordion-group__accordion accordion-arrow-info" value="first">
           <ion-item class="kpi__buy__accordion-group__accordion__item" slot="header">
             <div class="kpi__buy__accordion-group__accordion__item__header">
