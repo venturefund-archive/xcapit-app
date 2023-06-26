@@ -12,7 +12,6 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ContactDataService } from '../shared-contacts/services/contact-data/contact-data.service';
-
 import { RegisterPage } from './register.page';
 
 describe('RegisterPage', () => {
@@ -70,6 +69,7 @@ describe('RegisterPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
+
   beforeEach(waitForAsync(() => {
     fakeActivatedRoute = new FakeActivatedRoute();
     activatedRouteSpy = fakeActivatedRoute.createSpy();
@@ -134,25 +134,20 @@ describe('RegisterPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should save data on storage when form is valid ', fakeAsync ( () => {
+  it('should save data on storage when form is valid ', async () => {
     storageSpy.get.and.resolveTo([]);
-    component.ionViewWillEnter();
-    tick();
-    fixture.detectChanges();
     component.form.patchValue(validFormErc20Data);
-    tick();
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_address_confirm"]'));
-    buttonEl.nativeElement.click();
-    tick();
+    fixture.debugElement.query(By.css('ion-button[name="ux_address_confirm"]')).nativeElement.click();
+    await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
     fixture.detectChanges();
-
-    expect(storageSpy.get).toHaveBeenCalledTimes(3);
+    expect(storageSpy.get).toHaveBeenCalledTimes(2);
     expect(storageSpy.set).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showSuccessToastVerticalOffset).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('contacts/home');
-    discardPeriodicTasks();
-  }));
+  });
 
   it('should set array when null storage ', async () => {
     storageSpy.get.and.resolveTo(null);
