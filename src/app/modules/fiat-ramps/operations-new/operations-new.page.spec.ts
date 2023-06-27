@@ -318,7 +318,7 @@ describe('OperationsNewPage', () => {
     expect(descriptionEl.nativeElement.innerHTML).toContain('fiat_ramps.new_operation.description');
   });
 
-  it('should hide title and subtitle copies when user hasnt a simplied wallet', async () => {
+  it('should subtitle copy when user hasnt a simplied wallet', async () => {
     ionicStorageServiceSpy.get.and.resolveTo(false);
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -326,7 +326,7 @@ describe('OperationsNewPage', () => {
     const titleEl = fixture.debugElement.query(By.css('ion-text.anko__content__text-header__title'));
     const descriptionEl = fixture.debugElement.query(By.css('ion-text.anko__content__text-header__description'));
 
-    expect(titleEl).toBeFalsy();
+    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.new_operation.title');
     expect(descriptionEl).toBeFalsy();
   });
 });
