@@ -46,13 +46,15 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 
     <ion-content class="ion-padding anko">
       <div class="anko__content">
-        <div class="anko__content__text-header" *ngIf="this.userHasSimpliedWallet">
+        <div class="anko__content__text-header">
           <ion-text class="anko__content__text-header__title ux-font-text-xl">{{
             'fiat_ramps.new_operation.title' | translate
           }}</ion-text>
-          <ion-text class="anko__content__text-header__description ux-font-text-base-primary">{{
-            'fiat_ramps.new_operation.description' | translate
-          }}</ion-text>
+          <ion-text
+            class="anko__content__text-header__description ux-font-text-base-primary"
+            *ngIf="this.userHasSimpliedWallet"
+            >{{ 'fiat_ramps.new_operation.description' | translate }}</ion-text
+          >
         </div>
 
         <form [formGroup]="this.form" class="anko__content__form">
