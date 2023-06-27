@@ -2760,6 +2760,7 @@
       "header": "Buy cyptocurrencies",
       "thirdPartyKYC": "I understand that Xcapit does not store KYC information.",
       "thirdPartyTransaction": "I understand that the terms and conditions of the third party provider (Kripton Market) are independent of Xcapit.",
+      "acceptPrivacyPolicyAndTOS": "I acept the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>",
       "privacyPolicyAndTOS": "By continuing, you agree to Kripton Market's <a class='ux-link-xs decoration-none' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and <a class='ux-link-xs decoration-none' href='https://cash.kriptonmarket.com/privacy'>privacy policy</a>.",
       "next_button": "Next",
       "title": "Enter the amount in Argentine pesos you want to buy",

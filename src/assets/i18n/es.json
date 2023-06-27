@@ -2719,6 +2719,7 @@
       "header": "Comprar criptomonedas",
       "thirdPartyKYC": "Entiendo que Xcapit no almacena la información KYC.",
       "thirdPartyTransaction": "Entiendo que los términos y condiciones del proveedor externo (Kripton Market) son independientes de Xcapit.",
+      "acceptPrivacyPolicyAndTOS": "Acepto los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y la <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
       "privacyPolicyAndTOS": "Al continuar, aceptás los <a class='ux-link-xs decoration-none' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y la <a class='ux-link-xs decoration-none' href='https://cash.kriptonmarket.com/privacy'>política de privacidad</a> de Kripton Market.",
       "next_button": "Continuar",
       "title": "Ingresá el monto en pesos que querés comprar",
