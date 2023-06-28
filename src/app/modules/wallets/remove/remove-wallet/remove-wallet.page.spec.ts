@@ -13,6 +13,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
+import { NotificationsService } from '../../../notifications/shared-notifications/services/notifications/notifications.service';
+import { NullNotificationsService } from '../../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 
 describe('RemoveWalletPage', () => {
   let component: RemoveWalletPage;
@@ -25,6 +27,7 @@ describe('RemoveWalletPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -51,6 +54,10 @@ describe('RemoveWalletPage', () => {
       clean: Promise.resolve(),
     });
 
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: new NullNotificationsService(),
+    });
+
     TestBed.configureTestingModule({
       declarations: [RemoveWalletPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
@@ -61,6 +68,7 @@ describe('RemoveWalletPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -100,5 +108,10 @@ describe('RemoveWalletPage', () => {
     expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/remove/success']);
     expect(txInProgressServiceSpy.clean).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call notifications service getInstance on remove wallet', async () => {
+    await component.remove();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
   });
 });

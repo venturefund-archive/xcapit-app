@@ -9,6 +9,10 @@ export class NullNotificationsService implements Notification {
 
   init(): void {}
 
+  register(): void {}
+
+  clearRegistration(): void {}
+
   requestPermission(): Promise<void> {
     return Promise.resolve();
   }

@@ -53,7 +53,7 @@ export class GeneralWithTwoButtonsModal implements Modal {
   }
   private _props() {
     return {
-      highlightedHeader: this._translate(this._aHighlightedHeader),
+      highlightedHeader: this._aHighlightedHeader ? this._translate(this._aHighlightedHeader) : '',
       header: this._translate(this._aHeaderKey),
       information: this._translate(this._anInformationKey),
       link: this._aLink,

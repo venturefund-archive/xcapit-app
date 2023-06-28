@@ -65,10 +65,7 @@ describe('LoginNewPage', () => {
     biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
       create: fakeBiometricAuth,
     });
-    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
-      'subscribeTo',
-      'unsubscribeFrom',
-    ]);
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['subscribeTo', 'unsubscribeFrom']);
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: nullNotificationServiceSpy,
     });
@@ -126,11 +123,11 @@ describe('LoginNewPage', () => {
     });
     upgradeWalletsSpy = jasmine.createSpyObj('UpgradeWallets', {
       run: Promise.resolve(),
-      onNeedPass: new SimpleSubject()
+      onNeedPass: new SimpleSubject(),
     });
 
     appSessionInjectableSpy = jasmine.createSpyObj('AppSessionInjectable', {
-      create: { save: () => null }
+      create: { save: () => null },
     });
 
     TestBed.configureTestingModule({
