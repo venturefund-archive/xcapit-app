@@ -329,6 +329,7 @@ export class SimplifiedHomeWalletPage {
     await this.modalFactoryInjectable
       .create()
       .oneBy(Modals.GENERAL_WITH_TWO_BUTTONS, [
+        '',
         'warranties.modal_info_to_buy_or_deposit.header',
         'warranties.modal_info.information',
         LINKS.naranjax,
