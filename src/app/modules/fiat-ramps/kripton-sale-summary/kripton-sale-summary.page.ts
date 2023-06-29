@@ -21,14 +21,12 @@ import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ModalController } from '@ionic/angular';
-import { EnvService } from 'src/app/shared/services/env/env.service';
 import { Countries } from '../shared-ramps/models/countries/countries';
 import { CountryRepo } from '../shared-ramps/models/country-repo/country-repo';
 import { Country } from '../shared-ramps/models/country/country';
 import { OperationKmInProgressModalComponent } from '../shared-ramps/components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { SuccessContentComponent } from 'src/app/shared/components/success-content/success-content.component';
-import { TranslateService } from '@ngx-translate/core';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 @Component({
@@ -190,7 +188,6 @@ export class KriptonSaleSummaryPage {
     private apiWalletService: ApiWalletService,
     private modalController: ModalController,
     private txInProgressService: TxInProgressService,
-    private envService: EnvService,
     private loadingService: LoadingService
   ) {}
 

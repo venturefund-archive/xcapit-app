@@ -440,6 +440,7 @@ export class SellOrderPage {
               operation_id: operationResponse.id,
               created_at: operationResponse.created_at,
               payment_method_id: this.paymentMethodId,
+              kripton_wallet: operationResponse.kripton_wallet
             },
             this.storageOperationService.getData()
           );

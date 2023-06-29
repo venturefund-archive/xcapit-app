@@ -66,6 +66,7 @@ const rawOperationData = {
   wallet: '0x000000000000000000000dead',
   provider: '1',
   network: 'MATIC',
+  kripton_wallet: 'XXXXXXXXXXXXXXXXXXXXX',
 };
 
 const operationData = {
