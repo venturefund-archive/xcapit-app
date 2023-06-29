@@ -46,6 +46,8 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -78,6 +80,7 @@ describe('HomeWalletPage', () => {
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
   let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
@@ -196,6 +199,10 @@ describe('HomeWalletPage', () => {
     totalInvestedBalanceOfInjectableSpy = jasmine.createSpyObj('TotalInvestedBalanceOfInjectable', {
       create: new FakeTotalInvestedBalanceOf(Promise.resolve(15.6)),
     });
+
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: new NullNotificationsService(),
+    });
     TestBed.configureTestingModule({
       declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe, FakeFeatureFlagDirective],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -223,6 +230,7 @@ describe('HomeWalletPage', () => {
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
         { provide: ContactDataService, useValue: contactDataServiceSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -429,5 +437,11 @@ describe('HomeWalletPage', () => {
     iconEl.nativeElement.click();
     expect(iconEl).toBeTruthy();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/connection-detail');
+  });
+
+  it('should call notifications services getInstance on ionViewWillEnter', () => {
+    component.ionViewWillEnter();
+
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
   });
 });

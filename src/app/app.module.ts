@@ -48,6 +48,8 @@ import { ContactsModule } from './modules/contacts/contacts.module';
 import { NoConnectionBannerComponent } from './shared/components/no-connection-banner/no-connection-banner.component';
 import { WarrantiesModule } from './modules/warranties/warranties.module';
 import { KriptonLogOutInterceptorService } from './modules/fiat-ramps/shared-ramps/services/kripton-log-out-interceptor/kripton-log-out-interceptor.service';
+import { firebasePushNotificationsInitializer } from './shared/factories/app-initializers/firebase/firebase-push-notifications-initializer';
+import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -137,6 +139,12 @@ registerLocaleData(localeEn, 'en');
       provide: APP_INITIALIZER,
       useFactory: firebaseInitializer,
       deps: [RemoteConfigService, FirebaseService],
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: firebasePushNotificationsInitializer,
+      deps: [NotificationsService],
       multi: true,
     },
   ],

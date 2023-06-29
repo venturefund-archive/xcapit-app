@@ -71,10 +71,7 @@ describe('LoginPage', () => {
       get: Promise.resolve(true),
     });
 
-    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
-      'subscribeTo',
-      'unsubscribeFrom',
-    ]);
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['subscribeTo', 'unsubscribeFrom']);
 
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: nullNotificationServiceSpy,

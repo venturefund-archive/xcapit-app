@@ -3,4 +3,7 @@ export interface Notification {
   pushNotificationActionPerformed: (callback: any) => void;
   unsubscribeFrom: (aTopic: string) => void;
   subscribeTo: (aTopic: string) => void;
+  init: () => void;
+  register: () => void;
+  clearRegistration: () => void;
 }

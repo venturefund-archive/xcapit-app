@@ -37,6 +37,8 @@ import { KriptonStorageService } from '../../fiat-ramps/shared-ramps/services/kr
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { ActivatedRoute } from '@angular/router';
 import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 
 describe('SimplifiedHomeWalletPage', () => {
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
@@ -61,6 +63,7 @@ describe('SimplifiedHomeWalletPage', () => {
   let fakeModal: FakeModal;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
 
   beforeEach(waitForAsync(() => {
     localStorageServiceSpy = jasmine.createSpyObj(
@@ -138,6 +141,10 @@ describe('SimplifiedHomeWalletPage', () => {
     fakeActivatedRoute = new FakeActivatedRoute();
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: new NullNotificationsService(),
+    });
+
     TestBed.configureTestingModule({
       declarations: [SimplifiedHomeWalletPage, FakeTrackClickDirective, HideTextPipe, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -156,6 +163,7 @@ describe('SimplifiedHomeWalletPage', () => {
         { provide: ModalFactoryInjectable, useValue: modalFactoryInjectableSpy },
         { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -276,5 +284,11 @@ describe('SimplifiedHomeWalletPage', () => {
     fixture.detectChanges();
 
     expect(divEl).toBeTruthy();
+  });
+
+  it('should call notifications service getInstance on ionViewWillEnter', async () => {
+    await component.ionViewWillEnter();
+
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
   });
 });

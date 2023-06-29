@@ -25,6 +25,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
 import { LINKS } from 'src/app/config/static-links';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-simplified-home-wallet',
@@ -177,7 +178,8 @@ export class SimplifiedHomeWalletPage {
     private fiatRampsService: FiatRampsService,
     private kriptonStorage: KriptonStorageService,
     private activatedRoute: ActivatedRoute,
-    private modalFactoryInjectable: ModalFactoryInjectable
+    private modalFactoryInjectable: ModalFactoryInjectable,
+    private notificationsService: NotificationsService
   ) {}
 
   async ionViewWillEnter() {
@@ -191,6 +193,7 @@ export class SimplifiedHomeWalletPage {
     await this.setTokenDetail();
     await this.showModal();
     await this.getTransfers();
+    this.notificationsService.getInstance().register();
   }
 
   private _setPageUrl() {

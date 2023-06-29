@@ -5,6 +5,7 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
+import { NotificationsService } from '../../../notifications/shared-notifications/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-remove-wallet',
@@ -108,7 +109,8 @@ export class RemoveWalletPage {
     private queueService: QueueService,
     private walletConnectService: WalletConnectService,
     private ionicStorageService: IonicStorageService,
-    private txInProgressService: TxInProgressService
+    private txInProgressService: TxInProgressService,
+    private notificationsService: NotificationsService
   ) {}
 
   async remove() {
@@ -120,6 +122,7 @@ export class RemoveWalletPage {
     await this._goToSuccessPage();
     this._disableLoading();
     await this._removeInProgressTransactions();
+    this.notificationsService.getInstance().clearRegistration();
   }
 
   private _enableLoading(): void {
