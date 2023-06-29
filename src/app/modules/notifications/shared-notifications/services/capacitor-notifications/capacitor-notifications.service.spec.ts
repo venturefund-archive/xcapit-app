@@ -23,7 +23,7 @@ describe('CapacitorNotificationsService', () => {
       subscribeTo: null,
     });
 
-    apiDevicesServiceSpy = jasmine.createSpyObj('FirebaseCloudMessaging', {
+    apiDevicesServiceSpy = jasmine.createSpyObj('ApiDevicesService', {
       register: of(),
     });
 
