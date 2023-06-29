@@ -8,7 +8,7 @@ import { ConfirmationContentComponent } from './confirmation-content.component';
 describe('ConfirmationContentComponent', () => {
   let component: ConfirmationContentComponent;
   let fixture: ComponentFixture<ConfirmationContentComponent>;
-  const data = { step_from: 1, title: 'testTitle', subtitle: 'testSubtitle', items: 'testItems' };
+  const data = { step_from: 1, title: 'testTitle', items: 'testItems' };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -47,12 +47,10 @@ describe('ConfirmationContentComponent', () => {
 
   it('should render properly', () => {
     const titleEl = fixture.debugElement.query(By.css('div.cc__container__title > ion-text'));
-    const subtitleEl = fixture.debugElement.query(By.css('div.cc__container__subtitle > ion-text'));
     const itemsEl = fixture.debugElement.query(By.css('div.cc__container__description > ion-text'));
     const imageEl = fixture.debugElement.query(By.css('div.cc__container__image > img'));
 
     expect(titleEl.nativeElement.innerHTML).toContain('testTitle');
-    expect(subtitleEl.nativeElement.innerHTML).toContain('testSubtitle');
     expect(itemsEl.nativeElement.innerHTML).toContain('testItems');
     expect(imageEl.attributes.src).toEqual('assets/test_image.svg');
   });

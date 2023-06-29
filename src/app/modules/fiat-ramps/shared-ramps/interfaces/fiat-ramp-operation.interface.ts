@@ -15,4 +15,5 @@ export interface FiatRampOperation {
   fiat_fee?: number;
   provider_fee?: number;
   payment_method_id?: number;
+  external_code?: string
 }

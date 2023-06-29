@@ -96,7 +96,7 @@ import { UserBankDataService } from '../shared-ramps/services/user-bank-data/use
             <ion-label
               class="ion-no-padding ion-no-margin ux-font-text-xxs"
               color="neutral80"
-              [innerHTML]="'fiat_ramps.new_operation.privacyPolicyAndTOS' | translate"
+              [innerHTML]="'fiat_ramps.new_operation.acceptPrivacyPolicyAndTOS' | translate"
             >
             </ion-label>
           </ion-item>
@@ -106,7 +106,7 @@ import { UserBankDataService } from '../shared-ramps/services/user-bank-data/use
             <ion-label
               class="ion-no-padding ion-no-margin ux-font-text-xxs"
               color="neutral80"
-              [innerHTML]="'fiat_ramps.new_operation.acceptedprivacyPolicyAndTOS' | translate"
+              [innerHTML]="'fiat_ramps.new_operation.privacyPolicyAndTOS' | translate"
             >
             </ion-label>
           </ion-item>

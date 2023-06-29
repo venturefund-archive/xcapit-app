@@ -27,7 +27,7 @@ import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
-import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
+import { DefaultToken, Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { RawToken, TokenRepo } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 import { TokenByAddress } from 'src/app/modules/swaps/shared-swaps/models/token-by-address/token-by-address';
@@ -41,12 +41,13 @@ import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
-import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
 import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
 import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { Modals } from '../../../../shared/models/modal/factory/default/default-modal-factory';
 
 @Component({
   selector: 'app-send-detail',
@@ -71,7 +72,7 @@ import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-c
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [subtitle]="'wallets.send.send_detail.address_input.subtitle' | translate"
-            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
+            [helpText]="'wallets.send.send_detail.address_input.help_text' | translate : { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
             [addressFromContact]="this.addressFromContact"
             (addFromContacts)="navigateToContacts()"
@@ -145,6 +146,7 @@ export class SendDetailPage {
   tokenDetail: TokenDetail;
   addressFromContact = false;
   contact: Contact;
+  modalOpened: boolean;
   private wallet: Wallet;
   private tokenObj: Token;
   private nativeToken: Token;
@@ -177,7 +179,8 @@ export class SendDetailPage {
     private tokenPricesFactory: TokenPricesInjectable,
     private solanaFeeOf: SolanaFeeOfInjectable,
     private contactDataService: ContactDataService,
-    private solanaConnection: SolanaConnectionInjectable
+    private solanaConnection: SolanaConnectionInjectable,
+    private modalFactoryInjectable: ModalFactoryInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -196,6 +199,7 @@ export class SendDetailPage {
     await this.setTokenDetail();
     this.getPrices();
     await this.tokenBalances();
+    await this.checkEnoughBalance();
   }
 
   setFormData(amount: string) {
@@ -297,7 +301,6 @@ export class SendDetailPage {
       await this.setAllFeeData();
       this.resetFee();
       this.balance = this.nativeBalance = Math.max(this.tokenDetail.balance - this.fee, 0);
-      await this.checkEnoughBalance();
     } else {
       this.balance = this.tokenDetail.balance;
       this.nativeBalance = (await this.tokenDetailOf(this.blockchain.nativeToken())).balance;
@@ -312,6 +315,7 @@ export class SendDetailPage {
 
   private watchFormChanges() {
     this.form.valueChanges.subscribe(async () => {
+      if (this.form.value.amount > this.balance) this.showInsufficientBalanceModal();
       if (this.form.valid) {
         await this.setAllFeeData();
         await this.checkEnoughBalance();
@@ -367,20 +371,16 @@ export class SendDetailPage {
   private async _estimatedSolanaFee(): Promise<number> {
     return this.form.value.address
       ? await this.solanaFeeOf
-        .create(
-          await new SolanaSendTxsOf(
-            new SolanaSend(
-              this.form.value.amount,
-              this.tokenObj,
-              this.form.value.address
-            ),
-            await this.walletsFactory.create().oneBy(this.blockchain),
-            this.blockchain,
-            this.solanaConnection.create(this.blockchain)
-          ).blockchainTxs(),
-          this.blockchain,
-        )
-        .value()
+          .create(
+            await new SolanaSendTxsOf(
+              new SolanaSend(this.form.value.amount, this.tokenObj, this.form.value.address),
+              await this.walletsFactory.create().oneBy(this.blockchain),
+              this.blockchain,
+              this.solanaConnection.create(this.blockchain)
+            ).blockchainTxs(),
+            this.blockchain
+          )
+          .value()
       : 0;
   }
 
@@ -443,28 +443,40 @@ export class SendDetailPage {
   }
 
   async checkEnoughBalance() {
-    if (this.token.native ? this.nativeBalance <= 0 : this.nativeBalance < this.fee) {
-      await this.openModalBalance();
+    if (this.balance <= 0) {
+      return this.showInsufficientBalanceModal();
+    } else if (!this.token.native && this.nativeBalance < this.fee) {
+      return this.showInsufficientBalanceFeeModal();
     }
   }
 
-  async openModalBalance() {
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: {
-        text: 'defi_investments.confirmation.informative_modal_fee',
-        primaryButtonText: 'defi_investments.confirmation.buy_button',
-        secondaryButtonText: 'defi_investments.confirmation.deposit_button',
-        token: this.nativeToken,
-      },
-    });
-    if (window.location.href === this.modalHref) {
-      await modal.present();
+  showInsufficientBalanceFeeModal() {
+    this.openModalBalance(
+      this.nativeToken,
+      'wallets.send.send_detail.balance_modal.insufficient_balance_fee.text',
+      'wallets.send.send_detail.balance_modal.insufficient_balance_fee.firstButtonName',
+      'wallets.send.send_detail.balance_modal.insufficient_balance_fee.secondaryButtonName'
+    );
+  }
+
+  showInsufficientBalanceModal() {
+    this.openModalBalance(
+      new DefaultToken(this.token as RawToken),
+      'wallets.send.send_detail.balance_modal.insufficient_balance.text',
+      'wallets.send.send_detail.balance_modal.insufficient_balance.firstButtonName',
+      'wallets.send.send_detail.balance_modal.insufficient_balance.secondaryButtonName'
+    );
+  }
+
+  async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
+    if (!this.modalOpened && window.location.href === this.modalHref) {
+      this.modalOpened = true;
+      const modal = this.modalFactoryInjectable
+        .create()
+        .oneBy(Modals.BALANCE, [token, description, primaryButtonText, secondaryButtonText]);
+      await modal.show();
+      modal.onDidDismiss().then(() => (this.modalOpened = false));
     }
-    await modal.onDidDismiss();
   }
 
   back() {

@@ -16,7 +16,6 @@ import { InfoProviderMoonpayComponent } from './components/info-provider-moonpay
 import { ValidationContentComponent } from './components/validation-content/validation-content.component';
 import { ConfirmationContentComponent } from './components/confirmation-content/confirmation-content.component';
 import { BuyOrDepositTokenToastComponent } from './components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
-import { UserRegisterContentComponent } from './components/user-register-content/user-register-content/user-register-content.component';
 import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-card/moonpay-purchases-card/moonpay-purchases-card.component';
 import { UserBasicInformationComponent } from './components/user-basic-information/user-basic-information.component';
 import { UserPersonalInformationComponent } from './components/user-personal-information/user-personal-information.component';
@@ -51,7 +50,6 @@ import { ProviderFeeInfoModalComponent } from './components/provider-fee-info-mo
     InfoProviderKriptonComponent,
     InfoProviderMoonpayComponent,
     MoonpayPurchasesCardComponent,
-    UserRegisterContentComponent,
     ValidationContentComponent,
     ConfirmationContentComponent,
     UserBasicInformationComponent,
@@ -89,7 +87,6 @@ import { ProviderFeeInfoModalComponent } from './components/provider-fee-info-mo
     InfoProviderKriptonComponent,
     InfoProviderMoonpayComponent,
     MoonpayPurchasesCardComponent,
-    UserRegisterContentComponent,
     ValidationContentComponent,
     ConfirmationContentComponent,
     UserBasicInformationComponent,

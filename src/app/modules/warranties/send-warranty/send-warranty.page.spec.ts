@@ -2,7 +2,7 @@ import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitF
 import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -16,7 +16,11 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { SendWarrantyPage } from './send-warranty.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { FakeModal } from '../../../shared/models/modal/fake/fake-modal';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -25,6 +29,7 @@ describe('SendWarrantyPage', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
@@ -32,8 +37,9 @@ describe('SendWarrantyPage', () => {
   let formBuilder: UntypedFormBuilder;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let formDataSpy: jasmine.SpyObj<any>;
-  let modalControllerSpy: jasmine.SpyObj<ModalController>;
-  let fakeModalController: FakeModalController;
+  let fakeBalanceModal: FakeModal;
+  let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(waitForAsync(() => {
     formDataSpy = jasmine.createSpyObj(
@@ -41,20 +47,20 @@ describe('SendWarrantyPage', () => {
       {},
       {
         valid: {
-          amount: 0.01,
+          amount: 29,
           quoteAmount: 29,
           dni: 33333333,
         },
         insufficient_balance: {
-          amount: 50,
-          quoteAmount: 29,
+          amount: 500,
+          quoteAmount: 290,
           dni: 33333333,
         },
       }
     );
 
     walletServiceSpy = jasmine.createSpyObj('WalletService', {
-      balanceOf: Promise.resolve('20'),
+      balanceOf: Promise.resolve('200'),
       walletExist: Promise.resolve(true),
     });
 
@@ -69,6 +75,10 @@ describe('SendWarrantyPage', () => {
       getWalletsAddresses: Promise.resolve(['testAddress']),
     });
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(),
+    });
+
     dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
 
     dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
@@ -80,8 +90,14 @@ describe('SendWarrantyPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
-    fakeModalController = new FakeModalController();
-    modalControllerSpy = fakeModalController.createSpy();
+    fakeBalanceModal = new FakeModal();
+    modalFactoryInjectableSpy = jasmine.createSpyObj('ModalFactoryInjectable', {
+      create: new FakeModalFactory(fakeBalanceModal),
+    });
+
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getString: '25',
+    });
 
     TestBed.configureTestingModule({
       declarations: [SendWarrantyPage, FakeTrackClickDirective],
@@ -91,7 +107,9 @@ describe('SendWarrantyPage', () => {
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: ModalFactoryInjectable, useValue: modalFactoryInjectableSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -158,7 +176,7 @@ describe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
     component.form.patchValue({ amount: formDataSpy.insufficient_balance.amount });
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeBalanceModal.calls).toEqual(1);
     discardPeriodicTasks();
   }));
 
@@ -167,7 +185,28 @@ describe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
     component.form.patchValue({ quoteAmount: formDataSpy.insufficient_balance.quoteAmount });
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeBalanceModal.calls).toEqual(1);
+    discardPeriodicTasks();
+  }));
+
+  it('should autocomplete dni field when user has information on storage', fakeAsync(() => {
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve('12345678'));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
+
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledTimes(1);
+    expect(component.form.value.dni).toEqual('12345678');
+    discardPeriodicTasks();
+  }));
+
+  it('should get minimum warranty amount of remote config', fakeAsync(() => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
+
+    expect(remoteConfigServiceSpy.getString).toHaveBeenCalledTimes(1);
+    expect(component.minimumWarrantyAmount).toEqual('25');
     discardPeriodicTasks();
   }));
 });

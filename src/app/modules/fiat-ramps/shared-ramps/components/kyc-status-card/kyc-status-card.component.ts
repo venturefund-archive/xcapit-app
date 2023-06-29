@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { KriptonStorageService } from '../../services/kripton-storage/kripton-storage.service';
+import { RegistrationStatus } from '../../../enums/registration-status.enum';
 
 @Component({
   selector: 'app-kyc-status-card',
@@ -51,6 +52,9 @@ export class KYCStatusCardComponent implements OnInit {
   }
 
   redirectToPage() {
-    if (this.userStatus !== 'COMPLETE') this.navController.navigateForward('/fiat-ramps/user-register');
+    if (this.userStatus !== 'COMPLETE') {
+      const redirection = RegistrationStatus[this.userStatus];
+      this.navController.navigateForward(redirection);
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,14 +25,17 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
       <div class="ue__container__provider">
         <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.user_email.provider' | translate }}</ion-text>
       </div>
-      <div class="ue__container__icon">
-        <img src="assets/img/provider-logos/KriptonMarket.svg" />
-      </div>
       <div class="ue__container__title">
-        <ion-text class="ux-font-text-lg">{{ 'fiat_ramps.user_email.title' | translate }}</ion-text>
+        <ion-text class="ux-font-text-lg">{{
+          (this.validatedEmail ? 'fiat_ramps.user_email.secondary_title' : 'fiat_ramps.user_email.main_title')
+            | translate
+        }}</ion-text>
       </div>
       <div class="ue__container__subtitle">
-        <ion-text class="ux-font-text-base">{{ 'fiat_ramps.user_email.subtitle' | translate }}</ion-text>
+        <ion-text class="ux-font-text-base">{{
+          (this.validatedEmail ? 'fiat_ramps.user_email.secondary_subtitle' : 'fiat_ramps.user_email.main_subtitle')
+            | translate
+        }}</ion-text>
       </div>
       <div class="ue__container__form">
         <form [formGroup]="this.form">
@@ -46,7 +49,6 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
             color="primary"
           ></app-ux-input>
           <div *ngIf="this.validatedEmail">
-            <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.user_email.text_token' | translate }}</ion-text>
             <div [ngClass]="this.loginError ? 'ue__container__form__token_error' : 'ue__container__form__token'">
               <app-ux-input
                 controlName="token"
@@ -114,9 +116,9 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
     </ion-footer>`,
   styleUrls: ['./user-email.page.scss'],
 })
-export class UserEmailPage implements OnInit {
+export class UserEmailPage {
   form: UntypedFormGroup = this.formBuilder.group({
-    email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+    email: ['', [Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9._%+-]{2,}[.][A-Za-z]{2,}$'), Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
     token: ['', []],
   });
   userStatus: string;
@@ -140,14 +142,25 @@ export class UserEmailPage implements OnInit {
     private tokenOperationDataService: TokenOperationDataService
   ) {}
 
-  ngOnInit() {
+  async ionViewWillEnter() {
     this.updateFooterText();
+    await this.getUserEmail();
+  }
+
+  async getUserEmail() {
+    const registeredEmail = await this.kriptonStorage.get('email');
+    this.setInputEmail(registeredEmail);
+  }
+
+  setInputEmail(registeredEmail: string) {
+    this.form.patchValue({ email: registeredEmail });
   }
 
   async validateEmailAndSendToken(): Promise<void> {
     this.userStatus = (
       await this.fiatRampsService.getOrCreateUser({ email: this.form.value.email }).toPromise()
     ).registration_status;
+
     this.fiatRampsService.getKriptonAccessToken({ email: this.form.value.email }).subscribe();
     if (this.userStatus) {
       this.validatedEmail = true;
@@ -176,13 +189,17 @@ export class UserEmailPage implements OnInit {
   }
 
   redirectByStatus(registrationStatus: string) {
-    if (!this.tokenOperationDataService.tokenOperationData?.mode) {
-      return this.navController.navigateRoot('/fiat-ramps/purchases');
-    } else if (this.tokenOperationDataService.tokenOperationData.mode === 'sell' && registrationStatus === 'COMPLETE') {
-      return this.navController.navigateRoot('/fiat-ramps/user-bank-account');
+    let url = '';
+    if (registrationStatus !== 'COMPLETE') {
+      url = RegistrationStatus[registrationStatus];
+    } else if (!this.tokenOperationDataService.tokenOperationData?.mode) {
+      url = '/fiat-ramps/purchases';
+    } else if (this.tokenOperationDataService.tokenOperationData.mode === 'sell') {
+      url = '/fiat-ramps/user-bank-account';
+    } else if (this.tokenOperationDataService.tokenOperationData.mode === 'buy') {
+      url = '/fiat-ramps/new-operation/kripton';
     }
-    const url = RegistrationStatus[registrationStatus];
-    return this.navController.navigateRoot(url);
+    this.navController.navigateRoot(url);
   }
 
   private addTokenValidators(): void {

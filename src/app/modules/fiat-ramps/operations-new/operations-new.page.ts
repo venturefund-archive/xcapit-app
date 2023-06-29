@@ -17,7 +17,6 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
-import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
@@ -26,11 +25,13 @@ import { takeUntil } from 'rxjs/operators';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import RoundedNumber from 'src/app/shared/models/rounded-number/rounded-number';
 import { KriptonNetworks } from '../shared-ramps/constants/kripton-networks';
+import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 @Component({
-  selector: 'app-operations-new',
+  selector: 'app-new-kripton-operation',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__rounded">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
@@ -38,66 +39,153 @@ import { KriptonNetworks } from '../shared-ramps/constants/kripton-networks';
           {{ 'fiat_ramps.new_operation.header' | translate }}
         </ion-title>
       </ion-toolbar>
+      <div class="provider-name">
+        <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.shared.validation_content.provider' | translate }}</ion-text>
+      </div>
     </ion-header>
 
-    <ion-content class="ion-padding">
-      <form [formGroup]="this.form" class="ux_main">
-        <div class="ux_content aon">
-          <app-provider-new-operation-card
-            *ngIf="this.selectedCurrency && this.fiatCurrency"
-            [coin]="this.selectedCurrency"
-            [fiatCurrency]="this.fiatCurrency"
-            [provider]="this.provider"
-            [coinSelectorEnabled]="true"
-            [minimumAmount]="this.minimumFiatAmount"
-            [minimumCurrency]="this.fiatCurrency"
-            (changeCurrency)="this.openModal($event)"
-            paymentType="fiat_ramps.shared.constants.payment_types.kripton"
-            [fee]="this.fiatFee"
-            [debounce]="1500"
-          ></app-provider-new-operation-card>
+    <ion-content class="ion-padding anko">
+      <div class="anko__content">
+        <div class="anko__content__text-header">
+          <ion-text class="anko__content__text-header__title ux-font-text-xl">{{
+            'fiat_ramps.new_operation.title' | translate
+          }}</ion-text>
+          <ion-text
+            class="anko__content__text-header__description ux-font-text-base-primary"
+            *ngIf="this.userHasSimpliedWallet"
+            >{{ 'fiat_ramps.new_operation.description' | translate }}</ion-text
+          >
+        </div>
 
-          <div *ngIf="!this.agreement" class="aon__disclaimer">
-            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
-              <ion-checkbox formControlName="thirdPartyKYC" mode="md" slot="start"></ion-checkbox>
-              <ion-label class="ion-no-padding ion-no-margin">
-                <ion-text class="ux-font-text-xxs" color="neutral80">
-                  {{ 'fiat_ramps.new_operation.thirdPartyKYC' | translate }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-
-            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
-              <ion-checkbox formControlName="thirdPartyTransaction" mode="md" slot="start"></ion-checkbox>
-              <ion-label class="ion-no-padding ion-no-margin checkbox-link">
-                <ion-text class="ux-font-text-xxs" color="neutral80">
-                  {{ 'fiat_ramps.new_operation.thirdPartyTransaction' | translate }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-
-            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
-              <ion-checkbox formControlName="acceptTOSAndPrivacyPolicy" mode="md" slot="start"></ion-checkbox>
+        <form [formGroup]="this.form" class="anko__content__form">
+          <div class="anko__content__form__content">
+            <ion-card class="anko__content__form__content__card ux-card-new">
+              <div
+                class="anko__content__form__content__card__amount-select"
+                *ngIf="this.selectedCurrency && this.fiatCurrency"
+              >
+                <div class="anko__content__form__content__card__amount-select__qty-label">
+                  <ion-label class="ux-font-titulo-xs">{{
+                    'fiat_ramps.shared.provider_new_operation_card.quantity' | translate
+                  }}</ion-label>
+                </div>
+                <div class="anko__content__form__content__card__amount-select__labels">
+                  <ion-label
+                    class="ux-font-text-xs anko__content__form__content__card__amount-select__labels__base"
+                    color="primary"
+                  >
+                    {{ this.fiatCurrency | uppercase }}</ion-label
+                  >
+                  <ion-label
+                    class="ux-font-text-xs anko__content__form__content__card__amount-select__labels__quote"
+                    color="primary"
+                  >
+                    {{ this.selectedCurrency.value }}
+                  </ion-label>
+                </div>
+                <div class="anko__content__form__content__card__amount-select__inputs">
+                  <div class="anko__content__form__content__card__amount-select__inputs__quoteAmount">
+                    <ion-input
+                      appNumberInput
+                      appCommaToDot
+                      [debounce]="1500"
+                      [class.invalid]="
+                        (!this.form.controls.fiatAmount.valid || !this.form.controls.cryptoAmount.valid) &&
+                        (this.form.controls.cryptoAmount.touched ||
+                          this.form.controls.cryptoAmount.dirty ||
+                          this.form.controls.fiatAmount.touched ||
+                          this.form.controls.fiatAmount.dirty)
+                      "
+                      formControlName="fiatAmount"
+                      type="text"
+                      inputmode="decimal"
+                    ></ion-input>
+                  </div>
+                  <ion-text class="anko__content__form__content__card__amount-select__inputs__equal ux-fweight-medium "
+                    >=</ion-text
+                  >
+                  <div class="anko__content__form__content__card__amount-select__inputs__amount">
+                    <ion-input
+                      appNumberInput
+                      appCommaToDot
+                      [debounce]="1500"
+                      [class.invalid]="
+                        (!this.form.controls.fiatAmount.valid || !this.form.controls.cryptoAmount.valid) &&
+                        (this.form.controls.cryptoAmount.touched ||
+                          this.form.controls.cryptoAmount.dirty ||
+                          this.form.controls.fiatAmount.touched ||
+                          this.form.controls.fiatAmount.dirty)
+                      "
+                      formControlName="cryptoAmount"
+                      type="text"
+                      inputmode="decimal"
+                    >
+                    </ion-input>
+                  </div>
+                </div>
+                <div class="anko__content__form__content__card__amount-select__helpers">
+                  <ion-icon
+                    *ngIf="
+                      (!this.form.controls.fiatAmount.valid || !this.form.controls.cryptoAmount.valid) &&
+                      (this.form.controls.cryptoAmount.touched ||
+                        this.form.controls.cryptoAmount.dirty ||
+                        this.form.controls.fiatAmount.touched ||
+                        this.form.controls.fiatAmount.dirty)
+                    "
+                    color="dangerdark"
+                    icon="information-error"
+                  ></ion-icon>
+                  <ion-label
+                    class="ux-font-text-xxs"
+                    *ngIf="this.minimumFiatAmount"
+                    [ngClass]="
+                      (!this.form.controls.fiatAmount.valid || !this.form.controls.cryptoAmount.valid) &&
+                      (this.form.controls.cryptoAmount.touched ||
+                        this.form.controls.cryptoAmount.dirty ||
+                        this.form.controls.fiatAmount.touched ||
+                        this.form.controls.fiatAmount.dirty)
+                        ? 'anko__content__form__content__card__amount-select__helpers__error'
+                        : 'anko__content__form__content__card__amount-select__helpers__no-error'
+                    "
+                    >{{
+                      'fiat_ramps.shared.provider_new_operation_card.input_error.' +
+                        (!this.form.controls.fiatAmount.valid ? 'cash-in' : 'cash-out')
+                        | translate
+                          : {
+                              amount: this.minimumFiatAmount | formattedAmount : 10 : 2,
+                              currency: this.fiatCurrency | uppercase
+                            }
+                    }}
+                  </ion-label>
+                  <ion-skeleton-text
+                    animated
+                    *ngIf="!this.minimumFiatAmount"
+                    class="anko__content__form__content__card__amount-select__helpers__no-error"
+                  ></ion-skeleton-text>
+                </div>
+              </div>
+            </ion-card>
+            <div class="anko__content__checkbox">
+              <ion-item class="anko__content__checkbox__item ion-no-padding ion-no-margin">
+                <ion-checkbox formControlName="thirdPartyKYC" mode="md" slot="start"></ion-checkbox>
+                <ion-label class="ion-no-padding ion-no-margin">
+                  <ion-text class="ux-font-text-xxs" color="neutral80">
+                    {{ 'fiat_ramps.new_operation.thirdPartyKYC' | translate }}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </div>
+            <div class="anko__content__disclaimer">
               <ion-label
-                class="ion-no-padding ion-no-margin ux-font-text-xxs"
+                class="ion-no-padding ion-no-margin ux-font-text-xs"
                 color="neutral80"
                 [innerHTML]="'fiat_ramps.new_operation.privacyPolicyAndTOS' | translate"
               >
               </ion-label>
-            </ion-item>
+            </div>
           </div>
-          <div class="aon__disclaimer" *ngIf="this.agreement">
-            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
-              <ion-label
-                class="ion-no-padding ion-no-margin ux-font-text-xxs"
-                color="neutral80"
-                [innerHTML]="'fiat_ramps.new_operation.acceptedprivacyPolicyAndTOS' | translate"
-              >
-              </ion-label>
-            </ion-item>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </ion-content>
     <ion-footer>
       <div class="ux_footer ion-padding">
@@ -135,12 +223,11 @@ export class OperationsNewPage implements AfterViewInit {
     cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
     thirdPartyKYC: [false, [Validators.requiredTrue]],
-    thirdPartyTransaction: [false, [Validators.requiredTrue]],
-    acceptTOSAndPrivacyPolicy: [false, [Validators.requiredTrue]],
   });
   fee = { value: 0, token: '' };
   fiatFee = { value: 0, token: '', maxDigits: 10, totalDecimals: 2 };
   kriptonNetworks = KriptonNetworks;
+  userHasSimpliedWallet: boolean;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -156,8 +243,8 @@ export class OperationsNewPage implements AfterViewInit {
     private kriptonDynamicPrice: DynamicKriptonPriceFactory,
     private providers: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
-    private modalController: ModalController,
-    private kriptonStorageService: KriptonStorageService
+    private kriptonStorageService: KriptonStorageService,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ngAfterViewInit() {
@@ -179,10 +266,15 @@ export class OperationsNewPage implements AfterViewInit {
     });
   }
 
+  private async setWalletType() {
+    this.userHasSimpliedWallet = await new SimplifiedWallet(this.ionicStorageService).value();
+  }
+
   async ionViewWillEnter() {
     this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
+    await this.setWalletType();
     this.checkKriptonAgreement();
     await this.availableCoins();
     this.setCountry();
@@ -327,7 +419,7 @@ export class OperationsNewPage implements AfterViewInit {
   async checkKriptonAgreement(): Promise<void> {
     this.agreement = await this.kriptonStorageService.get('privacy_and_policy_accepted');
     if (this.agreement) {
-      this.form.patchValue({ thirdPartyKYC: true, thirdPartyTransaction: true, acceptTOSAndPrivacyPolicy: true });
+      this.form.patchValue({ thirdPartyKYC: true });
     }
   }
 
@@ -351,14 +443,6 @@ export class OperationsNewPage implements AfterViewInit {
 
   async walletAddress(): Promise<string> {
     return (await this.walletEncryptionService.getEncryptedWallet()).addresses[this.selectedCurrency.network];
-  }
-
-  async openModal(event) {
-    const modal = await this.modalController.create({
-      component: CoinSelectorModalComponent,
-      cssClass: 'ux-modal-skip-backup',
-    });
-    await modal.present();
   }
 
   ionViewWillLeave() {

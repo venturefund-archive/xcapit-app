@@ -42,6 +42,7 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
 import { Token } from '../../swaps/shared-swaps/models/token/token';
+import { KriptonWallet } from '../shared-ramps/models/kripton-wallet/kripton-wallet';
 @Component({
   selector: 'app-kripton-operation-detail',
   template: `
@@ -142,6 +143,18 @@ import { Token } from '../../swaps/shared-swaps/models/token/token';
                   {{ this.operation.fiat_fee / this.conversionRate | formattedAmount }}
                   {{ this.operation.currency_in | uppercase }}
                 </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <ion-item class="kod__card-container__card__fee ion-no-margin ion-no-padding" *ngIf="this.walletToSend">
+            <div class="kod__card-container__card__wallet">
+              <div class="kod__card-container__card__wallet__title">
+                <ion-text class="ux-font-titulo-xs">{{
+                  'fiat_ramps.kripton_sale_summary.wallet' | translate
+                }}</ion-text>
+              </div>
+              <div class="kod__card-container__card__wallet__description">
+                <ion-text class="ux-font-text-base">{{ this.walletToSend }}</ion-text>
               </div>
             </div>
           </ion-item>
@@ -281,6 +294,7 @@ export class KriptonOperationDetailPage {
   blockchain: Blockchain;
   providerTokens: Coin[];
   fee: number;
+  walletToSend: string;
 
   constructor(
     private browserService: BrowserService,
@@ -306,8 +320,16 @@ export class KriptonOperationDetailPage {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     this.provider = this.providersFactory.create().byAlias('kripton');
     await this.availableCoins();
-    this.getUserOperation(operationId);
+    await this.getUserOperation(operationId);
     this.trackScreenViewEvent();
+  }
+
+  async setKriptonAddress(){
+    if (this.operation?.status === 'wait') await this._setWalletToSend();
+  }
+
+  private async _setWalletToSend() {
+    this.walletToSend = await (new KriptonWallet(this.operation.external_code, this.fiatRampsService)).address();
   }
 
   async navigateToKriptonTOS() {
@@ -365,20 +387,18 @@ export class KriptonOperationDetailPage {
     const email = await this.kriptonStorageService.get('email');
     const auth_token = await this.kriptonStorageService.get('access_token');
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.fiatRampsService.getUserSingleOperation(operationId, { email, auth_token }).subscribe({
-      next: (data) => {
-        this.operation = data[0];
-        this.setOperationType();
-        this.getCoin();
-        this.getCountry();
-        this.status = this._getOperationStatus();
-        this._setText(this.operation.operation_type, this.status.textToShow);
-        this.setDataToShow();
-      },
-      error: () => {
-        this.navigateBackToOperations();
-      },
-    });
+    try {
+      const data = await this.fiatRampsService.getUserSingleOperation(operationId, { email, auth_token }).toPromise();
+      this.operation = data[0];
+      this.setOperationType();
+      this.getCoin();
+      this.getCountry();
+      this.status = this._getOperationStatus();
+      this._setText(this.operation.operation_type, this.status.textToShow);
+      this.setDataToShow();
+    } catch (error) {
+      this.navigateBackToOperations();
+    }
   }
 
   private setOperationType() {
@@ -400,6 +420,7 @@ export class KriptonOperationDetailPage {
     this.blockchain = this.blockchains.create().oneByName(this.token.network);
     this.bankAccount = await this.userBank();
     this.fee = await this.finalFee();
+    await this.setKriptonAddress();
   }
 
   async finalFee() {

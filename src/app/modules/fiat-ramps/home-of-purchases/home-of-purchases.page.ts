@@ -11,6 +11,9 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import {
+  UserKycKriptonDataService
+} from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 
 @Component({
   selector: 'app-home-of-purchases',
@@ -139,7 +142,8 @@ export class HomeOfPurchasesPage {
     private kriptonStorage: KriptonStorageService,
     private kriptonUser: KriptonUserInjectable,
     private trackService: TrackService,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private userKycKriptonDataService: UserKycKriptonDataService
   ) {}
 
   async ionViewWillEnter() {
@@ -195,6 +199,7 @@ export class HomeOfPurchasesPage {
   }
 
   navigateBySimplifiedWallet() {
+    this.tokenOperationDataService.add({ asset: 'USDC', network: 'MATIC', country: 'ARG' });
     this.isLogged ? this.setDataSimplifiedWallet() : this.navigateToLoginKripton();
   }
 
@@ -215,7 +220,6 @@ export class HomeOfPurchasesPage {
   }
 
   setDataSimplifiedWallet() {
-    this.tokenOperationDataService.add({ asset: 'USDC', network: 'MATIC', country: 'ARG' });
     this.navigateByOperation();
   }
 
@@ -234,6 +238,7 @@ export class HomeOfPurchasesPage {
   async getUserStatus() {
     if (this.email && this.isLogged) {
       this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.email }).toPromise();
+
       this.setCorrectDataByStatus();
     }
   }
@@ -266,6 +271,7 @@ export class HomeOfPurchasesPage {
   }
 
   loggedOut() {
+    this.userKycKriptonDataService.clean();
     this.isLogged = false;
     this.userStatus = null;
     this.email = null;

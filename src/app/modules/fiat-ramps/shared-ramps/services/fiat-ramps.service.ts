@@ -57,8 +57,12 @@ export class FiatRampsService {
     );
   }
 
+  getAddressByVoucher(external_code: string): Observable <any>{
+    return this.http.get(`${environment.kriptonApiUrl}/pay/invoices/${external_code}`)
+  }
+
   getCashOutFormFields(country = 'common'): Observable<any> {
-    return this.http.get(`https://app.kriptonmarket.com/public/config_forms?resource=bank&country=${country}`);
+    return this.http.get(`${environment.kriptonApiUrl}/public/config_forms?resource=bank&country=${country}`);
   }
 
   registerUserImages(data): Observable<any> {
@@ -79,7 +83,7 @@ export class FiatRampsService {
   }
 
   getUserOperations(data: { email: string; auth_token: string }): Observable<FiatRampOperation[]> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/get_all_operations`, data, undefined, true);
+    return this.http.post(`${environment.apiUrl}/${this.entity}/get_all_operations`, data, undefined, false);
   }
 
   getUserSingleOperation(
@@ -90,7 +94,7 @@ export class FiatRampsService {
       `${environment.apiUrl}/${this.entity}/${this.provider}/get_user_operation/${operationId}`,
       data,
       undefined,
-      true
+      false
     );
   }
 
@@ -137,7 +141,7 @@ export class FiatRampsService {
     network: string,
     type: string
   ): Observable<any> {
-    return this.http.post('https://app.kriptonmarket.com/public/calculate_amount_out', {
+    return this.http.post(`${environment.kriptonApiUrl}/public/calculate_amount_out`, {
       currency_in,
       amount_in,
       currency_out,
@@ -183,7 +187,7 @@ export class FiatRampsService {
   }
 
   userHasOperations(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, true);
+    return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, false);
   }
 
   getMoonpayQuotation(currencyCode: string) {
@@ -236,7 +240,6 @@ export class FiatRampsService {
     return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/refresh_token`, data, undefined, false);
   }
 
-  
   getUserBank(data: { email: string; auth_token: string; payment_method_id: number }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/get_user_bank`, data, undefined, false);
   }

@@ -1,14 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  ComponentFixture,
-  discardPeriodicTasks,
-  fakeAsync,
-  flush,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -56,6 +48,9 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { FakeWallet } from '../shared-swaps/models/wallet/fake/fake-wallet';
 import { SendTxsError } from '../shared-swaps/models/wallet/send-txs-error';
+import { FakeModal } from '../../../shared/models/modal/fake/fake-modal';
+import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/modal-factory.injectable';
+import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -83,6 +78,8 @@ describe('SwapHomePage', () => {
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let activatedRouteSpy: any;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
+  let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
+  let fakeBalanceModal: FakeModal;
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
     id: 1,
@@ -203,14 +200,21 @@ describe('SwapHomePage', () => {
         callback();
       },
     });
+
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showErrorToast: Promise.resolve(),
       showWarningToast: Promise.resolve(),
     });
+
     storageSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
       remove: Promise.resolve(),
       get: Promise.resolve(true),
+    });
+
+    fakeBalanceModal = new FakeModal();
+    modalFactoryInjectableSpy = jasmine.createSpyObj('ModalFactoryInjectable', {
+      create: new FakeModalFactory(fakeBalanceModal),
     });
 
     TestBed.configureTestingModule({
@@ -242,6 +246,7 @@ describe('SwapHomePage', () => {
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: IonicStorageService, useValue: storageSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
+        { provide: ModalFactoryInjectable, useValue: modalFactoryInjectableSpy },
       ],
     }).compileComponents();
 

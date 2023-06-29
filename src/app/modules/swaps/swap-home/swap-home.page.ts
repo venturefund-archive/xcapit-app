@@ -48,7 +48,6 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { Observable, Subject } from 'rxjs';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
-import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { SwapError } from '../shared-swaps/models/swap-error/swap-error';
@@ -56,6 +55,8 @@ import { TxInProgress } from '../../users/shared-users/models/tx-in-progress/tx-
 import { SwapTxInProgress } from '../../users/shared-users/models/tx-in-progress/swap/swap-tx-in-progress';
 import { BigNumber } from 'ethers';
 import { WeiOf } from '../shared-swaps/models/wei-of/wei-of';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
 
 @Component({
   selector: 'app-swap-home',
@@ -292,7 +293,8 @@ export class SwapHomePage {
     private oneInchBlockchainsOf: OneInchBlockchainsOfFactory,
     private dynamicPriceFactory: DynamicPriceFactory,
     private storage: IonicStorageService,
-    private swapInProgressService: TxInProgressService
+    private swapInProgressService: TxInProgressService,
+    private modalFactoryInjectable: ModalFactoryInjectable
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -700,33 +702,31 @@ export class SwapHomePage {
   }
 
   showInsufficientBalanceFeeModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
-    this.openModalBalance(this.activeBlockchain.nativeToken(), text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      this.activeBlockchain.nativeToken(),
+      'swaps.home.balance_modal.insufficient_balance_fee.text',
+      'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName',
+      'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName'
+    );
   }
 
   showInsufficientBalanceModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
-    this.openModalBalance(this.fromToken, text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      this.fromToken,
+      'swaps.home.balance_modal.insufficient_balance.text',
+      'swaps.home.balance_modal.insufficient_balance.firstButtonName',
+      'swaps.home.balance_modal.insufficient_balance.secondaryButtonName'
+    );
   }
 
-  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
-    if (!this.modalOpened) {
+  async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
+    if (!this.modalOpened && window.location.href === this.modalHref) {
       this.modalOpened = true;
-      const modal = await this.modalController.create({
-        component: BuyOrDepositTokenToastComponent,
-        cssClass: 'ux-toast-warning-with-margin',
-        showBackdrop: false,
-        id: 'feeModal',
-        componentProps: { token, text, primaryButtonText, secondaryButtonText },
-      });
-      if (window.location.href === this.modalHref) {
-        await modal.present();
-      }
-      await modal.onDidDismiss().then(() => (this.modalOpened = false));
+      const modal = this.modalFactoryInjectable
+        .create()
+        .oneBy(Modals.BALANCE, [token, description, primaryButtonText, secondaryButtonText]);
+      await modal.show();
+      modal.onDidDismiss().then(() => (this.modalOpened = false));
     }
   }
 }

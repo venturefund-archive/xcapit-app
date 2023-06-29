@@ -12,9 +12,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
         <ion-title>
           {{ 'fiat_ramps.shared.confirmation_content.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
-          >{{ this.data.stepFrom }} {{ 'shared.step_counter.of' | translate }} 3</ion-label
-        >
       </ion-toolbar>
       <ion-progress-bar class="cc__progress" [value]="this.data.progress" color="info"></ion-progress-bar>
       <div class="cc__provider">
@@ -26,9 +23,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
     <ion-content class="ion-padding cc__container">
       <div class="cc__container__title">
         <ion-text class="ux-font-text-xl">{{ this.data.title | translate }}</ion-text>
-      </div>
-      <div class="cc__container__subtitle">
-        <ion-text class="ux-font-text-lg">{{ this.data.subtitle | translate }} </ion-text>
       </div>
       <div class="cc__container__description">
         <ion-text class="ux-font-text-base" [innerHTML]="this.data.items | translate"> </ion-text>

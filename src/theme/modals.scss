@@ -1,5 +1,6 @@
 // modal responsive
-.modal {
+.modal,
+.modal-large {
   --background: transparent;
   --max-width: 85%;
 
@@ -8,6 +9,11 @@
     border-radius: 8px;
     overflow: clip;
   }
+}
+
+// modal responsive large
+.modal-large {
+  --min-height: 100%;
 }
 
 // Clase para que el modal no sea en pantalla completa, sino un alert

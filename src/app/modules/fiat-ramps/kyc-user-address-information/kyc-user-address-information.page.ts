@@ -9,14 +9,11 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
   template: `<ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/user-register"></ion-back-button>
+          <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.kyc.user_address.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
-          >3 {{ 'shared.step_counter.of' | translate }} 4</ion-label
-        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="uai__container">
@@ -27,12 +24,6 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
       </div>
       <div class="uai__container__title">
         <ion-text class="ux-font-text-xl">{{ 'fiat_ramps.kyc.user_address.title' | translate }}</ion-text>
-      </div>
-      <div class="uai__container__subtitle">
-        <ion-text class="ux-font-text-lg"
-          >{{ 'fiat_ramps.kyc.user_address.subtitle' | translate }}
-          <ion-icon name="information-circle" color="info"></ion-icon>
-        </ion-text>
       </div>
       <div class="uai__container__form">
         <form [formGroup]="this.form">
@@ -135,7 +126,7 @@ export class KycUserAddressInformationPage implements OnInit {
       floor: this.data.floor,
       apartment: this.data.apartment,
       city: this.data.city,
-      postal_code: this.data.postal_code
+      postal_code: this.data.postal_code,
     });
   }
 }

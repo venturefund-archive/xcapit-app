@@ -20,7 +20,6 @@ import { RawToken, TokenRepo } from '../../swaps/shared-swaps/models/token-repo/
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { BitrefillOperationFactory } from '../shared-ramps/models/bitrefill-operation/factory/bitrefill-operation.factory';
-import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ActivatedRoute } from '@angular/router';
 import { CovalentBalancesInjectable } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
@@ -33,6 +32,8 @@ import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
 import { BitrefillURL } from '../shared-ramps/models/bitrefill-url/bitrefill-url';
 import { EnvService } from '../../../shared/services/env/env.service';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
 
 @Component({
   selector: 'app-bitrefill',
@@ -100,7 +101,8 @@ export class BitrefillPage {
     private tokenPricesFactory: TokenPricesInjectable,
     private covalentBalancesFactory: CovalentBalancesInjectable,
     private walletsFactory: WalletsFactory,
-    private envService: EnvService
+    private envService: EnvService,
+    private modalFactoryInjectable: ModalFactoryInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -281,33 +283,31 @@ export class BitrefillPage {
   }
 
   showInsufficientBalanceFeeModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
-    this.openModalBalance(this.nativeToken, text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      this.nativeToken,
+      'swaps.home.balance_modal.insufficient_balance_fee.text',
+      'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName',
+      'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName'
+    );
   }
 
   async showInsufficientBalanceModal() {
-    const text = 'swaps.home.balance_modal.insufficient_balance.text';
-    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
-    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
-    this.openModalBalance(await this.operation.token(), text, primaryButtonText, secondaryButtonText);
+    this.openModalBalance(
+      await this.operation.token(),
+      'swaps.home.balance_modal.insufficient_balance.text',
+      'swaps.home.balance_modal.insufficient_balance.firstButtonName',
+      'swaps.home.balance_modal.insufficient_balance.secondaryButtonName'
+    );
   }
 
-  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
-    if (!this.openingModal) {
+  async openModalBalance(token: Token, description: string, primaryButtonText: string, secondaryButtonText: string) {
+    if (!this.openingModal && window.location.href === this.modalHref) {
       this.openingModal = true;
-      const modal = await this.modalController.create({
-        component: BuyOrDepositTokenToastComponent,
-        cssClass: 'ux-toast-warning',
-        showBackdrop: false,
-        id: 'feeModal',
-        componentProps: { token, text, primaryButtonText, secondaryButtonText },
-      });
-      if (window.location.href === this.modalHref) {
-        await modal.present();
-      }
-      await modal.onDidDismiss().then(() => (this.openingModal = false));
+      const modal = this.modalFactoryInjectable
+        .create()
+        .oneBy(Modals.BALANCE, [token, description, primaryButtonText, secondaryButtonText]);
+      await modal.show({ cssClass: 'ux-toast-warning' });
+      modal.onDidDismiss().then(() => (this.openingModal = false));
     }
   }
 

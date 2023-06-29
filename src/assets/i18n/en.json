@@ -174,6 +174,11 @@
     },
     "search_bar": {
       "placeholder": "Search"
+    },
+    "km_account_creation_modal": {
+      "title": "You're done! You have created your account",
+      "description": "Kripton Market is validating your account. This may take up to 48 hours.<br><br> We will notify you when it is ready for you to buy cryptocurrencies.",
+      "buttonText": "Buy crypto"
     }
   },
   "users": {
@@ -1843,7 +1848,7 @@
       "title": "Follow these steps to order your Naranja X cards.",
       "item_1": "Create a password and protect your account with a backup copy.",
       "item_2": "Buy as many cryptocurrencies as you want.",
-      "item_3":"Use your cryptocurrencies to create a collateral backing.",
+      "item_3": "Use your cryptocurrencies to create a collateral backing.",
       "item_4": "Know what cards and available for purchases you can have.",
       "button": "Continue"
     },
@@ -2089,6 +2094,18 @@
         "alert": {
           "title": "Attention",
           "text": "You have 0 {{nativeToken}} in your account to pay the transaction fees. Buy some {{nativeToken}} or deposit them from another account."
+        },
+        "balance_modal": {
+          "insufficient_balance": {
+            "text": "You don't have enough {{token}} in your account to make this operation.",
+            "firstButtonName": "Buy {{token}}",
+            "secondaryButtonName": "Deposit {{token}}"
+          },
+          "insufficient_balance_fee": {
+            "text": "You don't have enough {{token}} in your account to afford the transaction fee.",
+            "firstButtonName": "Buy {{token}}",
+            "secondaryButtonName": "Deposit {{token}}"
+          }
         }
       },
       "send_summary": {
@@ -2558,16 +2575,16 @@
       "button_secondary": "Go to wallet"
     },
     "purchase_order": {
-      "header": "Buy crypto",
+      "header": "Buy cryptocurrency",
+      "title": "Transfer the amount to the following account",
+      "subtitle": "Download the transfer receipt. We will ask for it in the next step.",
+      "title_2": "To complete the purchase, upload your receipt",
       "clipboard_text": "¡{{type}} successfully copied!",
       "provider": "Provider: Kripton Market",
-      "step_1": "Transfer",
-      "step_2": "Upload voucher",
       "button": "Continue",
-      "send_button": "Send and finish",
+      "send_button": "Send receipt",
       "timer": "You have {{ value }} to transfer",
       "voucher_card": {
-        "header": "Attach your voucher",
         "file_placeholder": "Voucher.jpg",
         "upload_button": "Upload image",
         "footnote": "Supports png, jpg, pdf or other similar formats up to 200 kb.",
@@ -2740,12 +2757,14 @@
       }
     },
     "new_operation": {
-      "header": "Buy crypto",
+      "header": "Buy cyptocurrencies",
       "thirdPartyKYC": "I understand that Xcapit does not store KYC information.",
       "thirdPartyTransaction": "I understand that the terms and conditions of the third party provider (Kripton Market) are independent of Xcapit.",
-      "privacyPolicyAndTOS": "I accept the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>.",
-      "acceptedprivacyPolicyAndTOS": "You have accepted in the first transaction to the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>",
-      "next_button": "Next"
+      "acceptPrivacyPolicyAndTOS": "I acept the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>",
+      "privacyPolicyAndTOS": "By continuing, you agree to Kripton Market's <a class='ux-link-xs decoration-none' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and <a class='ux-link-xs decoration-none' href='https://cash.kriptonmarket.com/privacy'>privacy policy</a>.",
+      "next_button": "Next",
+      "title": "Enter the amount in Argentine pesos you want to buy",
+      "description": "With cryptocurrencies you will be able to create your collateral. The more you buy, the more available you will have with your credit cards."
     },
     "register": {
       "header": "Register Kripton market",
@@ -2954,50 +2973,47 @@
         }
       },
       "validation_content": {
-        "header": "Verify identity",
+        "header": "Create account",
         "provider": "Provider: Kripton Market",
-        "button_primary": "Take photo",
-        "button_secondary": "Upload from gallery",
+        "button_secondary": "Upload from the gallery",
 
         "front_id": {
-          "title": "¡Hello again! 👋",
-          "subtitle": "We need a photo of the front of your document",
-          "description": "The image should be similar to the one in the example and your data should be visible."
+          "title": "Take a picture of the front of your ID card",
+          "description": "We need your photo to confirm your identity. Make sure the data looks good.",
+          "button_primary": "Take a picture of the front"
         },
         "back_id": {
-          "subtitle": "Now we need a photo of the reverse side of your document",
-          "description": "The image should be similar to the one in the example and your data should be visible."
+          "title": "Turn your ID card to take a picture of the back of it",
+          "description": "Make sure the data looks good.",
+          "button_primary": "Take a picture of the back"
         },
         "dni_selfie": {
-          "subtitle": "Finally, a picture of you holding your document",
-          "description": "¡Don't worry! 😉 We just want to check that you are the person indicated in the document entered.",
-          "items": "<ul><li>Choose a light background.</li><li>Don't use accessories that cover up your features.</li></ul>"
+          "title": "Now take a selfie holding your ID card",
+          "description": "To validate your identity, we ask you to take a selfie on a light background with no accessories covering your face.",
+          "button_primary": "Take selfie"
         }
       },
       "confirmation_content": {
-        "header": "Verify identity",
+        "header": "Create account",
         "provider": "Provider: Kripton Market",
 
         "front_id": {
-          "title": "Very good! 📸",
-          "subtitle": "Check that the photo meets the following conditions:",
-          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>",
+          "title": "Check that the photo meets these requirements:",
+          "items": "<ul><li>The data read well.</li><li>The image is not blurred.</li><li>The content of the DNI is complete.</li></ul>",
           "button_primary": "Confirm",
-          "button_secondary": "Reloading"
+          "button_secondary": "Take another picture"
         },
         "back_id": {
-          "title": "😁 ¡Excelent!",
-          "subtitle": "Check that the photo meets the following conditions:",
-          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>",
+          "title": "Check that the photo meets these requirements:",
+          "items": "<ul><li>The data read well.</li><li>The image is not blurred.</li><li>The content of the DNI is complete.</li></ul>",
           "button_primary": "Confirm",
-          "button_secondary": "Reloading"
+          "button_secondary": "Take another picture"
         },
         "dni_selfie": {
-          "title": "That's it! We finish 🎉",
-          "subtitle": "Verify that the following conditions are met:",
-          "items": "<ul><li> The photo should be clear and sharp.</li><li>Do not wear glasses or hats that cover your face.</li></ul>",
-          "button_primary": "Confirm and send",
-          "button_secondary": "Reloading"
+          "title": "Check that the photo meets these requirements:",
+          "items": "<ul><li>The photo must be clear and sharp.</li><li>Do not wear glasses or hats that cover your face.</li></ul>",
+          "button_primary": "Confirm",
+          "button_secondary": "Take another picture"
         },
         "kripton_account_info": {
           "title": "Transfer to the following account",
@@ -3019,7 +3035,7 @@
         }
       },
       "kripton_account_info": {
-        "title": "Transfer to the following account",
+        "title": "Account information",
         "alias": "Alias",
         "cbu": "CBU",
         "amount": "Amount",
@@ -3092,15 +3108,17 @@
       }
     },
     "user_email": {
-      "header": "Buy crypto",
+      "header": "Create account",
       "provider": "Provider: Kripton Market",
-      "title": "To continue your purchase, please enter your Kripton Market account email address.",
-      "subtitle": "If you do not have an account, please enter the email address you would like us to register you with.",
+      "main_title": "Register your email to buy cryptocurrencies",
+      "secondary_title": "Enter security code",
+      "main_subtitle": "We will send you an email to validate your email address. When you validate it, you will receive a security code.",
+      "secondary_subtitle": "We send you the code to your email. It is valid for 10 minutes.",
       "label_email": "Email",
       "button": "Continue",
-      "text": "Make sure you have access to the email, you will use it to confirm your transactions.",
+      "text": "If you already have a Kripton Market account, enter the email address you used to register.",
       "text_token": "We send a temporary login code to your email.\n If you can't find it, check your spam folder.",
-      "label_token": "Entry code",
+      "label_token": "Security code",
       "toast_success": "We resent the login code to your email.",
       "resend_email": {
         "title_not_sent": "Did you not receive the code?",
@@ -3115,39 +3133,29 @@
       "header": "Register",
       "provider": "Provider: Kripton Market",
       "button": "Finish",
-      "steps": {
-        "complete": "Complete",
-        "step_one": {
-          "title": "Load data",
-          "subtitle": "Complete with your personal information"
-        },
-        "step_two": {
-          "title": "Verify identity",
-          "subtitle": "You will need your identity"
-        }
-      },
       "disclaimer": {
         "content": "Xcapit does not store data. Find out more about data usage at ",
         "link": "Privacy policy Kripton Market."
+      },
+      "steps": {
+        "complete": "Complete"
       }
     },
     "kyc": {
       "user_basic": {
-        "header": "Load data",
+        "header": "Create account",
         "provider": "Provider: Kripton Market",
-        "title": "🛫 Let's begin!",
-        "subtitle": "Fill in your personal data",
-        "label_first_name": "First name(s)",
-        "label_last_name": "Last name(s)",
+        "title": "Fill in your personal data",
+        "label_first_name": "First name",
+        "label_last_name": "Last name",
         "label_birthday": "Birthday",
         "placeholder_birthday": "mm/dd/yyyy",
         "button": "Continue"
       },
       "user_address": {
-        "header": "Load data",
+        "header": "Create account",
         "provider": "Provider: Kripton Market",
-        "title": "🛬 Last step! Quick, isn't it?",
-        "subtitle": "Fill in your address data",
+        "title": "Fill in your address data",
         "label_street": "Street",
         "label_number": "Number",
         "label_floor": "Floor (optional)",
@@ -3157,10 +3165,9 @@
         "placeholder_birthday": "mm/dd/yyyy"
       },
       "user_personal_information": {
-        "header": "Load data",
+        "header": "Create account",
         "provider": "Provider: Kripton Market",
-        "title": "😎 We're almost done",
-        "subtitle": "Enter your personal data",
+        "title": "Fill in your personal data",
         "general_placeholder": "Select an option",
         "label_nationality": "Nationality",
         "label_document": "Document",
@@ -3173,9 +3180,8 @@
         "button": "Continue"
       },
       "summary_data": {
-        "header": "Load data",
-        "title": "🎊 ¡This is how it's done! We finish",
-        "subtitle": "Do you wish to make any changes?",
+        "header": "Create account",
+        "title": "Check that everything is OK",
         "personal_data": {
           "title": "Personal data",
           "label_name_surname": "First and last name",
@@ -3195,8 +3201,8 @@
           "label_city": "City",
           "label_zip_code": "Zip Code"
         },
-        "checkbox_politically_exposed": "I declare that I am not a politically exposed person.",
-        "disclaimer": "Politically exposed person: individuals who perform prominent public functions, such as Heads of State or Government, government officials, judicial, military and/or high-level or high-ranking executives.",
+        "checkbox_politically_exposed": "I declare that I am a politically exposed person.",
+        "disclaimer": "Politically exposed persons are those who hold or have held public office.",
         "button": "Confirm and send"
       },
       "front_id": {
@@ -3525,14 +3531,25 @@
       "secondButton": "Withdraw warranty"
     },
     "modal_info_to_buy_or_deposit": {
-      "header": "Now you can buy crypto or transfer the ones you have in another wallet. Then, you will be able to set up your collateral to order your cards.",
+      "header": "Now you can buy crypto or transfer the ones you have in another wallet. Then, you will be able to set up your warranty to order your cards.",
       "firstButton": "Buy cryptocurrencies",
       "secondButton": "Receive crypto from another account"
+    },
+    "modal_pending_crypto": {
+      "title": "You already have your cryptos",
+      "description": "We will notify you when your cryptos are enabled so that you can set up your warranty",
+      "button_text": "Create warranty"
+    },
+    "modal_has_crypto": {
+      "title": "You already have your cryptos",
+      "description": "Now you can create the backup warranty to order your Naranja X credit cards",
+      "button_text": "Create warranty"
     },
     "send_warranty": {
       "header": "Make a Warranty",
       "text_dni": "Identity card number",
-      "deposit_amount": "Deposit amount"
+      "deposit_amount": "Deposit amount",
+      "minimum_amount": "The minimum amount is {{minimum}} USDC"
     },
     "summary": {
       "header": "Make a warranty",

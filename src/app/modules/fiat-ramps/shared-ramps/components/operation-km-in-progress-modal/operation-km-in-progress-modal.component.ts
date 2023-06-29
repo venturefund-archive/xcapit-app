@@ -24,7 +24,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       <div class="main__primary-title">
         <ion-text>{{ this.data?.titlePrimary | translate }}</ion-text>
       </div>
-      <div class="main__badge">
+      <div class="main__badge" [ngClass]="this.badgeStyle">
         <ion-badge>{{ this.data?.textBadge | translate }}</ion-badge>
       </div>
       <div class="main__primary-text">
@@ -61,6 +61,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 export class OperationKmInProgressModalComponent implements OnInit {
   data;
   link = LINKS;
+  badgeStyle: string;
   constructor(
     private navController: NavController,
     private modalController: ModalController,

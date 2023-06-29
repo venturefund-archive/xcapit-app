@@ -11,6 +11,7 @@ import { WalletPasswordWithValidatorComponent } from '../../wallets/shared-walle
 import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warranty-data.interface';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-withdraw-warranty-summary',
@@ -65,6 +66,7 @@ export class WithdrawWarrantySummaryPage {
     private apiTicketsService: ApiTicketsService,
     private trackService: TrackService,
     private warrantyService: WarrantiesService,
+    private ionicStorageService: IonicStorageService,
   ) {}
 
   ionViewWillEnter() {
@@ -73,6 +75,7 @@ export class WithdrawWarrantySummaryPage {
   }
 
   async withdrawWarranty() {
+    await this.ionicStorageService.set('user_dni', this.warrantyData.user_dni)
     const password = await this.askForPassword();
     if (!password) {
       return;

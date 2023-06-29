@@ -6,6 +6,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-withdraw-warranty',
@@ -85,11 +86,13 @@ export class WithdrawWarrantyPage implements OnInit {
     private translate: TranslateService,
     private navController: NavController,
     private warrantyDataService: WarrantyDataService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ngOnInit() {
     this.userWalletAddress();
+    this.checkUserStoredInformation();
   }
 
   async submitForm() {
@@ -123,5 +126,12 @@ export class WithdrawWarrantyPage implements OnInit {
   goToWithdrawSummary() {
     this.saveData();
     this.navController.navigateForward('warranties/withdraw-warranty-summary');
+  }
+
+  async checkUserStoredInformation() {
+    const savedDocument = await this.ionicStorageService.get('user_dni');
+    if (savedDocument) {
+      this.form.patchValue({ dni: savedDocument });
+    }
   }
 }

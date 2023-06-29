@@ -26,15 +26,17 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
-  const availableKriptonCurrencies = [
-    {
-      network: 'MATIC',
-      currencies: ['USDC', 'MATIC', 'DAI'],
-    },
-  ];
+const availableKriptonCurrencies = [
+  {
+    network: 'MATIC',
+    currencies: ['USDC', 'MATIC', 'DAI'],
+  },
+];
 
-  const links =
+const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
 
 const validForm = {
@@ -83,6 +85,7 @@ describe('OperationsNewPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(waitForAsync(() => {
     navControllerSpy = new FakeNavController().createSpy();
@@ -98,7 +101,7 @@ describe('OperationsNewPage', () => {
       createOperation: of({ id: 335 }),
       getKriptonMinimumAmount: of({ minimun_general: 2913 }),
       getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
-      getKriptonFee: of({ data: { costs: '0.50', amount_in: '100', amount_out: '200' } })
+      getKriptonFee: of({ data: { costs: '0.50', amount_in: '100', amount_out: '200' } }),
     });
 
     coinsSpy = [
@@ -151,11 +154,15 @@ describe('OperationsNewPage', () => {
       }
     );
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(true),
+    });
+
     fakeModalController = new FakeModalController({});
     modalControllerSpy = fakeModalController.createSpy();
 
     TestBed.configureTestingModule({
-      declarations: [OperationsNewPage, FakeTrackClickDirective],
+      declarations: [OperationsNewPage, FakeTrackClickDirective, FormattedAmountPipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
@@ -171,6 +178,7 @@ describe('OperationsNewPage', () => {
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
     }).compileComponents();
   }));
@@ -190,7 +198,9 @@ describe('OperationsNewPage', () => {
 
   it('should set properly fiatAmount form value with minimum fiat amount', async () => {
     dynamicKriptonPriceSpy.value.and.returnValue(of(1));
-    fiatRampsServiceSpy.getKriptonFee.and.returnValue(of({data: { costs: '0.50', amount_in: '2913', amount_out: '100' }}))
+    fiatRampsServiceSpy.getKriptonFee.and.returnValue(
+      of({ data: { costs: '0.50', amount_in: '2913', amount_out: '100' } })
+    );
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
@@ -210,7 +220,7 @@ describe('OperationsNewPage', () => {
       iso4217CurrencyCode: 'ARS',
       directaCode: 'AR',
       isoCurrencyCodeDirecta: 'ARS',
-      flagRoute: 'assets/img/countries/argentina.svg'
+      flagRoute: 'assets/img/countries/argentina.svg',
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[1]);
     expect(component.fiatCurrency).toEqual('ars');
@@ -218,7 +228,9 @@ describe('OperationsNewPage', () => {
   });
 
   it('should open external link when http link is clicked', () => {
-    const labelWithExternalLink = fixture.debugElement.query(By.css('ion-item.aon__disclaimer__item > ion-label'));
+    const labelWithExternalLink = fixture.debugElement.query(
+      By.css('ion-item.anko__content__checkbox__item > ion-label')
+    );
     labelWithExternalLink.nativeElement.innerHTML = links;
     fixture.detectChanges();
     component.ngAfterViewInit();
@@ -259,29 +271,19 @@ describe('OperationsNewPage', () => {
   });
 
   it('should update fiat fee when price changes', fakeAsync(() => {
-    component.minimumFiatAmount = 2913
+    component.minimumFiatAmount = 2913;
     component.fiatPrice = 10;
     component.ionViewWillEnter();
     tick();
     component.form.patchValue({ cryptoAmount: 1 });
     tick();
     fixture.detectChanges();
-    expect(component.fiatFee.value).toEqual(5)
+    expect(component.fiatFee.value).toEqual(5);
     priceSubject.next(35);
     tick();
     fixture.detectChanges();
-    expect(component.fiatFee.value).toEqual(17.5)
+    expect(component.fiatFee.value).toEqual(17.5);
   }));
-
-  it('should show modal', async () => {
-    await component.ionViewWillEnter();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    fixture.detectChanges();
-    fixture.debugElement
-      .query(By.css('app-provider-new-operation-card'))
-      .triggerEventHandler('changeCurrency', undefined);
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
 
   it('should unsubscribe when leave', async () => {
     await component.ionViewWillEnter();
@@ -303,5 +305,28 @@ describe('OperationsNewPage', () => {
     component.form.patchValue({ fiatAmount: 2914 });
     fixture.detectChanges();
     expect(component.form.controls.fiatAmount.valid).toBeTrue();
+  });
+
+  it('should show specific copies when user has a simplied wallet', async () => {
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const titleEl = fixture.debugElement.query(By.css('ion-text.anko__content__text-header__title'));
+    const descriptionEl = fixture.debugElement.query(By.css('ion-text.anko__content__text-header__description'));
+
+    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.new_operation.title');
+    expect(descriptionEl.nativeElement.innerHTML).toContain('fiat_ramps.new_operation.description');
+  });
+
+  it('should subtitle copy when user hasnt a simplied wallet', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const titleEl = fixture.debugElement.query(By.css('ion-text.anko__content__text-header__title'));
+    const descriptionEl = fixture.debugElement.query(By.css('ion-text.anko__content__text-header__description'));
+
+    expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.new_operation.title');
+    expect(descriptionEl).toBeFalsy();
   });
 });

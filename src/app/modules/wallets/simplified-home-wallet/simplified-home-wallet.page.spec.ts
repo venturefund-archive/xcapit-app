@@ -29,6 +29,14 @@ import { By } from '@angular/platform-browser';
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
+import { rawPendingOperationData } from '../../fiat-ramps/shared-ramps/fixtures/raw-operation-data';
+import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/modal-factory.injectable';
+import { FakeModal } from '../../../shared/models/modal/fake/fake-modal';
+import { KriptonStorageService } from '../../fiat-ramps/shared-ramps/services/kripton-storage/kripton-storage.service';
+import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
+import { ActivatedRoute } from '@angular/router';
+import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
 
 describe('SimplifiedHomeWalletPage', () => {
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
@@ -47,6 +55,12 @@ describe('SimplifiedHomeWalletPage', () => {
   let warrantyServiceSpy: jasmine.SpyObj<WarrantiesService>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
+  let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
+  let fakeModal: FakeModal;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
 
   beforeEach(waitForAsync(() => {
     localStorageServiceSpy = jasmine.createSpyObj(
@@ -87,6 +101,15 @@ describe('SimplifiedHomeWalletPage', () => {
       create: new FakeBalances({ balance: 20 }),
     });
 
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
+      getUserOperations: of([rawPendingOperationData]),
+    });
+
+    fakeModal = new FakeModal();
+    modalFactoryInjectableSpy = jasmine.createSpyObj('ModalFactoryInjectable', {
+      create: new FakeModalFactory(fakeModal),
+    });
+
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
       {
@@ -102,10 +125,18 @@ describe('SimplifiedHomeWalletPage', () => {
 
     tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailInjectable', { create: tokenDetailSpy });
 
-    warrantyServiceSpy = jasmine.createSpyObj('WarrantyService', { verifyWarranty: of({ amount: 10 }) });
+    warrantyServiceSpy = jasmine.createSpyObj('WarrantyService', { verifyWarranty: of({ amount: 0 }) });
 
     fakeModalController = new FakeModalController(null, { role: 'confirm' });
     modalControllerSpy = fakeModalController.createSpy();
+    kriptonStorageServiceSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve(),
+    });
+    kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageServiceSpy.get.withArgs('access_token').and.resolveTo('test');
+
+    fakeActivatedRoute = new FakeActivatedRoute();
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     TestBed.configureTestingModule({
       declarations: [SimplifiedHomeWalletPage, FakeTrackClickDirective, HideTextPipe, FormattedAmountPipe],
@@ -121,6 +152,10 @@ describe('SimplifiedHomeWalletPage', () => {
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: WarrantiesService, useValue: warrantyServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: ModalFactoryInjectable, useValue: modalFactoryInjectableSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -146,26 +181,68 @@ describe('SimplifiedHomeWalletPage', () => {
     expect(tokenDetailInjectableSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should open warranty modal with buy or deposit options and disable warranty button card if balance is zero', async () => {
+  it('should show pending crypto modal if balance is zero and there is a pending operation', async () => {
     new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(0);
     await component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
 
-    const el = fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warrant"]'));
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    expect(el.nativeElement.disabled).toBeTruthy();
+    expect(fakeModal.calls).toEqual(1);
   });
 
-  it('should open warranty modal and enable warranty button card if balance is not zero', async () => {
+  it('should show has crypto modal if balance is above zero and there is a pending operation', async () => {
+    new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(100);
+    await component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    expect(fakeModal.calls).toEqual(1);
+  });
+
+  it('should show warranty modal if balance is above zero and there is not a pending operation', async () => {
+    new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(100);
+    fiatRampsServiceSpy.getUserOperations.and.returnValue(of([]));
+    await component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    expect(fakeModal.calls).toEqual(1);
+  });
+
+  it('should show buy or deposit modal if balance is zero and there is not a pending operation', async () => {
+    new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(0);
+    fiatRampsServiceSpy.getUserOperations.and.returnValue(of([]));
+    await component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    expect(fakeModal.calls).toEqual(1);
+  });
+
+  it('should show buy or deposit modal if balance is zero and user is not logged in kripton', async () => {
+    new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(0);
+    kriptonStorageServiceSpy.get.withArgs('email').and.resolveTo();
+    await component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    expect(fakeModal.calls).toEqual(1);
+  });
+
+  it('should enable warranty button card if balance is above zero', async () => {
     new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(100);
     await component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
 
     const el = fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warrant"]'));
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(el.nativeElement.disabled).toBeFalse();
+  });
+
+  it('should enable warranty button card if balance is zero', async () => {
+    new SpyProperty(tokenDetailSpy, 'balance').value().and.returnValue(0);
+    await component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+
+    const el = fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warrant"]'));
+    expect(el.nativeElement.disabled).toBeTrue();
   });
 
   it('should open warranty modal if card button was clicked', async () => {
@@ -176,7 +253,7 @@ describe('SimplifiedHomeWalletPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_nav_go_to_warrant"]')).nativeElement.click();
     fixture.detectChanges();
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(fakeModal.calls).toEqual(2);
   });
 
   it('should open warranty modal if subheader button was clicked', async () => {
@@ -185,7 +262,7 @@ describe('SimplifiedHomeWalletPage', () => {
       .triggerEventHandler('openWarrantyModal');
     fixture.detectChanges();
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(fakeModal.calls).toEqual(1);
   });
 
   it('should show empty state on transactions if there is not transactions', async () => {

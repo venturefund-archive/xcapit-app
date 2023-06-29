@@ -10,14 +10,11 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
   template: ` <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/user-register"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/purchases"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.kyc.user_basic.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"
-          >1 {{ 'shared.step_counter.of' | translate }} 4</ion-label
-        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="ubi__container">
@@ -28,12 +25,6 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
       </div>
       <div class="ubi__container__title">
         <ion-text class="ux-font-text-xl">{{ 'fiat_ramps.kyc.user_basic.title' | translate }}</ion-text>
-      </div>
-      <div class="ubi__container__subtitle">
-        <ion-text class="ux-font-text-lg"
-          >{{ 'fiat_ramps.kyc.user_basic.subtitle' | translate }}
-          <ion-icon name="information-circle" color="info"></ion-icon>
-        </ion-text>
       </div>
       <div class="ubi__container__form">
         <form [formGroup]="this.form">

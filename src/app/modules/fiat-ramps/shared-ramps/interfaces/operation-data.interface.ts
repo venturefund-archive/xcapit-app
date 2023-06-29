@@ -14,6 +14,9 @@ export interface OperationDataInterface {
   operation_id?: number;
   created_at?: Date;
   fee?: number;
-  providerFee?:number;
-  payment_method_id?:number;
+  providerFee?: number;
+  payment_method_id?: number;
+  operation_type?: string;
+  status?: string;
+  kripton_wallet?: string;
 }

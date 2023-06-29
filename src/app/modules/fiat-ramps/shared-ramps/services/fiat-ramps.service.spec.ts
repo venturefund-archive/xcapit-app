@@ -174,4 +174,10 @@ describe('FiatRampsService', () => {
         expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
       });
   });
+
+  it('should call get on http when getAddressByVoucher', () => {
+    fiatRampsService.getAddressByVoucher('anExternalCode').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 });

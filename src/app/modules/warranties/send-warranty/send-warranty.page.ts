@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -11,9 +11,12 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
-import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-send-warranty',
@@ -55,6 +58,7 @@ import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo'
               [showRange]="false"
               [disclaimer]="false"
               [max]="this.balance"
+              [minimumWarrantyAmount]="this.minimumWarrantyAmount"
             ></app-amount-input-card>
             <app-amount-input-card-skeleton
               *ngIf="this.balance === undefined"
@@ -85,8 +89,8 @@ import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo'
 })
 export class SendWarrantyPage {
   form: UntypedFormGroup = this.formBuilder.group({
-    amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
-    quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
+    amount: [0, [Validators.required]],
+    quoteAmount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
     dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(9), Validators.pattern('[0-9]*$')]],
   });
   modalHref: string;
@@ -100,6 +104,8 @@ export class SendWarrantyPage {
   balance: number;
   quotePrice: number;
   isLoading = false;
+  modalOpened: boolean;
+  minimumWarrantyAmount: string;
   private readonly priceRefreshInterval = 15000;
 
   constructor(
@@ -110,15 +116,21 @@ export class SendWarrantyPage {
     private navController: NavController,
     private WarrantyDataService: WarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private modalController: ModalController
+    private modalFactoryInjectable: ModalFactoryInjectable,
+    private ionicStorageService: IonicStorageService,
+    private remoteConfigService: RemoteConfigService
   ) {}
 
+
   async ionViewWillEnter() {
+    this.modalHref = window.location.href;
     this.setToken();
     await this.walletService.walletExist();
     this.dynamicPrice();
     await this.tokenBalance();
     this.checkBalance();
+    this.checkUserStoredInformation();
+    this.getMinimumWarrantyAmount();
   }
 
   private async userWallet(): Promise<string> {
@@ -192,24 +204,39 @@ export class SendWarrantyPage {
   }
 
   async openBalanceModal() {
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: {
-        text: 'warranties.insufficient_balance.text',
-        primaryButtonText: 'warranties.insufficient_balance.buy_button',
-        secondaryButtonText: 'warranties.insufficient_balance.deposit_button',
-        token: new DefaultToken(this.token as RawToken),
-      },
-    });
-    await modal.present();
-    await modal.onDidDismiss();
+    if (!this.modalOpened && window.location.href === this.modalHref) {
+      this.modalOpened = true;
+      const modal = this.modalFactoryInjectable
+        .create()
+        .oneBy(Modals.BALANCE, [
+          new DefaultToken(this.token as RawToken),
+          'warranties.insufficient_balance.text',
+          'warranties.insufficient_balance.buy_button',
+          'warranties.insufficient_balance.deposit_button',
+        ]);
+      await modal.show();
+      modal.onDidDismiss().then(() => (this.modalOpened = false));
+    }
   }
 
   ionViewWillLeave() {
     this.leave$.next();
     this.leave$.complete();
+  }
+
+  async checkUserStoredInformation() {
+    const savedDocument = await this.ionicStorageService.get('user_dni');
+    if (savedDocument) {
+      this.form.patchValue({ dni: savedDocument });
+    }
+  }
+
+  getMinimumWarrantyAmount() {
+    this.minimumWarrantyAmount = this.remoteConfigService.getString('minimumWarrantyAmount');
+    this.addValidator(this.minimumWarrantyAmount);
+  }
+
+  addValidator(amount: string) {
+    this.form.get('amount').addValidators(CustomValidators.greaterOrEqualThan(parseInt(amount)));
   }
 }

@@ -86,7 +86,7 @@ describe('KYCStatusCardComponent', () => {
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.debugElement.query(By.css('div.ksc')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/fiat-ramps/user-register');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/fiat-ramps/user-basic');
   });
 
   it('should disabled card if disabledcard var is true', async () => {
