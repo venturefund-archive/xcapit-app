@@ -40,6 +40,7 @@ import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw
 import { FakeEthersProvider } from 'src/app/shared/models/ethers-providers/fake/fake-ethers-provider';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
 import { rawMATICData, rawTokensData, rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawCashOut } from '../shared-ramps/fixtures/raw-operation-data';
 
 describe('KriptonOperationDetailPage', () => {
   let component: KriptonOperationDetailPage;
@@ -123,6 +124,9 @@ describe('KriptonOperationDetailPage', () => {
       network: 'MATIC',
       payment_method_id: 1,
       voucher: null,
+      kripton_wallet: '0xKriptonTestWallet',
+      fiat_fee: 1,
+      external_code: 'anExternalCode'
     };
 
     fakeRoute = new FakeActivatedRoute();
@@ -167,7 +171,7 @@ describe('KriptonOperationDetailPage', () => {
       getProvider: rawProvidersData[1],
       getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
       getUserBank: of(userBankData),
-      getAddressByVoucher: of({ data: { to: '' } }),
+      getAddressByVoucher: of({ data: { to: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F' } }),
     });
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
@@ -374,6 +378,19 @@ describe('KriptonOperationDetailPage', () => {
       animated: false,
     });
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
+    
+  });
+
+  it('should set properly cash out operation storage data', async () => {
+    const incompleteOperation: FiatRampOperation = { ...cashOutOperation, status: 'wait' };
+    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([incompleteOperation]));
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-operation-status-alert')).triggerEventHandler('navigateBy');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(storageOperationServiceSpy.updateData).toHaveBeenCalledOnceWith(rawCashOut)
   });
 
   it('should hide information icon when operation is complete', async () => {

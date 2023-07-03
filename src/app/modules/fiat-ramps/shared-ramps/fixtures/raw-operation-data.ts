@@ -45,3 +45,23 @@ export const rawCashOutOperationData: OperationDataInterface = {
   payment_method_id: 902,
   operation_id: 898,
 };
+export const rawCashOut: OperationDataInterface = {
+  country: 'Argentina',
+  type: 'cash-out',
+  amount_in: 100,
+  amount_out: 500,
+  currency_in: 'USDC',
+  currency_out: 'ARS',
+  price_in: '',
+  price_out: 5.01,
+  wallet: '',
+  kripton_wallet: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
+  provider: '1',
+  network: 'MATIC',
+  payment_method_id: 1,
+  operation_id: 678,
+  created_at: new Date('2021-02-27T10:02:49.719Z'),
+  providerFee: 0.1996007984031936,
+  fee: 0.000001,
+};
+
