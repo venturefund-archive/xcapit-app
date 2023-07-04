@@ -34,6 +34,6 @@ describe('WhatsappSupportComponent', () => {
 
   it('should open whatsapp when link is clicked', async () => {
     fixture.debugElement.query(By.css('ion-button[name="whatsApp"]')).nativeElement.click();
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://wa.link/j5hjhj' });
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://wa.link/ixtbgp' });
   });
 });
