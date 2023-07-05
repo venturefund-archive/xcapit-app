@@ -38,4 +38,8 @@ export class PendingProposal {
   private _namespaces(): ValidatedNamespaces {
     return new Namespaces(this._rawProposal.params.requiredNamespaces, this._aWallet).value();
   }
+
+  public raw(): Proposal {
+    return this._rawProposal;
+  }
 }

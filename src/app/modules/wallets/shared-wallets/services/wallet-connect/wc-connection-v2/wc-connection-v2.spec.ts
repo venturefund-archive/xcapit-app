@@ -16,6 +16,10 @@ import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fi
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/wc-uri.interface';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
 import { FakeWallet } from '../../../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WCStorageService } from '../wc-storage/wc-storage.service';
+import { JSONProposal, rawStoredProposal } from '../../../models/fixtures/raw-proposal';
 
 describe('WCConnectionV2', () => {
   let signClientInjectable: jasmine.SpyObj<SignClientInjectable>;
@@ -29,6 +33,9 @@ describe('WCConnectionV2', () => {
   let wcRequestInjectableSpy: jasmine.SpyObj<SessionRequestInjectable>;
   let testWCUri: WCUri;
   let fakeWallet: FakeWallet;
+  let WCStorageServiceSpy: jasmine.SpyObj<WCStorageService>;
+  let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let triggerPairEvent: () => void;
 
   beforeEach(() => {
@@ -69,6 +76,29 @@ describe('WCConnectionV2', () => {
 
     testWCUri = new DefaultWCUri(rawWalletConnectUriV1);
 
+    WCStorageServiceSpy = jasmine.createSpyObj('WCStorageService', {
+      get: Promise.resolve(),
+      set: Promise.resolve(),
+      remove: Promise.resolve(),
+    });
+
+    WCStorageServiceSpy.get.withArgs('current_proposal').and.resolveTo(rawStoredProposal);
+    WCStorageServiceSpy.get.withArgs('proposal_wallet_chain_id').and.resolveTo('137');
+
+    fakeWallet = new FakeWallet();
+
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(fakeWallet) },
+    });
+
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: {
+        oneById: () => {
+          return new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)).oneByName('MATIC');
+        },
+      },
+    });
+
     triggerPairEvent = () => {
       signClientV2Spy.on.and.callFake((eventName, callback) => {
         if (eventName === 'session_proposal') {
@@ -83,7 +113,10 @@ describe('WCConnectionV2', () => {
       navControllerSpy,
       translateServiceSpy,
       toastServiceSpy,
-      wcRequestInjectableSpy
+      wcRequestInjectableSpy,
+      walletsFactorySpy,
+      blockchainsFactorySpy,
+      WCStorageServiceSpy
     );
 
     fakeWallet = new FakeWallet(
@@ -124,4 +157,12 @@ describe('WCConnectionV2', () => {
     wcConnectionV2.closeSession();
     expect(wcConnectionV2.connected()).toBeFalse();
   });
+
+  it('should be able to restore pairing if it was already paired and topic is the same', async () => {
+    const pairingTopic = JSONProposal.params.pairingTopic;
+    await wcConnectionV2.pairTo(testWCUri, fakeWallet, pairingTopic);
+    expect(blockchainsFactorySpy.create).toHaveBeenCalledTimes(1);
+    expect(walletsFactorySpy.create).toHaveBeenCalledTimes(1);
+    expect(wcConnectionV2.proposal()).toBeTruthy();
+  })
 });

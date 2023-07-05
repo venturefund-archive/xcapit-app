@@ -306,7 +306,7 @@ describe('NewConnectionPage', () => {
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
 
-      expect(wcConnectionV2.pairTo).toHaveBeenCalledOnceWith(wcUri, fakeWallet);
+      expect(wcConnectionV2.pairTo).toHaveBeenCalledOnceWith(wcUri, fakeWallet, '2317188f59a2c8068100b0177bf03ec6da490d0cd829f10ca7eb099785fed709');
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/wallet-connect/connection-detail']);
     });
 
