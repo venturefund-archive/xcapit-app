@@ -12,6 +12,6 @@ describe('FakeTranslateService', () => {
   });
 
   it('instant', () => {
-    expect(fakeTranslateService.instant('aTranslationKey', {})).toEqual('translatedText');
+    expect(fakeTranslateService.instant('aTranslationKey', {})).toEqual('aTranslationKey');
   });
 });

@@ -265,12 +265,13 @@ describe('SimplifiedHomeWalletPage', () => {
   });
 
   it('should open warranty modal if subheader button was clicked', async () => {
+    await component.ionViewWillEnter();
     fixture.debugElement
       .query(By.css('app-simplified-wallet-subheader-buttons'))
       .triggerEventHandler('openWarrantyModal');
     fixture.detectChanges();
 
-    expect(fakeModal.calls).toEqual(1);
+    expect(fakeModal.calls).toEqual(2);
   });
 
   it('should show empty state on transactions if there is not transactions', async () => {

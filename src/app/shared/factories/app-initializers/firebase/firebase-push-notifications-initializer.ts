@@ -3,7 +3,7 @@ import { NotificationsService } from 'src/app/modules/notifications/shared-notif
 export function firebasePushNotificationsInitializer(notificationsService: NotificationsService) {
   return () => {
     try {
-      notificationsService.getInstance().init(); // TODO: Injectar notificationsService y arreglar el null
+      notificationsService.getInstance().init();
     } catch (error) {
       console.error(error);
     }
