@@ -23,8 +23,8 @@ import { TrackService } from '../../services/track/track.service';
         </div>
         <div class="main__body">
           <div class="main__body__content">
-            <div class="main__body__content__img">
-              <img src="assets/img/warranty/naranjax.svg" />
+            <div class="main__body__content__img" *ngIf="this.logo">
+              <img [src]="this.logo" />
             </div>
             <div class="ux-text-base main__body__content__header">
               <ion-text *ngIf="this.highlightedHeader" class="highlighted">{{ this.highlightedHeader }}</ion-text>
@@ -60,7 +60,7 @@ import { TrackService } from '../../services/track/track.service';
                   class="ux_button main__actions__button ion-no-margin"
                   appTrackClick
                   name="secondButton"
-                  [ngClass]="{buyDeposit: this.isBuyOrDeposit}"
+                  [ngClass]="{ buyDeposit: this.isBuyOrDeposit }"
                   size="large"
                   color="secondary"
                   expand="block"
@@ -79,6 +79,7 @@ import { TrackService } from '../../services/track/track.service';
   styleUrls: ['./general-modal-with-two-buttons.component.scss'],
 })
 export class GeneralModalWithTwoButtonsComponent {
+  logo: string;
   highlightedHeader: string;
   header: string;
   information: string;
@@ -103,7 +104,7 @@ export class GeneralModalWithTwoButtonsComponent {
   }
 
   async navigateToMoreInfo() {
-    await this.browserService.open({ url: LINKS.naranjax });
+    await this.browserService.open({ url: this.link });
   }
 
   actionFirstButton() {

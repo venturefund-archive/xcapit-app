@@ -1,0 +1,35 @@
+:host {
+  .wtc {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 10px 16px;
+    margin-bottom: 8px;
+    border: none;
+    box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+    border-radius: 8px;
+
+    &__icon {
+      img {
+        height: 36px;
+        max-width: none;
+      }
+    }
+
+    &__content {
+      margin-left: 16px;
+
+      &__description {
+        color: var(--ion-color-neutral80) !important;
+      }
+    }
+
+    &__chevron {
+      margin-left: auto;
+
+      ion-icon {
+        font-size: 24px;
+      }
+    }
+  }
+}

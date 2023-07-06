@@ -26,6 +26,9 @@ import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
 import { LINKS } from 'src/app/config/static-links';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { Lender } from '../../../shared/models/lender/lender.interface';
+import { NaranjaXLender } from '../../../shared/models/lender/naranjax/naranjax-lender';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-simplified-home-wallet',
@@ -165,6 +168,8 @@ export class SimplifiedHomeWalletPage {
   private wallet: Wallet;
   private _pageUrl: string;
 
+  private lender: Lender;
+
   constructor(
     private localStorageService: LocalStorageService,
     private blockchainsFactory: BlockchainsFactory,
@@ -179,10 +184,12 @@ export class SimplifiedHomeWalletPage {
     private kriptonStorage: KriptonStorageService,
     private activatedRoute: ActivatedRoute,
     private modalFactoryInjectable: ModalFactoryInjectable,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private translate: TranslateService
   ) {}
 
   async ionViewWillEnter() {
+    this.lender = new NaranjaXLender(this.translate);
     this._setPageUrl();
     this.subscribeOnHideFunds();
     this.setBlockchain();
@@ -313,10 +320,11 @@ export class SimplifiedHomeWalletPage {
     await this.modalFactoryInjectable
       .create()
       .oneBy(Modals.GENERAL_WITH_TWO_BUTTONS, [
+        this.lender.logo(),
         'warranties.modal_info.highlightedHeader',
         'warranties.modal_info.header',
         'warranties.modal_info.information',
-        LINKS.naranjax,
+        this.lender.url(),
         'warranties.modal_info.firstButton',
         'ux_warranty_start',
         '/warranties/send-warranty',
@@ -332,10 +340,11 @@ export class SimplifiedHomeWalletPage {
     await this.modalFactoryInjectable
       .create()
       .oneBy(Modals.GENERAL_WITH_TWO_BUTTONS, [
+        this.lender.logo(),
         '',
         'warranties.modal_info_to_buy_or_deposit.header',
         'warranties.modal_info.information',
-        LINKS.naranjax,
+        this.lender.url(),
         'warranties.modal_info_to_buy_or_deposit.firstButton',
         'ux_warranty_buy',
         '/fiat-ramps/purchases',
