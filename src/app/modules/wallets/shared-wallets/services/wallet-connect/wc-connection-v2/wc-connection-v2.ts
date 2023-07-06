@@ -13,6 +13,10 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { PendingProposal } from '../../../models/wallet-connect/pending-proposal/pending-proposal';
 import { SessionRequest } from '../../../../../../shared/models/wallet-connect/session-request/session-request';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/wc-uri.interface';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WCStorageService } from '../wc-storage/wc-storage.service';
+import { ExistingProposal } from '../../../models/wallet-connect/existing-proposal/existing-proposal';
 
 @Injectable({ providedIn: 'root' })
 export class WCConnectionV2 {
@@ -25,11 +29,23 @@ export class WCConnectionV2 {
     private navController: NavController,
     private translate: TranslateService,
     private toastService: ToastService,
-    private sessionRequestInjectable: SessionRequestInjectable
+    private sessionRequestInjectable: SessionRequestInjectable,
+    private wallets: WalletsFactory,
+    private blockchains: BlockchainsFactory,
+    private WcStorageService: WCStorageService,
   ) {}
 
-  public async pairTo(uri: WCUri, wallet: Wallet) {
-    this._proposal = await new PairTo(uri, wallet, await this.signClient()).value();
+  public async pairTo(uri: WCUri, wallet: Wallet, pairingTopic?: string) {
+    const existingProposal = new ExistingProposal(this.WcStorageService);
+    const {proposal, chainId} = await existingProposal.value()
+    if (await existingProposal.exists() && proposal.params.pairingTopic === pairingTopic) {
+      const blockchain = this.blockchains.create().oneById(chainId);
+      const wallet = await this.wallets.create().oneBy(blockchain);
+      this._proposal = new PendingProposal(proposal, wallet, await this.signClient());
+    } else {
+      this._proposal = await new PairTo(uri, wallet, await this.signClient()).value();
+      this.setWCStorageKeys(this._proposal.wallet().blockchain().id(), JSON.stringify(this._proposal.raw()));
+    }
   }
 
   public proposal(): PendingProposal {
@@ -52,6 +68,7 @@ export class WCConnectionV2 {
   public closeSession() {
     this._session.disconnect();
     this._connected = false;
+    this.removeStoredProposalKeys();
   }
 
   private signClient(): Promise<SignClientV2> {
@@ -87,5 +104,15 @@ export class WCConnectionV2 {
     this.toastService.showErrorToast({
       message: this.translate.instant(text),
     });
+  }
+
+  private async removeStoredProposalKeys() {
+    await this.WcStorageService.remove('proposal_wallet_chain_id');
+    await this.WcStorageService.remove('current_proposal');
+  }
+
+  private async setWCStorageKeys(proposal, chainId) {
+    await this.WcStorageService.set('proposal_wallet_chain_id', chainId);
+    await this.WcStorageService.set('current_proposal', proposal);
   }
 }
