@@ -174,8 +174,7 @@ import { KriptonWallet } from '../shared-ramps/models/kripton-wallet/kripton-wal
               <div class="kod__card-container__card__fee__container__content">
                 <ion-skeleton-text *ngIf="!this.fee" animated></ion-skeleton-text>
                 <ion-text *ngIf="this.fee" class="ux-font-text-base">
-                  {{ this.fee | formattedAmount }}
-                  {{ 'MATIC' }}
+                  {{ this.fee | formattedAmount }} {{ this.nativeToken.symbol() }}
                 </ion-text>
               </div>
             </div>
