@@ -78,4 +78,8 @@ export class CapacitorNotificationsService implements Notification {
   clearRegistration() {
     this._registered = false;
   }
+
+  toggleUserNotifications(value: boolean) {
+    this.apiDevicesService.togglePushNotifications(value);
+  }
 }

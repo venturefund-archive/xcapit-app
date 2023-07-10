@@ -24,4 +24,6 @@ export class NullNotificationsService implements Notification {
   subscribeTo(aTopic: string): void {}
 
   unsubscribeFrom(aTopic: string): void {}
+
+  toggleUserNotifications (active: boolean): void {}
 }

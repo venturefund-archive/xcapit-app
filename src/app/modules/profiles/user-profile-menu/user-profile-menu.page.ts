@@ -244,6 +244,7 @@ export class UserProfileMenuPage {
     value
       ? this.pushNotificationsService().subscribeTo(this._aTopic)
       : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
+    this.pushNotificationsService().toggleUserNotifications(value);
   }
 
   async walletConnectStatus() {

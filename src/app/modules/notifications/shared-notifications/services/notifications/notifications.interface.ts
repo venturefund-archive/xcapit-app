@@ -6,4 +6,5 @@ export interface Notification {
   init: () => void;
   register: () => void;
   clearRegistration: () => void;
+  toggleUserNotifications: (active: boolean) => void;
 }
