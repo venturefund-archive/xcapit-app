@@ -278,10 +278,13 @@ describe('OperationsNewPage', () => {
     component.form.patchValue({ cryptoAmount: 1 });
     tick();
     fixture.detectChanges();
+
     expect(component.fiatFee.value).toEqual(5);
+
     priceSubject.next(35);
     tick();
     fixture.detectChanges();
+
     expect(component.fiatFee.value).toEqual(17.5);
   }));
 
