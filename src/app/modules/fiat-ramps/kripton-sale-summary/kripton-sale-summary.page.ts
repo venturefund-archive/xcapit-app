@@ -81,7 +81,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             </div>
             <div class="kss__card-container__card__transaction-fee__description">
               <ion-text class="ux-font-text-base"
-                >{{ this.data.fee | formattedAmount }} {{ this.nativeToken.network }}</ion-text
+                >{{ this.data.fee | formattedAmount }} {{ this.nativeToken.value }}</ion-text
               >
             </div>
           </div>
