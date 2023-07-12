@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Notification } from '../notifications/notifications.interface';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +26,7 @@ export class NullNotificationsService implements Notification {
 
   unsubscribeFrom(aTopic: string): void {}
 
-  toggleUserNotifications (active: boolean): void {}
+  toggleUserNotifications (active: boolean): Observable<void> {
+    return of();
+  }
 }

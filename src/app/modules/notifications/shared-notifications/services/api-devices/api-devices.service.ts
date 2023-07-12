@@ -15,7 +15,7 @@ export class ApiDevicesService {
     return this.http.post(`${environment.apiUrl}/${this.entity}/fcm`, { fcm_registration_id: fcmToken }, '', false);
   }
 
-  togglePushNotifications(value: boolean): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/notifications/toggle`, { active: value }, undefined, false);
+  togglePushNotifications(active: boolean): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/notifications/toggle/${+active}/`, undefined, undefined, false);
   }
 }

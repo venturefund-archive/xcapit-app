@@ -12,6 +12,7 @@ import { FCM } from '@capacitor-community/fcm';
 import { ApiDevicesService } from '../api-devices/api-devices.service';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { FakePushNotifications } from '../../models/fake-push-notifications/fake-push-notifications';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -79,7 +80,7 @@ export class CapacitorNotificationsService implements Notification {
     this._registered = false;
   }
 
-  toggleUserNotifications(value: boolean) {
-    this.apiDevicesService.togglePushNotifications(value);
+  toggleUserNotifications(value: boolean): Observable<any> {
+    return this.apiDevicesService.togglePushNotifications(value);
   }
 }

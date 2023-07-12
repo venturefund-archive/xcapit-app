@@ -27,4 +27,10 @@ describe('ApiDevicesService', () => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('should be call post on http when togglePushNotifications', () => {
+    service.togglePushNotifications(true).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
 });

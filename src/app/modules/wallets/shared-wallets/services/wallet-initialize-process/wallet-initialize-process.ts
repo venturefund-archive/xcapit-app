@@ -20,7 +20,7 @@ import { SimplifiedWallet } from '../../models/simplified-wallet/simplified-wall
 })
 export class WalletInitializeProcess {
   private readonly _pushNotificacionTopic = 'app';
-  private readonly _pushNotificationStorageKey = '_enabledPushNotifications';
+  private readonly _pushNotificationStorageKey = 'enabledPushNotifications';
   private warrantyWallet: boolean;
   ethersWallet: typeof Wallet | FakeEthersWallet = Wallet;
   constructor(

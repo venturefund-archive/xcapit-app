@@ -239,12 +239,12 @@ export class UserProfileMenuPage {
     return this.notificationsService.getInstance();
   }
 
-  toggle(value: boolean) {
+  async toggle(value: boolean) {
     this.ionicStorageService.set(this._aKey, value);
     value
       ? this.pushNotificationsService().subscribeTo(this._aTopic)
       : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
-    this.pushNotificationsService().toggleUserNotifications(value);
+    await this.pushNotificationsService().toggleUserNotifications(value).toPromise();
   }
 
   async walletConnectStatus() {
