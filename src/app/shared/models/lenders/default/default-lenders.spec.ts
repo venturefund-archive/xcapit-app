@@ -5,7 +5,7 @@ import { FakeTranslateService } from '../../translate-service/fake/fake-translat
 import { Lenders } from '../lenders.interface';
 import { DefaultLenders } from './default-lenders';
 import { FakeRemoteConfigService } from '../../../services/remote-config/fake/fake-remote-config-service';
-import { NullLenderX } from '../../lender/null/null-lender-x';
+import { NullLender } from '../../lender/null/null-lender';
 
 describe('DefaultLenders', () => {
   let lenders: Lenders;
@@ -28,6 +28,6 @@ describe('DefaultLenders', () => {
   });
 
   it('oneByName when null lender', () => {
-    expect(lenders.oneByName('nonExist')).toEqual(new NullLenderX());
+    expect(lenders.oneByName('nonExist')).toEqual(new NullLender());
   });
 });

@@ -8,7 +8,7 @@ import { FakeFeatureFlagDirective } from '../../../../testing/fakes/feature-flag
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeLender } from 'src/app/shared/models/lender/fake/fake-lender';
 import { ActiveLenderInjectable } from '../../../shared/models/active-lender/injectable/active-lender.injectable';
-import { NullLenderX } from '../../../shared/models/lender/null/null-lender-x';
+import { NullLender } from '../../../shared/models/lender/null/null-lender';
 import { ActiveLender } from '../../../shared/models/active-lender/active-lender';
 
 describe('SelectWalletTypePage', () => {
@@ -61,7 +61,7 @@ describe('SelectWalletTypePage', () => {
 
   it('should not show lender card if active lender does not exist', async () => {
     activeLenderInjectableSpy.create.and.returnValue({
-      value: () => Promise.resolve(new NullLenderX()),
+      value: () => Promise.resolve(new NullLender()),
     } as unknown as ActiveLender);
     await component.ionViewWillEnter();
     fixture.detectChanges();

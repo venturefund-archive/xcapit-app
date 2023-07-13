@@ -4,7 +4,7 @@ import { DefaultLender } from '../../lender/default/default-lender';
 import { Lender } from '../../lender/lender.interface';
 import { LendersDataRepo } from '../data-repo/lenders-data-repo';
 import { Lenders } from '../lenders.interface';
-import { NullLenderX } from '../../lender/null/null-lender-x';
+import { NullLender } from '../../lender/null/null-lender';
 
 export class DefaultLenders implements Lenders {
   constructor(
@@ -15,6 +15,6 @@ export class DefaultLenders implements Lenders {
   public oneByName(aName: string): Lender {
     return this._aDataRepo.oneByName(aName) ?
       new DefaultLender(this._aDataRepo.oneByName(aName), this._aTranslateService) :
-      new NullLenderX();
+      new NullLender();
   }
 }
