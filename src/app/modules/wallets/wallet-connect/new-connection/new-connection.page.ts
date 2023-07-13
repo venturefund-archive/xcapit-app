@@ -290,9 +290,10 @@ export class NewConnectionPage {
 
   public async initWalletConnectV2() {
     try {
+      const pairingTopic = this.form.value.uri.split('wc:')[1].split('@')[0]
       const blockchain = this.blockchains.create().oneById(this.selectedWallet.chainId.toString());
       const wallet = await this.wallets.create().oneBy(blockchain);
-      await this.wcConnectionV2.pairTo(this.wcService.uri(), wallet);
+      await this.wcConnectionV2.pairTo(this.wcService.uri(), wallet, pairingTopic);
       this.navController.navigateForward(['/wallets/wallet-connect/connection-detail']);
       this.form.patchValue({ wallet: null, uri: '' });
     } catch (error) {

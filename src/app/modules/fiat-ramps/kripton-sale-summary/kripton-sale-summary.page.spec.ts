@@ -23,6 +23,9 @@ import { BankAccount } from '../shared-ramps/types/bank-account.type';
 import { EnvService } from 'src/app/shared/services/env/env.service';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { rawCashOutOperationData } from '../shared-ramps/fixtures/raw-operation-data';
+import { FakeModal } from 'src/app/shared/models/modal/fake/fake-modal';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { FakeModalFactory } from 'src/app/shared/models/modal/factory/fake/fake-modal-factory';
 
 describe('KriptonSaleSummaryPage', () => {
   let component: KriptonSaleSummaryPage;
@@ -38,6 +41,8 @@ describe('KriptonSaleSummaryPage', () => {
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
   let envServiceSpy: jasmine.SpyObj<EnvService>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
+  let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
+  let fakeModal: FakeModal;
 
   const userBankData: BankAccount = {
     id: 6,
@@ -97,6 +102,12 @@ describe('KriptonSaleSummaryPage', () => {
       byKey: { MATIC: '0xaWallet' },
     });
 
+    fakeModal = new FakeModal();
+
+    modalFactoryInjectableSpy = jasmine.createSpyObj('ModalFactoryInjectable', {
+      create: new FakeModalFactory(fakeModal),
+    });
+
     TestBed.configureTestingModule({
       declarations: [KriptonSaleSummaryPage, FormattedAmountPipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -112,6 +123,7 @@ describe('KriptonSaleSummaryPage', () => {
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
         { provide: EnvService, useValue: envServiceSpy },
         { provide: LoadingService, useValue: loadingServiceSpy },
+        { provide: ModalFactoryInjectable, useValue: modalFactoryInjectableSpy },
       ],
     }).compileComponents();
 
@@ -183,9 +195,9 @@ describe('KriptonSaleSummaryPage', () => {
     fixture.detectChanges();
 
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(0);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(fakeModal.calls).toEqual(1);
   });
 
   it('should not send if user can not afford transaction', async () => {
@@ -199,9 +211,9 @@ describe('KriptonSaleSummaryPage', () => {
     fixture.detectChanges();
 
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(0);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
+    expect(fakeModal.calls).toEqual(1);
   });
 
   it('should not send if user close password modal', async () => {

@@ -88,6 +88,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
                     <ion-input
                       appNumberInput
                       appCommaToDot
+                      (ionInput)="this.nextButtonDisable(true)"
                       [debounce]="1500"
                       [class.invalid]="
                         (!this.form.controls.fiatAmount.valid || !this.form.controls.cryptoAmount.valid) &&
@@ -108,6 +109,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
                     <ion-input
                       appNumberInput
                       appCommaToDot
+                      (ionInput)="this.nextButtonDisable(true)"
                       [debounce]="1500"
                       [class.invalid]="
                         (!this.form.controls.fiatAmount.valid || !this.form.controls.cryptoAmount.valid) &&
@@ -152,7 +154,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
                         (!this.form.controls.fiatAmount.valid ? 'cash-in' : 'cash-out')
                         | translate
                           : {
-                              amount: this.minimumFiatAmount | formattedAmount : 10 : 2,
+                              amount: this.minimumFiatAmount | formattedAmount: 10:2,
                               currency: this.fiatCurrency | uppercase
                             }
                     }}
@@ -197,7 +199,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
             name="ux_buy_kripton_continue"
             color="secondary"
             size="large"
-            [disabled]="!this.form.valid"
+            [disabled]="!this.form.valid || this.nextButtonDisabled"
           >
             {{ 'fiat_ramps.new_operation.next_button' | translate }}
           </ion-button>
@@ -208,6 +210,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
   styleUrls: ['./operations-new.page.scss'],
 })
 export class OperationsNewPage implements AfterViewInit {
+  nextButtonDisabled = false;
   anchors: any;
   provider: FiatRampProvider;
   providerTokens: Coin[];
@@ -252,6 +255,10 @@ export class OperationsNewPage implements AfterViewInit {
     this.anchors.forEach((anchor) => {
       anchor.addEventListener('click', this.handleAnchorClick.bind(this));
     });
+  }
+
+  nextButtonDisable(aBoolValue: boolean) {
+    this.nextButtonDisabled = aBoolValue;
   }
 
   handleAnchorClick(event: Event) {
@@ -312,10 +319,12 @@ export class OperationsNewPage implements AfterViewInit {
       { emitEvent: false, onlySelf: true }
     );
     await this.getUpdatedValues();
+    this.nextButtonDisable(false);
   }
 
   private async fiatAmountChange(value: any) {
     await this.getUpdatedValues(parseFloat(value));
+    this.nextButtonDisable(false);
   }
 
   private addDefaultValidators() {
@@ -349,6 +358,7 @@ export class OperationsNewPage implements AfterViewInit {
   private _getUserEmail() {
     return this.kriptonStorageService.get('email');
   }
+
   private async getMinimumFiatAmount() {
     const data = { email: await this._getUserEmail() };
     const response = await this.fiatRampsService
@@ -368,19 +378,21 @@ export class OperationsNewPage implements AfterViewInit {
 
   async getUpdatedValues(fiatAmount?: number) {
     const fiatAmountAux = fiatAmount ? fiatAmount : this.form.value.fiatAmount;
-    const kriptonFeeResponse = await this.fiatRampsService
-      .getKriptonFee(this.fiatCurrency, fiatAmountAux, this.selectedCurrency.value, this._network(), 'cash-in')
-      .toPromise();
-    this.fee.value = parseFloat(kriptonFeeResponse.data.costs);
-    this.form.patchValue(
-      { fiatAmount: parseFloat(kriptonFeeResponse.data.amount_in) },
-      { emitEvent: false, onlySelf: true }
-    );
-    this.form.patchValue(
-      { cryptoAmount: parseFloat(kriptonFeeResponse.data.amount_out) },
-      { emitEvent: false, onlySelf: true }
-    );
-    this.setFiatFee(this.fee);
+    if (fiatAmountAux) {
+      const kriptonFeeResponse = await this.fiatRampsService
+        .getKriptonFee(this.fiatCurrency, fiatAmountAux, this.selectedCurrency.value, this._network(), 'cash-in')
+        .toPromise();
+      this.fee.value = parseFloat(kriptonFeeResponse.data.costs);
+      this.form.patchValue(
+        { fiatAmount: parseFloat(kriptonFeeResponse.data.amount_in) },
+        { emitEvent: false, onlySelf: true }
+      );
+      this.form.patchValue(
+        { cryptoAmount: parseFloat(kriptonFeeResponse.data.amount_out) },
+        { emitEvent: false, onlySelf: true }
+      );
+      this.setFiatFee(this.fee);
+    }
   }
 
   setCountry() {
