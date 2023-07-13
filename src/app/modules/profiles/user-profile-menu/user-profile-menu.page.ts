@@ -145,7 +145,7 @@ export class UserProfileMenuPage {
     warrantyWallet: [[]],
   });
   private readonly _aTopic = 'app';
-  private readonly _aKey = 'enabledPushNotifications';
+  private readonly _aKey = '_enabledPushNotifications';
   leave$ = new Subject<void>();
   appUpdate = AppUpdate;
   actualVersion: string;

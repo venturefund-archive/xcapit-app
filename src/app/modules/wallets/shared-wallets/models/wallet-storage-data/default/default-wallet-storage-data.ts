@@ -19,9 +19,9 @@ export class DefaultWalletStorageData implements WalletStorageData {
     await this._aStorage.set('tokens_structure_migrated', true);
   }
   private async _saveEnabledPushNotifications(): Promise<void> {
-    if (!(await this._aStorage.get('enabledPushNotifications'))) {
+    if (!(await this._aStorage.get('_enabledPushNotifications'))) {
       const profileData = await this._aProfileService.getUserData().toPromise();
-      await this._aStorage.set('enabledPushNotifications', profileData.notifications_enabled);
+      await this._aStorage.set('_enabledPushNotifications', profileData.notifications_enabled);
     }
   }
   private async _saveLoggedIn(): Promise<void> {

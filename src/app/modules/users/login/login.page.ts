@@ -81,7 +81,7 @@ export class LoginPage implements OnInit {
   alreadyOnboarded: boolean;
   loading: boolean;
   private readonly _aTopic = 'app';
-  private readonly _aKey = 'enabledPushNotifications';
+  private readonly _aKey = '_enabledPushNotifications';
 
   constructor(
     public submitButtonService: SubmitButtonService,

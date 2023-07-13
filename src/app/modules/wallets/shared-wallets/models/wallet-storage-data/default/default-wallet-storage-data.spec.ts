@@ -23,7 +23,7 @@ describe('DefaultWalletStorageData', () => {
     await defaultWalletStorageData.save();
     expect(await storage.get('userAcceptedToS')).toEqual(true);
     expect(await storage.get('tokens_structure_migrated')).toEqual(true);
-    expect(await storage.get('enabledPushNotifications')).toEqual(true);
+    expect(await storage.get('_enabledPushNotifications')).toEqual(true);
     expect(await storage.get('loggedIn')).toEqual(true);
     expect(apiProfilesServiceSpy.getUserData).toHaveBeenCalledTimes(1);
   });

@@ -83,7 +83,7 @@ describe('LoginNewPage', () => {
       set: Promise.resolve(),
     });
     ionicStorageServiceSpy.get.withArgs('loginToken').and.resolveTo(aHashedPassword);
-    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(true);
+    ionicStorageServiceSpy.get.withArgs('_enabledPushNotifications').and.resolveTo(true);
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
@@ -182,11 +182,11 @@ describe('LoginNewPage', () => {
   }));
 
   it('should enable push notifications by default', fakeAsync(() => {
-    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(null);
+    ionicStorageServiceSpy.get.withArgs('_enabledPushNotifications').and.resolveTo(null);
     component.ionViewWillEnter();
     fixture.detectChanges();
     tick();
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('enabledPushNotifications', true);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('_enabledPushNotifications', true);
   }));
 
   it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync(() => {
@@ -201,7 +201,7 @@ describe('LoginNewPage', () => {
 
   it('should init push notifications and unsubscribe to topic when password is ok and push notifications previously disabled', fakeAsync(() => {
     component.ionViewWillEnter();
-    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(false);
+    ionicStorageServiceSpy.get.withArgs('_enabledPushNotifications').and.resolveTo(false);
     component.form.patchValue({ password: aPassword });
     component.handleSubmit(false);
     fixture.detectChanges();
