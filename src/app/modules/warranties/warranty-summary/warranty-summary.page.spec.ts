@@ -19,6 +19,10 @@ import { WarrantyDataService } from '../shared-warranties/services/send-warranty
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { WarrantySummaryPage } from './warranty-summary.page';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { FakeLender } from 'src/app/shared/models/lender/fake/fake-lender';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { ActiveLender } from '../../../shared/models/active-lender/active-lender';
+import { rawLender } from '../../../shared/models/lender/raw-lender.fixture';
 
 describe('WarrantySummaryPage', () => {
   let component: WarrantySummaryPage;
@@ -31,10 +35,11 @@ describe('WarrantySummaryPage', () => {
   let warrantyServiceSpy: jasmine.SpyObj<WarrantiesService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
-  let defiInvesmentServiceSpy: jasmine.SpyObj<DefiInvestmentsService>;
+  let defiInvestmentServiceSpy: jasmine.SpyObj<DefiInvestmentsService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
+  let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
 
   const aPassword = new Password('aPassword');
   const summaryData: SummaryWarrantyData = {
@@ -54,7 +59,15 @@ describe('WarrantySummaryPage', () => {
     transaction_hash: 'someHash',
     user_dni: 1234567,
   };
+
+  const _confirmButton = () =>
+    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement;
+
   beforeEach(waitForAsync(() => {
+    activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
+      create: { value: () => new FakeLender() },
+    });
+
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
@@ -68,7 +81,7 @@ describe('WarrantySummaryPage', () => {
       canAffordSendFee: Promise.resolve(true),
     });
 
-    defiInvesmentServiceSpy = jasmine.createSpyObj('DefiInvesmentService', {
+    defiInvestmentServiceSpy = jasmine.createSpyObj('DefiInvesmentService', {
       fundWallet: of(),
     });
 
@@ -88,6 +101,7 @@ describe('WarrantySummaryPage', () => {
 
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
+      get: Promise.resolve(),
     });
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getFeatureFlag: true });
@@ -103,17 +117,17 @@ describe('WarrantySummaryPage', () => {
         { provide: WarrantiesService, useValue: warrantyServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-        { provide: DefiInvestmentsService, useValue: defiInvesmentServiceSpy },
+        { provide: DefiInvestmentsService, useValue: defiInvestmentServiceSpy },
         { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WarrantySummaryPage);
     component = fixture.componentInstance;
-    component.warrantyAddress = '0xdd3c288e12f2bc0207b15e609519832378f588d5';
     fixture.detectChanges();
   }));
 
@@ -124,6 +138,7 @@ describe('WarrantySummaryPage', () => {
   it('should load data and calculate warranty amounts correctly on init', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
+
     expect(component.warrantyData).toEqual(summaryData);
   });
 
@@ -131,15 +146,14 @@ describe('WarrantySummaryPage', () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    _confirmButton().click();
     await fixture.whenRenderingDone();
-    await fixture.whenStable();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       aPassword.value(),
       10,
-      component.warrantyAddress,
+      new FakeLender().depositAddress(),
       summaryData.coin
     );
   });
@@ -149,9 +163,8 @@ describe('WarrantySummaryPage', () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    _confirmButton().click();
     await fixture.whenRenderingDone();
-    await fixture.whenStable();
 
     expect(component.loading).toBeFalsy();
   });
@@ -161,11 +174,10 @@ describe('WarrantySummaryPage', () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    _confirmButton().click();
     await fixture.whenRenderingDone();
-    await fixture.whenStable();
 
-    expect(defiInvesmentServiceSpy.fundWallet).toHaveBeenCalledTimes(0);
+    expect(defiInvestmentServiceSpy.fundWallet).toHaveBeenCalledTimes(0);
   });
 
   it('should fund wallet and create warranty when ux_warranty_start_confirm button is clicked and password is correct', async () => {
@@ -173,11 +185,10 @@ describe('WarrantySummaryPage', () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    _confirmButton().click();
     await fixture.whenRenderingDone();
-    await fixture.whenStable();
 
-    expect(defiInvesmentServiceSpy.fundWallet).toHaveBeenCalledTimes(1);
+    expect(defiInvestmentServiceSpy.fundWallet).toHaveBeenCalledTimes(1);
     expect(warrantyServiceSpy.createWarranty).toHaveBeenCalledOnceWith(transactionData);
   });
 
@@ -187,14 +198,13 @@ describe('WarrantySummaryPage', () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    _confirmButton().click();
     await fixture.whenRenderingDone();
-    await fixture.whenStable();
 
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       aPassword.value(),
       10,
-      component.warrantyAddress,
+      new FakeLender().depositAddress(),
       summaryData.coin
     );
     expect(spy).toHaveBeenCalledTimes(1);
@@ -202,12 +212,14 @@ describe('WarrantySummaryPage', () => {
 
   it('should show generic error modal when handleSubmit and address is invalid', async () => {
     const spy = spyOn(component, 'openErrorModal').and.callThrough();
-    component.ionViewWillEnter();
+    activeLenderInjectableSpy.create.and.returnValue({
+      value: () => Promise.resolve(new FakeLender({ ...rawLender, address: 'asdf' })),
+    } as unknown as ActiveLender);
+    await component.ionViewWillEnter();
     fixture.detectChanges();
-    component.warrantyAddress = '';
-    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+
+    _confirmButton().click();
     await fixture.whenRenderingDone();
-    await fixture.whenStable();
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -218,9 +230,9 @@ describe('WarrantySummaryPage', () => {
     walletTransactionsServiceSpy.canAffordSendTx.and.resolveTo(false);
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+
+    _confirmButton().click();
     await fixture.whenRenderingDone();
-    await fixture.whenStable();
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -228,23 +240,22 @@ describe('WarrantySummaryPage', () => {
 
   it('should track event when executing request fund faucet', async () => {
     walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.0));
-    defiInvesmentServiceSpy.fundWallet.and.returnValue(of(true));
+    defiInvestmentServiceSpy.fundWallet.and.returnValue(of(true));
     await component.ionViewWillEnter();
+    fixture.detectChanges();
 
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+    _confirmButton().click();
     await fixture.whenRenderingDone();
-    await fixture.whenStable();
-    fixture.detectChanges();
+
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(2);
   });
 
   it('should save user dni in storage when ux_warranty_start_confirm is clicked and dni is valid', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_confirm"]')).nativeElement.click();
+
+    _confirmButton().click();
     await fixture.whenRenderingDone();
-    await fixture.whenStable();
 
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('user_dni', 1234567);
   });

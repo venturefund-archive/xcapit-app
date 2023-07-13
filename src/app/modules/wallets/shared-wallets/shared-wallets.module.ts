@@ -35,6 +35,7 @@ import { WalletPasswordWithValidatorComponent } from './components/wallet-passwo
 import { ImportMethodOptionsComponent } from './components/import-method-options/import-method-options.component';
 import { SimplifiedWalletSubheaderButtonsComponent } from './components/simplified-wallet-subheader-buttons/simplified-wallet-subheader-buttons.component';
 import { ChangeProfileTypeModalComponent } from './components/change-profile-type-modal/change-profile-type-modal.component';
+import { WalletTypeCardComponent } from './components/wallet-type-card/wallet-type-card.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { ChangeProfileTypeModalComponent } from './components/change-profile-typ
     WalletPasswordWithValidatorComponent,
     ImportMethodOptionsComponent,
     SimplifiedWalletSubheaderButtonsComponent,
-    ChangeProfileTypeModalComponent
+    ChangeProfileTypeModalComponent,
+    WalletTypeCardComponent,
   ],
   imports: [SharedModule, SwiperModule],
   exports: [
@@ -109,7 +111,8 @@ import { ChangeProfileTypeModalComponent } from './components/change-profile-typ
     WalletPasswordWithValidatorComponent,
     ImportMethodOptionsComponent,
     SimplifiedWalletSubheaderButtonsComponent,
-    ChangeProfileTypeModalComponent
+    ChangeProfileTypeModalComponent,
+    WalletTypeCardComponent,
   ],
 })
 export class SharedWalletsModule {}

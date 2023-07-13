@@ -24,8 +24,9 @@ import { KriptonStorageService } from '../../fiat-ramps/shared-ramps/services/kr
 import { ActivatedRoute } from '@angular/router';
 import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
-import { LINKS } from 'src/app/config/static-links';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { Lender } from '../../../shared/models/lender/lender.interface';
+import { ActiveLenderInjectable } from '../../../shared/models/active-lender/injectable/active-lender.injectable';
 
 @Component({
   selector: 'app-simplified-home-wallet',
@@ -164,6 +165,7 @@ export class SimplifiedHomeWalletPage {
   private token: Token;
   private wallet: Wallet;
   private _pageUrl: string;
+  private lender: Lender;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -179,10 +181,12 @@ export class SimplifiedHomeWalletPage {
     private kriptonStorage: KriptonStorageService,
     private activatedRoute: ActivatedRoute,
     private modalFactoryInjectable: ModalFactoryInjectable,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private activeLenderInjectable: ActiveLenderInjectable,
   ) {}
 
   async ionViewWillEnter() {
+    await this._setLender();
     this._setPageUrl();
     this.subscribeOnHideFunds();
     this.setBlockchain();
@@ -198,6 +202,10 @@ export class SimplifiedHomeWalletPage {
 
   private _setPageUrl() {
     this._pageUrl = window.location.href;
+  }
+
+  private async _setLender() {
+    this.lender = await this.activeLenderInjectable.create().value();
   }
 
   subscribeOnHideFunds() {
@@ -313,10 +321,11 @@ export class SimplifiedHomeWalletPage {
     await this.modalFactoryInjectable
       .create()
       .oneBy(Modals.GENERAL_WITH_TWO_BUTTONS, [
+        this.lender.logo(),
         'warranties.modal_info.highlightedHeader',
         'warranties.modal_info.header',
         'warranties.modal_info.information',
-        LINKS.naranjax,
+        this.lender.url(),
         'warranties.modal_info.firstButton',
         'ux_warranty_start',
         '/warranties/send-warranty',
@@ -332,10 +341,11 @@ export class SimplifiedHomeWalletPage {
     await this.modalFactoryInjectable
       .create()
       .oneBy(Modals.GENERAL_WITH_TWO_BUTTONS, [
+        this.lender.logo(),
         '',
         'warranties.modal_info_to_buy_or_deposit.header',
         'warranties.modal_info.information',
-        LINKS.naranjax,
+        this.lender.url(),
         'warranties.modal_info_to_buy_or_deposit.firstButton',
         'ux_warranty_buy',
         '/fiat-ramps/purchases',

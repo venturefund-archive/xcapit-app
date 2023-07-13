@@ -46,6 +46,7 @@ describe('RemoveWalletPage', () => {
 
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
+      get: Promise.resolve(),
       remove: Promise.resolve(),
       clear: Promise.resolve(),
     });

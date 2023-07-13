@@ -39,6 +39,11 @@ import { ActivatedRoute } from '@angular/router';
 import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
+import { FakeLenders } from 'src/app/shared/models/lenders/fake/fake-lenders';
+import { FakeLender } from 'src/app/shared/models/lender/fake/fake-lender';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
 
 describe('SimplifiedHomeWalletPage', () => {
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
@@ -64,6 +69,8 @@ describe('SimplifiedHomeWalletPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
+  let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
+  let fakeLenders: FakeLenders;
 
   beforeEach(waitForAsync(() => {
     localStorageServiceSpy = jasmine.createSpyObj(
@@ -145,6 +152,10 @@ describe('SimplifiedHomeWalletPage', () => {
       getInstance: new NullNotificationsService(),
     });
 
+    activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
+      create: { value: () => Promise.resolve(new FakeLender())},
+    });
+
     TestBed.configureTestingModule({
       declarations: [SimplifiedHomeWalletPage, FakeTrackClickDirective, HideTextPipe, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -164,6 +175,8 @@ describe('SimplifiedHomeWalletPage', () => {
         { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
+        { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
+        { provide: IonicStorageService, useValue: new FakeAppStorage({ active_lender: 'name' }) },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -265,12 +278,13 @@ describe('SimplifiedHomeWalletPage', () => {
   });
 
   it('should open warranty modal if subheader button was clicked', async () => {
+    await component.ionViewWillEnter();
     fixture.debugElement
       .query(By.css('app-simplified-wallet-subheader-buttons'))
       .triggerEventHandler('openWarrantyModal');
     fixture.detectChanges();
 
-    expect(fakeModal.calls).toEqual(1);
+    expect(fakeModal.calls).toEqual(2);
   });
 
   it('should show empty state on transactions if there is not transactions', async () => {

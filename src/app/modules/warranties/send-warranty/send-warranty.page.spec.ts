@@ -1,5 +1,5 @@
 import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -9,8 +9,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { rawMATICData, rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
-import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
@@ -20,7 +19,9 @@ import { FakeModal } from '../../../shared/models/modal/fake/fake-modal';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
 import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { FakeLender } from 'src/app/shared/models/lender/fake/fake-lender';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { rawLender } from 'src/app/shared/models/lender/raw-lender.fixture';
 
 describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -34,14 +35,18 @@ describe('SendWarrantyPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
-  let formBuilder: UntypedFormBuilder;
-  let coinsSpy: jasmine.SpyObj<Coin>[];
   let formDataSpy: jasmine.SpyObj<any>;
   let fakeBalanceModal: FakeModal;
   let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
-  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
+  let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
 
   beforeEach(waitForAsync(() => {
+    activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
+      create: {
+        value: () => Promise.resolve(new FakeLender()),
+      },
+    });
+
     formDataSpy = jasmine.createSpyObj(
       'formData',
       {},
@@ -64,8 +69,6 @@ describe('SendWarrantyPage', () => {
       walletExist: Promise.resolve(true),
     });
 
-    formBuilder = new UntypedFormBuilder();
-
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getPrices: of({ prices: { USDC: 1 } }),
       getCoins: [rawUSDCData],
@@ -79,13 +82,11 @@ describe('SendWarrantyPage', () => {
       get: Promise.resolve(),
     });
 
-    dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
+    dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(1) });
 
     dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
       new: dynamicPriceSpy,
     });
-
-    coinsSpy = [jasmine.createSpyObj('Coin', {}, rawMATICData), jasmine.createSpyObj('Coin', {}, rawUSDCData)];
 
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
@@ -93,10 +94,6 @@ describe('SendWarrantyPage', () => {
     fakeBalanceModal = new FakeModal();
     modalFactoryInjectableSpy = jasmine.createSpyObj('ModalFactoryInjectable', {
       create: new FakeModalFactory(fakeBalanceModal),
-    });
-
-    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
-      getString: '25',
     });
 
     TestBed.configureTestingModule({
@@ -109,7 +106,8 @@ describe('SendWarrantyPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: ModalFactoryInjectable, useValue: modalFactoryInjectableSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
-        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+        { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
+        { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -185,7 +183,9 @@ describe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
     component.form.patchValue({ quoteAmount: formDataSpy.insufficient_balance.quoteAmount });
+
     expect(fakeBalanceModal.calls).toEqual(1);
+
     discardPeriodicTasks();
   }));
 
@@ -195,18 +195,16 @@ describe('SendWarrantyPage', () => {
     fixture.detectChanges();
     tick();
 
-    expect(ionicStorageServiceSpy.get).toHaveBeenCalledTimes(1);
     expect(component.form.value.dni).toEqual('12345678');
     discardPeriodicTasks();
   }));
 
-  it('should get minimum warranty amount of remote config', fakeAsync(() => {
+  it('should get minimum warranty amount of the lender', fakeAsync(() => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     tick();
 
-    expect(remoteConfigServiceSpy.getString).toHaveBeenCalledTimes(1);
-    expect(component.minimumWarrantyAmount).toEqual('25');
+    expect(component.minimumWarrantyAmount).toEqual(rawLender.minAmount.toString());
     discardPeriodicTasks();
   }));
 });

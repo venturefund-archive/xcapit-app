@@ -141,7 +141,6 @@ describe('CreatePasswordPage', () => {
       run: Promise.resolve(),
     });
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
-      clear: Promise.resolve(),
       get: Promise.resolve(false),
     });
 
@@ -189,7 +188,6 @@ describe('CreatePasswordPage', () => {
     tick();
     expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(1);
     expect(walletInitializeProcessSpy.run).toHaveBeenCalledTimes(1);
-    expect(ionicStorageServiceSpy.clear).toHaveBeenCalledTimes(1);
   }));
 
   it('should navigate to success import page when mode is import', fakeAsync(() => {

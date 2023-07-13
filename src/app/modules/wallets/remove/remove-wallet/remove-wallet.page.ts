@@ -6,6 +6,7 @@ import { WalletConnectService } from '../../shared-wallets/services/wallet-conne
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
 import { NotificationsService } from '../../../notifications/shared-notifications/services/notifications/notifications.service';
+import { ActiveLender } from 'src/app/shared/models/active-lender/active-lender';
 
 @Component({
   selector: 'app-remove-wallet',
@@ -102,6 +103,7 @@ import { NotificationsService } from '../../../notifications/shared-notification
 export class RemoveWalletPage {
   acceptTos = false;
   loading = false;
+  private _lenderName: string;
 
   constructor(
     private navController: NavController,
@@ -117,12 +119,22 @@ export class RemoveWalletPage {
     this._enableLoading();
     await this.storageService.removeWalletFromStorage();
     this.queueService.dequeueAll();
+    await this._backupLender();
     this._cleanStorage();
     await this.walletConnectService.killSession();
     await this._goToSuccessPage();
     this._disableLoading();
     await this._removeInProgressTransactions();
     this.notificationsService.getInstance().clearRegistration();
+    this._restoreLender();
+  }
+
+  private async _backupLender() {
+    this._lenderName = await new ActiveLender(this.ionicStorageService).name();
+  }
+
+  private async _restoreLender(): Promise<void> {
+    await new ActiveLender(this.ionicStorageService).save(this._lenderName);
   }
 
   private _enableLoading(): void {

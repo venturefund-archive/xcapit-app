@@ -10,32 +10,8 @@ import { FormattedAmountPipe } from '../../pipes/formatted-amount/formatted-amou
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { rawETHData, rawMATICData } from '../../../modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
-const testCoins = [
-  {
-    id: 0,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'ETH',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'http://testrpc.test/',
-    native: true,
-  },
-  {
-    id: 1,
-    name: 'LINK - Chainlink',
-    logoRoute: 'assets/img/coins/LINK.png',
-    last: false,
-    value: 'LINK',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'http://testrpc.test/',
-    contract: '0x01BE23585060835E02B77ef475b0Cc51aA1e0709',
-    decimals: 18,
-  },
-];
 
 describe('AmountInputCardComponent', () => {
   let component: AmountInputCardComponent;
@@ -74,8 +50,8 @@ describe('AmountInputCardComponent', () => {
 
     fixture = TestBed.createComponent(AmountInputCardComponent);
     component = fixture.componentInstance;
-    component.baseCurrency = testCoins[0];
-    component.feeToken = testCoins[0];
+    component.baseCurrency = structuredClone(rawETHData);
+    component.feeToken = structuredClone(rawMATICData);
     component.max = 2;
     component.quotePrice = 10;
     fixture.detectChanges();
@@ -93,7 +69,7 @@ describe('AmountInputCardComponent', () => {
 
   it('should recalculate quote balance when input changes', () => {
     component.quotePrice = 20;
-    component.ngOnChanges();
+    component.ngOnChanges({});
     expect(component.quoteMax).toEqual(40);
   });
 
@@ -179,7 +155,7 @@ describe('AmountInputCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  describe('ShowRange enabled', () => {
+  describe('With form sync', () => {
     beforeEach(waitForAsync(() => {
       formGroupMock = new UntypedFormGroup({
         amount: new UntypedFormControl(),
@@ -201,6 +177,21 @@ describe('AmountInputCardComponent', () => {
       const rangeEl = fixture.debugElement.query(By.css('.aic__content ion-range'));
       expect(percentageEl).toBeTruthy();
       expect(rangeEl).toBeTruthy();
+    });
+
+    it('should patch minimum warranty amount on changes', async () => {
+      component.showRange = false;
+      component.quotePrice = 1;
+      component.minimumWarrantyAmount = '100';
+
+      await component.ngOnChanges({ minimumWarrantyAmount: {
+        previousValue: '0',
+        currentValue: '100',
+        firstChange: true,
+        isFirstChange: () => true
+      } });
+
+      expect(component.form.value).toEqual({ percentage: 50, range: 50, amount: '100', quoteAmount: '100' });
     });
 
     it('should calculate all inputs when amount changes', async () => {

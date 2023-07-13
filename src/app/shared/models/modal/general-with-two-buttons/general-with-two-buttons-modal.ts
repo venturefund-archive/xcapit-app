@@ -1,4 +1,3 @@
-import { GeneralModalWithButtonComponent } from 'src/app/shared/components/general-modal-with-button/general-modal-with-button.component';
 import { FakeTranslateService } from '../../translate-service/fake/fake-translate-service';
 import { FakeModalController } from '../../modal-controller/fake/fake-modal-controller';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,6 +10,7 @@ import { GeneralModalWithTwoButtonsComponent } from 'src/app/shared/components/g
 export class GeneralWithTwoButtonsModal implements Modal {
   private _modal: HTMLIonModalElement;
   constructor(
+    private readonly _aLogo: string,
     private readonly _aHighlightedHeader: string,
     private readonly _aHeaderKey: string,
     private readonly _anInformationKey: string,
@@ -53,6 +53,7 @@ export class GeneralWithTwoButtonsModal implements Modal {
   }
   private _props() {
     return {
+      logo: this._aLogo,
       highlightedHeader: this._aHighlightedHeader ? this._translate(this._aHighlightedHeader) : '',
       header: this._translate(this._aHeaderKey),
       information: this._translate(this._anInformationKey),
