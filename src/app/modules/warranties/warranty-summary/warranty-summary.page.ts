@@ -6,7 +6,6 @@ import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warrant
 import { isAddress } from 'ethers/lib/utils';
 import { WalletPasswordWithValidatorComponent } from '../../wallets/shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
-import { environment } from 'src/environments/environment';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -18,6 +17,8 @@ import { WalletBalanceService } from '../../wallets/shared-wallets/services/wall
 import { DefiInvestmentsService } from '../../defi-investments/shared-defi-investments/services/defi-investments-service/defi-investments.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { Lender } from 'src/app/shared/models/lender/lender.interface';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
 
 @Component({
   selector: 'app-warranty-summary',
@@ -69,11 +70,11 @@ export class WarrantySummaryPage {
   warrantyData: SummaryWarrantyData;
   isSending: boolean;
   loading: boolean;
-  warrantyAddress = environment.warrantyAddress;
   walletAddress: string;
   transactionData: SummaryWarrantyData;
   warantyOperationId: any;
   nativeTokenBalance: number;
+  private _lender: Lender;
 
   constructor(
     private trackService: TrackService,
@@ -86,15 +87,21 @@ export class WarrantySummaryPage {
     private apiWalletService: ApiWalletService,
     private walletBalance: WalletBalanceService,
     private defiInvesmentService: DefiInvestmentsService,
-    private remoteConfig: RemoteConfigService
+    private remoteConfig: RemoteConfigService,
+    private activeLenderInjectable: ActiveLenderInjectable,
   ) {}
 
   async ionViewWillEnter() {
+    await this._setLender();
     this.trackScreenview();
     this.warrantyData = this.warrantyDataService.data;
     await this.userWalletAddress();
     this.calculateWarrantyAmounts();
     await this.setNativeTokenBalance();
+  }
+
+  private async _setLender() {
+    this._lender = await this.activeLenderInjectable.create().value();
   }
 
   trackScreenview() {
@@ -192,7 +199,7 @@ export class WarrantySummaryPage {
     const response = await this.walletTransactionsService.send(
       password.value(),
       this.warrantyData.amount,
-      this.warrantyAddress,
+      this._lender.depositAddress(),
       this.warrantyData.coin
     );
     response.wait().then((res) => {
@@ -249,7 +256,7 @@ export class WarrantySummaryPage {
 
   private userCanAffordTx(): Promise<boolean> {
     return this.walletTransactionsService.canAffordSendTx(
-      this.warrantyAddress,
+      this._lender.depositAddress(),
       this.warrantyData.amount,
       this.warrantyData.coin
     );
@@ -257,14 +264,14 @@ export class WarrantySummaryPage {
 
   private userCanAffordSendFee(): Promise<boolean> {
     return this.walletTransactionsService.canAffordSendFee(
-      this.warrantyAddress,
+      this._lender.depositAddress(),
       this.warrantyData.amount,
       this.warrantyData.coin
     );
   }
 
   private addressIsValid() {
-    return isAddress(this.warrantyAddress);
+    return isAddress(this._lender.depositAddress());
   }
 
   private async handleInvalidAddress() {

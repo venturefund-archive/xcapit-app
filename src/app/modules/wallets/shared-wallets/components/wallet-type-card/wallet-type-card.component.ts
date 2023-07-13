@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { RawLender } from 'src/app/shared/models/lender/raw-lender.type';
 import { WalletInitializeProcess } from '../../services/wallet-initialize-process/wallet-initialize-process';
+import { Option } from '../../../../../shared/models/web3-option/web3-option';
 
 @Component({
   selector: 'app-wallet-type-card',
@@ -9,21 +9,21 @@ import { WalletInitializeProcess } from '../../services/wallet-initialize-proces
     name="Select Lender"
     class="wtc ux-card no-border"
     appTrackClick
-    [dataToTrack]="{ eventLabel: this.rawLender.trackClickEvent }"
+    [dataToTrack]="{ eventLabel: this.option.trackClickEvent }"
     (click)="this.click()"
   >
     <div class="wtc__icon">
-      <img [src]="this.rawLender.icon" />
+      <img [src]="this.option.icon" />
     </div>
     <div class="wtc__content">
       <div class="wtc__content__title">
         <ion-text class="ux-font-text-lg">
-          {{ this.rawLender.title }}
+          {{ this.option.title }}
         </ion-text>
       </div>
       <div class="wtc__content__description">
         <ion-text class="ux-font-text-xxs">
-          {{ this.rawLender.description }}
+          {{ this.option.description }}
         </ion-text>
       </div>
     </div>
@@ -34,13 +34,13 @@ import { WalletInitializeProcess } from '../../services/wallet-initialize-proces
   styleUrls: ['./wallet-type-card.component.scss'],
 })
 export class WalletTypeCardComponent implements OnInit {
-  @Input() rawLender: RawLender;
+  @Input() option: Option;
   constructor(private navController: NavController, private walletInitializeProcess: WalletInitializeProcess) {}
 
   ngOnInit() {}
 
   click() {
-    this.walletInitializeProcess.setWarrantyWallet(this.rawLender.isWarrantyLender);
-    this.navController.navigateForward(this.rawLender.firstStepUrl);
+    this.walletInitializeProcess.setWarrantyWallet(this.option.isWarrantyLender);
+    this.navController.navigateForward(this.option.firstStepUrl);
   }
 }

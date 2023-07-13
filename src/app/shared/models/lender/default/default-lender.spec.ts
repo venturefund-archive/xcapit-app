@@ -1,13 +1,13 @@
 import { FakeTranslateService } from '../../translate-service/fake/fake-translate-service';
 import { Lender } from '../lender.interface';
 import { rawLender } from '../raw-lender.fixture';
-import { NaranjaXLender } from './naranjax-lender';
+import { DefaultLender } from './default-lender';
 
-describe('NaranjaXLender', () => {
+describe('DefaultLender', () => {
   let lender: Lender;
 
   beforeEach(() => {
-    lender = new NaranjaXLender(new FakeTranslateService());
+    lender = new DefaultLender(rawLender, new FakeTranslateService());
   });
 
   it('new', () => {
@@ -19,14 +19,22 @@ describe('NaranjaXLender', () => {
   });
 
   it('logo', () => {
-    expect(lender.logo()).toEqual('assets/img/warranty/naranjax.svg');
+    expect(lender.logo()).toEqual(rawLender.logo);
   });
 
   it('url', () => {
-    expect(lender.url()).toEqual('https://www.naranjax.com/');
+    expect(lender.url()).toEqual(rawLender.url);
   });
 
   it('json', () => {
     expect(lender.json()).toEqual(rawLender);
+  });
+
+  it('depositAddress', () => {
+    expect(lender.depositAddress()).toEqual(rawLender.address);
+  });
+
+  it('minWarrantyAmount', () => {
+    expect(lender.minWarrantyAmount()).toEqual(rawLender.minAmount.toString());
   });
 });

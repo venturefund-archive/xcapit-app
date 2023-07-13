@@ -1,5 +1,5 @@
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
-import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
@@ -148,15 +148,15 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.subscribeToFormChanges();
     this.setQuotePrice();
-    this.patchMinimumWarrntyAmount();
   }
 
   private defaultPatchValueOptions() {
     return { emitEvent: false, onlySelf: true };
   }
 
-  async ngOnChanges(): Promise<void> {
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
     this.setQuotePrice();
+    this.patchMinimumWarrantyAmount(changes);
   }
 
   setMaxAmount() {
@@ -177,9 +177,11 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
     this.phraseAmountInfoClicked.emit();
   }
 
-  patchMinimumWarrntyAmount() {
-    this.form.get('amount').patchValue(this.minimumWarrantyAmount);
-    this.form.get('quoteAmount').patchValue(this.minimumWarrantyAmount);
+  patchMinimumWarrantyAmount(changes: SimpleChanges) {
+    if (changes.minimumWarrantyAmount && this.form) {
+      this.form.get('amount').patchValue(this.minimumWarrantyAmount);
+      this.form.get('quoteAmount').patchValue(this.minimumWarrantyAmount);
+    }
   }
 
   private subscribeToFormChanges(): void {

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { RawLender } from '../../../shared/models/lender/raw-lender.type';
-import { NaranjaXLender } from '../../../shared/models/lender/naranjax/naranjax-lender';
 import { TranslateService } from '@ngx-translate/core';
-import { NullLender } from 'src/app/shared/models/lender/null/null-lender';
+import { Option, Web3Option } from 'src/app/shared/models/web3-option/web3-option';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
 
 @Component({
   selector: 'app-select-wallet-type',
@@ -32,13 +32,10 @@ import { NullLender } from 'src/app/shared/models/lender/null/null-lender';
           </div>
         </div>
         <div class="swt__content__button">
-          <ng-container *ngIf="this.rawLender">
-            <ng-container *appFeatureFlag="'ff_warranty_wallet'">
-              <app-wallet-type-card [rawLender]="this.rawLender"></app-wallet-type-card>
+          <ng-container *ngFor="let option of this.options">
+            <ng-container *ngIf="option">
+              <app-wallet-type-card [option]="option"></app-wallet-type-card>
             </ng-container>
-          </ng-container>
-          <ng-container *ngIf="this.rawNullLender">
-            <app-wallet-type-card [rawLender]="this.rawNullLender"></app-wallet-type-card>
           </ng-container>
         </div>
       </div>
@@ -54,13 +51,22 @@ import { NullLender } from 'src/app/shared/models/lender/null/null-lender';
   styleUrls: ['./select-wallet-type.page.scss'],
 })
 export class SelectWalletTypePage {
-  rawLender: RawLender;
-  rawNullLender: RawLender;
-  constructor(private navController: NavController, private translate: TranslateService) {}
+  lenderOptionTpl: RawLender;
+  web3OptionTpl = new Web3Option(this.translate).json();
+  options: Option[] = [];
+  constructor(
+    private navController: NavController,
+    private translate: TranslateService,
+    private activeLenderInjectable: ActiveLenderInjectable
+  ) {}
 
-  ionViewWillEnter() {
-    this.rawLender = new NaranjaXLender(this.translate).json();
-    this.rawNullLender = new NullLender(this.translate).json();
+  async ionViewWillEnter() {
+    await this._setLender();
+  }
+
+  private async _setLender() {
+    this.lenderOptionTpl = (await this.activeLenderInjectable.create().value()).json();
+    this.options = [this.lenderOptionTpl, this.web3OptionTpl];
   }
 
   close(): void {

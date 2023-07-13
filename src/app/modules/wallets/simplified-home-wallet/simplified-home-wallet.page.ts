@@ -24,11 +24,9 @@ import { KriptonStorageService } from '../../fiat-ramps/shared-ramps/services/kr
 import { ActivatedRoute } from '@angular/router';
 import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
-import { LINKS } from 'src/app/config/static-links';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { Lender } from '../../../shared/models/lender/lender.interface';
-import { NaranjaXLender } from '../../../shared/models/lender/naranjax/naranjax-lender';
-import { TranslateService } from '@ngx-translate/core';
+import { ActiveLenderInjectable } from '../../../shared/models/active-lender/injectable/active-lender.injectable';
 
 @Component({
   selector: 'app-simplified-home-wallet',
@@ -167,7 +165,6 @@ export class SimplifiedHomeWalletPage {
   private token: Token;
   private wallet: Wallet;
   private _pageUrl: string;
-
   private lender: Lender;
 
   constructor(
@@ -185,11 +182,11 @@ export class SimplifiedHomeWalletPage {
     private activatedRoute: ActivatedRoute,
     private modalFactoryInjectable: ModalFactoryInjectable,
     private notificationsService: NotificationsService,
-    private translate: TranslateService
+    private activeLenderInjectable: ActiveLenderInjectable,
   ) {}
 
   async ionViewWillEnter() {
-    this.lender = new NaranjaXLender(this.translate);
+    await this._setLender();
     this._setPageUrl();
     this.subscribeOnHideFunds();
     this.setBlockchain();
@@ -205,6 +202,10 @@ export class SimplifiedHomeWalletPage {
 
   private _setPageUrl() {
     this._pageUrl = window.location.href;
+  }
+
+  private async _setLender() {
+    this.lender = await this.activeLenderInjectable.create().value();
   }
 
   subscribeOnHideFunds() {

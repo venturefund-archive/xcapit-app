@@ -6,9 +6,9 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { TranslateModule } from '@ngx-translate/core';
-import { rawNullLender } from 'src/app/shared/models/lender/raw-lender.fixture';
 import { By } from '@angular/platform-browser';
 import { WalletInitializeProcess } from '../../services/wallet-initialize-process/wallet-initialize-process';
+import { rawLender } from 'src/app/shared/models/lender/raw-lender.fixture';
 
 describe('WalletTypeCardComponent', () => {
   let component: WalletTypeCardComponent;
@@ -37,7 +37,7 @@ describe('WalletTypeCardComponent', () => {
     fixture = TestBed.createComponent(WalletTypeCardComponent);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    component.rawLender = rawNullLender;
+    component.option = rawLender;
     fixture.detectChanges();
   }));
 
@@ -48,13 +48,13 @@ describe('WalletTypeCardComponent', () => {
   it('should navigate to lender steps when button is clicked', () => {
     fixture.debugElement.query(By.css('div.wtc')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(rawNullLender.firstStepUrl);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(rawLender.firstStepUrl);
   });
 
   it('should save wallet type when button is clicked', () => {
     fixture.debugElement.query(By.css('div.wtc')).nativeElement.click();
     fixture.detectChanges();
-    expect(walletInitializeProcessSpy.setWarrantyWallet).toHaveBeenCalledOnceWith(false);
+    expect(walletInitializeProcessSpy.setWarrantyWallet).toHaveBeenCalledOnceWith(true);
   });
 
   it('should track click type when button is clicked', () => {

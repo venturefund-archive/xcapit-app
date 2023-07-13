@@ -234,7 +234,6 @@ export class CreatePasswordPage {
     if (this.createPasswordForm.valid) {
       this.loading = true;
       setTimeout(async () => {
-        this._cleanStorage();
         await this.encryptWallet();
         await this.walletInitializeProcess.run(
           new Password(this.createPasswordForm.value.password),
@@ -247,10 +246,6 @@ export class CreatePasswordPage {
     } else {
       this.createPasswordForm.markAllAsTouched();
     }
-  }
-
-  private _cleanStorage() {
-    this.ionicStorageService.clear();
   }
 
   navigateByMode() {

@@ -34,6 +34,8 @@ import { RemoteConfigService } from './shared/services/remote-config/remote-conf
 import { DefaultWCUri } from './shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { GoogleAuthService } from './shared/services/google-auth/google-auth.service';
 import { FirebaseDynamicLinks } from '@pantrist/capacitor-firebase-dynamic-links';
+import { ActiveLender } from './shared/models/active-lender/active-lender';
+import { DeepLinkOpen } from '@pantrist/capacitor-firebase-dynamic-links/dist/esm/definitions';
 @Component({
   selector: 'app-root',
   template: `
@@ -55,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
   statusBar = StatusBar;
   session: AppSession;
   app: CapacitorApp;
-  newFirebaseDynamicLinks = FirebaseDynamicLinks;
+  firebaseDynamicLinks = FirebaseDynamicLinks;
 
   connected = false;
 
@@ -100,7 +102,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this._checkTransactionStatus();
     this._setConnectionStatus();
     this._initializeGoogleAuth();
-    this._testFirebaseDynamicLinks();
+    this._subscribeToFirebaseDynamicLinks();
   }
 
   private _initializeGoogleAuth() {
@@ -131,6 +133,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private _initializeApp() {
+    this._setDefaultLender();
     this.setCapacitorApp();
     this._setSession();
     this.checkAssetsStructure();
@@ -144,6 +147,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.trackUserWalletAddress();
       this.pushNotificationActionPerformed();
     });
+  }
+
+  private async _setDefaultLender(): Promise<void> {
+    return this._activeLender().save((await this._activeLender().name()) ?? 'naranjax');
+  }
+
+  private _activeLender(): ActiveLender {
+    return new ActiveLender(this.storage);
   }
 
   private pushNotificationActionPerformed() {
@@ -290,13 +301,16 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.remoteConfigService.getFeatureFlag('ff_walletConnectV2');
   }
 
-  _testFirebaseDynamicLinks() {
-    this.newFirebaseDynamicLinks.addListener('deepLinkOpen', (data: any) => {
-      console.debug('new dynamic links void implementation', data);
+  private _subscribeToFirebaseDynamicLinks() {
+    this.firebaseDynamicLinks.addListener('deepLinkOpen', (deepLink: DeepLinkOpen) => {
+      const lender = new URL(deepLink.url).searchParams.get('lender');
+      if (lender) {
+        new ActiveLender(this.storage).save(lender);
+      }
     });
   }
 
   async ngOnDestroy() {
-    await this.newFirebaseDynamicLinks.removeAllListeners();
+    await this.firebaseDynamicLinks.removeAllListeners();
   }
 }

@@ -16,7 +16,7 @@ import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo'
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { ActiveLenderInjectable } from '../../../shared/models/active-lender/injectable/active-lender.injectable';
 
 @Component({
   selector: 'app-send-warranty',
@@ -105,7 +105,9 @@ export class SendWarrantyPage {
   quotePrice: number;
   isLoading = false;
   modalOpened: boolean;
+
   minimumWarrantyAmount: string;
+
   private readonly priceRefreshInterval = 15000;
 
   constructor(
@@ -114,13 +116,12 @@ export class SendWarrantyPage {
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
     private navController: NavController,
-    private WarrantyDataService: WarrantyDataService,
+    private warrantyDataService: WarrantyDataService,
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalFactoryInjectable: ModalFactoryInjectable,
     private ionicStorageService: IonicStorageService,
-    private remoteConfigService: RemoteConfigService
+    private activeLenderInjectable: ActiveLenderInjectable
   ) {}
-
 
   async ionViewWillEnter() {
     this.modalHref = window.location.href;
@@ -130,7 +131,7 @@ export class SendWarrantyPage {
     await this.tokenBalance();
     this.checkBalance();
     this.checkUserStoredInformation();
-    this.getMinimumWarrantyAmount();
+    await this._setMinimumWarrantyAmount();
   }
 
   private async userWallet(): Promise<string> {
@@ -176,7 +177,7 @@ export class SendWarrantyPage {
   private saveWarrantyData() {
     const roundedAmount = new RoundedNumber(parseFloat(this.form.value.amount), 6).value();
     const roundedQuoteAmount = new RoundedNumber(parseFloat(this.form.value.quoteAmount), 6).value();
-    this.WarrantyDataService.data = {
+    this.warrantyDataService.data = {
       coin: this.token,
       amount: roundedAmount,
       quoteAmount: roundedQuoteAmount,
@@ -231,8 +232,9 @@ export class SendWarrantyPage {
     }
   }
 
-  getMinimumWarrantyAmount() {
-    this.minimumWarrantyAmount = this.remoteConfigService.getString('minimumWarrantyAmount');
+  private async _setMinimumWarrantyAmount() {
+    this.minimumWarrantyAmount = (await this.activeLenderInjectable.create().value()).minWarrantyAmount();
+
     this.addValidator(this.minimumWarrantyAmount);
   }
 
