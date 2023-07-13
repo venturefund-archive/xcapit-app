@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ApiDevicesService } from '../api-devices/api-devices.service';
 import { CapacitorNotificationsService } from './capacitor-notifications.service';
-import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../../../shared/services/platform/default/default-platform.service';
 import { FakePushNotifications } from '../../models/fake-push-notifications/fake-push-notifications';
 
 describe('CapacitorNotificationsService', () => {
@@ -11,7 +11,7 @@ describe('CapacitorNotificationsService', () => {
   let pushNotificationsSpy: any;
   let firebaseCloudMessagingSpy: any;
   let apiDevicesServiceSpy: jasmine.SpyObj<ApiDevicesService>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
 
   beforeEach(() => {
     pushNotificationsSpy = jasmine.createSpyObj('PushNotifications', {
@@ -34,7 +34,7 @@ describe('CapacitorNotificationsService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: ApiDevicesService, useValue: apiDevicesServiceSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
       ],
     });
   });

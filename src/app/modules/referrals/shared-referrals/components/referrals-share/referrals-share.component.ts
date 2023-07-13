@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ShareService } from '../../../../../shared/services/share/share.service';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
-import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../../../shared/services/platform/default/default-platform.service';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -69,7 +69,7 @@ export class ReferralsShareComponent implements OnInit {
   constructor(
     private shareService: ShareService,
     private clipboardService: ClipboardService,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private browserService: BrowserService,
   ) {}
 

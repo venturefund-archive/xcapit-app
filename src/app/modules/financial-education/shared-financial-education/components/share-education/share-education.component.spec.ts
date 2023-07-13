@@ -6,7 +6,7 @@ import { ShareService } from 'src/app/shared/services/share/share.service';
 import { ShareEducationComponent } from './share-education.component';
 import { CachedAssetFactory } from '../../../../../shared/models/asset/cached-asset/factory/cached-asset-factory';
 import { CachedAsset } from 'src/app/shared/models/asset/cached-asset/cached-asset';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { By } from '@angular/platform-browser';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -19,7 +19,7 @@ describe('ShareEducationComponent', () => {
   let shareServiceSpy: jasmine.SpyObj<ShareService>;
   let cachedAssetFactorySpy: jasmine.SpyObj<CachedAssetFactory>;
   let cachedAssetSpy: jasmine.SpyObj<CachedAsset>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
 
@@ -56,7 +56,7 @@ describe('ShareEducationComponent', () => {
         providers: [
           { provide: ShareService, useValue: shareServiceSpy },
           { provide: CachedAssetFactory, useValue: cachedAssetFactorySpy },
-          { provide: PlatformService, useValue: platformServiceSpy },
+          { provide: DefaultPlatformService, useValue: platformServiceSpy },
           { provide: ClipboardService, useValue: clipboardServiceSpy },
           { provide: ToastService, useValue: toastServiceSpy },
         ],

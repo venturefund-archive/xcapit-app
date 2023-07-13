@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FakeAppVersion } from 'src/app/shared/models/app-version/fake/fake-app-version';
 import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
@@ -28,7 +28,7 @@ describe('ToolPage', () => {
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let fakeAppVersion: FakeAppVersion;
   let appVersionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
 
   const dataTest = {
     category: 'purchases',
@@ -73,7 +73,7 @@ describe('ToolPage', () => {
         { provide: WCService, useValue: wcServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

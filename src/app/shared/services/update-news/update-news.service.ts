@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { AppStorageService } from '../app-storage/app-storage.service';
 import { UpdateNewsComponent } from '../../components/update-news/update-news.component';
-import { PlatformService } from '../platform/platform.service';
+import { DefaultPlatformService } from '../platform/default/default-platform.service';
 import { RemoteConfigService } from '../remote-config/remote-config.service';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class UpdateNewsService {
   constructor(
     private modalController: ModalController,
     private storage: AppStorageService,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private remoteConfigService: RemoteConfigService
   ) {}
 

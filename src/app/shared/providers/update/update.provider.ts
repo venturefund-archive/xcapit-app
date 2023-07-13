@@ -1,5 +1,5 @@
 import { UpdateService } from '../../services/update/update.service';
-import { PlatformService } from '../../services/platform/platform.service';
+import { DefaultPlatformService } from '../../services/platform/default/default-platform.service';
 import { ModalController } from '@ionic/angular';
 import { updateServiceFactory } from '../../factories/update/update.factory';
 import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
@@ -7,5 +7,5 @@ import { RemoteConfigService } from '../../services/remote-config/remote-config.
 export const updateServiceProvider = {
   provide: UpdateService,
   useFactory: updateServiceFactory,
-  deps: [PlatformService, ModalController, RemoteConfigService],
+  deps: [DefaultPlatformService, ModalController, RemoteConfigService],
 };

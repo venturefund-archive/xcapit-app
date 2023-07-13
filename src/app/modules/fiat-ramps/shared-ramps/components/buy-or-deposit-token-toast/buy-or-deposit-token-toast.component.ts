@@ -8,7 +8,7 @@ import { ProvidersFactory } from '../../models/providers/factory/providers.facto
 import { TokenOperationDataService } from '../../services/token-operation-data/token-operation-data.service';
 import { RemoteConfigService } from '../../../../../shared/services/remote-config/remote-config.service';
 import { AppVersionInjectable } from '../../../../../shared/models/app-version/injectable/app-version.injectable';
-import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../../../shared/services/platform/default/default-platform.service';
 import { FiatRampsService } from '../../services/fiat-ramps.service';
 
 @Component({
@@ -37,7 +37,7 @@ export class BuyOrDepositTokenToastComponent implements OnInit {
     private tokenOperationDataService: TokenOperationDataService,
     private remoteConfigService: RemoteConfigService,
     private appVersion: AppVersionInjectable,
-    private platform: PlatformService,
+    private platform: DefaultPlatformService,
     private fiatRampsService : FiatRampsService
   ) {}
 

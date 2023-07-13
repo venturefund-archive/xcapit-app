@@ -2,12 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { NotificationsService } from './notifications.service';
 import { CapacitorNotificationsService } from '../capacitor-notifications/capacitor-notifications.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../../../shared/services/platform/default/default-platform.service';
 import { NullNotificationsService } from '../null-notifications/null-notifications.service';
 
 describe('NotificationsService', () => {
   let service: NotificationsService;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let capacitorNotificationsServiceSpy: any;
   let nullNotificationsServiceSpy: any;
 
@@ -20,7 +20,7 @@ describe('NotificationsService', () => {
       imports: [TranslateModule.forRoot()],
       providers: [
         TranslateService,
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         {
           provide: CapacitorNotificationsService,
           useValue: capacitorNotificationsServiceSpy,

@@ -6,7 +6,7 @@ describe('FakeRemoteConfigService', () => {
   const aRemoteConfigValue = [{ aKey1: 'aValue1' }, { aKey2: 'aValue2' }];
 
   beforeEach(() => {
-    fakeRemoteConfigService = new FakeRemoteConfigService(aRemoteConfigValue);
+    fakeRemoteConfigService = new FakeRemoteConfigService(aRemoteConfigValue, true);
   });
 
   it('new', () => {
@@ -22,6 +22,6 @@ describe('FakeRemoteConfigService', () => {
   });
 
   it('getFeatureFlag', () => {
-    expect(fakeRemoteConfigService.getFeatureFlag(aRemoteConfigName)).toBeFalse();
+    expect(fakeRemoteConfigService.getFeatureFlag(aRemoteConfigName)).toBeTrue();
   });
 });

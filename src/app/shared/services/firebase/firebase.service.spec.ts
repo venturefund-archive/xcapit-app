@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { PlatformService } from '../platform/platform.service';
+import { DefaultPlatformService } from '../platform/default/default-platform.service';
 import { FirebaseService } from './firebase.service';
 
 describe('FirebaseService', () => {
   let service: FirebaseService;
   let firebaseSpy: any;
-  let platformSpy: jasmine.SpyObj<PlatformService>;
+  let platformSpy: jasmine.SpyObj<DefaultPlatformService>;
   let firebaseAnalyticsSpy: any;
   beforeEach(() => {
     firebaseSpy = jasmine.createSpyObj(
@@ -17,7 +17,7 @@ describe('FirebaseService', () => {
     });
 
     platformSpy = jasmine.createSpyObj('platformService', ['isWeb']);
-    TestBed.configureTestingModule({ providers: [{ provide: PlatformService, useValue: platformSpy }] });
+    TestBed.configureTestingModule({ providers: [{ provide: DefaultPlatformService, useValue: platformSpy }] });
     service = TestBed.inject(FirebaseService);
     service.firebaseAnalytics = firebaseAnalyticsSpy;
     service.importedFirebase = firebaseSpy;

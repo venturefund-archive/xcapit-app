@@ -16,7 +16,7 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { Storage } from '@ionic/storage';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
-import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../shared/services/platform/default/default-platform.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { By } from '@angular/platform-browser';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
@@ -34,7 +34,7 @@ describe('LoginPage', () => {
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
   let storageSpy: jasmine.SpyObj<Storage>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let ionicStorageSpy: jasmine.SpyObj<IonicStorageService>;
   const formData = {
@@ -96,7 +96,7 @@ describe('LoginPage', () => {
         { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: Storage, useValue: storageSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageSpy },
       ],

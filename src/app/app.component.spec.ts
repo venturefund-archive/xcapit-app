@@ -7,7 +7,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
-import { PlatformService } from './shared/services/platform/platform.service';
+import { DefaultPlatformService } from './shared/services/platform/default/default-platform.service';
 import { of } from 'rxjs';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
@@ -48,7 +48,7 @@ import { ActiveLender } from './shared/models/active-lender/active-lender';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: jasmine.SpyObj<LanguageService>;
@@ -215,7 +215,7 @@ describe('AppComponent', () => {
       providers: [
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: Platform, useValue: platformSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: LanguageService, useValue: languageServiceSpy },
         { provide: UpdateService, useValue: updateServiceSpy },
         { provide: SubmitButtonService, useValue: submitButtonServiceSpy },

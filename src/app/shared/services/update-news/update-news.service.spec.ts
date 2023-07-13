@@ -3,7 +3,7 @@ import { UpdateNewsService } from './update-news.service';
 import { ModalController } from '@ionic/angular';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 import { AppStorageService } from '../app-storage/app-storage.service';
-import { PlatformService } from '../platform/platform.service';
+import { DefaultPlatformService } from '../platform/default/default-platform.service';
 import { RemoteConfigService } from '../remote-config/remote-config.service';
 
 describe('UpdateNewsService', () => {
@@ -11,7 +11,7 @@ describe('UpdateNewsService', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let appSpy: jasmine.SpyObj<any>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
@@ -34,7 +34,7 @@ describe('UpdateNewsService', () => {
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: AppStorageService, useValue: appStorageServiceSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
     });

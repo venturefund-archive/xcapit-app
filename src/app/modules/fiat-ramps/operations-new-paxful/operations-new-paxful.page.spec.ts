@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -66,7 +66,7 @@ describe('OperationsNewPaxfulPage', () => {
         declarations: [OperationsNewPaxfulPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), IonicModule, ReactiveFormsModule, HttpClientTestingModule],
         providers: [
-          { provide: PlatformService, useValue: platformServiceSpy },
+          { provide: DefaultPlatformService, useValue: platformServiceSpy },
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: BrowserService, useValue: browserServiceSpy },

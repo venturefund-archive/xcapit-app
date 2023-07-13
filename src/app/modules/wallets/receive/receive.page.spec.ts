@@ -12,7 +12,7 @@ import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../shared/services/platform/default/default-platform.service';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
@@ -91,7 +91,7 @@ describe('ReceivePage', () => {
         { provide: ShareService, useValue: shareServiceSpy },
         { provide: ToastService, useValue: toastServiceMock },
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: NavController, useValue: navControllerSpy },

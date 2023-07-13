@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
@@ -65,7 +65,7 @@ describe('RegisterPage', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
@@ -99,7 +99,7 @@ describe('RegisterPage', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ContactDataService, useValue: contactDataServiceSpy },
       ],
