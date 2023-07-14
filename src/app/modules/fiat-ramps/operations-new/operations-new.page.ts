@@ -154,7 +154,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
                         (!this.form.controls.fiatAmount.valid ? 'cash-in' : 'cash-out')
                         | translate
                           : {
-                              amount: this.minimumFiatAmount | formattedAmount: 10:2,
+                              amount: this.minimumFiatAmount | formattedAmount : 10 : 2,
                               currency: this.fiatCurrency | uppercase
                             }
                     }}
@@ -360,11 +360,15 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   private async getMinimumFiatAmount() {
-    const data = { email: await this._getUserEmail() };
-    const response = await this.fiatRampsService
-      .getKriptonMinimumAmount(this.fiatCurrency, 'cash-in', data)
-      .toPromise();
-    this.minimumFiatAmount = parseFloat(response.minimun_general);
+    const data = {
+      email: await this._getUserEmail(),
+      operation_type: 'cash-in',
+      currency_in: this.fiatCurrency,
+      currency_out: this.selectedCurrency.value,
+      network_out: this.selectedCurrency.network,
+    };
+    const response = await this.fiatRampsService.getKriptonMinimumAmount(data).toPromise();
+    this.minimumFiatAmount = parseFloat(response.minimum_general);
     this.addGreaterThanValidator(this.minimumFiatAmount);
     await this.getUpdatedValues(this.minimumFiatAmount);
   }
