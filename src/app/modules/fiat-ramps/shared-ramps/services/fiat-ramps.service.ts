@@ -57,8 +57,8 @@ export class FiatRampsService {
     );
   }
 
-  getAddressByVoucher(external_code: string): Observable <any>{
-    return this.http.get(`${environment.kriptonApiUrl}/pay/invoices/${external_code}`)
+  getAddressByVoucher(external_code: string): Observable<any> {
+    return this.http.get(`${environment.kriptonApiUrl}/pay/invoices/${external_code}`);
   }
 
   getCashOutFormFields(country = 'common'): Observable<any> {
@@ -125,13 +125,8 @@ export class FiatRampsService {
     );
   }
 
-  getKriptonMinimumAmount(currency: string, mode: string, data: any): Observable<any> {
-    return this.http.post(
-      `${environment.apiUrl}/on_off_ramps/kripton/users/get_user_limits/${mode}/${currency}`,
-      data,
-      undefined,
-      false
-    );
+  getKriptonMinimumAmount(data: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/get_user_limits`, data, undefined, false);
   }
 
   getKriptonFee(
