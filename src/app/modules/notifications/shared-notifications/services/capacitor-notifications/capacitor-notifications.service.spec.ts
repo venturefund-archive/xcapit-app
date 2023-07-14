@@ -25,6 +25,7 @@ describe('CapacitorNotificationsService', () => {
 
     apiDevicesServiceSpy = jasmine.createSpyObj('ApiDevicesService', {
       register: of(),
+      togglePushNotifications: of(),
     });
 
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
@@ -128,4 +129,10 @@ describe('CapacitorNotificationsService', () => {
 
     expect(apiDevicesServiceSpy.register).toHaveBeenCalledTimes(2);
   });
+
+  it('should toggle push notifications with value given when called', () => {
+    service.toggleUserNotifications(true);
+
+    expect(apiDevicesServiceSpy.togglePushNotifications).toHaveBeenCalledWith(true);
+  })
 });

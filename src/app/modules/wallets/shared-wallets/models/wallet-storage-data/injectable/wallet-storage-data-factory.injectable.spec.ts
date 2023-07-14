@@ -5,7 +5,7 @@ describe('WalletStorageDataFactoryInjectable', () => {
   let walletStorageDataFactoryInjectable: WalletStorageDataFactoryInjectable;
 
   beforeEach(() => {
-    walletStorageDataFactoryInjectable = new WalletStorageDataFactoryInjectable(null);
+    walletStorageDataFactoryInjectable = new WalletStorageDataFactoryInjectable(null, null);
   });
 
   it('new', () => {

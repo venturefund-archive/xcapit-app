@@ -107,7 +107,7 @@ export class LoginNewPage {
     password: ['', []],
   });
   private readonly _aTopic = 'app';
-  private readonly _aKey = 'enabledPushNotifications';
+  private readonly _aKey = '_enabledPushNotifications';
   biometricAuth: BiometricAuth;
   showToast = true;
   isModalOpen = false;

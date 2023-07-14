@@ -164,6 +164,7 @@ describe('UserProfileMenuPage', () => {
       'init',
       'subscribeTo',
       'unsubscribeFrom',
+      'toggleUserNotifications'
     ]);
 
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
@@ -301,15 +302,17 @@ describe('UserProfileMenuPage', () => {
   it('should subscribe to push notifications', async () => {
     component.toggle(true);
     fixture.detectChanges();
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.toggleUserNotifications).toHaveBeenCalledTimes(1);
   });
 
   it('should unsubscribe to push notifications', async () => {
     component.toggle(false);
     fixture.detectChanges();
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.toggleUserNotifications).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Change Language button clicked', () => {

@@ -145,7 +145,7 @@ export class UserProfileMenuPage {
     warrantyWallet: [[]],
   });
   private readonly _aTopic = 'app';
-  private readonly _aKey = 'enabledPushNotifications';
+  private readonly _aKey = '_enabledPushNotifications';
   leave$ = new Subject<void>();
   appUpdate = AppUpdate;
   actualVersion: string;
@@ -239,11 +239,12 @@ export class UserProfileMenuPage {
     return this.notificationsService.getInstance();
   }
 
-  toggle(value: boolean) {
+  async toggle(value: boolean) {
     this.ionicStorageService.set(this._aKey, value);
     value
       ? this.pushNotificationsService().subscribeTo(this._aTopic)
       : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
+    await this.pushNotificationsService().toggleUserNotifications(value).toPromise();
   }
 
   async walletConnectStatus() {
