@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
+import { PlatformService } from '../platform-service.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PlatformService {
+export class DefaultPlatformService implements PlatformService {
   capacitor = Capacitor;
 
   constructor() {}

@@ -7,7 +7,7 @@ import { ToastService } from '../../../../../shared/services/toast/toast.service
 import { TranslateModule } from '@ngx-translate/core';
 import { UxInputUnderlinedComponent } from '../../../../../shared/components/ux-input-underlined/ux-input-underlined.component';
 import { FakeModalController } from '../../../../../../testing/fakes/modal-controller.fake.spec';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { FormattedNetworkPipe } from 'src/app/shared/pipes/formatted-network-name/formatted-network.pipe';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -67,7 +67,7 @@ describe('AddressInputCardComponent', () => {
         { provide: ToastService, useValue: toastServiceMock },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: ContactDataService, useValue: contactDataServiceSpy },
       ],

@@ -4,7 +4,7 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 import { environment } from 'src/environments/environment';
 import { IProviderData, supportedProviders } from '../../shared-wallets/constants/supported-providers';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { PlatformService } from '../../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../../shared/services/platform/default/default-platform.service';
 import { NavController } from '@ionic/angular';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { ScanQrModalComponent } from '../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
@@ -149,7 +149,7 @@ export class NewConnectionPage {
     private walletConnectService: WalletConnectService,
     private storageService: StorageService,
     private formBuilder: UntypedFormBuilder,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private navController: NavController,
     private modalController: ModalController,
     private alertController: AlertController,

@@ -12,7 +12,7 @@ import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
@@ -44,7 +44,7 @@ describe('PurchaseOrderPage', () => {
   let fakeModalController: FakeModalController;
   let cameraSpy: jasmine.SpyObj<CameraPlugin>;
   let filesystemSpy: jasmine.SpyObj<FilesystemPlugin>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
   let fakeAppStorage: FakeAppStorage;
 
@@ -155,7 +155,7 @@ describe('PurchaseOrderPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy },
         { provide: IonicStorageService, useValue: fakeAppStorage },
       ],

@@ -6,7 +6,7 @@ import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { ActivatedRoute } from '@angular/router';
-import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../shared/services/platform/default/default-platform.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -109,7 +109,7 @@ export class ReceivePage {
     private translate: TranslateService,
     private walletEncryptionService: WalletEncryptionService,
     private route: ActivatedRoute,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private apiWalletService: ApiWalletService,
     private ionicStorageService: IonicStorageService,
     private trackService: TrackService

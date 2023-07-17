@@ -10,6 +10,9 @@ import { FakeLender } from 'src/app/shared/models/lender/fake/fake-lender';
 import { ActiveLenderInjectable } from '../../../shared/models/active-lender/injectable/active-lender.injectable';
 import { NullLender } from '../../../shared/models/lender/null/null-lender';
 import { ActiveLender } from '../../../shared/models/active-lender/active-lender';
+import { LastVersionInjectable } from 'src/app/shared/models/last-version/injectable/last-version.injectable';
+import { LastVersion } from 'src/app/shared/models/last-version/last-version';
+
 
 describe('SelectWalletTypePage', () => {
   let component: SelectWalletTypePage;
@@ -17,6 +20,7 @@ describe('SelectWalletTypePage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
+  let lastVersionInjectableSpy: jasmine.SpyObj<LastVersionInjectable>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -27,12 +31,19 @@ describe('SelectWalletTypePage', () => {
       },
     });
 
+    lastVersionInjectableSpy = jasmine.createSpyObj('LastVersionInjectable', {
+      create: {
+        inReview: () => Promise.resolve(true),
+      },
+    });
+
     TestBed.configureTestingModule({
       declarations: [SelectWalletTypePage, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
+        { provide: LastVersionInjectable, useValue: lastVersionInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -53,7 +64,17 @@ describe('SelectWalletTypePage', () => {
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/users/on-boarding');
   });
 
-  it('should not show lender card if active lender', async () => {
+  it('should not show lender card if the current app version is in review', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.queryAll(By.css('app-wallet-type-card')).length).toEqual(1);
+  });
+
+  it('should show lender card if active lender', async () => {
+    lastVersionInjectableSpy.create.and.returnValue({
+      inReview: () => Promise.resolve(false),
+    } as unknown as LastVersion);
     await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(fixture.debugElement.queryAll(By.css('app-wallet-type-card')).length).toEqual(2);

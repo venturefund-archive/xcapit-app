@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { LocalNotificationsService } from './local-notifications.service';
 
 describe('LocalNotificationsService', () => {
   let localNotificationsSpy: jasmine.SpyObj<any>;
   let service: LocalNotificationsService;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   beforeEach(() => {
     localNotificationsSpy = jasmine.createSpyObj('LocalNotifications', {
       requestPermissions: Promise.resolve({ display: 'granted' }),
@@ -19,7 +19,7 @@ describe('LocalNotificationsService', () => {
       isNative: false,
     });
     TestBed.configureTestingModule({
-      providers: [{ provide: PlatformService, useValue: platformServiceSpy }],
+      providers: [{ provide: DefaultPlatformService, useValue: platformServiceSpy }],
     });
     service = TestBed.inject(LocalNotificationsService);
     service.localNotifications = localNotificationsSpy;

@@ -5,7 +5,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ScanQrModalComponent } from 'src/app/shared/components/scan-qr-modal/scan-qr-modal.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
@@ -113,7 +113,7 @@ export class RegisterPage implements OnInit {
   constructor(
     private toastService: ToastService,
     private formBuilder: UntypedFormBuilder,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private modalController: ModalController,
     private translate: TranslateService,
     private ionicStorageService: IonicStorageService,
@@ -214,7 +214,7 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  isNative() { 
+  isNative() {
     this.native = this.platformService.isNative();
   }
 

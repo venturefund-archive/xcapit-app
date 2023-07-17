@@ -10,7 +10,7 @@ import {
 } from '@capacitor/push-notifications';
 import { FCM } from '@capacitor-community/fcm';
 import { ApiDevicesService } from '../api-devices/api-devices.service';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { FakePushNotifications } from '../../models/fake-push-notifications/fake-push-notifications';
 import { Observable } from 'rxjs';
 @Injectable({
@@ -23,7 +23,7 @@ export class CapacitorNotificationsService implements Notification {
 
   private _registered = false;
 
-  constructor(private apiDevicesService: ApiDevicesService, private platformService: PlatformService) {}
+  constructor(private apiDevicesService: ApiDevicesService, private platformService: DefaultPlatformService) {}
 
   pushNotificationReceived(callback: any): void {
     this.pushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {

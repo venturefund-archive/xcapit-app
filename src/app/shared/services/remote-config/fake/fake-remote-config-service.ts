@@ -2,7 +2,7 @@ import { RemoteConfiguration } from 'src/app/shared/interfaces/remote-configurat
 import { RemoteConfig } from '../remote-config.interface';
 
 export class FakeRemoteConfigService implements RemoteConfig {
-  constructor(private _getObjectReturn: any = []) {}
+  constructor(private _getObjectReturn: any = [], private _getFeatureFlagReturn: boolean = false) {}
 
   initialize(remoteConfig: RemoteConfiguration): Promise<void> {
     return Promise.resolve();
@@ -13,7 +13,7 @@ export class FakeRemoteConfigService implements RemoteConfig {
   }
 
   getFeatureFlag(param: string): boolean {
-    return false;
+    return this._getFeatureFlagReturn;
   }
 
   getString(name: string): string {

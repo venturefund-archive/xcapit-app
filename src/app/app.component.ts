@@ -7,7 +7,7 @@ import { UpdateService } from './shared/services/update/update.service';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@capacitor/status-bar';
-import { PlatformService } from './shared/services/platform/platform.service';
+import { DefaultPlatformService } from './shared/services/platform/default/default-platform.service';
 import { CONFIG } from './config/app-constants.config';
 import { URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private updateService: UpdateService,
     private translate: TranslateService,
     private el: ElementRef,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private zone: NgZone,
     private walletConnectService: WalletConnectService,
     private walletConnectServiceV2: WCConnectionV2,

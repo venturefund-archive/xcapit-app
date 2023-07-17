@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { RawLender } from '../../../shared/models/lender/raw-lender.type';
 import { TranslateService } from '@ngx-translate/core';
 import { Option, Web3Option } from 'src/app/shared/models/web3-option/web3-option';
 import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { LastVersionInjectable } from 'src/app/shared/models/last-version/injectable/last-version.injectable';
 
 @Component({
   selector: 'app-select-wallet-type',
@@ -51,25 +51,29 @@ import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/inje
   styleUrls: ['./select-wallet-type.page.scss'],
 })
 export class SelectWalletTypePage {
-  lenderOptionTpl: RawLender;
-  web3OptionTpl = new Web3Option(this.translate).json();
   options: Option[] = [];
   constructor(
     private navController: NavController,
     private translate: TranslateService,
-    private activeLenderInjectable: ActiveLenderInjectable
+    private activeLenderInjectable: ActiveLenderInjectable,
+    private lastVersionInjectable: LastVersionInjectable
   ) {}
 
   async ionViewWillEnter() {
     await this._setLender();
   }
 
-  private async _setLender() {
-    this.lenderOptionTpl = (await this.activeLenderInjectable.create().value()).json();
-    this.options = [this.lenderOptionTpl, this.web3OptionTpl];
-  }
-
   close(): void {
     this.navController.navigateBack('/users/on-boarding');
+  }
+
+  private async _setLender() {
+    this.options = (await this.lastVersionInjectable.create().inReview())
+      ? [this._web3OptionTpl()]
+      : [(await this.activeLenderInjectable.create().value()).json(), this._web3OptionTpl()];
+  }
+
+  private _web3OptionTpl(): Option {
+    return new Web3Option(this.translate).json();
   }
 }

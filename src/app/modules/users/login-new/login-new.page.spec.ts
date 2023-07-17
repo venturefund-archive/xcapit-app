@@ -18,7 +18,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
@@ -49,7 +49,7 @@ describe('LoginNewPage', () => {
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let loginBiometricActivationModalSpy: jasmine.SpyObj<LoginBiometricActivationModalService>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let fakeBiometricAuth: BiometricAuth;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let loginMigrationServiceSpy: jasmine.SpyObj<LoginMigrationService>;
@@ -143,7 +143,7 @@ describe('LoginNewPage', () => {
         { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: LoginBiometricActivationModalService, useValue: loginBiometricActivationModalSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: LoginMigrationService, useValue: loginMigrationServiceSpy },
         { provide: AuthService, useValue: authServiceSpy },

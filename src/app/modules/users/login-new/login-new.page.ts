@@ -14,7 +14,7 @@ import { VerifyResult } from 'src/app/shared/models/biometric-auth/verify-result
 import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LoginBiometricActivationModalComponent } from '../shared-users/components/login-biometric-activation-modal/login-biometric-activation-modal.component';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
@@ -124,7 +124,7 @@ export class LoginNewPage {
     private biometricAuthInjectable: BiometricAuthInjectable,
     private trackService: TrackService,
     private walletBackupService: WalletBackupService,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private loginBiometricActivationService: LoginBiometricActivationModalService,
     private remoteConfig: RemoteConfigService,
     private loginMigrationService: LoginMigrationService,

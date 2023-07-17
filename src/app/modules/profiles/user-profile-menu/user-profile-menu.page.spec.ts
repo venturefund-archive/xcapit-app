@@ -29,7 +29,7 @@ import { NullNotificationsService } from '../../notifications/shared-notificatio
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
 import { FakeAppVersion } from 'src/app/shared/models/app-version/fake/fake-app-version';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { AppUpdateAvailability } from '@capawesome/capacitor-app-update';
 import { UpdateAppService } from 'src/app/shared/services/update-app/update-app.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
@@ -61,9 +61,8 @@ describe('UserProfileMenuPage', () => {
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
-  let fakeAppVersion: FakeAppVersion;
   let appVersionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let appUpdateSpy: jasmine.SpyObj<any>;
   let updateAppServiceSpy: jasmine.SpyObj<UpdateAppService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
@@ -221,10 +220,8 @@ describe('UserProfileMenuPage', () => {
       getFeatureFlag: false,
     });
 
-    fakeAppVersion = new FakeAppVersion(Promise.resolve('3.0.1'));
-
     appVersionInjectableSpy = jasmine.createSpyObj('AppVersionInjectable', {
-      create: fakeAppVersion,
+      create: new FakeAppVersion(Promise.resolve('3.0.1')),
     });
 
     platformServiceSpy = jasmine.createSpyObj('PlatformService', {
@@ -267,7 +264,7 @@ describe('UserProfileMenuPage', () => {
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: UpdateAppService, useValue: updateAppServiceSpy },
         { provide: TrackService, useValue: trackServiceSpy },
       ],
@@ -489,7 +486,7 @@ describe('UserProfileMenuPage', () => {
 
   it('should get actual version on init', async () => {
     await component.ionViewWillEnter();
-    expect(appVersionInjectableSpy.create).toHaveBeenCalledTimes(1);
+    expect(appVersionInjectableSpy.create).toHaveBeenCalledTimes(2);
   });
 
   it('should update app when button is available and is clicked', async () => {
@@ -502,12 +499,13 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should show options web3 when toggle is checked', async () => {
+    platformServiceSpy.isNative.and.returnValue(false);
     ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(false);
+    remoteConfigServiceSpy.getFeatureFlag.withArgs('ff_address_list').and.returnValue(true);
     await component.ionViewWillEnter();
     fixture.detectChanges();
     const contactsOpt = component.itemMenu.find((category) => category.id === 'contacts');
     const categoryHelpOpt = component.itemMenu.find((category) => category.id === 'categoryHelp');
-    await component.ionViewWillEnter();
     expect(contactsOpt.showCategory).toBeTruthy();
     expect(categoryHelpOpt.showCategory).toBeTruthy();
   });

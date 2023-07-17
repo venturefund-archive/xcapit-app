@@ -2,7 +2,7 @@ import { Directive, OnInit, TemplateRef, ViewContainerRef } from '@angular/core'
 import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
 import { AppVersionInjectable } from '../../models/app-version/injectable/app-version.injectable';
 import { FeatureFlagInjectable } from '../../models/feature-flag/injectable/feature-flag.injectable';
-import { PlatformService } from '../../services/platform/platform.service';
+import { DefaultPlatformService } from '../../services/platform/default/default-platform.service';
 
 @Directive({
   selector: '[appBuyCryptoFeatureFlag]',
@@ -14,7 +14,7 @@ export class BuyCryptoFeatureFlagDirective implements OnInit {
     private remoteConfigService: RemoteConfigService,
     private appVersion: AppVersionInjectable,
     private featureFlag: FeatureFlagInjectable,
-    private platform: PlatformService
+    private platform: DefaultPlatformService
   ) {}
 
   ngOnInit() {

@@ -19,7 +19,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { of, Subject, BehaviorSubject } from 'rxjs';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../shared/services/platform/default/default-platform.service';
 import DepositLinkRequestFactory from '../shared-ramps/models/deposit-link-request/factory/deposit-link-request.factory';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -45,7 +45,7 @@ describe('DirectaPage', () => {
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let languageServiceSpy: jasmine.SpyObj<LanguageService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let directaLinkRequestFactorySpy: jasmine.SpyObj<DepositLinkRequestFactory>;
   let directaLinkRequestSpy: jasmine.SpyObj<DepositLinkRequest>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
@@ -161,7 +161,7 @@ describe('DirectaPage', () => {
         { provide: DynamicDirectaPriceFactory, useValue: dynamicDirectaPriceFactorySpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: LanguageService, useValue: languageServiceSpy },
         { provide: DepositLinkRequestFactory, useValue: directaLinkRequestFactorySpy },
         { provide: BrowserService, useValue: browserServiceSpy },

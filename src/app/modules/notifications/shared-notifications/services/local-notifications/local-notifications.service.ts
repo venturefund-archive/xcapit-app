@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, LocalNotifications, LocalNotificationSchema } from '@capacitor/local-notifications';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ export class LocalNotificationsService {
   localNotifications = LocalNotifications;
   private hasPermission = false;
 
-  constructor(private platformService: PlatformService) {}
+  constructor(private platformService: DefaultPlatformService) {}
 
   async init(): Promise<any> {
     return this.localNotifications.requestPermissions().then((result) => {

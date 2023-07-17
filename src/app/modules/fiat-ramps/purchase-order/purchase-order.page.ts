@@ -6,7 +6,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { addHours } from 'date-fns';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -128,7 +128,7 @@ export class PurchaseOrderPage {
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
     private navController: NavController,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private fiatRampsService: FiatRampsService,
     private modalController: ModalController,
     private kriptonStorageService: KriptonStorageService,

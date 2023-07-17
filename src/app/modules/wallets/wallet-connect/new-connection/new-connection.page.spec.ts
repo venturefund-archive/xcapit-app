@@ -16,7 +16,7 @@ import { of, BehaviorSubject } from 'rxjs';
 import { rawWalletConnectUriV2, rawWalletConnectUriV1 } from '../../shared-wallets/fixtures/raw-wallet-connect-uri';
 import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { By } from '@angular/platform-browser';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
@@ -62,7 +62,7 @@ describe('NewConnectionPage', () => {
   let alertControllerSpy: any;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let platformSpy: jasmine.SpyObj<Platform>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let wcServiceSpy: jasmine.SpyObj<WCService>;
   let wcConnectionV2: jasmine.SpyObj<WCConnectionV2>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
@@ -147,7 +147,7 @@ describe('NewConnectionPage', () => {
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: Platform, useValue: platformSpy },
         { provide: WCService, useValue: wcServiceSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: WCConnectionV2, useValue: wcConnectionV2 },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
