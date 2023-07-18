@@ -93,7 +93,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private googleAuth: GoogleAuthService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this._initializeApp();
     this._statusBarConfig();
     this._enableSubmitButtonService();
@@ -102,6 +102,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this._checkTransactionStatus();
     this._setConnectionStatus();
     this._initializeGoogleAuth();
+    await this._setDefaultLender();
     this._subscribeToFirebaseDynamicLinks();
   }
 
@@ -133,7 +134,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private _initializeApp() {
-    this._setDefaultLender();
     this.setCapacitorApp();
     this._setSession();
     this.checkAssetsStructure();
@@ -302,10 +302,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private _subscribeToFirebaseDynamicLinks() {
-    this.firebaseDynamicLinks.addListener('deepLinkOpen', (deepLink: DeepLinkOpen) => {
+    this.firebaseDynamicLinks.addListener('deepLinkOpen', async (deepLink: DeepLinkOpen) => {
       const lender = new URL(deepLink.url).searchParams.get('lender');
       if (lender) {
-        new ActiveLender(this.storage).save(lender);
+        await new ActiveLender(this.storage).save(lender);
       }
     });
   }

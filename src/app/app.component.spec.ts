@@ -255,7 +255,7 @@ describe('AppComponent', () => {
   });
 
   it('should set up app on init', async () => {
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     await firebaseDynamicLinks.executeEvent('deepLinkOpen', { url: `https://test-url?lender=${aLenderName}` });
     expect(googleAuthServiceSpy.init).toHaveBeenCalledTimes(1);
@@ -277,7 +277,7 @@ describe('AppComponent', () => {
     capacitorNotificationsServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
       callback(tapInsideApp);
     });
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/test-url');
@@ -287,7 +287,7 @@ describe('AppComponent', () => {
     capacitorNotificationsServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
       callback(tapBrowserInApp);
     });
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://test-url' });
@@ -308,7 +308,7 @@ describe('AppComponent', () => {
   });
 
   it('should track wallet address if its not tracked already', async () => {
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     expect(trackedWalletAddressSpy.value).toHaveBeenCalledTimes(1);
@@ -316,7 +316,7 @@ describe('AppComponent', () => {
 
   it('should not track wallet address if its tracked already', async () => {
     trackedWalletAddressSpy.isAlreadyTracked.and.resolveTo(true);
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     expect(trackedWalletAddressSpy.value).toHaveBeenCalledTimes(0);
@@ -328,7 +328,7 @@ describe('AppComponent', () => {
       callback();
     });
     capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     expect(appSessionSpy.save).toHaveBeenCalledTimes(1);
   });
