@@ -15,6 +15,6 @@ describe('GalleryPhoto', () => {
   });
 
   it('path', async () => {
-    expect(await galleryPhoto.path()).toEqual('data:');
+    expect(await galleryPhoto.path()).toEqual('data:application/octet-stream;base64,');
   });
 });
