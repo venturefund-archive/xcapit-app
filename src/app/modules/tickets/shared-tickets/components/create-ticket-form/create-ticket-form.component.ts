@@ -7,7 +7,7 @@ import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { CapacitorDeviceInjectable } from 'src/app/shared/models/capacitor-device/injectable/capacitor-device.injectable';
 import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 
 @Component({
   selector: 'app-create-ticket-form',
@@ -151,7 +151,7 @@ export class CreateTicketFormComponent implements OnInit {
     private browserService: BrowserService,
     private capacitorDeviceInjectable: CapacitorDeviceInjectable,
     private appVersionInjectable: AppVersionInjectable,
-    private platformService: PlatformService
+    private platformService: DefaultPlatformService
   ) {}
 
   ngOnInit() {

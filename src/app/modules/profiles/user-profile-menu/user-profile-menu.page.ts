@@ -19,12 +19,12 @@ import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { UpdateAppService } from 'src/app/shared/services/update-app/update-app.service';
 import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
 import { AppUpdate, AppUpdateAvailability } from '@capawesome/capacitor-app-update';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
+import { LastVersion } from 'src/app/shared/models/last-version/last-version';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -68,18 +68,20 @@ import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified
                 slot="end"
               ></ion-toggle>
             </ion-item>
-            <ion-item lines="none" class="ion-no-padding" *appFeatureFlag="'ff_warranty_wallet'">
-              <ion-text class="notifications_text ux-font-text-xs">
-                {{ 'profiles.user_profile_menu.wallet_type' | translate }}</ion-text
-              >
-              <ion-toggle
-                formControlName="warrantyWallet"
-                name="ux_wallet_type"
-                class="ux-toggle ion-no-padding"
-                mode="ios"
-                slot="end"
-              ></ion-toggle>
-            </ion-item>
+            <ng-container *ngIf="!this.inReview">
+              <ion-item lines="none" class="ion-no-padding" *appFeatureFlag="'ff_warranty_wallet'">
+                <ion-text class="notifications_text ux-font-text-xs">
+                  {{ 'profiles.user_profile_menu.wallet_type' | translate }}</ion-text
+                >
+                <ion-toggle
+                  formControlName="warrantyWallet"
+                  name="ux_wallet_type"
+                  class="ux-toggle ion-no-padding"
+                  mode="ios"
+                  slot="end"
+                ></ion-toggle>
+              </ion-item>
+            </ng-container>
           </form>
           <div class="language">
             <ion-button
@@ -145,12 +147,13 @@ export class UserProfileMenuPage {
     warrantyWallet: [[]],
   });
   private readonly _aTopic = 'app';
-  private readonly _aKey = 'enabledPushNotifications';
+  private readonly _aKey = '_enabledPushNotifications';
   leave$ = new Subject<void>();
   appUpdate = AppUpdate;
   actualVersion: string;
   showButton: boolean;
   isNative: boolean;
+  inReview = true;
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -170,10 +173,11 @@ export class UserProfileMenuPage {
     private trackService: TrackService,
     private appVersionService: AppVersionInjectable,
     private updateAppService: UpdateAppService,
-    private platform: PlatformService
+    private platform: DefaultPlatformService
   ) {}
 
   async ionViewWillEnter() {
+    await this._setInReviewApp();
     this.getProfile();
     this.existWallet();
     this.contactsListAvailable();
@@ -187,6 +191,10 @@ export class UserProfileMenuPage {
       this.getActualVersion();
       this.checkUpdate();
     }
+  }
+
+  private async _setInReviewApp(): Promise<void> {
+    this.inReview = await new LastVersion(this.appVersionService.create(), this.remoteConfig, this.platform).inReview();
   }
 
   async setPushNotifications() {
@@ -239,11 +247,12 @@ export class UserProfileMenuPage {
     return this.notificationsService.getInstance();
   }
 
-  toggle(value: boolean) {
+  async toggle(value: boolean) {
     this.ionicStorageService.set(this._aKey, value);
     value
       ? this.pushNotificationsService().subscribeTo(this._aTopic)
       : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
+    await this.pushNotificationsService().toggleUserNotifications(value).toPromise();
   }
 
   async walletConnectStatus() {

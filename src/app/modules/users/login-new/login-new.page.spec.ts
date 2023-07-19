@@ -18,7 +18,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
@@ -49,7 +49,7 @@ describe('LoginNewPage', () => {
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let loginBiometricActivationModalSpy: jasmine.SpyObj<LoginBiometricActivationModalService>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let fakeBiometricAuth: BiometricAuth;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let loginMigrationServiceSpy: jasmine.SpyObj<LoginMigrationService>;
@@ -65,10 +65,7 @@ describe('LoginNewPage', () => {
     biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
       create: fakeBiometricAuth,
     });
-    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
-      'subscribeTo',
-      'unsubscribeFrom',
-    ]);
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['subscribeTo', 'unsubscribeFrom']);
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: nullNotificationServiceSpy,
     });
@@ -86,7 +83,7 @@ describe('LoginNewPage', () => {
       set: Promise.resolve(),
     });
     ionicStorageServiceSpy.get.withArgs('loginToken').and.resolveTo(aHashedPassword);
-    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(true);
+    ionicStorageServiceSpy.get.withArgs('_enabledPushNotifications').and.resolveTo(true);
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
@@ -126,11 +123,11 @@ describe('LoginNewPage', () => {
     });
     upgradeWalletsSpy = jasmine.createSpyObj('UpgradeWallets', {
       run: Promise.resolve(),
-      onNeedPass: new SimpleSubject()
+      onNeedPass: new SimpleSubject(),
     });
 
     appSessionInjectableSpy = jasmine.createSpyObj('AppSessionInjectable', {
-      create: { save: () => null }
+      create: { save: () => null },
     });
 
     TestBed.configureTestingModule({
@@ -146,7 +143,7 @@ describe('LoginNewPage', () => {
         { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: LoginBiometricActivationModalService, useValue: loginBiometricActivationModalSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: LoginMigrationService, useValue: loginMigrationServiceSpy },
         { provide: AuthService, useValue: authServiceSpy },
@@ -185,11 +182,11 @@ describe('LoginNewPage', () => {
   }));
 
   it('should enable push notifications by default', fakeAsync(() => {
-    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(null);
+    ionicStorageServiceSpy.get.withArgs('_enabledPushNotifications').and.resolveTo(null);
     component.ionViewWillEnter();
     fixture.detectChanges();
     tick();
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('enabledPushNotifications', true);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('_enabledPushNotifications', true);
   }));
 
   it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync(() => {
@@ -204,7 +201,7 @@ describe('LoginNewPage', () => {
 
   it('should init push notifications and unsubscribe to topic when password is ok and push notifications previously disabled', fakeAsync(() => {
     component.ionViewWillEnter();
-    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(false);
+    ionicStorageServiceSpy.get.withArgs('_enabledPushNotifications').and.resolveTo(false);
     component.form.patchValue({ password: aPassword });
     component.handleSubmit(false);
     fixture.detectChanges();

@@ -36,6 +36,7 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -246,7 +247,8 @@ export class HomeWalletPage implements OnInit {
     private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable,
     private base64ImageFactory: Base64ImageFactory,
     private contactService: ContactDataService,
-    private wcService: WCService
+    private wcService: WCService,
+    private notificationsService: NotificationsService
   ) {}
 
   ngOnInit() {}
@@ -260,6 +262,7 @@ export class HomeWalletPage implements OnInit {
     this.getNewTokensAvailable();
     this.checkConnectionOfWalletConnect();
     this.cleanContact();
+    this.notificationsService.getInstance().register();
   }
 
   async getSliderImages() {

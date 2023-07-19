@@ -5,6 +5,8 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services/tx-in-progress/tx-in-progress.service';
+import { NotificationsService } from '../../../notifications/shared-notifications/services/notifications/notifications.service';
+import { ActiveLender } from 'src/app/shared/models/active-lender/active-lender';
 
 @Component({
   selector: 'app-remove-wallet',
@@ -101,6 +103,7 @@ import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services
 export class RemoveWalletPage {
   acceptTos = false;
   loading = false;
+  private _lenderName: string;
 
   constructor(
     private navController: NavController,
@@ -108,18 +111,30 @@ export class RemoveWalletPage {
     private queueService: QueueService,
     private walletConnectService: WalletConnectService,
     private ionicStorageService: IonicStorageService,
-    private txInProgressService: TxInProgressService
+    private txInProgressService: TxInProgressService,
+    private notificationsService: NotificationsService
   ) {}
 
   async remove() {
     this._enableLoading();
     await this.storageService.removeWalletFromStorage();
     this.queueService.dequeueAll();
+    await this._backupLender();
     this._cleanStorage();
     await this.walletConnectService.killSession();
     await this._goToSuccessPage();
     this._disableLoading();
     await this._removeInProgressTransactions();
+    this.notificationsService.getInstance().clearRegistration();
+    this._restoreLender();
+  }
+
+  private async _backupLender() {
+    this._lenderName = await new ActiveLender(this.ionicStorageService).name();
+  }
+
+  private async _restoreLender(): Promise<void> {
+    await new ActiveLender(this.ionicStorageService).save(this._lenderName);
   }
 
   private _enableLoading(): void {

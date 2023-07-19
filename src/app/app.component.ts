@@ -7,7 +7,7 @@ import { UpdateService } from './shared/services/update/update.service';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@capacitor/status-bar';
-import { PlatformService } from './shared/services/platform/platform.service';
+import { DefaultPlatformService } from './shared/services/platform/default/default-platform.service';
 import { CONFIG } from './config/app-constants.config';
 import { URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
@@ -34,6 +34,8 @@ import { RemoteConfigService } from './shared/services/remote-config/remote-conf
 import { DefaultWCUri } from './shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { GoogleAuthService } from './shared/services/google-auth/google-auth.service';
 import { FirebaseDynamicLinks } from '@pantrist/capacitor-firebase-dynamic-links';
+import { ActiveLender } from './shared/models/active-lender/active-lender';
+import { DeepLinkOpen } from '@pantrist/capacitor-firebase-dynamic-links/dist/esm/definitions';
 @Component({
   selector: 'app-root',
   template: `
@@ -55,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
   statusBar = StatusBar;
   session: AppSession;
   app: CapacitorApp;
-  newFirebaseDynamicLinks = FirebaseDynamicLinks;
+  firebaseDynamicLinks = FirebaseDynamicLinks;
 
   connected = false;
 
@@ -67,7 +69,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private updateService: UpdateService,
     private translate: TranslateService,
     private el: ElementRef,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private zone: NgZone,
     private walletConnectService: WalletConnectService,
     private walletConnectServiceV2: WCConnectionV2,
@@ -91,7 +93,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private googleAuth: GoogleAuthService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this._initializeApp();
     this._statusBarConfig();
     this._enableSubmitButtonService();
@@ -100,7 +102,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this._checkTransactionStatus();
     this._setConnectionStatus();
     this._initializeGoogleAuth();
-    this._testFirebaseDynamicLinks();
+    await this._setDefaultLender();
+    this._subscribeToFirebaseDynamicLinks();
   }
 
   private _initializeGoogleAuth() {
@@ -144,6 +147,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.trackUserWalletAddress();
       this.pushNotificationActionPerformed();
     });
+  }
+
+  private async _setDefaultLender(): Promise<void> {
+    return this._activeLender().save((await this._activeLender().name()) ?? 'naranjax');
+  }
+
+  private _activeLender(): ActiveLender {
+    return new ActiveLender(this.storage);
   }
 
   private pushNotificationActionPerformed() {
@@ -290,13 +301,16 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.remoteConfigService.getFeatureFlag('ff_walletConnectV2');
   }
 
-  _testFirebaseDynamicLinks() {
-    this.newFirebaseDynamicLinks.addListener('deepLinkOpen', (data: any) => {
-      console.debug('new dynamic links void implementation', data);
+  private _subscribeToFirebaseDynamicLinks() {
+    this.firebaseDynamicLinks.addListener('deepLinkOpen', async (deepLink: DeepLinkOpen) => {
+      const lender = new URL(deepLink.url).searchParams.get('lender');
+      if (lender) {
+        await new ActiveLender(this.storage).save(lender);
+      }
     });
   }
 
   async ngOnDestroy() {
-    await this.newFirebaseDynamicLinks.removeAllListeners();
+    await this.firebaseDynamicLinks.removeAllListeners();
   }
 }

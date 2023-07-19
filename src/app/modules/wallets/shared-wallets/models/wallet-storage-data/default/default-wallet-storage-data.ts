@@ -1,10 +1,10 @@
 import { LoggedIn } from 'src/app/modules/users/shared-users/models/logged-in/logged-in';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { StorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { WalletStorageData } from '../wallet-storage-data.interface';
+import { ApiProfilesService } from 'src/app/modules/profiles/shared-profiles/services/api-profiles/api-profiles.service';
 
 export class DefaultWalletStorageData implements WalletStorageData {
-  constructor(private _aStorage: StorageService) {}
+  constructor(private _aStorage: StorageService, private _aProfileService: ApiProfilesService) {}
   async save(): Promise<void> {
     await this._saveUserAcceptTos();
     await this._saveTokensStructureMigrated();
@@ -20,7 +20,8 @@ export class DefaultWalletStorageData implements WalletStorageData {
   }
   private async _saveEnabledPushNotifications(): Promise<void> {
     if (!(await this._aStorage.get('_enabledPushNotifications'))) {
-      await this._aStorage.set('_enabledPushNotifications', true);
+      const profileData = await this._aProfileService.getUserData().toPromise();
+      await this._aStorage.set('_enabledPushNotifications', profileData.notifications_enabled);
     }
   }
   private async _saveLoggedIn(): Promise<void> {

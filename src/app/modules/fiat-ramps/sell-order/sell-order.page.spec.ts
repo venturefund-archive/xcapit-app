@@ -66,6 +66,7 @@ const rawOperationData = {
   wallet: '0x000000000000000000000dead',
   provider: '1',
   network: 'MATIC',
+  kripton_wallet: 'XXXXXXXXXXXXXXXXXXXXX',
 };
 
 const operationData = {
@@ -213,7 +214,7 @@ describe('SellOrderPage', () => {
       setProvider: null,
       registerUserBank: of({ id: 100 }),
       createOperation: of({ id: 345, created_at: '2000-1-1' }),
-      getKriptonMinimumAmount: of({ minimun_general: 20 }),
+      getKriptonMinimumAmount: of({ minimum_general: 20 }),
       getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
       getKriptonFee: of({ data: { costs: '0.50', amount_in: '100', amount_out: '200' } }),
     });
@@ -281,12 +282,21 @@ describe('SellOrderPage', () => {
 
   it('should set country, default currency, provider and price on init', async () => {
     await component.ionViewWillEnter();
+    priceSubject.next(1);
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
     expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledOnceWith('1');
     expect(component.providerTokens).toEqual(coinsSpy);
     expect(component.selectedCurrency).toEqual(coinsSpy[1]);
     expect(component.fiatCurrency).toEqual('ars');
-    expect(component.fiatPrice).toEqual(385);
+    expect(component.fiatPrice).toEqual(1);
+    expect(fiatRampsServiceSpy.getKriptonMinimumAmount).toHaveBeenCalledOnceWith({
+      currency_in: coinsSpy[1].value,
+      operation_type: 'cash-out',
+      currency_out: 'ars',
+      email: 'test@test.com',
+      network_out: coinsSpy[1].network,
+    });
   });
 
   it('should call trackEvent on trackService when ux_buy_kripton_continue Button clicked', () => {

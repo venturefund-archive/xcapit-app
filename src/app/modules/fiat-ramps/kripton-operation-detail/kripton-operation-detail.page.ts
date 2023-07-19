@@ -174,8 +174,7 @@ import { KriptonWallet } from '../shared-ramps/models/kripton-wallet/kripton-wal
               <div class="kod__card-container__card__fee__container__content">
                 <ion-skeleton-text *ngIf="!this.fee" animated></ion-skeleton-text>
                 <ion-text *ngIf="this.fee" class="ux-font-text-base">
-                  {{ this.fee | formattedAmount }}
-                  {{ 'MATIC' }}
+                  {{ this.fee | formattedAmount }} {{ this.nativeToken.symbol() }}
                 </ion-text>
               </div>
             </div>
@@ -395,7 +394,7 @@ export class KriptonOperationDetailPage {
       this.getCountry();
       this.status = this._getOperationStatus();
       this._setText(this.operation.operation_type, this.status.textToShow);
-      this.setDataToShow();
+      await this.setDataToShow();
     } catch (error) {
       this.navigateBackToOperations();
     }
@@ -507,6 +506,7 @@ export class KriptonOperationDetailPage {
       providerFee: this.operation.fiat_fee / this.conversionRate,
       fee: this.fee,
       payment_method_id: this.operation.payment_method_id,
+      kripton_wallet: this.walletToSend
     };
     this.storageOperationService.updateData(data);
   }

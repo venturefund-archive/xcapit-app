@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
-import { PlatformService } from '../platform/platform.service';
+import { DefaultPlatformService } from '../platform/default/default-platform.service';
 import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 export class FirebaseService {
   firebaseAnalytics = FirebaseAnalytics;
   importedFirebase = firebase;
-  constructor(private platformService: PlatformService) {}
+  constructor(private platformService: DefaultPlatformService) {}
 
   async init(): Promise<void> {
     if (this.platformService.isWeb()) {

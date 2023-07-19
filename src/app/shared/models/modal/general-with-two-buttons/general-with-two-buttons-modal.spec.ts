@@ -9,6 +9,7 @@ describe('GeneralWithTwoButtonsModal', () => {
 
   beforeEach(() => {
     generalWithTwoButtonsModal = new GeneralWithTwoButtonsModal(
+      null,
       'aHighlightedHeader',
       'aHeaderKey',
       'anInformationKey',

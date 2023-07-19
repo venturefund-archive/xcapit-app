@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { PlatformService } from './platform.service';
+import { DefaultPlatformService } from './default-platform.service';
 
-describe('PlatformService', () => {
-  let service: PlatformService;
+describe('DefaultPlatformService', () => {
+  let service: DefaultPlatformService;
   let capacitorSpy: jasmine.SpyObj<any>;
 
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('PlatformService', () => {
     TestBed.configureTestingModule({
       providers: [],
     });
-    service = TestBed.inject(PlatformService);
+    service = TestBed.inject(DefaultPlatformService);
     service.capacitor = capacitorSpy;
   });
 

@@ -70,16 +70,10 @@ describe('GeneralModalWithTwoButtonsComponent', () => {
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
-  it('should open Naranja X main page when Go To Kripton link is clicked', () => {
+  it('should open link when link button is clicked', () => {
     fixture.debugElement.query(By.css('ion-text[name="Go To More Info"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: LINKS.naranjax });
-  });
-
-  it('should open Naranja X main page when Go To Kripton link is clicked', () => {
-    fixture.debugElement.query(By.css('ion-text[name="Go To More Info"]')).nativeElement.click();
-    fixture.detectChanges();
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: LINKS.naranjax });
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: component.link });
   });
 
   it('should track event when first button is clicked', async () => {
@@ -100,7 +94,7 @@ describe('GeneralModalWithTwoButtonsComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(component.urlFirstButton);
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
-  
+
   it('should navigate to page when second button is clicked', async () => {
     fixture.debugElement.query(By.css('ion-button[name="secondButton"]')).nativeElement.click();
     fixture.detectChanges();

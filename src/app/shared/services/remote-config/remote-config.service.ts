@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { RemoteConfiguration } from '../../interfaces/remote-configuration.interface';
+import { RemoteConfig } from './remote-config.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RemoteConfigService {
+export class RemoteConfigService implements RemoteConfig {
   private remoteConfig: RemoteConfiguration;
 
   constructor() {}
@@ -18,7 +19,7 @@ export class RemoteConfigService {
     return this.remoteConfig.getFeatureFlag(param);
   }
 
-  getString(name: string) {
+  getString(name: string): string {
     return this.remoteConfig.getString(name);
   }
 

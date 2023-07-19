@@ -7,7 +7,7 @@ import { ShareService } from '../../../../../shared/services/share/share.service
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { By } from '@angular/platform-browser';
-import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../../../shared/services/platform/default/default-platform.service';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 describe('ReferralsShareComponent', () => {
@@ -16,13 +16,13 @@ describe('ReferralsShareComponent', () => {
   let shareServiceSpy: jasmine.SpyObj<ShareService>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReferralsShareComponent>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
 
   beforeEach(
     waitForAsync(() => {
-    
+
       browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
       platformServiceSpy = jasmine.createSpyObj('PlatformServiceSpy', {
         isNative: true,
@@ -39,7 +39,7 @@ describe('ReferralsShareComponent', () => {
         providers: [
           { provide: ShareService, useValue: shareServiceSpy },
           { provide: ClipboardService, useValue: clipboardServiceSpy },
-          { provide: PlatformService, useValue: platformServiceSpy },
+          { provide: DefaultPlatformService, useValue: platformServiceSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
         ],
       }).compileComponents();

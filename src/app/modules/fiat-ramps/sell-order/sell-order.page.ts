@@ -150,6 +150,7 @@ export class SellOrderPage {
   fiatCurrency: string;
   country: any;
   coin: any;
+  nativeToken: Coin;
   provider: FiatRampProvider;
   priceRefreshInterval = 15000;
   destroy$: Subject<void>;
@@ -191,6 +192,7 @@ export class SellOrderPage {
     this.setCoin();
     this.dynamicPrice();
     this.setBlockchain(this.selectedCurrency.network);
+    this.getNativeToken();
     this.subscribeToFormChanges();
   }
 
@@ -248,6 +250,10 @@ export class SellOrderPage {
     this.blockchain = this.blockchains.create().oneByName(aBlockchainName);
   }
 
+  getNativeToken() {
+    this.nativeToken = this.blockchain.nativeToken().json();
+  }
+
   private gasPrice(): Promise<AmountOf> {
     return this.gasStation.create(this.blockchain).price().standard();
   }
@@ -289,7 +295,7 @@ export class SellOrderPage {
     await this.setFee();
     this.dynamicFee = {
       value: this.fee.value,
-      token: this.selectedCurrency.network,
+      token: this.nativeToken.value,
       totalDigits: 14,
       maxDecimals: this.blockchain.nativeToken().decimals(),
     };
@@ -351,12 +357,16 @@ export class SellOrderPage {
   }
 
   private async getMinimumCryptoAmount() {
-    const data = { email: await this._getUserEmail() };
-    const response = await this.fiatRampsService
-      .getKriptonMinimumAmount(this.selectedCurrency.value, 'cash-out', data)
-      .toPromise();
+    const data = {
+      email: await this._getUserEmail(),
+      operation_type: 'cash-out',
+      currency_in: this.selectedCurrency.value,
+      currency_out: this.fiatCurrency,
+      network_out: this.selectedCurrency.network,
+    };
+    const response = await this.fiatRampsService.getKriptonMinimumAmount(data).toPromise();
 
-    this.minimumCryptoAmount = parseFloat(response.minimun_general);
+    this.minimumCryptoAmount = parseFloat(response.minimum_general);
 
     this.addGreaterThanValidator(this.minimumCryptoAmount);
     await this.getUpdatedValues(this.minimumCryptoAmount);
@@ -440,6 +450,7 @@ export class SellOrderPage {
               operation_id: operationResponse.id,
               created_at: operationResponse.created_at,
               payment_method_id: this.paymentMethodId,
+              kripton_wallet: operationResponse.kripton_wallet,
             },
             this.storageOperationService.getData()
           );

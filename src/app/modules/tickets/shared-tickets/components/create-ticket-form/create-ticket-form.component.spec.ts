@@ -16,7 +16,7 @@ import { CapacitorDevice } from 'src/app/shared/models/capacitor-device/capacito
 import { FakeCapacitorDevice } from 'src/app/shared/models/capacitor-device/fake/fake-capacitor-device';
 import { AppVersion } from 'src/app/shared/models/app-version/app-version.interface';
 import { FakeAppVersion } from 'src/app/shared/models/app-version/fake/fake-app-version';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 
 describe('CreateTicketFormComponent', () => {
   let component: CreateTicketFormComponent;
@@ -27,7 +27,7 @@ describe('CreateTicketFormComponent', () => {
   let capacitorAppVesionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
   let fakeCapacitorDevice: CapacitorDevice;
   let capacitorDeviceInjectableSpy: jasmine.SpyObj<CapacitorDeviceInjectable>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
 
   beforeEach(() => {
     apiTicketServiceSpy = jasmine.createSpyObj('ApiTicketService', {
@@ -79,7 +79,7 @@ describe('CreateTicketFormComponent', () => {
         { provide: BrowserService, useValue: browserServiceSpy },
         { provide: CapacitorDeviceInjectable, useValue: capacitorDeviceInjectableSpy },
         { provide: AppVersionInjectable, useValue: capacitorAppVesionInjectableSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

@@ -6,7 +6,7 @@ import { BuyCryptoFeatureFlagDirective } from './buy-crypto-feature-flag.directi
 import { AppVersionInjectable } from '../../models/app-version/injectable/app-version.injectable';
 import { FakeAppVersion } from '../../models/app-version/fake/fake-app-version';
 import { AppVersion } from '../../models/app-version/app-version.interface';
-import { PlatformService } from '../../services/platform/platform.service';
+import { DefaultPlatformService } from '../../services/platform/default/default-platform.service';
 @Component({
   template: `
     <div *appBuyCryptoFeatureFlag>
@@ -22,7 +22,7 @@ describe('BuyCryptoFeatureFlagDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let appVersionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let fakeAppVersion: AppVersion;
 
   beforeEach(waitForAsync(() => {
@@ -45,7 +45,7 @@ describe('BuyCryptoFeatureFlagDirective', () => {
       providers: [
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

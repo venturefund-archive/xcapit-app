@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initialize-process/wallet-initialize-process';
+import { TranslateService } from '@ngx-translate/core';
+import { Option, Web3Option } from 'src/app/shared/models/web3-option/web3-option';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { LastVersionInjectable } from 'src/app/shared/models/last-version/injectable/last-version.injectable';
 
 @Component({
   selector: 'app-select-wallet-type',
@@ -29,57 +32,11 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
           </div>
         </div>
         <div class="swt__content__button">
-          <div
-            class="swt__content__button__card ux-card no-border"
-            appTrackClick
-            name="ux_create_select_warrant"
-            *appFeatureFlag="'ff_warranty_wallet'"
-            (click)="this.warrantyWallet()"
-          >
-            <div class="swt__content__button__card__icon">
-              <img src="assets/ux-icons/ux-logo-naranjax.svg" />
-            </div>
-            <div class="swt__content__button__card__content">
-              <div class="swt__content__button__card__content__title">
-                <ion-text class="ux-font-text-lg">
-                  {{ 'wallets.select_wallet_type.warranty_wallet.title' | translate }}
-                </ion-text>
-              </div>
-              <div class="swt__content__button__card__content__description">
-                <ion-text class="ux-font-text-xxs">
-                  {{ 'wallets.select_wallet_type.warranty_wallet.description' | translate }}
-                </ion-text>
-              </div>
-            </div>
-            <div class="swt__content__button__card__chevron">
-              <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
-            </div>
-          </div>
-          <div
-            class="swt__content__button__card ux-card no-border"
-            appTrackClick
-            name="ux_create_select_web3"
-            (click)="this.web3Wallet()"
-          >
-            <div class="swt__content__button__card__icon">
-              <img src="assets/ux-icons/ux-checked-info.svg" />
-            </div>
-            <div class="swt__content__button__card__content">
-              <div class="swt__content__button__card__content__title">
-                <ion-text class="ux-font-text-lg">
-                  {{ 'wallets.select_wallet_type.web3_wallet.title' | translate }}
-                </ion-text>
-              </div>
-              <div class="swt__content__button__card__content__description">
-                <ion-text class="ux-font-text-xxs">
-                  {{ 'wallets.select_wallet_type.web3_wallet.description' | translate }}
-                </ion-text>
-              </div>
-            </div>
-            <div class="swt__content__button__card__chevron">
-              <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
-            </div>
-          </div>
+          <ng-container *ngFor="let option of this.options">
+            <ng-container *ngIf="option">
+              <app-wallet-type-card [option]="option"></app-wallet-type-card>
+            </ng-container>
+          </ng-container>
         </div>
       </div>
     </ion-content>
@@ -94,27 +51,29 @@ import { WalletInitializeProcess } from '../shared-wallets/services/wallet-initi
   styleUrls: ['./select-wallet-type.page.scss'],
 })
 export class SelectWalletTypePage {
-  constructor(private navController: NavController, private walletInitializeProcessService: WalletInitializeProcess) {}
+  options: Option[] = [];
+  constructor(
+    private navController: NavController,
+    private translate: TranslateService,
+    private activeLenderInjectable: ActiveLenderInjectable,
+    private lastVersionInjectable: LastVersionInjectable
+  ) {}
 
-  async warrantyWallet(): Promise<void> {
-    this.walletInitializeProcessService.setWarrantyWallet(true);
-    this._goToNaranjaSteps();
-  }
-
-  async web3Wallet(): Promise<void> {
-    this.walletInitializeProcessService.setWarrantyWallet(false);
-    this._goToPasswordCreation();
-  }
-
-  private _goToPasswordCreation() {
-    this.navController.navigateForward('/wallets/create-password/create');
-  }
-
-  private _goToNaranjaSteps(): void {
-    this.navController.navigateForward('/wallets/steps-naranjax');
+  async ionViewWillEnter() {
+    await this._setLender();
   }
 
   close(): void {
     this.navController.navigateBack('/users/on-boarding');
+  }
+
+  private async _setLender() {
+    this.options = (await this.lastVersionInjectable.create().inReview())
+      ? [this._web3OptionTpl()]
+      : [(await this.activeLenderInjectable.create().value()).json(), this._web3OptionTpl()];
+  }
+
+  private _web3OptionTpl(): Option {
+    return new Web3Option(this.translate).json();
   }
 }

@@ -16,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import DepositLinkRequest from '../shared-ramps/models/deposit-link-request/deposit-link-request';
 import DepositLinkRequestFactory from '../shared-ramps/models/deposit-link-request/factory/deposit-link-request.factory';
@@ -116,7 +116,7 @@ export class DirectaPage implements OnInit {
     private directaPrice: DynamicDirectaPriceFactory,
     private fiatRampsService: FiatRampsService,
     private storageService: StorageService,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private languageService: LanguageService,
     private depositLinkRequestFactory: DepositLinkRequestFactory,
     private browserService: BrowserService,

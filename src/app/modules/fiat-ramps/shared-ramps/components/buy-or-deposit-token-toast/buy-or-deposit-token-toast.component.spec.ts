@@ -15,7 +15,7 @@ import { TokenOperationDataService } from '../../services/token-operation-data/t
 import { BuyOrDepositTokenToastComponent } from './buy-or-deposit-token-toast.component';
 import { RemoteConfigService } from '../../../../../shared/services/remote-config/remote-config.service';
 import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
-import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../../../shared/services/platform/default/default-platform.service';
 import { FakeAppVersion } from 'src/app/shared/models/app-version/fake/fake-app-version';
 import { FiatRampsService } from '../../services/fiat-ramps.service';
 import { of } from 'rxjs';
@@ -35,7 +35,7 @@ describe('BuyOrDepositTokenToastComponent', () => {
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let fakeAppVersion: FakeAppVersion;
   let appVersionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
 
   const availableKriptonCurrencies = [
@@ -89,7 +89,7 @@ describe('BuyOrDepositTokenToastComponent', () => {
         { provide: TranslateService, useValue: translateServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

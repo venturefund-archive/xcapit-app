@@ -6,7 +6,7 @@ import { TOOLS_CARDS } from '../shared-tools/components/tools-card/tools-card-co
 import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { AppVersionInjectable } from '../../../shared/models/app-version/injectable/app-version.injectable';
-import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { DefaultPlatformService } from '../../../shared/services/platform/default/default-platform.service';
 import { ToolsCard } from '../shared-tools/interfaces/tools-card.interface';
 import { WCService } from '../../wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 
@@ -74,7 +74,7 @@ export class ToolsPage implements OnInit {
     private walletBackupService: WalletBackupService,
     private remoteConfigService: RemoteConfigService,
     private appVersion: AppVersionInjectable,
-    private platform: PlatformService,
+    private platform: DefaultPlatformService,
     private wcService: WCService
   ) {}
 

@@ -14,6 +14,7 @@ import { MnemonicOf } from '../../models/mnemonic-of/mnemonic-of';
 import { FakeEthersWallet } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-ethers-wallet';
 import { WalletStorageData } from '../../models/wallet-storage-data/wallet-storage-data.interface';
 import { SimplifiedWallet } from '../../models/simplified-wallet/simplified-wallet';
+import { ActiveLender } from '../../../../../shared/models/active-lender/active-lender';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,8 @@ export class WalletInitializeProcess {
   private readonly _pushNotificationStorageKey = '_enabledPushNotifications';
   private warrantyWallet: boolean;
   ethersWallet: typeof Wallet | FakeEthersWallet = Wallet;
+  private _lenderName: string;
+
   constructor(
     private blockchains: BlockchainsFactory,
     private xAuthService: XAuthService,
@@ -34,6 +37,8 @@ export class WalletInitializeProcess {
   ) {}
 
   public async run(password: Password, isImport: boolean, walletStorageData: WalletStorageData) {
+    await this._backupLender();
+    await this._clearStorage();
     await this._createXAuthToken(password);
     await this._saveWallets();
     await walletStorageData.save();
@@ -42,6 +47,19 @@ export class WalletInitializeProcess {
     await this._initializeNotifications();
     await this._enableBackupWarningModal();
     await this._saveWarrantyWallet(isImport);
+    await this._restoreLender();
+  }
+
+  private async _backupLender() {
+    this._lenderName = await new ActiveLender(this.ionicStorageService).name();
+  }
+
+  private async _restoreLender(): Promise<void> {
+    await new ActiveLender(this.ionicStorageService).save(this._lenderName);
+  }
+
+  private async _clearStorage(): Promise<void> {
+    await this.ionicStorageService.clear();
   }
 
   private async _createXAuthToken(password: Password): Promise<void> {

@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { ScanQrModalComponent } from '../../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
 import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
@@ -126,7 +126,7 @@ export class AddressInputCardComponent implements OnInit {
     private toastService: ToastService,
     private translate: TranslateService,
     private formGroupDirective: FormGroupDirective,
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private ionicStorage: IonicStorageService,
     private contactDataService: ContactDataService
   ) {}

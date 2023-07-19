@@ -50,6 +50,7 @@ describe('WalletInitializeProcess', () => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
       set: Promise.resolve(null),
+      clear: Promise.resolve(),
     });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { saveWalletAddresses: of({}) }, {});
@@ -91,11 +92,12 @@ describe('WalletInitializeProcess', () => {
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith(
       'loginToken',
       'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA=='
-      );
+    );
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('warranty_wallet', true);
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(walletBackupServiceSpy.enableModal).not.toHaveBeenCalled();
+    expect(ionicStorageServiceSpy.clear).toHaveBeenCalledTimes(1);
   });
 
   it('run with disabled notifications', async () => {
@@ -112,5 +114,6 @@ describe('WalletInitializeProcess', () => {
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
     expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
+    expect(ionicStorageServiceSpy.clear).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ShareService } from '../../../../../shared/services/share/share.service';
 import { CachedAssetFactory } from 'src/app/shared/models/asset/cached-asset/factory/cached-asset-factory';
@@ -30,7 +30,7 @@ export class ShareEducationComponent implements OnInit {
   asset: string;
   canShare: boolean;
   constructor(
-    private platformService: PlatformService,
+    private platformService: DefaultPlatformService,
     private translate: TranslateService,
     private shareService: ShareService,
     private cachedAsset: CachedAssetFactory,

@@ -161,6 +161,20 @@ describe('FiatRampsService', () => {
     });
   });
 
+  it('should call post on http when getKriptonMinimumAmount', () => {
+    fiatRampsService
+      .getKriptonMinimumAmount({
+        currency_in: 'ars',
+        operation_type: 'cash-in',
+        currency_out: 'USDC',
+        email: 'test@test.com',
+        network_out: 'MATIC',
+      })
+      .subscribe(() => {
+        expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+      });
+  });
+
   it('should call get on http when getMoonpayLimitOfBuyQuote', () => {
     fiatRampsService.getMoonpayLimitOfBuyQuote('eth', 'usd').subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);

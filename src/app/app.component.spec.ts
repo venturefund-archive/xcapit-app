@@ -7,7 +7,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
-import { PlatformService } from './shared/services/platform/platform.service';
+import { DefaultPlatformService } from './shared/services/platform/default/default-platform.service';
 import { of } from 'rxjs';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
@@ -42,10 +42,13 @@ import { WCConnectionV2 } from './modules/wallets/shared-wallets/services/wallet
 import { WCService } from './modules/wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 import { GoogleAuthService } from './shared/services/google-auth/google-auth.service';
+import { FakeListener } from './shared/models/fake-listener/fake-listener';
+import { FakeAppStorage } from './shared/services/app-storage/app-storage.service';
+import { ActiveLender } from './shared/models/active-lender/active-lender';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let platformServiceSpy: jasmine.SpyObj<DefaultPlatformService>;
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: jasmine.SpyObj<LanguageService>;
@@ -59,7 +62,7 @@ describe('AppComponent', () => {
   let localNotificationServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let fakeStorage: FakeAppStorage;
   let trackedWalletAddressSpy: jasmine.SpyObj<TrackedWalletAddress>;
   let trackedWalletAddressInjectableSpy: jasmine.SpyObj<TrackedWalletAddressInjectable>;
   let capacitorAppInjectableSpy: jasmine.SpyObj<CapacitorAppInjectable>;
@@ -81,8 +84,10 @@ describe('AppComponent', () => {
   let wcServiceSpy: jasmine.SpyObj<WCService>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let googleAuthServiceSpy: jasmine.SpyObj<GoogleAuthService>;
-  let newFirebaseDynamicLinksSpy: jasmine.SpyObj<any>;
+  let firebaseDynamicLinksSpy: jasmine.SpyObj<any>;
+  let firebaseDynamicLinks: FakeListener | any;
 
+  const aLenderName = 'aLenderName';
   const tapBrowserInApp = {
     actionId: 'tap',
     notification: {
@@ -91,7 +96,6 @@ describe('AppComponent', () => {
       },
     },
   };
-
   const tapInsideApp = {
     actionId: 'tap',
     notification: {
@@ -137,17 +141,13 @@ describe('AppComponent', () => {
       getInstance: capacitorNotificationsServiceSpy,
     });
 
-    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
-      get: Promise.resolve(true),
-      set: Promise.resolve(),
-    });
-
-    ionicStorageServiceSpy.get.withArgs('loggedIn').and.resolveTo(true);
+    fakeStorage = new FakeAppStorage({ loggedIn: true });
 
     trackedWalletAddressSpy = jasmine.createSpyObj('TrackedWalletAddress', {
       value: null,
       isAlreadyTracked: Promise.resolve(false),
     });
+
     trackedWalletAddressInjectableSpy = jasmine.createSpyObj('TrackedWalletAddressInjectable', {
       create: trackedWalletAddressSpy,
     });
@@ -202,10 +202,12 @@ describe('AppComponent', () => {
       getFeatureFlag: true,
     });
 
-    newFirebaseDynamicLinksSpy = jasmine.createSpyObj('FirebaseDynamicLinks', {
+    firebaseDynamicLinksSpy = jasmine.createSpyObj('FirebaseDynamicLinks', {
       addListener: null,
       removeAllListeners: Promise.resolve(),
     });
+
+    firebaseDynamicLinks = new FakeListener();
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
@@ -213,7 +215,7 @@ describe('AppComponent', () => {
       providers: [
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: Platform, useValue: platformSpy },
-        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: DefaultPlatformService, useValue: platformServiceSpy },
         { provide: LanguageService, useValue: languageServiceSpy },
         { provide: UpdateService, useValue: updateServiceSpy },
         { provide: SubmitButtonService, useValue: submitButtonServiceSpy },
@@ -222,7 +224,7 @@ describe('AppComponent', () => {
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: IonicStorageService, useValue: fakeStorage },
         { provide: TrackedWalletAddressInjectable, useValue: trackedWalletAddressInjectableSpy },
         { provide: CapacitorAppInjectable, useValue: capacitorAppInjectableSpy },
         { provide: AppSessionInjectable, useValue: appSessionInjectableSpy },
@@ -244,7 +246,7 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     component.statusBar = statusBarSpy;
-    component.newFirebaseDynamicLinks = newFirebaseDynamicLinksSpy;
+    component.firebaseDynamicLinks = firebaseDynamicLinks;
   }));
 
   it('should create the app', async () => {
@@ -253,8 +255,9 @@ describe('AppComponent', () => {
   });
 
   it('should set up app on init', async () => {
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
+    await firebaseDynamicLinks.executeEvent('deepLinkOpen', { url: `https://test-url?lender=${aLenderName}` });
     expect(googleAuthServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(submitButtonServiceSpy.enabled).toHaveBeenCalledTimes(1);
     expect(updateServiceSpy.checkForUpdate).toHaveBeenCalledTimes(1);
@@ -266,15 +269,15 @@ describe('AppComponent', () => {
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(walletMaintenanceServiceSpy.checkTokensStructure).toHaveBeenCalledTimes(1);
     expect(txInProgressServiceSpy.checkTransactionStatus).toHaveBeenCalledTimes(1);
-    expect(newFirebaseDynamicLinksSpy.addListener).toHaveBeenCalledTimes(1);
     expect(component.connected).toBeTrue();
+    expect(await (new ActiveLender(fakeStorage)).name()).toEqual(aLenderName);
   });
 
   it('should navigate to test-url inside the app when tap a notification', async () => {
     capacitorNotificationsServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
       callback(tapInsideApp);
     });
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/test-url');
@@ -284,7 +287,7 @@ describe('AppComponent', () => {
     capacitorNotificationsServiceSpy.pushNotificationActionPerformed.and.callFake((callback) => {
       callback(tapBrowserInApp);
     });
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://test-url' });
@@ -305,7 +308,7 @@ describe('AppComponent', () => {
   });
 
   it('should track wallet address if its not tracked already', async () => {
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     expect(trackedWalletAddressSpy.value).toHaveBeenCalledTimes(1);
@@ -313,7 +316,7 @@ describe('AppComponent', () => {
 
   it('should not track wallet address if its tracked already', async () => {
     trackedWalletAddressSpy.isAlreadyTracked.and.resolveTo(true);
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     expect(trackedWalletAddressSpy.value).toHaveBeenCalledTimes(0);
@@ -325,7 +328,7 @@ describe('AppComponent', () => {
       callback();
     });
     capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     expect(appSessionSpy.save).toHaveBeenCalledTimes(1);
   });
@@ -412,7 +415,7 @@ describe('AppComponent', () => {
     tick();
     component.ngOnDestroy();
     tick();
-    expect(newFirebaseDynamicLinksSpy.removeAllListeners).toHaveBeenCalledTimes(1);
+    expect(firebaseDynamicLinks.eventsCount()).toEqual(0);
     discardPeriodicTasks();
   }));
 });

@@ -99,7 +99,7 @@ describe('OperationsNewPage', () => {
       getOrCreateUser: of({}),
       setProvider: null,
       createOperation: of({ id: 335 }),
-      getKriptonMinimumAmount: of({ minimun_general: 2913 }),
+      getKriptonMinimumAmount: of({ minimum_general: 2913 }),
       getKriptonAvailableCurrencies: of(availableKriptonCurrencies),
       getKriptonFee: of({ data: { costs: '0.50', amount_in: '100', amount_out: '200' } }),
     });
@@ -209,7 +209,9 @@ describe('OperationsNewPage', () => {
 
   it('should set country, default currency, provider and price on init', async () => {
     await component.ionViewWillEnter();
+    priceSubject.next(10);
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
     expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledOnceWith('1');
     expect(component.providerTokens).toEqual(coinsSpy);
     expect(component.country).toEqual({
@@ -225,6 +227,13 @@ describe('OperationsNewPage', () => {
     expect(component.selectedCurrency).toEqual(coinsSpy[1]);
     expect(component.fiatCurrency).toEqual('ars');
     expect(component.fiatPrice).toEqual(10);
+    expect(fiatRampsServiceSpy.getKriptonMinimumAmount).toHaveBeenCalledOnceWith({
+      currency_in: 'ars',
+      operation_type: 'cash-in',
+      currency_out: coinsSpy[1].value,
+      email: 'test@test.com',
+      network_out: coinsSpy[1].network,
+    });
   });
 
   it('should open external link when http link is clicked', () => {
