@@ -22,5 +22,6 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_walletConnectV2: false,
   ff_disableGDriveBackup: false,
   ff_warranty_wallet: false,
-  minimumWarrantyAmount: undefined
+  minimumWarrantyAmount: undefined,
+  warranty_lenders: undefined
 };
