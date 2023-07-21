@@ -10,6 +10,8 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycSummaryDataPage } from './kyc-summary-data.page';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 
 describe('KycSummaryDataPage', () => {
   let component: KycSummaryDataPage;
@@ -19,6 +21,7 @@ describe('KycSummaryDataPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<KycSummaryDataPage>;
 
   const rawDataTest = {
     first_name: 'nameTest',
@@ -79,7 +82,7 @@ describe('KycSummaryDataPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
-      declarations: [KycSummaryDataPage],
+      declarations: [KycSummaryDataPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
@@ -93,6 +96,7 @@ describe('KycSummaryDataPage', () => {
     fixture = TestBed.createComponent(KycSummaryDataPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
   it('should create', () => {
@@ -143,5 +147,23 @@ describe('KycSummaryDataPage', () => {
     fixture.detectChanges();
     expect(fiatRampsServiceSpy.registerUserInfo).toHaveBeenCalledTimes(0);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call trackEvent on trackService when ux_buy_kripton_details_confirm button was clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_details_confirm');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when ux_buy_kripton_politically_exposed checkbox was clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-checkbox', 'ux_buy_kripton_politically_exposed');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
