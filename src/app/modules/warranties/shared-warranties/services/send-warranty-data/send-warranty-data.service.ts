@@ -9,3 +9,7 @@ export class WarrantyDataService {
 
   constructor() {}
 }
+
+export class FakeWarrantyDataService {
+  data: SummaryWarrantyData;
+}

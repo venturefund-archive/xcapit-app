@@ -105,10 +105,9 @@ export class SendWarrantyPage {
   quotePrice: number;
   isLoading = false;
   modalOpened: boolean;
-
   minimumWarrantyAmount: string;
-
   private readonly priceRefreshInterval = 15000;
+  lender: string;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -132,10 +131,15 @@ export class SendWarrantyPage {
     this.checkBalance();
     this.checkUserStoredInformation();
     await this._setMinimumWarrantyAmount();
+    await this.setLender();
   }
 
   private async userWallet(): Promise<string> {
     return await this.storageService.getWalletsAddresses(this.coin.blockchain);
+  }
+
+  private async setLender() {
+    this.lender = await this.activeLenderInjectable.create().name();
   }
 
   private dynamicPrice() {
@@ -182,11 +186,12 @@ export class SendWarrantyPage {
       amount: roundedAmount,
       quoteAmount: roundedQuoteAmount,
       user_dni: this.form.value.dni,
+      lender: this.lender,
     };
   }
 
   goToSummary() {
-    this.navController.navigateForward(['warranties/warranty-summary']);
+    this.navController.navigateForward('warranties/warranty-summary');
   }
 
   submitForm() {

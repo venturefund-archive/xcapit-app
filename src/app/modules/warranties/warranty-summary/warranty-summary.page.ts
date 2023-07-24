@@ -19,6 +19,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { Lender } from 'src/app/shared/models/lender/lender.interface';
 import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { TransactionReceipt } from '@ethersproject/abstract-provider';
 
 @Component({
   selector: 'app-warranty-summary',
@@ -88,7 +89,7 @@ export class WarrantySummaryPage {
     private walletBalance: WalletBalanceService,
     private defiInvesmentService: DefiInvestmentsService,
     private remoteConfig: RemoteConfigService,
-    private activeLenderInjectable: ActiveLenderInjectable,
+    private activeLenderInjectable: ActiveLenderInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -155,15 +156,16 @@ export class WarrantySummaryPage {
     this.walletAddress = await this.storageService.getWalletsAddresses(this.warrantyData.coin.network);
   }
 
-  updateDataBeforeSend(res) {
-    this.transactionData = Object.assign({
+  private _warrantyCreationDataOf(transactionReceipt: TransactionReceipt) {
+    return {
       wallet: this.walletAddress,
       currency: this.warrantyData.coin.value,
       amount: this.warrantyData.amountWithoutCost,
       service_cost: this.warrantyData.service_cost,
-      transaction_hash: res.transactionHash,
+      transaction_hash: transactionReceipt.transactionHash,
       user_dni: this.warrantyData.user_dni,
-    });
+      lender: this.warrantyData.lender,
+    };
   }
 
   async askForPassword() {
@@ -202,10 +204,9 @@ export class WarrantySummaryPage {
       this._lender.depositAddress(),
       this.warrantyData.coin
     );
-    response.wait().then((res) => {
-      this.updateDataBeforeSend(res);
+    response.wait().then((transactionReceipt) => {
       this.warrantyService
-        .createWarranty(this.transactionData)
+        .createWarranty(this._warrantyCreationDataOf(transactionReceipt))
         .toPromise()
         .then((res) => {
           this.warantyOperationId = res.id;

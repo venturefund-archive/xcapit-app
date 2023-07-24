@@ -12,4 +12,5 @@ export interface SummaryWarrantyData {
   amountWithoutCost?: number;
   transaction_hash?: string;
   email?: string;
+  lender?: string;
 }
