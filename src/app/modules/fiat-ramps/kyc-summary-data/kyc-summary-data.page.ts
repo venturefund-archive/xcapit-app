@@ -88,6 +88,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
           <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.kyc.summary_data.disclaimer' | translate }}</ion-text>
         </div>
         <ion-button
+          appTrackClick
           name="ux_buy_kripton_details_confirm"
           class="ux_button"
           color="secondary"
