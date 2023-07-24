@@ -22,6 +22,10 @@ import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake
 import { FakeLender } from 'src/app/shared/models/lender/fake/fake-lender';
 import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
 import { rawLender } from 'src/app/shared/models/lender/raw-lender.fixture';
+import {
+  FakeWarrantyDataService,
+  WarrantyDataService,
+} from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 
 describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -39,13 +43,17 @@ describe('SendWarrantyPage', () => {
   let fakeBalanceModal: FakeModal;
   let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
   let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
+  let fakeWarrantyDataService: FakeWarrantyDataService;
 
   beforeEach(waitForAsync(() => {
     activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
       create: {
         value: () => Promise.resolve(new FakeLender()),
+        name: () => Promise.resolve('a_lender'),
       },
     });
+
+    fakeWarrantyDataService = new FakeWarrantyDataService();
 
     formDataSpy = jasmine.createSpyObj(
       'formData',
@@ -108,6 +116,7 @@ describe('SendWarrantyPage', () => {
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
+        { provide: WarrantyDataService, useValue: fakeWarrantyDataService },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -128,7 +137,17 @@ describe('SendWarrantyPage', () => {
     tick();
     component.form.patchValue(formDataSpy.valid);
     fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_amount"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['warranties/warranty-summary']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('warranties/warranty-summary');
+    discardPeriodicTasks();
+  }));
+
+  it('should save lender in warranty service', fakeAsync(() => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
+    component.form.patchValue(formDataSpy.valid);
+    fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_amount"]')).nativeElement.click();
+    expect(fakeWarrantyDataService.data.lender).toEqual('a_lender');
     discardPeriodicTasks();
   }));
 

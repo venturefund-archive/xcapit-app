@@ -50,6 +50,7 @@ describe('WarrantySummaryPage', () => {
     quoteAmountWithoutCost: 9.8,
     service_cost: 0.2,
     amountWithoutCost: 9.8,
+    lender: 'aLender',
   };
   const transactionData: SummaryWarrantyData = {
     wallet: '0x00001',
@@ -58,6 +59,7 @@ describe('WarrantySummaryPage', () => {
     service_cost: 0.2,
     transaction_hash: 'someHash',
     user_dni: 1234567,
+    lender: 'aLender',
   };
 
   const _confirmButton = () =>
