@@ -73,7 +73,7 @@ describe('PurchaseOrderPage', () => {
   }
 
   const _sendButton = () => {
-    return fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]'));
+    return fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_send_invoice"]'));
   }
 
   beforeEach(waitForAsync(() => {
