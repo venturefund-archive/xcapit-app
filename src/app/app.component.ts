@@ -36,6 +36,7 @@ import { GoogleAuthService } from './shared/services/google-auth/google-auth.ser
 import { FirebaseDynamicLinks } from '@pantrist/capacitor-firebase-dynamic-links';
 import { ActiveLender } from './shared/models/active-lender/active-lender';
 import { DeepLinkOpen } from '@pantrist/capacitor-firebase-dynamic-links/dist/esm/definitions';
+import { ActiveLenderInjectable } from './shared/models/active-lender/injectable/active-lender.injectable';
 @Component({
   selector: 'app-root',
   template: `
@@ -90,7 +91,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private navController: NavController,
     private wcService: WCService,
     private remoteConfigService: RemoteConfigService,
-    private googleAuth: GoogleAuthService
+    private googleAuth: GoogleAuthService,
+    private activeLenderInjectable: ActiveLenderInjectable,
   ) {}
 
   async ngOnInit() {
@@ -150,11 +152,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private async _setDefaultLender(): Promise<void> {
-    return this._activeLender().save((await this._activeLender().name()) ?? 'naranjax');
+    return this._activeLender().save(await this._defaultLenderName());
+  }
+
+  private async _defaultLenderName(): Promise<string> {
+    return (await this._activeLender().value()).json() ? await this._activeLender().name() : 'naranjax';
   }
 
   private _activeLender(): ActiveLender {
-    return new ActiveLender(this.storage);
+    return this.activeLenderInjectable.create();
   }
 
   private pushNotificationActionPerformed() {
@@ -305,7 +311,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.firebaseDynamicLinks.addListener('deepLinkOpen', async (deepLink: DeepLinkOpen) => {
       const lender = new URL(deepLink.url).searchParams.get('lender');
       if (lender) {
-        await new ActiveLender(this.storage).save(lender);
+        await new ActiveLender(this.storage).save(lender, true);
       }
     });
   }

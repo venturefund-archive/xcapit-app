@@ -60,17 +60,21 @@ export class SelectWalletTypePage {
   ) {}
 
   async ionViewWillEnter() {
-    await this._setLender();
+    await this._setOptions();
   }
 
   close(): void {
     this.navController.navigateBack('/users/on-boarding');
   }
 
-  private async _setLender() {
-    this.options = (await this.lastVersionInjectable.create().inReview())
-      ? [this._web3OptionTpl()]
-      : [(await this.activeLenderInjectable.create().value()).json(), this._web3OptionTpl()];
+  private async _setOptions() {
+    this.options = [this._web3OptionTpl()];
+    if (!(await this.lastVersionInjectable.create().inReview())) {
+      const activeLender = this.activeLenderInjectable.create();
+      this.options = (await activeLender.fromDynamicLink())
+        ? [(await activeLender.value()).json() ?? this._web3OptionTpl()]
+        : [(await activeLender.value()).json(), this._web3OptionTpl()];
+    }
   }
 
   private _web3OptionTpl(): Option {
