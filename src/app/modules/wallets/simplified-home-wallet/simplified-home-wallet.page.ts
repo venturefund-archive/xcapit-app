@@ -332,6 +332,7 @@ export class SimplifiedHomeWalletPage {
         'warranties.modal_info.secondButton',
         'ux_warranty_withdraw',
         '/warranties/withdraw-warranty',
+        '',
         true,
       ])
       .showIn(this._pageUrl);
@@ -352,6 +353,7 @@ export class SimplifiedHomeWalletPage {
         'warranties.modal_info_to_buy_or_deposit.secondButton',
         'ux_warranty_receive',
         '/wallets/receive/detail?asset=USDC&network=MATIC',
+        'ux_warranty_cancel',
         true,
       ])
       .showIn(this._pageUrl);
