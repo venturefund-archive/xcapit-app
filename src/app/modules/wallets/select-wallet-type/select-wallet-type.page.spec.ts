@@ -13,7 +13,6 @@ import { ActiveLender } from '../../../shared/models/active-lender/active-lender
 import { LastVersionInjectable } from 'src/app/shared/models/last-version/injectable/last-version.injectable';
 import { LastVersion } from 'src/app/shared/models/last-version/last-version';
 
-
 describe('SelectWalletTypePage', () => {
   let component: SelectWalletTypePage;
   let fixture: ComponentFixture<SelectWalletTypePage>;
@@ -28,12 +27,13 @@ describe('SelectWalletTypePage', () => {
     activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
       create: {
         value: () => Promise.resolve(new FakeLender()),
+        fromDynamicLink: () => Promise.resolve(false),
       },
     });
 
     lastVersionInjectableSpy = jasmine.createSpyObj('LastVersionInjectable', {
       create: {
-        inReview: () => Promise.resolve(true),
+        inReview: () => Promise.resolve(false),
       },
     });
 
@@ -65,16 +65,28 @@ describe('SelectWalletTypePage', () => {
   });
 
   it('should not show lender card if the current app version is in review', async () => {
+    lastVersionInjectableSpy.create.and.returnValue({
+      inReview: () => Promise.resolve(true),
+    } as unknown as LastVersion);
     await component.ionViewWillEnter();
     fixture.detectChanges();
 
     expect(fixture.debugElement.queryAll(By.css('app-wallet-type-card')).length).toEqual(1);
   });
 
-  it('should show lender card if active lender', async () => {
-    lastVersionInjectableSpy.create.and.returnValue({
-      inReview: () => Promise.resolve(false),
-    } as unknown as LastVersion);
+  it('should show only the lender card if active lender and lender is from dynamic link', async () => {
+    activeLenderInjectableSpy.create.and.returnValue({
+      value: () => Promise.resolve(new FakeLender()),
+      fromDynamicLink: () => Promise.resolve(true),
+    } as unknown as ActiveLender);
+
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.queryAll(By.css('app-wallet-type-card')).length).toEqual(1);
+  });
+
+  it('should show lender and web3 cards if active lender exists and if not from dynamic link', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(fixture.debugElement.queryAll(By.css('app-wallet-type-card')).length).toEqual(2);
@@ -83,9 +95,22 @@ describe('SelectWalletTypePage', () => {
   it('should not show lender card if active lender does not exist', async () => {
     activeLenderInjectableSpy.create.and.returnValue({
       value: () => Promise.resolve(new NullLender()),
+      fromDynamicLink: () => Promise.resolve(false),
     } as unknown as ActiveLender);
     await component.ionViewWillEnter();
     fixture.detectChanges();
+    expect(fixture.debugElement.queryAll(By.css('app-wallet-type-card')).length).toEqual(1);
+  });
+
+  it('should show only web3 card if lender is from dynamic link and not exists', async () => {
+    activeLenderInjectableSpy.create.and.returnValue({
+      value: () => Promise.resolve(new NullLender()),
+      fromDynamicLink: () => Promise.resolve(true),
+    } as unknown as ActiveLender);
+
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+
     expect(fixture.debugElement.queryAll(By.css('app-wallet-type-card')).length).toEqual(1);
   });
 });

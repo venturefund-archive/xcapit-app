@@ -45,6 +45,8 @@ import { GoogleAuthService } from './shared/services/google-auth/google-auth.ser
 import { FakeListener } from './shared/models/fake-listener/fake-listener';
 import { FakeAppStorage } from './shared/services/app-storage/app-storage.service';
 import { ActiveLender } from './shared/models/active-lender/active-lender';
+import { ActiveLenderInjectable } from './shared/models/active-lender/injectable/active-lender.injectable';
+import { FakeLender } from './shared/models/lender/fake/fake-lender';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -86,6 +88,7 @@ describe('AppComponent', () => {
   let googleAuthServiceSpy: jasmine.SpyObj<GoogleAuthService>;
   let firebaseDynamicLinksSpy: jasmine.SpyObj<any>;
   let firebaseDynamicLinks: FakeListener | any;
+  let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
 
   const aLenderName = 'aLenderName';
   const tapBrowserInApp = {
@@ -106,6 +109,14 @@ describe('AppComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
+      create: {
+        value: () => Promise.resolve(new FakeLender()),
+        name: () => Promise.resolve('aLenderName'),
+        save: () => Promise.resolve(),
+        fromDynamicLink: () => Promise.resolve(false),
+      },
+    });
     googleAuthServiceSpy = jasmine.createSpyObj('googleAuthSpy', { init: Promise.resolve() });
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
     submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
@@ -240,6 +251,7 @@ describe('AppComponent', () => {
         { provide: WCService, useValue: wcServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: GoogleAuthService, useValue: googleAuthServiceSpy },
+        { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();

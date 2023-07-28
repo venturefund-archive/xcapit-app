@@ -6,19 +6,20 @@ import { Lenders } from "../lenders/lenders.interface";
 export class ActiveLender {
 
   private _cachedLender: Lender;
-  private _aStorageKey = 'active_lender';
-
+  private _aLenderNameKey = 'active_lender';
+  private _aDynamicLinkKey = 'active_lender_from_dynamic_link';
   constructor(
     private _aStorage: StorageService,
     private _lenders: Lenders = null
   ) {}
 
-  save(aLenderName: string): Promise<void> {
-    return this._aStorage.set(this._aStorageKey, aLenderName);
+  async save(aLenderName: string, fromDynamicLink: boolean = false): Promise<void> {
+    await this._aStorage.set(this._aDynamicLinkKey, fromDynamicLink);
+    return this._aStorage.set(this._aLenderNameKey, aLenderName);
   }
 
   name(): Promise<string> {
-    return this._aStorage.get(this._aStorageKey);
+    return this._aStorage.get(this._aLenderNameKey);
   }
 
   async value(): Promise<Lender> {
@@ -26,5 +27,9 @@ export class ActiveLender {
       this._cachedLender = this._lenders.oneByName(await this.name());
     }
     return this._cachedLender;
+  }
+
+  fromDynamicLink(): Promise<boolean> {
+    return this._aStorage.get(this._aDynamicLinkKey);
   }
 }
