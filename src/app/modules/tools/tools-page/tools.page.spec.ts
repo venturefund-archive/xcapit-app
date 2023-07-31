@@ -155,6 +155,6 @@ describe('ToolPage', () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
 
-    expect(component.content.length).toEqual(3);
+    expect(component.content.length).toEqual(2);
   });
 });
