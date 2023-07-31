@@ -9,13 +9,6 @@ export const TOOLS_CARDS: ToolsCard[] = [
     trackClickEventNamePrimaryAction: 'ux_go_to_donations',
   },
   {
-    icon: 'assets/img/tools/education-icon.svg',
-    textPrimary: 'tools.tools_page.education.textPrimary',
-    textSecondary: 'tools.tools_page.education.textSecondary',
-    urlPrimaryAction: '/tabs/financial-education',
-    trackClickEventNamePrimaryAction: 'ux_go_to_education',
-  },
-  {
     icon: 'assets/img/tools/planner-icon.svg',
     textPrimary: 'tools.tools_page.planner.textPrimary',
     textSecondary: 'tools.tools_page.planner.textSecondary',
