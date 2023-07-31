@@ -66,7 +66,7 @@ export class WithdrawWarrantySummaryPage {
     private apiTicketsService: ApiTicketsService,
     private trackService: TrackService,
     private warrantyService: WarrantiesService,
-    private ionicStorageService: IonicStorageService,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ionViewWillEnter() {
@@ -75,7 +75,7 @@ export class WithdrawWarrantySummaryPage {
   }
 
   async withdrawWarranty() {
-    await this.ionicStorageService.set('user_dni', this.warrantyData.user_dni)
+    await this.ionicStorageService.set('user_dni', this.warrantyData.user_dni);
     const password = await this.askForPassword();
     if (!password) {
       return;
@@ -103,15 +103,15 @@ export class WithdrawWarrantySummaryPage {
       user_dni: this.warrantyData.user_dni,
       wallet: this.warrantyData.wallet,
       amount: this.warrantyData.amount,
-      currency: 'USDC'
-    }
+      currency: 'USDC',
+      lender: this.warrantyData.lender,
+    };
     await this.warrantyService
-        .withdrawWarranty(withdrawData)
-        .toPromise()
-        .then(({id}) => {
-          this.sendTicket(id);
-        });
-
+      .withdrawWarranty(withdrawData)
+      .toPromise()
+      .then(({ id }) => {
+        this.sendTicket(id);
+      });
   }
 
   sendTicket(operationNumber) {
@@ -147,7 +147,6 @@ export class WithdrawWarrantySummaryPage {
         operationNumber,
         eventName: 'ux_warranty_withdraw_success_screenview',
       },
-      
     });
     await modal.present();
     await modal.onDidDismiss();

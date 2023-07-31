@@ -15,22 +15,7 @@ import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warrant
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-
-const validFormData = {
-  dni: '12345678',
-  email: 'test@test.com',
-};
-const invalidFormData = {
-  dni: '333',
-  email: 'test',
-};
-const summaryData: SummaryWarrantyData = {
-  amount: 10,
-  user_dni: 1234567,
-  quoteAmount: 10,
-  email: 'test@test.com',
-  wallet: '0x00001',
-};
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
 
 describe('WithdrawWarrantyPage', () => {
   let component: WithdrawWarrantyPage;
@@ -43,6 +28,24 @@ describe('WithdrawWarrantyPage', () => {
   let warrantyDataServiceSpy: jasmine.SpyObj<WarrantyDataService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
+  const aLenderName = 'aLenderName';
+
+  const validFormData = {
+    dni: '12345678',
+    email: 'test@test.com',
+  };
+  const invalidFormData = {
+    dni: '333',
+    email: 'test',
+  };
+  const summaryData: SummaryWarrantyData = {
+    amount: 10,
+    user_dni: 1234567,
+    quoteAmount: 10,
+    email: 'test@test.com',
+    wallet: '0x00001',
+  };
 
   beforeEach(waitForAsync(() => {
     warrantiesServiceSpy = jasmine.createSpyObj('WarrantiesService', {
@@ -61,6 +64,10 @@ describe('WithdrawWarrantyPage', () => {
       get: Promise.resolve('12345678'),
     });
 
+    activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
+      create: { name: () => Promise.resolve(aLenderName) },
+    });
+
     TestBed.configureTestingModule({
       declarations: [WithdrawWarrantyPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -71,12 +78,14 @@ describe('WithdrawWarrantyPage', () => {
         { provide: WarrantyDataService, useValue: warrantyDataServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WithdrawWarrantyPage);
     component = fixture.componentInstance;
+    component.ionViewWillEnter();
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
@@ -108,7 +117,11 @@ describe('WithdrawWarrantyPage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(warrantiesServiceSpy.verifyWarranty).toHaveBeenCalledWith({ user_dni: '12345678', wallet: '0x00001' });
+    expect(warrantiesServiceSpy.verifyWarranty).toHaveBeenCalledWith({
+      user_dni: '12345678',
+      wallet: '0x00001',
+      lender: aLenderName,
+    });
     expect(component.warrantyBalance.amount).toEqual(20);
   });
 
@@ -120,7 +133,11 @@ describe('WithdrawWarrantyPage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(warrantiesServiceSpy.verifyWarranty).toHaveBeenCalledWith({ user_dni: '12345678', wallet: '0x00001' });
+    expect(warrantiesServiceSpy.verifyWarranty).toHaveBeenCalledWith({
+      user_dni: '12345678',
+      wallet: '0x00001',
+      lender: aLenderName,
+    });
     expect(component.warrantyBalance.amount).toEqual(0);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   });
