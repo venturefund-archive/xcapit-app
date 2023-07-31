@@ -39,11 +39,11 @@ import { ActivatedRoute } from '@angular/router';
 import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
-import { FakeLenders } from 'src/app/shared/models/lenders/fake/fake-lenders';
 import { FakeLender } from 'src/app/shared/models/lender/fake/fake-lender';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';
 import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { rawLender } from 'src/app/shared/models/lender/raw-lender.fixture';
 
 describe('SimplifiedHomeWalletPage', () => {
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
@@ -70,7 +70,6 @@ describe('SimplifiedHomeWalletPage', () => {
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
-  let fakeLenders: FakeLenders;
 
   beforeEach(waitForAsync(() => {
     localStorageServiceSpy = jasmine.createSpyObj(
@@ -153,7 +152,7 @@ describe('SimplifiedHomeWalletPage', () => {
     });
 
     activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
-      create: { value: () => Promise.resolve(new FakeLender())},
+      create: { value: () => Promise.resolve(new FakeLender()) },
     });
 
     TestBed.configureTestingModule({
@@ -196,7 +195,10 @@ describe('SimplifiedHomeWalletPage', () => {
     expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledOnceWith('USDC', 'MATIC');
     expect(apiWalletServiceSpy.getCoins).toHaveBeenCalledTimes(1);
     expect(walletsFactorySpy.create).toHaveBeenCalledTimes(1);
-    expect(warrantyServiceSpy.verifyWarranty).toHaveBeenCalledOnceWith({ wallet: '0xTestWallet' });
+    expect(warrantyServiceSpy.verifyWarranty).toHaveBeenCalledOnceWith({
+      wallet: '0xTestWallet',
+      lender: rawLender.name,
+    });
     expect(tokenDetailInjectableSpy.create).toHaveBeenCalledTimes(1);
     expect(covalentBalancesInjectableSpy.create).toHaveBeenCalledTimes(1);
     expect(tokenDetailInjectableSpy.create).toHaveBeenCalledTimes(1);

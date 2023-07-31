@@ -19,7 +19,7 @@ export class WarrantiesService {
     return this.http.post(`${environment.apiUrl}/${this.entity}/withdraw-warranty`, data, undefined, false);
   }
 
-  verifyWarranty(data: {wallet: string; user_dni?: string}): Observable<{ amount: number }> {
+  verifyWarranty(data: { wallet: string; lender: string; user_dni?: string }): Observable<{ amount: number }> {
     return this.http.post(`${environment.apiUrl}/${this.entity}/verify-warranty`, data, undefined, false);
   }
 }

@@ -182,7 +182,7 @@ export class SimplifiedHomeWalletPage {
     private activatedRoute: ActivatedRoute,
     private modalFactoryInjectable: ModalFactoryInjectable,
     private notificationsService: NotificationsService,
-    private activeLenderInjectable: ActiveLenderInjectable,
+    private activeLenderInjectable: ActiveLenderInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -290,7 +290,9 @@ export class SimplifiedHomeWalletPage {
   }
 
   async getWarranty() {
-    this.warranty = await this.warrantiesService.verifyWarranty({ wallet: this.wallet.address() }).toPromise();
+    this.warranty = await this.warrantiesService
+      .verifyWarranty({ wallet: this.wallet.address(), lender: this.lender.json().name })
+      .toPromise();
   }
 
   private async _showHasCryptoModal() {
