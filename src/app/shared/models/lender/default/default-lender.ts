@@ -36,6 +36,8 @@ export class DefaultLender implements Lender {
       maxAmount: this._maxAmount(),
       logo: this.logo(),
       url: this.url(),
+      token: this.token(),
+      blockchain: this.blockchain(),
     };
   }
 
@@ -45,6 +47,14 @@ export class DefaultLender implements Lender {
 
   public minWarrantyAmount(): string {
     return `${this._aRawLender.minAmount}`;
+  }
+
+  public token(): string {
+    return this._aRawLender.token;
+  }
+
+  public blockchain(): string {
+    return this._aRawLender.blockchain;
   }
 
   private _isWarrantyLender(): boolean {

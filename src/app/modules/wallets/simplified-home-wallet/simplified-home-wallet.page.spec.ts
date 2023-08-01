@@ -281,6 +281,8 @@ describe('SimplifiedHomeWalletPage', () => {
 
   it('should open warranty modal if subheader button was clicked', async () => {
     await component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     fixture.debugElement
       .query(By.css('app-simplified-wallet-subheader-buttons'))
       .triggerEventHandler('openWarrantyModal');

@@ -7,4 +7,6 @@ export interface Lender {
   url(): string;
   depositAddress(): string;
   minWarrantyAmount(): string;
+  token(): string;
+  blockchain(): string;
 }

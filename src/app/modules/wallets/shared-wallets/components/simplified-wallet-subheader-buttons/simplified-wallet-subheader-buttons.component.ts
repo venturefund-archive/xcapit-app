@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
@@ -54,6 +54,8 @@ import { ChangeProfileTypeModalComponent } from '../change-profile-type-modal/ch
 })
 export class SimplifiedWalletSubheaderButtonsComponent {
   @Output() openWarrantyModal: EventEmitter<void> = new EventEmitter<void>();
+  @Input() token: string;
+  @Input() blockchain: string;
 
   constructor(
     private navController: NavController,
@@ -68,8 +70,8 @@ export class SimplifiedWalletSubheaderButtonsComponent {
   goToReceive() {
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        asset: 'USDC',
-        network: 'MATIC',
+        asset: this.token,
+        network: this.blockchain,
       },
     };
     return this.navController.navigateForward('wallets/receive/detail', navigationExtras);
@@ -78,8 +80,8 @@ export class SimplifiedWalletSubheaderButtonsComponent {
   async goToBuy() {
     this.tokenOperationDataService.clean();
     this.tokenOperationDataService.set({
-      asset: 'USDC',
-      network: 'MATIC',
+      asset: this.token,
+      network: this.blockchain,
     });
     return this.navController.navigateForward('fiat-ramps/purchases');
   }
