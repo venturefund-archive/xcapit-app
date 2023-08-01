@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants/network-colors.constant';
 import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/interfaces/summary-warranty-data.interface';
+import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token-repo';
 
 @Component({
   selector: 'app-warranty-summary-card',
@@ -61,7 +62,7 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
       </div>
     </div>
     <div class="wsc__item" *ngIf="this.amountTitle">
-      <div class="wsc__item__title__amount" >
+      <div class="wsc__item__title__amount">
         <ion-text class="ux-font-titulo-xs">{{ this.amountTitle }}</ion-text>
       </div>
       <div class="wsc__item__content__amount" *ngIf="this.warrantyData.amountWithoutCost">
@@ -85,12 +86,8 @@ import { SummaryWarrantyData } from 'src/app/modules/warranties/send-warranty/in
   </div>`,
   styleUrls: ['./warranty-summary-card.component.scss'],
 })
-export class WarrantySummaryCardComponent implements OnInit {
-  token = {
-    network: 'MATIC',
-    value: 'USDC',
-    logoRoute: 'assets/img/coins/USDC-POLYGON.svg',
-  };
+export class WarrantySummaryCardComponent {
+  @Input() token: RawToken;
   @Input() title: string;
   @Input() documentTitle: string;
   @Input() emailTitle: string;
@@ -100,6 +97,4 @@ export class WarrantySummaryCardComponent implements OnInit {
   networkColors = NETWORK_COLORS;
 
   constructor() {}
-
-  ngOnInit() {}
 }

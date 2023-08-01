@@ -16,6 +16,7 @@ import { WarrantyDataService } from '../shared-warranties/services/send-warranty
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { FakeLender } from '../../../shared/models/lender/fake/fake-lender';
 
 describe('WithdrawWarrantyPage', () => {
   let component: WithdrawWarrantyPage;
@@ -29,7 +30,7 @@ describe('WithdrawWarrantyPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
-  const aLenderName = 'aLenderName';
+  const aLenderName = 'naranjax';
 
   const validFormData = {
     dni: '12345678',
@@ -65,7 +66,7 @@ describe('WithdrawWarrantyPage', () => {
     });
 
     activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
-      create: { name: () => Promise.resolve(aLenderName) },
+      create: { name: () => Promise.resolve(aLenderName), value: () => Promise.resolve(new FakeLender()) },
     });
 
     TestBed.configureTestingModule({
