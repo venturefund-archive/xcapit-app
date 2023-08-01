@@ -9,7 +9,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawTokensData, rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
@@ -26,6 +26,10 @@ import {
   FakeWarrantyDataService,
   WarrantyDataService,
 } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
+import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
 
 describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -44,6 +48,8 @@ describe('SendWarrantyPage', () => {
   let modalFactoryInjectableSpy: jasmine.SpyObj<ModalFactoryInjectable>;
   let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
   let fakeWarrantyDataService: FakeWarrantyDataService;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(waitForAsync(() => {
     activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
@@ -72,6 +78,10 @@ describe('SendWarrantyPage', () => {
       }
     );
 
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
+
     walletServiceSpy = jasmine.createSpyObj('WalletService', {
       balanceOf: Promise.resolve('200'),
       walletExist: Promise.resolve(true),
@@ -79,7 +89,8 @@ describe('SendWarrantyPage', () => {
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getPrices: of({ prices: { USDC: 1 } }),
-      getCoins: [rawUSDCData],
+      getCoins: rawTokensData,
+      getCoin: rawUSDCData,
     });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -117,6 +128,8 @@ describe('SendWarrantyPage', () => {
         { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: WarrantyDataService, useValue: fakeWarrantyDataService },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -147,7 +160,7 @@ describe('SendWarrantyPage', () => {
     tick();
     component.form.patchValue(formDataSpy.valid);
     fixture.debugElement.query(By.css('ion-button[name="ux_warranty_start_amount"]')).nativeElement.click();
-    expect(fakeWarrantyDataService.data.lender).toEqual('a_lender');
+    expect(fakeWarrantyDataService.data.lender).toEqual('naranjax');
     discardPeriodicTasks();
   }));
 
@@ -179,14 +192,6 @@ describe('SendWarrantyPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-
-  it('should get USDC token on init', fakeAsync(() => {
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    tick();
-    expect(component.token.value).toEqual('USDC');
-    discardPeriodicTasks();
-  }));
 
   it('should open insufficient balance modal when enter amount is greater than balance', fakeAsync(() => {
     component.ionViewWillEnter();

@@ -6,17 +6,21 @@ import { takeUntil } from 'rxjs/operators';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import RoundedNumber from 'src/app/shared/models/rounded-number/rounded-number';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
-import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
-import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
-import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { Token } from '../../swaps/shared-swaps/models/token/token';
+import { RawToken, TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
 import { ActiveLenderInjectable } from '../../../shared/models/active-lender/injectable/active-lender.injectable';
+import { TokenByAddress } from '../../swaps/shared-swaps/models/token-by-address/token-by-address';
+import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
+import { Lender } from 'src/app/shared/models/lender/lender.interface';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 
 @Component({
   selector: 'app-send-warranty',
@@ -31,11 +35,11 @@ import { ActiveLenderInjectable } from '../../../shared/models/active-lender/inj
     <ion-content class="sw ion-padding">
       <div class="ux_main">
         <form [formGroup]="this.form">
-          <div class="sw__send-amount-card ux-card ion-padding no-border">
+          <div class="sw__send-amount-card ux-card ion-padding no-border" *ngIf="this.tplToken">
             <app-asset-detail
-              [blockchain]="this.coin.blockchain"
-              [token]="this.coin.value"
-              [tokenLogo]="this.coin.logoRoute"
+              [blockchain]="this.tplToken.network"
+              [token]="this.tplToken.value"
+              [tokenLogo]="this.tplToken.logoRoute"
             ></app-asset-detail>
             <div class="content__input">
               <app-ux-input
@@ -53,7 +57,7 @@ import { ActiveLenderInjectable } from '../../../shared/models/active-lender/inj
               *ngIf="this.balance !== undefined"
               [label]="'warranties.send_warranty.deposit_amount' | translate"
               [header]="'defi_investments.shared.amount_input_card.available' | translate"
-              [baseCurrency]="this.coin"
+              [baseCurrency]="this.tplToken"
               [quotePrice]="this.quotePrice"
               [showRange]="false"
               [disclaimer]="false"
@@ -95,19 +99,15 @@ export class SendWarrantyPage {
   });
   modalHref: string;
   leave$ = new Subject<void>();
-  coin = {
-    value: 'USDC',
-    blockchain: 'MATIC',
-    logoRoute: 'assets/img/coins/USDC-POLYGON.svg',
-  };
-  token: Coin;
   balance: number;
   quotePrice: number;
   isLoading = false;
   modalOpened: boolean;
   minimumWarrantyAmount: string;
+  tplToken: RawToken;
   private readonly priceRefreshInterval = 15000;
-  lender: string;
+  private _lender: Lender;
+  private _token: Token;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -119,32 +119,44 @@ export class SendWarrantyPage {
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalFactoryInjectable: ModalFactoryInjectable,
     private ionicStorageService: IonicStorageService,
-    private activeLenderInjectable: ActiveLenderInjectable
+    private activeLenderInjectable: ActiveLenderInjectable,
+    private blockchainsFactory: BlockchainsFactory
   ) {}
 
   async ionViewWillEnter() {
     this.modalHref = window.location.href;
-    this.setToken();
+    await this._setLender();
+    await this._setToken();
     await this.walletService.walletExist();
     this.dynamicPrice();
     await this.tokenBalance();
     this.checkBalance();
     this.checkUserStoredInformation();
     await this._setMinimumWarrantyAmount();
-    await this.setLender();
   }
 
   private async userWallet(): Promise<string> {
-    return await this.storageService.getWalletsAddresses(this.coin.blockchain);
+    return await this.storageService.getWalletsAddresses(this._token.network());
   }
 
-  private async setLender() {
-    this.lender = await this.activeLenderInjectable.create().name();
+  private async _setLender() {
+    this._lender = await this.activeLenderInjectable.create().value();
+  }
+
+  private async _setToken() {
+    this._token = await new TokenByAddress(
+      this.apiWalletService.getCoin(this._lender.token(), this._lender.blockchain()).contract,
+      new BlockchainTokens(
+        this.blockchainsFactory.create().oneByName(this._lender.blockchain()),
+        new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins()))
+      )
+    ).value();
+    this.tplToken = this._token.json();
   }
 
   private dynamicPrice() {
     this.dynamicPriceFactory
-      .new(this.priceRefreshInterval, this.coin, this.apiWalletService)
+      .new(this.priceRefreshInterval, this._token.json(), this.apiWalletService)
       .value()
       .pipe(takeUntil(this.leave$))
       .subscribe((price: number) => {
@@ -154,7 +166,7 @@ export class SendWarrantyPage {
 
   async tokenBalance() {
     const tokenBalance = parseFloat(
-      await this.walletService.balanceOf(await this.userWallet(), this.coin.value, this.coin.blockchain)
+      await this.walletService.balanceOf(await this.userWallet(), this._token.symbol(), this._token.network())
     );
     this.balance = tokenBalance;
     this.addLowerThanValidator();
@@ -182,11 +194,10 @@ export class SendWarrantyPage {
     const roundedAmount = new RoundedNumber(parseFloat(this.form.value.amount), 6).value();
     const roundedQuoteAmount = new RoundedNumber(parseFloat(this.form.value.quoteAmount), 6).value();
     this.warrantyDataService.data = {
-      coin: this.token,
       amount: roundedAmount,
       quoteAmount: roundedQuoteAmount,
       user_dni: this.form.value.dni,
-      lender: this.lender,
+      lender: this._lender.json().name,
     };
   }
 
@@ -203,19 +214,13 @@ export class SendWarrantyPage {
     this.isLoading = false;
   }
 
-  setToken() {
-    this.token = this.apiWalletService
-      .getCoins()
-      .find((coin: Coin) => coin.value === this.coin.value && coin.network === this.coin.blockchain);
-  }
-
   async openBalanceModal() {
     if (!this.modalOpened && window.location.href === this.modalHref) {
       this.modalOpened = true;
       const modal = this.modalFactoryInjectable
         .create()
         .oneBy(Modals.BALANCE, [
-          new DefaultToken(this.token as RawToken),
+          this._token,
           'warranties.insufficient_balance.text',
           'warranties.insufficient_balance.buy_button',
           'warranties.insufficient_balance.deposit_button',

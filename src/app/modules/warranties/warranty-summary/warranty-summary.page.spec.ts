@@ -8,7 +8,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { DefiInvestmentsService } from '../../defi-investments/shared-defi-investments/services/defi-investments-service/defi-investments.service';
-import { rawMATICData, rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawMATICData, rawTokensData, rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -23,6 +23,10 @@ import { FakeLender } from 'src/app/shared/models/lender/fake/fake-lender';
 import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
 import { ActiveLender } from '../../../shared/models/active-lender/active-lender';
 import { rawLender } from '../../../shared/models/lender/raw-lender.fixture';
+import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
 
 describe('WarrantySummaryPage', () => {
   let component: WarrantySummaryPage;
@@ -40,6 +44,8 @@ describe('WarrantySummaryPage', () => {
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   const aPassword = new Password('aPassword');
   const summaryData: SummaryWarrantyData = {
@@ -89,6 +95,8 @@ describe('WarrantySummaryPage', () => {
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getNativeTokenFromNetwork: rawMATICData,
+      getCoin: rawUSDCData,
+      getCoins: rawTokensData,
     });
 
     walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
@@ -108,6 +116,10 @@ describe('WarrantySummaryPage', () => {
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getFeatureFlag: true });
 
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
+
     TestBed.configureTestingModule({
       declarations: [WarrantySummaryPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -124,6 +136,7 @@ describe('WarrantySummaryPage', () => {
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

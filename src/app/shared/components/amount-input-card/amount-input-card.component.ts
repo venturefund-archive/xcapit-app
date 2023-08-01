@@ -1,6 +1,7 @@
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
+import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -100,7 +101,10 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
         <div class="aic__content__minimum-warranty-amount info" *ngIf="this.insufficientWarrantyAmount">
           <img src="assets/img/defi-investments/shared/amount-input-card/exclamation.svg" />
           <ion-text class="ux-font-text-xxs">
-            {{ 'warranties.send_warranty.minimum_amount' | translate : { minimum: this.minimumWarrantyAmount } }}
+            {{
+              'warranties.send_warranty.minimum_amount'
+                | translate : { minimum: this.minimumWarrantyAmount, token: this.baseCurrency.value }
+            }}
           </ion-text>
         </div>
         <div class="aic__content__funds-advice info" *ngIf="this.insufficientBalance">
@@ -121,7 +125,7 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
   styleUrls: ['./amount-input-card.component.scss'],
 })
 export class AmountInputCardComponent implements OnInit, OnChanges {
-  @Input() baseCurrency: Coin;
+  @Input() baseCurrency: Coin | RawToken;
   @Input() quoteCurrency = 'USD';
   @Input() quotePrice: number;
   @Input() label: string;

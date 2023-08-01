@@ -13,6 +13,7 @@ import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/pas
 import { StorageAsset } from '../../interfaces/storage-asset.interface';
 import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
+import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +68,7 @@ export class WalletEncryptionService {
     this.creationMethod = encryptedWallet.creationMethod ? encryptedWallet.creationMethod : 'legacy';
   }
 
-  async getDecryptedWalletForCurrency(password: string, currency: Coin): Promise<Wallet> {
+  async getDecryptedWalletForCurrency(password: string, currency: Coin | RawToken): Promise<Wallet> {
     const erc20Wallet = await this.getDecryptedERC20Wallet(password);
 
     if (this.creationMethod === 'default') {
