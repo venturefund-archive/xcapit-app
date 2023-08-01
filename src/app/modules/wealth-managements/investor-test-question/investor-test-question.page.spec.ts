@@ -349,12 +349,11 @@ describe('InvestorTestQuestionPage', () => {
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['wealth-management/investor-test-options']);
   });
 
-  it('should reload questions if questions are not in the user selected language', fakeAsync(() => {
+  it('should reload questions if questions are not in the user selected language', async() => {
     investorTestServiceSpy.questionsInUserLanguage.and.resolveTo(false);
     fakeActivatedRoute.modifySnapshotParams({ question: '1' });
     component.ionViewWillEnter();
-    tick();
-    fixture.detectChanges();
+    await fixture.whenStable();
     expect(investorTestServiceSpy.loadQuestions).toHaveBeenCalledTimes(1);
-  }));
+  });
 });
