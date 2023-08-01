@@ -24,6 +24,14 @@ export class NullLender implements Lender {
     throw new Error('Method not implemented.');
   }
 
+  token(): string {
+    throw new Error('Method not implemented.');
+  }
+
+  blockchain(): string {
+    throw new Error('Method not implemented.');
+  }
+
   json(): RawLender {
     return null;
   }

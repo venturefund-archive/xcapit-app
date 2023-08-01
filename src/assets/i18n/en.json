@@ -2479,8 +2479,7 @@
       "available_balance": "Available balance",
       "warranties": "My warranties",
       "warranty_amount": "Amount in warranty",
-      "empty_transactions": "You did not make transactions!<br/>Buy or deposit USDC to create a warranty.",
-
+      "empty_transactions": "You did not make transactions!<br/>Buy or deposit {{token}} to create a warranty.",
       "insufficient_balance": {
         "text": "You don't have {{token}} in your account to make a warranty.",
         "firstButtonName": "Buy {{token}}",

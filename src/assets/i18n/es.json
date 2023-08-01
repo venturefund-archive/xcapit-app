@@ -2461,7 +2461,7 @@
       "available_balance": "Saldo disponible",
       "warranties": "Mis garantías",
       "warranty_amount": "Monto en garantía",
-      "empty_transactions": "¡No posees transacciones!<br/>Compra o deposita USDC para confeccionar una garantía.",
+      "empty_transactions": "¡No posees transacciones!<br/>Compra o deposita {{token}} para confeccionar una garantía.",
       "insufficient_balance": {
         "text": "No tienes {{token}} en tu cuenta para confeccionar una garantía.",
         "firstButtonName": "Comprar {{token}}",

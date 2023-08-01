@@ -50,7 +50,7 @@ import { ActiveLenderInjectable } from '../../../shared/models/active-lender/inj
               <ion-text *ngIf="this.tokenDetail">
                 {{ this.tokenDetail.balance ?? 0.0 | number : '1.2-2' | hideText : this.hideFundText }}
               </ion-text>
-              <ion-text class="ux-font-text-lg" *ngIf="this.tokenDetail">USDC</ion-text>
+              <ion-text class="ux-font-text-lg" *ngIf="this.tokenDetail">{{ this.tplToken.value }}</ion-text>
             </div>
             <div *ngIf="this.tokenDetail" class="swt__balance__amount__value__eye">
               <app-eye></app-eye>
@@ -65,8 +65,10 @@ import { ActiveLenderInjectable } from '../../../shared/models/active-lender/inj
           </ion-text>
         </div>
       </div>
-      <div class="swt__overlap_buttons">
+      <div class="swt__overlap_buttons" *ngIf="this.tplToken">
         <app-simplified-wallet-subheader-buttons
+          [token]="this.tplToken.value"
+          [blockchain]="this.tplToken.network"
           (openWarrantyModal)="this.showWarrantyModal()"
         ></app-simplified-wallet-subheader-buttons>
       </div>
@@ -141,7 +143,7 @@ import { ActiveLenderInjectable } from '../../../shared/models/active-lender/inj
             <img src="/assets/img/simplified-home-wallet/empty.svg" />
             <ion-label
               class="ux-font-text-xxs"
-              [innerHTML]="'wallets.simplified_home_wallet.empty_transactions' | translate"
+              [innerHTML]="'wallets.simplified_home_wallet.empty_transactions' | translate: { token: this.tplToken.value}"
             >
             </ion-label>
           </div>
@@ -213,12 +215,12 @@ export class SimplifiedHomeWalletPage {
   }
 
   private setBlockchain() {
-    this.blockchain = this.blockchainsFactory.create().oneByName('MATIC');
+    this.blockchain = this.blockchainsFactory.create().oneByName(this.lender.blockchain());
     this.tplBlockchain = this.blockchain.json();
   }
 
   private async setToken() {
-    const coin = this.apiWalletService.getCoin('USDC', 'MATIC');
+    const coin = this.apiWalletService.getCoin(this.lender.token(), this.lender.blockchain());
     this.token = await new TokenByAddress(
       coin.contract,
       new BlockchainTokens(this.blockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
