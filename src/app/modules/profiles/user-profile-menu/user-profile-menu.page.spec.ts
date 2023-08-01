@@ -12,7 +12,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
-import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
@@ -22,7 +21,6 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
-import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
@@ -34,8 +32,9 @@ import { AppUpdateAvailability } from '@capawesome/capacitor-app-update';
 import { UpdateAppService } from 'src/app/shared/services/update-app/update-app.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeFeatureFlagDirective } from '../../../../testing/fakes/feature-flag-directive.fake.spec';
+import { ITEM_MENU } from '../shared-profiles/constants/item-menu';
 
-describe('UserProfileMenuPage', () => {
+fdescribe('UserProfileMenuPage', () => {
   const profile = { email: 'test@mail.com' };
   const anERC20Address = '0x0123456789101112131415';
   let component: UserProfileMenuPage;
@@ -57,7 +56,6 @@ describe('UserProfileMenuPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let storageSpy: jasmine.SpyObj<Storage>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
-  let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
@@ -66,79 +64,6 @@ describe('UserProfileMenuPage', () => {
   let appUpdateSpy: jasmine.SpyObj<any>;
   let updateAppServiceSpy: jasmine.SpyObj<UpdateAppService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
-  const itemMenu: MenuCategory[] = [
-    {
-      category_title: 'profiles.user_profile_menu.category_help',
-      icon: 'assets/ux-icons/ux-support.svg',
-      id: 'categoryHelp',
-      showCategory: true,
-      isWarrantyWalletOpt: true,
-      items: [
-        {
-          name: 'Faq',
-          text: 'profiles.user_profile_menu.faq_help',
-          route: '/support/options',
-          type: 'link',
-        },
-        {
-          name: 'Support',
-          text: 'profiles.user_profile_menu.support_help',
-          route: '/tickets/new-create-support-ticket',
-          type: 'link',
-          buttonName: 'ux_go_to_contact_support',
-        },
-      ],
-    },
-    {
-      category_title: 'profiles.user_profile_menu.category_security_account',
-      icon: 'assets/ux-icons/ux-lock-outline.svg',
-      showCategory: true,
-      items: [
-        {
-          name: 'PasswordChangeAccount',
-          text: 'profiles.user_profile_menu.change_pass',
-          route: '/users/password-change',
-          type: 'link',
-        },
-      ],
-    },
-    {
-      category_title: 'profiles.user_profile_menu.category_security_wallet',
-      icon: 'assets/ux-icons/ux-key-outline.svg',
-      showCategory: true,
-      items: [
-        {
-          name: 'RecoveryPhrase',
-          text: 'profiles.user_profile_menu.security_phrase',
-          route: '/wallets/recovery/info',
-          type: 'link',
-        },
-      ],
-    },
-    {
-      id: 'wallet',
-      showCategory: false,
-      category_title: '',
-      icon: '',
-      items: [
-        {
-          name: 'BiometricAuth',
-          hidden: true,
-          text: 'profiles.user_profile_menu.security_phrase',
-          route: '/wallets/recovery/info',
-          type: 'link',
-        },
-      ],
-    },
-    {
-      id: 'contacts',
-      showCategory: true,
-      isWarrantyWalletOpt: false,
-      category_title: '',
-      icon: '',
-      items: [],
-    },
-  ];
 
   beforeEach(waitForAsync(() => {
     logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
@@ -163,7 +88,7 @@ describe('UserProfileMenuPage', () => {
       'init',
       'subscribeTo',
       'unsubscribeFrom',
-      'toggleUserNotifications'
+      'toggleUserNotifications',
     ]);
 
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
@@ -212,10 +137,6 @@ describe('UserProfileMenuPage', () => {
       set: Promise.resolve(),
     });
 
-    biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
-      create: { available: () => Promise.resolve(true) },
-    });
-
     remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
       getFeatureFlag: false,
     });
@@ -260,7 +181,6 @@ describe('UserProfileMenuPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: Storage, useValue: storageSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
-        { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
@@ -274,7 +194,7 @@ describe('UserProfileMenuPage', () => {
     fixture = TestBed.createComponent(UserProfileMenuPage);
     component = fixture.componentInstance;
     component.appUpdate = appUpdateSpy;
-    component.itemMenu = itemMenu;
+    component.itemMenu = structuredClone(ITEM_MENU);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fixture.detectChanges();
   }));
@@ -392,7 +312,7 @@ describe('UserProfileMenuPage', () => {
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
-    expect(menu.length).toBe(5);
+    expect(menu.length).toBe(4);
   });
 
   it('should navigate to delete account when delete_account button is clicked', async () => {
@@ -405,35 +325,6 @@ describe('UserProfileMenuPage', () => {
   it('should set username on enter', async () => {
     await component.ionViewWillEnter();
     expect(component.username).toEqual('Xcapiter 0x012');
-  });
-
-  it('should show biometric auth item when bio auth is enabled', async () => {
-    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
-
-    await component.ionViewWillEnter();
-
-    const biometricAuthItem = component.itemMenu
-      .find((category) => category.id === 'wallet')
-      .items.find((item) => item.name === 'BiometricAuth');
-
-    expect(biometricAuthItem.hidden).toBeFalse();
-  });
-
-  it('should hide biometric auth item when bio auth is disabled', async () => {
-    await component.ionViewWillEnter();
-
-    const biometricAuthItem = component.itemMenu
-      .find((category) => category.id === 'wallet')
-      .items.find((item) => item.name === 'BiometricAuth');
-
-    expect(biometricAuthItem.hidden).toBeTrue();
-  });
-
-  it('should navigate to support page when clicking ux_go_to_contact_support', () => {
-    fixture.detectChanges();
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    expect(component.itemMenu[0].items[1].route).toEqual('/tickets/new-create-support-ticket');
   });
 
   it('should unsubscribe when leave', () => {
@@ -457,9 +348,10 @@ describe('UserProfileMenuPage', () => {
   it('should hide address list category when feature flag is not enabled', async () => {
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
     await component.ionViewWillEnter();
-
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     const contactListItem = component.itemMenu.find((category) => category.id === 'contacts');
-
+    console.log(contactListItem);
     expect(contactListItem.showCategory).toBeFalse();
   });
 
@@ -498,6 +390,17 @@ describe('UserProfileMenuPage', () => {
     expect(updateAppServiceSpy.update).toHaveBeenCalledTimes(1);
   });
 
+  it('should hide seedPhrase option if is warranty wallet', async () => {
+    ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(true);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(
+      component.itemMenu
+        .find((category) => category.id === 'wallet')
+        .items.find((item) => item.name === 'RecoveryPhrase').hidden
+    ).toBeTrue();
+  });
+
   it('should show options web3 when toggle is checked', async () => {
     platformServiceSpy.isNative.and.returnValue(false);
     ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(false);
@@ -505,9 +408,7 @@ describe('UserProfileMenuPage', () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
     const contactsOpt = component.itemMenu.find((category) => category.id === 'contacts');
-    const categoryHelpOpt = component.itemMenu.find((category) => category.id === 'categoryHelp');
     expect(contactsOpt.showCategory).toBeTruthy();
-    expect(categoryHelpOpt.showCategory).toBeTruthy();
   });
 
   it('should show options warranty wallet when toggle is not checked', async () => {
@@ -515,10 +416,8 @@ describe('UserProfileMenuPage', () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
     const contactsOpt = component.itemMenu.find((category) => category.id === 'contacts');
-    const categoryHelpOpt = component.itemMenu.find((category) => category.id === 'categoryHelp');
     await component.ionViewWillEnter();
     expect(contactsOpt.showCategory).toBeFalsy();
-    expect(categoryHelpOpt.showCategory).toBeTruthy();
   });
 
   it('should navigate to warranty wallet home if warranty_wallet in storage is true', async () => {

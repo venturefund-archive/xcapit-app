@@ -36,7 +36,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
           }}</ion-badge>
         </div>
       </div>
-      <div *ngFor="let item of this.category.items" >
+      <div *ngFor="let item of this.category.items">
         <div class="item-container" *appFeatureFlag="item.disable; negated: true">
           <ion-button
             *ngIf="!item.hidden"

@@ -13,7 +13,6 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
-import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
@@ -142,6 +141,7 @@ export class UserProfileMenuPage {
   disable = false;
   username: string;
   itemMenu: MenuCategory[] = ITEM_MENU;
+  itemMenuToShow: MenuCategory[];
   form: UntypedFormGroup = this.formBuilder.group({
     notifications: [[]],
     warrantyWallet: [[]],
@@ -167,7 +167,6 @@ export class UserProfileMenuPage {
     private ionicStorageService: IonicStorageService,
     private walletConnectService: WalletConnectService,
     private notificationsService: NotificationsService,
-    private biometricAuthInjectable: BiometricAuthInjectable,
     private remoteConfig: RemoteConfigService,
     private formBuilder: FormBuilder,
     private trackService: TrackService,
@@ -179,9 +178,9 @@ export class UserProfileMenuPage {
   async ionViewWillEnter() {
     await this._setInReviewApp();
     this.getProfile();
-    this.existWallet();
+    await this.toggleSeedPhrase();
+    await this.existWallet();
     this.contactsListAvailable();
-    this.biometricAuthAvailable();
     await this.setPushNotifications();
     this.valueChanges();
     this.setWarrantyWalletState();
@@ -191,6 +190,12 @@ export class UserProfileMenuPage {
       this.getActualVersion();
       this.checkUpdate();
     }
+  }
+
+  async toggleSeedPhrase() {
+    this.itemMenu
+      .find((category) => category.id === 'wallet')
+      .items.find((item) => item.name === 'RecoveryPhrase').hidden = await this.isWarrantyWallet();
   }
 
   private async _setInReviewApp(): Promise<void> {
@@ -226,13 +231,13 @@ export class UserProfileMenuPage {
           category.showCategory = value;
         }
       });
+      await this.toggleSeedPhrase();
     });
   }
 
   setEventNotifications(value: boolean) {
-    const eventLabel = value ? 'on' : 'off';
     this.trackService.trackEvent({
-      eventLabel: `ux_push_notifications_${eventLabel}`,
+      eventLabel: `ux_push_notifications_${value ? 'on' : 'off'}`,
     });
   }
 
@@ -267,18 +272,9 @@ export class UserProfileMenuPage {
     });
   }
 
-  async biometricAuthAvailable() {
-    if (await this.biometricAuthInjectable.create().available()) {
-      const biometricAuthItem = this.itemMenu
-        .find((category) => category.id === 'wallet')
-        .items.find((item) => item.name === 'BiometricAuth');
-      biometricAuthItem.hidden = !this.remoteConfig.getFeatureFlag('ff_bioauth');
-    }
-  }
-
   contactsListAvailable() {
-    const contactListItem = this.itemMenu.find((category) => category.id === 'contacts');
-    contactListItem.showCategory = this.remoteConfig.getFeatureFlag('ff_address_list');
+    this.itemMenu.find((category) => category.id === 'contacts').showCategory =
+      this.remoteConfig.getFeatureFlag('ff_address_list');
   }
 
   back() {
@@ -292,11 +288,7 @@ export class UserProfileMenuPage {
   }
 
   async handleLogout() {
-    if (await this.showModal()) {
-      this.showLogOutModal();
-    } else {
-      this.logout();
-    }
+    (await this.showModal()) ? this.showLogOutModal() : this.logout();
   }
 
   private walletExist() {
@@ -358,12 +350,9 @@ export class UserProfileMenuPage {
     this.disable = false;
   }
 
-  existWallet() {
-    this.walletService.walletExist().then((res) => {
-      const item = this.itemMenu.find((item) => item.id === 'wallet');
-      item.showCategory = res;
-      this.setUsername();
-    });
+  async existWallet() {
+    this.itemMenu.find((item) => item.id === 'wallet').showCategory = await this.walletService.walletExist();
+    this.setUsername();
   }
 
   setUsername() {
@@ -379,12 +368,8 @@ export class UserProfileMenuPage {
   }
 
   async checkUpdate() {
-    const updateAvailability = (await this.appUpdate.getAppUpdateInfo()).updateAvailability;
-    if (updateAvailability === AppUpdateAvailability.UPDATE_AVAILABLE) {
-      this.showButton = true;
-    } else {
-      this.showButton = false;
-    }
+    this.showButton =
+      (await this.appUpdate.getAppUpdateInfo()).updateAvailability === AppUpdateAvailability.UPDATE_AVAILABLE;
   }
 
   updateApp() {
