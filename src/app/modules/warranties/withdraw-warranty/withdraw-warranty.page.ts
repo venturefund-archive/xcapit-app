@@ -8,6 +8,7 @@ import { WarrantyDataService } from '../shared-warranties/services/send-warranty
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { Lender } from 'src/app/shared/models/lender/lender.interface';
 
 @Component({
   selector: 'app-withdraw-warranty',
@@ -80,7 +81,7 @@ export class WithdrawWarrantyPage {
   });
   warrantyBalance: any;
   walletAddress: string;
-  private _lenderName: string;
+  private _lender: Lender;
   constructor(
     private formBuilder: UntypedFormBuilder,
     private warrantiesService: WarrantiesService,
@@ -100,7 +101,7 @@ export class WithdrawWarrantyPage {
   }
 
   private async _setLender(): Promise<void> {
-    this._lenderName = await this.activeLenderInjectable.create().name();
+    this._lender = await this.activeLenderInjectable.create().value();
   }
 
   async submitForm() {
@@ -108,7 +109,7 @@ export class WithdrawWarrantyPage {
       .verifyWarranty({
         user_dni: this.form.value.dni,
         wallet: this.walletAddress,
-        lender: this._lenderName,
+        lender: this._lender.json().name,
       })
       .toPromise();
     if (this.warrantyBalance.amount === 0) {
@@ -122,7 +123,7 @@ export class WithdrawWarrantyPage {
   }
 
   async userWalletAddress() {
-    this.walletAddress = await this.storageService.getWalletsAddresses('MATIC');
+    this.walletAddress = await this.storageService.getWalletsAddresses(this._lender.blockchain());
   }
 
   saveData() {
@@ -132,7 +133,7 @@ export class WithdrawWarrantyPage {
       quoteAmount: this.warrantyBalance.amount,
       user_dni: this.form.value.dni,
       wallet: this.walletAddress,
-      lender: this._lenderName,
+      lender: this._lender.json().name,
     });
   }
 
