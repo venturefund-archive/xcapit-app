@@ -6,8 +6,6 @@ import { SummaryWarrantyData } from '../../../send-warranty/interfaces/summary-w
 })
 export class WarrantyDataService {
   data: SummaryWarrantyData;
-
-  constructor() {}
 }
 
 export class FakeWarrantyDataService {

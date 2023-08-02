@@ -3700,7 +3700,7 @@
       "header": "Constituir garantía",
       "text_dni": "Ingresar DNI",
       "deposit_amount": "Monto a depositar",
-      "minimum_amount": "El monto mínimo es de {{minimum}} USDC"
+      "minimum_amount": "El monto mínimo es de {{minimum}} {{token}}"
     },
     "summary": {
       "header": "Constituir garantía",
