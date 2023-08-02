@@ -91,6 +91,8 @@ fdescribe('UserProfileMenuPage', () => {
       'toggleUserNotifications',
     ]);
 
+    nullNotificationServiceSpy.toggleUserNotifications.and.returnValue(of());
+
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: nullNotificationServiceSpy,
     });
@@ -194,7 +196,6 @@ fdescribe('UserProfileMenuPage', () => {
     fixture = TestBed.createComponent(UserProfileMenuPage);
     component = fixture.componentInstance;
     component.appUpdate = appUpdateSpy;
-    component.itemMenu = structuredClone(ITEM_MENU);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fixture.detectChanges();
   }));
@@ -308,7 +309,8 @@ fdescribe('UserProfileMenuPage', () => {
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
   });
 
-  it('should render app-card-category-menu component', () => {
+  it('should render app-card-category-menu component', async () => {
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
@@ -337,12 +339,8 @@ fdescribe('UserProfileMenuPage', () => {
 
   it('should show address list category when feature flag is enabled', async () => {
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
-
     await component.ionViewWillEnter();
-
-    const contactListItem = component.itemMenu.find((category) => category.id === 'contacts');
-
-    expect(contactListItem.showCategory).toBeTrue();
+    expect(component.rawMenu.find((category) => category.name === 'Contacts').visible).toBeTrue();
   });
 
   it('should hide address list category when feature flag is not enabled', async () => {
@@ -350,9 +348,7 @@ fdescribe('UserProfileMenuPage', () => {
     await component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    const contactListItem = component.itemMenu.find((category) => category.id === 'contacts');
-    console.log(contactListItem);
-    expect(contactListItem.showCategory).toBeFalse();
+    expect(component.rawMenu.find((category) => category.name === 'Contacts').visible).toBeFalse();
   });
 
   it('should show button if update available', async () => {
@@ -395,9 +391,9 @@ fdescribe('UserProfileMenuPage', () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(
-      component.itemMenu
-        .find((category) => category.id === 'wallet')
-        .items.find((item) => item.name === 'RecoveryPhrase').hidden
+      component.rawMenu
+        .find((category) => category.name === 'Wallet')
+        .items.find((item) => item.name === 'RecoveryPhrase').visible
     ).toBeTrue();
   });
 
@@ -407,17 +403,16 @@ fdescribe('UserProfileMenuPage', () => {
     remoteConfigServiceSpy.getFeatureFlag.withArgs('ff_address_list').and.returnValue(true);
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    const contactsOpt = component.itemMenu.find((category) => category.id === 'contacts');
-    expect(contactsOpt.showCategory).toBeTruthy();
+    expect(component.rawMenu.find((category) => category.name === 'Contacts').visible).toBeTruthy();
   });
 
-  it('should show options warranty wallet when toggle is not checked', async () => {
+  it('should show options warranty wallet when toggle is not checked', async () => { //TODO: porque hay 2 IVWE
     ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(true);
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    const contactsOpt = component.itemMenu.find((category) => category.id === 'contacts');
+    const contactsOpt = component.rawMenu.find((category) => category.name === 'Contacts');
     await component.ionViewWillEnter();
-    expect(contactsOpt.showCategory).toBeFalsy();
+    expect(contactsOpt.visible).toBeFalsy();
   });
 
   it('should navigate to warranty wallet home if warranty_wallet in storage is true', async () => {

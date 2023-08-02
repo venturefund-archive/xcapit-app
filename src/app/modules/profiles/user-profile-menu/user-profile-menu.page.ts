@@ -4,9 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/modules/users/shared-users/services/auth/auth.service';
 import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
-import { ITEM_MENU } from '../shared-profiles/constants/item-menu';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
-import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
@@ -24,6 +22,8 @@ import { AppUpdate, AppUpdateAvailability } from '@capawesome/capacitor-app-upda
 import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
 import { LastVersion } from 'src/app/shared/models/last-version/last-version';
+import { Menu } from '../shared-profiles/models/menu/menu';
+import { RawMenuCategory } from '../shared-profiles/models/raw-menu-category';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -43,8 +43,8 @@ import { LastVersion } from 'src/app/shared/models/last-version/last-version';
       <div class="referrals-promotion">
         <app-referral-promotion-card></app-referral-promotion-card>
       </div>
-      <div class="card-item" *ngIf="this.itemMenu">
-        <app-card-category-menu *ngFor="let category of this.itemMenu" [category]="category"></app-card-category-menu>
+      <div class="card-item" *ngIf="this.rawMenu">
+        <app-card-category-menu *ngFor="let category of this.rawMenu" [category]="category"></app-card-category-menu>
       </div>
       <div>
         <div class="ux-card">
@@ -73,7 +73,7 @@ import { LastVersion } from 'src/app/shared/models/last-version/last-version';
                   {{ 'profiles.user_profile_menu.wallet_type' | translate }}</ion-text
                 >
                 <ion-toggle
-                  formControlName="warrantyWallet"
+                  formControlName="web3Activated"
                   name="ux_wallet_type"
                   class="ux-toggle ion-no-padding"
                   mode="ios"
@@ -91,8 +91,8 @@ import { LastVersion } from 'src/app/shared/models/last-version/last-version';
               appTrackClick
               (click)="this.changeLanguage()"
             >
-              <ion-text>{{ 'profiles.user_profile_menu.language' | translate }}</ion-text></ion-button
-            >
+              <ion-text>{{ 'profiles.user_profile_menu.language' | translate }}</ion-text>
+            </ion-button>
           </div>
         </div>
       </div>
@@ -140,20 +140,22 @@ export class UserProfileMenuPage {
   profile: any;
   disable = false;
   username: string;
-  itemMenu: MenuCategory[] = ITEM_MENU;
-  itemMenuToShow: MenuCategory[];
+  rawMenu: RawMenuCategory[];
   form: UntypedFormGroup = this.formBuilder.group({
     notifications: [[]],
-    warrantyWallet: [[]],
+    web3Activated: [[]],
   });
-  private readonly _aTopic = 'app';
-  private readonly _aKey = '_enabledPushNotifications';
+
   leave$ = new Subject<void>();
   appUpdate = AppUpdate;
   actualVersion: string;
   showButton: boolean;
   isNative: boolean;
   inReview = true;
+  private readonly _aTopic = 'app';
+  private readonly _aKey = '_enabledPushNotifications';
+
+  private _menu: Menu;
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -178,9 +180,12 @@ export class UserProfileMenuPage {
   async ionViewWillEnter() {
     await this._setInReviewApp();
     this.getProfile();
+    this._menu = new Menu();
     await this.toggleSeedPhrase();
     await this.existWallet();
+    this.setUsername();
     this.contactsListAvailable();
+    this.rawMenu = this._menu.json();
     await this.setPushNotifications();
     this.valueChanges();
     this.setWarrantyWalletState();
@@ -193,9 +198,9 @@ export class UserProfileMenuPage {
   }
 
   async toggleSeedPhrase() {
-    this.itemMenu
-      .find((category) => category.id === 'wallet')
-      .items.find((item) => item.name === 'RecoveryPhrase').hidden = await this.isWarrantyWallet();
+    (await this.isWarrantyWallet())
+      ? this._menu.hide('Wallet', 'RecoveryPhrase')
+      : this._menu.show('Wallet', 'RecoveryPhrase');
   }
 
   private async _setInReviewApp(): Promise<void> {
@@ -215,7 +220,7 @@ export class UserProfileMenuPage {
   }
 
   async setWarrantyWalletState() {
-    this.form.patchValue({ warrantyWallet: !(await this.isWarrantyWallet()) });
+    this.form.patchValue({ web3Activated: !(await this.isWarrantyWallet()) });
   }
 
   private valueChanges() {
@@ -223,14 +228,16 @@ export class UserProfileMenuPage {
       this.toggle(value);
       this.setEventNotifications(value);
     });
-    this.form.get('warrantyWallet').valueChanges.subscribe(async (value) => {
-      this.setEventWeb3(value);
-      await new SimplifiedWallet(this.ionicStorageService).save(!value);
-      this.itemMenu.forEach((category) => {
-        if (!category.isWarrantyWalletOpt) {
-          category.showCategory = value;
-        }
-      });
+    this.form.get('web3Activated').valueChanges.subscribe(async (web3Activated) => {
+      this.setEventWeb3(web3Activated);
+      await new SimplifiedWallet(this.ionicStorageService).save(!web3Activated);
+      if (web3Activated) {
+        this._menu.showCategory('WalletConnect');
+        this._menu.showCategory('Contacts');
+      } else {
+        this._menu.hideCategory('WalletConnect');
+        this._menu.hideCategory('Contacts');
+      }
       await this.toggleSeedPhrase();
     });
   }
@@ -261,7 +268,8 @@ export class UserProfileMenuPage {
   }
 
   async walletConnectStatus() {
-    this.itemMenu.map(async (item) => {
+    // TODO: Que onda esto?
+    this.rawMenu.map(async (item) => {
       if (item.name === 'WalletConnect') {
         item.connected = this.walletConnectService.connected;
         item.legend = this.walletConnectService.connected
@@ -273,8 +281,9 @@ export class UserProfileMenuPage {
   }
 
   contactsListAvailable() {
-    this.itemMenu.find((category) => category.id === 'contacts').showCategory =
-      this.remoteConfig.getFeatureFlag('ff_address_list');
+    this.remoteConfig.getFeatureFlag('ff_address_list')
+      ? this._menu.showCategory('Contacts')
+      : this._menu.hideCategory('Contacts');
   }
 
   back() {
@@ -351,8 +360,8 @@ export class UserProfileMenuPage {
   }
 
   async existWallet() {
-    this.itemMenu.find((item) => item.id === 'wallet').showCategory = await this.walletService.walletExist();
-    this.setUsername();
+    // TODO: Mepa que esto no va mas.
+    (await this.walletService.walletExist()) ? this._menu.showCategory('Wallet') : this._menu.hideCategory('Wallet');
   }
 
   setUsername() {

@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { MenuCategory } from '../../interfaces/menu-category.interface';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { RawMenuCategory } from '../../models/raw-menu-category';
 
 @Component({
   selector: 'app-card-category-menu',
   template: `
-    <div class="ux-card" *ngIf="this.category.showCategory">
+    <div class="ux-card" *ngIf="this.category.visible">
       <div class="card-title">
         <img class="card-title__img" [src]="this.category.icon" />
         <ion-text class="ux-font-header-titulo card-title__text" *ngIf="!this.category.route">{{
@@ -36,10 +36,10 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
           }}</ion-badge>
         </div>
       </div>
-      <div *ngFor="let item of this.category.items">
-        <div class="item-container" *appFeatureFlag="item.disable; negated: true">
+      <div class="item-container" *ngFor="let item of this.category.items">
+        <ng-container *appFeatureFlag="item.disable; negated: true">
           <ion-button
-            *ngIf="!item.hidden"
+            *ngIf="item.visible"
             class="ux-font-text-xs"
             fill="clear"
             [id]="item.name"
@@ -48,17 +48,17 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
             (click)="this.goToRoute(item)"
             >{{ item.text | translate }}</ion-button
           >
-          <ion-badge *ngIf="!item.hidden && item.newBadge" class="new-badge ux-font-num-subtitulo" slot="end">{{
+          <ion-badge *ngIf="item.visible && item.newBadge" class="new-badge ux-font-num-subtitulo" slot="end">{{
             'profiles.user_profile_menu.new_badge' | translate
           }}</ion-badge>
-        </div>
+        </ng-container>
       </div>
     </div>
   `,
   styleUrls: ['./card-category-menu.component.scss'],
 })
-export class CardCategoryMenuComponent implements OnInit {
-  @Input() category: MenuCategory;
+export class CardCategoryMenuComponent {
+  @Input() category: RawMenuCategory;
 
   constructor(
     private navController: NavController,
@@ -66,8 +66,6 @@ export class CardCategoryMenuComponent implements OnInit {
     private walletConnectService: WalletConnectService,
     private browserService: BrowserService
   ) {}
-
-  ngOnInit() {}
 
   async goToRoute(item) {
     let url = item.route;
