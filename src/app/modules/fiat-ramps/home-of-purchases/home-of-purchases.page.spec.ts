@@ -21,6 +21,8 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { FakeLender } from 'src/app/shared/models/lender/fake/fake-lender';
 
 describe('HomeOfPurchasesPage', () => {
   let component: HomeOfPurchasesPage;
@@ -38,6 +40,7 @@ describe('HomeOfPurchasesPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeOfPurchasesPage>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let userKycKriptonDataServiceSpy: jasmine.SpyObj<UserKycKriptonDataService>;
+  let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
 
   const user_status = { kyc_approved: false, registration_status: 'USER_INFORMATION' };
 
@@ -95,6 +98,10 @@ describe('HomeOfPurchasesPage', () => {
       clean: null,
     });
 
+    activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
+      create: { value: () => Promise.resolve(new FakeLender()) },
+    });
+
     TestBed.configureTestingModule({
       declarations: [HomeOfPurchasesPage, FakeTrackClickDirective, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -108,6 +115,7 @@ describe('HomeOfPurchasesPage', () => {
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: UserKycKriptonDataService, useValue: userKycKriptonDataServiceSpy },
+        { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -160,7 +168,7 @@ describe('HomeOfPurchasesPage', () => {
     kriptonUserSpy.isLogged.and.resolveTo(false);
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css("ion-button[name='ux_buy_new_simplified_wallet']")).nativeElement.click();
+    await component.buy();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-email');
   });
@@ -168,7 +176,7 @@ describe('HomeOfPurchasesPage', () => {
   it('should navigate to new operation page when ux_buy_new_simplified_wallet is clicked and is logged', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css("ion-button[name='ux_buy_new_simplified_wallet']")).nativeElement.click();
+    await component.buy();
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/fiat-ramps/new-operation/kripton');
   });
 

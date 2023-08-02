@@ -11,9 +11,9 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import {
-  UserKycKriptonDataService
-} from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
+import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
+import { ActiveLenderInjectable } from '../../../shared/models/active-lender/injectable/active-lender.injectable';
+import { Lender } from '../../../shared/models/lender/lender.interface';
 
 @Component({
   selector: 'app-home-of-purchases',
@@ -143,7 +143,8 @@ export class HomeOfPurchasesPage {
     private kriptonUser: KriptonUserInjectable,
     private trackService: TrackService,
     private ionicStorageService: IonicStorageService,
-    private userKycKriptonDataService: UserKycKriptonDataService
+    private userKycKriptonDataService: UserKycKriptonDataService,
+    private activeLenderInjectable: ActiveLenderInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -193,14 +194,23 @@ export class HomeOfPurchasesPage {
     this.navController.navigateForward('/support/faqs/buy');
   }
 
-  buy() {
+  async buy() {
     this.tokenOperationDataService.add({ mode: 'buy' });
-    this.isUserWarranty ? this.navigateBySimplifiedWallet() : this.navigateBy();
+    this.isUserWarranty ? await this.navigateBySimplifiedWallet() : this.navigateBy();
   }
 
-  navigateBySimplifiedWallet() {
-    this.tokenOperationDataService.add({ asset: 'USDC', network: 'MATIC', country: 'ARG' });
+  async navigateBySimplifiedWallet() {
+    const activeLender = await this._lenderToken();
+    this.tokenOperationDataService.add({
+      asset: activeLender.token(),
+      network: activeLender.blockchain(),
+      country: 'ARG',
+    });
     this.isLogged ? this.setDataSimplifiedWallet() : this.navigateToLoginKripton();
+  }
+
+  private _lenderToken(): Promise<Lender> {
+    return this.activeLenderInjectable.create().value();
   }
 
   sell() {
