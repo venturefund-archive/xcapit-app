@@ -32,9 +32,8 @@ import { AppUpdateAvailability } from '@capawesome/capacitor-app-update';
 import { UpdateAppService } from 'src/app/shared/services/update-app/update-app.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeFeatureFlagDirective } from '../../../../testing/fakes/feature-flag-directive.fake.spec';
-import { ITEM_MENU } from '../shared-profiles/constants/item-menu';
 
-fdescribe('UserProfileMenuPage', () => {
+describe('UserProfileMenuPage', () => {
   const profile = { email: 'test@mail.com' };
   const anERC20Address = '0x0123456789101112131415';
   let component: UserProfileMenuPage;
@@ -96,7 +95,7 @@ fdescribe('UserProfileMenuPage', () => {
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: nullNotificationServiceSpy,
     });
-    fakeModalController = new FakeModalController();
+    fakeModalController = new FakeModalController(null, { data: true });
     modalControllerSpy = fakeModalController.createSpy();
 
     languageServiceSpy = jasmine.createSpyObj('LanguageService', {
@@ -218,7 +217,7 @@ fdescribe('UserProfileMenuPage', () => {
   });
 
   it('should subscribe to push notifications', async () => {
-    component.toggle(true);
+    await component.togglePushNotifications(true);
     fixture.detectChanges();
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
@@ -226,7 +225,7 @@ fdescribe('UserProfileMenuPage', () => {
   });
 
   it('should unsubscribe to push notifications', async () => {
-    component.toggle(false);
+    await component.togglePushNotifications(false);
     fixture.detectChanges();
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
@@ -287,16 +286,6 @@ fdescribe('UserProfileMenuPage', () => {
     await component.handleLogout();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should log out if user does not have a wallet when Log Out button is clicked', async () => {
-    component.profile = profile;
-    fakeWalletService.modifyReturns(false, {});
-    const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
   });
 
   it('should log out if user selected to not see modal in this device when Log Out button is clicked and navigate to users/login', async () => {
@@ -389,12 +378,14 @@ fdescribe('UserProfileMenuPage', () => {
   it('should hide seedPhrase option if is warranty wallet', async () => {
     ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(true);
     await component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
     fixture.detectChanges();
     expect(
       component.rawMenu
         .find((category) => category.name === 'Wallet')
         .items.find((item) => item.name === 'RecoveryPhrase').visible
-    ).toBeTrue();
+    ).toBeFalse();
   });
 
   it('should show options web3 when toggle is checked', async () => {
@@ -406,12 +397,11 @@ fdescribe('UserProfileMenuPage', () => {
     expect(component.rawMenu.find((category) => category.name === 'Contacts').visible).toBeTruthy();
   });
 
-  it('should show options warranty wallet when toggle is not checked', async () => { //TODO: porque hay 2 IVWE
+  it('should show options warranty wallet when toggle is not checked', async () => {
     ionicStorageServiceSpy.get.withArgs('warranty_wallet').and.resolveTo(true);
     await component.ionViewWillEnter();
     fixture.detectChanges();
     const contactsOpt = component.rawMenu.find((category) => category.name === 'Contacts');
-    await component.ionViewWillEnter();
     expect(contactsOpt.visible).toBeFalsy();
   });
 

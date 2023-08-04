@@ -1,7 +1,7 @@
 import { rawMenuItemSupport, rawMenuItemCommunity, rawMenuItems } from '../menu-item/menu-items.raw';
 import { MenuItemDataRepo } from './menu-item-data-repo';
 
-fdescribe('MenuItemDataRepo', () => {
+describe('MenuItemDataRepo', () => {
   let menuItemDataRepo: MenuItemDataRepo;
 
   beforeEach(() => {

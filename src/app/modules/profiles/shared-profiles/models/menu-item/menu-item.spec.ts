@@ -1,7 +1,7 @@
 import { MenuItem } from './menu-item';
 import { rawMenuItemSupport } from './menu-items.raw';
 
-fdescribe('MenuItem', () => {
+describe('MenuItem', () => {
   let menuItem: MenuItem;
 
   beforeEach(() => {
@@ -20,7 +20,22 @@ fdescribe('MenuItem', () => {
     expect(menuItem.categoryName()).toEqual(rawMenuItemSupport.categoryName);
   });
 
+  it('position', () => {
+    expect(menuItem.position()).toEqual(rawMenuItemSupport.position);
+  });
+
   it('json', () => {
     expect(menuItem.json()).toEqual(rawMenuItemSupport);
+  });
+
+  it('hide', () => {
+    menuItem = menuItem.hide()
+    expect(menuItem.json().visible).toBeFalse();
+  });
+
+  it('show', () => {
+    menuItem = menuItem.hide()
+    menuItem = menuItem.show()
+    expect(menuItem.json().visible).toBeTrue();
   });
 });

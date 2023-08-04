@@ -8,8 +8,8 @@ export type RawMenuCategory = {
   route: string;
   name: string;
   buttonName: string;
-  legend: string; // TODO: Ver si esto podria ser opcional ya que es solo para WalletConnect
-  connected: boolean; // TODO: Ver si esto podria ser opcional ya que es solo para WalletConnect
+  legend: string;
+  connected: boolean;
   newBadge: boolean;
   isWarrantyWalletOpt: boolean;
   items: RawMenuItem[];

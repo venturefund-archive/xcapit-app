@@ -1,7 +1,7 @@
 import { FakeMenuCategory } from './fake-menu-category';
 import { rawMenuCategoryHelp } from '../../menu-category.raw';
 
-fdescribe('FakeMenuCategory', () => {
+describe('FakeMenuCategory', () => {
   let fakeMenuCategory: FakeMenuCategory;
 
   beforeEach(() => {
@@ -14,5 +14,25 @@ fdescribe('FakeMenuCategory', () => {
 
   it('json', () => {
     expect(fakeMenuCategory.json()).toEqual(rawMenuCategoryHelp);
+  });
+
+  it('name', () => {
+    expect(fakeMenuCategory.name()).toEqual(rawMenuCategoryHelp.name);
+  });
+
+  it('position', () => {
+    expect(fakeMenuCategory.position()).toEqual(rawMenuCategoryHelp.position);
+  });
+
+  it('show', () => {
+    expect(fakeMenuCategory.show()).toBeTruthy();
+  });
+
+  it('hide', () => {
+    expect(fakeMenuCategory.hide()).toBeTruthy();
+  });
+
+  it('setWalletConnectStatus', () => {
+    expect(fakeMenuCategory.setWalletConnectStatus(true)).toBeTruthy();
   });
 });

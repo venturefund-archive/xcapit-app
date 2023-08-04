@@ -16,7 +16,7 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { rawMenuCategoryHelp, rawMenuCategoryWalletConnect } from '../../models/menu-category.raw';
 import { rawMenuItemCommunity, rawMenuItemSupport } from '../../models/menu-item/menu-items.raw';
 
-fdescribe('CardItemMenuComponent', () => {
+describe('CardCategoryMenuComponent', () => {
   let component: CardCategoryMenuComponent;
   let fixture: ComponentFixture<CardCategoryMenuComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CardCategoryMenuComponent>;
@@ -51,7 +51,13 @@ fdescribe('CardItemMenuComponent', () => {
     fixture = TestBed.createComponent(CardCategoryMenuComponent);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    component.category = structuredClone({ ...rawMenuCategoryHelp, items: [rawMenuItemCommunity, rawMenuItemSupport] });
+    component.category = structuredClone({
+      ...rawMenuCategoryHelp,
+      items: [
+        { ...rawMenuItemSupport, visible: true },
+        { ...rawMenuItemCommunity, visible: true },
+      ],
+    });
     fixture.detectChanges();
   }));
 
@@ -90,7 +96,6 @@ fdescribe('CardItemMenuComponent', () => {
     await fixture.whenStable();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-
 
   it('should render category when attribute showCategory is true', () => {
     component.category.visible = true;

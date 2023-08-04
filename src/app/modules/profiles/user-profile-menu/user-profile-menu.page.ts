@@ -154,7 +154,6 @@ export class UserProfileMenuPage {
   inReview = true;
   private readonly _aTopic = 'app';
   private readonly _aKey = '_enabledPushNotifications';
-
   private _menu: Menu;
 
   constructor(
@@ -181,15 +180,15 @@ export class UserProfileMenuPage {
     await this._setInReviewApp();
     this.getProfile();
     this._menu = new Menu();
-    await this.toggleSeedPhrase();
-    await this.existWallet();
-    this.setUsername();
-    this.contactsListAvailable();
-    this.rawMenu = this._menu.json();
+    await this._toggleSeedPhrase();
+    await this.walletService.walletExist();
+    await this.setUsername();
+    this._contactsListAvailable();
+    this._setRawMenu();
     await this.setPushNotifications();
     this.valueChanges();
-    this.setWarrantyWalletState();
-    this.walletConnectStatus();
+    this._setWarrantyWalletState();
+    this._walletConnectStatus();
     this.isNative = this.platform.isNative();
     if (this.isNative) {
       this.getActualVersion();
@@ -197,10 +196,11 @@ export class UserProfileMenuPage {
     }
   }
 
-  async toggleSeedPhrase() {
-    (await this.isWarrantyWallet())
+  private async _toggleSeedPhrase() {
+    this._menu = (await this._isWarrantyWallet())
       ? this._menu.hide('Wallet', 'RecoveryPhrase')
       : this._menu.show('Wallet', 'RecoveryPhrase');
+    this._setRawMenu();
   }
 
   private async _setInReviewApp(): Promise<void> {
@@ -208,38 +208,40 @@ export class UserProfileMenuPage {
   }
 
   async setPushNotifications() {
-    this.form.patchValue({ notifications: await this.enabled() });
+    this.form.patchValue({ notifications: await this._pushNotificationsEnabled() });
   }
 
-  async enabled() {
+  async _pushNotificationsEnabled() {
     return await this.ionicStorageService.get(this._aKey).then((res) => res);
   }
 
-  async isWarrantyWallet() {
+  private async _isWarrantyWallet() {
     return await new SimplifiedWallet(this.ionicStorageService).value();
   }
 
-  async setWarrantyWalletState() {
-    this.form.patchValue({ web3Activated: !(await this.isWarrantyWallet()) });
+  private async _setWarrantyWalletState() {
+    this.form.patchValue({ web3Activated: !(await this._isWarrantyWallet()) });
   }
 
   private valueChanges() {
     this.form.get('notifications').valueChanges.subscribe((value) => {
-      this.toggle(value);
+      this.togglePushNotifications(value);
       this.setEventNotifications(value);
     });
     this.form.get('web3Activated').valueChanges.subscribe(async (web3Activated) => {
       this.setEventWeb3(web3Activated);
       await new SimplifiedWallet(this.ionicStorageService).save(!web3Activated);
-      if (web3Activated) {
-        this._menu.showCategory('WalletConnect');
-        this._menu.showCategory('Contacts');
-      } else {
-        this._menu.hideCategory('WalletConnect');
-        this._menu.hideCategory('Contacts');
-      }
-      await this.toggleSeedPhrase();
+      this._menu = web3Activated
+        ? this._menu.show('WalletConnect').show('Contacts')
+        : this._menu.hide('WalletConnect').hide('Contacts');
+
+      this._setRawMenu();
+      await this._toggleSeedPhrase();
     });
+  }
+
+  private _setRawMenu() {
+    this.rawMenu = this._menu.json();
   }
 
   setEventNotifications(value: boolean) {
@@ -255,35 +257,28 @@ export class UserProfileMenuPage {
     });
   }
 
-  pushNotificationsService() {
+  private _pushNotificationsService() {
     return this.notificationsService.getInstance();
   }
 
-  async toggle(value: boolean) {
-    this.ionicStorageService.set(this._aKey, value);
+  async togglePushNotifications(value: boolean) {
+    await this.ionicStorageService.set(this._aKey, value);
     value
-      ? this.pushNotificationsService().subscribeTo(this._aTopic)
-      : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
-    await this.pushNotificationsService().toggleUserNotifications(value).toPromise();
+      ? this._pushNotificationsService().subscribeTo(this._aTopic)
+      : this._pushNotificationsService().unsubscribeFrom(this._aTopic);
+    await this._pushNotificationsService().toggleUserNotifications(value).toPromise();
   }
 
-  async walletConnectStatus() {
-    // TODO: Que onda esto?
-    this.rawMenu.map(async (item) => {
-      if (item.name === 'WalletConnect') {
-        item.connected = this.walletConnectService.connected;
-        item.legend = this.walletConnectService.connected
-          ? 'profiles.user_profile_menu.connected_walletconnect'
-          : 'profiles.user_profile_menu.disconnected_walletconnect';
-      }
-      return item;
-    });
+  private _walletConnectStatus(): void {
+    this._menu = this._menu.withWalletConnectStatus(this.walletConnectService.connected);
+    this._setRawMenu();
   }
 
-  contactsListAvailable() {
-    this.remoteConfig.getFeatureFlag('ff_address_list')
-      ? this._menu.showCategory('Contacts')
-      : this._menu.hideCategory('Contacts');
+  private _contactsListAvailable(): void {
+    this._menu = this.remoteConfig.getFeatureFlag('ff_address_list')
+      ? this._menu.show('Contacts')
+      : this._menu.hide('Contacts');
+    this._setRawMenu();
   }
 
   back() {
@@ -300,20 +295,12 @@ export class UserProfileMenuPage {
     (await this.showModal()) ? this.showLogOutModal() : this.logout();
   }
 
-  private walletExist() {
-    return this.walletService.walletExist();
-  }
-
   private profileExists() {
     return !!this.profile;
   }
 
   private async showModal() {
-    return (
-      (await this.walletExist()) &&
-      this.profileExists() &&
-      (await this.logOutModalService.isShowModalTo(this.profile.email))
-    );
+    return this.profileExists() && (await this.logOutModalService.isShowModalTo(this.profile.email));
   }
 
   async showLogOutModal(): Promise<void> {
@@ -359,12 +346,7 @@ export class UserProfileMenuPage {
     this.disable = false;
   }
 
-  async existWallet() {
-    // TODO: Mepa que esto no va mas.
-    (await this.walletService.walletExist()) ? this._menu.showCategory('Wallet') : this._menu.hideCategory('Wallet');
-  }
-
-  setUsername() {
+  async setUsername() {
     this.username = `Xcapiter ${this.walletService.addresses['ERC20'].substring(0, 5)}`;
   }
 

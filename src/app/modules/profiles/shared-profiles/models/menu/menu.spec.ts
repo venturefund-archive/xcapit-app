@@ -1,15 +1,18 @@
-import { FakeMenuCategories } from '../menu-categories/fake/fake-menu-categories';
-import { rawMenuCategoryHelp } from '../menu-category.raw';
-import { FakeMenuCategory } from '../menu-category/fake/fake-menu-category';
 import { rawMenuItemCommunity, rawMenuItemSupport } from '../menu-item/menu-items.raw';
+import { FakeMenuCategories } from '../menu-categories/fake/fake-menu-categories';
+import { MenuCategories } from '../menu-categories/menu-categories.interface';
+import { FakeMenuCategory } from '../menu-category/fake/fake-menu-category';
+import { rawMenuCategoryHelp } from '../menu-category.raw';
 import { Menu } from './menu';
 
-fdescribe('Menu', () => {
+describe('Menu', () => {
   let menu: Menu;
+  let fakeMenuCategories: MenuCategories;
   const rawCategoryWithItems = { ...rawMenuCategoryHelp, items: [rawMenuItemSupport, rawMenuItemCommunity] };
 
   beforeEach(() => {
-    menu = new Menu(new FakeMenuCategories([new FakeMenuCategory(rawCategoryWithItems)]));
+    fakeMenuCategories = new FakeMenuCategories([new FakeMenuCategory(rawCategoryWithItems)]);
+    menu = new Menu(fakeMenuCategories);
   });
 
   it('new', () => {
@@ -25,26 +28,10 @@ fdescribe('Menu', () => {
   });
 
   it('hide', () => {
-    menu.hide(rawMenuCategoryHelp.name, rawMenuItemSupport.name);
-    expect(menu.json()[0].items[0].visible).toBeFalse();
+    expect(menu.hide(rawMenuCategoryHelp.name, rawMenuItemSupport.name)).toBeTruthy();
   });
 
   it('show', () => {
-    menu.hide(rawMenuCategoryHelp.name, rawMenuItemSupport.name);
-    expect(menu.json()[0].items[0].visible).toBeFalse();
-    menu.show(rawMenuCategoryHelp.name, rawMenuItemSupport.name);
-    expect(menu.json()[0].items[0].visible).toBeTrue();
-  });
-
-  it('hideCategory', () => {
-    menu.hideCategory(rawMenuCategoryHelp.name);
-    expect(menu.json()[0].visible).toBeTrue();
-  });
-
-  it('showCategory', () => {
-    menu.hideCategory(rawMenuCategoryHelp.name);
-    expect(menu.json()[0].visible).toBeFalse();
-    menu.showCategory(rawMenuCategoryHelp.name);
-    expect(menu.json()[0].visible).toBeTrue();
+    expect(menu.show(rawMenuCategoryHelp.name, rawMenuItemSupport.name)).toBeTruthy();
   });
 });

@@ -27,7 +27,7 @@ export const rawMenuItemCommunity: RawMenuItem = {
 };
 
 export const rawMenuItemSecurityConfiguration: RawMenuItem = {
-  position: 3,
+  position: 1,
   name: 'SecurityConfiguration',
   text: 'profiles.user_profile_menu.security_configuration',
   route: '/profiles/security-configuration',

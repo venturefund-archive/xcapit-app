@@ -14,4 +14,16 @@ export class MenuItem {
   json(): RawMenuItem {
     return this._aRawItemMenu;
   }
+
+  position(): number {
+    return this._aRawItemMenu.position;
+  }
+
+  hide(): MenuItem {
+    return new MenuItem({ ...this._aRawItemMenu, visible: false });
+  }
+
+  show(): MenuItem {
+    return new MenuItem({ ...this._aRawItemMenu, visible: true });
+  }
 }

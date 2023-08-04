@@ -143,7 +143,9 @@ import { ActiveLenderInjectable } from '../../../shared/models/active-lender/inj
             <img src="/assets/img/simplified-home-wallet/empty.svg" />
             <ion-label
               class="ux-font-text-xxs"
-              [innerHTML]="'wallets.simplified_home_wallet.empty_transactions' | translate: { token: this.tplToken.value}"
+              [innerHTML]="
+                'wallets.simplified_home_wallet.empty_transactions' | translate : { token: this.tplToken.value }
+              "
             >
             </ion-label>
           </div>

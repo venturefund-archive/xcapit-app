@@ -1,7 +1,7 @@
 import { rawMenuCategories } from '../menu-category.raw';
 import { MenuCategoryDataRepo } from './menu-category-data-repo';
 
-fdescribe('MenuCategoryDataRepo', () => {
+describe('MenuCategoryDataRepo', () => {
   let menuCategoryDataRepo: MenuCategoryDataRepo;
 
   beforeEach(() => {

@@ -5,6 +5,6 @@ export class MenuCategoryDataRepo {
   constructor(private readonly _rawMenuCategories: RawMenuCategory[] = RAW_MENU_CATEGORIES) {}
 
   all(): RawMenuCategory[] {
-    return this._rawMenuCategories.sort((a, b) => a.position - b.position);
+    return structuredClone(this._rawMenuCategories.sort((a, b) => a.position - b.position));
   }
 }

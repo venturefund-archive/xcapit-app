@@ -1,5 +1,5 @@
 export type RawMenuItem = {
-  position: number,
+  position: number;
   name: string;
   text: string;
   route: string;
@@ -7,6 +7,6 @@ export type RawMenuItem = {
   type: 'link';
   visible?: boolean;
   newBadge?: boolean;
-  disable?: string; // TODO: Ver si cambiamos a boolean
+  disable?: string;
   categoryName: string;
 };

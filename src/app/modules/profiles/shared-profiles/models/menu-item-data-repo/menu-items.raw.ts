@@ -46,7 +46,7 @@ export const RAW_MENU_ITEMS: RawMenuItem[] = [
     newBadge: false,
   },
   {
-    position: 5,
+    position: 1,
     categoryName: 'Wallet',
     name: 'SecurityConfiguration',
     text: 'profiles.user_profile_menu.security_configuration',
@@ -57,7 +57,7 @@ export const RAW_MENU_ITEMS: RawMenuItem[] = [
     newBadge: true,
   },
   {
-    position: 6,
+    position: 2,
     categoryName: 'Wallet',
     name: 'RecoveryPhrase',
     text: 'profiles.user_profile_menu.security_phrase',
@@ -68,7 +68,7 @@ export const RAW_MENU_ITEMS: RawMenuItem[] = [
     newBadge: false,
   },
   {
-    position: 7,
+    position: 3,
     categoryName: 'Wallet',
     name: 'GoogleDriveBackup',
     text: 'profiles.user_profile_menu.google_drive_backup',
@@ -80,7 +80,7 @@ export const RAW_MENU_ITEMS: RawMenuItem[] = [
     disable: 'ff_disableGDriveBackup',
   },
   {
-    position: 8,
+    position: 4,
     categoryName: 'Wallet',
     name: 'PrivateKey',
     text: 'profiles.user_profile_menu.export_private_key',
@@ -90,7 +90,7 @@ export const RAW_MENU_ITEMS: RawMenuItem[] = [
     newBadge: false,
   },
   {
-    position: 9,
+    position: 5,
     categoryName: 'Wallet',
     name: 'RemoveWallet',
     text: 'profiles.user_profile_menu.remove_wallet',
