@@ -121,6 +121,9 @@ import { ActiveLenderInjectable } from '../../../shared/models/active-lender/inj
           </div>
         </div>
       </div>
+      <div class="swt__whatsapp">
+        <app-whatsapp-support></app-whatsapp-support>
+      </div>
       <div class="swt__transaction">
         <div class="swt__transaction__title">
           <ion-label class="ux-font-header-titulo">
@@ -148,9 +151,6 @@ import { ActiveLenderInjectable } from '../../../shared/models/active-lender/inj
             </ion-label>
           </div>
         </div>
-      </div>
-      <div class="swt__whatsapp">
-        <app-whatsapp-support></app-whatsapp-support>
       </div>
     </ion-content>`,
   styleUrls: ['./simplified-home-wallet.page.scss'],
