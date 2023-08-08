@@ -63,7 +63,7 @@ export const ITEM_MENU: MenuCategory[] = [
     category_title: 'profiles.user_profile_menu.category_security_wallet',
     icon: 'assets/ux-icons/ux-key-primary.svg',
     id: 'wallet',
-    showCategory: false,
+    showCategory: true,
     isWarrantyWalletOpt: true,
     items: [
       {

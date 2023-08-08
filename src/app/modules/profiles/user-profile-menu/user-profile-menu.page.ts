@@ -4,16 +4,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/modules/users/shared-users/services/auth/auth.service';
 import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
-import { ITEM_MENU } from '../shared-profiles/constants/item-menu';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
-import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
-import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth.injectable';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
@@ -25,6 +22,8 @@ import { AppUpdate, AppUpdateAvailability } from '@capawesome/capacitor-app-upda
 import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
 import { LastVersion } from 'src/app/shared/models/last-version/last-version';
+import { Menu } from '../shared-profiles/models/menu/menu';
+import { RawMenuCategory } from '../shared-profiles/models/raw-menu-category';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -44,8 +43,8 @@ import { LastVersion } from 'src/app/shared/models/last-version/last-version';
       <div class="referrals-promotion">
         <app-referral-promotion-card></app-referral-promotion-card>
       </div>
-      <div class="card-item" *ngIf="this.itemMenu">
-        <app-card-category-menu *ngFor="let category of this.itemMenu" [category]="category"></app-card-category-menu>
+      <div class="card-item" *ngIf="this.rawMenu">
+        <app-card-category-menu *ngFor="let category of this.rawMenu" [category]="category"></app-card-category-menu>
       </div>
       <div>
         <div class="ux-card">
@@ -74,7 +73,7 @@ import { LastVersion } from 'src/app/shared/models/last-version/last-version';
                   {{ 'profiles.user_profile_menu.wallet_type' | translate }}</ion-text
                 >
                 <ion-toggle
-                  formControlName="warrantyWallet"
+                  formControlName="web3Activated"
                   name="ux_wallet_type"
                   class="ux-toggle ion-no-padding"
                   mode="ios"
@@ -92,8 +91,8 @@ import { LastVersion } from 'src/app/shared/models/last-version/last-version';
               appTrackClick
               (click)="this.changeLanguage()"
             >
-              <ion-text>{{ 'profiles.user_profile_menu.language' | translate }}</ion-text></ion-button
-            >
+              <ion-text>{{ 'profiles.user_profile_menu.language' | translate }}</ion-text>
+            </ion-button>
           </div>
         </div>
       </div>
@@ -141,19 +140,21 @@ export class UserProfileMenuPage {
   profile: any;
   disable = false;
   username: string;
-  itemMenu: MenuCategory[] = ITEM_MENU;
+  rawMenu: RawMenuCategory[];
   form: UntypedFormGroup = this.formBuilder.group({
     notifications: [[]],
-    warrantyWallet: [[]],
+    web3Activated: [[]],
   });
-  private readonly _aTopic = 'app';
-  private readonly _aKey = '_enabledPushNotifications';
+
   leave$ = new Subject<void>();
   appUpdate = AppUpdate;
   actualVersion: string;
   showButton: boolean;
   isNative: boolean;
   inReview = true;
+  private readonly _aTopic = 'app';
+  private readonly _aKey = '_enabledPushNotifications';
+  private _menu: Menu;
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -167,7 +168,6 @@ export class UserProfileMenuPage {
     private ionicStorageService: IonicStorageService,
     private walletConnectService: WalletConnectService,
     private notificationsService: NotificationsService,
-    private biometricAuthInjectable: BiometricAuthInjectable,
     private remoteConfig: RemoteConfigService,
     private formBuilder: FormBuilder,
     private trackService: TrackService,
@@ -179,13 +179,16 @@ export class UserProfileMenuPage {
   async ionViewWillEnter() {
     await this._setInReviewApp();
     this.getProfile();
-    this.existWallet();
-    this.contactsListAvailable();
-    this.biometricAuthAvailable();
+    this._menu = new Menu();
+    await this._toggleSeedPhrase();
+    await this.walletService.walletExist();
+    await this.setUsername();
+    this._contactsListAvailable();
+    this._setRawMenu();
     await this.setPushNotifications();
     this.valueChanges();
-    this.setWarrantyWalletState();
-    this.walletConnectStatus();
+    this._setWarrantyWalletState();
+    this._walletConnectStatus();
     this.isNative = this.platform.isNative();
     if (this.isNative) {
       this.getActualVersion();
@@ -193,46 +196,57 @@ export class UserProfileMenuPage {
     }
   }
 
+  private async _toggleSeedPhrase() {
+    this._menu = (await this._isWarrantyWallet())
+      ? this._menu.hide('Wallet', 'RecoveryPhrase')
+      : this._menu.show('Wallet', 'RecoveryPhrase');
+    this._setRawMenu();
+  }
+
   private async _setInReviewApp(): Promise<void> {
     this.inReview = await new LastVersion(this.appVersionService.create(), this.remoteConfig, this.platform).inReview();
   }
 
   async setPushNotifications() {
-    this.form.patchValue({ notifications: await this.enabled() });
+    this.form.patchValue({ notifications: await this._pushNotificationsEnabled() });
   }
 
-  async enabled() {
+  async _pushNotificationsEnabled() {
     return await this.ionicStorageService.get(this._aKey).then((res) => res);
   }
 
-  async isWarrantyWallet() {
+  private async _isWarrantyWallet() {
     return await new SimplifiedWallet(this.ionicStorageService).value();
   }
 
-  async setWarrantyWalletState() {
-    this.form.patchValue({ warrantyWallet: !(await this.isWarrantyWallet()) });
+  private async _setWarrantyWalletState() {
+    this.form.patchValue({ web3Activated: !(await this._isWarrantyWallet()) });
   }
 
   private valueChanges() {
     this.form.get('notifications').valueChanges.subscribe((value) => {
-      this.toggle(value);
+      this.togglePushNotifications(value);
       this.setEventNotifications(value);
     });
-    this.form.get('warrantyWallet').valueChanges.subscribe(async (value) => {
-      this.setEventWeb3(value);
-      await new SimplifiedWallet(this.ionicStorageService).save(!value);
-      this.itemMenu.forEach((category) => {
-        if (!category.isWarrantyWalletOpt) {
-          category.showCategory = value;
-        }
-      });
+    this.form.get('web3Activated').valueChanges.subscribe(async (web3Activated) => {
+      this.setEventWeb3(web3Activated);
+      await new SimplifiedWallet(this.ionicStorageService).save(!web3Activated);
+      this._menu = web3Activated
+        ? this._menu.show('WalletConnect').show('Contacts')
+        : this._menu.hide('WalletConnect').hide('Contacts');
+
+      this._setRawMenu();
+      await this._toggleSeedPhrase();
     });
   }
 
+  private _setRawMenu() {
+    this.rawMenu = this._menu.json();
+  }
+
   setEventNotifications(value: boolean) {
-    const eventLabel = value ? 'on' : 'off';
     this.trackService.trackEvent({
-      eventLabel: `ux_push_notifications_${eventLabel}`,
+      eventLabel: `ux_push_notifications_${value ? 'on' : 'off'}`,
     });
   }
 
@@ -243,42 +257,28 @@ export class UserProfileMenuPage {
     });
   }
 
-  pushNotificationsService() {
+  private _pushNotificationsService() {
     return this.notificationsService.getInstance();
   }
 
-  async toggle(value: boolean) {
-    this.ionicStorageService.set(this._aKey, value);
+  async togglePushNotifications(value: boolean) {
+    await this.ionicStorageService.set(this._aKey, value);
     value
-      ? this.pushNotificationsService().subscribeTo(this._aTopic)
-      : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
-    await this.pushNotificationsService().toggleUserNotifications(value).toPromise();
+      ? this._pushNotificationsService().subscribeTo(this._aTopic)
+      : this._pushNotificationsService().unsubscribeFrom(this._aTopic);
+    await this._pushNotificationsService().toggleUserNotifications(value).toPromise();
   }
 
-  async walletConnectStatus() {
-    this.itemMenu.map(async (item) => {
-      if (item.name === 'WalletConnect') {
-        item.connected = this.walletConnectService.connected;
-        item.legend = this.walletConnectService.connected
-          ? 'profiles.user_profile_menu.connected_walletconnect'
-          : 'profiles.user_profile_menu.disconnected_walletconnect';
-      }
-      return item;
-    });
+  private _walletConnectStatus(): void {
+    this._menu = this._menu.withWalletConnectStatus(this.walletConnectService.connected);
+    this._setRawMenu();
   }
 
-  async biometricAuthAvailable() {
-    if (await this.biometricAuthInjectable.create().available()) {
-      const biometricAuthItem = this.itemMenu
-        .find((category) => category.id === 'wallet')
-        .items.find((item) => item.name === 'BiometricAuth');
-      biometricAuthItem.hidden = !this.remoteConfig.getFeatureFlag('ff_bioauth');
-    }
-  }
-
-  contactsListAvailable() {
-    const contactListItem = this.itemMenu.find((category) => category.id === 'contacts');
-    contactListItem.showCategory = this.remoteConfig.getFeatureFlag('ff_address_list');
+  private _contactsListAvailable(): void {
+    this._menu = this.remoteConfig.getFeatureFlag('ff_address_list')
+      ? this._menu.show('Contacts')
+      : this._menu.hide('Contacts');
+    this._setRawMenu();
   }
 
   back() {
@@ -292,15 +292,7 @@ export class UserProfileMenuPage {
   }
 
   async handleLogout() {
-    if (await this.showModal()) {
-      this.showLogOutModal();
-    } else {
-      this.logout();
-    }
-  }
-
-  private walletExist() {
-    return this.walletService.walletExist();
+    (await this.showModal()) ? this.showLogOutModal() : this.logout();
   }
 
   private profileExists() {
@@ -308,11 +300,7 @@ export class UserProfileMenuPage {
   }
 
   private async showModal() {
-    return (
-      (await this.walletExist()) &&
-      this.profileExists() &&
-      (await this.logOutModalService.isShowModalTo(this.profile.email))
-    );
+    return this.profileExists() && (await this.logOutModalService.isShowModalTo(this.profile.email));
   }
 
   async showLogOutModal(): Promise<void> {
@@ -358,15 +346,7 @@ export class UserProfileMenuPage {
     this.disable = false;
   }
 
-  existWallet() {
-    this.walletService.walletExist().then((res) => {
-      const item = this.itemMenu.find((item) => item.id === 'wallet');
-      item.showCategory = res;
-      this.setUsername();
-    });
-  }
-
-  setUsername() {
+  async setUsername() {
     this.username = `Xcapiter ${this.walletService.addresses['ERC20'].substring(0, 5)}`;
   }
 
@@ -379,12 +359,8 @@ export class UserProfileMenuPage {
   }
 
   async checkUpdate() {
-    const updateAvailability = (await this.appUpdate.getAppUpdateInfo()).updateAvailability;
-    if (updateAvailability === AppUpdateAvailability.UPDATE_AVAILABLE) {
-      this.showButton = true;
-    } else {
-      this.showButton = false;
-    }
+    this.showButton =
+      (await this.appUpdate.getAppUpdateInfo()).updateAvailability === AppUpdateAvailability.UPDATE_AVAILABLE;
   }
 
   updateApp() {
