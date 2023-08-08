@@ -35,8 +35,10 @@ describe('WarrantiesService', () => {
   });
 
   it('should call post on http when verifyWarranty', () => {
-    warrantiesService.verifyWarranty({ wallet: '0xeeee', lender: 'aLenderName' }).subscribe(() => {
-      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
-    });
+    warrantiesService
+      .verifyWarranty({ wallet: '0xeeee', lender: 'aLenderName', currency: 'ATOK', blockchain: 'ABLOCK' })
+      .subscribe(() => {
+        expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+      });
   });
 });

@@ -57,15 +57,18 @@ describe('WarrantySummaryPage', () => {
     service_cost: 0.2,
     amountWithoutCost: 9.8,
     lender: 'aLender',
+    currency: 'USDC',
+    blockchain: 'MATIC',
   };
   const transactionData: SummaryWarrantyData = {
     wallet: '0x00001',
-    currency: 'USDC',
     amount: 9.8,
     service_cost: 0.2,
     transaction_hash: 'someHash',
     user_dni: 1234567,
     lender: 'aLender',
+    currency: 'USDC',
+    blockchain: 'MATIC',
   };
 
   const _confirmButton = () =>

@@ -122,6 +122,8 @@ describe('WithdrawWarrantyPage', () => {
       user_dni: '12345678',
       wallet: '0x00001',
       lender: aLenderName,
+      currency: 'USDC',
+      blockchain: 'MATIC',
     });
     expect(component.warrantyBalance.amount).toEqual(20);
   });
@@ -138,6 +140,8 @@ describe('WithdrawWarrantyPage', () => {
       user_dni: '12345678',
       wallet: '0x00001',
       lender: aLenderName,
+      currency: 'USDC',
+      blockchain: 'MATIC',
     });
     expect(component.warrantyBalance.amount).toEqual(0);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);

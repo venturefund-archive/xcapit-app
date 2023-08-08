@@ -295,7 +295,12 @@ export class SimplifiedHomeWalletPage {
 
   async getWarranty() {
     this.warranty = await this.warrantiesService
-      .verifyWarranty({ wallet: this.wallet.address(), lender: this.lender.json().name })
+      .verifyWarranty({
+        wallet: this.wallet.address(),
+        lender: this.lender.json().name,
+        currency: this.lender.token(),
+        blockchain: this.lender.blockchain(),
+      })
       .toPromise();
   }
 
