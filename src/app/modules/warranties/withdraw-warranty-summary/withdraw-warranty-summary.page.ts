@@ -12,6 +12,14 @@ import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warrant
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { Lender } from 'src/app/shared/models/lender/lender.interface';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { TokenByAddress } from '../../swaps/shared-swaps/models/token-by-address/token-by-address';
+import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
+import { RawToken, TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 
 @Component({
   selector: 'app-withdraw-warranty-summary',
@@ -24,12 +32,13 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
       </ion-toolbar>
     </ion-header>
     <ion-content class="wws ion-padding">
-      <div class="wws__transaction-summary-card" *ngIf="this.warrantyData">
+      <div class="wws__transaction-summary-card" *ngIf="this.warrantyData && this.tplToken">
         <app-warranty-summary-card
           [title]="'warranties.withdraw_warranty_summary.title' | translate"
           [documentTitle]="'warranties.withdraw_warranty_summary.dniLabel' | translate"
           [emailTitle]="'warranties.withdraw_warranty_summary.emailLabel' | translate"
           [warrantyData]="this.warrantyData"
+          [token]="this.tplToken"
         ></app-warranty-summary-card>
       </div>
       <div class="wws__support">
@@ -58,24 +67,47 @@ export class WithdrawWarrantySummaryPage {
   warrantyData: SummaryWarrantyData;
   loading: boolean;
   disable: boolean;
+  tplToken: RawToken;
+  private _lender: Lender;
 
   constructor(
-    private warratyDataService: WarrantyDataService,
+    private warrantyDataService: WarrantyDataService,
     private modalController: ModalController,
     private translate: TranslateService,
     private apiTicketsService: ApiTicketsService,
     private trackService: TrackService,
     private warrantyService: WarrantiesService,
     private ionicStorageService: IonicStorageService,
+    private activeLenderInjectable: ActiveLenderInjectable,
+    private blockchainsFactory: BlockchainsFactory,
+    private apiWalletService: ApiWalletService
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    await this._setLender();
     this.screenViewEvent();
-    this.warrantyData = this.warratyDataService.data;
+    this.warrantyData = this.warrantyDataService.data;
+    await this._setToken();
+  }
+
+  private async _setLender() {
+    this._lender = await this.activeLenderInjectable.create().value();
+  }
+
+  private async _setToken() {
+    this.tplToken = (
+      await new TokenByAddress(
+        this.apiWalletService.getCoin(this._lender.token(), this._lender.blockchain()).contract,
+        new BlockchainTokens(
+          this.blockchainsFactory.create().oneByName(this._lender.blockchain()),
+          new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins()))
+        )
+      ).value()
+    ).json();
   }
 
   async withdrawWarranty() {
-    await this.ionicStorageService.set('user_dni', this.warrantyData.user_dni)
+    await this.ionicStorageService.set('user_dni', this.warrantyData.user_dni);
     const password = await this.askForPassword();
     if (!password) {
       return;
@@ -103,15 +135,15 @@ export class WithdrawWarrantySummaryPage {
       user_dni: this.warrantyData.user_dni,
       wallet: this.warrantyData.wallet,
       amount: this.warrantyData.amount,
-      currency: 'USDC'
-    }
+      currency: this._lender.token(),
+      lender: this.warrantyData.lender,
+    };
     await this.warrantyService
-        .withdrawWarranty(withdrawData)
-        .toPromise()
-        .then(({id}) => {
-          this.sendTicket(id);
-        });
-
+      .withdrawWarranty(withdrawData)
+      .toPromise()
+      .then(({ id }) => {
+        this.sendTicket(id);
+      });
   }
 
   sendTicket(operationNumber) {
@@ -147,7 +179,6 @@ export class WithdrawWarrantySummaryPage {
         operationNumber,
         eventName: 'ux_warranty_withdraw_success_screenview',
       },
-      
     });
     await modal.present();
     await modal.onDidDismiss();

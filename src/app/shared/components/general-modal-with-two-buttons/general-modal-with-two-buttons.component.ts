@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
-import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from '../../services/browser/browser.service';
 import { TrackService } from '../../services/track/track.service';
 
@@ -12,11 +11,11 @@ import { TrackService } from '../../services/track/track.service';
         <div class="main__close_button">
           <ion-button
             class="ion-no-padding"
+            appTrackClick
+            name="Close"
             slot="icon-only"
             fill="clear"
-            name="Close"
-            appTrackClick
-            (click)="this.close()"
+            (click)="this.actionCloseButton()"
           >
             <ion-icon class="main__close_button__icon" name="ux-close"></ion-icon>
           </ion-button>
@@ -90,6 +89,7 @@ export class GeneralModalWithTwoButtonsComponent {
   secondButton: string;
   eventSecondButton: string;
   urlSecondButton: string;
+  eventCloseButton: string;
   isBuyOrDeposit: boolean;
 
   constructor(
@@ -116,6 +116,11 @@ export class GeneralModalWithTwoButtonsComponent {
   actionSecondButton() {
     this.setEvent(this.eventSecondButton);
     this.navController.navigateForward(this.urlSecondButton);
+    this.close();
+  }
+
+  actionCloseButton() {
+    this.setEvent(this.eventCloseButton);
     this.close();
   }
 

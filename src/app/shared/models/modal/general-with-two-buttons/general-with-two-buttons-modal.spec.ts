@@ -20,6 +20,7 @@ describe('GeneralWithTwoButtonsModal', () => {
       'aSecondButtonKey',
       'anEventSecondButton',
       'aUrlSecondButton',
+      'anEventCloseButton',
       false,
       new FakeModalController(),
       new FakeTranslateService(),

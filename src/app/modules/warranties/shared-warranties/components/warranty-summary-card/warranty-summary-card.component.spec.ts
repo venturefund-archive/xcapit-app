@@ -18,7 +18,7 @@ describe('WarrantySummaryCardComponent', () => {
     quoteAmountWithoutCost: 9.8,
     service_cost: 0.2,
     amountWithoutCost: 9.8,
-    email: 'test@test.com'
+    email: 'test@test.com',
   };
 
   beforeEach(waitForAsync(() => {
@@ -35,6 +35,7 @@ describe('WarrantySummaryCardComponent', () => {
     component.documentTitle = 'warranties.summary.dniLabel';
     component.amountTitle = 'warranties.summary.amountLabel';
     component.serviceCost = 'warranties.summary.serviceLabel';
+    component.token = rawUSDCData;
     fixture.detectChanges();
   }));
 
@@ -52,9 +53,13 @@ describe('WarrantySummaryCardComponent', () => {
     const emailEl = fixture.debugElement.query(By.css('div.wsc__item__content__email > ion-text'));
     const dniNumberEl = fixture.debugElement.query(By.css('div.wsc__item__content__dni > ion-text'));
     const amountTitleEl = fixture.debugElement.query(By.css('div.wsc__item__title__amount > ion-text'));
-    const [amountWithoutCostEl, quoteAmountWithoutCostEl] = fixture.debugElement.queryAll(By.css('div.wsc__item__content__amount > ion-text'));
+    const [amountWithoutCostEl, quoteAmountWithoutCostEl] = fixture.debugElement.queryAll(
+      By.css('div.wsc__item__content__amount > ion-text')
+    );
     const serviceCostEl = fixture.debugElement.query(By.css('div.wsc__item__title__service-cost > ion-text'));
-    const amountServiceCostEl = fixture.debugElement.query(By.css('div.wsc__item__content__amount-service-cost > ion-text'));
+    const amountServiceCostEl = fixture.debugElement.query(
+      By.css('div.wsc__item__content__amount-service-cost > ion-text')
+    );
     expect(titleEl.nativeElement.innerHTML).toContain('warranties.summary.title');
     expect(nameIconCoinEl).toBeTruthy();
     expect(amountEl.nativeElement.innerHTML).toContain('10 USDC');

@@ -240,17 +240,15 @@ const no_moonpay_token = {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });
 
-  it('should save amount and redirect if form is valid', fakeAsync( () => {
+  it('should save amount and redirect if form is valid', async () => {
     walletBalanceServiceSpy.balanceOf.and.resolveTo(30);
-    component.ionViewDidEnter();
-    tick();
+    await component.ionViewDidEnter();
     component.form.patchValue({ amount: 20, quoteAmount: 20 });
-    tick(550);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_continue"]')).nativeElement.click();
-    tick();
+    await fixture.whenRenderingDone();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/new/confirmation', 'invest']);
-  }));
+  });
 
   it('should not save amount nor redirect if form is not valid', async () => {
     await component.ionViewDidEnter();

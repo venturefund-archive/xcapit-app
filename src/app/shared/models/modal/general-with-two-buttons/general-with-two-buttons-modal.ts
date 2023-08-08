@@ -21,6 +21,7 @@ export class GeneralWithTwoButtonsModal implements Modal {
     private readonly _aSecondButtonKey: string,
     private readonly _anEventSecondButton: string,
     private readonly _aUrlSecondButton: string,
+    private readonly _anEventCloseButton: string,
     private readonly _isBuyOrDeposit: boolean,
     private readonly _aModalController: ModalController | FakeModalController,
     private readonly _aTranslateService: TranslateService | FakeTranslateService,
@@ -64,6 +65,7 @@ export class GeneralWithTwoButtonsModal implements Modal {
       secondButton: this._translate(this._aSecondButtonKey),
       eventSecondButton: this._anEventSecondButton,
       urlSecondButton: this._aUrlSecondButton,
+      eventCloseButton: this._anEventCloseButton,
       isBuyOrDeposit: this._isBuyOrDeposit,
     };
   }

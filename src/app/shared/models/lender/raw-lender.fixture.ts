@@ -13,4 +13,6 @@ export const rawLender: RawLender = {
   maxAmount: '100',
   minAmount: '10',
   url: 'https://www.naranjax.com/',
+  token: 'USDC',
+  blockchain: 'MATIC',
 };

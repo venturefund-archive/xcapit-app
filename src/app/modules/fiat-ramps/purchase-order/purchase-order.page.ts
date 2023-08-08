@@ -92,8 +92,9 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
       >
       <ion-button
         *ngIf="this.step === 2"
-        [disabled]="this.percentage !== 100"
-        name="ux_upload_photo"
+        [disabled]="this.percentage !== 100 || this.disabledButtonToSend"
+        appTrackClick
+        name="ux_buy_kripton_send_invoice"
         expand="block"
         size="large"
         class="ux_button"
@@ -116,6 +117,7 @@ export class PurchaseOrderPage {
   filesystemPlugin = Filesystem;
   cameraPlugin = Camera;
   isSending = false;
+  disabledButtonToSend = false;
   totalAmountIn: string;
   operationData: any;
   isLoading = false;
@@ -213,12 +215,17 @@ export class PurchaseOrderPage {
     }
   }
 
+  disableButton(){
+    this.disabledButtonToSend = true;
+  }
+
   async sendPicture() {
     if (this.isSending) return;
     this.isSending = true;
     const email = await this.kriptonStorageService.get('email');
     const auth_token = await this.kriptonStorageService.get('access_token');
     const data = { file: this.voucher.dataUrl, email, auth_token };
+    this.disableButton()
     this.fiatRampsService
       .confirmCashInOperation(this.data.operation_id, data)
       .toPromise()

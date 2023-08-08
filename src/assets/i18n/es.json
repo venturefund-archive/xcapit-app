@@ -2461,7 +2461,7 @@
       "available_balance": "Saldo disponible",
       "warranties": "Mis garantías",
       "warranty_amount": "Monto en garantía",
-      "empty_transactions": "¡No posees transacciones!<br/>Compra o deposita USDC para confeccionar una garantía.",
+      "empty_transactions": "¡No posees transacciones!<br/>Compra o deposita {{token}} para confeccionar una garantía.",
       "insufficient_balance": {
         "text": "No tienes {{token}} en tu cuenta para confeccionar una garantía.",
         "firstButtonName": "Comprar {{token}}",
@@ -3700,7 +3700,7 @@
       "header": "Constituir garantía",
       "text_dni": "Ingresar DNI",
       "deposit_amount": "Monto a depositar",
-      "minimum_amount": "El monto mínimo es de {{minimum}} USDC"
+      "minimum_amount": "El monto mínimo es de {{minimum}} {{token}}"
     },
     "summary": {
       "header": "Constituir garantía",

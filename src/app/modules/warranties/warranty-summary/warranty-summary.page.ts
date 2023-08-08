@@ -19,6 +19,13 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { Lender } from 'src/app/shared/models/lender/lender.interface';
 import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { TransactionReceipt } from '@ethersproject/abstract-provider';
+import { RawToken, TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { TokenByAddress } from '../../swaps/shared-swaps/models/token-by-address/token-by-address';
+import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { Token } from '../../swaps/shared-swaps/models/token/token';
 
 @Component({
   selector: 'app-warranty-summary',
@@ -32,8 +39,9 @@ import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/inje
       </ion-toolbar>
     </ion-header>
     <ion-content class="ws ion-padding">
-      <div class="ws__transaction-summary-card" *ngIf="this.warrantyData">
+      <div class="ws__transaction-summary-card" *ngIf="this.warrantyData && this.tplToken">
         <app-warranty-summary-card
+          [token]="this.tplToken"
           [title]="'warranties.summary.title' | translate"
           [documentTitle]="'warranties.summary.dniLabel' | translate"
           [amountTitle]="'warranties.summary.amountLabel' | translate"
@@ -68,13 +76,14 @@ import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/inje
 })
 export class WarrantySummaryPage {
   warrantyData: SummaryWarrantyData;
-  isSending: boolean;
   loading: boolean;
   walletAddress: string;
   transactionData: SummaryWarrantyData;
   warantyOperationId: any;
   nativeTokenBalance: number;
+  tplToken: RawToken;
   private _lender: Lender;
+  private _token: Token;
 
   constructor(
     private trackService: TrackService,
@@ -89,10 +98,12 @@ export class WarrantySummaryPage {
     private defiInvesmentService: DefiInvestmentsService,
     private remoteConfig: RemoteConfigService,
     private activeLenderInjectable: ActiveLenderInjectable,
+    private blockchainsFactory: BlockchainsFactory
   ) {}
 
   async ionViewWillEnter() {
     await this._setLender();
+    await this._setToken();
     this.trackScreenview();
     this.warrantyData = this.warrantyDataService.data;
     await this.userWalletAddress();
@@ -102,6 +113,17 @@ export class WarrantySummaryPage {
 
   private async _setLender() {
     this._lender = await this.activeLenderInjectable.create().value();
+  }
+
+  private async _setToken() {
+    this._token = await new TokenByAddress(
+      this.apiWalletService.getCoin(this._lender.token(), this._lender.blockchain()).contract,
+      new BlockchainTokens(
+        this.blockchainsFactory.create().oneByName(this._lender.blockchain()),
+        new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins()))
+      )
+    ).value()
+    this.tplToken = this._token.json()
   }
 
   trackScreenview() {
@@ -118,7 +140,7 @@ export class WarrantySummaryPage {
 
   async setNativeTokenBalance() {
     this.nativeTokenBalance = await this.walletBalance.balanceOf(
-      this.apiWalletService.getNativeTokenFromNetwork(this.warrantyData.coin.network)
+      this.apiWalletService.getNativeTokenFromNetwork(this._lender.blockchain())
     );
   }
 
@@ -152,18 +174,19 @@ export class WarrantySummaryPage {
   }
 
   async userWalletAddress() {
-    this.walletAddress = await this.storageService.getWalletsAddresses(this.warrantyData.coin.network);
+    this.walletAddress = await this.storageService.getWalletsAddresses(this._lender.blockchain());
   }
 
-  updateDataBeforeSend(res) {
-    this.transactionData = Object.assign({
+  private _warrantyCreationDataOf(transactionReceipt: TransactionReceipt) {
+    return {
       wallet: this.walletAddress,
-      currency: this.warrantyData.coin.value,
+      currency: this._lender.token(),
       amount: this.warrantyData.amountWithoutCost,
       service_cost: this.warrantyData.service_cost,
-      transaction_hash: res.transactionHash,
+      transaction_hash: transactionReceipt.transactionHash,
       user_dni: this.warrantyData.user_dni,
-    });
+      lender: this.warrantyData.lender,
+    };
   }
 
   async askForPassword() {
@@ -200,12 +223,11 @@ export class WarrantySummaryPage {
       password.value(),
       this.warrantyData.amount,
       this._lender.depositAddress(),
-      this.warrantyData.coin
+      this._token.json()
     );
-    response.wait().then((res) => {
-      this.updateDataBeforeSend(res);
+    response.wait().then((transactionReceipt) => {
       this.warrantyService
-        .createWarranty(this.transactionData)
+        .createWarranty(this._warrantyCreationDataOf(transactionReceipt))
         .toPromise()
         .then((res) => {
           this.warantyOperationId = res.id;
@@ -227,8 +249,6 @@ export class WarrantySummaryPage {
       },
     });
     await modal.present();
-    await modal.onDidDismiss();
-    modal.dismiss();
   }
 
   async openErrorModal(successType) {
@@ -242,8 +262,6 @@ export class WarrantySummaryPage {
       },
     });
     await modal.present();
-    await modal.onDidDismiss();
-    modal.dismiss();
   }
 
   async openBlockchainErrorModal() {
@@ -258,7 +276,7 @@ export class WarrantySummaryPage {
     return this.walletTransactionsService.canAffordSendTx(
       this._lender.depositAddress(),
       this.warrantyData.amount,
-      this.warrantyData.coin
+      this._token.json()
     );
   }
 
@@ -266,7 +284,7 @@ export class WarrantySummaryPage {
     return this.walletTransactionsService.canAffordSendFee(
       this._lender.depositAddress(),
       this.warrantyData.amount,
-      this.warrantyData.coin
+      this._token.json()
     );
   }
 

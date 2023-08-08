@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -7,6 +7,8 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { Lender } from 'src/app/shared/models/lender/lender.interface';
 
 @Component({
   selector: 'app-withdraw-warranty',
@@ -72,13 +74,14 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
     </ion-footer>`,
   styleUrls: ['./withdraw-warranty.page.scss'],
 })
-export class WithdrawWarrantyPage implements OnInit {
+export class WithdrawWarrantyPage {
   form: UntypedFormGroup = this.formBuilder.group({
     dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(9), Validators.pattern('[0-9]*$')]],
     email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
   });
   warrantyBalance: any;
   walletAddress: string;
+  private _lender: Lender;
   constructor(
     private formBuilder: UntypedFormBuilder,
     private warrantiesService: WarrantiesService,
@@ -87,17 +90,27 @@ export class WithdrawWarrantyPage implements OnInit {
     private navController: NavController,
     private warrantyDataService: WarrantyDataService,
     private storageService: StorageService,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private activeLenderInjectable: ActiveLenderInjectable
   ) {}
 
-  ngOnInit() {
+  async ionViewWillEnter() {
+    await this._setLender();
     this.userWalletAddress();
     this.checkUserStoredInformation();
   }
 
+  private async _setLender(): Promise<void> {
+    this._lender = await this.activeLenderInjectable.create().value();
+  }
+
   async submitForm() {
     this.warrantyBalance = await this.warrantiesService
-      .verifyWarranty({ user_dni: this.form.value.dni, wallet: this.walletAddress })
+      .verifyWarranty({
+        user_dni: this.form.value.dni,
+        wallet: this.walletAddress,
+        lender: this._lender.json().name,
+      })
       .toPromise();
     if (this.warrantyBalance.amount === 0) {
       await this.toastService.showErrorToast({
@@ -110,7 +123,7 @@ export class WithdrawWarrantyPage implements OnInit {
   }
 
   async userWalletAddress() {
-    this.walletAddress = await this.storageService.getWalletsAddresses('MATIC');
+    this.walletAddress = await this.storageService.getWalletsAddresses(this._lender.blockchain());
   }
 
   saveData() {
@@ -120,6 +133,7 @@ export class WithdrawWarrantyPage implements OnInit {
       quoteAmount: this.warrantyBalance.amount,
       user_dni: this.form.value.dni,
       wallet: this.walletAddress,
+      lender: this._lender.json().name,
     });
   }
 

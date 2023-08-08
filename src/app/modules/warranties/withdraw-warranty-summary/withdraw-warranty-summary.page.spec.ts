@@ -7,13 +7,20 @@ import { of } from 'rxjs';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
-import { rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawTokensData, rawUSDCData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
 import { SummaryWarrantyData } from '../send-warranty/interfaces/summary-warranty-data.interface';
 import { WarrantyDataService } from '../shared-warranties/services/send-warranty-data/send-warranty-data.service';
 import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 import { WithdrawWarrantySummaryPage } from './withdraw-warranty-summary.page';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { FakeLender } from 'src/app/shared/models/lender/fake/fake-lender';
 
 describe('WithdrawWarrantySummaryPage', () => {
   let component: WithdrawWarrantySummaryPage;
@@ -25,17 +32,21 @@ describe('WithdrawWarrantySummaryPage', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let warrantyServiceSpy: jasmine.SpyObj<WarrantiesService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   const summaryData: SummaryWarrantyData = {
     amount: 10,
-    coin: rawUSDCData,
     user_dni: 1234567,
     quoteAmount: 10,
-    quoteAmountWithoutCost: 9.8,
     service_cost: 0.2,
-    amountWithoutCost: 9.8,
     email: 'test@test.com',
+    wallet: '0x1',
+    lender: 'aLenderName',
   };
+
   const correctDataTicket = {
     email: 'test@test.com',
     category_code: 'Garantía',
@@ -60,6 +71,19 @@ describe('WithdrawWarrantySummaryPage', () => {
       set: Promise.resolve(),
     });
 
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
+
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: rawTokensData,
+      getCoin: rawUSDCData,
+    });
+
+    activeLenderInjectableSpy = jasmine.createSpyObj('ActiveLenderInjectable', {
+      create: { value: () => Promise.resolve(new FakeLender()) },
+    });
+
     TestBed.configureTestingModule({
       declarations: [WithdrawWarrantySummaryPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -70,6 +94,9 @@ describe('WithdrawWarrantySummaryPage', () => {
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: WarrantiesService, useValue: warrantyServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -83,13 +110,15 @@ describe('WithdrawWarrantySummaryPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get data of service on init', () => {
-    component.ionViewWillEnter();
+  it('should get data of service on init', async () => {
+    await component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     expect(component.warrantyData).toEqual(summaryData);
   });
 
   it('should send ticket to hubspot with correct data and show success modal when button ux_warranty_withdraw_confirm is clicked and password is correct', async () => {
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_warranty_withdraw_confirm"]')).nativeElement.click();
     await fixture.whenRenderingDone();
@@ -100,7 +129,7 @@ describe('WithdrawWarrantySummaryPage', () => {
 
   it('should not send ticket to hubspot when button ux_warranty_withdraw_confirm is clicked and password is invalid', async () => {
     fakeModalController.modifyReturns(null, Promise.resolve({ data: undefined }));
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_warranty_withdraw_confirm"]')).nativeElement.click();
     await fixture.whenRenderingDone();
@@ -111,7 +140,7 @@ describe('WithdrawWarrantySummaryPage', () => {
 
   it('should show error modal when button ux_warranty_withdraw_confirm is clicked and data ticket is incorrect', async () => {
     apiTicketServiceSpy.createTicket.and.returnValue(throwError('Error'));
-    component.ionViewWillEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_warranty_withdraw_confirm"]')).nativeElement.click();
     await fixture.whenRenderingDone();
@@ -120,8 +149,8 @@ describe('WithdrawWarrantySummaryPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
   });
 
-  it('should track screenview event on init', () => {
-    component.ionViewWillEnter();
+  it('should track screenview event on init', async () => {
+    await component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 

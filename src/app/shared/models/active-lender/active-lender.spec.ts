@@ -29,4 +29,17 @@ describe('ActiveLender', () => {
   it('value', async () => {
     expect(await activeLender.value()).toEqual(aFakeLender);
   });
+
+  it('from dynamic link', async () => {
+    await activeLender.save(aLenderName, true);
+
+    expect(await activeLender.fromDynamicLink()).toBeTrue();
+  });
+
+  it('from dynamic link default value', async () => {
+    await activeLender.save(aLenderName);
+
+    expect(await activeLender.fromDynamicLink()).toBeFalse();
+  });
+
 });

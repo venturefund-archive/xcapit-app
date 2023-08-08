@@ -2479,8 +2479,7 @@
       "available_balance": "Available balance",
       "warranties": "My warranties",
       "warranty_amount": "Amount in warranty",
-      "empty_transactions": "You did not make transactions!<br/>Buy or deposit USDC to create a warranty.",
-
+      "empty_transactions": "You did not make transactions!<br/>Buy or deposit {{token}} to create a warranty.",
       "insufficient_balance": {
         "text": "You don't have {{token}} in your account to make a warranty.",
         "firstButtonName": "Buy {{token}}",
@@ -3549,7 +3548,7 @@
       "header": "Make a Warranty",
       "text_dni": "Identity card number",
       "deposit_amount": "Deposit amount",
-      "minimum_amount": "The minimum amount is {{minimum}} USDC"
+      "minimum_amount": "The minimum amount is {{minimum}} {{token}}"
     },
     "summary": {
       "header": "Make a warranty",

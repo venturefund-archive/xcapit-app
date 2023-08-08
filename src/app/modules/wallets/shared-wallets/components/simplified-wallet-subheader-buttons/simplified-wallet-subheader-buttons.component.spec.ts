@@ -47,6 +47,8 @@ describe('SimplifiedWalletSubheaderButtonsComponent', () => {
 
     fixture = TestBed.createComponent(SimplifiedWalletSubheaderButtonsComponent);
     component = fixture.componentInstance;
+    component.token = 'USDC'
+    component.blockchain = 'MATIC'
     fixture.detectChanges();
   }));
 

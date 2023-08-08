@@ -11,4 +11,6 @@ export type RawLender = {
   minAmount: string;
   maxAmount: string;
   address: string;
+  token: string;
+  blockchain: string;
 };

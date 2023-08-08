@@ -29,4 +29,12 @@ export class FakeLender implements Lender {
   minWarrantyAmount(): string {
     return `${this._aRawLender.minAmount}`;
   }
+
+  token(): string {
+    return this._aRawLender.token;
+  }
+
+  blockchain(): string {
+    return this._aRawLender.blockchain;
+  }
 }
