@@ -110,6 +110,8 @@ export class WithdrawWarrantyPage {
         user_dni: this.form.value.dni,
         wallet: this.walletAddress,
         lender: this._lender.json().name,
+        currency: this._lender.token(),
+        blockchain: this._lender.blockchain(),
       })
       .toPromise();
     if (this.warrantyBalance.amount === 0) {

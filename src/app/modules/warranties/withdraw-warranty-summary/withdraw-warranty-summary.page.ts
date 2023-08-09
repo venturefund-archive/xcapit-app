@@ -135,8 +135,9 @@ export class WithdrawWarrantySummaryPage {
       user_dni: this.warrantyData.user_dni,
       wallet: this.warrantyData.wallet,
       amount: this.warrantyData.amount,
-      currency: this._lender.token(),
       lender: this.warrantyData.lender,
+      currency: this._lender.token(),
+      blockchain: this._lender.blockchain(),
     };
     await this.warrantyService
       .withdrawWarranty(withdrawData)

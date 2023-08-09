@@ -122,8 +122,8 @@ export class WarrantySummaryPage {
         this.blockchainsFactory.create().oneByName(this._lender.blockchain()),
         new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins()))
       )
-    ).value()
-    this.tplToken = this._token.json()
+    ).value();
+    this.tplToken = this._token.json();
   }
 
   trackScreenview() {
@@ -180,12 +180,13 @@ export class WarrantySummaryPage {
   private _warrantyCreationDataOf(transactionReceipt: TransactionReceipt) {
     return {
       wallet: this.walletAddress,
-      currency: this._lender.token(),
       amount: this.warrantyData.amountWithoutCost,
       service_cost: this.warrantyData.service_cost,
       transaction_hash: transactionReceipt.transactionHash,
       user_dni: this.warrantyData.user_dni,
       lender: this.warrantyData.lender,
+      currency: this.warrantyData.currency,
+      blockchain: this.warrantyData.blockchain,
     };
   }
 

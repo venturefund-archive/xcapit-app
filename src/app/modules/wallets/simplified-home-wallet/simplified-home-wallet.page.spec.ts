@@ -198,6 +198,8 @@ describe('SimplifiedHomeWalletPage', () => {
     expect(warrantyServiceSpy.verifyWarranty).toHaveBeenCalledOnceWith({
       wallet: '0xTestWallet',
       lender: rawLender.name,
+      currency: 'USDC',
+      blockchain: 'MATIC',
     });
     expect(tokenDetailInjectableSpy.create).toHaveBeenCalledTimes(1);
     expect(covalentBalancesInjectableSpy.create).toHaveBeenCalledTimes(1);

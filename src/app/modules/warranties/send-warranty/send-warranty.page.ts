@@ -198,6 +198,8 @@ export class SendWarrantyPage {
       quoteAmount: roundedQuoteAmount,
       user_dni: this.form.value.dni,
       lender: this._lender.json().name,
+      currency: this._lender.token(),
+      blockchain: this._lender.blockchain(),
     };
   }
 
