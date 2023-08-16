@@ -1,4 +1,4 @@
-import { MenuCategory } from '../menu-category/menu-category.inteface';
+import { MenuCategory } from '../menu-category/menu-category.interface';
 
 export interface MenuCategories {
   all: () => MenuCategory[];

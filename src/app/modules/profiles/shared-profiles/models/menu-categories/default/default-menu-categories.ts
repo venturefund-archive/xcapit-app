@@ -2,7 +2,7 @@ import { MenuCategoryDataRepo } from '../../menu-category-data-repo/menu-categor
 import { DefaultMenuCategory } from '../../menu-category/default/default-menu-category';
 import { DefaultMenuItems } from '../../menu-items/default/default-menu-items';
 import { MenuCategories } from '../menu-categories.interface';
-import { MenuCategory } from '../../menu-category/menu-category.inteface';
+import { MenuCategory } from '../../menu-category/menu-category.interface';
 import { MenuItems } from '../../menu-items/menu-items.interface';
 
 export class DefaultMenuCategories implements MenuCategories {
