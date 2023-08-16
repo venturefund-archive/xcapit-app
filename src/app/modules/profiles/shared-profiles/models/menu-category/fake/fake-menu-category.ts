@@ -1,4 +1,4 @@
-import { MenuCategory } from '../menu-category.inteface';
+import { MenuCategory } from '../menu-category.interface';
 import { RawMenuCategory } from '../../raw-menu-category';
 import { rawMenuCategoryHelp } from '../../menu-category.raw';
 
