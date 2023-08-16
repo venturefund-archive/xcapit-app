@@ -2995,7 +2995,7 @@
       "confirmation_content": {
         "header": "Create account",
         "provider": "Provider: Kripton Market",
-
+        "loading":"Sending information",
         "front_id": {
           "title": "Check that the photo meets these requirements:",
           "items": "<ul><li>The data read well.</li><li>The image is not blurred.</li><li>The content of the DNI is complete.</li></ul>",
