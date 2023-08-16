@@ -21,6 +21,7 @@ import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tok
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { Lender } from 'src/app/shared/models/lender/lender.interface';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 
 @Component({
   selector: 'app-send-warranty',
@@ -108,6 +109,8 @@ export class SendWarrantyPage {
   private readonly priceRefreshInterval = 15000;
   private _lender: Lender;
   private _token: Token;
+  // private walletAddress: string;
+  totalWarrantyAmount: { amount: number };
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -116,6 +119,7 @@ export class SendWarrantyPage {
     private apiWalletService: ApiWalletService,
     private navController: NavController,
     private warrantyDataService: WarrantyDataService,
+    private warrantyService: WarrantiesService,
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalFactoryInjectable: ModalFactoryInjectable,
     private ionicStorageService: IonicStorageService,
@@ -133,10 +137,16 @@ export class SendWarrantyPage {
     this.checkBalance();
     this.checkUserStoredInformation();
     await this._setMinimumWarrantyAmount();
+    // this.userWallet();
+    // console.log('wallet fetched: ', this.totalWarrantyAmount);
   }
 
   private async userWallet(): Promise<string> {
     return await this.storageService.getWalletsAddresses(this._token.network());
+    // console.log('wallet from storage: ', this.walletAddress);
+    // console.log('wallet from storage (typeOf): ', typeof this.walletAddress);
+
+    // return this.walletAddress;
   }
 
   private async _setLender() {
@@ -244,10 +254,27 @@ export class SendWarrantyPage {
     }
   }
 
-  private async _setMinimumWarrantyAmount() {
-    this.minimumWarrantyAmount = (await this.activeLenderInjectable.create().value()).minWarrantyAmount();
+  async checkPreviousWarranties() {
+    this.totalWarrantyAmount = await this.warrantyService
+      .verifyWarranty({
+        wallet: await this.userWallet(),
+        lender: this._lender.json().name,
+        currency: this._lender.token(),
+        blockchain: this._lender.blockchain(),
+      })
+      .toPromise();
+  }
 
-    this.addValidator(this.minimumWarrantyAmount);
+  private async _setMinimumWarrantyAmount() {
+    await this.checkPreviousWarranties();
+    console.log('previous amount found: ', this.totalWarrantyAmount)
+    if (this.totalWarrantyAmount.amount === 0) {
+      console.log('no warranties found! establishing minimum amount')
+      this.minimumWarrantyAmount = (await this.activeLenderInjectable.create().value()).minWarrantyAmount();
+      this.addValidator(this.minimumWarrantyAmount);
+    } else {
+      console.log('a warranty already exists! ignoring minimum validator');
+    }
   }
 
   addValidator(amount: string) {
