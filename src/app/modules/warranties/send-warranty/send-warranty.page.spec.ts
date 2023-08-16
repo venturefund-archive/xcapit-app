@@ -30,6 +30,7 @@ import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 
 describe('SendWarrantyPage', () => {
   let component: SendWarrantyPage;
@@ -49,6 +50,7 @@ describe('SendWarrantyPage', () => {
   let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
   let fakeWarrantyDataService: FakeWarrantyDataService;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let warrantyServiceSpy: jasmine.SpyObj<WarrantiesService>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(waitForAsync(() => {
@@ -115,6 +117,8 @@ describe('SendWarrantyPage', () => {
       create: new FakeModalFactory(fakeBalanceModal),
     });
 
+    warrantyServiceSpy = jasmine.createSpyObj('WarrantyService', { verifyWarranty: of({ amount: 0 }) });
+
     TestBed.configureTestingModule({
       declarations: [SendWarrantyPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -129,7 +133,7 @@ describe('SendWarrantyPage', () => {
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: WarrantyDataService, useValue: fakeWarrantyDataService },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
-
+        { provide: WarrantiesService, useValue: warrantyServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -231,4 +235,12 @@ describe('SendWarrantyPage', () => {
     expect(component.minimumWarrantyAmount).toEqual(rawLender.minAmount.toString());
     discardPeriodicTasks();
   }));
+
+  it('should ignore lender minimum amount if user already has a warranty', async () => {
+    warrantyServiceSpy.verifyWarranty.and.returnValue(of({ amount: 5.88 }));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+
+    expect(component.minimumWarrantyAmount).toBeFalsy();
+  });
 });

@@ -109,8 +109,6 @@ export class SendWarrantyPage {
   private readonly priceRefreshInterval = 15000;
   private _lender: Lender;
   private _token: Token;
-  // private walletAddress: string;
-  totalWarrantyAmount: { amount: number };
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -137,16 +135,10 @@ export class SendWarrantyPage {
     this.checkBalance();
     this.checkUserStoredInformation();
     await this._setMinimumWarrantyAmount();
-    // this.userWallet();
-    // console.log('wallet fetched: ', this.totalWarrantyAmount);
   }
 
   private async userWallet(): Promise<string> {
     return await this.storageService.getWalletsAddresses(this._token.network());
-    // console.log('wallet from storage: ', this.walletAddress);
-    // console.log('wallet from storage (typeOf): ', typeof this.walletAddress);
-
-    // return this.walletAddress;
   }
 
   private async _setLender() {
@@ -254,8 +246,16 @@ export class SendWarrantyPage {
     }
   }
 
-  async checkPreviousWarranties() {
-    this.totalWarrantyAmount = await this.warrantyService
+  private async _setMinimumWarrantyAmount() {
+    const totalWarrantyAmount = await this._checkPreviousWarranties();
+    if (totalWarrantyAmount.amount === 0) {
+      this.minimumWarrantyAmount = (await this.activeLenderInjectable.create().value()).minWarrantyAmount();
+      this.addValidator(this.minimumWarrantyAmount);
+    }
+  }
+
+  private async _checkPreviousWarranties() {
+    return await this.warrantyService
       .verifyWarranty({
         wallet: await this.userWallet(),
         lender: this._lender.json().name,
@@ -263,18 +263,6 @@ export class SendWarrantyPage {
         blockchain: this._lender.blockchain(),
       })
       .toPromise();
-  }
-
-  private async _setMinimumWarrantyAmount() {
-    await this.checkPreviousWarranties();
-    console.log('previous amount found: ', this.totalWarrantyAmount)
-    if (this.totalWarrantyAmount.amount === 0) {
-      console.log('no warranties found! establishing minimum amount')
-      this.minimumWarrantyAmount = (await this.activeLenderInjectable.create().value()).minWarrantyAmount();
-      this.addValidator(this.minimumWarrantyAmount);
-    } else {
-      console.log('a warranty already exists! ignoring minimum validator');
-    }
   }
 
   addValidator(amount: string) {
