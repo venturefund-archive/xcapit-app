@@ -3,9 +3,10 @@ import { MenuItem } from '../../menu-item/menu-item';
 import { MenuItems } from '../menu-items.interface';
 
 export class DefaultMenuItems implements MenuItems {
-  private _cachedMenuItems: Map<string, MenuItem[]> = new Map();
-
-  constructor(private readonly _aDataRepo: MenuItemDataRepo = new MenuItemDataRepo()) {}
+  constructor(
+    private readonly _aDataRepo: MenuItemDataRepo = new MenuItemDataRepo(),
+    private _cachedMenuItems: Map<string, MenuItem[]> = new Map()
+  ) {}
 
   byCategory(aCategory: string): MenuItem[] {
     if (!this._cachedMenuItems.has(aCategory)) {
@@ -22,7 +23,7 @@ export class DefaultMenuItems implements MenuItems {
       .find((item) => item.name() === _anItemName)
       .hide();
     this.byCategory(_aCategoryName)[menuItem.position() - 1] = menuItem;
-    return new DefaultMenuItems(new MenuItemDataRepo(this.byCategory(_aCategoryName).map((item) => item.json())));
+    return new DefaultMenuItems(this._aDataRepo, this._cachedMenuItems);
   }
 
   show(_aCategoryName: string, _anItemName: string): MenuItems {
@@ -30,6 +31,6 @@ export class DefaultMenuItems implements MenuItems {
       .find((item) => item.name() === _anItemName)
       .show();
     this.byCategory(_aCategoryName)[menuItem.position() - 1] = menuItem;
-    return new DefaultMenuItems(new MenuItemDataRepo(this.byCategory(_aCategoryName).map((item) => item.json())));
+    return new DefaultMenuItems(this._aDataRepo, this._cachedMenuItems);
   }
 }

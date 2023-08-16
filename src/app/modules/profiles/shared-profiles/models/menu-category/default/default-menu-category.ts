@@ -1,8 +1,7 @@
 import { MenuItem } from '../../menu-item/menu-item';
-import { DefaultMenuItems } from '../../menu-items/default/default-menu-items';
 import { MenuItems } from '../../menu-items/menu-items.interface';
 import { RawMenuCategory } from '../../raw-menu-category';
-import { MenuCategory } from '../menu-category.inteface';
+import { MenuCategory } from '../menu-category.interface';
 
 export class DefaultMenuCategory implements MenuCategory {
   constructor(private _aRawMenuCategory: RawMenuCategory, private _menuItems: MenuItems) {}
