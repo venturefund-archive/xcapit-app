@@ -21,6 +21,7 @@ import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tok
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { Lender } from 'src/app/shared/models/lender/lender.interface';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WarrantiesService } from '../shared-warranties/services/warranties.service';
 
 @Component({
   selector: 'app-send-warranty',
@@ -116,6 +117,7 @@ export class SendWarrantyPage {
     private apiWalletService: ApiWalletService,
     private navController: NavController,
     private warrantyDataService: WarrantyDataService,
+    private warrantyService: WarrantiesService,
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalFactoryInjectable: ModalFactoryInjectable,
     private ionicStorageService: IonicStorageService,
@@ -245,9 +247,22 @@ export class SendWarrantyPage {
   }
 
   private async _setMinimumWarrantyAmount() {
-    this.minimumWarrantyAmount = (await this.activeLenderInjectable.create().value()).minWarrantyAmount();
+    const totalWarrantyAmount = await this._checkPreviousWarranties();
+    if (totalWarrantyAmount.amount === 0) {
+      this.minimumWarrantyAmount = (await this.activeLenderInjectable.create().value()).minWarrantyAmount();
+      this.addValidator(this.minimumWarrantyAmount);
+    }
+  }
 
-    this.addValidator(this.minimumWarrantyAmount);
+  private async _checkPreviousWarranties() {
+    return await this.warrantyService
+      .verifyWarranty({
+        wallet: await this.userWallet(),
+        lender: this._lender.json().name,
+        currency: this._lender.token(),
+        blockchain: this._lender.blockchain(),
+      })
+      .toPromise();
   }
 
   addValidator(amount: string) {
