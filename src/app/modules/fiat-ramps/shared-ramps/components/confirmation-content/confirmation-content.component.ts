@@ -45,7 +45,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           >{{ this.data.button_primary | translate }}</ion-button
         >
       </div>
-      <div class="cc__footer__upload-button">
+      <div class="cc__footer__upload-button" *ngIf="!this.loading">
         <ion-button
           class="ux-button-outlined cc__footer__upload-button__button"
           name="back_button"
