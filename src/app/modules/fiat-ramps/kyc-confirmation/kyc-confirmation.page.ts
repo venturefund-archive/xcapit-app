@@ -32,7 +32,7 @@ export class KycConfirmationPage {
   confirmationContent = CONFIRMATION_CONTENT;
   data: any;
   digitalDocument: string;
-  loading: boolean;
+  loading: boolean = false;
 
   constructor(
     private userKycKriptonImagesService: UserKycKriptonImagesService,
