@@ -7,10 +7,12 @@ import { DefaultMoonpayPrice } from './default-moonpay-price';
 describe('DefaultMoonpayPrice', () => {
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let moonpayPrice: ProviderPrice;
-  
+
   beforeEach(() => {
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', { getMoonpayQuotation: of({ ARG: 1 }) });
-    moonpayPrice = new DefaultMoonpayPrice('ARG', 'USDC_polygon', fiatRampsServiceSpy);
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getMoonpayBuyQuote: of({ quoteCurrencyPrice: 1 }),
+    });
+    moonpayPrice = new DefaultMoonpayPrice('aud', 'matic', fiatRampsServiceSpy);
   });
 
   it('new', () => {

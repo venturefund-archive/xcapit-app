@@ -185,15 +185,6 @@ export class FiatRampsService {
     return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, false);
   }
 
-  getMoonpayQuotation(currencyCode: string) {
-    return this.http.get(
-      `${environment.moonpayApiUrl}/currencies/${currencyCode}/ask_price?apiKey=${environment.moonpayPK}`,
-      undefined,
-      undefined,
-      false
-    );
-  }
-
   getMoonpayBuyQuote(baseCurrencyAmount: number, currencyCode: string, fiatCode: string) {
     return this.http.get(
       `${environment.moonpayApiUrl}/currencies/${currencyCode}/buy_quote/?apiKey=${environment.moonpayPK}&baseCurrencyAmount=${baseCurrencyAmount}&extraFeePercentage=1&baseCurrencyCode=${fiatCode}&paymentMethod=credit_debit_card`,

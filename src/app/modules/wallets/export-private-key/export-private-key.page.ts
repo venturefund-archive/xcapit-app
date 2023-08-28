@@ -8,6 +8,7 @@ import { ClipboardService } from '../../../shared/services/clipboard/clipboard.s
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 
+
 @Component({
   selector: 'app-export-private-key',
   template: `

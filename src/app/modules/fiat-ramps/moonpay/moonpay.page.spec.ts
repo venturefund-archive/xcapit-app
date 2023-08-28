@@ -90,7 +90,6 @@ describe('MoonpayPage', () => {
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
       getMoonpayRedirectLink: of({ url: 'http://testURL.com' }),
-      getMoonpayQuotation: of({ ARG: 1 }),
       getMoonpayBuyQuote: of(moonpayBuyQuote),
       getMoonpayLimitOfBuyQuote: of(testLimitData),
     });
@@ -210,7 +209,7 @@ describe('MoonpayPage', () => {
     expect(walletMaintenanceServiceSpy.wipeDataFromService).toHaveBeenCalledTimes(1);
   });
 
-  it('should select the currency specified by parameter on init', fakeAsync( () => {
+  it('should select the currency specified by parameter on init', fakeAsync(() => {
     component.ionViewWillEnter();
     tick();
     fixture.detectChanges();
