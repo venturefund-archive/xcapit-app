@@ -13,4 +13,5 @@ export type RawLender = {
   address: string;
   token: string;
   blockchain: string;
+  xscrowAddress: string;
 };

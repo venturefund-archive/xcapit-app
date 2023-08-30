@@ -11,13 +11,13 @@ import { ScanQrModalComponent } from '../../../../shared/components/scan-qr-moda
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../../../shared/services/toast/toast.service';
 import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
-import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from '../../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { NullWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/null/null-wc-uri';
 import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
+import { WalletsFactory } from '../../shared-wallets/models/wallets/factory/wallets.factory';
 
 @Component({
   selector: 'app-new-connection',

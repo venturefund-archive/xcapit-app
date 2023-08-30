@@ -13,11 +13,11 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
-import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
 import { CumulativeYieldsInfoModalComponent } from '../shared-defi-investments/components/cumulative-yields-info-modal/cumulative-yields-info-modal.component';
 import { InvestmentMovement } from '../../wallets/shared-wallets/interfaces/investment-movement.interface';
 import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
 import { Observable, forkJoin } from 'rxjs';
+import { RawAmount } from '../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 @Component({
   selector: 'app-investment-detail',
   template: ` <ion-header>

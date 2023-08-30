@@ -19,36 +19,14 @@ import { By } from '@angular/platform-browser';
 import { DefaultPlatformService } from 'src/app/shared/services/platform/default/default-platform.service';
 import { WCWallet } from '../../shared-wallets/models/wallet-connect/wc-wallet.type';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-connection-v2/wc-connection-v2';
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { RemoteConfigService } from '../../../../shared/services/remote-config/remote-config.service';
-import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
-
-const formData = {
-  valid: {
-    wallet: 1,
-    uri: 'wc:test&bridge=',
-  },
-  invalid: {
-    wallet: null,
-    uri: null,
-  },
-};
-
-const selectedWallet = {
-  address: '0x00000000001',
-  network: 'ERC20',
-  chainId: 4,
-  name: 'Ethereum Testnet',
-  logo: 'assets/img/blockchains/ethereum.svg',
-  symbol: 'ETH',
-  rpc: 'https://eth-kovan.alchemyapi.io/v2/tfmomSigQreoKgOjz0W9W-j5SdtKkiZN',
-  dataToTrack: 'ux_wc_eth',
-} as WCWallet;
+import { FakeWallet } from '../../shared-wallets/models/wallet/fake/fake-wallet';
+import { WalletsFactory } from '../../shared-wallets/models/wallets/factory/wallets.factory';
 
 describe('NewConnectionPage', () => {
   let component: NewConnectionPage;
@@ -69,6 +47,28 @@ describe('NewConnectionPage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let fakeWallet: FakeWallet;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
+
+  const formData = {
+    valid: {
+      wallet: 1,
+      uri: 'wc:test&bridge=',
+    },
+    invalid: {
+      wallet: null,
+      uri: null,
+    },
+  };
+
+  const selectedWallet = {
+    address: '0x00000000001',
+    network: 'ERC20',
+    chainId: 4,
+    name: 'Ethereum Testnet',
+    logo: 'assets/img/blockchains/ethereum.svg',
+    symbol: 'ETH',
+    rpc: 'https://eth-kovan.alchemyapi.io/v2/tfmomSigQreoKgOjz0W9W-j5SdtKkiZN',
+    dataToTrack: 'ux_wc_eth',
+  } as WCWallet;
 
   beforeEach(waitForAsync(() => {
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
@@ -306,7 +306,11 @@ describe('NewConnectionPage', () => {
       await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
       fixture.detectChanges();
 
-      expect(wcConnectionV2.pairTo).toHaveBeenCalledOnceWith(wcUri, fakeWallet, '2317188f59a2c8068100b0177bf03ec6da490d0cd829f10ca7eb099785fed709');
+      expect(wcConnectionV2.pairTo).toHaveBeenCalledOnceWith(
+        wcUri,
+        fakeWallet,
+        '2317188f59a2c8068100b0177bf03ec6da490d0cd829f10ca7eb099785fed709'
+      );
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/wallet-connect/connection-detail']);
     });
 

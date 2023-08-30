@@ -2,7 +2,7 @@ import { WalletConnectRequest } from '../wallet-connect-request.interface';
 import { SignClientV2 } from '../../sign-client/sign-client';
 import { formatJsonRpcError, formatJsonRpcResult } from '@json-rpc-tools/utils';
 import { getSdkError } from '@walletconnect/utils';
-import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wallet';
 import { TextRequestMessage } from '../../request-message/text-request-message/text-request-message';
 import { SessionRequest } from '../../session-request/session-request';
 import { RequestData } from '../../request-data/request-data';

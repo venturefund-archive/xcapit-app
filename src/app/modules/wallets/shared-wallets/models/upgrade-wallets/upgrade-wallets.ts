@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { WalletsFactory } from '../../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { AppStorageService } from '../../../../../shared/services/app-storage/app-storage.service';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
-import { WalletRepo } from '../../../../swaps/shared-swaps/models/wallet-repo/wallet-repo';
 import { AddressesToSave } from '../addresses-to-save/addresses-to-save';
 import { Subscribable } from 'src/app/shared/models/simple-subject/simple-subject';
-import { Wallets } from 'src/app/modules/swaps/shared-swaps/models/wallets/wallets';
+import { WalletRepo } from '../wallet-repo/wallet-repo';
+import { WalletsFactory } from '../wallets/factory/wallets.factory';
+import { Wallets } from '../wallets/wallets';
 
 @Injectable({ providedIn: 'root' })
 export class UpgradeWallets {

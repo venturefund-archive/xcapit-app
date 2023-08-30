@@ -15,11 +15,11 @@ import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockc
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/wc-uri.interface';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
-import { FakeWallet } from '../../../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
-import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { FakeWallet } from '../../../models/wallet/fake/fake-wallet';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WCStorageService } from '../wc-storage/wc-storage.service';
 import { JSONProposal, rawStoredProposal } from '../../../models/fixtures/raw-proposal';
+import { WalletsFactory } from '../../../models/wallets/factory/wallets.factory';
 
 describe('WCConnectionV2', () => {
   let signClientInjectable: jasmine.SpyObj<SignClientInjectable>;

@@ -21,11 +21,10 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
 import { FixedTokens } from '../../swaps/shared-swaps/models/filtered-tokens/fixed-tokens';
 import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
-import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
-import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from '../shared-wallets/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
 import { RawBlockchain } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { TokenByAddress } from '../../swaps/shared-swaps/models/token-by-address/token-by-address';
@@ -33,6 +32,7 @@ import { Token } from '../../swaps/shared-swaps/models/token/token';
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
+import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets.factory';
 
 @Component({
   selector: 'app-token-detail',

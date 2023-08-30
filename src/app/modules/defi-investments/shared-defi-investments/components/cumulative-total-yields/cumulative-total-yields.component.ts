@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { RawAmount } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
+import { RawAmount } from 'src/app/modules/wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 import { InformationModalComponent } from 'src/app/shared/components/information-modal/information-modal.component';
 
 @Component({

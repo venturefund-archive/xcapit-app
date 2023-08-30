@@ -1,8 +1,8 @@
 import { Connection } from '@solana/web3.js';
-import { BlockchainTx } from 'src/app/modules/swaps/shared-swaps/models/blockchain-tx';
 import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-connection';
 import { SolanaTxWithBlockhash } from 'src/app/modules/wallets/shared-wallets/models/solana-tx-with-blockhash/solana-tx-with-blockhash';
 import { SolanaTxWithPayer } from 'src/app/modules/wallets/shared-wallets/models/solana-tx-with-payer/solana-tx-with-payer';
+import { BlockchainTx } from '../blockchain-tx/blockchain-tx';
 
 export class SolanaFeeOf {
   constructor(private _transactions: BlockchainTx[], private _connection: Connection | FakeConnection) {}

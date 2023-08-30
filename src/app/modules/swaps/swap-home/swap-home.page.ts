@@ -19,10 +19,9 @@ import { Token } from '../shared-swaps/models/token/token';
 import { TokenByAddress } from '../shared-swaps/models/token-by-address/token-by-address';
 import { RawToken, TokenRepo } from '../shared-swaps/models/token-repo/token-repo';
 import { Tokens } from '../shared-swaps/models/tokens/tokens';
-import { Wallet } from '../shared-swaps/models/wallet/wallet';
+import { Wallet } from '../../wallets/shared-wallets/models/wallet/wallet';
 import { Dex } from '../shared-swaps/models/dex';
 import { SwapTransactions } from '../shared-swaps/models/swap-transactions/swap-transactions';
-import { WalletsFactory } from '../shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from '../shared-swaps/models/blockchains/factory/blockchains.factory';
 import { OneInchFactory } from '../shared-swaps/models/one-inch/factory/one-inch.factory';
 import { TrackService } from 'src/app/shared/services/track/track.service';
@@ -32,7 +31,6 @@ import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/block
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
-import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount-of/amount-of';
 import { PasswordErrorHandlerService } from '../shared-swaps/services/password-error-handler/password-error-handler.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -57,6 +55,8 @@ import { BigNumber } from 'ethers';
 import { WeiOf } from '../shared-swaps/models/wei-of/wei-of';
 import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
+import { AmountOf, NullAmountOf, RawAmount } from '../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
+import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
 
 @Component({
   selector: 'app-swap-home',

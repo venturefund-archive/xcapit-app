@@ -1,5 +1,5 @@
 import { getSdkError } from '@walletconnect/utils';
-import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/fake/fake-wallet';
 import { rawSession } from 'src/app/modules/wallets/shared-wallets/fixtures/raw-session.fixture';
 import { SignClientV2 } from 'src/app/shared/models/wallet-connect/sign-client/sign-client';
 import { WCSession } from './wc-session';

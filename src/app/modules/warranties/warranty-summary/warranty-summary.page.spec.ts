@@ -27,6 +27,8 @@ import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
+import { FakeWallet } from '../../wallets/shared-wallets/models/wallet/fake/fake-wallet';
 
 describe('WarrantySummaryPage', () => {
   let component: WarrantySummaryPage;
@@ -45,6 +47,7 @@ describe('WarrantySummaryPage', () => {
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   let activeLenderInjectableSpy: jasmine.SpyObj<ActiveLenderInjectable>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   const aPassword = new Password('aPassword');
@@ -118,9 +121,15 @@ describe('WarrantySummaryPage', () => {
     });
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getFeatureFlag: true });
+    remoteConfigSpy.getFeatureFlag.withArgs('ff_fundFaucetOnWarranties').and.returnValue(true);
+    remoteConfigSpy.getFeatureFlag.withArgs('ff_deposit_to_xscrow').and.returnValue(false);
 
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
       create: blockchains,
+    });
+
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
 
     TestBed.configureTestingModule({
@@ -140,6 +149,7 @@ describe('WarrantySummaryPage', () => {
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: ActiveLenderInjectable, useValue: activeLenderInjectableSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -160,7 +170,7 @@ describe('WarrantySummaryPage', () => {
     expect(component.warrantyData).toEqual(summaryData);
   });
 
-  it('should send and show success modal when user can afford fees and password is correct on ux_warranty_start_confirm button clicked', async () => {
+  it('should send warranty to safe wallet if ff_deposit_to_xscrow is false', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
 
@@ -174,6 +184,20 @@ describe('WarrantySummaryPage', () => {
       new FakeLender().depositAddress(),
       summaryData.coin
     );
+    expect(warrantyServiceSpy.createWarranty).toHaveBeenCalledTimes(1);
+  });
+
+  it('should deposit warranty to xscrow if ff_deposit_to_xscrow is true', async () => {
+    remoteConfigSpy.getFeatureFlag.withArgs('ff_deposit_to_xscrow').and.returnValue(true);
+
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+
+    _confirmButton().click();
+    await fixture.whenRenderingDone();
+
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(warrantyServiceSpy.createWarranty).toHaveBeenCalledTimes(1);
   });
 
   it('should disabled loading when ux_warranty_start_confirm button is clicked and password undefined', async () => {
@@ -188,7 +212,7 @@ describe('WarrantySummaryPage', () => {
   });
 
   it('should not fund wallet if ff_fundFaucetOnWarranties is false', async () => {
-    remoteConfigSpy.getFeatureFlag.and.returnValue(false);
+    remoteConfigSpy.getFeatureFlag.withArgs('ff_fundFaucetOnWarranties').and.returnValue(false);
     await component.ionViewWillEnter();
     fixture.detectChanges();
 

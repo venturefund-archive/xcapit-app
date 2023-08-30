@@ -35,8 +35,7 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
 import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
-import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../shared-wallets/models/wallet/fake/fake-wallet';
 import { rawETHData, rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
@@ -48,6 +47,7 @@ import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
+import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets.factory';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;

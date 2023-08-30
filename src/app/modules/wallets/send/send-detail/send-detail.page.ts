@@ -25,7 +25,6 @@ import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain
 import { RawBlockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
-import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
 import { DefaultToken, Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { RawToken, TokenRepo } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
@@ -38,16 +37,17 @@ import { FixedTokens } from 'src/app/modules/swaps/shared-swaps/models/filtered-
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { CovalentBalancesInjectable } from '../../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-prices/token-prices.injectable';
-import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wallet';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
 import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
 import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
-import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
 import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../../shared/models/modal/factory/default/default-modal-factory';
+import { SolanaSendTxsOf } from '../../shared-wallets/models/blockchain-tx/solana-send-txs-of/solana-send-txs-of';
+import { AmountOf } from '../../shared-wallets/models/blockchain-tx/amount-of/amount-of';
+import { WalletsFactory } from '../../shared-wallets/models/wallets/factory/wallets.factory';
 
 @Component({
   selector: 'app-send-detail',

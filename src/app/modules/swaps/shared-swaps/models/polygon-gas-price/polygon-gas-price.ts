@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
-import { AmountOf } from '../amount-of/amount-of';
 import { Blockchain } from '../blockchain/blockchain';
 import { GasPrice } from '../gas-price/gas-price';
 import { BigNumberOf } from './big-number-of';
+import { AmountOf } from 'src/app/modules/wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 
 export type RawGSFee = {
   maxPriorityFee: string | number;

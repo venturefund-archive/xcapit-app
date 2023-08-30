@@ -6,7 +6,7 @@ import { rawPolygonData } from 'src/app/modules/swaps/shared-swaps/models/fixtur
 import { fakeProviders } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-ethers-providers';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { BigNumberOf } from 'src/app/modules/swaps/shared-swaps/models/polygon-gas-price/big-number-of';
-import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
+import { AmountOf } from 'src/app/modules/wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 

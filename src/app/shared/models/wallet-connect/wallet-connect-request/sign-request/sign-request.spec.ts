@@ -4,7 +4,7 @@ import {
 } from '../../../../../modules/wallets/shared-wallets/fixtures/raw-wallet-connect-requests';
 import { SignClientV2 } from '../../sign-client/sign-client';
 import { getSdkError } from '@walletconnect/utils';
-import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wallet';
 import { SessionRequest } from '../../session-request/session-request';
 
 describe('SignRequest', () => {

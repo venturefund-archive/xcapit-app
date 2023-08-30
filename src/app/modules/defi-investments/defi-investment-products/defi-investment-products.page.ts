@@ -17,11 +17,11 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
 import { TotalInvestedBalanceOfInjectable } from '../shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { InvestedBalanceOfInjectable } from '../shared-defi-investments/models/invested-balance-of/injectable/invested-balance-of.injectable';
 import { RawInvestmentProfile } from '../shared-defi-investments/types/raw-investment-profile.type';
 import { InvestmentProfiles } from '../shared-defi-investments/models/investment-profile/investment-profiles';
+import { RawAmount } from '../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 
 @Component({
   selector: 'app-defi-investment-products',

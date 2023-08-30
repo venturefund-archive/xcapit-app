@@ -1,4 +1,4 @@
-import { AmountOf } from '../amount-of/amount-of';
+import { AmountOf } from '../../../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 import { Blockchain } from '../blockchain/blockchain';
 import { fakeRawGasPrice, fakeProviders } from '../fakes/fake-ethers-providers';
 import { rawEthereumData } from '../fixtures/raw-blockchains-data';

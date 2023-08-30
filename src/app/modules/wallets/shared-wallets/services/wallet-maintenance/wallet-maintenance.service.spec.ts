@@ -9,7 +9,6 @@ import { Coin } from '../../interfaces/coin.interface';
 import { EthersService } from '../ethers/ethers.service';
 import moment from 'moment';
 import { TEST_COINS } from '../../constants/coins.test';
-import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
@@ -18,6 +17,7 @@ import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 import { StorageAsset } from '../../interfaces/storage-asset.interface';
 import { Mnemonic } from 'ethers/lib/utils';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletsFactory } from '../../models/wallets/factory/wallets.factory';
 
 describe('WalletMaintenanceService', () => {
   let service: WalletMaintenanceService;
