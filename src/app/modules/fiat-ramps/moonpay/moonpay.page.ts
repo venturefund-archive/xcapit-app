@@ -135,7 +135,10 @@ export class MoonpayPage {
 
   getLimits() {
     this.fiatRampsService
-      .getMoonpayLimitOfBuyQuote(this.tokenOperationDataService.tokenOperationData.asset.toLowerCase(), 'usd')
+      .getMoonpayLimitOfBuyQuote(
+        this.tokenOperationDataService.tokenOperationData.asset.toLowerCase(),
+        this.fiatCurrency.toLowerCase()
+      )
       .subscribe((res) => {
         this.minBuyAmount = res.quoteCurrency.minBuyAmount;
         this.calculateMinimumFiatAmount(this.price);
@@ -163,9 +166,11 @@ export class MoonpayPage {
   }
 
   async providerTokens() {
-    return await new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins(), this.fiatRampsService).byAlias(
-      this.provider.alias
-    );
+    return await new ProviderTokensOf(
+      this.getProviders(),
+      this.apiWalletService.getCoins(),
+      this.fiatRampsService
+    ).byAlias(this.provider.alias);
   }
 
   getProviders(): Providers {
@@ -216,7 +221,9 @@ export class MoonpayPage {
 
   async setCryptoToken() {
     const { asset, network } = this.tokenOperationDataService.tokenOperationData;
-    this.selectedCurrency = (await this.providerTokens()).find((token) => token.value === asset && token.network === network);
+    this.selectedCurrency = (await this.providerTokens()).find(
+      (token) => token.value === asset && token.network === network
+    );
   }
 
   subscribeToFormChanges() {
@@ -277,7 +284,7 @@ export class MoonpayPage {
   createMoonpayPrice(currency = this.fiatCurrency): DynamicMoonpayPrice {
     return this.moonpayPrice.new(
       this.milliseconds,
-      new DefaultMoonpayPrice(currency, this.selectedCurrency.moonpayCode, this.fiatRampsService)
+      new DefaultMoonpayPrice(currency.toLowerCase(), this.selectedCurrency.moonpayCode, this.fiatRampsService)
     );
   }
 

@@ -202,13 +202,14 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   async setMoonpayQuote(fiatCode: string) {
-    if (!fiatCode) {
-      fiatCode = 'USD';
+    if (!fiatCode) fiatCode = 'usd';
+
+    if (this.availableProviders.some((p) => p.alias === 'moonpay')) {
+      return await this.moonpayFactory
+        .new(fiatCode.toLowerCase(), this.coin.moonpayCode, this.fiatRampsService)
+        .value()
+        .toPromise();
     }
-    if (fiatCode && this.availableProviders.some((p) => p.alias === 'moonpay')) {
-      return await this.moonpayFactory.new(fiatCode, this.coin.moonpayCode, this.fiatRampsService).value().toPromise();
-    }
-    return null;
   }
 
   async setProvidersQuote() {

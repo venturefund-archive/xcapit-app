@@ -143,12 +143,6 @@ describe('FiatRampsService', () => {
     });
   });
 
-  it('should call get on http when getMoonpayQuotation', () => {
-    fiatRampsService.getMoonpayQuotation('USDC_polygon').subscribe(() => {
-      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
-    });
-  });
-
   it('should call post on http when getKriptonAccessToken', () => {
     fiatRampsService.getKriptonAccessToken({ email: 'test@test.com' }).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
