@@ -24,5 +24,5 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_warranty_wallet: false,
   minimumWarrantyAmount: undefined,
   warranty_lenders: undefined,
-  ff_deposit_to_xscrow: true,
+  ff_deposit_to_xscrow: false,
 };
