@@ -1,5 +1,5 @@
 import { Transaction } from "@solana/web3.js";
-import { BlockchainTx } from "src/app/modules/swaps/shared-swaps/models/blockchain-tx";
+import { BlockchainTx } from "../blockchain-tx/blockchain-tx";
 
 
 export class SolanaTxWithPayer implements BlockchainTx {

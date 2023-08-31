@@ -32,7 +32,6 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
 import { ActivatedRoute } from '@angular/router';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
-import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
@@ -43,6 +42,7 @@ import { LocalNotificationInjectable } from 'src/app/shared/models/local-notific
 import { DefiInvestmentsService } from '../../shared-defi-investments/services/defi-investments-service/defi-investments.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { AmountOf } from 'src/app/modules/wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 
 @Component({
   selector: 'app-investment-confirmation',

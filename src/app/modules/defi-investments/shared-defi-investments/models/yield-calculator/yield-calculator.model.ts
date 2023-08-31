@@ -1,7 +1,7 @@
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { BigNumber } from 'ethers';
 import { InvestmentMovement } from 'src/app/modules/wallets/shared-wallets/interfaces/investment-movement.interface';
-import { RawAmount } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
+import { RawAmount } from 'src/app/modules/wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 
 export class YieldCalculator {
   private _aYield: BigNumber;

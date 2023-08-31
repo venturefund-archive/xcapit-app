@@ -1,7 +1,7 @@
 import { InvestedBalanceResponse } from '../invested-balance-response.interface';
 import { RawInvestedBalanceResponse } from '../raw-invested-balance-response';
-import { AmountOf } from '../../../../../swaps/shared-swaps/models/amount-of/amount-of';
 import { Token } from '../../../../../swaps/shared-swaps/models/token/token';
+import { AmountOf } from 'src/app/modules/wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 
 export class DefaultInvestedBalanceResponse implements InvestedBalanceResponse {
   constructor(

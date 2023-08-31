@@ -1,6 +1,6 @@
 import { SendTransactionRequest } from './send-transaction-request';
 import { SignClientV2 } from '../../sign-client/sign-client';
-import { Wallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from '../../../../../modules/wallets/shared-wallets/models/wallet/wallet';
 import {
   rawSwapTransactionRequest,
   rawSendTransactionRequestDefault,
@@ -8,7 +8,7 @@ import {
 import { Blockchain } from '../../../../../modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { rawPolygonData } from '../../../../../modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { getSdkError } from '@walletconnect/utils';
-import { FakeWallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../../../../../modules/wallets/shared-wallets/models/wallet/fake/fake-wallet';
 import { DecodedData } from '../../decoded-data/decoded-data';
 import { SessionRequest } from '../../session-request/session-request';
 import { NullRequestMessage } from '../../request-message/null-request-message/null-request-message';

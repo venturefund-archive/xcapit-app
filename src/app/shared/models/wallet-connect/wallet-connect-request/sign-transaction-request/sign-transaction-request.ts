@@ -1,14 +1,14 @@
 import { WalletConnectRequest } from '../wallet-connect-request.interface';
 import { SignClientV2 } from '../../sign-client/sign-client';
-import { Wallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from '../../../../../modules/wallets/shared-wallets/models/wallet/wallet';
 import { formatJsonRpcError, formatJsonRpcResult } from '@json-rpc-tools/utils';
-import { AmountOf } from '../../../../../modules/swaps/shared-swaps/models/amount-of/amount-of';
-import { WalletConnectTxOf } from '../../../../../modules/swaps/shared-swaps/models/wallet-connect-tx-of/wallet-connect-tx-of';
 import { getSdkError } from '@walletconnect/utils';
 import { TransactionType } from '../../transaction-type/transaction-type';
 import { SessionRequest } from '../../session-request/session-request';
 import { RequestData } from '../../request-data/request-data';
 import { NullRequestMessage } from '../../request-message/null-request-message/null-request-message';
+import { AmountOf } from 'src/app/modules/wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
+import { WalletConnectTxOf } from 'src/app/modules/wallets/shared-wallets/models/blockchain-tx/wallet-connect-tx-of/wallet-connect-tx-of';
 
 export class SignTransactionRequest implements WalletConnectRequest {
   constructor(

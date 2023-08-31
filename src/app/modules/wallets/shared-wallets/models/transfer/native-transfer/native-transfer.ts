@@ -1,8 +1,8 @@
-import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { RawTransfer } from '../../../types/raw-transfer.type';
 import { Transfer } from '../transfer.interface';
+import { AmountOf } from '../../blockchain-tx/amount-of/amount-of';
 
 export class NativeTransfer implements Transfer {
   constructor(

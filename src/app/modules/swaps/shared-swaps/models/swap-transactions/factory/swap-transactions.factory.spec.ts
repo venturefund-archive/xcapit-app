@@ -6,7 +6,7 @@ import { rawMATICData, rawUSDCData } from "../../fixtures/raw-tokens-data";
 import { rawWalletData } from "../../fixtures/raw-wallet-data";
 import { Swap } from "../../swap/swap";
 import { DefaultToken } from "../../token/token";
-import { DefaultWallet } from "../../wallet/default/default-wallet";
+import { DefaultWallet } from "../../../../../wallets/shared-wallets/models/wallet/default/default-wallet";
 import { SwapTransactionsFactory } from "./swap-transactions.factory";
 
 

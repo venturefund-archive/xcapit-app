@@ -1,6 +1,6 @@
 import { TransactionRequest } from "@ethersproject/abstract-provider";
 import { Transaction } from "@solana/web3.js";
-import { BlockchainTx } from "../blockchain-tx";
+import { BlockchainTx } from "src/app/modules/wallets/shared-wallets/models/blockchain-tx/blockchain-tx";
 
 
 export class FakeBlockchainTx implements BlockchainTx {

@@ -23,7 +23,6 @@ import { TwoPiInvestmentFactory } from '../../defi-investments/shared-defi-inves
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import {
@@ -49,7 +48,8 @@ import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/r
 import { of } from 'rxjs';
 import { Transfers } from '../shared-wallets/models/transfers/transfers';
 import { FiatRampsService } from '../../fiat-ramps/shared-ramps/services/fiat-ramps.service';
-import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../shared-wallets/models/wallet/fake/fake-wallet';
+import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets.factory';
 
 describe('TokenDetailPage', () => {
   let component: TokenDetailPage;

@@ -11,8 +11,7 @@ import { TransfersFactory } from '../shared-wallets/models/transfers/factory/tra
 import { rawTransfer } from '../shared-wallets/fixtures/covalent-transfers.fixture';
 import { Transfers } from '../shared-wallets/models/transfers/transfers';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../shared-wallets/models/wallet/fake/fake-wallet';
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
@@ -44,6 +43,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';
 import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
 import { rawLender } from 'src/app/shared/models/lender/raw-lender.fixture';
+import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets.factory';
 
 describe('SimplifiedHomeWalletPage', () => {
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));

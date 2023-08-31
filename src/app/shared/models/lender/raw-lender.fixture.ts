@@ -15,4 +15,5 @@ export const rawLender: RawLender = {
   url: 'https://www.naranjax.com/',
   token: 'USDC',
   blockchain: 'MATIC',
+  xscrowAddress: '0xd8090Ca934aF77C3Ab835b7F01d06f215e906153'
 };

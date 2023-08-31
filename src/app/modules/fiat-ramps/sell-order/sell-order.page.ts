@@ -14,7 +14,6 @@ import { ERC20Contract } from '../../defi-investments/shared-defi-investments/mo
 import { ERC20ContractInjectable } from '../../defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
 import { ERC20Provider } from '../../defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { Erc20ProviderInjectable } from '../../defi-investments/shared-defi-investments/models/erc20-provider/injectable/erc20-provider.injectable';
-import { AmountOf } from '../../swaps/shared-swaps/models/amount-of/amount-of';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { GasStationOfFactory } from '../../swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
@@ -38,6 +37,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import RoundedNumber from 'src/app/shared/models/rounded-number/rounded-number';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 import { UserBankDataService } from '../shared-ramps/services/user-bank-data/user-bank-data.service';
+import { AmountOf } from '../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 
 @Component({
   selector: 'app-sell-order',

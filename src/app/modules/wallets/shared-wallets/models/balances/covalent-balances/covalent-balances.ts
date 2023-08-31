@@ -5,7 +5,7 @@ import { Coin } from '../../../interfaces/coin.interface';
 import { Balances } from '../balances.interface';
 import { Tokens } from '../../../../../swaps/shared-swaps/models/tokens/tokens';
 import { Token } from '../../../../../swaps/shared-swaps/models/token/token';
-import { AmountOf } from '../../../../../swaps/shared-swaps/models/amount-of/amount-of';
+import { AmountOf } from '../../blockchain-tx/amount-of/amount-of';
 
 export class CovalentBalances implements Balances {
   private _valueCache: any = null;

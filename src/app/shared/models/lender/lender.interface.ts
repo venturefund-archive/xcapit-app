@@ -9,4 +9,5 @@ export interface Lender {
   minWarrantyAmount(): string;
   token(): string;
   blockchain(): string;
+  xscrowAddress(): string;
 }

@@ -9,6 +9,10 @@ export class DefaultLender implements Lender {
     private readonly _aTranslateService: TranslateService | FakeTranslateService
   ) {}
 
+  xscrowAddress(): string {
+    return this._aRawLender.xscrowAddress;
+  }
+
   public firstStepUrl(): string {
     return this._aRawLender.firstStepUrl;
   }
@@ -20,7 +24,6 @@ export class DefaultLender implements Lender {
   public url(): string {
     return this._aRawLender.url;
   }
-
 
   public json(): RawLender {
     return {
@@ -38,6 +41,7 @@ export class DefaultLender implements Lender {
       url: this.url(),
       token: this.token(),
       blockchain: this.blockchain(),
+      xscrowAddress: this.xscrowAddress(),
     };
   }
 

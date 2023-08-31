@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Wallet } from 'ethers';
-import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageAsset } from '../../interfaces/storage-asset.interface';
@@ -10,7 +8,6 @@ import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { EthersService } from '../ethers/ethers.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
-import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,14 +16,6 @@ export class WalletMaintenanceService {
   password: string;
   newNetworks: string[];
   encryptedWallet: StorageWallet;
-  private _wallet: Wallet;
-
-  private get wallet(): Wallet {
-    if (!this._wallet) {
-      this._wallet = this.ethersService.decryptWalletJsonSync(this.encryptedWallet.wallet, this.password);
-    }
-    return this._wallet;
-  }
 
   constructor(
     private apiWalletService: ApiWalletService,
@@ -109,7 +98,6 @@ export class WalletMaintenanceService {
   }
 
   wipeDataFromService() {
-    this._wallet = undefined;
     this.encryptedWallet = undefined;
     this.newNetworks = undefined;
     this.password = undefined;

@@ -8,7 +8,7 @@ import { Referral } from "../referral/referral";
 import { Slippage } from "../slippage/slippage";
 import { Swap } from "../swap/swap";
 import { DefaultToken } from "../token/token";
-import { DefaultWallet } from "../wallet/default/default-wallet";
+import { DefaultWallet } from "../../../../wallets/shared-wallets/models/wallet/default/default-wallet";
 import { Blockchain } from "../blockchain/blockchain";
 
 

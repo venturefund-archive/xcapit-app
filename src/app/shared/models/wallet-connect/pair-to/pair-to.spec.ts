@@ -7,7 +7,7 @@ import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockc
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { WCUri } from '../wc-uri/wc-uri.interface';
-import { FakeWallet } from '../../../../modules/swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../../../../modules/wallets/shared-wallets/models/wallet/fake/fake-wallet';
 
 describe('PairTo', () => {
   let testUri: WCUri;

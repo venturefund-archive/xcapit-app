@@ -3,7 +3,7 @@ import { rawPersonalSignRequest } from 'src/app/modules/wallets/shared-wallets/f
 import { SignRequest } from '../sign-request/sign-request';
 import { SignClientInjectable } from '../../sign-client/injectable/sign-client.injectable';
 import { SignClientV2 } from '../../sign-client/sign-client';
-import { FakeWallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../../../../../modules/wallets/shared-wallets/models/wallet/fake/fake-wallet';
 import { SessionRequest } from '../../session-request/session-request';
 
 describe('SessionRequestInjectable', () => {

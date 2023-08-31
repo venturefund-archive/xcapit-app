@@ -1,4 +1,4 @@
-import { BlockchainTx } from "src/app/modules/swaps/shared-swaps/models/blockchain-tx";
+import { BlockchainTx } from "src/app/modules/wallets/shared-wallets/models/blockchain-tx/blockchain-tx";
 import { FakeBlockchainTx } from "src/app/modules/swaps/shared-swaps/models/fakes/fake-blockchain-tx";
 import { FakeConnection } from "src/app/modules/swaps/shared-swaps/models/fakes/fake-connection";
 import { SolanaFeeOf } from "./solana-fee-of";

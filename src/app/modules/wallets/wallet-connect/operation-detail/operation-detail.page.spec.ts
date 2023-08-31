@@ -21,7 +21,7 @@ import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/defaul
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
 import { WCSession } from '../../../../shared/models/wallet-connect/wc-session/wc-session';
 import { rawPeerMetadata } from '../../shared-wallets/fixtures/raw-proposal.fixture';
-import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wallet';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { rawEthereumData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { rawPersonalSignRequest } from '../../shared-wallets/fixtures/raw-wallet-connect-requests';

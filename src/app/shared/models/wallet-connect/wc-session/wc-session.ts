@@ -1,6 +1,6 @@
 import { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { getSdkError } from '@walletconnect/utils';
-import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wallet';
 import { SignClientV2 } from 'src/app/shared/models/wallet-connect/sign-client/sign-client';
 
 export type RawSession = SessionTypes.Struct;

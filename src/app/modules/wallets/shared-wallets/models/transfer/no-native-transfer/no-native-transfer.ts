@@ -1,4 +1,3 @@
-import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
@@ -6,6 +5,7 @@ import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { environment } from 'src/environments/environment';
 import { RawTransfer } from '../../../types/raw-transfer.type';
 import { Transfer } from '../transfer.interface';
+import { AmountOf } from '../../blockchain-tx/amount-of/amount-of';
 
 export class NoNativeTransfer implements Transfer {
   constructor(

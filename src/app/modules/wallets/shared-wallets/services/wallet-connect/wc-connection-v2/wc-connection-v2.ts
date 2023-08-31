@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SignClientV2 } from 'src/app/shared/models/wallet-connect/sign-client/sign-client';
 import { PairTo } from 'src/app/shared/models/wallet-connect/pair-to/pair-to';
-import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wallet';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
 import { SignClientInjectable } from 'src/app/shared/models/wallet-connect/sign-client/injectable/sign-client.injectable';
 import { WCSession } from 'src/app/shared/models/wallet-connect/wc-session/wc-session';
@@ -13,10 +13,10 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { PendingProposal } from '../../../models/wallet-connect/pending-proposal/pending-proposal';
 import { SessionRequest } from '../../../../../../shared/models/wallet-connect/session-request/session-request';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/wc-uri.interface';
-import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WCStorageService } from '../wc-storage/wc-storage.service';
 import { ExistingProposal } from '../../../models/wallet-connect/existing-proposal/existing-proposal';
+import { WalletsFactory } from '../../../models/wallets/factory/wallets.factory';
 
 @Injectable({ providedIn: 'root' })
 export class WCConnectionV2 {

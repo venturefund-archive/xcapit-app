@@ -27,13 +27,13 @@ import { Token } from '../../swaps/shared-swaps/models/token/token';
 import { FixedTokens } from '../../swaps/shared-swaps/models/filtered-tokens/fixed-tokens';
 import { TokenPricesInjectable } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/injectable/token-detail.injectable';
-import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from '../../wallets/shared-wallets/models/wallet/wallet';
 import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
 import { BitrefillURL } from '../shared-ramps/models/bitrefill-url/bitrefill-url';
 import { EnvService } from '../../../shared/services/env/env.service';
 import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
+import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
 
 @Component({
   selector: 'app-bitrefill',

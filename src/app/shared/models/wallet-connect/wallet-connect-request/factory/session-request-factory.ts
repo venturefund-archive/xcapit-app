@@ -1,6 +1,6 @@
 import { WalletConnectRequest } from '../wallet-connect-request.interface';
 import { SignRequest } from '../sign-request/sign-request';
-import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wallet';
 import { SignClientV2 } from '../../sign-client/sign-client';
 import { SendTransactionRequest } from '../send-transaction-request/send-transaction-request';
 import { SignTypedDataRequest } from '../sign-typed-data-request/sign-typed-data-request';
