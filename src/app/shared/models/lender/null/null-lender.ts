@@ -3,6 +3,10 @@ import { RawLender } from "../raw-lender.type";
 
 
 export class NullLender implements Lender {
+  
+  xscrowAddress(): string {
+    throw new Error("Method not implemented.");
+  }
 
   logo(): string {
     throw new Error("Method not implemented.");

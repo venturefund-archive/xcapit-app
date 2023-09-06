@@ -35,20 +35,23 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       <div class="cc__footer__confirmation">
         <ion-button
           class="ux_button cc__footer__confirmation__button"
+          [appLoading]="this.loading"
+          [disabled]="this.loading"
+          [loadingText]="'fiat_ramps.shared.confirmation_content.loading' | translate"
           name="confirm_front_id"
           color="secondary"
           expand="block"
           (click)="this.emitConfirm()"
-          >{{  this.data.button_primary | translate }}</ion-button
+          >{{ this.data.button_primary | translate }}</ion-button
         >
       </div>
-      <div class="cc__footer__upload-button">
+      <div class="cc__footer__upload-button" *ngIf="!this.loading">
         <ion-button
           class="ux-button-outlined cc__footer__upload-button__button"
           name="back_button"
           expand="block"
           (click)="this.reloadPhoto()"
-          >{{  this.data.button_secondary | translate }}</ion-button
+          >{{ this.data.button_secondary | translate }}</ion-button
         >
       </div>
     </ion-footer>`,
@@ -57,6 +60,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class ConfirmationContentComponent implements OnInit {
   @Input() data;
   @Input() image: string;
+  @Input() loading: boolean;
   @Output() confirm: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>();
   @Output() reload: EventEmitter<void> = new EventEmitter<void>();

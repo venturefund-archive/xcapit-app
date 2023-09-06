@@ -31,7 +31,7 @@ import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
-import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
+import { AmountOf } from 'src/app/modules/wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import {
   rawETHData,
@@ -40,7 +40,6 @@ import {
   rawTokensData,
   rawUSDTData,
 } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
-import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
@@ -54,10 +53,11 @@ import { FakePrices } from '../../shared-wallets/models/prices/fake-prices/fake-
 import { solanaAddress1 } from '../../shared-wallets/fixtures/raw-address-data';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
 import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-connection';
-import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
 import { FakeModal } from '../../../../shared/models/modal/fake/fake-modal';
 import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
 import { FakeModalFactory } from '../../../../shared/models/modal/factory/fake/fake-modal-factory';
+import { FakeWallet } from '../../shared-wallets/models/wallet/fake/fake-wallet';
+import { WalletsFactory } from '../../shared-wallets/models/wallets/factory/wallets.factory';
 
 describe('SendDetailPage', () => {
   let component: SendDetailPage;

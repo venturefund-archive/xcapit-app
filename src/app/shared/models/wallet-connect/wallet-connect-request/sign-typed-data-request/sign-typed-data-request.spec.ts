@@ -1,12 +1,12 @@
 import { rawSignTypedDataRequest } from '../../../../../modules/wallets/shared-wallets/fixtures/raw-wallet-connect-requests';
 import { SignClientV2 } from '../../sign-client/sign-client';
-import { Wallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from '../../../../../modules/wallets/shared-wallets/models/wallet/wallet';
 import { Blockchain } from '../../../../../modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { rawPolygonData } from '../../../../../modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { SignTypedDataRequest } from './sign-typed-data-request';
 import { HtmlRequestMessage } from '../../request-message/html-request-message/html-request-message';
 import { getSdkError } from '@walletconnect/utils';
-import { FakeWallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../../../../../modules/wallets/shared-wallets/models/wallet/fake/fake-wallet';
 import { SessionRequest } from '../../session-request/session-request';
 
 describe('SignTypedDataRequest', () => {

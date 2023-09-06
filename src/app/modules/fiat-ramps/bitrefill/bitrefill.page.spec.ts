@@ -42,8 +42,7 @@ import { FakePrices } from '../../wallets/shared-wallets/models/prices/fake-pric
 import { FakeBalances } from '../../wallets/shared-wallets/models/balances/fake-balances/fake-balances';
 import { TokenDetailInjectable } from '../../wallets/shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
-import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../../wallets/shared-wallets/models/wallet/fake/fake-wallet';
 import { SpyProperty } from 'src/testing/spy-property.spec';
 import { BuyOrDepositTokenToastComponent } from '../shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
@@ -51,6 +50,7 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
 import { FakeModal } from 'src/app/shared/models/modal/fake/fake-modal';
 import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/modal-factory.injectable';
 import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
+import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
 
 describe('BitrefillPage', () => {
   let component: BitrefillPage;

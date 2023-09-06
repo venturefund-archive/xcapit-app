@@ -4,7 +4,6 @@ import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { Coin } from '../../interfaces/coin.interface';
 import { EthersService } from '../ethers/ethers.service';
-import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
@@ -14,6 +13,7 @@ import { StorageAsset } from '../../interfaces/storage-asset.interface';
 import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { WalletsFactory } from '../../models/wallets/factory/wallets.factory';
 
 @Injectable({
   providedIn: 'root',

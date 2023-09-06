@@ -5,7 +5,7 @@ import { fakeRawGasPrice, fakeProviders } from '../fakes/fake-ethers-providers';
 import { BigNumberOf } from '../polygon-gas-price/big-number-of';
 import { rawPolygonGasStation } from '../fixtures/raw-polygon-gs-data';
 import { GasStationOf } from './gas-station-of';
-import { AmountOf } from '../amount-of/amount-of';
+import { AmountOf } from '../../../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 
 
 describe('Gas Station Of', () => {

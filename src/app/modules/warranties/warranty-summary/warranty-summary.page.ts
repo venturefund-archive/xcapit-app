@@ -26,6 +26,11 @@ import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tok
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { Token } from '../../swaps/shared-swaps/models/token/token';
+import { XscrowDepositTx } from '../../wallets/shared-wallets/models/blockchain-tx/xscrow-deposit-tx/xscrow-deposit-tx';
+import { WeiOf } from '../../../shared/models/wei-of/wei-of';
+import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
+import { ApproveTx } from '../../wallets/shared-wallets/models/blockchain-tx/appove-tx/approve-tx';
+import { BlockchainTx } from '../../wallets/shared-wallets/models/blockchain-tx/blockchain-tx';
 
 @Component({
   selector: 'app-warranty-summary',
@@ -98,7 +103,8 @@ export class WarrantySummaryPage {
     private defiInvesmentService: DefiInvestmentsService,
     private remoteConfig: RemoteConfigService,
     private activeLenderInjectable: ActiveLenderInjectable,
-    private blockchainsFactory: BlockchainsFactory
+    private blockchainsFactory: BlockchainsFactory,
+    private walletsFactory: WalletsFactory
   ) {}
 
   async ionViewWillEnter() {
@@ -122,8 +128,8 @@ export class WarrantySummaryPage {
         this.blockchainsFactory.create().oneByName(this._lender.blockchain()),
         new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins()))
       )
-    ).value()
-    this.tplToken = this._token.json()
+    ).value();
+    this.tplToken = this._token.json();
   }
 
   trackScreenview() {
@@ -158,7 +164,7 @@ export class WarrantySummaryPage {
       await this.fundWallet();
       await this.send(password);
     } catch (error) {
-      this.openGenericErrorModal();
+      await this.openGenericErrorModal();
     }
   }
 
@@ -177,15 +183,16 @@ export class WarrantySummaryPage {
     this.walletAddress = await this.storageService.getWalletsAddresses(this._lender.blockchain());
   }
 
-  private _warrantyCreationDataOf(transactionReceipt: TransactionReceipt) {
+  private _warrantyCreationDataOf(transactionHash: string) {
     return {
       wallet: this.walletAddress,
-      currency: this._lender.token(),
       amount: this.warrantyData.amountWithoutCost,
       service_cost: this.warrantyData.service_cost,
-      transaction_hash: transactionReceipt.transactionHash,
+      transaction_hash: transactionHash,
       user_dni: this.warrantyData.user_dni,
       lender: this.warrantyData.lender,
+      currency: this.warrantyData.currency,
+      blockchain: this.warrantyData.blockchain,
     };
   }
 
@@ -218,23 +225,46 @@ export class WarrantySummaryPage {
     return true;
   }
 
-  private async send(password: Password) {
-    const response = await this.walletTransactionsService.send(
-      password.value(),
-      this.warrantyData.amount,
-      this._lender.depositAddress(),
-      this._token.json()
+  private _depositTx(): BlockchainTx {
+    return new XscrowDepositTx(new WeiOf(this.warrantyData.amount, this._token.json()), this._lender.xscrowAddress());
+  }
+
+  private _approveTx(): BlockchainTx {
+    return new ApproveTx(
+      this._token.address(),
+      this._lender.xscrowAddress(),
+      new WeiOf(this.warrantyData.amount, this._token.json())
     );
-    response.wait().then((transactionReceipt) => {
-      this.warrantyService
-        .createWarranty(this._warrantyCreationDataOf(transactionReceipt))
-        .toPromise()
-        .then((res) => {
-          this.warantyOperationId = res.id;
-          this.openSuccessModal();
-          this.loading = false;
-        });
-    });
+  }
+
+  private async send(password: Password) {
+    let transactionReceipt: TransactionReceipt;
+    if (this.remoteConfig.getFeatureFlag('ff_deposit_to_xscrow')) {
+      const blockchain = this.blockchainsFactory.create().oneByName(this._lender.blockchain());
+      const wallet = await this.walletsFactory.create().oneBy(blockchain);
+      wallet.onNeedPass().subscribe(() => Promise.resolve(password.value()));
+      await (await wallet.sendTransaction(this._approveTx())).wait();
+      transactionReceipt = await (await wallet.sendTransaction(this._depositTx())).wait();
+    } else {
+      transactionReceipt = await (
+        await this.walletTransactionsService.send(
+          password.value(),
+          this.warrantyData.amount,
+          this._lender.depositAddress(),
+          this._token.json()
+        )
+      ).wait();
+    }
+    await this.saveWarranty(transactionReceipt.transactionHash);
+  }
+
+  async saveWarranty(transactionHash: string) {
+    const response = await this.warrantyService
+      .createWarranty(this._warrantyCreationDataOf(transactionHash))
+      .toPromise();
+    this.warantyOperationId = response.id;
+    this.openSuccessModal();
+    this.loading = false;
   }
 
   async openSuccessModal() {

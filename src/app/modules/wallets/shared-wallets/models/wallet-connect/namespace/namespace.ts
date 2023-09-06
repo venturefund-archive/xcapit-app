@@ -1,5 +1,5 @@
 import { ProposalTypes, SessionTypes } from '@walletconnect/types';
-import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wallet';
 import { NamespaceErrorMsgs } from '../namespace-error-msgs/namespace-error-msgs';
 import { ValidatedNamespaces } from '../namespaces/namespaces';
 

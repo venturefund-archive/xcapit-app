@@ -34,7 +34,7 @@ import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { GasStationOfFactory } from '../../swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
-import { AmountOf } from '../../swaps/shared-swaps/models/amount-of/amount-of';
+import { AmountOf } from '../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

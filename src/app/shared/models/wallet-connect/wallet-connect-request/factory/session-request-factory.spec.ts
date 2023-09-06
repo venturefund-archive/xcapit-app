@@ -3,7 +3,7 @@ import { SessionRequestFactory } from './session-request-factory';
 import { rawPersonalSignRequest } from '../../../../../modules/wallets/shared-wallets/fixtures/raw-wallet-connect-requests';
 import { SignRequest } from '../sign-request/sign-request';
 import { NullRequest } from '../null-request/null-request';
-import { FakeWallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../../../../../modules/wallets/shared-wallets/models/wallet/fake/fake-wallet';
 import { SessionRequest } from '../../session-request/session-request';
 import { SignClientTypes } from '@walletconnect/types';
 

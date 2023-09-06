@@ -5,7 +5,7 @@ import { rawProposal } from '../../../fixtures/raw-proposal.fixture';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
-import { FakeWallet } from '../../../../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../../wallet/fake/fake-wallet';
 
 describe('PendingProposal', () => {
   let signClientV2Spy: jasmine.SpyObj<SignClientV2>;

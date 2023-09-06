@@ -13,4 +13,5 @@ export interface SummaryWarrantyData {
   transaction_hash?: string;
   email?: string;
   lender?: string;
+  blockchain?: string;
 }

@@ -2,7 +2,7 @@ import { Referral } from "./referral/referral";
 import { Slippage } from "./slippage/slippage";
 import { Swap } from "./swap/swap";
 import { Token } from "./token/token";
-import { Wallet } from "./wallet/wallet";
+import { Wallet } from "../../../wallets/shared-wallets/models/wallet/wallet";
 
 
 export interface Dex {

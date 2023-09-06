@@ -1,12 +1,12 @@
-import { AllowanceOf } from "../allowance-of/allowance-of";
-import { ApproveTxOf } from "../approve-tx-of/approve-tx-of";
-import { BlockchainTx } from "../blockchain-tx";
+import { AllowanceOf } from "src/app/modules/wallets/shared-wallets/models/blockchain-tx/allowance-of/allowance-of";
+import { ApproveTxOf } from "src/app/modules/wallets/shared-wallets/models/blockchain-tx/approve-tx-of/approve-tx-of";
+import { BlockchainTx } from "src/app/modules/wallets/shared-wallets/models/blockchain-tx/blockchain-tx";
+import { SwapTxOf } from "src/app/modules/wallets/shared-wallets/models/blockchain-tx/swap-tx-of/swap-tx-of";
 import { Dex } from "../dex";
 import { Referral } from "../referral/referral";
 import { Slippage } from "../slippage/slippage";
 import { Swap } from "../swap/swap";
-import { SwapTxOf } from "../swap-tx-of/swap-tx-of";
-import { Wallet } from "../wallet/wallet";
+import { Wallet } from "../../../../wallets/shared-wallets/models/wallet/wallet";
 
 
 export class SwapTransactions {

@@ -20,6 +20,7 @@ import { Modals } from '../../../shared/models/modal/factory/default/default-mod
     *ngIf="this.data"
     [data]="this.data"
     [image]="this.image"
+    [loading]="this.loading"
     (confirm)="this.confirm()"
     (back)="this.goBack()"
     (reload)="this.reloadPhoto()"
@@ -31,6 +32,7 @@ export class KycConfirmationPage {
   confirmationContent = CONFIRMATION_CONTENT;
   data: any;
   digitalDocument: string;
+  loading = false;
 
   constructor(
     private userKycKriptonImagesService: UserKycKriptonImagesService,
@@ -73,6 +75,7 @@ export class KycConfirmationPage {
 
   async confirm() {
     if (this.digitalDocument === 'dni_selfie') {
+      this.loading = true;
       this.trackButtonEvent();
       const digitalDocuments = this._loadPhotos();
       const dataWithEmailAndToken = await this._dataWithEmailAndToken(digitalDocuments);

@@ -18,6 +18,10 @@ describe('DefaultLender', () => {
     expect(lender.firstStepUrl()).toEqual(rawLender.firstStepUrl);
   });
 
+  it('xscrowAddress', () => {
+    expect(lender.xscrowAddress()).toEqual(rawLender.xscrowAddress);
+  });
+
   it('logo', () => {
     expect(lender.logo()).toEqual(rawLender.logo);
   });

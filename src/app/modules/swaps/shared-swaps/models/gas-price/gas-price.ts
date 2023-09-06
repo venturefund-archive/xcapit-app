@@ -1,5 +1,5 @@
 import { providers } from "ethers";
-import { AmountOf } from "../amount-of/amount-of";
+import { AmountOf } from "../../../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of";
 import { Blockchain } from "../blockchain/blockchain";
 
 

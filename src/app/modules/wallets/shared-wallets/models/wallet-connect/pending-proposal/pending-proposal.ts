@@ -1,5 +1,5 @@
 import { SignClientTypes } from '@walletconnect/types';
-import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wallet';
 import { SignClientV2 } from 'src/app/shared/models/wallet-connect/sign-client/sign-client';
 import { RawSession } from '../../../../../../shared/models/wallet-connect/wc-session/wc-session';
 import { Namespaces, ValidatedNamespaces } from '../namespaces/namespaces';

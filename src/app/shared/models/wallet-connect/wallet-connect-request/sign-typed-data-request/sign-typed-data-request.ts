@@ -1,6 +1,6 @@
 import { WalletConnectRequest } from '../wallet-connect-request.interface';
 import { SignClientV2 } from '../../sign-client/sign-client';
-import { Wallet } from '../../../../../modules/swaps/shared-swaps/models/wallet/wallet';
+import { Wallet } from '../../../../../modules/wallets/shared-wallets/models/wallet/wallet';
 import { HtmlRequestMessage } from '../../request-message/html-request-message/html-request-message';
 import { formatJsonRpcError, formatJsonRpcResult } from '@json-rpc-tools/utils';
 import { getSdkError } from '@walletconnect/utils';

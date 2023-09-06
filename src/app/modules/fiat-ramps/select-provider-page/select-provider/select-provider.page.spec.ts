@@ -25,7 +25,7 @@ describe('SelectProviderPage', () => {
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
-  
+
   const coin = {
     id: 8,
     name: 'MATIC - Polygon',
@@ -43,7 +43,7 @@ describe('SelectProviderPage', () => {
       },
     },
   };
-  
+
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();

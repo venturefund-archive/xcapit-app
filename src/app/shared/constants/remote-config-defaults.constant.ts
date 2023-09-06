@@ -23,5 +23,6 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_disableGDriveBackup: false,
   ff_warranty_wallet: false,
   minimumWarrantyAmount: undefined,
-  warranty_lenders: undefined
+  warranty_lenders: undefined,
+  ff_deposit_to_xscrow: false,
 };

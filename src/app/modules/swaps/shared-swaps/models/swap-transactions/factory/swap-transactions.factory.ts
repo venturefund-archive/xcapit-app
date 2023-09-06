@@ -3,7 +3,7 @@ import { Dex } from "../../dex";
 import { Referral } from "../../referral/referral";
 import { Slippage } from "../../slippage/slippage";
 import { Swap } from "../../swap/swap";
-import { Wallet } from "../../wallet/wallet";
+import { Wallet } from "../../../../../wallets/shared-wallets/models/wallet/wallet";
 import { SwapTransactions } from "../swap-transactions";
 
 

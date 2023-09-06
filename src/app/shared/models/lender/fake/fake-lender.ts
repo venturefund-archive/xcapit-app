@@ -5,6 +5,10 @@ import { RawLender } from '../raw-lender.type';
 export class FakeLender implements Lender {
 
   constructor(private _aRawLender: RawLender = rawLender) {}
+  
+  xscrowAddress(): string {
+    return this._aRawLender.xscrowAddress;
+  }
 
   firstStepUrl(): string {
     return this._aRawLender.firstStepUrl;

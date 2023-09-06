@@ -37,12 +37,12 @@ import { ERC20ContractInjectable } from '../../defi-investments/shared-defi-inve
 import { VoidSigner } from 'ethers';
 import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { ERC20Provider } from '../../defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
-import { AmountOf } from '../../swaps/shared-swaps/models/amount-of/amount-of';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
 import { Token } from '../../swaps/shared-swaps/models/token/token';
 import { KriptonWallet } from '../shared-ramps/models/kripton-wallet/kripton-wallet';
+import { AmountOf } from '../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 @Component({
   selector: 'app-kripton-operation-detail',
   template: `

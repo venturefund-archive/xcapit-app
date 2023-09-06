@@ -23,7 +23,6 @@ import { TokenRepo } from '../shared-swaps/models/token-repo/token-repo';
 import { IntersectedTokensFactory } from '../shared-swaps/models/intersected-tokens/factory/intersected-tokens.factory';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
-import { WalletsFactory } from '../shared-swaps/models/wallets/factory/wallets.factory';
 import { OneInchFactory } from '../shared-swaps/models/one-inch/factory/one-inch.factory';
 import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transactions/factory/swap-transactions.factory';
 import { FakeBlockchainTx } from '../shared-swaps/models/fakes/fake-blockchain-tx';
@@ -33,7 +32,7 @@ import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
-import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
+import { AmountOf } from '../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
 import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -46,11 +45,12 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { of } from 'rxjs';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { TxInProgressService } from '../shared-swaps/services/tx-in-progress/tx-in-progress.service';
-import { FakeWallet } from '../shared-swaps/models/wallet/fake/fake-wallet';
-import { SendTxsError } from '../shared-swaps/models/wallet/send-txs-error';
 import { FakeModal } from '../../../shared/models/modal/fake/fake-modal';
 import { ModalFactoryInjectable } from '../../../shared/models/modal/injectable/modal-factory.injectable';
 import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake-modal-factory';
+import { FakeWallet } from '../../wallets/shared-wallets/models/wallet/fake/fake-wallet';
+import { SendTxsError } from '../../wallets/shared-wallets/models/wallet/send-txs-error';
+import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;

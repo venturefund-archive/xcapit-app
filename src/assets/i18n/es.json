@@ -1835,7 +1835,7 @@
     },
     "user_steps_naranjax": {
       "title": "Seguí estos pasos para pedir tus tarjetas Naranja X",
-      "item_1": "Creá una contraseña y protegés tu cuenta con una copia de seguridad.",
+      "item_1": "Creá una contraseña y protegé tu cuenta con una copia de seguridad.",
       "item_2": "Comprá la cantidad de criptomonedas que quieras.",
       "item_3": "Usá tus criptomonedas para crear una garantía de respaldo.",
       "item_4": "Conocé qué tarjetas y disponibles para compras podés tener.",
@@ -2965,7 +2965,7 @@
       "confirmation_content": {
         "header": "Crear cuenta",
         "provider": "Proveedor: Kripton Market",
-
+        "loading":"Enviando informacion",
         "front_id": {
           "title": "Revisá que la foto cumpla con estos requisitos:",
           "items": "<ul><li>Los datos se leen bien.</li><li>La imágen no está borrosa.</li><li>El contenido del DNI se ve completo.</li></ul>",

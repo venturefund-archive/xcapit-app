@@ -1,5 +1,5 @@
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
-import { AmountOf } from '../amount-of/amount-of';
+import { AmountOf } from '../../../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 import { Blockchain } from '../blockchain/blockchain';
 import { rawPolygonData } from '../fixtures/raw-blockchains-data';
 import { rawPolygonGasStation } from '../fixtures/raw-polygon-gs-data';

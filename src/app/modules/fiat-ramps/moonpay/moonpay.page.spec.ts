@@ -1,5 +1,5 @@
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
@@ -21,14 +21,14 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
-import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { DynamicMoonpayPrice } from '../shared-ramps/models/moonpay-price/dynamic-moonpay-price';
 import { DynamicMoonpayPriceFactory } from '../shared-ramps/models/moonpay-price/factory/dynamic-moonpay-price-factory';
-import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/fake/fake-wallet';
+import { FakeWallet } from '../../wallets/shared-wallets/models/wallet/fake/fake-wallet';
+import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
 
 describe('MoonpayPage', () => {
   let component: MoonpayPage;
@@ -90,7 +90,6 @@ describe('MoonpayPage', () => {
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
       getMoonpayRedirectLink: of({ url: 'http://testURL.com' }),
-      getMoonpayQuotation: of({ ARG: 1 }),
       getMoonpayBuyQuote: of(moonpayBuyQuote),
       getMoonpayLimitOfBuyQuote: of(testLimitData),
     });
@@ -210,7 +209,7 @@ describe('MoonpayPage', () => {
     expect(walletMaintenanceServiceSpy.wipeDataFromService).toHaveBeenCalledTimes(1);
   });
 
-  it('should select the currency specified by parameter on init', fakeAsync( () => {
+  it('should select the currency specified by parameter on init', fakeAsync(() => {
     component.ionViewWillEnter();
     tick();
     fixture.detectChanges();

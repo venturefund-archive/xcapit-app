@@ -24,6 +24,10 @@ describe('FakeLender', () => {
     expect(fakeLender.url()).toEqual(rawLender.url);
   });
 
+  it('xscrowAddress', () => {
+    expect(fakeLender.xscrowAddress()).toEqual(rawLender.xscrowAddress);
+  });
+
   it('json', () => {
     expect(fakeLender.json()).toEqual(rawLender);
   });

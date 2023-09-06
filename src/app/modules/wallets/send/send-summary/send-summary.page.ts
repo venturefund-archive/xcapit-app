@@ -11,7 +11,6 @@ import { InfoSendModalComponent } from '../../shared-wallets/components/info-sen
 import { TrackService } from '../../../../shared/services/track/track.service';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
@@ -27,8 +26,9 @@ import { SolanaToken } from 'src/app/modules/swaps/shared-swaps/models/token/sol
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
 import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
-import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
 import { WalletPasswordWithValidatorComponent } from '../../shared-wallets/components/wallet-password-with-validator/wallet-password-with-validator.component';
+import { SolanaSendTxsOf } from '../../shared-wallets/models/blockchain-tx/solana-send-txs-of/solana-send-txs-of';
+import { WalletsFactory } from '../../shared-wallets/models/wallets/factory/wallets.factory';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>

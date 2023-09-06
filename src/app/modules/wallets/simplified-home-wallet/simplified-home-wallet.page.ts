@@ -11,8 +11,7 @@ import { RawToken, TokenRepo } from '../../swaps/shared-swaps/models/token-repo/
 import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Token } from '../../swaps/shared-swaps/models/token/token';
-import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
-import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { Wallet } from '../shared-wallets/models/wallet/wallet';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { FixedTokens } from '../../swaps/shared-swaps/models/filtered-tokens/fixed-tokens';
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
@@ -27,6 +26,7 @@ import { Modals } from '../../../shared/models/modal/factory/default/default-mod
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { Lender } from '../../../shared/models/lender/lender.interface';
 import { ActiveLenderInjectable } from '../../../shared/models/active-lender/injectable/active-lender.injectable';
+import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets.factory';
 
 @Component({
   selector: 'app-simplified-home-wallet',
@@ -146,7 +146,9 @@ import { ActiveLenderInjectable } from '../../../shared/models/active-lender/inj
             <img src="/assets/img/simplified-home-wallet/empty.svg" />
             <ion-label
               class="ux-font-text-xxs"
-              [innerHTML]="'wallets.simplified_home_wallet.empty_transactions' | translate: { token: this.tplToken.value}"
+              [innerHTML]="
+                'wallets.simplified_home_wallet.empty_transactions' | translate : { token: this.tplToken.value }
+              "
             >
             </ion-label>
           </div>
@@ -293,7 +295,12 @@ export class SimplifiedHomeWalletPage {
 
   async getWarranty() {
     this.warranty = await this.warrantiesService
-      .verifyWarranty({ wallet: this.wallet.address(), lender: this.lender.json().name })
+      .verifyWarranty({
+        wallet: this.wallet.address(),
+        lender: this.lender.json().name,
+        currency: this.lender.token(),
+        blockchain: this.lender.blockchain(),
+      })
       .toPromise();
   }
 

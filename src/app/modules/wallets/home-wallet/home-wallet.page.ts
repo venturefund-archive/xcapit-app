@@ -24,7 +24,6 @@ import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/mod
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
@@ -37,6 +36,7 @@ import { ContactDataService } from '../../contacts/shared-contacts/services/cont
 import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets.factory';
 
 @Component({
   selector: 'app-home-wallet',
@@ -199,14 +199,10 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 export class HomeWalletPage implements OnInit {
   hideFundText: boolean;
   protectedWallet: boolean;
-  lessThanFourTokens: boolean;
   tokenDetails: TokenDetail[] = [];
   userTokens: Coin[];
-  firstTokenDetails;
-  remainingTokenDetails;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
-  openedAccordion: boolean;
   @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
   @ViewChild(IonContent, { static: true }) content: IonContent;
   segmentsForm: UntypedFormGroup = this.formBuilder.group({
@@ -218,7 +214,6 @@ export class HomeWalletPage implements OnInit {
   defiProducts: DefiProduct[];
   totalInvested: number;
   slides = [];
-  pids = [];
   twoPiProducts: TwoPiProduct[] = [];
   newTokens: NewToken[];
   connected: boolean;
@@ -248,7 +243,7 @@ export class HomeWalletPage implements OnInit {
     private base64ImageFactory: Base64ImageFactory,
     private contactService: ContactDataService,
     private wcService: WCService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
   ) {}
 
   ngOnInit() {}
@@ -264,6 +259,7 @@ export class HomeWalletPage implements OnInit {
     this.cleanContact();
     this.notificationsService.getInstance().register();
   }
+
 
   async getSliderImages() {
     const slides = await this.remoteConfig.getObject('appSlides');

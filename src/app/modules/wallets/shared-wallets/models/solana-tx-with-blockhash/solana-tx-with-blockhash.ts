@@ -1,6 +1,6 @@
 import { Connection, Transaction } from "@solana/web3.js";
-import { BlockchainTx } from "src/app/modules/swaps/shared-swaps/models/blockchain-tx";
 import { FakeConnection } from "src/app/modules/swaps/shared-swaps/models/fakes/fake-connection";
+import { BlockchainTx } from "../blockchain-tx/blockchain-tx";
 
 
 export class SolanaTxWithBlockhash implements BlockchainTx {

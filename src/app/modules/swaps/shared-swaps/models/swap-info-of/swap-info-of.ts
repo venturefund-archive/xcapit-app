@@ -1,4 +1,4 @@
-import { AmountOf } from "../amount-of/amount-of";
+import { AmountOf } from "src/app/modules/wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of";
 import { Dex } from "../dex";
 import { GasUnits } from "../gas-units/gas-units";
 import { Referral } from "../referral/referral";

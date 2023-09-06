@@ -1,11 +1,11 @@
 import { of } from 'rxjs';
-import { Wallets } from 'src/app/modules/swaps/shared-swaps/models/wallets/wallets';
 import { AppStorageService } from '../../../../../shared/services/app-storage/app-storage.service';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
-import { WalletsFactory } from '../../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Password } from '../../../../swaps/shared-swaps/models/password/password';
 import { SimpleSubject } from 'src/app/shared/models/simple-subject/simple-subject';
 import { UpgradeWallets } from './upgrade-wallets';
+import { WalletsFactory } from '../wallets/factory/wallets.factory';
+import { Wallets } from '../wallets/wallets';
 
 describe('UpgradeWallets', () => {
   let upgradeWallets: UpgradeWallets;

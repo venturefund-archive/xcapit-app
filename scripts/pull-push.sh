@@ -5,7 +5,7 @@
 
 export CURRENT_BRANCH=$(git symbolic-ref --short -q HEAD)
 
-git pull origin "$CURRENT_BRANCH"
+git pull origin "$CURRENT_BRANCH" --ff-only
 git add --all -- ':!src/environments/environment.ts' ':!variables.env.ts' ':!capacitor.config.json' ':!android/app/src/main/res/values/strings.xml'
 git commit -m 'Working...'
 git push origin "$CURRENT_BRANCH"
