@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -20,9 +20,11 @@ import RoundedNumber from 'src/app/shared/models/rounded-number/rounded-number';
 import { DefaultMoonpayPrice } from '../shared-ramps/models/moonpay-price/default-moonpay-price';
 import { DynamicMoonpayPrice } from '../shared-ramps/models/moonpay-price/dynamic-moonpay-price';
 import { DynamicMoonpayPriceFactory } from '../shared-ramps/models/moonpay-price/factory/dynamic-moonpay-price-factory';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
+import { MoonpayPriceInjectable } from '../shared-ramps/models/moonpay-price/injectable/moonpay-price.injectable';
+import { ProviderPrice } from '../shared-ramps/models/provider-price/provider-price';
 
 @Component({
   selector: 'app-moonpay',
@@ -87,7 +89,7 @@ export class MoonpayPage {
   fee = { value: 0, token: '', totalDigits: 10, maxDecimals: 2 };
   price: number;
   milliseconds = 15000;
-  destroy$: Subject<void>;
+  priceSubscription$: Subscription;
   minimumFiatAmount: number;
   minBuyAmount: number;
 
@@ -103,19 +105,20 @@ export class MoonpayPage {
     private modalController: ModalController,
     private wallets: WalletsFactory,
     private blockchains: BlockchainsFactory,
-    private moonpayPrice: DynamicMoonpayPriceFactory
+    private moonpayPrice: DynamicMoonpayPriceFactory,
+    private moonpayPriceInjectable: MoonpayPriceInjectable
   ) {}
 
   async ionViewWillEnter() {
-    this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('moonpay');
     this.setCountry();
     this.setFiatToken();
     this.setCryptoToken();
     await this.initAssetsForm();
-    this.cryptoPrice();
+    await this.initCryptoPrice();
     this.getLimits();
     this.setInitValue();
+    this.cryptoPrice();
     this.subscribeToFormChanges();
   }
 
@@ -272,8 +275,13 @@ export class MoonpayPage {
     );
   }
 
+  private async initCryptoPrice() {
+    this.price = await this._moonpayPrice(this.fiatCurrency).value().toPromise();
+    this.calculateMinimumFiatAmount(this.price);
+  }
+
   private cryptoPrice() {
-    this.createMoonpayPrice()
+    this.priceSubscription$ = this.createMoonpayPrice()
       .value()
       .subscribe((price: number) => {
         this.price = price;
@@ -282,14 +290,14 @@ export class MoonpayPage {
   }
 
   createMoonpayPrice(currency = this.fiatCurrency): DynamicMoonpayPrice {
-    return this.moonpayPrice.new(
-      this.milliseconds,
-      new DefaultMoonpayPrice(currency.toLowerCase(), this.selectedCurrency.moonpayCode, this.fiatRampsService)
-    );
+    return this.moonpayPrice.new(this.milliseconds, this._moonpayPrice(currency));
+  }
+
+  private _moonpayPrice(currency: string): ProviderPrice {
+    return this.moonpayPriceInjectable.create(currency.toLowerCase(), this.selectedCurrency.moonpayCode);
   }
 
   ionViewWillLeave() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.priceSubscription$.unsubscribe();
   }
 }

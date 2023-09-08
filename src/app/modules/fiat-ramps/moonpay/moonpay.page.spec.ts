@@ -29,6 +29,8 @@ import { DynamicMoonpayPrice } from '../shared-ramps/models/moonpay-price/dynami
 import { DynamicMoonpayPriceFactory } from '../shared-ramps/models/moonpay-price/factory/dynamic-moonpay-price-factory';
 import { FakeWallet } from '../../wallets/shared-wallets/models/wallet/fake/fake-wallet';
 import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
+import { MoonpayPriceInjectable } from '../shared-ramps/models/moonpay-price/injectable/moonpay-price.injectable';
+import { FakeProviderPrice } from '../shared-ramps/models/provider-price/provider-price';
 
 describe('MoonpayPage', () => {
   let component: MoonpayPage;
@@ -50,6 +52,7 @@ describe('MoonpayPage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let dynamicMoonpayPriceFactorySpy: jasmine.SpyObj<DynamicMoonpayPriceFactory>;
   let moonpayPriceSpy: jasmine.SpyObj<DynamicMoonpayPrice>;
+  let moonpayPriceInjectableSpy: jasmine.SpyObj<MoonpayPriceInjectable>;
   let priceSubject: Subject<number>;
 
   const testWallet = {
@@ -151,6 +154,10 @@ describe('MoonpayPage', () => {
       new: moonpayPriceSpy,
     });
 
+    moonpayPriceInjectableSpy = jasmine.createSpyObj('MoonpayPriceInjectable', {
+      create: new FakeProviderPrice(10),
+    });
+
     TestBed.configureTestingModule({
       declarations: [MoonpayPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule],
@@ -166,6 +173,7 @@ describe('MoonpayPage', () => {
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: DynamicMoonpayPriceFactory, useValue: dynamicMoonpayPriceFactorySpy },
+        { provide: MoonpayPriceInjectable, useValue: moonpayPriceInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -226,13 +234,12 @@ describe('MoonpayPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should unsubscribe when leave', () => {
-    component.ionViewWillEnter();
-    const nextSpy = spyOn(component.destroy$, 'next');
-    const completeSpy = spyOn(component.destroy$, 'complete');
+  it('should unsubscribe when leave', async () => {
+    await component.ionViewWillEnter();
+    const priceUnsubscribeSpy = spyOn(component.priceSubscription$, 'unsubscribe');
     component.ionViewWillLeave();
-    expect(nextSpy).toHaveBeenCalledTimes(1);
-    expect(completeSpy).toHaveBeenCalledTimes(1);
+
+    expect(priceUnsubscribeSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should recalculate fiat amount when crypto amount is changed', fakeAsync(() => {
@@ -261,14 +268,15 @@ describe('MoonpayPage', () => {
     expect(component.minimumFiatAmount).toEqual(0.0664);
   }));
 
-  it('should validate minimum amount', fakeAsync(() => {
-    component.ionViewWillEnter();
-    tick();
-    component.form.patchValue({ fiatAmount: 0.000001 });
+  it('should validate minimum amount', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    component.form.patchValue({ fiatAmount: 0.00001 });
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     expect(component.form.controls.fiatAmount.valid).toBeFalse();
     component.form.patchValue({ fiatAmount: 30 });
     fixture.detectChanges();
     expect(component.form.controls.fiatAmount.valid).toBeTrue();
-  }));
+  });
 });
