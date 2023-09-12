@@ -5,7 +5,7 @@ export const rawLender: RawLender = {
   icon: 'assets/ux-icons/ux-logo-naranjax.svg',
   title: 'wallets.select_wallet_type.warranty_wallet.title',
   description: 'wallets.select_wallet_type.warranty_wallet.description',
-  firstStepUrl: '/wallets/steps-naranjax',
+  firstStepUrl: '/wallets/steps',
   trackClickEvent: 'ux_create_select_naranjax',
   isWarrantyLender: true,
   address: '0x2de9449eceb7b336a776cf43b3f3916cf1b51aa6',
@@ -15,5 +15,12 @@ export const rawLender: RawLender = {
   url: 'https://www.naranjax.com/',
   token: 'USDC',
   blockchain: 'MATIC',
-  xscrowAddress: '0xd8090Ca934aF77C3Ab835b7F01d06f215e906153'
+  xscrowAddress: '0xd8090Ca934aF77C3Ab835b7F01d06f215e906153',
+  steps: [
+    'wallets.user_steps.shared_steps.item_1',
+    'wallets.user_steps.shared_steps.item_2',
+    'wallets.user_steps.shared_steps.item_3',
+    'wallets.user_steps.naranja_x.item_1',
+  ],
+  stepsTitle: 'wallets.user_steps.naranja_x.title',
 };

@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedWalletsModule } from '../shared-wallets/shared-wallets.module';
-import { UserStepsNaranjaxPage } from './user-steps-naranjax.page';
+import { UserStepsPage } from './user-steps.page';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: UserStepsNaranjaxPage,
+    component: UserStepsPage,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedWalletsModule],
-  declarations: [UserStepsNaranjaxPage],
+  declarations: [UserStepsPage],
 })
-export class UserStepsNaranjaxPageModule {}
+export class UserStepsPageModule {}

@@ -42,6 +42,8 @@ export class DefaultLender implements Lender {
       token: this.token(),
       blockchain: this.blockchain(),
       xscrowAddress: this.xscrowAddress(),
+      steps: this._steps(),
+      stepsTitle: this._stepsTitle(),
     };
   }
 
@@ -67,6 +69,14 @@ export class DefaultLender implements Lender {
 
   private _icon(): string {
     return this._aRawLender.icon;
+  }
+
+  private _steps(): string[] {
+    return this._aRawLender.steps.map((step) => this._aTranslateService.instant(step));
+  }
+
+  private _stepsTitle(): string {
+    return this._aTranslateService.instant(this._aRawLender.stepsTitle);
   }
 
   private _title(): string {

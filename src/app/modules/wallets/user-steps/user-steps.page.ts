@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { ActiveLenderInjectable } from 'src/app/shared/models/active-lender/injectable/active-lender.injectable';
+import { RawLender } from 'src/app/shared/models/lender/raw-lender.type';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
-  selector: 'app-user-steps-naranjax',
+  selector: 'app-user-steps',
   template: `<div class="bg">
       <div class="bg__close_button">
         <ion-button
@@ -18,27 +20,18 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
         </ion-button>
       </div>
     </div>
-    <ion-content class="usn ion-padding">
-      <div class="class usn__content">
-        <div class="usn__content__title">
+    <ion-content class="us ion-padding">
+      <div class="class us__content" *ngIf="this.tplLender">
+        <div class="us__content__title">
           <ion-text class="ux-font-text-xl">
-            {{ 'wallets.user_steps_naranjax.title' | translate }}
+            {{ this.tplLender.stepsTitle }}
           </ion-text>
         </div>
 
-        <div class="usn__content__items">
+        <div class="us__content__items">
           <ul>
-            <ion-text class="ux-font-text-base">
-              <li>{{ 'wallets.user_steps_naranjax.item_1' | translate }}</li>
-            </ion-text>
-            <ion-text class="ux-font-text-base">
-              <li>{{ 'wallets.user_steps_naranjax.item_2' | translate }}</li>
-            </ion-text>
-            <ion-text class="ux-font-text-base">
-              <li>{{ 'wallets.user_steps_naranjax.item_3' | translate }}</li>
-            </ion-text>
-            <ion-text class="ux-font-text-base">
-              <li>{{ 'wallets.user_steps_naranjax.item_4' | translate }}</li>
+            <ion-text class="ux-font-text-base" *ngFor="let step of this.tplLender.steps">
+              <li>{{ step }}</li>
             </ion-text>
           </ul>
         </div>
@@ -57,18 +50,24 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
               size="large"
               (click)="this.handleSubmit()"
             >
-              {{ 'wallets.user_steps_naranjax.button' | translate }}
+              {{ 'wallets.user_steps.button' | translate }}
             </ion-button>
           </div>
         </div>
       </ion-toolbar>
     </ion-footer>`,
-  styleUrls: ['./user-steps-naranjax.page.scss'],
+  styleUrls: ['./user-steps.page.scss'],
 })
-export class UserStepsNaranjaxPage {
-  constructor(private navController: NavController, private trackService: TrackService) {}
+export class UserStepsPage {
+  tplLender: RawLender;
+  constructor(
+    private navController: NavController,
+    private trackService: TrackService,
+    private activeLenderInjectable: ActiveLenderInjectable
+  ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    this.tplLender = (await this.activeLenderInjectable.create().value()).json();
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,

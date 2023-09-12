@@ -1828,9 +1828,13 @@
     },
     "select_wallet_type": {
       "title": "To start, choose one of the options",
-      "warranty_wallet": {
+      "naranja_x": {
         "title": "Continue with the application for your cards",
         "description": "Create a backup guarantee to order your Naranja X credit cards."
+      },
+      "default": {
+        "title": "Continue with your credit application",
+        "description": "Create a backup guarantee to ask for credit."
       },
       "web3_wallet": {
         "title": "Operate on Web 3",
@@ -1844,12 +1848,20 @@
       "text3": "If you lose your recovery phrase, not even Xcapit will be able to recover your funds.",
       "button_text": "Continue"
     },
-    "user_steps_naranjax": {
-      "title": "Follow these steps to order your Naranja X cards.",
-      "item_1": "Create a password and protect your account with a backup copy.",
-      "item_2": "Buy as many cryptocurrencies as you want.",
-      "item_3": "Use your cryptocurrencies to create a collateral backing.",
-      "item_4": "Know what cards and available for purchases you can have.",
+    "user_steps": {
+      "shared_items": {
+        "item_1": "Create a password and protect your account with a backup copy.",
+        "item_2": "Use your cryptocurrencies to create a collateral backing."
+      },
+      "naranja_x": {
+        "title": "Follow these steps to order your Naranja X cards.",
+        "item_1": "Buy as many cryptocurrencies as you want.",
+        "item_2": "Know what cards and available for purchases you can have."
+      },
+      "default": {
+        "title": "Follow these steps to apply for your credit",
+        "item_1": "Receive or buy as many cryptocurrencies as you want."
+      },
       "button": "Continue"
     },
     "recovery_phrase_information_no_wallet": {
@@ -2995,7 +3007,7 @@
       "confirmation_content": {
         "header": "Create account",
         "provider": "Provider: Kripton Market",
-        "loading":"Sending information",
+        "loading": "Sending information",
         "front_id": {
           "title": "Check that the photo meets these requirements:",
           "items": "<ul><li>The data read well.</li><li>The image is not blurred.</li><li>The content of the DNI is complete.</li></ul>",
