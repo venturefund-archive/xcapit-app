@@ -1,6 +1,7 @@
 import { DefaultMenuCategories } from '../menu-categories/default/default-menu-categories';
 import { MenuCategories } from '../menu-categories/menu-categories.interface';
 import { RawMenuCategory } from '../raw-menu-category';
+import { structuredClone } from '../../../../../shared/utils/structured-clone';
 
 export class Menu {
   private _cachedRawMenuCategories: RawMenuCategory[];

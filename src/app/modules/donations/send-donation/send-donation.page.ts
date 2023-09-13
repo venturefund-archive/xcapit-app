@@ -28,6 +28,7 @@ import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/c
 import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
+import { structuredClone } from '../../../shared/utils/structured-clone';
 
 @Component({
   selector: 'app-send-donation',
@@ -53,7 +54,7 @@ import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
               [blockchain]="this.token.network"
               [token]="this.token.value"
               [tokenLogo]="this.token.logoRoute"
-            ></app-asset-detail> 
+            ></app-asset-detail>
             <div class="sd__send-amount-card__title">
               <ion-text class="ux-font-titulo-xs">{{ 'donations.send_donations.destiny_wallet' | translate }}</ion-text>
             </div>
@@ -140,7 +141,7 @@ export class SendDonationPage implements OnInit {
     private erc20ProviderInjectable: Erc20ProviderInjectable,
     private erc20ContractInjectable: ERC20ContractInjectable,
     private modalController: ModalController,
-    private dynamicPriceFactory: DynamicPriceFactory,
+    private dynamicPriceFactory: DynamicPriceFactory
   ) {}
 
   ngOnInit() {}
@@ -245,7 +246,7 @@ export class SendDonationPage implements OnInit {
       this.token.decimals
     ).value();
 
-      this.fee *= 1.25;
+    this.fee *= 1.25;
   }
 
   parseWei(amount: number) {

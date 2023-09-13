@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
+import {structuredClone} from '../../utils/structured-clone';
 
 export interface StorageService {
   get(key: string): Promise<any>;

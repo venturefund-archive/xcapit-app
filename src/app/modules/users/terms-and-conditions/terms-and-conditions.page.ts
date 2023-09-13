@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
+import {structuredClone} from '../../../shared/utils/structured-clone';
 
 @Component({
   selector: 'app-terms-and-conditions',

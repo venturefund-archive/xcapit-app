@@ -15,6 +15,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { rawMenuCategoryHelp, rawMenuCategoryWalletConnect } from '../../models/menu-category.raw';
 import { rawMenuItemCommunity, rawMenuItemSupport } from '../../models/menu-item/menu-items.raw';
+import { structuredClone } from '../../../../../shared/utils/structured-clone';
 
 describe('CardCategoryMenuComponent', () => {
   let component: CardCategoryMenuComponent;

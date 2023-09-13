@@ -26,7 +26,9 @@ export class GoogleAuthService {
     let accessToken: string;
     try {
       accessToken = (await this.googleAuth.signIn()).authentication.accessToken;
+      console.log('access token', accessToken);
     } catch (error) {
+      console.log('Errorrr', error);
       accessToken = (await this.googleAuth.refresh()).accessToken;
     }
     return accessToken;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { CAUSES } from '../shared-donations/constants/causes';
+import { structuredClone } from '../../../shared/utils/structured-clone';
 
 @Component({
   selector: 'app-causes',
@@ -35,7 +36,7 @@ export class CausesPage implements OnInit {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'ux_donations_screenview_causes'
+      eventLabel: 'ux_donations_screenview_causes',
     });
   }
 

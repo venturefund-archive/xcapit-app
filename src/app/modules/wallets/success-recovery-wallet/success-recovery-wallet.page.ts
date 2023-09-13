@@ -3,6 +3,7 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { TrackedWalletAddressInjectable } from '../../../shared/models/tracked-wallet-address/injectable/tracked-wallet-address.injectable';
+import { structuredClone } from '../../../shared/utils/structured-clone';
 
 @Component({
   selector: 'app-success-recovery-wallet',
@@ -41,10 +42,10 @@ export class SuccessRecoveryWalletPage implements OnInit {
     this.trackedWalletAddress.create().value();
   }
 
-  changeDataIf(profileTestComplete : boolean) {
+  changeDataIf(profileTestComplete: boolean) {
     if (profileTestComplete) {
       this.data.urlPrimaryAction = '/tabs/wallets';
-      this.data.namePrimaryAction = 'wallets.success_wallet_recovery.button_home'
+      this.data.namePrimaryAction = 'wallets.success_wallet_recovery.button_home';
     }
   }
 

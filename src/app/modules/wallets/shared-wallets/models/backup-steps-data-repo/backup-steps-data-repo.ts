@@ -1,4 +1,5 @@
 import { BACKUP_OPTIONS, RawBackupOption } from '../../constants/backup-options';
+import { structuredClone } from '../../../../../shared/utils/structured-clone';
 
 export class BackupStepsDataRepo {
   constructor(private _backupSteps: RawBackupOption[] = BACKUP_OPTIONS) {}

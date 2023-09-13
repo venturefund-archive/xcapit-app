@@ -18,6 +18,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import {
   WalletStorageDataFactoryInjectable
 } from '../shared-wallets/models/wallet-storage-data/injectable/wallet-storage-data-factory.injectable';
+import {structuredClone} from '../../../shared/utils/structured-clone';
 
 @Component({
   selector: 'app-wallet-imports',

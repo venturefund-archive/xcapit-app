@@ -11,7 +11,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { rawETHData, rawMATICData } from '../../../modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
-
+import { structuredClone } from '../../utils/structured-clone';
 
 describe('AmountInputCardComponent', () => {
   let component: AmountInputCardComponent;
@@ -184,12 +184,14 @@ describe('AmountInputCardComponent', () => {
       component.quotePrice = 1;
       component.minimumWarrantyAmount = '100';
 
-      await component.ngOnChanges({ minimumWarrantyAmount: {
-        previousValue: '0',
-        currentValue: '100',
-        firstChange: true,
-        isFirstChange: () => true
-      } });
+      await component.ngOnChanges({
+        minimumWarrantyAmount: {
+          previousValue: '0',
+          currentValue: '100',
+          firstChange: true,
+          isFirstChange: () => true,
+        },
+      });
 
       expect(component.form.value).toEqual({ percentage: 50, range: 50, amount: '100', quoteAmount: '100' });
     });

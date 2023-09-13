@@ -14,6 +14,7 @@ import { StatusBackupStepOf } from '../shared-wallets/models/status-backup-step-
 import { DefaultBackupSteps } from '../shared-wallets/models/backup-steps/default/default-backup-steps';
 import { BackupStepsDataRepo } from '../shared-wallets/models/backup-steps-data-repo/backup-steps-data-repo';
 import { BackupStep } from '../shared-wallets/models/backup-step/backup-step';
+import { structuredClone } from '../../../shared/utils/structured-clone';
 
 @Component({
   selector: 'app-success-creation',

@@ -12,6 +12,7 @@ import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
 import { Contact } from '../shared-contacts/interfaces/contact.interface';
 import { ContactDataService } from '../shared-contacts/services/contact-data/contact-data.service';
 import { RepeatedAddressValidator } from '../shared-contacts/validators/repeated-address/repeated-address-validator';
+import { structuredClone } from '../../../shared/utils/structured-clone';
 
 @Component({
   selector: 'app-register',
@@ -129,7 +130,7 @@ export class RegisterPage implements OnInit {
   }
 
   async ionViewWillEnter() {
-    this.setSubmitButton()
+    this.setSubmitButton();
     this.valueChanges();
     this.isNative();
     await this.nullStorage();
@@ -204,9 +205,13 @@ export class RegisterPage implements OnInit {
     } else {
       this.form.get('address').addValidators(CustomValidators.isAddress());
     }
-    if(this.isEditMode()){
-      this.form.get('address').addAsyncValidators(RepeatedAddressValidator.validate(this.ionicStorageService, this.contactDataService.getContact().address));
-    }else{
+    if (this.isEditMode()) {
+      this.form
+        .get('address')
+        .addAsyncValidators(
+          RepeatedAddressValidator.validate(this.ionicStorageService, this.contactDataService.getContact().address)
+        );
+    } else {
       this.form.get('address').addAsyncValidators(RepeatedAddressValidator.validate(this.ionicStorageService));
     }
     if (this.form.get('address').value) {

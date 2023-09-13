@@ -4,14 +4,16 @@ import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { CAUSES } from '../shared-donations/constants/causes';
+import { structuredClone } from '../../../shared/utils/structured-clone';
 
 @Component({
   selector: 'app-token-selection',
-  template: `
-    <ion-header>
+  template: ` <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left ux_toolbar__rounded no-border">
         <ion-buttons slot="start">
-          <ion-button class="dts__button_back" (click)="this.goBack()"> <ion-icon name="chevron-back-outline"></ion-icon></ion-button>
+          <ion-button class="dts__button_back" (click)="this.goBack()">
+            <ion-icon name="chevron-back-outline"></ion-icon
+          ></ion-button>
         </ion-buttons>
         <ion-title class="ion-text-start">{{ 'donations.token_selection.header' | translate }}</ion-title>
         <ion-label class="ux-font-text-xs ux_toolbar__step" slot="end"

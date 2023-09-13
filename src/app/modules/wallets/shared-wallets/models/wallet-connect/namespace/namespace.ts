@@ -2,6 +2,7 @@ import { ProposalTypes, SessionTypes } from '@walletconnect/types';
 import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wallet';
 import { NamespaceErrorMsgs } from '../namespace-error-msgs/namespace-error-msgs';
 import { ValidatedNamespaces } from '../namespaces/namespaces';
+import { structuredClone } from '../../../../../../shared/utils/structured-clone';
 
 export type RawNamespace = ProposalTypes.RequiredNamespace;
 export type ValidatedNamespace = SessionTypes.Namespace;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { TokenOperationDataService } from '../../fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
-
+import { structuredClone } from '../../../shared/utils/structured-clone';
 import { INITIATION_WALLET_STEPS } from '../shared-wallets/constants/initiation-wallet-steps';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 
@@ -22,7 +22,7 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
         </div>
         <div class="ew__content__title">
           <ion-text class="ux-font-text-xl">
-            {{ 'wallets.experimental_onboarding.title' | translate: { username: this.username } }}</ion-text
+            {{ 'wallets.experimental_onboarding.title' | translate : { username: this.username } }}</ion-text
           >
         </div>
         <div class="ew__content__progress">
@@ -30,7 +30,9 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
 
           <div class="ew__content__actions">
             <ion-text class="ux-font-text-lg">{{ 'wallets.experimental_onboarding.init_wallet' | translate }}</ion-text>
-            <ion-text class="ux-font-text-base">{{ 'wallets.experimental_onboarding.complete_steps' | translate }}</ion-text>
+            <ion-text class="ux-font-text-base">{{
+              'wallets.experimental_onboarding.complete_steps' | translate
+            }}</ion-text>
           </div>
         </div>
         <div class="ew__content__next">
@@ -44,7 +46,9 @@ import { WalletService } from '../shared-wallets/services/wallet/wallet.service'
           </div>
         </div>
         <div class="ew__content__competed">
-          <ion-text class="ux-font-header-titulo">{{ 'wallets.experimental_onboarding.progress' | translate }}</ion-text>
+          <ion-text class="ux-font-header-titulo">{{
+            'wallets.experimental_onboarding.progress' | translate
+          }}</ion-text>
           <div class="ew__content__card">
             <app-initiation-wallet-step-card
               *ngFor="let stepCompleted of this.stepsCompleted"
@@ -99,7 +103,7 @@ export class ExperimentalOnboardingPage {
         asset: 'USDC',
         network: 'MATIC',
         country: this.tokenOperationDataService?.tokenOperationData?.country,
-        mode: 'buy'
+        mode: 'buy',
       };
     }
   }

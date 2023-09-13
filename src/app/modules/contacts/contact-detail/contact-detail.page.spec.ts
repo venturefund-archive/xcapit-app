@@ -10,7 +10,7 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { Contact } from '../shared-contacts/interfaces/contact.interface';
 import { ContactDataService } from '../shared-contacts/services/contact-data/contact-data.service';
-
+import { structuredClone } from '../../../shared/utils/structured-clone';
 import { ContactDetailPage } from './contact-detail.page';
 
 describe('ContactDetailPage', () => {
@@ -38,17 +38,17 @@ describe('ContactDetailPage', () => {
     },
   ];
 
-  const contact: Contact =   {
+  const contact: Contact = {
     address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaa',
     name: 'TestWallet2',
     networks: ['ERC20'],
-    index: 1
+    index: 1,
   };
 
   beforeEach(waitForAsync(() => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(structuredClone(contacts)),
-      set: Promise.resolve()
+      set: Promise.resolve(),
     });
 
     fakeNavController = new FakeNavController();
@@ -66,14 +66,16 @@ describe('ContactDetailPage', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [ ContactDetailPage ],
-      imports: [IonicModule.forRoot(),TranslateModule.forRoot()],
-      providers: [ { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+      declarations: [ContactDetailPage],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ModalController, useValue: modalControllerSpy },
-        { provide: ContactDataService, useValue: contactDataServiceSpy },],
-      schemas:[CUSTOM_ELEMENTS_SCHEMA]
+        { provide: ContactDataService, useValue: contactDataServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ContactDetailPage);
@@ -106,7 +108,7 @@ describe('ContactDetailPage', () => {
       address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaa',
       name: 'TestWallet2',
       networks: ['ERC20'],
-      index: 1
+      index: 1,
     });
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/contacts/register/edit');
   });
@@ -123,5 +125,5 @@ describe('ContactDetailPage', () => {
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('contact_list', [contacts[0]]);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/contacts/home');
-  }); 
+  });
 });
