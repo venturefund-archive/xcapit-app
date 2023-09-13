@@ -32,6 +32,14 @@ describe('FakeLender', () => {
     expect(fakeLender.json()).toEqual(rawLender);
   });
 
+  it('onRampProvider', () => {
+    expect(fakeLender.onRampProvider()).toEqual(rawLender.onRampProvider);
+  });
+
+  it('minWarrantyAmount', () => {
+    expect(fakeLender.minWarrantyAmount()).toEqual(rawLender.minAmount);
+  });
+
   it('no default value', () => {
     const anAddress = '0x0';
 

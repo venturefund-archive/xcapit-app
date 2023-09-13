@@ -363,7 +363,7 @@ export class SimplifiedHomeWalletPage {
         '/fiat-ramps/purchases',
         'warranties.modal_info_to_buy_or_deposit.secondButton',
         'ux_warranty_receive',
-        '/wallets/receive/detail?asset=USDC&network=MATIC',
+        `/wallets/receive/detail?asset=${this.lender.token()}&network=${this.lender.blockchain()}`,
         'ux_warranty_cancel',
         true,
       ])

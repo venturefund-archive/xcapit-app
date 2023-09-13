@@ -3,9 +3,8 @@ import { rawLender } from '../raw-lender.fixture';
 import { RawLender } from '../raw-lender.type';
 
 export class FakeLender implements Lender {
-
   constructor(private _aRawLender: RawLender = rawLender) {}
-  
+
   xscrowAddress(): string {
     return this._aRawLender.xscrowAddress;
   }
@@ -40,5 +39,9 @@ export class FakeLender implements Lender {
 
   blockchain(): string {
     return this._aRawLender.blockchain;
+  }
+
+  onRampProvider(): string {
+    return this._aRawLender.onRampProvider;
   }
 }

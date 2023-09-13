@@ -1,7 +1,6 @@
 import { Lender } from '../lender.interface';
 import { NullLender } from './null-lender';
 
-
 describe('NullLender', () => {
   let lender: Lender;
 

@@ -42,6 +42,7 @@ export class DefaultLender implements Lender {
       token: this.token(),
       blockchain: this.blockchain(),
       xscrowAddress: this.xscrowAddress(),
+      onRampProvider: this.onRampProvider(),
     };
   }
 
@@ -59,6 +60,10 @@ export class DefaultLender implements Lender {
 
   public blockchain(): string {
     return this._aRawLender.blockchain;
+  }
+
+  public onRampProvider(): string {
+    return this._aRawLender.onRampProvider;
   }
 
   private _isWarrantyLender(): boolean {

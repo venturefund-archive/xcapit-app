@@ -14,4 +14,6 @@ export type RawLender = {
   token: string;
   blockchain: string;
   xscrowAddress: string;
+
+  onRampProvider: string;
 };

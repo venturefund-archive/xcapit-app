@@ -10,4 +10,6 @@ export interface Lender {
   token(): string;
   blockchain(): string;
   xscrowAddress(): string;
+
+  onRampProvider(): string;
 }

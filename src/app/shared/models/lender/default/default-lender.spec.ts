@@ -41,4 +41,8 @@ describe('DefaultLender', () => {
   it('minWarrantyAmount', () => {
     expect(lender.minWarrantyAmount()).toEqual(rawLender.minAmount.toString());
   });
+
+  it('onRampProvider', () => {
+    expect(lender.onRampProvider()).toEqual(rawLender.onRampProvider);
+  });
 });
