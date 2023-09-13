@@ -6,6 +6,7 @@ import { FakeLender } from '../lender/fake/fake-lender';
 
 describe('ActiveLender', () => {
   let activeLender: ActiveLender;
+  const anotherLenderName = 'anotherLenderName';
   const aLenderName = 'aLenderName';
   const aFakeLender = new FakeLender();
 
@@ -15,9 +16,13 @@ describe('ActiveLender', () => {
       new FakeLenders(aFakeLender)
     );
   });
-
+  
   it('new', () => {
     expect(activeLender).toBeTruthy();
+  });
+  
+  it('new with null lenders', () => {
+    expect( new ActiveLender(new FakeAppStorage())).toBeTruthy();
   });
 
   it('save', async () => {
@@ -42,4 +47,20 @@ describe('ActiveLender', () => {
     expect(await activeLender.fromDynamicLink()).toBeFalse();
   });
 
+  it('initialSave when from dynamic link and lenderIsAlreadySet', async () => {
+    await activeLender.save(anotherLenderName);
+    await activeLender.initialSave(aLenderName, true);
+    expect(await activeLender.name()).toEqual(aLenderName);
+  })
+
+  it('initialSave when not from dynamic link and lenderIsAlreadySet', async () => {
+    await activeLender.save(anotherLenderName);
+    await activeLender.initialSave(aLenderName);
+    expect(await activeLender.name()).toEqual(anotherLenderName);
+  })
+
+  it('initialSave when not lenderIsAlreadySet', async () => {
+    await activeLender.initialSave(aLenderName, false);
+    expect(await activeLender.name()).toEqual(aLenderName);
+  })
 });

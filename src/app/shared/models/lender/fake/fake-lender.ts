@@ -52,4 +52,8 @@ export class FakeLender implements Lender {
   blockchain(): string {
     return this._aRawLender.blockchain;
   }
+
+  language(): string {
+    return this._aRawLender.language;
+  }
 }

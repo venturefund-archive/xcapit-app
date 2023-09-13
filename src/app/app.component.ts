@@ -54,6 +54,7 @@ import { ActiveLenderInjectable } from './shared/models/active-lender/injectable
 })
 export class AppComponent implements OnInit, OnDestroy {
   isModalOpen = false;
+  isLanguageSet = false;
   onLangChange: Subscription = undefined;
   statusBar = StatusBar;
   session: AppSession;
@@ -92,7 +93,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private wcService: WCService,
     private remoteConfigService: RemoteConfigService,
     private googleAuth: GoogleAuthService,
-    private activeLenderInjectable: ActiveLenderInjectable,
+    private activeLenderInjectable: ActiveLenderInjectable
   ) {}
 
   async ngOnInit() {
@@ -142,8 +143,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.checkForUpdate();
     this.walletBackupService.getBackupWarningWallet();
     this.platform.ready().then(() => {
-      this.languageService.setInitialAppLanguage();
-      this.setLanguageSubscribe();
+      this._setLanguage();
       this.checkWalletConnectAndDynamicLinks();
       this.localNotificationsService.init();
       this.trackUserWalletAddress();
@@ -151,8 +151,14 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
+  private async _setLanguage() {
+    await this.languageService.setInitialAppLanguage();
+    this.setLanguageSubscribe();
+  }
+
   private async _setDefaultLender(): Promise<void> {
-    return this._activeLender().save(await this._defaultLenderName());
+    await this._activeLender().initialSave(await this._defaultLenderName());
+    return;
   }
 
   private async _defaultLenderName(): Promise<string> {
@@ -311,7 +317,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.firebaseDynamicLinks.addListener('deepLinkOpen', async (deepLink: DeepLinkOpen) => {
       const lender = new URL(deepLink.url).searchParams.get('lender');
       if (lender) {
-        await new ActiveLender(this.storage).save(lender, true);
+        await new ActiveLender(this.storage).initialSave(lender, true);
+        const lang = (await this._activeLender().value()).language();
+        this.languageService.setLanguage(lang);
+        this.isLanguageSet = true;
       }
     });
   }
