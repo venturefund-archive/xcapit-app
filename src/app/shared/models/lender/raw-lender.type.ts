@@ -16,4 +16,7 @@ export type RawLender = {
   xscrowAddress: string;
   steps: string[];
   stepsTitle: string;
+  buyOrDepositModalHeader: string;
+  infoModalHighlightedHeader: string;
+  hasCryptoModalDescription: string;
 };

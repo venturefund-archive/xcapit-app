@@ -3,9 +3,20 @@ import { rawLender } from '../raw-lender.fixture';
 import { RawLender } from '../raw-lender.type';
 
 export class FakeLender implements Lender {
-
   constructor(private _aRawLender: RawLender = rawLender) {}
   
+  infoModalHighlightedHeader(): string {
+    return this._aRawLender.infoModalHighlightedHeader;
+  }
+
+  hasCryptoModalDescription(): string {
+    return this._aRawLender.hasCryptoModalDescription;
+  }
+
+  buyOrDepositModalHeader(): string {
+    return this._aRawLender.buyOrDepositModalHeader;
+  }
+
   xscrowAddress(): string {
     return this._aRawLender.xscrowAddress;
   }

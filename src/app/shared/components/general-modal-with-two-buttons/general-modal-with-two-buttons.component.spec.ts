@@ -8,6 +8,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { BrowserService } from '../../services/browser/browser.service';
 import { TrackService } from '../../services/track/track.service';
 import { GeneralModalWithTwoButtonsComponent } from './general-modal-with-two-buttons.component';
+import { rawLender } from '../../models/lender/raw-lender.fixture';
 
 describe('GeneralModalWithTwoButtonsComponent', () => {
   let component: GeneralModalWithTwoButtonsComponent;
@@ -70,6 +71,8 @@ describe('GeneralModalWithTwoButtonsComponent', () => {
   });
 
   it('should open link when link button is clicked', () => {
+    component.link = rawLender.url;
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-text[name="Go To More Info"]')).nativeElement.click();
     fixture.detectChanges();
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: component.link });

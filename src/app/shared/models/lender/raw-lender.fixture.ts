@@ -23,4 +23,7 @@ export const rawLender: RawLender = {
     'wallets.user_steps.naranja_x.item_1',
   ],
   stepsTitle: 'wallets.user_steps.naranja_x.title',
+  buyOrDepositModalHeader: 'warranties.modal_info_to_buy_or_deposit.naranja_x.header',
+  hasCryptoModalDescription: 'warranties.modal_has_crypto.naranja_x.description',
+  infoModalHighlightedHeader: 'warranties.modal_info.highlightedHeader',
 };

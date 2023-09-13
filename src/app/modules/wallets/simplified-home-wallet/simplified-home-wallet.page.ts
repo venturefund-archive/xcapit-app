@@ -309,7 +309,7 @@ export class SimplifiedHomeWalletPage {
       .create()
       .oneBy(Modals.GENERAL_WITH_BUTTON, [
         'warranties.modal_has_crypto.title',
-        'warranties.modal_has_crypto.description',
+        this.lender.hasCryptoModalDescription(),
         'warranties.modal_has_crypto.button_text',
         '/warranties/send-warranty',
       ])
@@ -333,7 +333,7 @@ export class SimplifiedHomeWalletPage {
       .create()
       .oneBy(Modals.GENERAL_WITH_TWO_BUTTONS, [
         this.lender.logo(),
-        'warranties.modal_info.highlightedHeader',
+        this.lender.infoModalHighlightedHeader(),
         'warranties.modal_info.header',
         'warranties.modal_info.information',
         this.lender.url(),
@@ -355,7 +355,7 @@ export class SimplifiedHomeWalletPage {
       .oneBy(Modals.GENERAL_WITH_TWO_BUTTONS, [
         this.lender.logo(),
         '',
-        'warranties.modal_info_to_buy_or_deposit.header',
+        this.lender.buyOrDepositModalHeader(),
         'warranties.modal_info.information',
         this.lender.url(),
         'warranties.modal_info_to_buy_or_deposit.firstButton',

@@ -3694,18 +3694,28 @@
       "secondButton": "Retirar garantía"
     },
     "modal_info_to_buy_or_deposit": {
-      "header": "Ahora podés comprar cripto o transferirte las que tengas en otra billetera. Luego, vas a poder armar tu garantía para pedir tus tarjetas.",
+      "naranja_x": {
+        "header": "Ahora podés comprar cripto o transferirte las que tengas en otra billetera. Luego, vas a poder armar tu garantía para pedir tus tarjetas."
+      },
+      "default": {
+        "header": "Ahora podés comprar o recibir criptomonedas que luego, vas a poder crear tu garantía."
+      },
       "firstButton": "Comprar criptomonedas",
       "secondButton": "Recibir cripto de otra cuenta"
     },
     "modal_pending_crypto": {
       "title": "Ya tenés tus criptos",
-      "description": "Te vamos a avisar cuando tus criptos están habilitadas  para que puedas confeccionar tu garantía",
+      "description": "Te vamos a avisar cuando tus criptos están habilitadas para que puedas confeccionar tu garantía",
       "button_text": "Crear garantía"
     },
     "modal_has_crypto": {
       "title": "Ya tenés tus criptos",
-      "description": "Ahora podés crear la garantía de respaldo para pedir tus tarjetas de crédito <br/> Naranja X.",
+      "default": {
+        "description": "Ahora podés crear la garantía de respaldo para pedir tu credito"
+      },
+      "naranja_x": {
+        "description": "Ahora podés crear la garantía de respaldo para pedir tus tarjetas de crédito Naranja X."
+      },
       "button_text": "Crear garantía"
     },
     "send_warranty": {
