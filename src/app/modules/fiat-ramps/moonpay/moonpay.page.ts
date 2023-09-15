@@ -116,10 +116,10 @@ export class MoonpayPage {
     this.setCryptoToken();
     await this.initAssetsForm();
     await this.initCryptoPrice();
-    this.getLimits();
-    this.setInitValue();
+    await this.getLimits();
     this.cryptoPrice();
     this.subscribeToFormChanges();
+    this.setInitValue();
   }
 
   ionViewDidLeave() {
@@ -127,8 +127,8 @@ export class MoonpayPage {
   }
 
   setInitValue() {
-    this.form.patchValue({ fiatAmount: 0 });
     this.form.patchValue({ cryptoAmount: 0 });
+    this.form.patchValue({ fiatAmount: new RoundedNumber(this.minimumFiatAmount).value() });
   }
 
   async initAssetsForm() {
@@ -136,17 +136,28 @@ export class MoonpayPage {
     this.coins = await this.providerTokens();
   }
 
-  getLimits() {
-    this.fiatRampsService
+  async getLimits() {
+    const limits = await this.fiatRampsService
       .getMoonpayLimitOfBuyQuote(
         this.tokenOperationDataService.tokenOperationData.asset.toLowerCase(),
         this.fiatCurrency.toLowerCase()
       )
-      .subscribe((res) => {
-        this.minBuyAmount = res.quoteCurrency.minBuyAmount;
-        this.calculateMinimumFiatAmount(this.price);
-        this.addGreaterThanValidator(this.minimumFiatAmount);
-      });
+      .toPromise();
+    const quote = await this.buyQuote(1);
+    this.fee.value = quote.totalAmount - quote.baseCurrencyAmount;
+    this.minBuyAmount = limits.quoteCurrency.minBuyAmount;
+    this.calculateMinimumFiatAmount(this.price);
+    this.addGreaterThanValidator(this.minimumFiatAmount);
+  }
+
+  async buyQuote(value: number): Promise<any> {
+    return await this.fiatRampsService
+      .getMoonpayBuyQuote(
+        value,
+        this.selectedCurrency.moonpayCode,
+        this.fiatCurrency.toLowerCase()
+      )
+      .toPromise();
   }
 
   calculateMinimumFiatAmount(price: number) {
@@ -183,19 +194,16 @@ export class MoonpayPage {
   async openMoonpay() {
     const blockchain = this.blockchains.create().oneByName(this.selectedCurrency.network);
     const wallet = await this.wallets.create().oneBy(blockchain);
-    this.fiatRampsService
+    const link = await this.fiatRampsService
       .getMoonpayRedirectLink(
         wallet.address(),
         this.selectedCurrency.moonpayCode,
         this.fiatCurrency,
         this.form.value.fiatAmount
       )
-      .toPromise()
-      .then(async (link) => {
-        this.success().then(() => {
-          this.browserService.open(link);
-        });
-      });
+      .toPromise();
+    await this.success();
+    await this.browserService.open(link);
   }
 
   async success(): Promise<boolean> {
@@ -216,10 +224,7 @@ export class MoonpayPage {
   }
 
   setFiatToken() {
-    if (this.country.isoCurrencyCodeMoonpay) {
-      this.fiatCurrency = this.country.isoCurrencyCodeMoonpay;
-    }
-    this.fee.token = this.fiatCurrency;
+    this.fee.token = this.country.isoCurrencyCodeMoonpay ? this.country.isoCurrencyCodeMoonpay : this.fiatCurrency;
   }
 
   async setCryptoToken() {
@@ -235,34 +240,29 @@ export class MoonpayPage {
   }
 
   private fiatAmountChange(value: number) {
+    this.getFee(value);
     this.form.patchValue(
-      { cryptoAmount: new RoundedNumber(value / this.price).value() },
+      {
+        cryptoAmount: new RoundedNumber(value - this.fee.value > 0 ? (value - this.fee.value) / this.price : 0).value(),
+      },
       this.defaultPatchValueOptions()
     );
-    this.getFee();
   }
 
   private cryptoAmountChange(value: number) {
+    this.getFee(value * this.price);
     this.form.patchValue(
-      { fiatAmount: new RoundedNumber(value * this.price).value() },
+      { fiatAmount: new RoundedNumber(value * this.price > 0 ? value * this.price + this.fee.value : 0).value() },
       this.defaultPatchValueOptions()
     );
-    this.getFee();
   }
 
-  async getFee() {
+  async getFee(value?: number) {
     if (!this.form.value.fiatAmount) {
       this.form.value.fiatAmount = 1;
     }
-    this.fiatRampsService
-      .getMoonpayBuyQuote(
-        new RoundedNumber(Number(this.form.value.fiatAmount)).value(),
-        this.selectedCurrency.moonpayCode,
-        this.fiatCurrency.toLowerCase()
-      )
-      .subscribe((res) => {
-        this.fee.value = res.totalAmount - res.baseCurrencyAmount;
-      });
+    const quote = await this.buyQuote(new RoundedNumber(Number(value || this.form.value.fiatAmount)).value());
+    this.fee.value = quote.totalAmount - quote.baseCurrencyAmount;
   }
 
   private defaultPatchValueOptions() {

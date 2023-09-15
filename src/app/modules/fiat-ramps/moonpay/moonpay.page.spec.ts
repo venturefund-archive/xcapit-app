@@ -31,6 +31,7 @@ import { FakeWallet } from '../../wallets/shared-wallets/models/wallet/fake/fake
 import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
 import { MoonpayPriceInjectable } from '../shared-ramps/models/moonpay-price/injectable/moonpay-price.injectable';
 import { FakeProviderPrice } from '../shared-ramps/models/provider-price/provider-price';
+import RoundedNumber from 'src/app/shared/models/rounded-number/rounded-number';
 
 describe('MoonpayPage', () => {
   let component: MoonpayPage;
@@ -75,6 +76,8 @@ describe('MoonpayPage', () => {
     totalAmount: 55,
   };
 
+  const fee = moonpayBuyQuote.totalAmount - moonpayBuyQuote.baseCurrencyAmount;
+
   const blockchain = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)).oneByName('ERC20');
 
   const testLimitData = {
@@ -83,6 +86,8 @@ describe('MoonpayPage', () => {
       minBuyAmount: 0.0166,
     },
   };
+
+  const price = 4;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -144,7 +149,7 @@ describe('MoonpayPage', () => {
     fakeModalController = new FakeModalController({});
     modalControllerSpy = fakeModalController.createSpy();
 
-    priceSubject = new BehaviorSubject<number>(4);
+    priceSubject = new BehaviorSubject<number>(price);
 
     moonpayPriceSpy = jasmine.createSpyObj('MoonpayPrice', {
       value: priceSubject,
@@ -217,12 +222,11 @@ describe('MoonpayPage', () => {
     expect(walletMaintenanceServiceSpy.wipeDataFromService).toHaveBeenCalledTimes(1);
   });
 
-  it('should select the currency specified by parameter on init', fakeAsync(() => {
-    component.ionViewWillEnter();
-    tick();
-    fixture.detectChanges();
+  it('should select the currency specified by parameter on init', async () => {
+    await component.ionViewWillEnter();
+    fixture.whenStable();
     expect(component.selectedCurrency.value).toEqual(tokenOperationDataServiceSpy.tokenOperationData.asset);
-  }));
+  });
 
   it('should show modal', async () => {
     await component.ionViewWillEnter();
@@ -242,31 +246,32 @@ describe('MoonpayPage', () => {
     expect(priceUnsubscribeSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should recalculate fiat amount when crypto amount is changed', fakeAsync(() => {
-    component.ionViewWillEnter();
-    tick();
-    component.form.patchValue({ cryptoAmount: 3 });
-    expect(component.form.value.fiatAmount).toEqual(12);
-    expect(component.fee.value).toEqual(5);
-  }));
+  it('should recalculate fiat amount when crypto amount is changed', async () => {
+    const cryptoAmount = 3;
+    await component.ionViewWillEnter();
+    component.form.patchValue({ cryptoAmount });
+    fixture.detectChanges();
+    expect(component.form.value.fiatAmount).toEqual(new RoundedNumber(cryptoAmount * price + fee).value());
+    expect(component.fee.value).toEqual(fee);
+  });
 
-  it('should recalculate crypto amount when fiat amount is changed', fakeAsync(() => {
-    component.ionViewWillEnter();
-    tick();
-    component.form.patchValue({ fiatAmount: 9.1234 });
-    expect(component.form.value.cryptoAmount).toEqual(2.28);
-    expect(component.fee.value).toEqual(5);
-  }));
+  it('should recalculate crypto amount when fiat amount is changed', async () => {
+    const fiatAmount = 9.1234;
+    await component.ionViewWillEnter();
+    component.form.patchValue({ fiatAmount });
+    fixture.detectChanges();
+    expect(component.form.value.cryptoAmount).toEqual(new RoundedNumber((fiatAmount - fee) / price).value());
+    expect(component.fee.value).toEqual(fee);
+  });
 
-  it('should get data of currency limits and calculate minimum fiat amount', fakeAsync(() => {
-    component.ionViewWillEnter();
-    tick();
+  it('should get data of currency limits and calculate minimum fiat amount', async () => {
+    await component.ionViewWillEnter();
     expect(fiatRampsServiceSpy.getMoonpayLimitOfBuyQuote).toHaveBeenCalledWith(
       tokenOperationDataServiceSpy.tokenOperationData.asset.toLowerCase(),
       'usd'
     );
     expect(component.minimumFiatAmount).toEqual(0.0664);
-  }));
+  });
 
   it('should validate minimum amount', async () => {
     await component.ionViewWillEnter();
