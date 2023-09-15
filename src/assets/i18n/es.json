@@ -1824,22 +1824,34 @@
     },
     "select_wallet_type": {
       "title": "Para empezar, elegí una de las opciones",
-      "warranty_wallet": {
+      "naranja_x": {
         "title": "Continuar con la solicitud de tus tarjetas",
         "description": "Creá una garantía de respaldo para pedir tus tarjetas de crédito Naranja X."
+      },
+      "default": {
+        "title": "Continuar con la solicitud de tu crédito",
+        "description": "Creá una garantía de respaldo para pedir crédito."
       },
       "web3_wallet": {
         "title": "Operar en Web 3",
         "description": "Podrás enviar, recibir, y swapear tokens para invertir o constituir una garantía."
       }
     },
-    "user_steps_naranjax": {
-      "title": "Seguí estos pasos para pedir tus tarjetas Naranja X",
-      "item_1": "Creá una contraseña y protegé tu cuenta con una copia de seguridad.",
-      "item_2": "Comprá la cantidad de criptomonedas que quieras.",
-      "item_3": "Usá tus criptomonedas para crear una garantía de respaldo.",
-      "item_4": "Conocé qué tarjetas y disponibles para compras podés tener.",
-      "button": "Continuar"
+    "user_steps": {
+      "button": "Continuar",
+      "shared_items": {
+        "item_1": "Creá una contraseña y protegé tu cuenta con una copia de seguridad.",
+        "item_2": "Usá tus criptomonedas para crear una garantía de respaldo."
+      },
+      "naranja_x": {
+        "title": "Seguí estos pasos para pedir tus tarjetas Naranja X",
+        "item_1": "Comprá la cantidad de criptomonedas que quieras.",
+        "item_2": "Conocé qué tarjetas y disponibles para compras podés tener."
+      },
+      "default": {
+        "title": "Seguí estos pasos para pedir tu crédito",
+        "item_1": "Recibí o comprá la cantidad de criptomonedas que quieras."
+      }
     },
     "recovery_phrase_information_no_wallet": {
       "header": "Frase de recuperación",
@@ -2965,7 +2977,7 @@
       "confirmation_content": {
         "header": "Crear cuenta",
         "provider": "Proveedor: Kripton Market",
-        "loading":"Enviando informacion",
+        "loading": "Enviando informacion",
         "front_id": {
           "title": "Revisá que la foto cumpla con estos requisitos:",
           "items": "<ul><li>Los datos se leen bien.</li><li>La imágen no está borrosa.</li><li>El contenido del DNI se ve completo.</li></ul>",
@@ -3682,18 +3694,28 @@
       "secondButton": "Retirar garantía"
     },
     "modal_info_to_buy_or_deposit": {
-      "header": "Ahora podés comprar cripto o transferirte las que tengas en otra billetera. Luego, vas a poder armar tu garantía para pedir tus tarjetas.",
+      "naranja_x": {
+        "header": "Ahora podés comprar cripto o transferirte las que tengas en otra billetera. Luego, vas a poder armar tu garantía para pedir tus tarjetas."
+      },
+      "default": {
+        "header": "Ahora podés comprar o recibir criptomonedas que luego, vas a poder crear tu garantía."
+      },
       "firstButton": "Comprar criptomonedas",
       "secondButton": "Recibir cripto de otra cuenta"
     },
     "modal_pending_crypto": {
       "title": "Ya tenés tus criptos",
-      "description": "Te vamos a avisar cuando tus criptos están habilitadas  para que puedas confeccionar tu garantía",
+      "description": "Te vamos a avisar cuando tus criptos están habilitadas para que puedas confeccionar tu garantía",
       "button_text": "Crear garantía"
     },
     "modal_has_crypto": {
       "title": "Ya tenés tus criptos",
-      "description": "Ahora podés crear la garantía de respaldo para pedir tus tarjetas de crédito <br/> Naranja X.",
+      "default": {
+        "description": "Ahora podés crear la garantía de respaldo para pedir tu credito"
+      },
+      "naranja_x": {
+        "description": "Ahora podés crear la garantía de respaldo para pedir tus tarjetas de crédito Naranja X."
+      },
       "button_text": "Crear garantía"
     },
     "send_warranty": {

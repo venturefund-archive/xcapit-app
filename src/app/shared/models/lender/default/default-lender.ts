@@ -42,6 +42,11 @@ export class DefaultLender implements Lender {
       token: this.token(),
       blockchain: this.blockchain(),
       xscrowAddress: this.xscrowAddress(),
+      steps: this._steps(),
+      stepsTitle: this._stepsTitle(),
+      buyOrDepositModalHeader: this.buyOrDepositModalHeader(),
+      hasCryptoModalDescription: this.hasCryptoModalDescription(),
+      infoModalHighlightedHeader: this.infoModalHighlightedHeader()
     };
   }
 
@@ -67,6 +72,26 @@ export class DefaultLender implements Lender {
 
   private _icon(): string {
     return this._aRawLender.icon;
+  }
+
+  public buyOrDepositModalHeader(): string {
+    return this._aRawLender.buyOrDepositModalHeader;
+  }
+
+  public hasCryptoModalDescription(): string {
+    return this._aRawLender.hasCryptoModalDescription;
+  }
+
+  public infoModalHighlightedHeader(): string {
+    return this._aRawLender.infoModalHighlightedHeader;
+  }
+
+  private _steps(): string[] {
+    return this._aRawLender.steps.map((step) => this._aTranslateService.instant(step));
+  }
+
+  private _stepsTitle(): string {
+    return this._aTranslateService.instant(this._aRawLender.stepsTitle);
   }
 
   private _title(): string {

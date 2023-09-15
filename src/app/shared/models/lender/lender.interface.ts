@@ -10,4 +10,7 @@ export interface Lender {
   token(): string;
   blockchain(): string;
   xscrowAddress(): string;
+  buyOrDepositModalHeader(): string;
+  hasCryptoModalDescription(): string;
+  infoModalHighlightedHeader(): string;
 }

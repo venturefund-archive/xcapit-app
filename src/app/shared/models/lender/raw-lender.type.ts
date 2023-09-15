@@ -14,4 +14,9 @@ export type RawLender = {
   token: string;
   blockchain: string;
   xscrowAddress: string;
+  steps: string[];
+  stepsTitle: string;
+  buyOrDepositModalHeader: string;
+  infoModalHighlightedHeader: string;
+  hasCryptoModalDescription: string;
 };
