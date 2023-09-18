@@ -46,7 +46,7 @@ export class DefaultLender implements Lender {
       stepsTitle: this._stepsTitle(),
       buyOrDepositModalHeader: this.buyOrDepositModalHeader(),
       hasCryptoModalDescription: this.hasCryptoModalDescription(),
-      infoModalHighlightedHeader: this.infoModalHighlightedHeader()
+      infoModalHighlightedHeader: this.infoModalHighlightedHeader(),
       language: this.language(),
     };
   }
