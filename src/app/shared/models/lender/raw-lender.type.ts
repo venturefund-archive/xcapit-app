@@ -19,4 +19,5 @@ export type RawLender = {
   buyOrDepositModalHeader: string;
   infoModalHighlightedHeader: string;
   hasCryptoModalDescription: string;
+  language: string;
 };

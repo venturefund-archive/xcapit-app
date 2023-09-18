@@ -46,7 +46,8 @@ export class DefaultLender implements Lender {
       stepsTitle: this._stepsTitle(),
       buyOrDepositModalHeader: this.buyOrDepositModalHeader(),
       hasCryptoModalDescription: this.hasCryptoModalDescription(),
-      infoModalHighlightedHeader: this.infoModalHighlightedHeader()
+      infoModalHighlightedHeader: this.infoModalHighlightedHeader(),
+      language: this.language(),
     };
   }
 
@@ -64,6 +65,10 @@ export class DefaultLender implements Lender {
 
   public blockchain(): string {
     return this._aRawLender.blockchain;
+  }
+
+  public language(): string {
+    return this._aRawLender.language;
   }
 
   private _isWarrantyLender(): boolean {
