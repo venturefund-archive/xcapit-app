@@ -9,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@capacitor/status-bar';
 import { DefaultPlatformService } from './shared/services/platform/default/default-platform.service';
 import { CONFIG } from './config/app-constants.config';
-import { URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
@@ -37,6 +36,8 @@ import { FirebaseDynamicLinks } from '@pantrist/capacitor-firebase-dynamic-links
 import { ActiveLender } from './shared/models/active-lender/active-lender';
 import { DeepLinkOpen } from '@pantrist/capacitor-firebase-dynamic-links/dist/esm/definitions';
 import { ActiveLenderInjectable } from './shared/models/active-lender/injectable/active-lender.injectable';
+import { URLOpenListenerEvent } from '@capacitor/app';
+
 @Component({
   selector: 'app-root',
   template: `
@@ -92,7 +93,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private wcService: WCService,
     private remoteConfigService: RemoteConfigService,
     private googleAuth: GoogleAuthService,
-    private activeLenderInjectable: ActiveLenderInjectable,
+    private activeLenderInjectable: ActiveLenderInjectable
   ) {}
 
   async ngOnInit() {
@@ -142,8 +143,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.checkForUpdate();
     this.walletBackupService.getBackupWarningWallet();
     this.platform.ready().then(() => {
-      this.languageService.setInitialAppLanguage();
-      this.setLanguageSubscribe();
+      this._setLanguage();
       this.checkWalletConnectAndDynamicLinks();
       this.localNotificationsService.init();
       this.trackUserWalletAddress();
@@ -151,8 +151,14 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
+  private async _setLanguage() {
+    await this.languageService.setInitialAppLanguage();
+    this.setLanguageSubscribe();
+  }
+
   private async _setDefaultLender(): Promise<void> {
-    return this._activeLender().save(await this._defaultLenderName());
+    await this._activeLender().initialSave(await this._defaultLenderName());
+    return;
   }
 
   private async _defaultLenderName(): Promise<string> {
@@ -224,7 +230,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private _setBackgroundActions() {
     this.app.onStateChange(({ isActive }) => {
-      if (isActive) this.isSessionValid();
+      if (isActive) {
+        this.isSessionValid();
+      } else {
+        this.session.save();
+      }
     });
     this.app.onPause(() => {
       this.session.save();
@@ -311,7 +321,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.firebaseDynamicLinks.addListener('deepLinkOpen', async (deepLink: DeepLinkOpen) => {
       const lender = new URL(deepLink.url).searchParams.get('lender');
       if (lender) {
-        await new ActiveLender(this.storage).save(lender, true);
+        await new ActiveLender(this.storage).initialSave(lender, true);
+        const lang = (await this._activeLender().value()).language();
+        this.languageService.setLanguage(lang);
       }
     });
   }

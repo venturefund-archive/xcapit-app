@@ -16,6 +16,7 @@ export const rawLender: RawLender = {
   token: 'USDC',
   blockchain: 'MATIC',
   xscrowAddress: '0xd8090Ca934aF77C3Ab835b7F01d06f215e906153',
+  language: 'es',
   steps: [
     'wallets.user_steps.shared_steps.item_1',
     'wallets.user_steps.shared_steps.item_2',

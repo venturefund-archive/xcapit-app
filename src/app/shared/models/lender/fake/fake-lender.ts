@@ -53,6 +53,10 @@ export class FakeLender implements Lender {
     return this._aRawLender.blockchain;
   }
 
+  language(): string {
+    return this._aRawLender.language;
+  }
+
   onRampProvider(): string {
     return this._aRawLender.onRampProvider;
   }

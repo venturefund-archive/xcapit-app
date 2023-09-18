@@ -40,6 +40,10 @@ describe('FakeLender', () => {
     expect(fakeLender.xscrowAddress()).toEqual(rawLender.xscrowAddress);
   });
 
+  it('language', () => {
+    expect(fakeLender.language()).toEqual(rawLender.language);
+  });
+  
   it('json', () => {
     expect(fakeLender.json()).toEqual(rawLender);
   });

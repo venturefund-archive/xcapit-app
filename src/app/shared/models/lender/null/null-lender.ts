@@ -45,6 +45,10 @@ export class NullLender implements Lender {
     throw new Error('Method not implemented.');
   }
 
+  language(): string {
+    throw new Error('Method not implemented.')
+  }
+
   json(): RawLender {
     return null;
   }
