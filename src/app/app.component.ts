@@ -54,7 +54,6 @@ import { ActiveLenderInjectable } from './shared/models/active-lender/injectable
 })
 export class AppComponent implements OnInit, OnDestroy {
   isModalOpen = false;
-  isLanguageSet = false;
   onLangChange: Subscription = undefined;
   statusBar = StatusBar;
   session: AppSession;
@@ -320,7 +319,6 @@ export class AppComponent implements OnInit, OnDestroy {
         await new ActiveLender(this.storage).initialSave(lender, true);
         const lang = (await this._activeLender().value()).language();
         this.languageService.setLanguage(lang);
-        this.isLanguageSet = true;
       }
     });
   }
