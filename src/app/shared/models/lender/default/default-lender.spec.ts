@@ -45,4 +45,16 @@ describe('DefaultLender', () => {
   it('onRampProvider', () => {
     expect(lender.onRampProvider()).toEqual(rawLender.onRampProvider);
   });
+
+  it('buyOrDepositModalHeader', () => {
+    expect(lender.buyOrDepositModalHeader()).toEqual(rawLender.buyOrDepositModalHeader);
+  });
+
+  it('hasCryptoModalDescription', () => {
+    expect(lender.hasCryptoModalDescription()).toEqual(rawLender.hasCryptoModalDescription);
+  });
+
+  it('infoModalHighlightedHeader', () => {
+    expect(lender.infoModalHighlightedHeader()).toEqual(rawLender.infoModalHighlightedHeader);
+  });
 });

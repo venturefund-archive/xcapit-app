@@ -15,6 +15,18 @@ describe('FakeLender', () => {
   it('firstStepUrl', () => {
     expect(fakeLender.firstStepUrl()).toEqual(rawLender.firstStepUrl);
   });
+  
+  it('buyOrDepositModalHeader', () => {
+    expect(fakeLender.buyOrDepositModalHeader()).toEqual(rawLender.buyOrDepositModalHeader);
+  });
+
+  it('hasCryptoModalDescription', () => {
+    expect(fakeLender.hasCryptoModalDescription()).toEqual(rawLender.hasCryptoModalDescription);
+  });
+
+  it('infoModalHighlightedHeader', () => {
+    expect(fakeLender.infoModalHighlightedHeader()).toEqual(rawLender.infoModalHighlightedHeader);
+  });
 
   it('logo', () => {
     expect(fakeLender.logo()).toEqual(rawLender.logo);
