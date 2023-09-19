@@ -62,6 +62,7 @@ export class WCConnectionV2 {
 
   public async approveSession(): Promise<void> {
     this._session = new WCSession(await this.proposal().approve(), await this.signClient(), this.proposal().wallet());
+    console.log('approveSession() _session: ', this._session)
     this._connected = true;
   }
 
