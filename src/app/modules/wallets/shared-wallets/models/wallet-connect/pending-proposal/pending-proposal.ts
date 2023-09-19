@@ -22,6 +22,10 @@ export class PendingProposal {
   }
 
   public async approve(): Promise<RawSession> {
+    console.log('pending-proposal approve()');
+    console.log('id:', this._id());
+    console.log('relayProtocol: ', this._protocol());
+    console.log('namespaces: ', this._namespaces());
     const approvalPromise = this._signClient.approve({
       id: this._id(),
       relayProtocol: this._protocol(),
