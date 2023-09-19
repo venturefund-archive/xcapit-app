@@ -4,7 +4,7 @@ import { RawLender } from '../raw-lender.type';
 
 export class FakeLender implements Lender {
   constructor(private _aRawLender: RawLender = rawLender) {}
-  
+
   infoModalHighlightedHeader(): string {
     return this._aRawLender.infoModalHighlightedHeader;
   }
@@ -55,5 +55,9 @@ export class FakeLender implements Lender {
 
   language(): string {
     return this._aRawLender.language;
+  }
+
+  onRampProvider(): string {
+    return this._aRawLender.onRampProvider;
   }
 }

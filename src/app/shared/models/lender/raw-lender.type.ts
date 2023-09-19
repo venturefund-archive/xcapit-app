@@ -20,4 +20,5 @@ export type RawLender = {
   infoModalHighlightedHeader: string;
   hasCryptoModalDescription: string;
   language: string;
+  onRampProvider: string;
 };

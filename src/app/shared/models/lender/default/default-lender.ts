@@ -48,6 +48,7 @@ export class DefaultLender implements Lender {
       hasCryptoModalDescription: this.hasCryptoModalDescription(),
       infoModalHighlightedHeader: this.infoModalHighlightedHeader(),
       language: this.language(),
+      onRampProvider: this.onRampProvider(),
     };
   }
 
@@ -69,6 +70,10 @@ export class DefaultLender implements Lender {
 
   public language(): string {
     return this._aRawLender.language;
+  }
+
+  public onRampProvider(): string {
+    return this._aRawLender.onRampProvider;
   }
 
   private _isWarrantyLender(): boolean {

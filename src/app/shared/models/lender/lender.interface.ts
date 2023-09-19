@@ -14,4 +14,5 @@ export interface Lender {
   hasCryptoModalDescription(): string;
   infoModalHighlightedHeader(): string;
   language(): string;
+  onRampProvider(): string;
 }

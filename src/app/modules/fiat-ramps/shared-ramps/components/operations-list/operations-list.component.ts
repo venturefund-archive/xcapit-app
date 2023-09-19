@@ -89,7 +89,7 @@ export class OperationsListComponent implements OnInit, OnChanges {
 
   async ngOnChanges(changes: SimpleChanges) {
     await this.setEmail();
-    this.operationsList = changes.operationsList.currentValue;
+    this.operationsList = changes.operationsList?.currentValue;
     this.hasOperations = this.checkIfUserHasOperations();
     if (this.hasOperations) this.sliceOperations();
     this.cssWithLine = this.calculateDynamicCssClasses();
