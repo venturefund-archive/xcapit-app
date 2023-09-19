@@ -7,7 +7,11 @@ import { Namespaces, ValidatedNamespaces } from '../namespaces/namespaces';
 export type Proposal = SignClientTypes.EventArguments['session_proposal'];
 
 export class PendingProposal {
-  constructor(private _rawProposal: Proposal, private _aWallet: Wallet, private _signClient: SignClientV2) {}
+  constructor(private _rawProposal: Proposal, private _aWallet: Wallet, private _signClient: SignClientV2) {
+    //TODO: Volar
+    console.log('new PendingProposal');
+    console.log(_rawProposal);
+  }
 
   public peerMetadata(): SignClientTypes.Metadata {
     return this._rawProposal?.params?.proposer?.metadata;
