@@ -133,7 +133,7 @@ export class ConnectionDetailPage {
 
   private async setTemplateData(): Promise<void> {
     this.peerMetadata = this.wcConnectionV2.proposal().peerMetadata();
-    console.log('this.peerMetadata ', this.peerMetadata)
+    console.log('this.peerMetadata ', this.peerMetadata);
   }
 
   async checkProtocolInfo() {
@@ -167,6 +167,7 @@ export class ConnectionDetailPage {
       this.connectionStatus = true;
       this.trackWCConnectionEvent();
     } catch (error) {
+      console.log(error);
       await this.showErrorAlert();
     }
   }
