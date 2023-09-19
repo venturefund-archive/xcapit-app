@@ -33,6 +33,7 @@ export class PendingProposal {
     });
     const { acknowledged } = await approvalPromise;
     const session = await acknowledged();
+    console.log('session:', session);
     return session;
   }
 
