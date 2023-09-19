@@ -133,6 +133,7 @@ export class ConnectionDetailPage {
 
   private async setTemplateData(): Promise<void> {
     this.peerMetadata = this.wcConnectionV2.proposal().peerMetadata();
+    console.log('this.peerMetadata ', this.peerMetadata)
   }
 
   async checkProtocolInfo() {
