@@ -29,6 +29,8 @@ export class Namespace {
   private _validateMatchingNetwork() {
     const requiredNamespaceChainId = this._rawData.chains[0].split(':')[1];
     if (requiredNamespaceChainId !== this._aWallet.blockchain().id()) {
+      console.log('Wallet Blockchain Chain ID:', this._aWallet.blockchain().id());
+      console.log('Required Namespace Chain ID:', requiredNamespaceChainId);
       throw new Error(new NamespaceErrorMsgs().notMatchingNetwork());
     }
   }
