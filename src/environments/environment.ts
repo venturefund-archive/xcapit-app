@@ -36,6 +36,8 @@ export const environment = {
   binanceApiUrl: 'https://binance.url',
   coinGeckoApiUrl: 'https://coingecko.url',
   solanaApiUrl: 'https://solana.url',
+  oneInchApiKey: 'oneInchApiKey',
+  oneInchApiUrl: 'https://1inch.url/',
   twoPiReferralAddress: '0x0001',
   warrantyAddress: '0x0001',
   bitrefillAffiliateCode: 'testAffiliateCode',
