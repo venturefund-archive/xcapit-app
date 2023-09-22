@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { Blockchain } from '../blockchain/blockchain';
 import { Dex } from '../dex';
@@ -10,18 +10,10 @@ import { Wallet } from '../../../../wallets/shared-wallets/models/wallet/wallet'
 import { environment } from 'src/environments/environment';
 
 export class OneInch implements Dex {
-  private readonly _apiVersion = '5.2';
-  private readonly _baseUrl = `${environment.oneInchApiUrl}swap/v${this._apiVersion}`;
-
   constructor(private _blockchain: Blockchain, private _httpClient: HttpClient | FakeHttpClient) {}
 
   private _url(): string {
-    return `${this._baseUrl}/${this._blockchain.id()}`;
-  }
-  private _headers(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization: `Bearer ${environment.oneInchApiKey}`,
-    });
+    return `${environment.apiUrl}/swap/${this._blockchain.id()}`;
   }
 
   async swap(aSwap: Swap, fromWallet: Wallet, slippage: Slippage, referral: Referral): Promise<any> {
@@ -36,7 +28,6 @@ export class OneInch implements Dex {
           referrer: referral.walletAddress(),
           fee: referral.fee(),
         },
-        headers: this._headers(),
       })
       .toPromise();
   }
@@ -48,13 +39,12 @@ export class OneInch implements Dex {
           tokenAddress: aSwap.fromToken().address(),
           amount: aSwap.weiAmount().value().toString(),
         },
-        headers: this._headers(),
       })
       .toPromise();
   }
 
   async tokens(): Promise<any> {
-    return this._httpClient.get(`${this._url()}/tokens`, { headers: this._headers() }).toPromise();
+    return this._httpClient.get(`${this._url()}/tokens`).toPromise();
   }
 
   async allowance(aToken: Token, fromWallet: Wallet): Promise<any> {
@@ -64,7 +54,6 @@ export class OneInch implements Dex {
           tokenAddress: aToken.address(),
           walletAddress: fromWallet.address(),
         },
-        headers: this._headers(),
       })
       .toPromise();
   }
@@ -78,7 +67,6 @@ export class OneInch implements Dex {
           amount: aSwap.weiAmount().value().toString(),
           fee: aReferral.fee(),
         },
-        headers: this._headers(),
       })
       .toPromise();
   }
