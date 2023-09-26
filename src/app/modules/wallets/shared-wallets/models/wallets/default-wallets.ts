@@ -8,11 +8,12 @@ import { DefaultWallet } from '../wallet/default/default-wallet';
 import { SolanaWallet } from '../wallet/solana/solana-wallet';
 import { BlockchainMM } from 'src/app/modules/swaps/shared-swaps/models/blockchain-mm/blockchain-mm';
 import { Blockchain, IBlockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
-import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { SolanaDerivedWallet } from 'src/app/modules/swaps/shared-swaps/models/solana-derived-wallet/solana-derived-wallet';
+import { Wallets } from './wallets.interface';
+import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains.interface';
 
-export class Wallets {
+export class DefaultWallets implements Wallets {
   private _onUpgraded: SimpleSubject = new SimpleSubject();
   private _onNeedPass: SimpleSubject = new SimpleSubject();
 

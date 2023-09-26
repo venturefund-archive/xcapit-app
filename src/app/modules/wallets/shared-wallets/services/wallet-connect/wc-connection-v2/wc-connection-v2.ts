@@ -23,6 +23,7 @@ export class WCConnectionV2 {
   private _proposal: PendingProposal;
   private _session: WCSession;
   private _connected = false;
+
   constructor(
     private signClientInjectable: SignClientInjectable,
     private router: Router,
@@ -32,18 +33,24 @@ export class WCConnectionV2 {
     private sessionRequestInjectable: SessionRequestInjectable,
     private wallets: WalletsFactory,
     private blockchains: BlockchainsFactory,
-    private WcStorageService: WCStorageService,
+    private WcStorageService: WCStorageService
   ) {}
 
   public async pairTo(uri: WCUri, wallet: Wallet, pairingTopic?: string) {
     const existingProposal = new ExistingProposal(this.WcStorageService);
-    const {proposal, chainId} = await existingProposal.value()
-    if (await existingProposal.exists() && proposal.params.pairingTopic === pairingTopic) {
-      const blockchain = this.blockchains.create().oneById(chainId);
-      const wallet = await this.wallets.create().oneBy(blockchain);
-      this._proposal = new PendingProposal(proposal, wallet, await this.signClient());
+    const { proposal, chainId } = await existingProposal.value();
+    const wallets = this.wallets.create();
+    const blockchains = this.blockchains.create();
+    if ((await existingProposal.exists()) && proposal.params.pairingTopic === pairingTopic) {
+      this._proposal = new PendingProposal(
+        proposal,
+        await wallets.oneBy(blockchains.oneById(chainId)),
+        await this.signClient(),
+        blockchains,
+        wallets
+      );
     } else {
-      this._proposal = await new PairTo(uri, wallet, await this.signClient()).value();
+      this._proposal = await new PairTo(uri, wallet, await this.signClient(), blockchains, wallets).value();
       this.setWCStorageKeys(this._proposal.wallet().blockchain().id(), JSON.stringify(this._proposal.raw()));
     }
   }

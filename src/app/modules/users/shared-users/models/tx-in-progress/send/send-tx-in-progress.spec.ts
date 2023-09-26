@@ -5,7 +5,7 @@ import { DefaultTxHash } from '../../../../../wallets/shared-wallets/models/tx-h
 import { rawSolanaSendTxInProgress } from '../../../../../wallets/shared-wallets/fixtures/raw-solana-send-tx-in-progress';
 import { NullTxHash } from '../../../../../wallets/shared-wallets/models/tx-hash/null-tx-hash/null-tx-hash';
 import { rawBlockchainsData } from '../../../../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
-import { DefaultBlockchains } from '../../../../../swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from '../../../../../swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from '../../../../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 
 describe('SendTxInProgress', () => {

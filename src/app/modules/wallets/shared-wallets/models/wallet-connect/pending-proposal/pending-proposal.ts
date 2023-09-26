@@ -3,11 +3,19 @@ import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wal
 import { SignClientV2 } from 'src/app/shared/models/wallet-connect/sign-client/sign-client';
 import { RawSession } from '../../../../../../shared/models/wallet-connect/wc-session/wc-session';
 import { Namespaces, ValidatedNamespaces } from '../namespaces/namespaces';
+import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains.interface';
+import { Wallets } from '../../wallets/wallets.interface';
 
 export type Proposal = SignClientTypes.EventArguments['session_proposal'];
 
 export class PendingProposal {
-  constructor(private _rawProposal: Proposal, private _aWallet: Wallet, private _signClient: SignClientV2) {}
+  constructor(
+    private _rawProposal: Proposal | any,
+    private _aWallet: Wallet,
+    private _signClient: SignClientV2,
+    private _blockchains: Blockchains,
+    private _wallets: Wallets
+  ) {}
 
   public peerMetadata(): SignClientTypes.Metadata {
     return this._rawProposal?.params?.proposer?.metadata;
@@ -21,7 +29,7 @@ export class PendingProposal {
     const approvalPromise = this._signClient.approve({
       id: this._id(),
       relayProtocol: this._protocol(),
-      namespaces: this._namespaces(),
+      namespaces: await this._namespaces(),
     });
     const { acknowledged } = await approvalPromise;
     const session = await acknowledged();
@@ -35,8 +43,14 @@ export class PendingProposal {
     return this._rawProposal.params.relays[0].protocol;
   }
 
-  private _namespaces(): ValidatedNamespaces {
-    return new Namespaces(this._rawProposal.params.requiredNamespaces, this._aWallet).value();
+  private async _namespaces(): Promise<ValidatedNamespaces> {
+    return await new Namespaces(
+      this._aWallet,
+      this._rawProposal.params.requiredNamespaces,
+      this._rawProposal.params.optionalNamespaces,
+      this._blockchains,
+      this._wallets
+    ).value();
   }
 
   public raw(): Proposal {
