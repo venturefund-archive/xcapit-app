@@ -66,6 +66,7 @@ export class OneInch implements Dex {
           dst: aSwap.toToken().address(),
           amount: aSwap.weiAmount().value().toString(),
           fee: aReferral.fee(),
+          includeGas: true,
         },
       })
       .toPromise();

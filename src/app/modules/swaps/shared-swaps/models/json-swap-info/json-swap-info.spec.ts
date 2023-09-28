@@ -1,7 +1,7 @@
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
 import { OneInch } from "../one-inch/one-inch";
 import { rawEthereumData } from "../fixtures/raw-blockchains-data";
-import { rawSwapInfoData } from "../fixtures/raw-one-inch-response-data";
+import { rawSwapOneInchInfoData } from "../fixtures/raw-one-inch-response-data";
 import { rawMATICData, rawUSDCData } from "../fixtures/raw-tokens-data";
 import { JSONSwapInfo, NullJSONSwapInfo } from "./json-swap-info";
 import { Referral } from "../referral/referral";
@@ -16,7 +16,7 @@ describe('JSON Swap Info', () => {
   let jsonSwapInfo: JSONSwapInfo;
   const swapInfo = new SwapInfoOf(
     new Swap('1', new DefaultToken(rawMATICData), new DefaultToken(rawUSDCData)),
-    new OneInch(new Blockchain(rawEthereumData), new FakeHttpClient(rawSwapInfoData)),
+    new OneInch(new Blockchain(rawEthereumData), new FakeHttpClient(rawSwapOneInchInfoData)),
     new Referral()
   );
 
