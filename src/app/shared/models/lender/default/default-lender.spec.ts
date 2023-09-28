@@ -41,4 +41,20 @@ describe('DefaultLender', () => {
   it('minWarrantyAmount', () => {
     expect(lender.minWarrantyAmount()).toEqual(rawLender.minAmount.toString());
   });
+
+  it('onRampProvider', () => {
+    expect(lender.onRampProvider()).toEqual(rawLender.onRampProvider);
+  });
+
+  it('buyOrDepositModalHeader', () => {
+    expect(lender.buyOrDepositModalHeader()).toEqual(rawLender.buyOrDepositModalHeader);
+  });
+
+  it('hasCryptoModalDescription', () => {
+    expect(lender.hasCryptoModalDescription()).toEqual(rawLender.hasCryptoModalDescription);
+  });
+
+  it('infoModalHighlightedHeader', () => {
+    expect(lender.infoModalHighlightedHeader()).toEqual(rawLender.infoModalHighlightedHeader);
+  });
 });

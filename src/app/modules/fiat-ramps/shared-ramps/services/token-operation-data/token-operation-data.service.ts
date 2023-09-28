@@ -6,7 +6,6 @@ import { TokenOperationData } from '../../interfaces/token-operation-data.interf
 })
 export class TokenOperationDataService {
   tokenOperationData: TokenOperationData;
-  constructor() {}
 
   clean() {
     this.tokenOperationData = undefined;

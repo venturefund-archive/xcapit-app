@@ -15,6 +15,18 @@ describe('FakeLender', () => {
   it('firstStepUrl', () => {
     expect(fakeLender.firstStepUrl()).toEqual(rawLender.firstStepUrl);
   });
+  
+  it('buyOrDepositModalHeader', () => {
+    expect(fakeLender.buyOrDepositModalHeader()).toEqual(rawLender.buyOrDepositModalHeader);
+  });
+
+  it('hasCryptoModalDescription', () => {
+    expect(fakeLender.hasCryptoModalDescription()).toEqual(rawLender.hasCryptoModalDescription);
+  });
+
+  it('infoModalHighlightedHeader', () => {
+    expect(fakeLender.infoModalHighlightedHeader()).toEqual(rawLender.infoModalHighlightedHeader);
+  });
 
   it('logo', () => {
     expect(fakeLender.logo()).toEqual(rawLender.logo);
@@ -28,8 +40,20 @@ describe('FakeLender', () => {
     expect(fakeLender.xscrowAddress()).toEqual(rawLender.xscrowAddress);
   });
 
+  it('language', () => {
+    expect(fakeLender.language()).toEqual(rawLender.language);
+  });
+  
   it('json', () => {
     expect(fakeLender.json()).toEqual(rawLender);
+  });
+
+  it('onRampProvider', () => {
+    expect(fakeLender.onRampProvider()).toEqual(rawLender.onRampProvider);
+  });
+
+  it('minWarrantyAmount', () => {
+    expect(fakeLender.minWarrantyAmount()).toEqual(rawLender.minAmount);
   });
 
   it('no default value', () => {

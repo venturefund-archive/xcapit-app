@@ -113,7 +113,7 @@ describe('AppComponent', () => {
       create: {
         value: () => Promise.resolve(new FakeLender()),
         name: () => Promise.resolve('aLenderName'),
-        save: () => Promise.resolve(),
+        initialSave: () => Promise.resolve(),
         fromDynamicLink: () => Promise.resolve(false),
       },
     });
@@ -123,7 +123,10 @@ describe('AppComponent', () => {
     trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
     updateServiceSpy = jasmine.createSpyObj('UpdateService', ['checkForUpdate']);
     platformSpy = jasmine.createSpyObj('Platform', { ready: Promise.resolve() });
-    languageServiceSpy = jasmine.createSpyObj('LanguageService', ['setInitialAppLanguage']);
+    languageServiceSpy = jasmine.createSpyObj('LanguageService', {
+      setInitialAppLanguage: Promise.resolve(),
+      setLanguage: null,
+    });
     statusBarSpy = jasmine.createSpyObj('StatusBar', { setBackgroundColor: Promise.resolve() });
     translateSpy = jasmine.createSpyObj('TranslateService', {}, { onLangChange: of({}) });
     fakeNavController = new FakeNavController();
@@ -282,7 +285,7 @@ describe('AppComponent', () => {
     expect(walletMaintenanceServiceSpy.checkTokensStructure).toHaveBeenCalledTimes(1);
     expect(txInProgressServiceSpy.checkTransactionStatus).toHaveBeenCalledTimes(1);
     expect(component.connected).toBeTrue();
-    expect(await (new ActiveLender(fakeStorage)).name()).toEqual(aLenderName);
+    expect(await new ActiveLender(fakeStorage).name()).toEqual(aLenderName);
   });
 
   it('should navigate to test-url inside the app when tap a notification', async () => {
@@ -312,12 +315,12 @@ describe('AppComponent', () => {
     expect(statusBarSpy.setBackgroundColor).toHaveBeenCalledOnceWith({ color: '#1c2d5e' });
   });
 
-  it('should set html lang in the correct language on init', async () => {
+  it('should set html lang in the correct language on init', fakeAsync(() => {
     const spy = spyOn(component, 'setLanguageSubscribe');
     component.ngOnInit();
-    await fixture.whenStable();
+    tick();
     expect(spy).toHaveBeenCalledTimes(1);
-  });
+  }));
 
   it('should track wallet address if its not tracked already', async () => {
     await component.ngOnInit();

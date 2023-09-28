@@ -269,9 +269,9 @@ const routes: Routes = [
           import('./select-wallet-type/select-wallet-type.module').then((m) => m.SelectWalletTypePageModule),
       },
       {
-        path: 'steps-naranjax',
+        path: 'steps',
         loadChildren: () =>
-          import('./user-steps-naranjax/user-steps-naranjax.module').then((m) => m.UserStepsNaranjaxPageModule),
+          import('./user-steps/user-steps.module').then((m) => m.UserStepsPageModule),
       },
     ],
   },

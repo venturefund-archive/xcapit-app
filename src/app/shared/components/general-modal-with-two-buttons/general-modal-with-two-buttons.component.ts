@@ -31,10 +31,10 @@ import { TrackService } from '../../services/track/track.service';
                 <ion-text>{{ this.header }}</ion-text>
               </div>
             </div>
-            <div class="ux-font-header-titulo main__body__content__link">
+            <div *ngIf="this.link" class="ux-font-header-titulo main__body__content__link">
               <ion-text>{{ this.information }}</ion-text>
             </div>
-            <div class="main__body__content__link">
+            <div *ngIf="this.link" class="main__body__content__link">
               <ion-icon name="globe-outline" color="info"></ion-icon>
               <ion-text name="Go To More Info" class="ux-link-xs" (click)="this.navigateToMoreInfo()">
                 {{ this.link }}

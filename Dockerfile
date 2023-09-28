@@ -1,4 +1,4 @@
-FROM node:16.13.0-alpine as builder
+FROM node:16.14.2-alpine3.15 as builder
 
 WORKDIR /usr/src/app
 COPY . .
@@ -7,7 +7,7 @@ RUN yarn install && \
 
 FROM nginx as app
 
-#COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+#COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf 
 COPY --from=builder /usr/src/app/www /usr/share/nginx/html
 
 EXPOSE 4200 80

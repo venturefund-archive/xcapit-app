@@ -22,7 +22,7 @@ import { BackupStep } from '../shared-wallets/models/backup-step/backup-step';
       <img src="assets/img/wallets/success_creation.svg" />
     </div>
     <div class="main ion-padding" *ngIf="this.steps.length > 0">
-      <div class="main__primary_text ux-font-text-xl">
+      <div class="main__primary_text ux-font-text-xl" *ngIf="!this.steps[0].completed">
         <ion-text [innerHTML]="'wallets.success_creation.title' | translate"></ion-text>
       </div>
       <div class="main__primary_text ux-font-text-xl" *ngIf="this.steps[0].completed">
@@ -31,7 +31,7 @@ import { BackupStep } from '../shared-wallets/models/backup-step/backup-step';
       <div class="main__secondary_text ux-font-text-base" *ngIf="!this.steps[0].completed">
         <ion-text [innerHTML]="'wallets.success_creation.subtitle' | translate"></ion-text>
       </div>
-      <div class="main__secondary_text ux-font-text-base" *ngIf="this.steps[0].completed">
+      <div class="main__secondary_text ux-font-text-base" *ngIf="this.steps[0].completed && this.steps.length > 1 && !this.steps[1].completed">
         <ion-text [innerHTML]="'wallets.success_creation.subtitle1' | translate"></ion-text>
       </div>
       <div class="main__actions">

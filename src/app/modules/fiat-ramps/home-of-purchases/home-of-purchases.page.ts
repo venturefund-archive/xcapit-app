@@ -29,12 +29,11 @@ import { Lender } from '../../../shared/models/lender/lender.interface';
     </ion-header>
     <ion-content class="hop">
       <div
-        *ngIf="this.enabledProviders && this.enabledProviders.includes('kripton')"
+        *ngIf="this.kriptonVisible && this.userStatus"
         class="kyc-status-card ion-padding-start ion-padding-end ion-padding-top"
         [ngClass]="this.style"
       >
         <app-kyc-status-card
-          *ngIf="this.userStatus"
           [title]="this.title"
           [message]="this.message"
           [style]="this.style"
@@ -46,21 +45,17 @@ import { Lender } from '../../../shared/models/lender/lender.interface';
       </div>
       <div
         class="hop__operations-list ion-padding-start ion-padding-end ion-padding-top"
-        *ngIf="this.isLogged !== undefined && this.enabledProviders && this.enabledProviders.includes('kripton')"
+        *ngIf="this.isLogged !== undefined && this.kriptonVisible"
       >
         <app-operations-list
-          *ngIf="this.isUserWarranty != undefined"
           [operationsList]="this.operationsList"
           [isUserWarranty]="this.isUserWarranty"
           [isLogged]="this.isLogged"
           (loggedOut)="loggedOut()"
         ></app-operations-list>
       </div>
-      <div
-        *ngIf="this.enabledProviders && this.enabledProviders.includes('moonpay')"
-        class="hop__moonpay-purchases ion-padding-start ion-padding-end ion-padding-top"
-      >
-        <app-moonpay-purchases-card *ngIf="!this.isUserWarranty"></app-moonpay-purchases-card>
+      <div *ngIf="this.moonpayVisible" class="hop__moonpay-purchases ion-padding-start ion-padding-end ion-padding-top">
+        <app-moonpay-purchases-card></app-moonpay-purchases-card>
       </div>
       <div class="hop__question ion-padding-start ion-padding-end">
         <ion-text (click)="goToFaqs()" class="ux-link-xs">{{
@@ -122,6 +117,7 @@ export class HomeOfPurchasesPage {
   statusName: string;
   userStatus: any;
   header: string;
+  lenderProviderName: string;
   statuses = {
     USER_INFORMATION: 'starting',
     USER_IMAGES: 'pending',
@@ -132,6 +128,9 @@ export class HomeOfPurchasesPage {
   email: string;
   enabledProviders: string[];
   isUserWarranty: boolean;
+  lender: Lender;
+  kriptonVisible: boolean;
+  moonpayVisible: boolean;
 
   constructor(
     private fiatRampsService: FiatRampsService,
@@ -149,9 +148,11 @@ export class HomeOfPurchasesPage {
 
   async ionViewWillEnter() {
     await this.getUserWarranty();
+    await this._setLender();
     this.setHeader();
     this.setEnabledProviders();
     this.checkIfUserIsLogged();
+    this._setProvidersVisibility();
     await this.getUserEmail();
     this.getUserOperations();
     await this.getUserStatus();
@@ -159,6 +160,24 @@ export class HomeOfPurchasesPage {
 
   async ionViewDidEnter() {
     if (!(await this.kriptonStorage.get('kyc_approved'))) this.disabledStatusCard = false;
+  }
+
+  private _setProvidersVisibility() {
+    this.kriptonVisible = this._visibleProvider('kripton');
+    this.moonpayVisible = this._visibleProvider('moonpay');
+  }
+
+  private _visibleProvider(aProvider: string) {
+    return (
+      this.enabledProviders &&
+      this.enabledProviders.includes(aProvider) &&
+      (!this.isUserWarranty || this.lenderProviderName === aProvider)
+    );
+  }
+
+  private async _setLender() {
+    this.lender = await this.activeLenderInjectable.create().value();
+    this.lenderProviderName = this.lender.onRampProvider();
   }
 
   async checkIfUserIsLogged() {
@@ -200,17 +219,17 @@ export class HomeOfPurchasesPage {
   }
 
   async navigateBySimplifiedWallet() {
-    const activeLender = await this._lenderToken();
     this.tokenOperationDataService.add({
-      asset: activeLender.token(),
-      network: activeLender.blockchain(),
+      asset: this.lender.token(),
+      network: this.lender.blockchain(),
       country: 'ARG',
     });
-    this.isLogged ? this.setDataSimplifiedWallet() : this.navigateToLoginKripton();
-  }
 
-  private _lenderToken(): Promise<Lender> {
-    return this.activeLenderInjectable.create().value();
+    if (this.lender.onRampProvider() !== 'kripton' || (this.lender.onRampProvider() === 'kripton' && this.isLogged)) {
+      this.navigateToProvider(this.lender.onRampProvider());
+    } else if (this.lender.onRampProvider() === 'kripton' && !this.isLogged) {
+      this.navigateToLoginKripton();
+    }
   }
 
   sell() {
@@ -229,12 +248,8 @@ export class HomeOfPurchasesPage {
     }
   }
 
-  setDataSimplifiedWallet() {
-    this.navigateByOperation();
-  }
-
-  navigateByOperation() {
-    this.navController.navigateRoot('/fiat-ramps/new-operation/kripton');
+  navigateToProvider(aProviderName: string) {
+    this.navController.navigateRoot(`/fiat-ramps/new-operation/${aProviderName}`);
   }
 
   navigateToLoginKripton() {

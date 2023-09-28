@@ -17,7 +17,7 @@ variables:
   HADOLINT_REPO: hadolint/hadolint
   HADOLINT_TAG: v2.0.0-alpine
   SRC_DIR: '.'
-  NODE_VERSION: '16.13.0'
+  NODE_VERSION: '16.14.2'
 
 cache:
   key:
