@@ -55,7 +55,11 @@ import { BigNumber } from 'ethers';
 import { WeiOf } from '../shared-swaps/models/wei-of/wei-of';
 import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
 import { Modals } from '../../../shared/models/modal/factory/default/default-modal-factory';
-import { AmountOf, NullAmountOf, RawAmount } from '../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
+import {
+  AmountOf,
+  NullAmountOf,
+  RawAmount,
+} from '../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
 
 @Component({
