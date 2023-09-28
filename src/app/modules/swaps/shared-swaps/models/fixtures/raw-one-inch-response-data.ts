@@ -100,43 +100,12 @@ export const rawAllowanceData = {
   allowance: '1000000000000000000',
 };
 
-export const rawALotAllowanceData = {
-  allowance: '100000000000000000000',
-};
-
-type RawSwapTokenInfo = {
-  symbol: string;
-  name: string;
-  decimals: number;
-  address: string;
-  logoURI: string;
-  tags: string[];
-};
-
 type RawSwapInfo = {
   toAmount: string;
   gas: number;
-  // fromToken: RawSwapTokenInfo;
-  // toToken: RawSwapTokenInfo;
 };
 
 export const rawSwapOneInchInfoData: RawSwapInfo = {
   toAmount: '495454',
   gas: 229386,
-  // fromToken: {
-  //   symbol: 'DAI',
-  //   name: '(PoS) Dai Stablecoin',
-  //   decimals: 18,
-  //   address: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
-  //   logoURI: 'https://tokens.1inch.io/0x6b175474e89094c44da98b954eedeac495271d0f.png',
-  //   tags: ['tokens', 'PEG:USD'],
-  // },
-  // toToken: {
-  //   symbol: 'USDC',
-  //   name: 'USD Coin (PoS)',
-  //   decimals: 6,
-  //   address: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
-  //   logoURI: 'https://tokens.1inch.io/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png',
-  //   tags: ['tokens', 'PEG:USD'],
-  // },
 };
