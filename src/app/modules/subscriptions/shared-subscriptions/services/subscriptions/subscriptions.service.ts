@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiSubscriptionsService } from '../api-subscriptions/api-subscriptions.service';
 import { ShareService } from 'src/app/shared/services/share/share.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { NavController } from '@ionic/angular';
 const SUBSCRIPTION_LINK_STORAGE_KEY = 'subscriptionLink';
 

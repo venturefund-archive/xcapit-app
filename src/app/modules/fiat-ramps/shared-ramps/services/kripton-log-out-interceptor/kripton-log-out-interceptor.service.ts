@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, from, throwError } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { KriptonStorageService } from '../kripton-storage/kripton-storage.service';
 import { NavController } from '@ionic/angular';
@@ -9,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { WHITELIST } from './whitelist-kripton-interceptor';
 import { EnvService } from 'src/app/shared/services/env/env.service';
 import { FiatRampsService } from '../fiat-ramps.service';
-import { fromPromise } from 'rxjs/internal-compatibility';
 
 @Injectable({ providedIn: 'root' })
 export class KriptonLogOutInterceptorService implements HttpInterceptor {
@@ -28,7 +27,7 @@ export class KriptonLogOutInterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         return this._checkEndpoint(error)
-          ? fromPromise(this._refreshTokens()).pipe(
+          ? from(this._refreshTokens()).pipe(
               mergeMap(({ token, refresh_token }) => {
                 this._saveTokens(token, refresh_token);
                 return next.handle(this.clonedRequest(req, token));

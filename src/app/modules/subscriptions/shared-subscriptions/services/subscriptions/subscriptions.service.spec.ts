@@ -4,7 +4,7 @@ import { SubscriptionsService } from './subscriptions.service';
 import { of } from 'rxjs';
 import { ApiSubscriptionsService } from '../api-subscriptions/api-subscriptions.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LogsService } from 'src/app/shared/services/logs/logs.service';
 import { ShareService } from '../../../../../shared/services/share/share.service';

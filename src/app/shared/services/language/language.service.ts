@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { DeviceInjectable } from '../../models/device/injectable/device.injectable';
 

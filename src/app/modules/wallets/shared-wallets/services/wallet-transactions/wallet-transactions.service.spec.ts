@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { WalletTransactionsService } from './wallet-transactions.service';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
 import { Coin } from '../../interfaces/coin.interface';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
