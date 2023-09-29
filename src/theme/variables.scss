@@ -337,7 +337,7 @@
   --ux-fsize-22: 22px;
   --ux-fsize-24: 24px;
   --ux-fsize-40: 40px;
-  --ion-font-family: var(--ux-font-lato);
+  --ion-font-family: 'Lato';
   --ion-text-color: var(--ion-color-neutral90);
 }
 
@@ -685,14 +685,14 @@
 // 800    Black, Extra Bold or Heavy
 // 900    Extra Black, Fat, Poster or Ultra Black
 @font-face {
-  font-family: var(--ux-font-gilroy);
+  font-family: Gilroy;
   font-style: normal;
   font-weight: normal;
   src: url('../assets/fonts/Gilroy/Gilroy-Light.otf');
 }
 
 @font-face {
-  font-family: var(--ux-font-gilroy);
+  font-family: Gilroy;
   font-style: normal;
   font-weight: 800;
   src: url('../assets/fonts/Gilroy/Gilroy-ExtraBold.otf');
@@ -700,63 +700,63 @@
 
 // Lato
 @font-face {
-  font-family: var(--ux-font-lato);
+  font-family: Lato;
   font-style: normal;
   font-weight: 600;
   src: url('../assets/fonts/Lato/Lato-Semibold.ttf');
 }
 
 @font-face {
-  font-family: var(--ux-font-lato);
+  font-family: Lato;
   font-style: normal;
   font-weight: 700;
   src: url('../assets/fonts/Lato/Lato-Bold.ttf');
 }
 
 @font-face {
-  font-family: var(--ux-font-lato);
+  font-family: Lato;
   font-style: normal;
   font-weight: 200;
   src: url('../assets/fonts/Lato/Lato-Light.ttf');
 }
 
 @font-face {
-  font-family: var(--ux-font-lato);
+  font-family: Lato;
   font-style: normal;
   font-weight: 400;
   src: url('../assets/fonts/Lato/Lato-Regular.ttf');
 }
 
 @font-face {
-  font-family: var(--ux-font-lato);
+  font-family: Lato;
   font-style: italic;
   font-weight: normal;
   src: url('../assets/fonts/Lato/Lato-Italic.ttf');
 }
 
 @font-face {
-  font-family: var(--ux-font-worksans);
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: normal;
   src: url('../assets/fonts/WorkSans/WorkSans-Regular.ttf');
 }
 
 @font-face {
-  font-family: var(--ux-font-worksans);
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 600;
   src: url('../assets/fonts/WorkSans/WorkSans-SemiBold.ttf');
 }
 
 @font-face {
-  font-family: var(--ux-font-worksans);
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 700;
   src: url('../assets/fonts/WorkSans/WorkSans-Bold.ttf');
 }
 
 @font-face {
-  font-family: var(--ux-font-worksans);
+  font-family: 'Work Sans';
   font-style: normal;
   font-weight: 800;
   src: url('../assets/fonts/WorkSans/WorkSans-ExtraBold.ttf');
