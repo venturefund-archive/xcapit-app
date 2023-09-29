@@ -3,7 +3,6 @@ import { Wallet } from 'src/app/modules/wallets/shared-wallets/models/wallet/wal
 import { PendingProposal } from 'src/app/modules/wallets/shared-wallets/models/wallet-connect/pending-proposal/pending-proposal';
 import { SignClientV2 } from '../sign-client/sign-client';
 import { WCUri } from '../wc-uri/wc-uri.interface';
-import { DefaultWallets } from 'src/app/modules/wallets/shared-wallets/models/wallets/default-wallets';
 import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains.interface';
 import { Wallets } from 'src/app/modules/wallets/shared-wallets/models/wallets/wallets.interface';
 

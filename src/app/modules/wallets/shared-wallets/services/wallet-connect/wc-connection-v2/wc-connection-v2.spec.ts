@@ -11,7 +11,6 @@ import { rawWalletConnectUriV1 } from '../../../fixtures/raw-wallet-connect-uri'
 import { rawProposalWithoutOptionalNamespaces } from '../../../fixtures/raw-proposal.fixture';
 import { rawSession } from '../../../fixtures/raw-session.fixture';
 import {
-  rawBlockchainsData,
   rawEthereumData,
   rawPolygonData,
 } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';

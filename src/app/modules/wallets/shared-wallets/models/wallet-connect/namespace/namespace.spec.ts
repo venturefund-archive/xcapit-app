@@ -25,7 +25,6 @@ describe('Namespace', () => {
   let rawRequiredNamespace: RawNamespace;
   let rawOptionalNamespace: RawNamespace | any;
   let validatedNamespaces: ValidatedNamespaces;
-  let resultNamespaceMultiNetwork: ValidatedNamespaces;
   let namespace: Namespace;
   const supportedNamespace = 'eip155';
   let fakeWallet: FakeWallet;
@@ -55,14 +54,6 @@ describe('Namespace', () => {
         methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign', 'personal_sign', 'eth_signTypedData'],
         accounts: ['eip155:1:0xtest_wallet'],
         events: ['chainChanged', 'accountsChanged'],
-      },
-    };
-
-    resultNamespaceMultiNetwork = {
-      eip155: {
-        methods: ['eth_sendTransaction', 'personal_sign'],
-        events: ['chainChanged', 'accountsChanged'],
-        accounts: ['eip155:1:0xtest_wallet', 'eip155:137:0xtest_wallet2'],
       },
     };
 
