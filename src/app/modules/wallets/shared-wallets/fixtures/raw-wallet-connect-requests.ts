@@ -1,3 +1,13 @@
+import { Verify } from '@walletconnect/types';
+
+export const verifyContext: Verify.Context = {
+  verified: {
+    verifyUrl: 'https://verify.walletconnect.com',
+    validation: 'VALID',
+    origin: 'https://react-app.walletconnect.com',
+    isScam: null,
+  },
+};
 export const rawPersonalSignRequest = {
   id: 1678769188353444,
   topic: '3c313ca339e75929727a23edf97dacebffad238a8ca33bc866d0bb2bb5d032ec',
@@ -11,6 +21,7 @@ export const rawPersonalSignRequest = {
     },
     chainId: 'eip155:80001',
   },
+  verifyContext: verifyContext,
 };
 
 export const rawEthSignRequest = {
@@ -26,6 +37,7 @@ export const rawEthSignRequest = {
     },
     chainId: 'eip155:80001',
   },
+  verifyContext: verifyContext,
 };
 
 export const rawSendTransactionRequestDefault = {
@@ -48,6 +60,7 @@ export const rawSendTransactionRequestDefault = {
     },
     chainId: 'eip155:137',
   },
+  verifyContext: verifyContext,
 };
 
 export const rawSwapTransactionRequest = {
@@ -69,6 +82,7 @@ export const rawSwapTransactionRequest = {
     },
     chainId: 'eip155:137',
   },
+  verifyContext: verifyContext,
 };
 
 export const rawApproveTransactionRequest = {
@@ -90,9 +104,16 @@ export const rawApproveTransactionRequest = {
     },
     chainId: 'eip155:137',
   },
+  verifyContext: verifyContext,
 };
 
 export const rawSignTypedDataRequest = {
+  verified: {
+    origin: 'someOrigin',
+    validation: 'VALID',
+    verifyUrl: 'someVerifyUrl',
+    isScam: false,
+  },
   id: 1681236104977555,
   topic: 'c1e7a3c687b70d06c114be46d08e279be355c814c4614dc049d20dc7257e1782',
   params: {
@@ -105,6 +126,7 @@ export const rawSignTypedDataRequest = {
     },
     chainId: 'eip155:80001',
   },
+  verifyContext: verifyContext,
 };
 
 export const rawSignTransactionRequestDefault = {
@@ -127,4 +149,5 @@ export const rawSignTransactionRequestDefault = {
     },
     chainId: 'eip155:80001',
   },
+  verifyContext: verifyContext,
 };

@@ -1,5 +1,5 @@
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
-import { Wallets } from '../wallets';
+import { DefaultWallets } from '../default-wallets';
 import { WalletsFactory } from './wallets.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { rawStoredWalletData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-stored-wallet-data';
@@ -27,7 +27,7 @@ describe('Wallets Factory', () => {
   });
 
   it('create', () => {
-    expect(walletsFactory.create()).toBeInstanceOf(Wallets);
+    expect(walletsFactory.create()).toBeInstanceOf(DefaultWallets);
     expect(blockchainsFactorySpy.create).toHaveBeenCalled();
   });
 });

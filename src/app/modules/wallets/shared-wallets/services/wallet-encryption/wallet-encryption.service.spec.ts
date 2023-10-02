@@ -11,7 +11,7 @@ import { ethers, Wallet } from 'ethers';
 import { Keypair, PublicKey } from '@solana/web3.js';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { StorageWallet } from '../../interfaces/storage-wallet.interface';

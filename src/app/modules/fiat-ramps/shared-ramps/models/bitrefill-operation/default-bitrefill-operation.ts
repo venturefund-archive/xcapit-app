@@ -1,5 +1,3 @@
-import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
-import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { Tokens } from 'src/app/modules/swaps/shared-swaps/models/tokens/tokens';
 
@@ -11,10 +9,7 @@ export interface BitrefillOperation {
 }
 
 export class DefaultBitrefillOperation implements BitrefillOperation {
-  constructor(
-    private readonly _rawData: any,
-    private readonly _tokens: Tokens,
-  ) {}
+  constructor(private readonly _rawData: any, private readonly _tokens: Tokens) {}
 
   address(): string {
     return this._rawData.paymentUri.split('?')[0].split(':')[1];
@@ -29,7 +24,7 @@ export class DefaultBitrefillOperation implements BitrefillOperation {
   }
 
   async token(): Promise<Token> {
-    const tokens : Token[] = await this._tokens.value()
+    const tokens: Token[] = await this._tokens.value();
     return tokens.find((token) => {
       return token.json().bitrefillCode === this.paymentMethod();
     });

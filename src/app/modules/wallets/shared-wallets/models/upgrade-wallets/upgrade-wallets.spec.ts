@@ -5,14 +5,14 @@ import { Password } from '../../../../swaps/shared-swaps/models/password/passwor
 import { SimpleSubject } from 'src/app/shared/models/simple-subject/simple-subject';
 import { UpgradeWallets } from './upgrade-wallets';
 import { WalletsFactory } from '../wallets/factory/wallets.factory';
-import { Wallets } from '../wallets/wallets';
+import { DefaultWallets } from '../wallets/default-wallets';
 
 describe('UpgradeWallets', () => {
   let upgradeWallets: UpgradeWallets;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
-  let walletsSpy: jasmine.SpyObj<Wallets>;
+  let walletsSpy: jasmine.SpyObj<DefaultWallets>;
   const onUpgradedSubject = new SimpleSubject();
   const onNeedPassSubject = new SimpleSubject();
 

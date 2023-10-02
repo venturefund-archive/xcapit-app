@@ -17,7 +17,7 @@ import { FakeNavController } from '../../../../../testing/fakes/nav-controller.f
 import { BigNumber, constants } from 'ethers';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import {
   rawBlockchainsData,

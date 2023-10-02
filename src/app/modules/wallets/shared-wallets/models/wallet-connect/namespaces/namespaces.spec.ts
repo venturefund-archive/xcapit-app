@@ -7,14 +7,27 @@ import {
   rawValidRequiredNamespaces,
 } from '../../../fixtures/raw-namespaces.fixture';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
-import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import {
+  rawBlockchainsData,
+  rawEthereumData,
+  rawPolygonData,
+  rawSolanaData,
+} from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { FakeWallet } from '../../wallet/fake/fake-wallet';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/default/default-blockchains';
+import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains.interface';
+import { Wallets } from '../../wallets/wallets.interface';
+import { FakeWallets } from '../../wallets/fake-wallets/fake-wallets';
+import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
+import { FakeBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/fake/fake-blockchains';
+import { rawOptionalNamespaces } from '../../../fixtures/raw-proposal.fixture';
 
 describe('Namespaces', () => {
   let expectedValidatedNamespaces: ValidatedNamespaces;
   let namespaces: Namespaces;
   let fakeWallet: FakeWallet;
+  let blockchains: Blockchains;
+  let wallets: Wallets;
 
   beforeEach(() => {
     expectedValidatedNamespaces = {
@@ -32,26 +45,50 @@ describe('Namespaces', () => {
       new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)).oneByName('ERC20')
     );
 
-    namespaces = new Namespaces(rawValidRequiredNamespaces, fakeWallet);
+    wallets = new FakeWallets(fakeWallet);
+
+    const blockchainsValueReturn = [
+      new Blockchain(rawEthereumData),
+      new Blockchain(rawPolygonData),
+      new Blockchain(rawSolanaData),
+    ];
+    blockchains = new FakeBlockchains(blockchainsValueReturn, null, new Blockchain(rawPolygonData));
+    namespaces = new Namespaces(fakeWallet, rawValidRequiredNamespaces, undefined, blockchains, wallets);
   });
 
   it('new', () => {
     expect(namespaces).toBeTruthy();
   });
 
-  it('should return a validated namespace when the required namespaces are valid', () => {
-    expect(namespaces.value()).toEqual(expectedValidatedNamespaces);
+  it('should return a validated namespace when the required namespaces has only one chain and namespaces are valid', async () => {
+    expect(await namespaces.value()).toEqual(expectedValidatedNamespaces);
   });
 
-  it('should throw an error when there are more than one namespace in the required namespaces', () => {
-    expect(() => new Namespaces(rawRequiredNamespacesWithTwoNamespaces, fakeWallet).value()).toThrow(
-      new Error(new NamespaceErrorMsgs().onlyOneNamespace())
-    );
+  it('should throw an error when there is more than one namespace in the required namespaces', async () => {
+    try {
+      await new Namespaces(fakeWallet, rawRequiredNamespacesWithTwoNamespaces, undefined, blockchains, wallets).value();
+    } catch (error) {
+      expect(error).toEqual(new Error(new NamespaceErrorMsgs().onlyOneNamespace()));
+    }
   });
 
-  it('should throw an error when selected wallet network does not match the chain in required namespace', () => {
-    expect(() => new Namespaces(rawRequiredNamespacesWithUnsupportedNamespace, fakeWallet).value()).toThrow(
-      new Error(new NamespaceErrorMsgs().notSupportedNamespaces(['bip122']))
-    );
+  it('should throw an error when proposal namespace is not supported', async () => {
+    try {
+      await new Namespaces(
+        fakeWallet,
+        rawRequiredNamespacesWithUnsupportedNamespace,
+        undefined,
+        blockchains,
+        wallets
+      ).value();
+    } catch (error) {
+      expect(error).toEqual(new Error(new NamespaceErrorMsgs().notSupportedNamespaces(['bip122'])));
+    }
+  });
+
+  it('should return a validated namespace when there are required and optional namespaces', async () => {
+    expect(
+      await new Namespaces(fakeWallet, rawValidRequiredNamespaces, rawOptionalNamespaces, blockchains, wallets).value()
+    ).toEqual(expectedValidatedNamespaces);
   });
 });
