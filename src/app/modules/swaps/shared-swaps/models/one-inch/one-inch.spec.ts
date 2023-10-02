@@ -1,7 +1,7 @@
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
 import { OneInch } from "./one-inch";
 import { rawEthereumData } from "../fixtures/raw-blockchains-data";
-import { rawNotAllowanceData, rawApproveData, rawSwapData, rawSwapInfoData } from "../fixtures/raw-one-inch-response-data";
+import { rawNotAllowanceData, rawApproveData, rawSwapData, rawSwapOneInchInfoData } from "../fixtures/raw-one-inch-response-data";
 import { rawMATICData, rawUSDCData } from "../fixtures/raw-tokens-data";
 import { rawWalletData } from "../fixtures/raw-wallet-data";
 import { Referral } from "../referral/referral";
@@ -63,9 +63,9 @@ describe('One Inch', () => {
   it('swap info', async () => {
     const dex = new OneInch(
       new Blockchain(rawEthereumData),
-      new FakeHttpClient(rawSwapInfoData)
+      new FakeHttpClient(rawSwapOneInchInfoData)
     );
 
-    expect(await dex.swapInfo(swap, referral)).toEqual(rawSwapInfoData);
+    expect(await dex.swapInfo(swap, referral)).toEqual(rawSwapOneInchInfoData);
   });
 })

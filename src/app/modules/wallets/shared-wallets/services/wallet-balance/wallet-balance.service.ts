@@ -30,6 +30,7 @@ export class WalletBalanceService {
   }
 
   async balanceOf(aCoin: Coin): Promise<number> {
+    await this.walletService.walletExist();
     return this.walletService
       .balanceOf(this.walletService.addresses[aCoin.network], aCoin.value, aCoin.network)
       .then(parseFloat);

@@ -27,7 +27,6 @@ import { OneInchFactory } from '../shared-swaps/models/one-inch/factory/one-inch
 import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transactions/factory/swap-transactions.factory';
 import { FakeBlockchainTx } from '../shared-swaps/models/fakes/fake-blockchain-tx';
 import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swap-info';
-import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -51,6 +50,7 @@ import { FakeModalFactory } from '../../../shared/models/modal/factory/fake/fake
 import { FakeWallet } from '../../wallets/shared-wallets/models/wallet/fake/fake-wallet';
 import { SendTxsError } from '../../wallets/shared-wallets/models/wallet/send-txs-error';
 import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
+import { rawSwapOneInchInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -166,7 +166,7 @@ describe('SwapHomePage', () => {
       create: new OneInchBlockchainsOf(blockchains, ['1', '137']),
     });
     oneInchFactorySpy = jasmine.createSpyObj('OneInchFactory', {
-      create: { swapInfo: () => Promise.resolve(rawSwapInfoData) },
+      create: { swapInfo: () => Promise.resolve(rawSwapOneInchInfoData) },
     });
     fakeModalController = new FakeModalController({}, { data: 'aPassword' });
     modalControllerSpy = fakeModalController.createSpy();
