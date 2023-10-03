@@ -37,7 +37,7 @@ import {
   rawPolygonData,
   rawSolanaData,
 } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
-import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
 import { FakePrices } from '../shared-wallets/models/prices/fake-prices/fake-prices';

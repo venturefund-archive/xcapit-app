@@ -9,6 +9,7 @@ describe('NamespaceErrorMsgs', () => {
       onlyOneChain: 'testOnlyOneChainMsg',
       notSupportedNamespaces: 'testNotSupportedNamespacesMsg',
       notMatchingNetwork: 'testNotMatchingNetworkMsg',
+      notSupportedNetwork: 'testNotSupportedChain',
     };
     namespaceErrorMsgs = new NamespaceErrorMsgs(rawNamespaceErrorMsgs);
   });
@@ -32,5 +33,9 @@ describe('NamespaceErrorMsgs', () => {
 
   it('notMatchingNetwork', () => {
     expect(namespaceErrorMsgs.notMatchingNetwork()).toEqual(rawNamespaceErrorMsgs.notMatchingNetwork);
+  });
+
+  it('notSupportedNetwork', () => {
+    expect(namespaceErrorMsgs.notSupportedNetwork()).toEqual(rawNamespaceErrorMsgs.notSupportedNetwork);
   });
 });

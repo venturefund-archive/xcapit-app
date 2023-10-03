@@ -17,7 +17,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { rawBlockchainsData, rawEthereumData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import {
   nativeEventInvoice,

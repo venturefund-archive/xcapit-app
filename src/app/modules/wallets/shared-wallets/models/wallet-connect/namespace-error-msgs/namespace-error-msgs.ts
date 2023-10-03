@@ -6,13 +6,15 @@ export type RawNamespaceErrorMsgs = {
   notSupportedNamespaces: string;
   onlyOneChain: string;
   notMatchingNetwork: string;
+  notSupportedNetwork: string;
 };
 
 const rawNamespaceErrorMsgsData: RawNamespaceErrorMsgs = {
   onlyOneNamespace: 'Only one namespace per session at a time is supported',
   notSupportedNamespaces: 'Namespace is not supported: ',
   onlyOneChain: 'Connection to multiple networks in the same session is not supported.',
-  notMatchingNetwork: 'The network requested in the connection and the network of the selected wallet do not match.',
+  notMatchingNetwork: 'The networks available in the dApp and the network of the selected wallet do not match.',
+  notSupportedNetwork: 'The chain requested in the connection is not supported',
 };
 
 export class NamespaceErrorMsgs {
@@ -32,5 +34,9 @@ export class NamespaceErrorMsgs {
 
   public notMatchingNetwork(): string {
     return this._rawData.notMatchingNetwork;
+  }
+
+  public notSupportedNetwork(): string {
+    return this._rawData.notSupportedNetwork;
   }
 }

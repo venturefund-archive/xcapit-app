@@ -22,7 +22,7 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { DynamicMoonpayPrice } from '../shared-ramps/models/moonpay-price/dynamic-moonpay-price';

@@ -32,7 +32,7 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Vault } from '@2pi-network/sdk';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { FakeWallet } from '../shared-wallets/models/wallet/fake/fake-wallet';
