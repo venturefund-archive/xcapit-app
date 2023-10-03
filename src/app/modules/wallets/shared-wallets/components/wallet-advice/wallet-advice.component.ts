@@ -9,18 +9,19 @@ import { NavController } from '@ionic/angular';
         <ion-icon class="image" size="medium" [name]="this.logo" color="uxprimary" slot="start"></ion-icon>
       </div>
       <div class="wa__text">
-      <span class="ux-font-text-xs text">
-            {{ this.text | translate }}
-            <ion-button
-              name="go_to_wallet_faqs"
-              class="ux-link-xs wa__text__button"
-              (click)="this.goToWalletTerms()"
-              appTrackClick
-              fill="clear"
-            >
-              {{  this.link | translate }}
-            </ion-button>
-          </span>
+        <span class="ux-font-text-xs">
+          {{ this.text | translate }}
+          <ion-button
+            size="small"
+            name="go_to_wallet_faqs"
+            class="ux-link-xs wa__text__button"
+            (click)="this.goToWalletTerms()"
+            appTrackClick
+            fill="clear"
+          >
+            {{ this.link | translate }}
+          </ion-button>
+        </span>
       </div>
     </div>
   `,
@@ -30,11 +31,11 @@ export class WalletAdviceComponent implements OnInit {
   @Input() logo: string;
   @Input() text: string;
   @Input() link: string;
-  constructor(private navController : NavController) {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
-  goToWalletTerms(){
-    this.navController.navigateForward(['support/faqs/wallet'])
+  goToWalletTerms() {
+    this.navController.navigateForward(['support/faqs/wallet']);
   }
 }
