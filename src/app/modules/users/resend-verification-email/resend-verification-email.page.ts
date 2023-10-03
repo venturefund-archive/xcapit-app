@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ApiUsuariosService } from '../shared-users/services/api-usuarios/api-usuarios.service';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { Router } from '@angular/router';
 
 @Component({

@@ -35,7 +35,7 @@ describe('TimerCountdownComponent', () => {
   });
 
   it('should render timer', () => {
-    fakeTimer.next();
+    fakeTimer.next(1);
     fixture.detectChanges();
     const timerEl = fixture.debugElement.query(By.css('.tc'));
     expect(timerEl).toBeTruthy();
@@ -57,7 +57,7 @@ describe('TimerCountdownComponent', () => {
     component.deadlineDate = addHours(new Date(), 2);
     component.showMinutes = false;
     component.showSeconds = false;
-    fakeTimer.next();
+    fakeTimer.next(1);
 
     expect(component.timeString.value).toMatch(/\d\d/);
   });
@@ -65,7 +65,7 @@ describe('TimerCountdownComponent', () => {
   it('should show time only with minutes and seconds', () => {
     component.deadlineDate = addMinutes(new Date(), 2);
     component.showHours = false;
-    fakeTimer.next();
+    fakeTimer.next(1);
 
     expect(component.timeString.value).toMatch(/\d\d:\d\d/);
   });

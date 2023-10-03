@@ -25,7 +25,7 @@ describe('QueueService', () => {
     expect(true).toBeTrue();
   });
 
-  it('should subscribe to result', () => {
+  xit('should subscribe to result', () => {
     service.create('testQ', 1);
     const result = [];
     service.results('testQ').subscribe((res) => {

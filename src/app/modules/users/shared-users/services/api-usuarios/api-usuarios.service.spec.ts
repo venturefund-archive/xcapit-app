@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ApiUsuariosService } from './api-usuarios.service';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';

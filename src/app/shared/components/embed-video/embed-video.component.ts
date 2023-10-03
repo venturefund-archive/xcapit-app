@@ -5,7 +5,7 @@ import { kStringMaxLength } from 'buffer';
   selector: 'app-embed-video',
   template: `
     <div class="embed-container">
-      <iframe class="iframe" [src]="this.url | safeURL" title="" frameborder="0" allowfullscreen></iframe>
+      <iframe class="iframe" [src]="this.url | safeURL" title="" frameborder="0"></iframe>
     </div>
   `,
   styleUrls: ['./embed-video.component.scss'],

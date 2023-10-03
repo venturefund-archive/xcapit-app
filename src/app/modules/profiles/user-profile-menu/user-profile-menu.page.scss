@@ -42,8 +42,8 @@
 
   .notifications_form {
     ion-toggle {
-      --background: var(--ion-color-neutral50);
-      --background-checked: var(--ion-color-info);
+      --track-background: var(--ion-color-neutral50);
+      --track-background-checked: var(--ion-color-info);
     }
 
     ion-text {
