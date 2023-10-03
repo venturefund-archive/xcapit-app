@@ -15,6 +15,7 @@ import { RawMenuCategory } from '../../models/raw-menu-category';
           this.category.category_title | translate
         }}</ion-text>
         <ion-button
+          size="small"
           *ngIf="this.category.route"
           class="ux-font-header-titulo card-title__button"
           fill="clear"
