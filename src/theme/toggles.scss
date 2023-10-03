@@ -1,6 +1,9 @@
 ion-toggle.ux-toggle {
+  --handle-width: 20px;
+}
+
+ion-toggle.ux-toggle::part(track) {
   height: 22px;
   width: 42px;
-
-  --handle-width: 20px;
+  overflow: visible;
 }

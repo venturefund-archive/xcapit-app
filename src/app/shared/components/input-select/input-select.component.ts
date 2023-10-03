@@ -28,6 +28,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
             this.translated ? (this.control.value[this.valueKey] | translate) : this.control.value[this.valueKey]
           }}</ion-label>
           <ion-input
+            [legacy]="true"
             type="hidden"
             class="input"
             mode="md"
