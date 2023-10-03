@@ -9,7 +9,7 @@ import { NavController } from '@ionic/angular';
         <ion-icon class="image" size="medium" [name]="this.logo" color="uxprimary" slot="start"></ion-icon>
       </div>
       <div class="wa__text">
-        <span class="ux-font-text-xs">
+        <span class="ux-font-text-xs text">
           {{ this.text | translate }}
           <ion-button
             size="small"
