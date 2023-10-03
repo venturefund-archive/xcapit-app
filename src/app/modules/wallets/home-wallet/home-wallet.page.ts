@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonAccordionGroup, IonContent, NavController } from '@ionic/angular';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
@@ -17,12 +17,7 @@ import { TotalBalanceInjectable } from '../shared-wallets/models/balance/total-b
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
-import { AvailableDefiProducts } from '../../defi-investments/shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-import { DefiProduct } from '../../defi-investments/shared-defi-investments/interfaces/defi-product.interface';
-import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/models/two-pi-product/two-pi-product.model';
-import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
-import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
@@ -30,7 +25,6 @@ import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tok
 import { NewTokensAvailable } from '../shared-wallets/models/new-tokens-avalaible/new-tokens-available.model';
 import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
-import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/wc.service';
@@ -94,18 +88,6 @@ import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets
               <app-eye></app-eye>
             </div>
           </div>
-        </div>
-        <div class="wt__total-invested" *ngIf="this.balance" color="success">
-          <ion-spinner
-            class="wt__total-invested__spinner"
-            *ngIf="this.totalInvested === undefined"
-            color="white"
-            name="crescent"
-          ></ion-spinner>
-          <ion-text *ngIf="this.totalInvested !== undefined" class="wt__total-invested__text ux-font-title-xs"
-            >{{ 'wallets.home.invested' | translate }}
-            {{ this.totalInvested ?? 0.0 | number : '1.2-2' | hideText : this.hideFundText }} USD</ion-text
-          >
         </div>
       </div>
       <div class="wt__overlap_buttons">
@@ -196,7 +178,7 @@ import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
-export class HomeWalletPage implements OnInit {
+export class HomeWalletPage {
   hideFundText: boolean;
   protectedWallet: boolean;
   tokenDetails: TokenDetail[] = [];
@@ -211,10 +193,7 @@ export class HomeWalletPage implements OnInit {
   totalBalanceModel: TotalBalance;
   balance = undefined;
   address: string;
-  defiProducts: DefiProduct[];
-  totalInvested: number;
   slides = [];
-  twoPiProducts: TwoPiProduct[] = [];
   newTokens: NewToken[];
   connected: boolean;
   allLoaded = false;
@@ -234,19 +213,14 @@ export class HomeWalletPage implements OnInit {
     private ionicStorageService: IonicStorageService,
     private localStorageService: LocalStorageService,
     private remoteConfig: RemoteConfigService,
-    private twoPiProductFactory: TwoPiProductFactory,
-    private twoPiApi: TwoPiApi,
     private blockchainsFactory: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
     private updateNewsService: UpdateNewsService,
-    private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable,
     private base64ImageFactory: Base64ImageFactory,
     private contactService: ContactDataService,
     private wcService: WCService,
-    private notificationsService: NotificationsService,
+    private notificationsService: NotificationsService
   ) {}
-
-  ngOnInit() {}
 
   ionViewWillEnter() {
     this.getSliderImages();
@@ -259,7 +233,6 @@ export class HomeWalletPage implements OnInit {
     this.cleanContact();
     this.notificationsService.getInstance().register();
   }
-
 
   async getSliderImages() {
     const slides = await this.remoteConfig.getObject('appSlides');
@@ -288,10 +261,7 @@ export class HomeWalletPage implements OnInit {
     await this.setUserTokens();
     this.initializeTotalBalance();
     await this.setTokenDetails();
-    this.fetchAndSaveBalances();
-    this.setAvailableDefiProducts();
-    await this.setInvestments();
-    this.setInvestedBalance();
+    await this.fetchAndSaveBalances();
   }
 
   private cleanContact() {
@@ -304,26 +274,6 @@ export class HomeWalletPage implements OnInit {
 
   checkConnectionOfWalletConnect() {
     this.connected = this.wcService.connected();
-  }
-
-  private setAvailableDefiProducts(): void {
-    this.defiProducts = this.createAvailableDefiProducts().value();
-  }
-
-  createAvailableDefiProducts(): AvailableDefiProducts {
-    return new AvailableDefiProducts(this.remoteConfig);
-  }
-
-  async setInvestments() {
-    this.twoPiProducts = [];
-    for (const product of this.defiProducts) {
-      const anInvestmentProduct = await this.getInvestmentProduct(product);
-      this.twoPiProducts.push(anInvestmentProduct);
-    }
-  }
-
-  async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
-    return this.twoPiProductFactory.create(await this.twoPiApi.vault(product.id));
   }
 
   private async getUserWalletAddress() {
@@ -405,12 +355,6 @@ export class HomeWalletPage implements OnInit {
 
   private async loadCachedTotalBalance() {
     this.balance = await this.balanceCacheService.total();
-  }
-
-  async setInvestedBalance() {
-    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.twoPiProducts);
-    this.totalInvested = await totalInvestedBalanceOf.cached();
-    this.totalInvested = await totalInvestedBalanceOf.value();
   }
 
   private async updateCachedTotalBalance() {
