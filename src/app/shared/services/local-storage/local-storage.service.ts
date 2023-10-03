@@ -28,5 +28,4 @@ export class LocalStorageService {
     this.hideFunds.next(hideFunds);
     return isSet;
   }
-
 }
