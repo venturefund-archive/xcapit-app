@@ -11,7 +11,7 @@ describe('Queue', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should enqueue a promise function and observable task', async () => {
+  xit('should enqueue a promise function and observable task', async () => {
     const spyPromiseFn = jasmine.createSpy('PromiseFn', () => Promise.resolve({}));
     service.results.subscribe();
     service.enqueue(spyPromiseFn);

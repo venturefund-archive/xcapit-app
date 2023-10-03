@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { NotificationsStorageService } from './notifications-storage.service';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 
 const notificationsMock1 = [{ id: 1 }, { id: 2 }, { id: 3 }];
 const notificationsMock2 = [{ id: 1 }, { id: 2 }, { id: 3 }];

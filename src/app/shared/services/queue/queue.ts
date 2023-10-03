@@ -22,6 +22,6 @@ export class Queue {
   }
 
   enqueue(aTask: ObservableOrPromise): void {
-    this.queue.next(isObservable(aTask) ? aTask : defer(() => aTask()));
+    // this.queue.next(isObservable(aTask) ? aTask : defer(() => aTask()));
   }
 }

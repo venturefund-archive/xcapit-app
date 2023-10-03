@@ -28,19 +28,14 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
-import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
-import { Vault } from '@2pi-network/sdk';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { FakeWallet } from '../shared-wallets/models/wallet/fake/fake-wallet';
 import { rawETHData, rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
-import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
-import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
 import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 import { ContactDataService } from '../../contacts/shared-contacts/services/contact-data/contact-data.service';
 import { WCService } from '../shared-wallets/services/wallet-connect/wc-service/wc.service';
@@ -71,14 +66,11 @@ describe('HomeWalletPage', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
-  let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
-  let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let base64ImageFactorySpy: jasmine.SpyObj<Base64ImageFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let walletConnectServiceSpy: jasmine.SpyObj<WCService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
-  let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
   let contactDataServiceSpy: jasmine.SpyObj<ContactDataService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
 
@@ -159,26 +151,6 @@ describe('HomeWalletPage', () => {
       getObject: [{ test: 'test' }],
     });
 
-    twoPiProductFactorySpy = jasmine.createSpyObj('TwoPiProductFactory', {
-      create: {
-        id: () => 1,
-      },
-    });
-
-    twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
-      vault: Promise.resolve({
-        apy: 0.227843965358873,
-        balances: [],
-        contract_address: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
-        deposits: [],
-        identifier: 'polygon_usdc',
-        pid: 1,
-        token: 'USDC',
-        token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
-        tvl: 1301621680000,
-      } as Vault),
-    });
-
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
       create: blockchains,
     });
@@ -196,9 +168,6 @@ describe('HomeWalletPage', () => {
     });
 
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
-    totalInvestedBalanceOfInjectableSpy = jasmine.createSpyObj('TotalInvestedBalanceOfInjectable', {
-      create: new FakeTotalInvestedBalanceOf(Promise.resolve(15.6)),
-    });
 
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: new NullNotificationsService(),
@@ -221,14 +190,11 @@ describe('HomeWalletPage', () => {
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: LocalStorageService, useValue: localStorageServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
-        { provide: TwoPiProductFactory, useValue: twoPiProductFactorySpy },
-        { provide: TwoPiApi, useValue: twoPiApiSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: Base64ImageFactory, useValue: base64ImageFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: WCService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
-        { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
         { provide: ContactDataService, useValue: contactDataServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
       ],
@@ -405,16 +371,6 @@ describe('HomeWalletPage', () => {
     const card = fixture.debugElement.query(By.css('app-backup-information-card'));
     card.triggerEventHandler('cardClicked', null);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/recovery/read');
-  });
-
-  it('should render total invested correctly', async () => {
-    await component.ionViewDidEnter();
-    fixture.detectChanges();
-    const totalInvestedEl = fixture.debugElement.query(By.css('ion-text.wt__total-invested__text'));
-    await fixture.whenRenderingDone();
-    await fixture.whenStable();
-    expect(component.totalInvested).toEqual(15.6);
-    expect(totalInvestedEl.nativeElement.innerHTML).toContain('15.60 USD');
   });
 
   it('should render correct icon if wallet connect is not connected and redirect to new connection page when icon is clicked', async () => {

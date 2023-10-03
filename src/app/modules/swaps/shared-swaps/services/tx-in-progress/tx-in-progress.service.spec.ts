@@ -12,7 +12,7 @@ import { BlockchainTransactionResponses } from '../../../../wallets/shared-walle
 import { FakeTransactionResponse } from '../../../../wallets/shared-wallets/models/transaction-response/fake/fake-transaction-response';
 import { JsonRpcProviderInjectable } from '../../../../wallets/shared-wallets/models/json-rpc-provider/injectable/json-rpc-provider.injectable';
 import { BlockchainsFactory } from '../../models/blockchains/factory/blockchains.factory';
-import { DefaultBlockchains } from '../../models/blockchains/blockchains';
+import { DefaultBlockchains } from '../../models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from '../../models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from '../../models/fixtures/raw-blockchains-data';
 import { FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';

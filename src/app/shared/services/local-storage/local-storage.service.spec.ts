@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { LocalStorageService } from './local-storage.service';
 
 describe('LocalStorageService', () => {

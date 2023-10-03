@@ -84,7 +84,7 @@ export class InputSelectComponent implements OnInit {
         selected: this.control.value,
       },
       cssClass: 'ux-routeroutlet-modal generic-modal',
-      swipeToClose: false,
+      canDismiss: true,
     });
 
     await modal.present();

@@ -1,16 +1,28 @@
-import { PendingProposal, Proposal } from './pending-proposal';
+import { PendingProposal } from './pending-proposal';
 import { SignClientV2 } from '../../../../../../shared/models/wallet-connect/sign-client/sign-client';
 import { rawSession } from '../../../fixtures/raw-session.fixture';
-import { rawProposal } from '../../../fixtures/raw-proposal.fixture';
+import { rawProposalWithoutOptionalNamespaces } from '../../../fixtures/raw-proposal.fixture';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
-import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import {
+  rawBlockchainsData,
+  rawEthereumData,
+  rawPolygonData,
+  rawSolanaData,
+} from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { FakeWallet } from '../../wallet/fake/fake-wallet';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/default/default-blockchains';
+import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
+import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains.interface';
+import { FakeBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/fake/fake-blockchains';
+import { FakeWallets } from '../../wallets/fake-wallets/fake-wallets';
+import { Wallets } from '../../wallets/wallets.interface';
 
 describe('PendingProposal', () => {
   let signClientV2Spy: jasmine.SpyObj<SignClientV2>;
   let pendingProposal: PendingProposal;
   let fakeWallet: FakeWallet;
+  let blockchains: Blockchains;
+  let wallets: Wallets;
 
   beforeEach(() => {
     fakeWallet = new FakeWallet(
@@ -25,7 +37,15 @@ describe('PendingProposal', () => {
         acknowledged: () => Promise.resolve(rawSession),
       }),
     });
-    pendingProposal = new PendingProposal(rawProposal, fakeWallet, signClientV2Spy);
+    wallets = new FakeWallets(fakeWallet);
+
+    const blockchainsValueReturn = [
+      new Blockchain(rawEthereumData),
+      new Blockchain(rawPolygonData),
+      new Blockchain(rawSolanaData),
+    ];
+    blockchains = new FakeBlockchains(blockchainsValueReturn, null, new Blockchain(rawPolygonData));
+    pendingProposal = new PendingProposal(rawProposalWithoutOptionalNamespaces, fakeWallet, signClientV2Spy, blockchains, wallets);
   });
 
   it('new', () => {
@@ -33,7 +53,7 @@ describe('PendingProposal', () => {
   });
 
   it('peerMetadata', () => {
-    expect(pendingProposal.peerMetadata()).toEqual(rawProposal.params.proposer.metadata);
+    expect(pendingProposal.peerMetadata()).toEqual(rawProposalWithoutOptionalNamespaces.params.proposer.metadata);
   });
 
   it('wallet', () => {
@@ -42,5 +62,9 @@ describe('PendingProposal', () => {
 
   it('approve', async () => {
     expect(await pendingProposal.approve()).toEqual(rawSession);
+  });
+
+  it('raw', () => {
+    expect(pendingProposal.raw()).toEqual(rawProposalWithoutOptionalNamespaces);
   });
 });

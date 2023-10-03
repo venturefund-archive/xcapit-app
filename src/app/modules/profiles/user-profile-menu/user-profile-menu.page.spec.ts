@@ -19,7 +19,7 @@ import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tic
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';

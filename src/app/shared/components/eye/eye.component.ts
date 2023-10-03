@@ -4,7 +4,7 @@ import { LocalStorageService } from '../../services/local-storage/local-storage.
 @Component({
   selector: 'app-eye',
   template: ` <a class="eye" (click)="this.hideText()">
-    <ion-icon src="assets/img/shared/eye/eye-close.svg"  [hidden]="!this.hideFundText"></ion-icon>
+    <ion-icon src="assets/img/shared/eye/eye-close.svg" [hidden]="!this.hideFundText"></ion-icon>
     <ion-icon src="assets/img/shared/eye/eye-open.svg" [hidden]="this.hideFundText"></ion-icon>
   </a>`,
   styleUrls: ['./eye.component.scss'],

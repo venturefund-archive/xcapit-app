@@ -1,10 +1,9 @@
-import { BlockchainRepo } from "../blockchain-repo/blockchain-repo";
-import { Blockchains, DefaultBlockchains } from "./blockchains";
-import { rawBlockchainsData } from "../fixtures/raw-blockchains-data";
+import { BlockchainRepo } from '../../blockchain-repo/blockchain-repo';
+import { DefaultBlockchains } from './default-blockchains';
+import { rawBlockchainsData } from '../../fixtures/raw-blockchains-data';
+import { Blockchains } from '../blockchains.interface';
 
-
-describe('Blockchains', () => {
-
+describe('DefaultBlockchains', () => {
   let blockchains: Blockchains;
 
   beforeEach(() => {
@@ -17,7 +16,7 @@ describe('Blockchains', () => {
 
   it('value', () => {
     expect(blockchains.value().length).toBeGreaterThan(0);
-  })
+  });
 
   it('access to an individual blockchain', () => {
     const blockchain = blockchains.value()[0];

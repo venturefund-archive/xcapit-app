@@ -5,11 +5,11 @@ import { AddressesToSave } from '../addresses-to-save/addresses-to-save';
 import { Subscribable } from 'src/app/shared/models/simple-subject/simple-subject';
 import { WalletRepo } from '../wallet-repo/wallet-repo';
 import { WalletsFactory } from '../wallets/factory/wallets.factory';
-import { Wallets } from '../wallets/wallets';
+import { DefaultWallets } from '../wallets/default-wallets';
 
 @Injectable({ providedIn: 'root' })
 export class UpgradeWallets {
-  private _cachedWallets: Wallets;
+  private _cachedWallets: DefaultWallets;
 
   constructor(
     private _walletsFactory: WalletsFactory,
@@ -32,7 +32,7 @@ export class UpgradeWallets {
     return this._wallets().onNeedPass();
   }
 
-  private _wallets(): Wallets {
+  private _wallets(): DefaultWallets {
     if (!this._cachedWallets) {
       this._cachedWallets = this._walletsFactory.create();
     }

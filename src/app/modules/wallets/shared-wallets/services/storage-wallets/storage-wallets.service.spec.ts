@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StorageWalletsService, StorageService } from './storage-wallets.service';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';

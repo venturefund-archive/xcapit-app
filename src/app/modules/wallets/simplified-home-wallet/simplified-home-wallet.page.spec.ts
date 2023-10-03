@@ -6,7 +6,7 @@ import { of } from 'rxjs/internal/observable/of';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 import { rawTransfer } from '../shared-wallets/fixtures/covalent-transfers.fixture';
 import { Transfers } from '../shared-wallets/models/transfers/transfers';

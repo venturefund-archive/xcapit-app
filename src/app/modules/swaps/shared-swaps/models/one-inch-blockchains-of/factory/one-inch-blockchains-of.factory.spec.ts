@@ -1,7 +1,7 @@
 import { BlockchainRepo } from '../../blockchain-repo/blockchain-repo';
-import { DefaultBlockchains } from '../../blockchains/blockchains';
+import { DefaultBlockchains } from '../../blockchains/default/default-blockchains';
 import { rawBlockchainsData } from '../../fixtures/raw-blockchains-data';
-import { OneInchBlockchainsOfFactory } from './one-inch-blockchains-of';
+import { OneInchBlockchainsOfFactory } from './one-inch-blockchains-of.factory';
 
 
 describe('OneInchBlockchainsOfFactory', () => {

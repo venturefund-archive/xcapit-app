@@ -7,7 +7,7 @@ import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.
 import { IonicStorageService } from '../../../../../shared/services/ionic-storage/ionic-storage.service';
 import { WalletBackupService } from '../wallet-backup/wallet-backup.service';
 import { NotificationsService } from '../../../../notifications/shared-notifications/services/notifications/notifications.service';
-import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';

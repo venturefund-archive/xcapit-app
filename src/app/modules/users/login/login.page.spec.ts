@@ -14,7 +14,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { DefaultPlatformService } from '../../../shared/services/platform/default/default-platform.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';

@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {Observable, from, throwError} from 'rxjs';
 import {AuthService} from '../auth/auth.service';
-import {fromPromise} from 'rxjs/internal-compatibility';
 import {catchError, mergeMap} from 'rxjs/operators';
 
 @Injectable({
@@ -17,10 +16,10 @@ export class RefreshTokenInterceptorService implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError((httpErrorResponse: HttpErrorResponse) => {
                 return (httpErrorResponse.status === 401)
-                    ? fromPromise(this.authService.checkRefreshToken()).pipe(
+                    ? from(this.authService.checkRefreshToken()).pipe(
                         mergeMap(refreshIsOk => {
                             return refreshIsOk
-                                ? fromPromise(this.authService.storedToken()).pipe(
+                                ? from(this.authService.storedToken()).pipe(
                                     mergeMap(token => next.handle(this.modifiedRequest(req, token))
                                     ))
                                 : throwError(httpErrorResponse);
