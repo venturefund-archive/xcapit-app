@@ -16,14 +16,14 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           <ion-card-title class="card-title ux-font-text-lg"
             >{{ this.title | translate }}
             <ion-icon name="information-circle" color="info" (click)="this.showProviderInfo()"></ion-icon>
+            <div class="logout-icon" *ngIf="this.isLogged" (click)="this.showLogoutAlert()">
+              <ion-icon name="ux-sign-out-info" color="info"></ion-icon>
+            </div>
           </ion-card-title>
           <div class="provider ux-font-text-xxs" *ngIf="this.isUserWarranty">
             {{ 'fiat_ramps.operations_list.kripton_provider' | translate }}
           </div>
           <ion-text class="ux-font-text-xs" *ngIf="this.isLogged">{{ this.loggedEmail | hideEmail }}</ion-text>
-        </div>
-        <div class="logout-icon" *ngIf="this.isLogged" (click)="this.showLogoutAlert()">
-          <ion-icon name="ux-sign-out-info" color="info"></ion-icon>
         </div>
       </ion-card-header>
       <ion-card-content [class.operations__content]="this.hasOperations">
