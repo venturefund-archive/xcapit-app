@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
-import * as moment from 'moment';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageWallet } from '../../interfaces/storage-wallet.interface';

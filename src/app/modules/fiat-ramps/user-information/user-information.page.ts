@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { Countries } from '../enums/countries.enum';
 import { MARITAL_STATUS } from '../constants/marital-status';
-import { Province } from '../enums/province.enums';
 import { GENDERS } from '../constants/gender';
 import { DOC_TYPES } from '../constants/doc_types';
 import { NavController } from '@ionic/angular';
-import * as moment from 'moment';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { UtcFormatOf } from '../../../shared/models/formatted-utc-date/utc-format-of';
+import { subYears } from 'date-fns';
 
 @Component({
   selector: 'app-user-information',
@@ -200,7 +200,6 @@ export class UserInformationPage {
   genders = GENDERS;
   countries = Object.values(Countries);
   maritalStatus = MARITAL_STATUS;
-  provinces = Object.values(Province);
   docTypes = DOC_TYPES;
   maxDate = this.getLegalAgeBirthDate();
 
@@ -228,7 +227,7 @@ export class UserInformationPage {
   }
 
   getLegalAgeBirthDate() {
-    return moment().subtract(18, 'y').utc().format();
+    return new UtcFormatOf(subYears(new Date(), 18)).value();
   }
 
   getParsedValues(formValues) {

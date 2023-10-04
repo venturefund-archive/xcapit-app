@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import * as moment from 'moment';
-
 import { SignRequestComponent } from './sign-request.component';
+import { format } from 'date-fns';
 
 const dateInfo = {
-  date: moment().utc().format('DD/MM/YYYY'),
-  time: moment().utc().format('HH:mm'),
+  date: format(new Date(), 'dd/MM/yyyy'),
+  time: format(new Date(), 'HH:mm'),
 };
 
 describe('SignRequestComponent', () => {
