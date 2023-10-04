@@ -1,4 +1,3 @@
-import { QueueService } from './../../../../shared/services/queue/queue.service';
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -108,7 +107,6 @@ export class RemoveWalletPage {
   constructor(
     private navController: NavController,
     private storageService: StorageService,
-    private queueService: QueueService,
     private walletConnectService: WalletConnectService,
     private ionicStorageService: IonicStorageService,
     private txInProgressService: TxInProgressService,
@@ -118,7 +116,6 @@ export class RemoveWalletPage {
   async remove() {
     this._enableLoading();
     await this.storageService.removeWalletFromStorage();
-    this.queueService.dequeueAll();
     await this._backupLender();
     this._cleanStorage();
     await this.walletConnectService.killSession();
