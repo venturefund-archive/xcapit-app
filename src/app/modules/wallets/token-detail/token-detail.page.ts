@@ -1,19 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { NETWORK_COLORS } from '../shared-wallets/constants/network-colors.constant';
 import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../../fiat-ramps/shared-ramps/models/provider-tokens-of/provider-tokens-of';
-import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
-import { AvailableDefiProducts } from '../../defi-investments/shared-defi-investments/models/available-defi-products/available-defi-products.model';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-import { DefiProduct } from '../../defi-investments/shared-defi-investments/interfaces/defi-product.interface';
-import { NavController } from '@ionic/angular';
-import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/models/two-pi-product/two-pi-product.model';
-import { InvestmentProduct } from '../../defi-investments/shared-defi-investments/interfaces/investment-product.interface';
-import { VoidSigner } from 'ethers';
-import { TwoPiInvestmentFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
-import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { RawToken, TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
@@ -77,23 +66,12 @@ import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets
             <div class="wad__title_container">
               <div class="wad__title_container__title">
                 <ion-text class="ux-font-text-lg">{{ this.tplToken.value }}</ion-text>
-                <ion-text class="ux-font-text-xs title">{{ this.tplToken.name | splitString: ' - '[1] }}</ion-text>
+                <ion-text class="ux-font-text-xs title">{{ this.tplToken.name | splitString : ' - '[1] }}</ion-text>
               </div>
               <div class="wad__title_container__badge">
                 <app-token-network-badge [blockchainName]="this.tplBlockchain.name"></app-token-network-badge>
               </div>
             </div>
-            <ion-button
-              *ngIf="this.hideButton"
-              class="wad__invest-button"
-              color="secondary"
-              slot="end"
-              [dataToTrack]="{ eventLabel: this.buttonName }"
-              appTrackClick
-              (click)="this.goToInvest()"
-            >
-              {{ 'wallets.asset_detail.invest_button' | translate }}
-            </ion-button>
           </div>
           <div class="wad__available text-center">
             <ion-text class="title ux-font-titulo-xs">
@@ -104,7 +82,7 @@ import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets
                 {{ this.tokenDetail.balance | formattedAmount }} {{ this.tplToken.value }}</ion-text
               >
               <ion-text class="ux-font-text-xxs" color="neutral80" *ngIf="this.tokenDetail?.price">
-                ≈ {{ this.tokenDetail.price * this.tokenDetail.balance | formattedAmount: 10:2 }}
+                ≈ {{ this.tokenDetail.price * this.tokenDetail.balance | formattedAmount : 10 : 2 }}
                 {{ this.tokenDetail.quoteSymbol }}
               </ion-text>
             </div>
@@ -148,17 +126,11 @@ import { WalletsFactory } from '../shared-wallets/models/wallets/factory/wallets
 export class TokenDetailPage {
   buttonName: string;
   transfers: Transfer[];
-  networkColors = NETWORK_COLORS;
   enabledToBuy: boolean;
   enabledToOperate: boolean;
-  defiProducts: DefiProduct[];
-  allDefiProducts: InvestmentProduct[] = [];
-  productToInvest: InvestmentProduct;
-  productBalance: number;
   tokenDetail: TokenDetail;
   tplToken: RawToken;
   tplBlockchain: RawBlockchain;
-  hideButton = false;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   private token: Token;
@@ -169,11 +141,6 @@ export class TokenDetailPage {
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private twoPiApi: TwoPiApi,
-    private remoteConfig: RemoteConfigService,
-    private navController: NavController,
-    private twoPiInvestmentFactory: TwoPiInvestmentFactory,
-    private twoPiProductFactory: TwoPiProductFactory,
     private transfersFactory: TransfersFactory,
     private blockchainsFactory: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
@@ -189,57 +156,8 @@ export class TokenDetailPage {
     await this.setToken();
     await this.setWallet();
     await this.setTokenDetail();
-    this.setButtonName();
     await this.setAllowedOperations();
     await this.getTransfers();
-    this.getAvailableDefiProducts();
-    await this.getInvestments();
-    await this.findProductToInvest();
-  }
-
-  private getAvailableDefiProducts(): void {
-    this.defiProducts = this.createAvailableDefiProducts().value();
-  }
-
-  createAvailableDefiProducts(): AvailableDefiProducts {
-    return new AvailableDefiProducts(this.remoteConfig);
-  }
-
-  async getInvestments() {
-    const investmentsProducts = [];
-    for (const product of this.defiProducts) {
-      investmentsProducts.push(await this.getInvestmentProduct(product));
-    }
-    this.allDefiProducts = investmentsProducts;
-  }
-
-  async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
-    return this.twoPiProductFactory.create(await this.twoPiApi.vault(product.id));
-  }
-
-  async setBalance(anInvestmentProduct: InvestmentProduct) {
-    if (anInvestmentProduct) {
-      this.productBalance = await this.twoPiInvestmentFactory
-        .new(anInvestmentProduct, new VoidSigner(this.wallet.address()), this.apiWalletService)
-        .balance();
-    }
-  }
-
-  async findProductToInvest() {
-    this.allDefiProducts.find((product) => {
-      if (product.token().value === this.token.symbol() && product.token().network === this.token.network()) {
-        this.productToInvest = product;
-      }
-    });
-    await this.setBalance(this.productToInvest);
-  }
-
-  goToInvest() {
-    if (this.productBalance > 0) {
-      this.navController.navigateForward(['/defi/investment-detail/', this.productToInvest.name()]);
-    } else {
-      this.navController.navigateForward(['/defi/new/insert-amount', this.productToInvest.name(), 'invest']);
-    }
   }
 
   private async setWallet() {
@@ -270,10 +188,6 @@ export class TokenDetailPage {
     this.tokenDetail.fetch();
   }
 
-  setButtonName() {
-    this.buttonName = `ux_go_to_invest_${this.token.symbol().toLowerCase()}`;
-  }
-
   async getTransfers() {
     if (this.blockchain.name() !== 'SOLANA') {
       this.transfers = undefined;
@@ -284,8 +198,12 @@ export class TokenDetailPage {
   }
 
   private async setAllowedOperations() {
-    const providerTokens = await new ProviderTokensOf(this.providers.create(), [this.token.json()], this.fiatRampsService).all()
-    this.enabledToBuy = !!(providerTokens).length;
+    const providerTokens = await new ProviderTokensOf(
+      this.providers.create(),
+      [this.token.json()],
+      this.fiatRampsService
+    ).all();
+    this.enabledToBuy = !!providerTokens.length;
     this.enabledToOperate = true;
   }
 
