@@ -25,9 +25,12 @@ import { GasFeeOf } from '../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { ERC20ContractInjectable } from '../../defi-investments/shared-defi-investments/models/erc20-contract/injectable/erc20-contract.injectable';
 import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
-import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
+import { DefaultToken, Token } from '../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
+import { TranslateService } from '@ngx-translate/core';
+import { ModalFactoryInjectable } from 'src/app/shared/models/modal/injectable/modal-factory.injectable';
+import { Modals } from 'src/app/shared/models/modal/factory/default/default-modal-factory';
 
 @Component({
   selector: 'app-send-donation',
@@ -53,7 +56,7 @@ import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
               [blockchain]="this.token.network"
               [token]="this.token.value"
               [tokenLogo]="this.token.logoRoute"
-            ></app-asset-detail> 
+            ></app-asset-detail>
             <div class="sd__send-amount-card__title">
               <ion-text class="ux-font-titulo-xs">{{ 'donations.send_donations.destiny_wallet' | translate }}</ion-text>
             </div>
@@ -141,6 +144,7 @@ export class SendDonationPage implements OnInit {
     private erc20ContractInjectable: ERC20ContractInjectable,
     private modalController: ModalController,
     private dynamicPriceFactory: DynamicPriceFactory,
+    private modalFactoryInjectable: ModalFactoryInjectable
   ) {}
 
   ngOnInit() {}
@@ -245,7 +249,7 @@ export class SendDonationPage implements OnInit {
       this.token.decimals
     ).value();
 
-      this.fee *= 1.25;
+    this.fee *= 1.25;
   }
 
   parseWei(amount: number) {
@@ -303,27 +307,25 @@ export class SendDonationPage implements OnInit {
 
   checkAvailableBalance() {
     if (this.balance < this.fee) {
-      this.openModalNativeTokenBalance();
+      this.openModalNativeTokenBalance(
+        new DefaultToken(this.token as RawToken),
+        'defi_investments.confirmation.informative_modal_fee',
+        'defi_investments.confirmation.buy_button',
+        'defi_investments.confirmation.deposit_button'
+      );
     }
   }
 
-  async openModalNativeTokenBalance() {
-    const modal = await this.modalController.create({
-      component: BuyOrDepositTokenToastComponent,
-      cssClass: 'ux-toast-warning-with-margin',
-      showBackdrop: false,
-      id: 'feeModal',
-      componentProps: {
-        text: 'defi_investments.confirmation.informative_modal_fee',
-        primaryButtonText: 'defi_investments.confirmation.buy_button',
-        secondaryButtonText: 'defi_investments.confirmation.deposit_button',
-        token: new DefaultToken(this.token as RawToken),
-      },
-    });
-    if (window.location.href === this.modalHref) {
-      await modal.present();
-    }
-    await modal.onDidDismiss();
+  async openModalNativeTokenBalance(
+    token: Token,
+    description: string,
+    primaryButtonText: string,
+    secondaryButtonText: string
+  ) {
+    await this.modalFactoryInjectable
+      .create()
+      .oneBy(Modals.BALANCE, [token, description, primaryButtonText, secondaryButtonText])
+      .showIn(this.modalHref);
   }
 
   ionViewWillLeave() {
