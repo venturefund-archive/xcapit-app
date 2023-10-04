@@ -15,26 +15,15 @@ import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers
 import { Providers } from '../../fiat-ramps/shared-ramps/models/providers/providers.interface';
 import { rawProvidersData } from '../../fiat-ramps/shared-ramps/fixtures/raw-providers-data';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
-import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
-import { Vault } from '@2pi-network/sdk';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-import { TwoPiInvestment } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
-import { TwoPiInvestmentFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
-import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { CovalentBalancesInjectable } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.injectable';
 import { TokenPricesInjectable } from '../shared-wallets/models/prices/token-prices/token-prices.injectable';
-import {
-  rawETHData,
-  rawSAMOData,
-  rawTokensData,
-  rawUSDCData,
-} from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawETHData, rawSAMOData, rawTokensData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import {
   rawBlockchainsData,
   rawEthereumData,
-  rawPolygonData,
   rawSolanaData,
 } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/default/default-blockchains';
@@ -60,12 +49,9 @@ describe('TokenDetailPage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let providersSpy: jasmine.SpyObj<Providers>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
-  let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let twoPiInvestmentFactorySpy: jasmine.SpyObj<TwoPiInvestmentFactory>;
-  let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
   let transfersFactorySpy: jasmine.SpyObj<TransfersFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
@@ -103,20 +89,6 @@ describe('TokenDetailPage', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
-      vault: Promise.resolve({
-        apy: 0.227843965358873,
-        balances: [],
-        contract_address: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
-        deposits: [],
-        identifier: 'polygon_usdc',
-        pid: 1,
-        token: 'USDC',
-        token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
-        tvl: 1301621680000,
-      } as Vault),
-    });
-
     tokenPricesInjectableSpy = jasmine.createSpyObj('TokenPricesInjectable', {
       create: new FakePrices(),
     });
@@ -143,29 +115,15 @@ describe('TokenDetailPage', () => {
 
     transfersSpy = jasmine.createSpyObj('Transfers', {
       cached: rawTransfer,
-      all: rawTransfer
+      all: rawTransfer,
     });
 
     transfersFactorySpy = jasmine.createSpyObj('TransfersFactory', {
-      create: transfersSpy
+      create: transfersSpy,
     });
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
       getObject: [{ test: 'test' }],
-    });
-
-    twoPiInvestmentFactorySpy = jasmine.createSpyObj('TwoPiInvestmentFactory', {
-      new: { balance: () => Promise.resolve(10) },
-    });
-
-    twoPiProductFactorySpy = jasmine.createSpyObj('TwoPiProductFactory', {
-      create: {
-        token: () => ({
-          value: 'USDC',
-          network: 'MATIC',
-        }),
-        name: () => 'polygon_usdc',
-      },
     });
 
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
@@ -203,11 +161,8 @@ describe('TokenDetailPage', () => {
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
-        { provide: TwoPiApi, useValue: twoPiApiSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: TwoPiInvestmentFactory, useValue: twoPiInvestmentFactorySpy },
-        { provide: TwoPiProductFactory, useValue: twoPiProductFactorySpy },
         { provide: TransfersFactory, useValue: transfersFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
@@ -216,7 +171,7 @@ describe('TokenDetailPage', () => {
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
         { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
         { provide: Transfers, useValue: transfersSpy },
-        { provide: FiatRampsService, useValue: fiatRampsServiceSpy}
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -273,13 +228,6 @@ describe('TokenDetailPage', () => {
     expect(quoteAmountEl).toBe(undefined);
     expect(amountEl.nativeElement.innerHTML).toContain(20);
     expect(amountEl.nativeElement.innerHTML).toContain('ETH');
-  });
-
-  it('should find to product to invest on view will enter', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ blockchain: rawPolygonData.name, token: rawUSDCData.contract });
-    await component.ionViewWillEnter();
-
-    expect(component.productToInvest.token().value).toEqual('USDC');
   });
 
   it('should reload transfers when refresher is triggered', fakeAsync(() => {
