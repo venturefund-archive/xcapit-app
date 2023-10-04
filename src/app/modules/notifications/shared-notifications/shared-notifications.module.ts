@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { NotificationPipe } from './pipes/notification/notification.pipe';
 
 @NgModule({
-  declarations: [NotificationPipe],
+  declarations: [],
   imports: [SharedModule],
-  exports: [SharedModule, NotificationPipe]
+  exports: [SharedModule],
 })
-export class SharedNotificationsModule { }
+export class SharedNotificationsModule {}
