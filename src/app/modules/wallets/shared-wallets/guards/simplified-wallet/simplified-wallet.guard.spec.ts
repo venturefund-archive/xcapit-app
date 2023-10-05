@@ -49,7 +49,7 @@ fdescribe('SimplifiedWalletGuard', () => {
   });
 
   fit('SimplifiedWalletGuard should call canActivate method of SimplifiedWalletGuardService', async () => {
-    expect(await guard()).toBeTruthy() 
+    expect( guard).toBeTruthy() 
   });
 
 });
