@@ -288,14 +288,14 @@ describe('UserProfileMenuPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should log out if user selected to not see modal in this device when Log Out button is clicked and navigate to users/login', async () => {
+  it('should log out if user selected to not see modal in this device when Log Out button is clicked and navigate to users/login-new', async () => {
     component.profile = profile;
     logOutModalServiceSpy.isShowModalTo.and.returnValue(Promise.resolve(false));
     const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
     button.nativeElement.click();
     await fixture.whenStable();
     expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login-new');
   });
 
   it('should render app-card-category-menu component', async () => {
