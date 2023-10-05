@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/users/login"></ion-back-button>
+          <ion-back-button defaultHref="/users/login-new"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'users.reset_password.header' | translate }}

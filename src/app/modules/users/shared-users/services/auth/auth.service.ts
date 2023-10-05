@@ -115,6 +115,6 @@ export class AuthService {
 
   async sesionExpired() {
     await this.logout();
-    await this.router.navigate(['/users/login']);
+    await this.router.navigate(['/users/login-new']);
   }
 }

@@ -37,7 +37,7 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'funds.fund_success.namePrimaryAction',
   },
   email_reset_password: {
-    urlClose: '/users/login',
+    urlClose: '/users/login-new-new-new',
     textPrimary: 'users.reset_password.success_send_email_title',
     textSecondary: 'users.reset_password.success_send_email_text',
     urlPrimaryAction: '/users/login',

@@ -94,7 +94,7 @@ describe('ResendVerificationEmailPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(storageSpy.remove).toHaveBeenCalledWith('email');
     expect(component.email).toEqual(undefined);
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/users/login']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/users/login-new']);
   });
 
   it('should resend email and disable resend button at init when an email is provided', () => {

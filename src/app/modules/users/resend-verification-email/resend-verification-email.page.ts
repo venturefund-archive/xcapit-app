@@ -120,7 +120,7 @@ export class ResendVerificationEmailPage implements OnInit {
 
   close() {
     this.clearStorage();
-    this.navController.navigateBack(['/users/login']);
+    this.navController.navigateBack(['/users/login-new']);
   }
 
   async resendEmail() {
