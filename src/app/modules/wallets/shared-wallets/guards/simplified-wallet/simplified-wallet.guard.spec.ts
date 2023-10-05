@@ -47,7 +47,7 @@ fdescribe('SimplifiedWalletGuard', () => {
   });
 
   fit('SimplifiedWalletGuard should call canActivate method of SimplifiedWalletGuardService', async () => {
-    const guard = TestBed.runInInjectionContext(async ()=> await SimplifiedWalletGuard(null,null));
+    const guard = await TestBed.runInInjectionContext(async ()=> await SimplifiedWalletGuard(null,null));
     console.log('G',guard)
     expect(guard).toBeTruthy() 
   });
