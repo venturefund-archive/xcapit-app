@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class NoWallet implements CanActivate {
+export class NoWallet {
   private defaultFallbackUrl = '/users/login-new';
   constructor(private navController: NavController, private storageService: StorageService) {}
 

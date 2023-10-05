@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -8,7 +7,7 @@ import { LoggedIn } from '../../models/logged-in/logged-in';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard {
   constructor(
     private ionicStorageService: IonicStorageService,
     private storageService: StorageService,

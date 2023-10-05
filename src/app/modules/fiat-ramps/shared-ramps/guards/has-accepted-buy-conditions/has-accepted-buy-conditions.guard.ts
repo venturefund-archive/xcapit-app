@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { SimplifiedWallet } from 'src/app/modules/wallets/shared-wallets/models/simplified-wallet/simplified-wallet';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -7,7 +6,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 @Injectable({
   providedIn: 'root',
 })
-export class HasAcceptedBuyConditionsGuard implements CanActivate {
+export class HasAcceptedBuyConditionsGuard {
   private readonly _aKey = 'conditionsPurchasesAccepted';
 
   constructor(private ionicStorage: IonicStorageService, private navController: NavController) {}
