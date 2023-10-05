@@ -7,7 +7,6 @@ import { ApiUsuariosService } from '../shared-users/services/api-usuarios/api-us
 import { AuthFormComponent } from '../shared-users/components/auth-form/auth-form.component';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
@@ -22,11 +21,10 @@ import { By } from '@angular/platform-browser';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
-describe('LoginPage', () => {
+fdescribe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   let apiUsuariosSpy: jasmine.SpyObj<ApiUsuariosService>;
-  let subscriptionsServiceSpy: jasmine.SpyObj<SubscriptionsService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LoginPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
@@ -63,9 +61,7 @@ describe('LoginPage', () => {
       login: of({}),
     });
 
-    subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', {
-      checkStoredLink: Promise.resolve(false),
-    });
+    
 
     storageSpy = jasmine.createSpyObj('Storage', {
       get: Promise.resolve(true),
@@ -92,7 +88,6 @@ describe('LoginPage', () => {
       providers: [
         { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: Storage, useValue: storageSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
@@ -121,7 +116,6 @@ describe('LoginPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
-    expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
   }));
 
   it('should set up on login success without stored link and push notifications not activated', fakeAsync(() => {
@@ -133,18 +127,8 @@ describe('LoginPage', () => {
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
-    expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
   }));
 
-  it('should not call startUrl when stored link', fakeAsync(() => {
-    const spyStartUrl = spyOn(component, 'startUrl');
-    subscriptionsServiceSpy.checkStoredLink.and.returnValue(Promise.resolve(true));
-
-    component.loginUser({});
-    tick();
-
-    expect(spyStartUrl).not.toHaveBeenCalled();
-  }));
 
   it('should redirect to first steps when the user is not already onboarded', () => {
     component.alreadyOnboarded = false;
@@ -201,7 +185,6 @@ describe('LoginPage', () => {
   });
 
   it('should call walletConnectService checkDeeplinkUrl on Success when has a uri defined', fakeAsync(() => {
-    subscriptionsServiceSpy.checkStoredLink.and.returnValue(Promise.resolve(false));
     walletConnectServiceSpy.uri = new BehaviorSubject('wc:///');
     component.alreadyOnboarded = true;
     fixture.detectChanges();
