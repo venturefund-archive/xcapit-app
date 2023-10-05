@@ -1,11 +1,14 @@
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TabsComponent } from './tabs/tabs.component';
 import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
 import { IntroductionCompletedGuard } from '../financial-education/shared-financial-education/guards/introduction-completed';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { NewLogin } from '../users/shared-users/guards/new-login/new-login.guard';
-import { SimplifiedWalletGuard } from '../wallets/shared-wallets/guards/simplified-wallet/simplified-wallet.guard';
+import {
+  simplifiedWalletGuard,
+  SimplifiedWalletGuard,
+} from '../wallets/shared-wallets/guards/simplified-wallet/simplified-wallet.guard';
 
 const routes: Routes = [
   {
@@ -24,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'wallets',
-        canActivate: [SimplifiedWalletGuard],
+        canActivate: [() => inject(simplifiedWalletGuard).canActivate()],
         loadChildren: () => import('../wallets/home-wallet/home-wallet.module').then((m) => m.HomeWalletPageModule),
       },
       {
