@@ -46,9 +46,17 @@ fdescribe('SimplifiedWalletGuard', () => {
     expect(navControllerSpy.navigateRoot).not.toHaveBeenCalled();
   });
 
-  it('should create guard', () => {
-    const guard = SimplifiedWalletGuard as Function;
-    const instance = guard();
-    expect(instance).toBeTruthy();
+  it('SimplifiedWalletGuard should call canActivate method of SimplifiedWalletGuardService', async () => {
+    spyOn(simplifiedWalletGuard, 'canActivate').and.returnValue(Promise.resolve(true));
+
+    const canActivate = await SimplifiedWalletGuard(null,null);
+    expect(canActivate).toBe(true);
+    expect(simplifiedWalletGuard.canActivate).toHaveBeenCalled();
   });
+
+  // it('should  create guard', () => {
+  //   const guard = SimplifiedWalletGuard as Function;
+  //   const instance = guard();
+  //   expect(instance).toBeTruthy();
+  // });
 });
