@@ -12,9 +12,7 @@ export class SimplifiedWalletGuardService  {
 
   async canActivate(): Promise<boolean> {
     const hasSimplifiedWallet = await new SimplifiedWallet(this._aStorage).value();
-
     if (hasSimplifiedWallet) await this.redirectToPage();
-
     return !hasSimplifiedWallet;
   }
 
