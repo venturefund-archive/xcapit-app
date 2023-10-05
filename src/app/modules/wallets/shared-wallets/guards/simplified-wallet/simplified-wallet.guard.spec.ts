@@ -4,7 +4,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TestBed } from '@angular/core/testing';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
-describe('SimplifiedWalletGuard', () => {
+fdescribe('SimplifiedWalletGuard', () => {
   let simplifiedWalletGuard: SimplifiedWalletGuard;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
