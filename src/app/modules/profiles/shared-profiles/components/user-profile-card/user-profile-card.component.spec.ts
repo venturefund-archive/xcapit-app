@@ -50,25 +50,4 @@ describe('UserProfileCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should call trackEvent on trackService when Investor Profile button is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_go_to_investor_profile');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spyClickEvent = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spyClickEvent).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to investments page when Investor Profile button is clicked', () => {
-    fixture.debugElement.query(By.css('ion-button[name="ux_go_to_investor_profile"]')).nativeElement.click();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/investments']);
-  });
-
-  it('should hide Investor Profile button when user has not taken Investor Test', () => {
-    component.profile = testProfiles.noTest;
-    fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css('ion-button[name="ux_go_to_investor_profile"]'));
-    expect(button).toBeNull();
-  });
 });

@@ -13,54 +13,6 @@ const routes: Routes = [
         loadChildren: () => import('./on-boarding/on-boarding.module').then((m) => m.OnBoardingPageModule),
       },
       {
-        path: 'register',
-        canActivate: [NoAuthGuard],
-        loadChildren: () => import('./register/register.module').then((m) => m.RegisterPageModule),
-      },
-      {
-        path: 'email-validation',
-        canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./email-validation/email-validation.module').then((m) => m.EmailValidationPageModule),
-      },
-      {
-        path: 'login',
-        canActivate: [NoAuthGuard],
-        loadChildren: () => import('./login/login.module').then((m) => m.LoginPageModule),
-      },
-      {
-        path: 'reset-password',
-        canActivate: [NoAuthGuard],
-        loadChildren: () => import('./reset-password/reset-password.module').then((m) => m.ResetPasswordPageModule),
-      },
-      {
-        path: 'success-reset',
-        canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./success-reset-password/success-reset-password.module').then(
-            (m) => m.SuccessResetPasswordPageModule
-          ),
-      },
-      {
-        path: 'success-register',
-        canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./success-register/success-register.module').then((m) => m.SuccessRegisterPageModule),
-      },
-      {
-        path: 'resend-verification-email',
-        canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./resend-verification-email/resend-verification-email.module').then(
-            (m) => m.ResendVerificationEmailPageModule
-          ),
-      },
-      {
-        path: 'password-change',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('./password-change/password-change.module').then((m) => m.PasswordChangePageModule),
-      },
-      {
         path: 'login-new',
         canActivate: [NoAuthGuard],
         loadChildren: () => import('./login-new/login-new.module').then((m) => m.LoginNewPageModule),

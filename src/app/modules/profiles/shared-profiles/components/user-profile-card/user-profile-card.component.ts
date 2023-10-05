@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-user-profile-card',
@@ -13,36 +12,15 @@ import { NavController } from '@ionic/angular';
           <ion-text class="ux-font-header-titulo">{{ this.username }}</ion-text>
         </div>
       </div>
-      <div class="footer">
-        <ion-button
-          *ngIf="this.hasDoneInvestorTest"
-          appTrackClick
-          class="option-button ux_button ion-no-padding ion-no-margin"
-          fill="clear"
-          color="info"
-          name="ux_go_to_investor_profile"
-          (click)="this.goToInvestments()"
-        >
-          <ion-text>{{ 'profiles.user_profile_menu.profile_footer.investor_profile_button' | translate }}</ion-text>
-          <ion-icon color="info" name="chevron-forward"></ion-icon>
-        </ion-button>
-      </div>
     </div>
   `,
   styleUrls: ['./user-profile-card.component.scss'],
 })
-export class UserProfileCardComponent implements OnInit {
+export class UserProfileCardComponent {
   @Input() profile: any;
   @Input() username: string;
 
-  get hasDoneInvestorTest(): boolean {
-    return this.profile.investor_category !== 'wealth_managements.profiles.no_category';
-  }
-  constructor(private navController: NavController) {}
+  constructor() {}
 
-  ngOnInit() {}
 
-  goToInvestments() {
-    this.navController.navigateRoot(['/tabs/investments']);
-  }
 }

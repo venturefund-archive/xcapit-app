@@ -8,7 +8,7 @@ const routes: Routes = [
     data: { redirectUrl: '/tabs/wallets' },
     path: '',
     pathMatch: 'full',
-    redirectTo: '/users/login',
+    redirectTo: '/users/login-new',
   },
 ];
 

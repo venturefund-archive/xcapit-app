@@ -88,6 +88,6 @@ describe('CreateEmailValidationTicketPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('ionBackButton');
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/users/login']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/users/login-new']);
   });
 });

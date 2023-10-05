@@ -56,6 +56,6 @@ export class SuccessDeleteAccountPage {
   async logout() {
     await new LoggedIn(this.ionicStorageService).save(false);
     await this.authService.logout();
-    await this.navController.navigateRoot('users/login');
+    await this.navController.navigateRoot('users/login-new');
   }
 }

@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UsersModule } from './modules/users/users.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
-import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { TrackClickModule } from './shared/directives/track-click/track-click.module';
 import { WildcardRoutingModule } from './wildcard-routing.module';
 import { ReferralsModule } from './modules/referrals/referrals.module';
@@ -76,7 +75,6 @@ registerLocaleData(localeEn, 'en');
     FinancialEducationModule,
     FinancialPlannerModule,
     DonationsModule,
-    SubscriptionsModule,
     ReferralsModule,
     TabsModule,
     NotificationsModule,
@@ -154,7 +152,6 @@ registerLocaleData(localeEn, 'en');
       deps: [NotificationsService],
       multi: true,
     },
-    
   ],
   bootstrap: [AppComponent],
   exports: [NoConnectionBannerComponent],
