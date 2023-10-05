@@ -24,14 +24,6 @@ const routes: Routes = [
           import('./email-validation/email-validation.module').then((m) => m.EmailValidationPageModule),
       },
       {
-        path: 'success-reset',
-        canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./success-reset-password/success-reset-password.module').then(
-            (m) => m.SuccessResetPasswordPageModule
-          ),
-      },
-      {
         path: 'success-register',
         canActivate: [NoAuthGuard],
         loadChildren: () =>
