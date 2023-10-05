@@ -45,4 +45,10 @@ fdescribe('SimplifiedWalletGuard', () => {
     expect(await simplifiedWalletGuard.canActivate()).toBeTrue();
     expect(navControllerSpy.navigateRoot).not.toHaveBeenCalled();
   });
+
+  it('should be create guard', () => {
+    const guard = SimplifiedWalletGuard as Function;
+    const instance = guard();
+    expect(instance).toBeTruthy();
+  });
 });
