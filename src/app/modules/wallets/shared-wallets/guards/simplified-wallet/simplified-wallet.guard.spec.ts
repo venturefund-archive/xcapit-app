@@ -46,7 +46,7 @@ fdescribe('SimplifiedWalletGuard', () => {
     expect(navControllerSpy.navigateRoot).not.toHaveBeenCalled();
   });
 
-  it('should be create guard', () => {
+  it('should create guard', () => {
     const guard = SimplifiedWalletGuard as Function;
     const instance = guard();
     expect(instance).toBeTruthy();
