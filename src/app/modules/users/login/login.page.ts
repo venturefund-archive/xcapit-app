@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthFormComponent } from '../shared-users/components/auth-form/auth-form.component';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiUsuariosService } from '../shared-users/services/api-usuarios/api-usuarios.service';
-import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
@@ -86,7 +85,6 @@ export class LoginPage implements OnInit {
   constructor(
     public submitButtonService: SubmitButtonService,
     private apiUsuarios: ApiUsuariosService,
-    private subscriptionsService: SubscriptionsService,
     private notificationsService: NotificationsService,
     private navController: NavController,
     private storage: Storage,
@@ -142,13 +140,10 @@ export class LoginPage implements OnInit {
   private async success() {
     this.loginForm.form.reset();
     this.initializeNotifications();
-    const storedLink = await this.subscriptionsService.checkStoredLink();
-    if (!storedLink) {
-      if (this.walletConnectService.uri.value && this.alreadyOnboarded) {
-        await this.walletConnectService.checkDeeplinkUrl();
-      } else {
-        await this.navigateTo(this.startUrl());
-      }
+    if (this.walletConnectService.uri.value && this.alreadyOnboarded) {
+      await this.walletConnectService.checkDeeplinkUrl();
+    } else {
+      await this.navigateTo(this.startUrl());
     }
     await this.checkWalletProtected();
     this.loading = false;
