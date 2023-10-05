@@ -1,4 +1,4 @@
-import { inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TabsComponent } from './tabs/tabs.component';
 import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
