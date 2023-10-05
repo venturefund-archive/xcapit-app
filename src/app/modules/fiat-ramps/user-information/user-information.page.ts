@@ -8,7 +8,7 @@ import { GENDERS } from '../constants/gender';
 import { DOC_TYPES } from '../constants/doc_types';
 import { NavController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { UtcFormatOf } from '../../../shared/models/formatted-utc-date/utc-format-of';
+import { UtcFormatOf } from '../../../shared/models/utc-format-of/utc-format-of';
 import { subYears } from 'date-fns';
 
 @Component({

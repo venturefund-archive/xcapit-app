@@ -13,7 +13,7 @@ import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { WalletsFactory } from '../../models/wallets/factory/wallets.factory';
-import { UtcFormatOf } from '../../../../../shared/models/formatted-utc-date/utc-format-of';
+import { UtcFormatOf } from '../../../../../shared/models/utc-format-of/utc-format-of';
 
 @Injectable({
   providedIn: 'root',
