@@ -22,7 +22,7 @@ fdescribe('SimplifiedWalletGuard', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        SimplifiedWalletGuard,
+        SimplifiedWalletGuardService,
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
       ],
