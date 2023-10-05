@@ -18,12 +18,6 @@ const routes: Routes = [
         loadChildren: () => import('./register/register.module').then((m) => m.RegisterPageModule),
       },
       {
-        path: 'email-validation',
-        canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./email-validation/email-validation.module').then((m) => m.EmailValidationPageModule),
-      },
-      {
         path: 'success-register',
         canActivate: [NoAuthGuard],
         loadChildren: () =>
