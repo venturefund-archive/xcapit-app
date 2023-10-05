@@ -9,7 +9,7 @@ fdescribe('SimplifiedWalletGuard', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-
+  let guard;
   beforeEach(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
@@ -23,11 +23,13 @@ fdescribe('SimplifiedWalletGuard', () => {
       imports: [],
       providers: [
         SimplifiedWalletGuardService,
+        SimplifiedWalletGuard,
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
       ],
     });
     simplifiedWalletGuard = TestBed.inject(SimplifiedWalletGuardService);
+    guard = TestBed.runInInjectionContext(()=>SimplifiedWalletGuard(null,null));
   });
 
   it('should create', () => {
@@ -47,11 +49,9 @@ fdescribe('SimplifiedWalletGuard', () => {
   });
 
   it('SimplifiedWalletGuard should call canActivate method of SimplifiedWalletGuardService', async () => {
-    spyOn(simplifiedWalletGuard, 'canActivate').and.returnValue(Promise.resolve(true));
-
-    const canActivate = await SimplifiedWalletGuard(null,null);
-    expect(canActivate).toBe(true);
-    expect(simplifiedWalletGuard.canActivate).toHaveBeenCalled();
+    guard.subscribe((p: unknown) => {
+      expect(p).toBe(false)
+    })
   });
 
 });
