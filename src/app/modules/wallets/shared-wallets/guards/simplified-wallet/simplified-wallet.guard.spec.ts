@@ -27,18 +27,16 @@ fdescribe('SimplifiedWalletGuard', () => {
         { provide: NavController, useValue: navControllerSpy },
       ],
     });
-    simplifiedWalletGuard = TestBed.inject(SimplifiedWalletGuard);
+    simplifiedWalletGuard = TestBed.inject(SimplifiedWalletGuardService);
   });
 
   it('should create', () => {
     expect(simplifiedWalletGuard).toBeTruthy();
   });
 
-  fit('should navigate to home wallet when the user is simplified Wallet', async () => {
-    
-    expect(SimplifiedWalletGuard(null,null)).toBeFalse();
-    // expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/simplified-home-wallet']);
-  
+  it('should navigate to home wallet when the user is simplified Wallet', async () => {
+    expect(await simplifiedWalletGuard.canActivate()).toBeFalse();
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/simplified-home-wallet']);
   });
 
   it('should not navigate to home wallet when the user is simplified wallet', async () => {
