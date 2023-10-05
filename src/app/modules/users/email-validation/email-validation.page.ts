@@ -91,7 +91,7 @@ export class EmailValidationPage implements OnInit, OnDestroy {
     this.isValidating = false;
     this.isValidEmail = data.isValid;
     if (this.isValidEmail) {
-      this.navController.navigateForward(['/users/login'], { replaceUrl: true }).then(() =>
+      this.navController.navigateForward(['/users/login-new'], { replaceUrl: true }).then(() =>
         this.toastService.showToast({
           message: this.translate.instant('users.email_validation.ok_text'),
         })
@@ -115,7 +115,7 @@ export class EmailValidationPage implements OnInit, OnDestroy {
   }
 
   async error(e) {
-    this.navController.navigateForward(['/users/login'], { replaceUrl: true }).then(() =>
+    this.navController.navigateForward(['/users/login-new'], { replaceUrl: true }).then(() =>
       this.toastService.showToast({
         message: this.translate.instant(e.error_code),
       })
