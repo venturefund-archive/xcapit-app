@@ -40,7 +40,7 @@ export const SUCCESS_TYPES = {
     urlClose: '/users/login-new-new-new',
     textPrimary: 'users.reset_password.success_send_email_title',
     textSecondary: 'users.reset_password.success_send_email_text',
-    urlPrimaryAction: '/users/login',
+    urlPrimaryAction: '/users/login-new',
     namePrimaryAction: 'users.reset_password.success_button',
   },
   reset_password: {
