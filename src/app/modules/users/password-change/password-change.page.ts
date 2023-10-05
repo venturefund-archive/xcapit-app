@@ -63,7 +63,7 @@ export class PasswordChangePage {
 
   async success() {
     await this.auth.logout();
-    await this.navController.navigateBack(['/users/login'], { replaceUrl: true }).then(() => {
+    await this.navController.navigateBack(['/users/login-new'], { replaceUrl: true }).then(() => {
       this.formComponent.form.reset();
       this.toast.showToast({
         header: this.translate.instant('users.password_change.toast_password_change_header'),

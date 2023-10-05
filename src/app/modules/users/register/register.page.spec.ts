@@ -102,7 +102,7 @@ describe('RegisterPage', () => {
 
   it('should go to login form when go to login button is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="Go To Login"]')).nativeElement.click();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/users/login']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/users/login-new']);
   });
 
   it('should call trackEvent on trackService when Register button clicked', () => {

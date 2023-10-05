@@ -186,6 +186,6 @@ export class RegisterPage implements OnInit {
   }
 
   async goToLogin() {
-    await this.navController.navigateBack(['/users/login']);
+    await this.navController.navigateBack(['/users/login-new']);
   }
 }
