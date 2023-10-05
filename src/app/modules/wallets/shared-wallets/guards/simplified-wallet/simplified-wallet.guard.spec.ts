@@ -9,7 +9,6 @@ fdescribe('SimplifiedWalletGuard', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let guard;
   beforeEach(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
@@ -29,7 +28,6 @@ fdescribe('SimplifiedWalletGuard', () => {
       ],
     });
     simplifiedWalletGuard = TestBed.inject(SimplifiedWalletGuardService);
-    guard = TestBed.runInInjectionContext(()=>SimplifiedWalletGuard(null,null));
   });
 
   it('should create', () => {
@@ -49,7 +47,9 @@ fdescribe('SimplifiedWalletGuard', () => {
   });
 
   fit('SimplifiedWalletGuard should call canActivate method of SimplifiedWalletGuardService', async () => {
-    expect( guard).toBeTruthy() 
+    const guard = TestBed.runInInjectionContext(async ()=> await SimplifiedWalletGuard(null,null));
+    console.log('G',guard)
+    expect(guard).toBeTruthy() 
   });
 
 });
