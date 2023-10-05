@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SubscribeGuard } from './shared-subscriptions/guards/subscribe/subscribe.guard';
 
 const routes: Routes = [
   {
@@ -8,7 +7,6 @@ const routes: Routes = [
     children: [
       {
         path: 'subscribe/:subscriptionToken/:fundNameb64',
-        canActivate: [SubscribeGuard],
         loadChildren: () =>
           import('./subscribe/subscribe.module').then(
             m => m.SubscribePageModule
