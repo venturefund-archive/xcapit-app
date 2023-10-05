@@ -11,6 +11,7 @@ export class SimplifiedWalletGuardService  {
   constructor(private _aStorage: IonicStorageService, private navController: NavController) {}
 
   async canActivate(): Promise<boolean> {
+    console.log('STORAGE', this._aStorage)
     const hasSimplifiedWallet = await new SimplifiedWallet(this._aStorage).value();
     console.log('HAS', hasSimplifiedWallet);
     if (hasSimplifiedWallet) await this.redirectToPage();
