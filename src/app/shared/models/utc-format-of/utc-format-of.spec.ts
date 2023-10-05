@@ -1,8 +1,8 @@
 import { UtcFormatOf } from './utc-format-of';
 
-describe('FormattedUtcDate', () => {
+describe('UtcFormatOf', () => {
   let utcFormatOf: UtcFormatOf;
-  const aDate = new Date('01/10/1994');
+  const aDate = new Date('1994-01-10T03:00:00Z');
 
   beforeEach(() => {
     utcFormatOf = new UtcFormatOf(aDate);
