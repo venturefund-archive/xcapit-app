@@ -5,10 +5,7 @@ import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
 import { IntroductionCompletedGuard } from '../financial-education/shared-financial-education/guards/introduction-completed';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { NewLogin } from '../users/shared-users/guards/new-login/new-login.guard';
-import {
-  simplifiedWalletGuard,
-  SimplifiedWalletGuard,
-} from '../wallets/shared-wallets/guards/simplified-wallet/simplified-wallet.guard';
+import { simplifiedWalletGuard } from '../wallets/shared-wallets/guards/simplified-wallet/simplified-wallet.guard';
 
 const routes: Routes = [
   {
