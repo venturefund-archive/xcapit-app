@@ -54,9 +54,4 @@ fdescribe('SimplifiedWalletGuard', () => {
     expect(simplifiedWalletGuard.canActivate).toHaveBeenCalled();
   });
 
-  // it('should  create guard', () => {
-  //   const guard = SimplifiedWalletGuard as Function;
-  //   const instance = guard();
-  //   expect(instance).toBeTruthy();
-  // });
 });
