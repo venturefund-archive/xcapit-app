@@ -24,14 +24,6 @@ const routes: Routes = [
           import('./success-register/success-register.module').then((m) => m.SuccessRegisterPageModule),
       },
       {
-        path: 'resend-verification-email',
-        canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./resend-verification-email/resend-verification-email.module').then(
-            (m) => m.ResendVerificationEmailPageModule
-          ),
-      },
-      {
         path: 'login-new',
         canActivate: [NoAuthGuard],
         loadChildren: () => import('./login-new/login-new.module').then((m) => m.LoginNewPageModule),
