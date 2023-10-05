@@ -24,6 +24,6 @@ export class SimplifiedWalletGuardService  {
 }
 
 export const SimplifiedWalletGuard: CanActivateFn = async () => {
-  return inject(SimplifiedWalletGuard).canActivate();
+  return inject(SimplifiedWalletGuardService).canActivate();
 };
 
