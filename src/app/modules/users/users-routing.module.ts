@@ -24,11 +24,6 @@ const routes: Routes = [
           import('./email-validation/email-validation.module').then((m) => m.EmailValidationPageModule),
       },
       {
-        path: 'reset-password',
-        canActivate: [NoAuthGuard],
-        loadChildren: () => import('./reset-password/reset-password.module').then((m) => m.ResetPasswordPageModule),
-      },
-      {
         path: 'success-reset',
         canActivate: [NoAuthGuard],
         loadChildren: () =>
@@ -49,11 +44,6 @@ const routes: Routes = [
           import('./resend-verification-email/resend-verification-email.module').then(
             (m) => m.ResendVerificationEmailPageModule
           ),
-      },
-      {
-        path: 'password-change',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('./password-change/password-change.module').then((m) => m.PasswordChangePageModule),
       },
       {
         path: 'login-new',
