@@ -11,7 +11,6 @@ import { UsersModule } from './modules/users/users.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { TrackClickModule } from './shared/directives/track-click/track-click.module';
 import { WildcardRoutingModule } from './wildcard-routing.module';
-import { ReferralsModule } from './modules/referrals/referrals.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotificationsModule } from './modules/notifications/notifications.module';
@@ -75,7 +74,6 @@ registerLocaleData(localeEn, 'en');
     FinancialEducationModule,
     FinancialPlannerModule,
     DonationsModule,
-    ReferralsModule,
     TabsModule,
     NotificationsModule,
     WalletsModule,

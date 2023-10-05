@@ -40,9 +40,6 @@ import { RawMenuCategory } from '../shared-profiles/models/raw-menu-category';
       <div class="user-profile-card" *ngIf="this.profile && this.username">
         <app-user-profile-card [profile]="this.profile" [username]="this.username"></app-user-profile-card>
       </div>
-      <div class="referrals-promotion">
-        <app-referral-promotion-card></app-referral-promotion-card>
-      </div>
       <div class="card-item" *ngIf="this.rawMenu">
         <app-card-category-menu *ngFor="let category of this.rawMenu" [category]="category"></app-card-category-menu>
       </div>

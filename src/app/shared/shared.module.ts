@@ -71,7 +71,6 @@ import { AmountInputCardSkeletonComponent } from './components/amount-input-card
 import { ObjetiveCardComponent } from '../modules/financial-planner/shared-financial-planner/components/objetive-card/objetive-card.component';
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
 import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
-import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/components/referrals-coming/referrals-coming.component';
 import { FormattedAmountPipe } from './pipes/formatted-amount/formatted-amount.pipe';
 import { CauseInfoComponent } from '../modules/donations/shared-donations/components/description-cause/cause-info.component';
 import { ErrorsFormPasswordItemComponent } from './components/errors-form-password-item/errors-form-password-item.component';
@@ -129,7 +128,6 @@ import { GeneralModalWithButtonComponent } from './components/general-modal-with
     TransactionFeeComponent,
     AmountInputCardComponent,
     AmountInputCardSkeletonComponent,
-    ReferralsComingComponent,
     EyeComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
@@ -250,7 +248,6 @@ import { GeneralModalWithButtonComponent } from './components/general-modal-with
     TransactionFeeComponent,
     AmountInputCardComponent,
     AmountInputCardSkeletonComponent,
-    ReferralsComingComponent,
     EyeComponent,
     SkipProfileTestComponent,
     InProgressTransactionModalComponent,
