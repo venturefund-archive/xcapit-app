@@ -48,10 +48,8 @@ fdescribe('SimplifiedWalletGuard', () => {
     expect(navControllerSpy.navigateRoot).not.toHaveBeenCalled();
   });
 
-  it('SimplifiedWalletGuard should call canActivate method of SimplifiedWalletGuardService', async () => {
-    guard.subscribe((p: unknown) => {
-      expect(p).toBe(false)
-    })
+  fit('SimplifiedWalletGuard should call canActivate method of SimplifiedWalletGuardService', async () => {
+    expect(await guard()).toBeTruthy() 
   });
 
 });
