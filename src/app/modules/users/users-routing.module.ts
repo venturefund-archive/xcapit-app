@@ -13,12 +13,6 @@ const routes: Routes = [
         loadChildren: () => import('./on-boarding/on-boarding.module').then((m) => m.OnBoardingPageModule),
       },
       {
-        path: 'success-register',
-        canActivate: [NoAuthGuard],
-        loadChildren: () =>
-          import('./success-register/success-register.module').then((m) => m.SuccessRegisterPageModule),
-      },
-      {
         path: 'login-new',
         canActivate: [NoAuthGuard],
         loadChildren: () => import('./login-new/login-new.module').then((m) => m.LoginNewPageModule),
