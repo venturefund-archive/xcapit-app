@@ -1,9 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import * as moment from 'moment';
 import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RefreshTimeoutService implements OnDestroy {
   private startTime: number = null;
@@ -13,8 +12,7 @@ export class RefreshTimeoutService implements OnDestroy {
   private remainingTimeSubject = new BehaviorSubject<number>(this.toSeconds(this.lockTime));
   private isAvailableSubject = new BehaviorSubject<boolean>(true);
 
-  constructor() {
-  }
+  constructor() {}
 
   set setLockTime(milliseconds: number) {
     this.lockTime = milliseconds;
@@ -25,7 +23,7 @@ export class RefreshTimeoutService implements OnDestroy {
   }
 
   private createSubscription() {
-    this.countdownSubscription = interval(1000).subscribe(_ => {
+    this.countdownSubscription = interval(1000).subscribe((_) => {
       const seconds = this.toSeconds(this.nextAvailable - this.now());
       this.remainingTime = seconds;
       if (seconds <= 0) {
@@ -40,7 +38,7 @@ export class RefreshTimeoutService implements OnDestroy {
   }
 
   private now(): number {
-    return moment().valueOf();
+    return new Date().getTime();
   }
 
   private set available(available: boolean) {

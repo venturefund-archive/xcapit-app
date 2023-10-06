@@ -1,72 +1,71 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { ethers } from 'ethers';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { LiquidityRequestComponent } from './liquidity-request.component';
+import { format } from 'date-fns';
 
 const dateInfo = {
-  date: moment().utc().format('DD/MM/YYYY'),
-  time: moment().utc().format('HH:mm'),
-}
+  date: format(new Date(), 'dd/MM/yyyy'),
+  time: format(new Date(), 'HH:mm'),
+};
 
 const request = {
   id: 1644526121229049,
-  jsonrpc: "2.0",
-  method: "eth_sendTransaction",
+  jsonrpc: '2.0',
+  method: 'eth_sendTransaction',
   params: [
     {
-      data: "0xf305d71900000000000000000000000019f64674d8a5b4e652319f5e239efd3bc969a1fe0000000000000000000000000000000000000000000000000de0b6b3a76400000000000000000000000000000000000000000000000000000dcef33a6f8380000000000000000000000000000000000000000000000000000001320c43eb8fa40000000000000000000000009c7314d0745bf0df80040dabd6ce87efcc5969e8000000000000000000000000000000000000000000000000000000006205962e",
-      from: "0x9c7314d0745bf0df80040dabd6ce87efcc5969e8",
-      gas: "0x31daf",
-      gasPrice: "0x3e252e0",
-      to: "0xf55c496bb1058690db1401c4b9c19f3f44374961",
-      value: "0x13395f9a5fdb6"
-    }
-  ]
-}
+      data: '0xf305d71900000000000000000000000019f64674d8a5b4e652319f5e239efd3bc969a1fe0000000000000000000000000000000000000000000000000de0b6b3a76400000000000000000000000000000000000000000000000000000dcef33a6f8380000000000000000000000000000000000000000000000000000001320c43eb8fa40000000000000000000000009c7314d0745bf0df80040dabd6ce87efcc5969e8000000000000000000000000000000000000000000000000000000006205962e',
+      from: '0x9c7314d0745bf0df80040dabd6ce87efcc5969e8',
+      gas: '0x31daf',
+      gasPrice: '0x3e252e0',
+      to: '0xf55c496bb1058690db1401c4b9c19f3f44374961',
+      value: '0x13395f9a5fdb6',
+    },
+  ],
+};
 
 const providerSymbol = 'trBTC';
 
 const decodedData = {
-  action: "add_liquidity",
-  amount0: "amountTokenDesired",
+  action: 'add_liquidity',
+  amount0: 'amountTokenDesired',
   hasValue: true,
   liquidity: false,
-  name: "addLiquidityETH",
-  type: "liquidity",
+  name: 'addLiquidityETH',
+  type: 'liquidity',
   useNative: true,
   data: [
-    {name: 'token', value: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe', type: 'address'},
-    {name: 'amountTokenDesired', value: '1000000000000000000', type: 'uint256'},
-    {name: 'amountTokenMin', value: '995000000000000000', type: 'uint256'},
-    {name: 'amountETHMin', value: '336503237218212', type: 'uint256'},
-    {name: 'to', value: '0x9c7314d0745bf0df80040dabd6ce87efcc5969e8', type: 'address'},
-    {name: 'deadline', value: '1644533294', type: 'uint256'}
-  ]
-}
+    { name: 'token', value: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe', type: 'address' },
+    { name: 'amountTokenDesired', value: '1000000000000000000', type: 'uint256' },
+    { name: 'amountTokenMin', value: '995000000000000000', type: 'uint256' },
+    { name: 'amountETHMin', value: '336503237218212', type: 'uint256' },
+    { name: 'to', value: '0x9c7314d0745bf0df80040dabd6ce87efcc5969e8', type: 'address' },
+    { name: 'deadline', value: '1644533294', type: 'uint256' },
+  ],
+};
 
 const decodedDataNoNative = {
-  action: "add_liquidity",
+  action: 'add_liquidity',
   amount0: 'amountADesired',
   amount1: 'amountBDesired',
   hasValue: false,
   liquidity: false,
-  name: "addLiquidity",
-  type: "liquidity",
+  name: 'addLiquidity',
+  type: 'liquidity',
   useNative: false,
   data: [
-    {name: 'tokenA', value: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe', type: 'address'},
-    {name: 'tokenB', value: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe', type: 'address'},
-    {name: 'amountADesired', value: '2100000000000000000', type: 'uint256'},
-    {name: 'amountBDesired', value: '3400000000000000000', type: 'uint256'},
-    {name: 'liquidity', value: '27500000000000000000', type: 'uint256'},
-    {name: 'to', value: '0x9c7314d0745bf0df80040dabd6ce87efcc5969e8', type: 'address'},
-    {name: 'deadline', value: '1644533294', type: 'uint256'}
-  ]
-}
+    { name: 'tokenA', value: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe', type: 'address' },
+    { name: 'tokenB', value: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe', type: 'address' },
+    { name: 'amountADesired', value: '2100000000000000000', type: 'uint256' },
+    { name: 'amountBDesired', value: '3400000000000000000', type: 'uint256' },
+    { name: 'liquidity', value: '27500000000000000000', type: 'uint256' },
+    { name: 'to', value: '0x9c7314d0745bf0df80040dabd6ce87efcc5969e8', type: 'address' },
+    { name: 'deadline', value: '1644533294', type: 'uint256' },
+  ],
+};
 
 describe('LiquidityRequestComponent', () => {
   let component: LiquidityRequestComponent;
@@ -74,17 +73,15 @@ describe('LiquidityRequestComponent', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
 
   beforeEach(waitForAsync(() => {
-    walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+    walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
       getTokenSymbol: Promise.resolve({}),
       getPairTokens: Promise.resolve({}),
-      providerSymbol: 'trBTC'
+      providerSymbol: 'trBTC',
     });
     TestBed.configureTestingModule({
-      declarations: [ LiquidityRequestComponent ],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot() ],
-      providers: [
-        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
-      ]
+      declarations: [LiquidityRequestComponent],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [{ provide: WalletConnectService, useValue: walletConnectServiceSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LiquidityRequestComponent);
@@ -92,7 +89,7 @@ describe('LiquidityRequestComponent', () => {
     component.dateInfo = dateInfo;
     component.request = request;
     component.decodedData = decodedData;
-    component. providerSymbol = providerSymbol;
+    component.providerSymbol = providerSymbol;
     fixture.detectChanges();
   }));
 
@@ -173,8 +170,8 @@ describe('LiquidityRequestComponent', () => {
     component.decodedData = data;
     fixture.detectChanges();
     component.setAmountsInfo();
-    expect(component.amountToken0Min).toBeTruthy()
-    expect(component.amountToken1Min).toBeTruthy()
+    expect(component.amountToken0Min).toBeTruthy();
+    expect(component.amountToken1Min).toBeTruthy();
   });
 
   it('should set amount token information in the same order than symbols ["tRIF", "trBTC"]', () => {
@@ -186,7 +183,7 @@ describe('LiquidityRequestComponent', () => {
     component.decodedData = data;
     fixture.detectChanges();
     component.setAmountsInfo();
-    expect(component.amountToken0Min).toBeTruthy()
-    expect(component.amountToken1Min).toBeTruthy()
+    expect(component.amountToken0Min).toBeTruthy();
+    expect(component.amountToken1Min).toBeTruthy();
   });
 });

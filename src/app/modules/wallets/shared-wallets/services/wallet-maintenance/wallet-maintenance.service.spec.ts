@@ -7,7 +7,6 @@ import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.servic
 import { WalletService } from '../wallet/wallet.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { EthersService } from '../ethers/ethers.service';
-import moment from 'moment';
 import { TEST_COINS } from '../../constants/coins.test';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/default/default-blockchains';
@@ -84,23 +83,6 @@ describe('WalletMaintenanceService', () => {
       RSK: 'testAddress',
     },
     assets: { ETH: true, DAI: false, USDT: true },
-  };
-
-  const updateResultWallet: StorageWallet = {
-    alias: 'test',
-    createdAt: '11-11-11',
-    updatedAt: moment('2015-10-19').utc().format(),
-    network: 'testnet',
-    addresses: {
-      ERC20: 'testAddress',
-      RSK: 'testAddress',
-      MATIC: 'testAddress',
-    },
-    assets: [
-      { value: 'USDT', network: 'ERC20' },
-      { value: 'RBTC', network: 'RSK' },
-      { value: 'RSK', network: 'RSK' },
-    ],
   };
 
   const testCoins: Coin[] = [
@@ -333,7 +315,7 @@ describe('WalletMaintenanceService', () => {
       { value: 'BNB', network: 'BSC_BEP20' },
       { value: 'MATIC', network: 'MATIC' },
     ];
-    
+
     const testWallet: StorageWallet = {
       alias: 'test',
       createdAt: '11-11-11',
@@ -349,7 +331,7 @@ describe('WalletMaintenanceService', () => {
     await service.updateTokensStorage(testTokens);
     expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(testWallet);
   });
-  
+
   it('should migrate tokens structure if user has a wallet with old structure', async () => {
     ionicStorageServiceSpy.get.and.resolveTo(false);
     service.encryptedWallet = JSON.parse(JSON.stringify(testOldEncryptedWallet));
@@ -358,13 +340,13 @@ describe('WalletMaintenanceService', () => {
     expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(testEncryptedWallet);
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('tokens_structure_migrated',true);
   });
-  
+
   it('should not migrate tokens structure if already was migrated', async () => {
     await service.checkTokensStructure();
     expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledTimes(0);
     expect(ionicStorageServiceSpy.get).toHaveBeenCalledOnceWith('tokens_structure_migrated');
   });
-  
+
   it('should not migrate tokens structure if is a new wallet', async () => {
     ionicStorageServiceSpy.get.and.resolveTo(false);
     service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
