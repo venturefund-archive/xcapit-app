@@ -9,7 +9,6 @@ export const LINKS = {
   moonpayTransactionHistory: 'https://buy.moonpay.com/trade_history',
   xcapitTermsAndConditions: 'https://www.xcapit.com/terminos-y-condiciones',
   xcapitPrivacyPolicy: 'https://www.xcapit.com/politicas-de-privacidad',
-  referralsTermsAndConditions: 'https://xcapit.com/financial-freedom-tyc/',
   discordCommunity: 'https://discord.gg/pHjXPvpwJG',
   oneInchToS: 'https://docs.1inch.io/docs/aggregation-protocol/api/legal/',
   twoPiPage: 'https://dashboard.2pi.network/',

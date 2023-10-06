@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AuthFormComponent } from './auth-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -27,17 +26,15 @@ describe('AuthFormComponent', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      toastServiceSpy = jasmine.createSpyObj('ToastService', ['dismiss']);
-      TestBed.configureTestingModule({
-        declarations: [AuthFormComponent],
-        imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
-        providers: [{ provide: ToastService, useValue: toastServiceSpy }],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    toastServiceSpy = jasmine.createSpyObj('ToastService', ['dismiss']);
+    TestBed.configureTestingModule({
+      declarations: [AuthFormComponent],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
+      providers: [{ provide: ToastService, useValue: toastServiceSpy }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AuthFormComponent);
@@ -107,14 +104,6 @@ describe('AuthFormComponent', () => {
       component.form.get('password').setValue(formData.valid.pass);
       component.form.get('tos').setValue(formData.valid.rTOS);
       component.form.get('referral_code').setValue(formData.valid.rCode);
-      expect(component.form.valid).toBeTruthy();
-    });
-
-    it('form should be valid when referrals_code is invalid or empty', async () => {
-      component.form.get('email').setValue(formData.valid.email);
-      component.form.get('password').setValue(formData.valid.pass);
-      component.form.get('tos').setValue(formData.valid.rTOS);
-      component.form.get('referral_code').setValue(formData.invalid.rCode);
       expect(component.form.valid).toBeTruthy();
     });
 
