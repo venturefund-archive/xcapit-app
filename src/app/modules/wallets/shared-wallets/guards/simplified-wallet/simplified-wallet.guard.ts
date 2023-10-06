@@ -1,5 +1,4 @@
-import { Injectable, inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { SimplifiedWallet } from '../../models/simplified-wallet/simplified-wallet';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -7,14 +6,14 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 @Injectable({
   providedIn: 'root',
 })
-export class SimplifiedWalletGuardService  {
+export class SimplifiedWalletGuard {
   constructor(private _aStorage: IonicStorageService, private navController: NavController) {}
 
   async canActivate(): Promise<boolean> {
-    console.log('STORAGE', this._aStorage)
     const hasSimplifiedWallet = await new SimplifiedWallet(this._aStorage).value();
-    console.log('HAS', hasSimplifiedWallet);
+
     if (hasSimplifiedWallet) await this.redirectToPage();
+
     return !hasSimplifiedWallet;
   }
 
@@ -22,8 +21,3 @@ export class SimplifiedWalletGuardService  {
     return await this.navController.navigateRoot(['/simplified-home-wallet']);
   }
 }
-
-export const SimplifiedWalletGuard: CanActivateFn = async () => {
-  return inject(SimplifiedWalletGuardService).canActivate();
-};
-

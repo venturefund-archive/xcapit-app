@@ -1,14 +1,15 @@
-import { SimplifiedWalletGuard, SimplifiedWalletGuardService } from './simplified-wallet.guard';
+import { SimplifiedWalletGuard } from './simplified-wallet.guard';
 import { NavController } from '@ionic/angular';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TestBed } from '@angular/core/testing';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
-fdescribe('SimplifiedWalletGuard', () => {
-  let simplifiedWalletGuard: SimplifiedWalletGuardService;
+describe('SimplifiedWalletGuard', () => {
+  let simplifiedWalletGuard: SimplifiedWalletGuard;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+
   beforeEach(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
@@ -21,13 +22,12 @@ fdescribe('SimplifiedWalletGuard', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        SimplifiedWalletGuardService,
         SimplifiedWalletGuard,
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
       ],
     });
-    simplifiedWalletGuard = TestBed.inject(SimplifiedWalletGuardService);
+    simplifiedWalletGuard = TestBed.inject(SimplifiedWalletGuard);
   });
 
   it('should create', () => {
@@ -45,11 +45,4 @@ fdescribe('SimplifiedWalletGuard', () => {
     expect(await simplifiedWalletGuard.canActivate()).toBeTrue();
     expect(navControllerSpy.navigateRoot).not.toHaveBeenCalled();
   });
-
-  fit('SimplifiedWalletGuard should call canActivate method of SimplifiedWalletGuardService', async () => {
-    const guard = await TestBed.runInInjectionContext(async ()=> await SimplifiedWalletGuard(null,null));
-    console.log('G',guard)
-    expect(guard).toBeTruthy() 
-  });
-
 });
