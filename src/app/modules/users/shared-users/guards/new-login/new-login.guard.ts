@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class NewLogin implements CanActivate {
+export class NewLogin {
   private readonly defaultRoute = '/users/login-new';
   
   constructor(private remoteConfigService: RemoteConfigService, private navController: NavController) {}
