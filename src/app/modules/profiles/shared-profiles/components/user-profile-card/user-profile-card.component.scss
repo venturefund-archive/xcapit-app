@@ -2,7 +2,6 @@
   .user-profile-card {
     margin-top: 8px;
     margin-bottom: 8px;
-    padding-bottom: 8px;
 
     .user-data {
       display: flex;
@@ -25,21 +24,6 @@
 
         ion-text {
           color: var(--ion-color-primary);
-        }
-      }
-    }
-
-    .footer {
-      margin-top: 8px;
-
-      .option-button {
-        display: flex;
-        align-items: center;
-        height: 44px;
-        width: 100%;
-
-        ion-text {
-          margin-right: auto;
         }
       }
     }

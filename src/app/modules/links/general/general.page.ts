@@ -60,7 +60,7 @@ export class GeneralPage implements OnInit {
 
   ngOnInit() {
     if (!this.platform.is('mobileweb')) {
-      this.navController.navigateForward('/users/login');
+      this.navController.navigateForward('/users/login-new');
     }
   }
 

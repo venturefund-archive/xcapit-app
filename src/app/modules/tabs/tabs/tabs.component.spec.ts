@@ -84,20 +84,6 @@ describe('TabsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Tab Investments button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'ux_nav_go_to_invest');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to Investments Tab when Tab Investments clicked', () => {
-    fixture.debugElement.query(By.css('ion-tab-button[name="ux_nav_go_to_invest"]')).nativeElement.click();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/investments']);
-  });
-
   it('should navigate to Tools Tab when Tab Tools clicked', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-tab-button[name="ux_nav_go_to_tools"]')).nativeElement.click();

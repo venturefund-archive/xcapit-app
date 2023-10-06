@@ -23,13 +23,6 @@ const routes: Routes = [
         loadChildren: () => import('../tools/tools-page/tools.page.module').then((m) => m.ToolsPageModule),
       },
       {
-        path: 'investments',
-        loadChildren: () =>
-          import('../defi-investments/defi-investment-products/defi-investment-products.module').then(
-            (m) => m.DefiInvestmentProductsPageModule
-          ),
-      },
-      {
         path: 'wallets',
         canActivate: [SimplifiedWalletGuard],
         loadChildren: () => import('../wallets/home-wallet/home-wallet.module').then((m) => m.HomeWalletPageModule),

@@ -57,6 +57,6 @@ describe('SuccessDeleteAccountPage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login-new');
   });
 });

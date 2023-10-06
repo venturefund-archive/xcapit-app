@@ -13,7 +13,6 @@ import { ItemsCoinGroupComponent } from './components/items-coin-group/items-coi
 import { ItemCoinComponent } from './components/item-coin/item-coin.component';
 import { NftCardComponent } from './components/nft-card/nft-card.component';
 import { WalletPasswordSmallComponent } from './components/wallet-password-small/wallet-password-small.component';
-import { StartInvestingComponent } from './components/start-investing/start-investing.component';
 import { WalletConnectQrScanComponent } from './components/wallet-connect-qr-scan/wallet-connect-qr-scan.component';
 import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
 import { InformativeCardComponent } from './components/informative-card/informative-card.component';
@@ -54,7 +53,6 @@ import { WalletTypeCardComponent } from './components/wallet-type-card/wallet-ty
     ItemCoinComponent,
     NftCardComponent,
     WalletPasswordSmallComponent,
-    StartInvestingComponent,
     WalletConnectQrScanComponent,
     InformativeCardComponent,
     SkipBackupModalComponent,
@@ -93,7 +91,6 @@ import { WalletTypeCardComponent } from './components/wallet-type-card/wallet-ty
     ItemCoinComponent,
     NftCardComponent,
     WalletPasswordSmallComponent,
-    StartInvestingComponent,
     WalletConnectQrScanComponent,
     InformativeCardComponent,
     SkipBackupModalComponent,
