@@ -344,7 +344,7 @@ describe('SwapHomePage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
 
-    const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__from__detail__available ion-text '));
+    const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__available ion-text '));
     expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
     expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(1);
     expect(availableEl.nativeElement.innerHTML).toContain('swaps.home.available 10');
@@ -557,7 +557,7 @@ describe('SwapHomePage', () => {
 
   it('should render correct properly and enabled button when the balance is available', fakeAsync(() => {
     _setTokenAmountArrange(1);
-    const div = fixture.debugElement.query(By.css('div.sw__swap-card__from__detail__available'));
+    const div = fixture.debugElement.query(By.css('div.sw__swap-card__available'));
     fixture.detectChanges();
 
     expect(div).toBeTruthy();
@@ -567,7 +567,7 @@ describe('SwapHomePage', () => {
 
   it('should render correct properly and disabled button when the balance is insufficient', fakeAsync(() => {
     _setTokenAmountArrange(11);
-    const div = fixture.debugElement.query(By.css('div.sw__swap-card__from__detail__insufficient'));
+    const div = fixture.debugElement.query(By.css('div.sw__swap-card__insufficient'));
     fixture.detectChanges();
 
     expect(div).toBeTruthy();
