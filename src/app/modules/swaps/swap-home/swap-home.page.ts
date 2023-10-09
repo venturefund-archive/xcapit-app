@@ -134,19 +134,19 @@ import { Blockchains } from '../shared-swaps/models/blockchains/blockchains.inte
                   >
                 </div>
               </form>
-              <div
-                *ngIf="!this.disableInput && (this.swapBalance || this.swapBalance === 0)"
-                [ngClass]="
-                  this.swapBalance === 0 || this.insufficientBalance
-                    ? 'sw__swap-card__from__detail__insufficient'
-                    : 'sw__swap-card__from__detail__available'
-                "
-              >
-                <ion-text class="ux-font-text-xxs" color="neutral80">
-                  {{ 'swaps.home.available' | translate }} {{ this.swapBalance | formattedAmount }}</ion-text
-                >
-              </div>
             </div>
+          </div>
+          <div
+            *ngIf="!this.disableInput && (this.swapBalance || this.swapBalance === 0)"
+            [ngClass]="
+              this.swapBalance === 0 || this.insufficientBalance
+                ? 'sw__swap-card__insufficient'
+                : 'sw__swap-card__available'
+            "
+          >
+            <ion-text class="ux-font-text-xxs" color="neutral80">
+              {{ 'swaps.home.available' | translate }} {{ this.swapBalance | formattedAmount }}</ion-text
+            >
           </div>
         </div>
         <div class="sw__swap-card__icon_area ion-padding-top">
