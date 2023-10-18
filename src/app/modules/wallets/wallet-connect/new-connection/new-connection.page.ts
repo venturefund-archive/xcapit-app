@@ -66,8 +66,8 @@ import { WalletsFactory } from '../../shared-wallets/models/wallets/factory/wall
                       <ion-radio
                         mode="md"
                         slot="start"
-                        [value]="wallet.chain_id"
                         (click)="this.setWalletInfo(wallet)"
+                        [legacy]="true"
                       ></ion-radio>
                     </ion-item>
                   </div>
@@ -290,7 +290,7 @@ export class NewConnectionPage {
 
   public async initWalletConnectV2() {
     try {
-      const pairingTopic = this.form.value.uri.split('wc:')[1].split('@')[0]
+      const pairingTopic = this.form.value.uri.split('wc:')[1].split('@')[0];
       const blockchain = this.blockchains.create().oneById(this.selectedWallet.chainId.toString());
       const wallet = await this.wallets.create().oneBy(blockchain);
       await this.wcConnectionV2.pairTo(this.wcService.uri(), wallet, pairingTopic);
