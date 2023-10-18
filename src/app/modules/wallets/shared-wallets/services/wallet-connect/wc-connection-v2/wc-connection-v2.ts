@@ -118,7 +118,7 @@ export class WCConnectionV2 {
     await this.WcStorageService.remove('current_proposal');
   }
 
-  private async setWCStorageKeys(proposal, chainId) {
+  private async setWCStorageKeys(chainId, proposal) {
     await this.WcStorageService.set('proposal_wallet_chain_id', chainId);
     await this.WcStorageService.set('current_proposal', proposal);
   }
