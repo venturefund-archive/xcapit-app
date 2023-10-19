@@ -9,7 +9,6 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
@@ -24,6 +23,7 @@ import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified
 import { LastVersion } from 'src/app/shared/models/last-version/last-version';
 import { Menu } from '../shared-profiles/models/menu/menu';
 import { RawMenuCategory } from '../shared-profiles/models/raw-menu-category';
+import { WCService } from '../../wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -163,7 +163,7 @@ export class UserProfileMenuPage {
     private walletService: WalletService,
     private logOutModalService: LogOutModalService,
     private ionicStorageService: IonicStorageService,
-    private walletConnectService: WalletConnectService,
+    private wcService: WCService,
     private notificationsService: NotificationsService,
     private remoteConfig: RemoteConfigService,
     private formBuilder: FormBuilder,
@@ -267,7 +267,7 @@ export class UserProfileMenuPage {
   }
 
   private _walletConnectStatus(): void {
-    this._menu = this._menu.withWalletConnectStatus(this.walletConnectService.connected);
+    this._menu = this._menu.withWalletConnectStatus(this.wcService.connected());
     this._setRawMenu();
   }
 
