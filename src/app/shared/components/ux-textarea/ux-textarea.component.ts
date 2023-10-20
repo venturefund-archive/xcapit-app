@@ -21,7 +21,7 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
           item-end
           [hidden]="!(this.control && this.control.invalid && this.control.touched)"
           name="ux-error"
-          color="secondary"
+          color="uxdanger"
         ></ion-icon>
       </ion-item>
       <app-errors-form-item
