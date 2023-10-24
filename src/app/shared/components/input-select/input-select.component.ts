@@ -29,7 +29,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
           }}</ion-label>
           <ion-input
             [legacy]="true"
-            type="hidden"
+            hidden="true"
             class="input"
             mode="md"
             [formControlName]="this.controlName"
