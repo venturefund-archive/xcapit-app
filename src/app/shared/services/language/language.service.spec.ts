@@ -1,7 +1,7 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { LanguageService } from './language.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { DeviceInjectable } from '../../models/device/injectable/device.injectable';
 import { FakeDevice } from '../../models/device/fake/fake-device';
 import { ActiveLenderInjectable } from '../../models/active-lender/injectable/active-lender.injectable';

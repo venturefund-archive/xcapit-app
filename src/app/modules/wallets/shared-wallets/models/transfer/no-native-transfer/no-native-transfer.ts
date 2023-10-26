@@ -1,5 +1,5 @@
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { environment } from 'src/environments/environment';

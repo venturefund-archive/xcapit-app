@@ -28,7 +28,8 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
             this.translated ? (this.control.value[this.valueKey] | translate) : this.control.value[this.valueKey]
           }}</ion-label>
           <ion-input
-            type="hidden"
+            [legacy]="true"
+            hidden="true"
             class="input"
             mode="md"
             [formControlName]="this.controlName"
@@ -84,7 +85,7 @@ export class InputSelectComponent implements OnInit {
         selected: this.control.value,
       },
       cssClass: 'ux-routeroutlet-modal generic-modal',
-      swipeToClose: false,
+      canDismiss: true,
     });
 
     await modal.present();

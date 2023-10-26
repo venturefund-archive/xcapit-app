@@ -338,7 +338,7 @@ describe('InvestorTestQuestionPage', () => {
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.debugElement.query(By.css("ion-back-button[name='back']")).nativeElement.click();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['tabs/investments']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['tabs/wallets']);
   });
 
   it('should redirect to option to select page if the mode is equal to options and the back button is clicked', async () => {

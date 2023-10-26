@@ -111,8 +111,6 @@
 
       &__from {
         &__detail {
-          align-items: flex-start;
-
           &__amount {
             margin-top: 3px;
 
@@ -121,18 +119,22 @@
               padding-bottom: 4px;
             }
           }
+        }
+      }
 
-          &__available {
-            ion-text {
-              color: var(--ion-color-successdark);
-            }
-          }
+      &__available {
+        text-align: end;
 
-          &__insufficient {
-            ion-text {
-              color: var(--ion-color-dangerdark);
-            }
-          }
+        ion-text {
+          color: var(--ion-color-successdark);
+        }
+      }
+
+      &__insufficient {
+        text-align: end;
+
+        ion-text {
+          color: var(--ion-color-dangerdark);
         }
       }
     }

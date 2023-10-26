@@ -34,7 +34,7 @@ import { FakeContract } from '../../defi-investments/shared-defi-investments/mod
 import { BigNumber } from 'ethers';
 import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { BankAccount } from '../shared-ramps/types/bank-account.type';
-import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { FakeEthersProvider } from 'src/app/shared/models/ethers-providers/fake/fake-ethers-provider';

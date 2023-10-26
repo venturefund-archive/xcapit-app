@@ -18,13 +18,11 @@ function getObservable(obj: any): Observable<any> {
 describe('UserHasOperationsGuard', () => {
   let userHasOperationsGuard: UserHasOperationsGuard;
   let fiatRampsServiceSpy: any;
-  let activatedRouteSnapshotMock: ActivatedRouteSnapshot;
   let navControllerSpy: any;
 
   beforeEach(() => {
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', ['userHasOperations']);
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-    activatedRouteSnapshotMock = {} as ActivatedRouteSnapshot;
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
       providers: [
@@ -45,13 +43,13 @@ describe('UserHasOperationsGuard', () => {
 
   it('should call userHasOperations on fiatRampsService when canActivate', () => {
     fiatRampsServiceSpy.userHasOperations.and.returnValue(of({ user_has_operations: false }));
-    const canActivateResult = getObservable(userHasOperationsGuard.canActivate(activatedRouteSnapshotMock));
+    const canActivateResult = getObservable(userHasOperationsGuard.canActivate());
     canActivateResult.subscribe((res) => expect(fiatRampsServiceSpy.userHasOperations).toHaveBeenCalledTimes(1));
   });
 
   it('should navigate to moonpay page', () => {
     fiatRampsServiceSpy.userHasOperations.and.returnValue(of({ user_has_operations: false }));
-    const canActivateResult = getObservable(userHasOperationsGuard.canActivate(activatedRouteSnapshotMock));
+    const canActivateResult = getObservable(userHasOperationsGuard.canActivate());
     canActivateResult.subscribe((res) => {
       expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
       expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/new-operation/moonpay']);

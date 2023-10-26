@@ -30,18 +30,6 @@ import { PreviousRouteService } from '../../../shared/services/previous-route/pr
         </ion-tab-button>
 
         <ion-tab-button
-          tab="investments"
-          appTrackClick
-          (click)="this.goToInvestments()"
-          name="ux_nav_go_to_invest"
-          class="investments"
-          layout="{{ this.selectedCategory === 'investments' ? 'icon-start' : 'label-hide' }}"
-        >
-          <ion-icon src="assets/img/tabs/Trending-up.svg"></ion-icon>
-          <ion-label class="label ux-font-text-xxs">{{ 'tabs.new_fund' | translate }}</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button
           *appFeatureFlag="'ff_newLogin'"
           tab="tools"
           appTrackClick
@@ -93,10 +81,6 @@ export class TabsComponent {
   tabChange() {
     this.selectedCategory = this.tabs.getSelected();
     this.activeTab = this.tabs.outlet.activatedView.element;
-  }
-
-  goToInvestments() {
-    this.navController.navigateRoot(['/tabs/investments']);
   }
 
   async goToWallet() {

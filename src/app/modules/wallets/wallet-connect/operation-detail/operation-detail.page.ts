@@ -6,7 +6,6 @@ import { NavController } from '@ionic/angular';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ethers, Wallet } from 'ethers';
-import * as moment from 'moment';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { EthersService } from '../../shared-wallets/services/ethers/ethers.service';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
@@ -15,6 +14,7 @@ import { WCConnectionV2 } from '../../shared-wallets/services/wallet-connect/wc-
 import { WCService } from '../../shared-wallets/services/wallet-connect/wc-service/wc.service';
 import { HtmlOf } from '../../../../shared/models/wallet-connect/html-of/html-of';
 import { HtmlContentOf } from 'src/app/shared/models/wallet-connect/html-content-of/html-content-of';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-operation-detail',
@@ -218,8 +218,8 @@ export class OperationDetailPage {
   }
 
   getActualDateTime() {
-    this.dateInfo.date = moment().format('DD/MM/YYYY');
-    this.dateInfo.time = moment().format('HH:mm');
+    this.dateInfo.date = format(new Date(), 'dd/MM/yyyy');
+    this.dateInfo.time = format(new Date(), 'HH:mm');
   }
 
   dataToTrack() {

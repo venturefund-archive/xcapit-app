@@ -141,7 +141,7 @@ export class InvestorTestQuestionPage {
     if (this.isFirstQuestion) {
       this.investorTestService.clearAnswers();
       this.navController.navigateBack([
-        this.mode === 'defi' ? 'tabs/investments' : 'wealth-management/investor-test-options',
+        this.mode === 'defi' ? 'tabs/wallets' : 'wealth-management/investor-test-options',
       ]);
     }
   }

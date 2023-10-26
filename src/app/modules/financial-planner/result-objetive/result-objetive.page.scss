@@ -1,5 +1,5 @@
 :host {
-  .content {
+  .ro {
     &__back {
       padding-right: 30px;
       font-size: 12px;
@@ -66,6 +66,17 @@
         }
       }
     }
+
+    &__footer {
+      border-radius: 16px 16px 0 0;
+      padding: 10px;
+    }
+  }
+
+  ion-toolbar {
+    --background: var(--ion-color-white);
+
+    text-align: center;
   }
 
   img {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -28,5 +28,4 @@ export class LocalStorageService {
     this.hideFunds.next(hideFunds);
     return isSet;
   }
-
 }

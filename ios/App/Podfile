@@ -31,6 +31,7 @@ def capacitor_pods
   pod 'CapacitorStatusBar', :path => '../../node_modules/@capacitor/status-bar'
   pod 'CapawesomeCapacitorAppUpdate', :path => '../../node_modules/@capawesome/capacitor-app-update'
   pod 'CodetrixStudioCapacitorGoogleAuth', :path => '../../node_modules/@codetrix-studio/capacitor-google-auth'
+  pod 'PantristCapacitorFirebaseDynamicLinks', :path => '../../node_modules/@pantrist/capacitor-firebase-dynamic-links'
   pod 'CapacitorNativeBiometric', :path => '../../node_modules/capacitor-native-biometric'
 end
 

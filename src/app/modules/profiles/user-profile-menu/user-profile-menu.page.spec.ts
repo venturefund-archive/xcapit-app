@@ -19,7 +19,7 @@ import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tic
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
@@ -288,14 +288,14 @@ describe('UserProfileMenuPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should log out if user selected to not see modal in this device when Log Out button is clicked and navigate to users/login', async () => {
+  it('should log out if user selected to not see modal in this device when Log Out button is clicked and navigate to users/login-new', async () => {
     component.profile = profile;
     logOutModalServiceSpy.isShowModalTo.and.returnValue(Promise.resolve(false));
     const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
     button.nativeElement.click();
     await fixture.whenStable();
     expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login-new');
   });
 
   it('should render app-card-category-menu component', async () => {

@@ -13,7 +13,7 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { BlockchainRepo } from '../shared-swaps/models/blockchain-repo/blockchain-repo';
-import { DefaultBlockchains } from '../shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from '../shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainsFactory } from '../shared-swaps/models/blockchains/factory/blockchains.factory';
 import { rawBlockchainsData, rawPolygonData } from '../shared-swaps/models/fixtures/raw-blockchains-data';
 import { SwapHomePage } from './swap-home.page';
@@ -36,7 +36,7 @@ import { DefaultToken } from '../shared-swaps/models/token/token';
 import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
-import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blockchains-of/factory/one-inch-blockchains-of';
+import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blockchains-of/factory/one-inch-blockchains-of.factory';
 import { OneInchBlockchainsOf } from '../shared-swaps/models/one-inch-blockchains-of/one-inch-blockchains-of';
 import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -344,7 +344,7 @@ describe('SwapHomePage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
 
-    const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__from__detail__available ion-text '));
+    const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__available ion-text '));
     expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
     expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(1);
     expect(availableEl.nativeElement.innerHTML).toContain('swaps.home.available 10');
@@ -557,7 +557,7 @@ describe('SwapHomePage', () => {
 
   it('should render correct properly and enabled button when the balance is available', fakeAsync(() => {
     _setTokenAmountArrange(1);
-    const div = fixture.debugElement.query(By.css('div.sw__swap-card__from__detail__available'));
+    const div = fixture.debugElement.query(By.css('div.sw__swap-card__available'));
     fixture.detectChanges();
 
     expect(div).toBeTruthy();
@@ -567,7 +567,7 @@ describe('SwapHomePage', () => {
 
   it('should render correct properly and disabled button when the balance is insufficient', fakeAsync(() => {
     _setTokenAmountArrange(11);
-    const div = fixture.debugElement.query(By.css('div.sw__swap-card__from__detail__insufficient'));
+    const div = fixture.debugElement.query(By.css('div.sw__swap-card__insufficient'));
     fixture.detectChanges();
 
     expect(div).toBeTruthy();

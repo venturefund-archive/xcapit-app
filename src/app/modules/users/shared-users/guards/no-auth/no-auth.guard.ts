@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LoggedIn } from '../../models/logged-in/logged-in';
@@ -7,7 +6,7 @@ import { LoggedIn } from '../../models/logged-in/logged-in';
 @Injectable({
   providedIn: 'root',
 })
-export class NoAuthGuard implements CanActivate {
+export class NoAuthGuard {
   constructor(private ionicStorageService: IonicStorageService, private navController: NavController) {}
 
   async canActivate(): Promise<boolean> {

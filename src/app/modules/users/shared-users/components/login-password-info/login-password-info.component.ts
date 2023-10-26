@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-login-password-info',
   template: `
-      <div class="ux_main">
+      <div class="lmi">
         <div class="lmi__img-container">
           <div class="lmi__close_button">
             <ion-button class="ion-no-padding" slot="icon-only" fill="clear" name="Close" (click)="this.close()">

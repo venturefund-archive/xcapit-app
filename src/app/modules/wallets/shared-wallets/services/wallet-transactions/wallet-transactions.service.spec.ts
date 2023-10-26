@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { WalletTransactionsService } from './wallet-transactions.service';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
 import { Coin } from '../../interfaces/coin.interface';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
@@ -27,7 +27,7 @@ import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/g
 import { AmountOf } from 'src/app/modules/wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
-import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/default/default-blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';

@@ -8,12 +8,12 @@ const routes: Routes = [
     data: { redirectUrl: '/tabs/wallets' },
     path: '',
     pathMatch: 'full',
-    redirectTo: '/users/login',
+    redirectTo: '/users/login-new',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

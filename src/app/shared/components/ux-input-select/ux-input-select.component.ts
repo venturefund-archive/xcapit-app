@@ -10,6 +10,7 @@ import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.compo
         <ion-label class="uxselect__label ux-font-text-xs">{{ this.label }}</ion-label>
         <ion-item class="uxselect__item">
           <ion-input
+            [legacy]="true"
             mode="md"
             [formControlName]="this.controlName"
             [placeholder]="this.placeholder"
@@ -64,7 +65,7 @@ export class UxInputSelectComponent implements OnInit {
         selected: this.control.value,
       },
       cssClass: 'ux-routeroutlet-modal generic-modal',
-      swipeToClose: false,
+      canDismiss: true,
     });
     await modal.present();
 

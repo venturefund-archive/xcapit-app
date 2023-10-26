@@ -1,4 +1,3 @@
-import { QueueService } from './../../../../shared/services/queue/queue.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -23,7 +22,6 @@ describe('RemoveWalletPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let queueServiceSpy: jasmine.SpyObj<QueueService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let txInProgressServiceSpy: jasmine.SpyObj<TxInProgressService>;
@@ -34,10 +32,6 @@ describe('RemoveWalletPage', () => {
     navControllerSpy = fakeNavController.createSpy();
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       removeWalletFromStorage: Promise.resolve(),
-    });
-
-    queueServiceSpy = jasmine.createSpyObj('QueueService', {
-      dequeueAll: Promise.resolve(),
     });
 
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
@@ -65,7 +59,6 @@ describe('RemoveWalletPage', () => {
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: StorageService, useValue: storageServiceSpy },
-        { provide: QueueService, useValue: queueServiceSpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: TxInProgressService, useValue: txInProgressServiceSpy },
@@ -105,7 +98,6 @@ describe('RemoveWalletPage', () => {
     fixture.debugElement.query(By.css("ion-button[name='remove_wallet']")).nativeElement.click();
     await fixture.whenStable();
     expect(storageServiceSpy.removeWalletFromStorage).toHaveBeenCalledTimes(1);
-    expect(queueServiceSpy.dequeueAll).toHaveBeenCalledTimes(1);
     expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/remove/success']);
     expect(txInProgressServiceSpy.clean).toHaveBeenCalledTimes(1);

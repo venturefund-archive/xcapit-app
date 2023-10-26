@@ -55,7 +55,7 @@ describe('GeneralPage', () => {
     platformSpy.is.and.returnValue(false)
     component.ngOnInit();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/users/login');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/users/login-new');
   });
 
   it('should create the iOS URL Scheme when is an iOS platform', async () => {

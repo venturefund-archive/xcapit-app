@@ -1,6 +1,7 @@
 import { HtmlRequestMessage } from './html-request-message';
 import { RequestMessage } from '../request-message.interface';
 import { SessionRequest } from '../../session-request/session-request';
+import { verifyContext } from '../../../../../modules/wallets/shared-wallets/fixtures/raw-wallet-connect-requests';
 
 describe('HtmlRequestMessage', () => {
   let htmlRequestMessage: RequestMessage;
@@ -17,6 +18,7 @@ describe('HtmlRequestMessage', () => {
       },
       chainId: 'eip155:80001',
     },
+    verifyContext: verifyContext,
   };
 
   beforeEach(() => {

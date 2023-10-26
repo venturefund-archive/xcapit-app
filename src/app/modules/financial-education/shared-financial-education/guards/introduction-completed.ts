@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class IntroductionCompletedGuard implements CanActivate {
+export class IntroductionCompletedGuard {
   constructor(private navController: NavController, private storage: IonicStorageService) {}
 
   async canActivate(): Promise<boolean> {

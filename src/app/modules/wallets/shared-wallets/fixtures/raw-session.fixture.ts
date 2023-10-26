@@ -1,6 +1,7 @@
 import { RawSession } from '../../../../shared/models/wallet-connect/wc-session/wc-session';
 
 export const rawSession: RawSession = {
+  pairingTopic: '',
   relay: {
     protocol: 'irn',
   },
@@ -18,6 +19,7 @@ export const rawSession: RawSession = {
       events: ['chainChanged', 'accountsChanged'],
     },
   },
+  optionalNamespaces: {},
   controller: '6ed6868a4fb4d0b28f41c7c84a4eadf725fdb52da9a08d58a5094268d4ea233b',
   expiry: 1678246541,
   topic: 'a847b03d85d017ff3b7b59b428a4b3f2fa443f49490c79ceb81204b9e2a1a391',

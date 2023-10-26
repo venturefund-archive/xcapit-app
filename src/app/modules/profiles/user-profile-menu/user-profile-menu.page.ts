@@ -9,7 +9,6 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
@@ -24,6 +23,7 @@ import { SimplifiedWallet } from '../../wallets/shared-wallets/models/simplified
 import { LastVersion } from 'src/app/shared/models/last-version/last-version';
 import { Menu } from '../shared-profiles/models/menu/menu';
 import { RawMenuCategory } from '../shared-profiles/models/raw-menu-category';
+import { WCService } from '../../wallets/shared-wallets/services/wallet-connect/wc-service/wc.service';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -39,9 +39,6 @@ import { RawMenuCategory } from '../shared-profiles/models/raw-menu-category';
     <ion-content class="ion-padding">
       <div class="user-profile-card" *ngIf="this.profile && this.username">
         <app-user-profile-card [profile]="this.profile" [username]="this.username"></app-user-profile-card>
-      </div>
-      <div class="referrals-promotion">
-        <app-referral-promotion-card></app-referral-promotion-card>
       </div>
       <div class="card-item" *ngIf="this.rawMenu">
         <app-card-category-menu *ngFor="let category of this.rawMenu" [category]="category"></app-card-category-menu>
@@ -166,7 +163,7 @@ export class UserProfileMenuPage {
     private walletService: WalletService,
     private logOutModalService: LogOutModalService,
     private ionicStorageService: IonicStorageService,
-    private walletConnectService: WalletConnectService,
+    private wcService: WCService,
     private notificationsService: NotificationsService,
     private remoteConfig: RemoteConfigService,
     private formBuilder: FormBuilder,
@@ -270,7 +267,7 @@ export class UserProfileMenuPage {
   }
 
   private _walletConnectStatus(): void {
-    this._menu = this._menu.withWalletConnectStatus(this.walletConnectService.connected);
+    this._menu = this._menu.withWalletConnectStatus(this.wcService.connected());
     this._setRawMenu();
   }
 
@@ -321,7 +318,7 @@ export class UserProfileMenuPage {
   async logout() {
     await new LoggedIn(this.ionicStorageService).save(false);
     await this.authService.logout();
-    await this.navController.navigateRoot('users/login');
+    await this.navController.navigateRoot('users/login-new');
   }
 
   async changeLanguage() {

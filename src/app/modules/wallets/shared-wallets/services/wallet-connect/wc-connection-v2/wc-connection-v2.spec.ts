@@ -8,11 +8,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../../../../../shared/services/toast/toast.service';
 import { DefaultWCUri } from 'src/app/shared/models/wallet-connect/wc-uri/default/default-wc-uri';
 import { rawWalletConnectUriV1 } from '../../../fixtures/raw-wallet-connect-uri';
-import { rawProposal } from '../../../fixtures/raw-proposal.fixture';
+import { rawProposalWithoutOptionalNamespaces } from '../../../fixtures/raw-proposal.fixture';
 import { rawSession } from '../../../fixtures/raw-session.fixture';
-import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
-import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import {
+  rawEthereumData,
+  rawPolygonData,
+} from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { WCUri } from 'src/app/shared/models/wallet-connect/wc-uri/wc-uri.interface';
 import { SessionRequestInjectable } from 'src/app/shared/models/wallet-connect/wallet-connect-request/injectable/session-request-injectable';
 import { FakeWallet } from '../../../models/wallet/fake/fake-wallet';
@@ -20,6 +21,8 @@ import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { WCStorageService } from '../wc-storage/wc-storage.service';
 import { JSONProposal, rawStoredProposal } from '../../../models/fixtures/raw-proposal';
 import { WalletsFactory } from '../../../models/wallets/factory/wallets.factory';
+import { FakeBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/fake/fake-blockchains';
+import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 
 describe('WCConnectionV2', () => {
   let signClientInjectable: jasmine.SpyObj<SignClientInjectable>;
@@ -36,6 +39,8 @@ describe('WCConnectionV2', () => {
   let WCStorageServiceSpy: jasmine.SpyObj<WCStorageService>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let testPolygonBlockchain: Blockchain;
+  let testEthereumBlockchain: Blockchain;
   let triggerPairEvent: () => void;
 
   beforeEach(() => {
@@ -91,18 +96,17 @@ describe('WCConnectionV2', () => {
       create: { oneBy: () => Promise.resolve(fakeWallet) },
     });
 
+    testPolygonBlockchain = new Blockchain(rawPolygonData);
+    testEthereumBlockchain = new Blockchain(rawEthereumData);
+
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-      create: {
-        oneById: () => {
-          return new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)).oneByName('MATIC');
-        },
-      },
+      create: new FakeBlockchains([testPolygonBlockchain, testEthereumBlockchain], null, testPolygonBlockchain),
     });
 
     triggerPairEvent = () => {
       signClientV2Spy.on.and.callFake((eventName, callback) => {
         if (eventName === 'session_proposal') {
-          callback(rawProposal);
+          callback(rawProposalWithoutOptionalNamespaces);
         }
       });
     };
@@ -119,12 +123,7 @@ describe('WCConnectionV2', () => {
       WCStorageServiceSpy
     );
 
-    fakeWallet = new FakeWallet(
-      Promise.resolve(),
-      null,
-      '0xtest_wallet',
-      new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)).oneByName('ERC20')
-    );
+    fakeWallet = new FakeWallet(Promise.resolve(), null, '0xtest_wallet', testEthereumBlockchain);
   });
 
   it('new', () => {
@@ -164,5 +163,5 @@ describe('WCConnectionV2', () => {
     expect(blockchainsFactorySpy.create).toHaveBeenCalledTimes(1);
     expect(walletsFactorySpy.create).toHaveBeenCalledTimes(1);
     expect(wcConnectionV2.proposal()).toBeTruthy();
-  })
+  });
 });

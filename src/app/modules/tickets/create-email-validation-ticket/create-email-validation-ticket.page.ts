@@ -37,6 +37,6 @@ export class CreateEmailValidationTicketPage implements OnInit {
   }
 
   async goBackToLogin() {
-    await this.navController.navigateBack(['/users/login']);
+    await this.navController.navigateBack(['/users/login-new']);
   }
 }

@@ -8,10 +8,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'user',
-        loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfilePageModule),
-      },
-      {
         path: 'success',
         loadChildren: () => import('./success-profile/success-profile.module').then((m) => m.SuccessProfilePageModule),
       },

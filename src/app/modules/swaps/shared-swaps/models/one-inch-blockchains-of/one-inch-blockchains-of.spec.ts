@@ -1,8 +1,8 @@
 import { BlockchainRepo } from '../blockchain-repo/blockchain-repo';
-import { Blockchains, DefaultBlockchains } from '../blockchains/blockchains';
+import { Blockchains } from '../blockchains/blockchains.interface';
+import { DefaultBlockchains } from '../blockchains/default/default-blockchains';
 import { rawBlockchainsData, rawEthereumData } from '../fixtures/raw-blockchains-data';
 import { OneInchBlockchainsOf } from './one-inch-blockchains-of';
-
 
 describe('OneInchBlockchainsOf', () => {
   let blockchains: Blockchains;

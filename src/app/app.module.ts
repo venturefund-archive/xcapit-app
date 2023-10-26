@@ -3,18 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { IonicStorageModule } from '@ionic/storage';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UsersModule } from './modules/users/users.module';
-import { TutorialsModule } from './modules/tutorials/tutorials.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
-import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { TrackClickModule } from './shared/directives/track-click/track-click.module';
 import { WildcardRoutingModule } from './wildcard-routing.module';
-import { ReferralsModule } from './modules/referrals/referrals.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotificationsModule } from './modules/notifications/notifications.module';
@@ -50,6 +46,10 @@ import { WarrantiesModule } from './modules/warranties/warranties.module';
 import { KriptonLogOutInterceptorService } from './modules/fiat-ramps/shared-ramps/services/kripton-log-out-interceptor/kripton-log-out-interceptor.service';
 import { firebasePushNotificationsInitializer } from './shared/factories/app-initializers/firebase/firebase-push-notifications-initializer';
 import { NotificationsService } from './modules/notifications/shared-notifications/services/notifications/notifications.service';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { storageInitializer } from './shared/factories/app-initializers/storage/storage-initializer';
+import { Storage } from '@ionic/storage-angular';
+import { Drivers } from '@ionic/storage';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -66,17 +66,14 @@ registerLocaleData(localeEn, 'en');
     }),
     IonicStorageModule.forRoot({
       name: '__xcapitdb',
-      driverOrder: ['sqlite', 'indexeddb', 'websql'],
+      driverOrder: [Drivers.SecureStorage, Drivers.IndexedDB, Drivers.LocalStorage],
     }),
     AppRoutingModule,
     UsersModule,
-    TutorialsModule,
     ProfilesModule,
     FinancialEducationModule,
     FinancialPlannerModule,
     DonationsModule,
-    SubscriptionsModule,
-    ReferralsModule,
     TabsModule,
     NotificationsModule,
     WalletsModule,
@@ -129,6 +126,12 @@ registerLocaleData(localeEn, 'en');
     },
     updateServiceProvider,
     trackServiceProvider,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: storageInitializer,
+      deps: [Storage],
+      multi: true,
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: languageInitializer,

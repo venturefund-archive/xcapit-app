@@ -39,9 +39,8 @@ import { SwapInProgressModalComponent } from '../../wallets/shared-wallets/compo
 import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { Blockchains } from '../shared-swaps/models/blockchains/blockchains';
 import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
-import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blockchains-of/factory/one-inch-blockchains-of';
+import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blockchains-of/factory/one-inch-blockchains-of.factory';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { Observable, Subject } from 'rxjs';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -61,6 +60,7 @@ import {
   RawAmount,
 } from '../../wallets/shared-wallets/models/blockchain-tx/amount-of/amount-of';
 import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/factory/wallets.factory';
+import { Blockchains } from '../shared-swaps/models/blockchains/blockchains.interface';
 
 @Component({
   selector: 'app-swap-home',
@@ -134,19 +134,19 @@ import { WalletsFactory } from '../../wallets/shared-wallets/models/wallets/fact
                   >
                 </div>
               </form>
-              <div
-                *ngIf="!this.disableInput && (this.swapBalance || this.swapBalance === 0)"
-                [ngClass]="
-                  this.swapBalance === 0 || this.insufficientBalance
-                    ? 'sw__swap-card__from__detail__insufficient'
-                    : 'sw__swap-card__from__detail__available'
-                "
-              >
-                <ion-text class="ux-font-text-xxs" color="neutral80">
-                  {{ 'swaps.home.available' | translate }} {{ this.swapBalance | formattedAmount }}</ion-text
-                >
-              </div>
             </div>
+          </div>
+          <div
+            *ngIf="!this.disableInput && (this.swapBalance || this.swapBalance === 0)"
+            [ngClass]="
+              this.swapBalance === 0 || this.insufficientBalance
+                ? 'sw__swap-card__insufficient'
+                : 'sw__swap-card__available'
+            "
+          >
+            <ion-text class="ux-font-text-xxs" color="neutral80">
+              {{ 'swaps.home.available' | translate }} {{ this.swapBalance | formattedAmount }}</ion-text
+            >
           </div>
         </div>
         <div class="sw__swap-card__icon_area ion-padding-top">

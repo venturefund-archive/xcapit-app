@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { StorageWalletsService } from '../../services/storage-wallets/storage-wallets.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AcceptedToSGuard implements CanActivate {
+export class AcceptedToSGuard {
   constructor(private storageWalletsService: StorageWalletsService, private navController: NavController) {}
 
   async canActivate(): Promise<boolean> {
