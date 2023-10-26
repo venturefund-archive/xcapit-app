@@ -10,10 +10,10 @@
     "PushNotifications": { "presentationOptions": ["badge", "sound", "alert"] },
     "GoogleAuth": {
       "scopes": ["https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive.appdata"],
-      "serverClientId": "247745125245-urjh6e3u9hpgde770c2tap1jp10cm2oi.apps.googleusercontent.com",
+      "serverClientId": "840751586681-6mrinfnm1o42lge5pdbb64l5h57mjtqv.apps.googleusercontent.com",
       "forceCodeForRefreshToken": true
     },
-    
+
 
     "SplashScreen": { "launchAutoHide": true, "launchShowDuration": 2000 },
     "LocalNotifications": { "smallIcon": "ic_stat_icon_local", "iconColor": "#1c2d5e" }
