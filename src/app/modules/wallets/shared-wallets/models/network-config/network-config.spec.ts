@@ -22,8 +22,12 @@ describe('NetworkConfig', () => {
     expect(new NetworkConfig('', gasStation)).toBeTruthy();
   });
 
-  it('should return empty config if network is not polygon', async () => {
-    expect(await new NetworkConfig('ERC20', gasStation).value()).toEqual({});
+  it('should return gas config for any network', async () => {
+    expect((await new NetworkConfig('RSK', gasStation).value()).gasPrice).toBeTruthy();
+    expect((await new NetworkConfig('ERC20', gasStation).value()).gasPrice).toBeTruthy();
+    expect((await new NetworkConfig('MATIC', gasStation).value()).gasPrice).toBeTruthy();
+    expect((await new NetworkConfig('SOLANA', gasStation).value()).gasPrice).toBeTruthy();
+    expect((await new NetworkConfig('BSC_BEP20', gasStation).value()).gasPrice).toBeTruthy();
   });
 
   it('should return gas config if network is polygon and a gas staion is passed', async () => {

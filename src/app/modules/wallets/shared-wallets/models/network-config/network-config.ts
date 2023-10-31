@@ -9,7 +9,7 @@ export class NetworkConfig {
   ) {}
 
   async value(): Promise<TransactionRequest> {
-    return this.network !== 'MATIC' ? {} : { gasPrice: await this._gasPrice() };
+    return { gasPrice: await this._gasPrice() };
   }
 
   private async _gasPrice() {
