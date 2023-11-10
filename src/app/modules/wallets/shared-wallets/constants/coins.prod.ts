@@ -305,7 +305,7 @@ export const PROD_COINS: Coin[] = [
   },
   {
     id: 24,
-    name: 'USDC - USD Coin',
+    name: 'Bridged USDC - USD Coin',
     logoRoute: 'assets/img/coins/USDC-POLYGON.svg',
     value: 'USDC',
     network: 'MATIC',
@@ -492,5 +492,21 @@ export const PROD_COINS: Coin[] = [
     decimals: 6,
     native: false,
     abi: '',
-  }
+  },
+  {
+    id: 40,
+    name: 'Native USDC - USD Coin',
+    logoRoute: 'assets/img/coins/USDC-POLYGON.svg',
+    value: 'USDCn',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    moonpayCode: '0x3c499c542cef5e3811e1192ce70d8cc03d5c3359',
+    contract: '',
+    abi: linkAbi,
+    decimals: 6,
+    symbol: 'USDCUSDT',
+    canInvest: true,
+    bitrefillCode: '',
+  },
 ];
