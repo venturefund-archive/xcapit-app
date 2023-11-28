@@ -644,6 +644,7 @@ export class SwapHomePage {
     if (this._isNativeToken()) await this.setFeeAndSwapInfo(this.swapBalance.toString());
     const maxValue = this._maxAmount();
     this.form.patchValue({ fromTokenAmount: maxValue }, { emitEvent: false, onlySelf: true });
+    if (!this._isNativeToken()) await this.setFeeAndSwapInfo(maxValue.toString());
     await this.recalculateQuoteAndBalance(maxValue);
     this.form.updateValueAndValidity();
     this.swapBalance = this._maxAmount();
