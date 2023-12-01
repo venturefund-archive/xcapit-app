@@ -35,6 +35,7 @@
                 "output": "./svg"
               },
               "src/.well-known/apple-app-site-association",
+              "src/.well-known/assetlinks.json",
               "src/manifest.webmanifest",
               "src/firebase-messaging-sw.js"
             ],
