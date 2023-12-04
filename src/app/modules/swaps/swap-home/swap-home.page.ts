@@ -201,6 +201,13 @@ import { Blockchains } from '../shared-swaps/models/blockchains/blockchains.inte
             [autoPrice]="true"
             [defaultFeeInfo]="true"
           ></app-transaction-fee>
+          <div class="sw__swap-card__fee__native-disclaimer" *ngIf="this.nativeToToken">
+            <app-backup-information-card
+              [text]="'swaps.home.native_to_token_disclaimer' | translate : { network: this.tplBlockchain.name }"
+              [textClass]="'ux-home-backup-card'"
+            >
+            </app-backup-information-card>
+          </div>
         </div>
       </div>
       <div class="sw__checkbox ion-padding">
@@ -274,6 +281,7 @@ export class SwapHomePage {
   disableInput: boolean;
   fromTokenCoin: Coin;
   isMaxLoading = false;
+  nativeToToken = false;
 
   constructor(
     private apiWalletService: ApiWalletService,
@@ -310,7 +318,7 @@ export class SwapHomePage {
 
   private async setFeeInfo() {
     const originalFee = (await this.gasPrice()).times(this.tplSwapInfo.estimatedGas);
-    if (this._isNativeToken()) {
+    if (this._isNativeFromToken()) {
       const weiAmount = BigNumber.from(originalFee.weiValue());
       this.tplFee = new AmountOf(weiAmount.mul(13).div(10).toString(), this.fromToken).json();
     } else {
@@ -478,6 +486,7 @@ export class SwapHomePage {
     this.toToken = await new TokenByAddress(toTokenAddress, this.tokens).value();
     this.tplToToken = this.toToken.json();
     this.checkTokens();
+    this._isNativeToToken();
   }
 
   private async checkTokens() {
@@ -641,10 +650,10 @@ export class SwapHomePage {
 
   async setMaxAmount() {
     this.isMaxLoading = true;
-    if (this._isNativeToken()) await this.setFeeAndSwapInfo(this.swapBalance.toString());
+    if (this._isNativeFromToken()) await this.setFeeAndSwapInfo(this.swapBalance.toString());
     const maxValue = this._maxAmount();
     this.form.patchValue({ fromTokenAmount: maxValue }, { emitEvent: false, onlySelf: true });
-    if (!this._isNativeToken()) await this.setFeeAndSwapInfo(maxValue.toString());
+    if (!this._isNativeFromToken()) await this.setFeeAndSwapInfo(maxValue.toString());
     await this.recalculateQuoteAndBalance(maxValue);
     this.form.updateValueAndValidity();
     this.swapBalance = this._maxAmount();
@@ -665,11 +674,15 @@ export class SwapHomePage {
   }
 
   private _maxAmount() {
-    return this._isNativeToken() ? Math.max(this.swapBalance - this.tplFee.value, 0) : this.swapBalance;
+    return this._isNativeFromToken() ? Math.max(this.swapBalance - this.tplFee.value, 0) : this.swapBalance;
   }
 
-  private _isNativeToken() {
+  private _isNativeFromToken() {
     return this.fromToken.symbol() === this.activeBlockchain.nativeToken().symbol();
+  }
+
+  private _isNativeToToken() {
+    this.nativeToToken = this.toToken.symbol() === this.activeBlockchain.nativeToken().symbol();
   }
 
   checkBalance(value) {
