@@ -608,4 +608,18 @@ describe('SwapHomePage', () => {
     expect(component.form.value.fromTokenAmount).toBe('1');
     discardPeriodicTasks();
   }));
+
+  it('should render disclaimer properly when toToken is native', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
+      fromToken: rawUSDCData.contract,
+      toToken: rawMATICData.contract,
+    });
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const div = fixture.debugElement.query(By.css('div.sw__swap-card__fee__native-disclaimer'));
+
+    expect(div).toBeTruthy();
+    expect(component.nativeToToken).toBeTrue();
+  });
 });

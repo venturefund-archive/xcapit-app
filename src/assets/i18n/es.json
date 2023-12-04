@@ -3566,6 +3566,7 @@
       "tos_button": "términos y condiciones",
       "tos_2": "de 1inch",
       "warning_same_tokens": "El token de origen no puede ser igual al token de destino.",
+      "native_to_token_disclaimer": "Estás transfiriendo hacia una moneda nativa de la red {{network}}, recuerda que la cantidad recibida se vera afectada por la tarifa de transacción.",
       "balance_modal": {
         "insufficient_balance": {
           "text": "No tienes suficiente {{token}} en tu cuenta para realizar esta operación.",
