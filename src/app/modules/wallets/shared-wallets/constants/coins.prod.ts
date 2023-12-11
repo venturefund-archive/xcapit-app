@@ -307,7 +307,7 @@ export const PROD_COINS: Coin[] = [
     id: 24,
     name: 'Bridged USDC - USD Coin',
     logoRoute: 'assets/img/coins/USDC-POLYGON.svg',
-    value: 'USDC.e',
+    value: 'USDC',
     network: 'MATIC',
     chainId: 137,
     rpc: environment.maticApiUrl,
