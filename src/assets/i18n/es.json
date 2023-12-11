@@ -1828,6 +1828,10 @@
         "title": "Continuar con la solicitud de tus tarjetas",
         "description": "Creá una garantía de respaldo para pedir tus tarjetas de crédito Naranja X."
       },
+      "neuquen" : {
+        "title": "Neuquén Pymes",
+        "description": "Creá una garantía de respaldo para pedir crédito."
+      },
       "default": {
         "title": "Continuar con la solicitud de tu crédito",
         "description": "Creá una garantía de respaldo para pedir crédito."
@@ -1847,6 +1851,11 @@
         "title": "Seguí estos pasos para pedir tus tarjetas Naranja X",
         "item_1": "Comprá la cantidad de criptomonedas que quieras.",
         "item_2": "Conocé qué tarjetas y disponibles para compras podés tener."
+      },
+      "neuquen": {
+        "title": "Seguí estos pasos para pedir tu crédito",        
+        "item_1": "Recibí o Comprá la cantidad de criptomonedas que quieras."
+       
       },
       "default": {
         "title": "Seguí estos pasos para pedir tu crédito",
@@ -3566,6 +3575,7 @@
       "tos_button": "términos y condiciones",
       "tos_2": "de 1inch",
       "warning_same_tokens": "El token de origen no puede ser igual al token de destino.",
+      "native_to_token_disclaimer": "Estás transfiriendo hacia una moneda nativa de la red {{network}}, recuerda que la cantidad recibida se vera afectada por la tarifa de transacción.",
       "balance_modal": {
         "insufficient_balance": {
           "text": "No tienes suficiente {{token}} en tu cuenta para realizar esta operación.",

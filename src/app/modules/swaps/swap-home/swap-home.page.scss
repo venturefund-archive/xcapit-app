@@ -137,6 +137,12 @@
           color: var(--ion-color-dangerdark);
         }
       }
+
+      &__fee {
+        &__native-disclaimer {
+          margin-bottom: 16px;
+        }
+      }
     }
 
     &__checkbox {

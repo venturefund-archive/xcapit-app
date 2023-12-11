@@ -3414,6 +3414,7 @@
       "tos_button": "terms and conditions.",
       "tos_2": "of 1inch",
       "warning_same_tokens": "The source token cannot be equal to the destination token.",
+      "native_to_token_disclaimer":"You are transferring to a native token of the {{network}} network, remember that the amount received will be affected by the transaction fee.",
       "balance_modal": {
         "insufficient_balance": {
           "text": "You don't have enough {{token}} in your account to make this operation.",
