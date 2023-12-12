@@ -99,7 +99,7 @@ export class RecoveryWalletPage implements OnInit {
     phrase: ['', [
       Validators.required, 
       CustomValidators.advancedCountWords(12, CustomValidatorErrors.twelveWords),
-      CustomValidators.patternValidator(/^(\w+\s?)+$/, CustomValidatorErrors.spaceBetween, true),
+      CustomValidators.patternValidator(/^(\w+\s)*\w+$/, CustomValidatorErrors.spaceBetween, true),
       CustomValidators.hasNoSpecialCharacters()
     ]],
   });
