@@ -284,9 +284,9 @@ export const NONPROD_COINS: Coin[] = [
     network: 'MATIC',
     chainId: 80001,
     rpc: environment.maticApiUrl,
-    contract: '0xb2333859797639531ec8b47E72Df08BEAA5fA7fa',
+    contract: '0x4e3a4f8121dD9395dC77188174DA3f1D46ed70D4',
     abi: usdtAbi,
-    decimals: 6,
+    decimals: 18,
   },
   {
     id: 33,
