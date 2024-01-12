@@ -5,7 +5,6 @@ stages:
   - coveralls
   - build
   - release
-  - docker-build
 
 image: docker:19.03.1
 services:
@@ -142,6 +141,7 @@ coveralls:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+
 # # Release
 release_master:
   <<: *semantic-release
