@@ -26,8 +26,7 @@ export class Transfers {
   }
 
   public cached(): Promise<Transfer[]> {
-    return this._cache.get(this._storageKey())
-      .then((res) => res ? this._transferResponseOf(res) : undefined);
+    return this._cache.get(this._storageKey()).then((res) => (res ? this._transferResponseOf(res) : undefined));
   }
 
   private _storageKey() {
@@ -39,6 +38,7 @@ export class Transfers {
   }
 
   private _transferResponseOf(res: RawTransfer[]): Transfer[] {
+    res = this._nativeTransfersOf(res);
     return res.map((rawTransfer: RawTransfer) => {
       let transferType: typeof NativeTransfer | typeof NoNativeTransfer;
       if (rawTransfer.hasOwnProperty('transfers')) {
@@ -48,5 +48,12 @@ export class Transfers {
       }
       return new transferType(rawTransfer, this._aToken, this._inAddress);
     });
+  }
+
+  private _nativeTransfersOf(transactions: RawTransfer[]) {
+    if (!transactions[0].hasOwnProperty('transfers')) {
+      transactions = transactions.filter((tx) => tx.value !== '0');
+    }
+    return transactions;
   }
 }
