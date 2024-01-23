@@ -24,4 +24,5 @@ export const REMOTE_CONFIG_DEFAULTS = {
   minimumWarrantyAmount: undefined,
   warranty_lenders: undefined,
   ff_deposit_to_xscrow: false,
+  whatsappSupport: undefined,
 };
