@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-whatsapp-support',
@@ -22,9 +23,13 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
   styleUrls: ['./whatsapp-support.component.scss'],
 })
 export class WhatsappSupportComponent {
-  constructor(private browserService: BrowserService) {}
+  constructor(private browserService: BrowserService, private readonly remoteConfig: RemoteConfigService) {}
 
   async openSupport() {
-    await this.browserService.open({ url: 'https://wa.link/ixtbgp' });
+    await this.browserService.open({ url: this.checkRemoteConfig() });
+  }
+
+  checkRemoteConfig() {
+    return this.remoteConfig.getString('whatsappSupport');
   }
 }
