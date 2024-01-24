@@ -51,7 +51,7 @@ export class Transfers {
   }
 
   private _nativeTransfersOf(transactions: RawTransfer[]) {
-    if (!transactions[0].hasOwnProperty('transfers')) {
+    if (transactions.length && !transactions[0].hasOwnProperty('transfers')) {
       transactions = transactions.filter((tx) => tx.value !== '0');
     }
     return transactions;
