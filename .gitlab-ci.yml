@@ -5,7 +5,6 @@ stages:
   - coveralls
   - build
   - release
-  - docker-build
 
 image: docker:19.03.1
 services:
@@ -103,9 +102,9 @@ cache:
 ### Semantic release
 .semantic-release: &semantic-release
   stage: release
-  image: node:18
+  image: node:20
   before_script:
-    - npm install --legacy-peer-deps @semantic-release/gitlab @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/git -D
+    - yarn global add semantic-release @semantic-release/gitlab @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/git -D
     - npm cache clean --force
     - npm cache verify
 
@@ -142,6 +141,7 @@ coveralls:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+
 # # Release
 release_master:
   <<: *semantic-release

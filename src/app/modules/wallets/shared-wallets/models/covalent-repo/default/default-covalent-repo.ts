@@ -25,13 +25,15 @@ export class DefaultCovalentRepo implements CovalentRepo {
     return aToken.native
       ? `${this._env.byKey('covalentApiUrl')}${
           aToken.chainId
-        }/address/${address}/transactions_v2/?no-logs=true&match={"value":{"$ne": "0"}}&limit=100&quote-currency=${quoteCurrency}`
+        }/address/${address}/transactions_v3/?no-logs=true&quote-currency=${quoteCurrency}`
       : `${this._env.byKey('covalentApiUrl')}${aToken.chainId}/address/${address}/transfers_v2/?contract-address=${
           aToken.contract
         }&limit=100&quote-currency=${quoteCurrency}`;
   }
 
-  transferByHash(chainId: number,hash:string ){
-    return this._http.get(`${this._env.byKey('covalentApiUrl')}${chainId}/transaction_v2/${hash}/`, { headers: this._authHeaders() })
+  transferByHash(chainId: number, hash: string) {
+    return this._http.get(`${this._env.byKey('covalentApiUrl')}${chainId}/transaction_v2/${hash}/`, {
+      headers: this._authHeaders(),
+    });
   }
 }
